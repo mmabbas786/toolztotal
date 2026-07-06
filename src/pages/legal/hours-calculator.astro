@@ -1,0 +1,435 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the time card hours calculator compute daily totals?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The calculator parses start and end times to find the gross duration, then subtracts the entered lunch break duration (in minutes) to yield the net daily hours worked: Daily Hours = (End Time - Start Time) - Lunch Break."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are lunch breaks legally required to be paid?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under federal FLSA guidelines, short rest periods (typically lasting 5 to 20 minutes) must be counted as paid hours. However, longer meal breaks (usually 30 minutes or more) are not considered work time and are unpaid, provided the employee is completely relieved from duty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the overtime threshold highlight function?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The weekly hours tracker accumulates your daily net hours chronologically. Once the cumulative sum exceeds 40 hours for the week, the excess hours are flagged as overtime to assist in payroll verification."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I export my completed weekly time card?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our hours calculator includes a client-side CSV Export button. Clicking it instantly compiles your daily inputs, break deductions, and totals into a standard spreadsheet-compatible file downloaded locally."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ToolzTotal store my work hour records?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All time card data is processed and stored locally inside your browser session. No information is transmitted to servers, ensuring complete privacy."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Hours Calculator - Free Weekly Time Card Break Solver | ToolzTotal"
+  description="Track weekly work hours with automatic lunch breaks deductions and overtime alerts. Export to CSV. Free client-side tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/legal/hours-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/legal" class="hover:text-ink transition-colors">Legal & Employment</a>
+      <span>/</span>
+      <span class="text-ink">Hours Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Hours Calculator / Time Card
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Log your daily work hours, deduct unpaid lunch breaks automatically, and calculate regular and overtime totals. Export to a clean CSV spreadsheet instantly.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Weekly Grid (8 cols) -->
+      <div class="lg:col-span-8 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6 overflow-x-auto">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Weekly Time Card</h2>
+        
+        <table class="w-full text-left border-collapse min-w-[500px]">
+          <thead>
+            <tr class="border-b border-hairline text-xs font-mono text-mute">
+              <th class="pb-3 font-semibold">Day</th>
+              <th class="pb-3 font-semibold">Start Time</th>
+              <th class="pb-3 font-semibold">Lunch Break (Min)</th>
+              <th class="pb-3 font-semibold">End Time</th>
+              <th class="pb-3 font-semibold text-right">Daily Hours</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-hairline" id="time-card-rows">
+            <!-- Dynamic day rows seeded in script -->
+          </tbody>
+        </table>
+
+        <!-- Actions -->
+        <div class="flex justify-between items-center pt-4 border-t border-hairline">
+          <button id="btn-clear-card" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Clear Time Card</button>
+          <button id="btn-export-csv" class="h-8 px-4 border border-hairline hover:border-hairline-strong bg-canvas rounded text-xs font-sans text-body transition-colors cursor-pointer shadow-lvl1 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Export to CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Summary Card (4 cols) -->
+      <div class="lg:col-span-4 space-y-6">
+        
+        <!-- Summary Dashboard -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Weekly Summary</h2>
+          
+          <div class="space-y-4 text-center">
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Total Hours Worked</span>
+              <span id="res-total-hours" class="text-3xl font-black text-ink font-sans">0.00</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 text-xs font-mono text-mute">
+              <div class="p-3 bg-canvas-soft border border-hairline rounded-lg">
+                <span class="block mb-1">REGULAR</span>
+                <span id="res-reg-hours" class="font-bold text-ink text-lg">0.00</span>
+              </div>
+              <div class="p-3 bg-canvas-soft border border-hairline rounded-lg">
+                <span class="block mb-1">OVERTIME</span>
+                <span id="res-ot-hours" class="font-bold text-ink text-lg">0.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- YMYL Disclaimer Box -->
+          <div class="p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-lg text-yellow-600 dark:text-yellow-500 text-xs font-sans leading-relaxed">
+            <strong>Disclaimer:</strong> This calculator provides general estimates for informational purposes only and is not legal, tax, or financial advice. Laws and regulations vary by state/jurisdiction and change over time. Consult a qualified professional for guidance specific to your situation.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Work Hour Tracking: Deducting Breaks and Auditing Overtime Limits</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Managing weekly hours is a foundational aspect of professional payroll verification. For both freelancers invoicing clients and hourly staff tracking punch cards, accurate record-keeping is critical to ensure proper wages.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Daily Net Hours Calculation</h3>
+        <p>
+          To calculate net work hours, you must convert daily punch times (expressed as AM/PM or 24-hour logs) into elapsed hours and minutes, and deduct any unpaid break times:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Daily Net Hours = (End Time - Start Time) - Lunch Break Duration</strong>
+          For example, a workday starting at **9:00 AM** and ending at **5:30 PM** comprises 8.5 gross hours. Deducting a standard **30-minute unpaid lunch break** results in 8.0 net work hours.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Handling Weekly Overtime Allocations</h3>
+        <p>
+          Under federal Fair Labor Standards Act guidelines, non-exempt employees must be compensated at overtime rates for work hours exceeding **40 hours per week**. A weekly time card calculator aggregates daily hours chronologically. Once the cumulative sum passes 40, excess hours are automatically allocated to the overtime bucket.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does the time card hours calculator compute daily totals?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The calculator parses start and end times to find the gross duration, then subtracts the entered lunch break duration (in minutes) to yield the net daily hours worked: Daily Hours = (End Time - Start Time) - Lunch Break.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Are lunch breaks legally required to be paid?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Under federal FLSA guidelines, short rest periods (typically lasting 5 to 20 minutes) must be counted as paid hours. However, longer meal breaks (usually 30 minutes or more) are not considered work time and are unpaid, provided the employee is completely relieved from duty.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does the overtime threshold highlight function?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The weekly hours tracker accumulates your daily net hours chronologically. Once the cumulative sum exceeds 40 hours for the week, the excess hours are flagged as overtime to assist in payroll verification.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I export my completed weekly time card?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Our hours calculator includes a client-side CSV Export button. Clicking it instantly compiles your daily inputs, break deductions, and totals into a standard spreadsheet-compatible file downloaded locally.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does ToolzTotal store my work hour records?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. All time card data is processed and stored locally inside your browser session. No information is transmitted to servers, ensuring complete privacy.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Employment Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/legal/severance-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Severance Pay Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compute severance packages and check WARN Act thresholds.</p>
+        </a>
+        <a href="/legal/overtime-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Overtime Pay Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compute overtime rates and FLSA exempt guidelines.</p>
+        </a>
+        <a href="/legal/retirement-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Retirement Savings Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compound retirement savings with monthly projections.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const timeCardRows = document.getElementById('time-card-rows') as HTMLTableSectionElement;
+  const resTotalHours = document.getElementById('res-total-hours') as HTMLSpanElement;
+  const resRegHours = document.getElementById('res-reg-hours') as HTMLSpanElement;
+  const resOtHours = document.getElementById('res-ot-hours') as HTMLSpanElement;
+
+  const btnClear = document.getElementById('btn-clear-card') as HTMLButtonElement;
+  const btnExport = document.getElementById('btn-export-csv') as HTMLButtonElement;
+
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // Seed default seed card rows
+  const defaultCard: Record<string, { start: string, end: string, lunch: number }> = {
+    'Monday': { start: '08:00', end: '16:30', lunch: 30 },
+    'Tuesday': { start: '08:00', end: '16:30', lunch: 30 },
+    'Wednesday': { start: '08:00', end: '16:30', lunch: 30 },
+    'Thursday': { start: '08:00', end: '16:30', lunch: 30 },
+    'Friday': { start: '08:00', end: '16:30', lunch: 30 },
+    'Saturday': { start: '', end: '', lunch: 0 },
+    'Sunday': { start: '', end: '', lunch: 0 }
+  };
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const seedTimeCard = () => {
+    timeCardRows.innerHTML = '';
+    days.forEach(day => {
+      const data = defaultCard[day];
+      const row = document.createElement('tr');
+      row.className = "time-card-row text-xs";
+      
+      row.innerHTML = `
+        <td class="py-3 font-medium text-ink font-sans">${day}</td>
+        <td class="py-2">
+          <input 
+            type="time" 
+            value="${data.start}" 
+            class="row-start h-8 px-1.5 bg-canvas border border-hairline rounded text-xs focus:outline-none text-ink shadow-lvl1 cursor-pointer"
+          />
+        </td>
+        <td class="py-2">
+          <input 
+            type="number" 
+            value="${data.lunch}" 
+            min="0"
+            step="5"
+            placeholder="0"
+            class="row-lunch w-20 h-8 px-1.5 bg-canvas border border-hairline rounded text-xs focus:outline-none text-ink shadow-lvl1"
+          />
+        </td>
+        <td class="py-2">
+          <input 
+            type="time" 
+            value="${data.end}" 
+            class="row-end h-8 px-1.5 bg-canvas border border-hairline rounded text-xs focus:outline-none text-ink shadow-lvl1 cursor-pointer"
+          />
+        </td>
+        <td class="py-3 text-right font-mono text-ink font-semibold row-total-hours">0.00</td>
+      `;
+
+      // Listeners
+      row.querySelector('.row-start')?.addEventListener('input', calculateTimeCard);
+      row.querySelector('.row-lunch')?.addEventListener('input', calculateTimeCard);
+      row.querySelector('.row-end')?.addEventListener('input', calculateTimeCard);
+
+      timeCardRows.appendChild(row);
+    });
+  };
+
+  const calculateTimeCard = () => {
+    const rows = timeCardRows.querySelectorAll('.time-card-row');
+    let totalWorked = 0;
+
+    rows.forEach(row => {
+      const startIn = row.querySelector('.row-start') as HTMLInputElement;
+      const lunchIn = row.querySelector('.row-lunch') as HTMLInputElement;
+      const endIn = row.querySelector('.row-end') as HTMLInputElement;
+      const totalCell = row.querySelector('.row-total-hours') as HTMLTableCellElement;
+
+      const startVal = startIn.value;
+      const endVal = endIn.value;
+      const lunchVal = parseFloat(lunchIn.value) || 0;
+
+      if (!startVal || !endVal) {
+        totalCell.textContent = "0.00";
+        return;
+      }
+
+      // Convert times to decimal hours
+      const [startH, startM] = startVal.split(':').map(Number);
+      const [endH, endM] = endVal.split(':').map(Number);
+
+      let diffMinutes = (endH * 60 + endM) - (startH * 60 + startM);
+      
+      // Handle overnight shift wrapping
+      if (diffMinutes < 0) {
+        diffMinutes += 24 * 60;
+      }
+
+      // Deduct lunch break
+      const netMinutes = diffMinutes - lunchVal;
+      const netHours = Math.max(0, netMinutes / 60);
+
+      totalWorked += netHours;
+      totalCell.textContent = netHours.toFixed(2);
+    });
+
+    resTotalHours.textContent = totalWorked.toFixed(2);
+
+    // Overtime rule (FLSA standard 40 hour limit)
+    const regHours = Math.min(40, totalWorked);
+    const otHours = Math.max(0, totalWorked - 40);
+
+    resRegHours.textContent = regHours.toFixed(2);
+    resOtHours.textContent = otHours.toFixed(2);
+  };
+
+  const exportToCSV = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Day,Start Time,Lunch Break (min),End Time,Net Hours worked\r\n";
+
+    const rows = timeCardRows.querySelectorAll('.time-card-row');
+    rows.forEach(row => {
+      const day = row.querySelector('td')?.textContent || "";
+      const start = (row.querySelector('.row-start') as HTMLInputElement).value;
+      const lunch = (row.querySelector('.row-lunch') as HTMLInputElement).value;
+      const end = (row.querySelector('.row-end') as HTMLInputElement).value;
+      const total = row.querySelector('.row-total-hours')?.textContent || "0.00";
+
+      csvContent += `"${day}","${start}","${lunch}","${end}","${total}"\r\n`;
+    });
+
+    // Add summary row
+    csvContent += `"\r\n`;
+    csvContent += `\r\n"Total Hours worked",,,,${resTotalHours.textContent}\r\n`;
+    csvContent += `"Regular Hours",,,,${resRegHours.textContent}\r\n`;
+    csvContent += `"Overtime Hours",,,,${resOtHours.textContent}\r\n`;
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "weekly_timecard.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  btnClear.addEventListener('click', () => {
+    const startInputs = timeCardRows.querySelectorAll('.row-start') as NodeListOf<HTMLInputElement>;
+    const endInputs = timeCardRows.querySelectorAll('.row-end') as NodeListOf<HTMLInputElement>;
+    const lunchInputs = timeCardRows.querySelectorAll('.row-lunch') as NodeListOf<HTMLInputElement>;
+    
+    startInputs.forEach(i => i.value = '');
+    endInputs.forEach(i => i.value = '');
+    lunchInputs.forEach(i => i.value = '0');
+
+    calculateTimeCard();
+  });
+
+  btnExport.addEventListener('click', exportToCSV);
+
+  // Initial Seeding
+  seedTimeCard();
+  calculateTimeCard();
+</script>

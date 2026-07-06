@@ -1,0 +1,392 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is severance pay typically calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Severance pay is usually structured based on your length of employment, commonly offering 1 or 2 weeks of regular weekly salary for every year of service at the organization."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the WARN Act 60-day notice requirement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The federal Worker Adjustment and Retraining Notification (WARN) Act protects employees by requiring employers with 100 or more full-time workers to provide at least 60 days of advance notice before a plant closing or mass layoff."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are companies legally required to offer severance pay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under federal law (specifically the Fair Labor Standards Act), employers are not required to provide severance pay unless it is stipulated in an employment agreement, union contract, or the company's internal employee handbook."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is severance pay subject to income taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Severance payouts are treated as taxable income by the IRS and state tax agencies. Social Security, Medicare, and standard federal/state income taxes are withheld from these packages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I negotiate my severance package?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, severance packages are frequently open to negotiation. Employees can request extensions of health coverage (COBRA assistance), prorated bonuses, outplacement support, or additional weeks of pay in exchange for signing standard releases."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Severance Pay Calculator - Employment Layoff Payout Planner | ToolzTotal"
+  description="Estimate severance payouts based on service duration, salary parameters, and WARN Act checkmarks. Clean client-side calculator."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/legal/severance-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/legal" class="hover:text-ink transition-colors">Legal & Employment</a>
+      <span>/</span>
+      <span class="text-ink">Severance Pay Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Severance Pay Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate your severance payout based on tenure, weekly salary parameters, accrued PTO hours, and health insurance continuation values.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Tenure & Pay Details</h2>
+        
+        <!-- Weekly Salary -->
+        <div>
+          <label for="weekly-salary" class="block text-xs font-mono uppercase text-mute mb-2">Weekly Salary ($)</label>
+          <input 
+            type="number" 
+            id="weekly-salary" 
+            placeholder="e.g. 1200"
+            value="1200"
+            min="0"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Years of Service -->
+        <div>
+          <label for="years-service" class="block text-xs font-mono uppercase text-mute mb-2">Years of Service</label>
+          <input 
+            type="number" 
+            id="years-service" 
+            placeholder="e.g. 5"
+            value="5"
+            min="0"
+            step="0.5"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Severance Weeks per Year -->
+        <div>
+          <label for="weeks-per-year" class="block text-xs font-mono uppercase text-mute mb-2">Severance Weeks per Year</label>
+          <input 
+            type="number" 
+            id="weeks-per-year" 
+            placeholder="e.g. 2"
+            value="2"
+            min="0"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- PTO & Health continuation -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="pto-hours" class="block text-xs font-mono uppercase text-mute mb-2">Accrued PTO Payout ($)</label>
+            <input 
+              type="number" 
+              id="pto-payout" 
+              placeholder="e.g. 1500"
+              value="1500"
+              min="0"
+              class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+          <div>
+            <label for="cobra-months" class="block text-xs font-mono uppercase text-mute mb-2">Health Continuation ($)</label>
+            <input 
+              type="number" 
+              id="health-continuation" 
+              placeholder="e.g. 800"
+              value="800"
+              min="0"
+              class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+        </div>
+
+        <!-- WARN Act eligibility checkboxes -->
+        <div class="pt-4 border-t border-hairline space-y-3">
+          <h3 class="text-xs font-mono uppercase text-ink">WARN Act Eligibility Checker</h3>
+          <label class="flex items-start gap-3 text-xs text-body font-sans select-none cursor-pointer">
+            <input type="checkbox" id="warn-emp-size" class="mt-0.5 rounded border-hairline text-primary focus:ring-primary shadow-lvl1 cursor-pointer" />
+            <span>My company has 100+ full-time employees.</span>
+          </label>
+          <label class="flex items-start gap-3 text-xs text-body font-sans select-none cursor-pointer">
+            <input type="checkbox" id="warn-layoff-size" class="mt-0.5 rounded border-hairline text-primary focus:ring-primary shadow-lvl1 cursor-pointer" />
+            <span>The layoff affects 50+ employees or closing a facility.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Right Column: Outputs (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <!-- Results panel -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Payout Summary</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">Estimated Total Package</span>
+            <span id="res-total-package" class="text-4xl md:text-5xl font-black text-ink font-sans block">$14,300</span>
+          </div>
+
+          <!-- YMYL Disclaimer Box -->
+          <div class="p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-lg text-yellow-600 dark:text-yellow-500 text-xs font-sans leading-relaxed">
+            <strong>Disclaimer:</strong> This calculator provides general estimates for informational purposes only and is not legal, tax, or financial advice. Laws and regulations vary by state/jurisdiction and change over time. Consult a qualified professional for guidance specific to your situation.
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="space-y-3 text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <div class="flex justify-between">
+              <span>BASE SEVERANCE PAY:</span>
+              <span id="res-base-severance" class="font-bold text-ink">$12,000</span>
+            </div>
+            <div class="flex justify-between">
+              <span>PTO PAYOUT:</span>
+              <span id="res-pto" class="font-bold text-ink">$1,500</span>
+            </div>
+            <div class="flex justify-between">
+              <span>HEALTH PREMIUM ASSISTANCE:</span>
+              <span id="res-health" class="font-bold text-ink">$800</span>
+            </div>
+            <div id="warn-result-box" class="hidden p-3 rounded bg-canvas border border-hairline text-ink font-sans">
+              ℹ️ <strong>WARN Act Notice:</strong> Your scenario matches federal WARN Act parameters. Employers must generally provide at least 60 days of advance written notice before layoffs.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Navigating Severance Packages, WARN Act Notice Requirements, and Negotiations</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Job loss is a stressful transition. When companies lay off staff, they frequently offer a **severance agreement** to help buffer the income gap while employees search for new roles. However, signing a severance release involves waiving key legal rights, making it essential to understand the math and rules of these contracts.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Calculating the Severance Package Components</h3>
+        <p>
+          A standard severance package comprises three key financial components:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Base Severance Pay:</strong> Calculated as a factor of weekly salary multiplied by years of service. For example, a worker earning $1,200 per week who worked at an organization for 5 years with a 2 weeks per year policy gets:
+            <br />
+            <strong class="block my-1 text-center font-mono text-ink text-xs">$1,200 &times; 5 years &times; 2 weeks = $12,000</strong>
+          </li>
+          <li>
+            <strong>Accrued PTO Payout:</strong> Compensation for unused vacation days. Some state laws mandate that companies payout all earned PTO upon separation, while others defer to company handbook policies.
+          </li>
+          <li>
+            <strong>Health Insurance Assistance:</strong> Employers may agree to subsidize COBRA premiums for a specified number of months to maintain health coverage.
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Federal Worker Adjustment and Retraining Notification (WARN) Act</h3>
+        <p>
+          The federal WARN Act shields employees from sudden job losses. Under the law, employers with **100 or more full-time workers** must provide at least **60 days of advance notice** before executing facility closures or mass layoffs (defined as laying off 50 or more employees). If employers fail to provide this required notice, they are legally liable to pay back wages and benefits for each day of violation up to the 60-day limit.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is severance pay typically calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Severance pay is usually structured based on your length of employment, commonly offering 1 or 2 weeks of regular weekly salary for every year of service at the organization.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the WARN Act 60-day notice requirement?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The federal Worker Adjustment and Retraining Notification (WARN) Act protects employees by requiring employers with 100 or more full-time workers to provide at least 60 days of advance notice before a plant closing or mass layoff.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Are companies legally required to offer severance pay?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Under federal law (specifically the Fair Labor Standards Act), employers are not required to provide severance pay unless it is stipulated in an employment agreement, union contract, or the company's internal employee handbook.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is severance pay subject to income taxes?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Severance payouts are treated as taxable income by the IRS and state tax agencies. Social Security, Medicare, and standard federal/state income taxes are withheld from these packages.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I negotiate my severance package?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, severance packages are frequently open to negotiation. Employees can request extensions of health coverage (COBRA assistance), prorated bonuses, outplacement support, or additional weeks of pay in exchange for signing standard releases.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Employment Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/legal/overtime-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Overtime Pay Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compute overtime rates and FLSA exempt guidelines.</p>
+        </a>
+        <a href="/legal/hours-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Hours Calculator / Time Card
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Record weekly time cards and deduct breaks automatically.</p>
+        </a>
+        <a href="/legal/retirement-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Retirement Savings Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compound retirement savings with monthly projections.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const weeklySalaryIn = document.getElementById('weekly-salary') as HTMLInputElement;
+  const yearsServiceIn = document.getElementById('years-service') as HTMLInputElement;
+  const weeksPerYearIn = document.getElementById('weeks-per-year') as HTMLInputElement;
+  const ptoPayoutIn = document.getElementById('pto-payout') as HTMLInputElement;
+  const healthIn = document.getElementById('health-continuation') as HTMLInputElement;
+
+  const warnSizeCheck = document.getElementById('warn-emp-size') as HTMLInputElement;
+  const warnLayoffCheck = document.getElementById('warn-layoff-size') as HTMLInputElement;
+
+  const resTotalPackage = document.getElementById('res-total-package') as HTMLSpanElement;
+  const resBaseSeverance = document.getElementById('res-base-severance') as HTMLSpanElement;
+  const resPto = document.getElementById('res-pto') as HTMLSpanElement;
+  const resHealth = document.getElementById('res-health') as HTMLSpanElement;
+  const warnResultBox = document.getElementById('warn-result-box') as HTMLDivElement;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateSeverance = () => {
+    const salary = parseFloat(weeklySalaryIn.value) || 0;
+    const years = parseFloat(yearsServiceIn.value) || 0;
+    const weeks = parseFloat(weeksPerYearIn.value) || 0;
+    const pto = parseFloat(ptoPayoutIn.value) || 0;
+    const health = parseFloat(healthIn.value) || 0;
+
+    const baseSeverance = salary * years * weeks;
+    const totalPackage = baseSeverance + pto + health;
+
+    resBaseSeverance.textContent = "$" + baseSeverance.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    resPto.textContent = "$" + pto.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    resHealth.textContent = "$" + health.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    resTotalPackage.textContent = "$" + totalPackage.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+    // Show WARN act eligibility alerts
+    if (warnSizeCheck.checked && warnLayoffCheck.checked) {
+      warnResultBox.classList.remove('hidden');
+    } else {
+      warnResultBox.classList.add('hidden');
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [weeklySalaryIn, yearsServiceIn, weeksPerYearIn, ptoPayoutIn, healthIn].forEach(inp => {
+    inp.addEventListener('input', calculateSeverance);
+  });
+
+  [warnSizeCheck, warnLayoffCheck].forEach(chk => {
+    chk.addEventListener('change', calculateSeverance);
+  });
+
+  // Initial Calculation
+  calculateSeverance();
+</script>

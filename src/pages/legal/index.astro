@@ -1,0 +1,87 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { toolCatalog } from '../../data/tools';
+
+const legalCategory = toolCatalog.find(c => c.slug === 'legal');
+const tools = legalCategory ? legalCategory.tools : [];
+---
+
+<Layout 
+  title="Legal & Employment Calculators - Free Time & Payout Planners | ToolzTotal"
+  description="Free online calculators for employment severance, FLSA overtime rates, weekly hours time cards, and retirement projections. Simple and client-side."
+  canonicalUrl="https://toolztotal.com/legal"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20 animate-fade-in">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-ink">Legal & Employment</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-16">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free online tools</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Legal & Employment Calculators
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate employee severance layouts, verify FLSA overtime compliance, log time card sheets, and compound long-term retirement growths with privacy-first client-side calculations.
+      </p>
+    </div>
+
+    <!-- Tools Directory Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {tools.map(tool => (
+        <a 
+          href={`/legal/${tool.slug}`} 
+          class="group block bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-6 shadow-lvl1 hover:shadow-lvl2 transition-all duration-300"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <div class="p-2.5 rounded-lg bg-canvas-soft border border-hairline text-ink group-hover:text-primary transition-colors">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <span class="text-[10px] font-mono font-semibold uppercase tracking-wider text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+              Live
+            </span>
+          </div>
+          <h2 class="text-base font-bold text-ink font-sans group-hover:text-primary transition-colors mb-2">
+            {tool.name}
+          </h2>
+          <p class="text-mute text-xs font-sans leading-relaxed">
+            {tool.description}
+          </p>
+        </a>
+      ))}
+    </div>
+
+    <!-- SEO Information -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Navigating Labor Regulations, Severance Packages, and Retirement Planners</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Managing workplace calculations can be highly complex due to state-specific laws and federal guidelines. Whether you are validating time card logs or evaluating employment layoff packages, using accurate tools makes navigating decisions straightforward.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Employment Regulations & FLSA Standards</h3>
+        <p>
+          The federal **Fair Labor Standards Act (FLSA)** establishes guidelines for minimum wage, overtime pay eligibility, and hours logging. Key components of these guidelines include:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li><strong>FLSA Overtime Rates:</strong> Employees covered under non-exempt status must receive overtime pay computed at 1.5 times their regular hourly rate for hours worked beyond 40 hours per workweek.</li>
+          <li><strong>Severance Packages:</strong> While federal laws do not mandate severance pay layouts, layoffs affecting 50+ workers require at least 60 days of written notice under the federal **WARN Act**.</li>
+          <li><strong>Retirement nest eggs:</strong> Investing savings early triggers compounding growth, which can be safely managed under guidelines like the **4% safe withdrawal rule**.</li>
+        </ul>
+        
+        <p class="text-xs text-mute font-mono border-l-2 border-hairline pl-4 mt-6">
+          Disclaimer: This directory and its calculators are for general educational purposes only and do not constitute legal, tax, or financial advice. Consult a professional advisor for questions regarding specific workplace disputes or tax planning.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>

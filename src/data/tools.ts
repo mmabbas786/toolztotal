@@ -113,7 +113,12 @@ export const toolCatalog: Category[] = [
     slug: "legal",
     description: "Calculate payroll timelines, severance, overtime, and contract terms.",
     icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-    tools: []
+    tools: [
+      { name: "Severance Pay Calculator", slug: "severance-calculator", description: "Estimate severance payouts based on service duration, salary parameters, and WARN Act checkmarks.", status: "live", keywords: ["severance pay calculator", "severance calculator", "warn act check"] },
+      { name: "Overtime Pay Calculator", slug: "overtime-calculator", description: "Calculate overtime pay based on FLSA guidelines (1.5x regular rate and double-time policies).", status: "live", keywords: ["overtime calculator", "overtime pay calculator", "flsa overtime rules"] },
+      { name: "Hours Calculator / Time Card", slug: "hours-calculator", description: "Track weekly work hours with automatic lunch breaks deductions and overtime alerts. Export to CSV.", status: "live", keywords: ["hours calculator", "time card calculator", "work hours checker"] },
+      { name: "Retirement Savings Calculator", slug: "retirement-calculator", description: "Estimate retirement growth based on monthly contributions and expected rate of return.", status: "live", keywords: ["retirement calculator", "retirement savings calculator", "retirement growth"] }
+    ]
   },
   {
     name: "Education & Academics",

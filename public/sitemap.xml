@@ -320,6 +320,32 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Legal & Employment Tools -->
+  <url>
+    <loc>https://toolztotal.com/legal/severance-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolztotal.com/legal/overtime-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolztotal.com/legal/hours-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolztotal.com/legal/retirement-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Legal & Info -->
   <url>
     <loc>https://toolztotal.com/privacy</loc>
