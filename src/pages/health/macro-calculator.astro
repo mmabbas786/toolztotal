@@ -1,0 +1,563 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are macronutrients and why do they matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Macronutrients, or macros, are the primary nutrients your body needs in large quantities to function: protein, carbohydrates, and fats. They provide the energy (measured in calories) your body needs for daily activities and structural repair. Each macro has a specific role: protein repairs tissues and supports muscle growth; carbohydrates supply quick energy for physical and cognitive tasks; and fats support hormone production, vitamin absorption, and cell health."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many calories are in a gram of protein, carbs, and fat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The calorie values per gram of macronutrient are: Protein contains 4 calories per gram; Carbohydrates contain 4 calories per gram; and Fats contain 9 calories per gram. Because fat is more than twice as calorie-dense as protein and carbs, even small portions of dietary fat can quickly increase total daily calorie intake."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good macro ratio for weight loss?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For weight loss (cutting), a typical high-protein, moderate-carb macro ratio is recommended, such as 40% Protein, 30% Carbohydrates, and 30% Fats. Higher protein levels help preserve lean muscle tissue while in a caloric deficit, and also increase satiety (feeling full), which makes sticking to a calorie goal easier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a high-protein and a keto macro split?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A standard high-protein athletic split typically allocates 35%–40% of calories to protein, 30%–35% to carbs, and 30% to fat. A ketogenic (Keto) split, however, focuses on putting the body into a state of ketosis by restricting carbohydrates severely: allocating roughly 70%–75% of calories to fat, 20%–25% to protein, and only 5% to carbohydrates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to track macros to achieve my fitness goals?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "While tracking calories is the primary driver of weight loss or weight gain, tracking macros is essential for optimizing body composition (the ratio of fat to muscle). Eating enough protein is critical for preserving muscle mass during weight loss or building it during weight gain, while carbohydrates and fats are adjusted based on your performance, training intensity, and dietary preferences."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Macro Calculator - Free Protein, Carb & Fat Split Target Estimator | ToolzTotal"
+  description="Calculate your custom daily macronutrient (protein, carbs, fats) targets in grams and calories based on your daily energy goals. Free and ad-free."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/health/macro-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
+      <span>/</span>
+      <span class="text-ink">Macro Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Macronutrient (Macro) Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate your daily protein, carbohydrate, and fat targets. Use goal presets or customize your macronutrient splits using adjustable percentage sliders to match your dietary profile.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Diet Settings</h2>
+        
+        <!-- Daily Calories Target -->
+        <div>
+          <label for="calories" class="block text-xs font-mono uppercase text-mute mb-2">Daily Calorie Target</label>
+          <div class="relative">
+            <input 
+              type="number" 
+              id="calories" 
+              value="2000" 
+              min="500" 
+              max="10000"
+              step="50"
+              class="w-full h-10 pl-3 pr-12 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">kcal</span>
+          </div>
+        </div>
+
+        <!-- Presets Selection -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">Macro Ratio Preset</label>
+          <div class="grid grid-cols-1 gap-2">
+            <button id="preset-balanced" class="h-10 text-left px-4 border border-hairline bg-canvas-soft-2 text-ink rounded-lg font-sans text-xs font-semibold transition-colors cursor-pointer border-hairline-strong shadow-lvl1 flex items-center justify-between">
+              <span>Balanced Diet</span>
+              <span class="text-[10px] font-mono text-mute">30% P / 40% C / 30% F</span>
+            </button>
+            <button id="preset-athletic" class="h-10 text-left px-4 border border-hairline bg-canvas text-body rounded-lg font-sans text-xs transition-colors cursor-pointer hover:border-hairline-strong shadow-lvl1 flex items-center justify-between">
+              <span>High Protein (Athletic)</span>
+              <span class="text-[10px] font-mono text-mute">40% P / 30% C / 30% F</span>
+            </button>
+            <button id="preset-keto" class="h-10 text-left px-4 border border-hairline bg-canvas text-body rounded-lg font-sans text-xs transition-colors cursor-pointer hover:border-hairline-strong shadow-lvl1 flex items-center justify-between">
+              <span>Low Carb / Ketogenic</span>
+              <span class="text-[10px] font-mono text-mute">30% P / 5% C / 65% F</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Percentage Sliders -->
+        <div class="space-y-4 pt-4 border-t border-hairline">
+          <h3 class="text-sm font-bold text-ink font-sans">Adjust Ratios manually</h3>
+          
+          <!-- Protein Slider -->
+          <div>
+            <div class="flex justify-between text-xs font-mono text-mute mb-1">
+              <span>Protein</span>
+              <span id="slider-protein-lbl">30%</span>
+            </div>
+            <input 
+              type="range" 
+              id="slider-protein" 
+              min="0" 
+              max="100" 
+              value="30"
+              class="w-full h-1.5 bg-canvas-soft-2 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+            />
+          </div>
+
+          <!-- Carbs Slider -->
+          <div>
+            <div class="flex justify-between text-xs font-mono text-mute mb-1">
+              <span>Carbohydrates</span>
+              <span id="slider-carbs-lbl">40%</span>
+            </div>
+            <input 
+              type="range" 
+              id="slider-carbs" 
+              min="0" 
+              max="100" 
+              value="40"
+              class="w-full h-1.5 bg-canvas-soft-2 rounded-lg appearance-none cursor-pointer accent-emerald-600"
+            />
+          </div>
+
+          <!-- Fat Slider -->
+          <div>
+            <div class="flex justify-between text-xs font-mono text-mute mb-1">
+              <span>Fat</span>
+              <span id="slider-fat-lbl">30%</span>
+            </div>
+            <input 
+              type="range" 
+              id="slider-fat" 
+              min="0" 
+              max="100" 
+              value="30"
+              class="w-full h-1.5 bg-canvas-soft-2 rounded-lg appearance-none cursor-pointer accent-amber-600"
+            />
+          </div>
+
+          <!-- Ratio Warning -->
+          <div id="ratio-total-box" class="flex justify-between items-center p-3 rounded-lg text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+            <span>TOTAL PERCENTAGE</span>
+            <span id="ratio-total-val">100%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Results (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Your Daily Target Ratios</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Protein Result -->
+            <div class="bg-indigo-500/5 border border-indigo-500/10 rounded-xl p-4 flex flex-col justify-center text-center">
+              <span class="text-[10px] font-mono uppercase text-indigo-500 font-semibold mb-1">Protein</span>
+              <span id="res-protein-grams" class="text-3xl font-black text-ink font-sans tracking-tight">150g</span>
+              <span id="res-protein-calories" class="text-xs text-mute font-mono mt-1">600 kcal</span>
+            </div>
+
+            <!-- Carbs Result -->
+            <div class="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-4 flex flex-col justify-center text-center">
+              <span class="text-[10px] font-mono uppercase text-emerald-500 font-semibold mb-1">Carbohydrates</span>
+              <span id="res-carbs-grams" class="text-3xl font-black text-ink font-sans tracking-tight">200g</span>
+              <span id="res-carbs-calories" class="text-xs text-mute font-mono mt-1">800 kcal</span>
+            </div>
+
+            <!-- Fat Result -->
+            <div class="bg-amber-500/5 border border-amber-500/10 rounded-xl p-4 flex flex-col justify-center text-center">
+              <span class="text-[10px] font-mono uppercase text-amber-500 font-semibold mb-1">Fats</span>
+              <span id="res-fat-grams" class="text-3xl font-black text-ink font-sans tracking-tight">67g</span>
+              <span id="res-fat-calories" class="text-xs text-mute font-mono mt-1">600 kcal</span>
+            </div>
+          </div>
+
+          <!-- Grams breakdown explanation chart -->
+          <div class="space-y-4 pt-4 border-t border-hairline">
+            <h3 class="text-xs font-mono uppercase text-mute">Visual Daily Macro Split</h3>
+            
+            <div class="h-6 w-full bg-canvas-soft-2 rounded-full overflow-hidden flex shadow-lvl1">
+              <div id="visual-protein" class="h-full bg-indigo-500 transition-all duration-300" style="width: 30%;"></div>
+              <div id="visual-carbs" class="h-full bg-emerald-500 transition-all duration-300" style="width: 40%;"></div>
+              <div id="visual-fat" class="h-full bg-amber-500 transition-all duration-300" style="width: 30%;"></div>
+            </div>
+            
+            <div class="flex flex-wrap gap-4 text-xs font-mono justify-center">
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-indigo-500 rounded-sm"></span> Protein (4 kcal/g)</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-sm"></span> Carbs (4 kcal/g)</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-amber-500 rounded-sm"></span> Fats (9 kcal/g)</span>
+            </div>
+          </div>
+
+          <!-- Disclaimer warning block -->
+          <div class="p-4 rounded-lg bg-warning-soft border border-warning-deep/20 text-warning-deep flex gap-3 text-xs md:text-sm font-sans leading-relaxed">
+            <svg class="w-5 h-5 shrink-0 text-warning-deep" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p>
+              <strong>Disclaimer:</strong> This tool provides general estimates for informational purposes only and is not medical advice. Individual results vary based on factors this calculator does not account for. Consult a healthcare provider for personalized guidance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Foundations of Macronutrient Allocation: Balancing Protein, Carbs, and Fats</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Macronutrient profiling is the key to matching your food intake with specific metabolic and body composition goals. While a calorie calculation dictates whether you will lose weight, maintain weight, or gain weight, your <strong>macronutrient profile</strong> determines the quality of that weight change—meaning whether weight loss comes from fat tissue or muscle tissue, and whether weight gain supports muscle hypertrophy or fat accumulation.
+        </p>
+        <p>
+          Every calorie you consume comes from one of three primary organic compounds. Understanding the caloric density and nutritional roles of these macronutrients is essential for setting targets:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Protein (4 kcal/gram):</strong> Structurally critical for biological tissues. Dietary protein is broken down into amino acids, which support the repair of muscle tissue, synthesize enzymes, and regulate immune function. Adequate protein is essential during weight deficits to limit skeletal muscle degradation.
+          </li>
+          <li>
+            <strong>Carbohydrates (4 kcal/gram):</strong> The body's primary energetic driver. Digested into glucose, carbohydrates fuel ATP synthesis for high-intensity physical performance, cellular metabolism, and central nervous system functions.
+          </li>
+          <li>
+            <strong>Fats (9 kcal/gram):</strong> Calorie-dense compounds vital for cell structure, systemic hormone production (such as testosterone and estrogen), organ protection, and fat-soluble vitamin absorption (Vitamins A, D, E, and K).
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Comparing Dietary Macro Splits: Balanced, Athletic, and Keto</h3>
+        <p>
+          Ratios should be adjusted to align with your health requirements and physical training goals. 
+        </p>
+        <p>
+          A **Balanced Diet** (typically 30% Protein, 40% Carbs, 30% Fat) is highly sustainable and works well for general health maintenance and moderate exercise routines.
+        </p>
+        <p>
+          An **Athletic or High-Protein Diet** (typically 40% Protein, 30% Carbs, 30% Fat) is optimized for athletic training, strength training, and cutting. It provides high protein levels to stimulate muscle protein synthesis (MPS) and preserve lean mass while keeping carbs high enough to support exercise performance.
+        </p>
+        <p>
+          A **Ketogenic Diet** (typically 20%–25% Protein, 5% Carbs, 70%–75% Fat) shifts your metabolism away from burning carbohydrates to utilizing fats and ketone bodies for energy. This requires restricting carbs to under 30–50 grams per day to trigger metabolic ketosis.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Adjusting Your Ratios Safely</h3>
+        <p>
+          Our macro calculator allows you to manually adjust ratios using sliders. When adjusting percentages, ensure the total sum equals exactly 100%. Avoid extreme low-protein or low-fat distributions (less than 15% fat) for long periods to protect hormonal health, skin integrity, and cell function. Protein targets should generally range between 1.6 to 2.2 grams per kilogram of body weight (0.8 to 1.0 grams per pound) for physically active individuals.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are macronutrients and why do they matter?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Macronutrients, or macros, are the primary nutrients your body needs in large quantities to function: protein, carbohydrates, and fats. They provide the energy (measured in calories) your body needs for daily activities and structural repair. Each macro has a specific role: protein repairs tissues and supports muscle growth; carbohydrates supply quick energy for physical and cognitive tasks; and fats support hormone production, vitamin absorption, and cell health.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How many calories are in a gram of protein, carbs, and fat?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The calorie values per gram of macronutrient are: Protein contains 4 calories per gram; Carbohydrates contain 4 calories per gram; and Fats contain 9 calories per gram. Because fat is more than twice as calorie-dense as protein and carbs, even small portions of dietary fat can quickly increase total daily calorie intake.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a good macro ratio for weight loss?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For weight loss (cutting), a typical high-protein, moderate-carb macro ratio is recommended, such as 40% Protein, 30% Carbohydrates, and 30% Fats. Higher protein levels help preserve lean muscle tissue while in a caloric deficit, and also increase satiety (feeling full), which makes sticking to a calorie goal easier.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between a high-protein and a keto macro split?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A standard high-protein athletic split typically allocates 35%–40% of calories to protein, 30%–35% to carbs, and 30% to fat. A ketogenic (Keto) split, however, focuses on putting the body into a state of ketosis by restricting carbohydrates severely: allocating roughly 70%–75% of calories to fat, 20%–25% to protein, and only 5% to carbohydrates.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Do I need to track macros to achieve my fitness goals?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            While tracking calories is the primary driver of weight loss or weight gain, tracking macros is essential for optimizing body composition (the ratio of fat to muscle). Eating enough protein is critical for preserving muscle mass during weight loss or building it during weight gain, while carbohydrates and fats are adjusted based on your performance, training intensity, and dietary preferences.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Health Calculators</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/health/calorie-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Calorie Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate total daily energy expenditure and BMR.</p>
+        </a>
+        <a href="/health/bmi-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            BMI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Check Body Mass Index, BMI Prime, and weight zones.</p>
+        </a>
+        <a href="/health/body-fat-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Body Fat Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate body fat using the US Navy method.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const caloriesInput = document.getElementById('calories') as HTMLInputElement;
+
+  const btnBalanced = document.getElementById('preset-balanced') as HTMLButtonElement;
+  const btnAthletic = document.getElementById('preset-athletic') as HTMLButtonElement;
+  const btnKeto = document.getElementById('preset-keto') as HTMLButtonElement;
+
+  const sliderProtein = document.getElementById('slider-protein') as HTMLInputElement;
+  const sliderCarbs = document.getElementById('slider-carbs') as HTMLInputElement;
+  const sliderFat = document.getElementById('slider-fat') as HTMLInputElement;
+
+  const sliderProteinLbl = document.getElementById('slider-protein-lbl') as HTMLSpanElement;
+  const sliderCarbsLbl = document.getElementById('slider-carbs-lbl') as HTMLSpanElement;
+  const sliderFatLbl = document.getElementById('slider-fat-lbl') as HTMLSpanElement;
+
+  const ratioTotalBox = document.getElementById('ratio-total-box') as HTMLDivElement;
+  const ratioTotalVal = document.getElementById('ratio-total-val') as HTMLSpanElement;
+
+  const resProteinGrams = document.getElementById('res-protein-grams') as HTMLSpanElement;
+  const resProteinCalories = document.getElementById('res-protein-calories') as HTMLSpanElement;
+  const resCarbsGrams = document.getElementById('res-carbs-grams') as HTMLSpanElement;
+  const resCarbsCalories = document.getElementById('res-carbs-calories') as HTMLSpanElement;
+  const resFatGrams = document.getElementById('res-fat-grams') as HTMLSpanElement;
+  const resFatCalories = document.getElementById('res-fat-calories') as HTMLSpanElement;
+
+  const visualProtein = document.getElementById('visual-protein') as HTMLDivElement;
+  const visualCarbs = document.getElementById('visual-carbs') as HTMLDivElement;
+  const visualFat = document.getElementById('visual-fat') as HTMLDivElement;
+
+  // ============================================================
+  // State
+  // ============================================================
+  let proteinPct = 30;
+  let carbsPct = 40;
+  let fatPct = 30;
+
+  // ============================================================
+  // Preset Values
+  // ============================================================
+  const applyPreset = (p: number, c: number, f: number) => {
+    proteinPct = p;
+    carbsPct = c;
+    fatPct = f;
+
+    sliderProtein.value = p.toString();
+    sliderCarbs.value = c.toString();
+    sliderFat.value = f.toString();
+
+    sliderProteinLbl.textContent = `${p}%`;
+    sliderCarbsLbl.textContent = `${c}%`;
+    sliderFatLbl.textContent = `${f}%`;
+
+    calculate();
+  };
+
+  const updatePresetUI = (activeBtn: HTMLButtonElement) => {
+    const btns = [btnBalanced, btnAthletic, btnKeto];
+    btns.forEach(btn => {
+      btn.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btn.classList.add('bg-canvas', 'text-body');
+    });
+    activeBtn.classList.add('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+    activeBtn.classList.remove('bg-canvas', 'text-body');
+  };
+
+  const calculate = () => {
+    const calories = parseFloat(caloriesInput.value);
+    if (isNaN(calories) || calories <= 0) return;
+
+    const totalPct = proteinPct + carbsPct + fatPct;
+    ratioTotalVal.textContent = `${totalPct}%`;
+
+    if (totalPct !== 100) {
+      ratioTotalBox.classList.remove('bg-emerald-500/10', 'text-emerald-500', 'border-emerald-500/20');
+      ratioTotalBox.classList.add('bg-error-soft', 'text-error-deep', 'border-error-deep/20');
+      
+      // Zero out calculations
+      resProteinGrams.textContent = "—";
+      resProteinCalories.textContent = "0 kcal";
+      resCarbsGrams.textContent = "—";
+      resCarbsCalories.textContent = "0 kcal";
+      resFatGrams.textContent = "—";
+      resFatCalories.textContent = "0 kcal";
+
+      visualProtein.style.width = "0%";
+      visualCarbs.style.width = "0%";
+      visualFat.style.width = "0%";
+      return;
+    }
+
+    ratioTotalBox.classList.add('bg-emerald-500/10', 'text-emerald-500', 'border-emerald-500/20');
+    ratioTotalBox.classList.remove('bg-error-soft', 'text-error-deep', 'border-error-deep/20');
+
+    // Calculations
+    const pKcal = calories * (proteinPct / 100);
+    const cKcal = calories * (carbsPct / 100);
+    const fKcal = calories * (fatPct / 100);
+
+    const pGrams = Math.round(pKcal / 4);
+    const cGrams = Math.round(cKcal / 4);
+    const fGrams = Math.round(fKcal / 9);
+
+    // Update Text DOM
+    resProteinGrams.textContent = `${pGrams}g`;
+    resProteinCalories.textContent = `${Math.round(pKcal)} kcal`;
+    resCarbsGrams.textContent = `${cGrams}g`;
+    resCarbsCalories.textContent = `${Math.round(cKcal)} kcal`;
+    resFatGrams.textContent = `${fGrams}g`;
+    resFatCalories.textContent = `${Math.round(fKcal)} kcal`;
+
+    // Update Visual Chart
+    visualProtein.style.width = `${proteinPct}%`;
+    visualCarbs.style.width = `${carbsPct}%`;
+    visualFat.style.width = `${fatPct}%`;
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  btnBalanced.addEventListener('click', () => {
+    applyPreset(30, 40, 30);
+    updatePresetUI(btnBalanced);
+  });
+
+  btnAthletic.addEventListener('click', () => {
+    applyPreset(40, 30, 30);
+    updatePresetUI(btnAthletic);
+  });
+
+  btnKeto.addEventListener('click', () => {
+    applyPreset(30, 5, 65);
+    updatePresetUI(btnKeto);
+  });
+
+  // Manual Sliders
+  sliderProtein.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value, 10);
+    proteinPct = val;
+    sliderProteinLbl.textContent = `${val}%`;
+    
+    // Clear active preset buttons
+    const btns = [btnBalanced, btnAthletic, btnKeto];
+    btns.forEach(btn => {
+      btn.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btn.classList.add('bg-canvas', 'text-body');
+    });
+
+    calculate();
+  });
+
+  sliderCarbs.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value, 10);
+    carbsPct = val;
+    sliderCarbsLbl.textContent = `${val}%`;
+    
+    const btns = [btnBalanced, btnAthletic, btnKeto];
+    btns.forEach(btn => {
+      btn.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btn.classList.add('bg-canvas', 'text-body');
+    });
+
+    calculate();
+  });
+
+  sliderFat.addEventListener('input', (e) => {
+    const val = parseInt((e.target as HTMLInputElement).value, 10);
+    fatPct = val;
+    sliderFatLbl.textContent = `${val}%`;
+    
+    const btns = [btnBalanced, btnAthletic, btnKeto];
+    btns.forEach(btn => {
+      btn.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btn.classList.add('bg-canvas', 'text-body');
+    });
+
+    calculate();
+  });
+
+  caloriesInput.addEventListener('input', calculate);
+
+  // Initial Calculation
+  calculate();
+</script>

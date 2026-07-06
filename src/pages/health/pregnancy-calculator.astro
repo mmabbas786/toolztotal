@@ -1,0 +1,503 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is my pregnancy due date calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The standard way to calculate a pregnancy due date is by adding 280 days (40 weeks) to the first day of your Last Menstrual Period (LMP), assuming a standard 28-day menstrual cycle. If you calculate from your Conception Date, the due date is estimated as 266 days (38 weeks) from conception. This tool also adjusts for custom menstrual cycle lengths if you calculate by LMP."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Naegele's Rule?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Naegele's Rule is a simple clinical formula used to estimate due dates. To calculate: 1. Identify the first day of your LMP; 2. Add 7 days; 3. Subtract 3 months; 4. Add 1 year. This rule assumes a standard 28-day cycle with ovulation occurring on day 14."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Gestational Age and Fetal Age?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gestational age measures the pregnancy starting from the first day of your Last Menstrual Period (LMP). Fetal age (or conception age) measures the actual developmental age of the fetus starting from conception. Fetal age is exactly 2 weeks shorter than gestational age because ovulation and conception typically occur about 14 days after the LMP."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are pregnancy due dates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only about 4% of babies are born on their exact estimated due date. Most babies arrive between 37 and 42 weeks of pregnancy. The due date serves as a helpful reference point, but variations are normal and expected."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my input data private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, completely private. No calculations, dates, or cycle lengths are uploaded or stored. Everything runs strictly inside your local browser sandbox using client-side JavaScript."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Pregnancy Due Date Calculator - Free Baby Due Date & Milestones | ToolzTotal"
+  description="Estimate your baby's due date, track pregnancy trimesters, and view weekly developmental milestones based on LMP or conception date."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/health/pregnancy-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
+      <span>/</span>
+      <span class="text-ink">Pregnancy Due Date Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Pregnancy Due Date Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate your baby's due date, current gestational age, and trimester progress. View your week-by-week timeline and key developmental milestones.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Pregnancy Dates</h2>
+        
+        <!-- Calculation Method Toggle -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">Calculate Based On</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-lmp" class="h-10 border border-hairline bg-canvas-soft-2 text-ink rounded-lg font-sans text-sm font-semibold transition-colors cursor-pointer border-hairline-strong shadow-lvl1">First Day of LMP</button>
+            <button id="btn-conception" class="h-10 border border-hairline bg-canvas text-body rounded-lg font-sans text-sm transition-colors cursor-pointer hover:border-hairline-strong shadow-lvl1">Conception Date</button>
+          </div>
+        </div>
+
+        <!-- Date Input -->
+        <div>
+          <label id="lbl-date" for="base-date" class="block text-xs font-mono uppercase text-mute mb-2">First Day of Last Period</label>
+          <input 
+            type="date" 
+            id="base-date" 
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+          />
+        </div>
+
+        <!-- Cycle Length (only for LMP) -->
+        <div id="cycle-length-container">
+          <label for="cycle-length" class="block text-xs font-mono uppercase text-mute mb-2">Average Cycle Length</label>
+          <div class="relative">
+            <input 
+              type="number" 
+              id="cycle-length" 
+              value="28" 
+              min="20" 
+              max="45"
+              class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">days</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Results (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Your Timeline Estimates</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Estimated Due Date -->
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-5 flex flex-col justify-center">
+              <span class="text-xs font-mono uppercase text-mute mb-1">Estimated Due Date</span>
+              <span id="res-due-date" class="text-2xl md:text-3xl font-black text-ink font-sans tracking-tight">—</span>
+              <span id="res-due-countdown" class="text-xs text-mute font-sans mt-2">Days remaining: —</span>
+            </div>
+
+            <!-- Stats Block -->
+            <div class="space-y-4">
+              <div class="flex justify-between items-center py-2 border-b border-hairline">
+                <span class="text-sm text-body font-sans">Gestational Age</span>
+                <span id="res-gestational" class="text-base font-bold text-ink font-sans">—</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-hairline">
+                <span class="text-sm text-body font-sans">Current Trimester</span>
+                <span id="res-trimester" class="text-base font-bold text-ink font-sans">—</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm text-body font-sans">Pregnancy Progress</span>
+                <span id="res-progress" class="text-base font-bold text-ink font-sans">—</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Bar visualizer -->
+          <div class="space-y-2 pt-4 border-t border-hairline">
+            <div class="flex justify-between text-xs font-mono text-mute">
+              <span>Week 0</span>
+              <span>Conception</span>
+              <span>Due Date</span>
+            </div>
+            <div class="h-3 w-full bg-canvas-soft-2 rounded-full overflow-hidden flex shadow-lvl1">
+              <div id="timeline-bar" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Weekly Milestones List -->
+          <div class="space-y-4 pt-4 border-t border-hairline">
+            <h3 class="text-sm font-bold text-ink font-sans">Pregnancy Milestones Timeline</h3>
+            <div id="milestones-timeline" class="space-y-4 border-l-2 border-hairline pl-4 ml-2">
+              <!-- Milestones populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Disclaimer warning block -->
+          <div class="p-4 rounded-lg bg-warning-soft border border-warning-deep/20 text-warning-deep flex gap-3 text-xs md:text-sm font-sans leading-relaxed">
+            <svg class="w-5 h-5 shrink-0 text-warning-deep" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p>
+              <strong>Disclaimer:</strong> This tool provides general estimates for informational purposes only and is not medical advice. Individual results vary based on factors this calculator does not account for. Consult a healthcare provider for personalized guidance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Calculating Gestational Age and Trimester Timeline Milestones</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Estimating a pregnancy timeline is essential for tracking fetal development, planning prenatal checkups, and preparing for the birth of your baby. Clinical due dates are based on a standard pregnancy duration of <strong>280 days (40 weeks)</strong> from the start of the Last Menstrual Period (LMP).
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Naegele's Rule and Cycle Length Adjustments</h3>
+        <p>
+          The standard method used by doctors is based on <strong>Naegele's Rule</strong>. This formula estimates the due date using the LMP:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-sm">Due Date = LMP + 7 days - 3 months + 1 year</strong>
+          This calculation assumes a standard 28-day menstrual cycle, with ovulation and conception occurring on day 14.
+        </p>
+        <p>
+          However, cycle lengths vary. For individuals with longer or shorter cycles, ovulation occurs later or earlier. Our calculator adjusts the calculation using a custom cycle length:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-sm">Due Date = LMP + 280 days + (Cycle Length - 28 days)</strong>
+          This adjustment helps refine the due date estimation when cycle length is known.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Gestational Age vs. Fetal Age</h3>
+        <p>
+          A common point of confusion is the difference between <strong>Gestational Age</strong> and <strong>Fetal Age</strong>:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li>
+            <strong>Gestational Age:</strong> Measured from the first day of the Last Menstrual Period (LMP). This is the standard medical definition used by obstetricians, even though conception has not yet occurred in the first two weeks.
+          </li>
+          <li>
+            <strong>Fetal Age:</strong> Measured from the actual date of conception. Fetal age is exactly 2 weeks shorter than gestational age, reflecting the actual age of the developing fetus.
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Three Trimesters of Pregnancy</h3>
+        <p>
+          Pregnancy is divided into three trimesters, each characterized by specific developmental phases:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>First Trimester (Weeks 1 to 13):</strong> Rapid cellular differentiation. Conception occurs, and the heart, brain, spinal cord, and limbs begin to form. Key milestones include hearing the heartbeat and transition to the fetal stage.
+          </li>
+          <li>
+            <strong>Second Trimester (Weeks 14 to 27):</strong> Growth and skeletal development. Organs mature, and movements become noticeable. Milestones include finding out the baby's biological sex (around week 20) and reaching viability (around week 24).
+          </li>
+          <li>
+            <strong>Third Trimester (Weeks 28 to 40+):</strong> Weight gain and lung maturation. The baby prepares for birth by building fat reserves and developing lung surfactant. Delivery usually occurs between weeks 37 and 42.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is my pregnancy due date calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The standard way to calculate a pregnancy due date is by adding 280 days (40 weeks) to the first day of your Last Menstrual Period (LMP), assuming a standard 28-day menstrual cycle. If you calculate from your Conception Date, the due date is estimated as 266 days (38 weeks) from conception. This tool also adjusts for custom menstrual cycle lengths if you calculate by LMP.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is Naegele's Rule?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Naegele's Rule is a simple clinical formula used to estimate due dates. To calculate: 1. Identify the first day of your LMP; 2. Add 7 days; 3. Subtract 3 months; 4. Add 1 year. This rule assumes a standard 28-day cycle with ovulation occurring on day 14.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between Gestational Age and Fetal Age?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Gestational age measures the pregnancy starting from the first day of your Last Menstrual Period (LMP). Fetal age (or conception age) measures the actual developmental age of the fetus starting from conception. Fetal age is exactly 2 weeks shorter than gestational age because ovulation and conception typically occur about 14 days after the LMP.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How accurate are pregnancy due dates?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Only about 4% of babies are born on their exact estimated due date. Most babies arrive between 37 and 42 weeks of pregnancy. The due date serves as a helpful reference point, but variations are normal and expected.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my input data private?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, entirely private. No calculations, dates, or cycle lengths are uploaded or stored. Everything runs strictly inside your local browser sandbox using client-side JavaScript.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Health Calculators</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/health/bmi-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            BMI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Check Body Mass Index, BMI Prime, and weight zones.</p>
+        </a>
+        <a href="/health/calorie-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Calorie Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate total daily energy expenditure and BMR.</p>
+        </a>
+        <a href="/health/macro-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Macro Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compute custom protein, carb, and fat distributions.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const btnLmp = document.getElementById('btn-lmp') as HTMLButtonElement;
+  const btnConception = document.getElementById('btn-conception') as HTMLButtonElement;
+
+  const baseDateInput = document.getElementById('base-date') as HTMLInputElement;
+  const cycleLengthInput = document.getElementById('cycle-length') as HTMLInputElement;
+  const cycleLengthContainer = document.getElementById('cycle-length-container') as HTMLDivElement;
+
+  const lblDate = document.getElementById('lbl-date') as HTMLLabelElement;
+
+  const resDueDate = document.getElementById('res-due-date') as HTMLSpanElement;
+  const resDueCountdown = document.getElementById('res-due-countdown') as HTMLSpanElement;
+  const resGestational = document.getElementById('res-gestational') as HTMLSpanElement;
+  const resTrimester = document.getElementById('res-trimester') as HTMLSpanElement;
+  const resProgress = document.getElementById('res-progress') as HTMLSpanElement;
+
+  const timelineBar = document.getElementById('timeline-bar') as HTMLDivElement;
+  const milestonesTimeline = document.getElementById('milestones-timeline') as HTMLDivElement;
+
+  // ============================================================
+  // State
+  // ============================================================
+  let method: 'lmp' | 'conception' = 'lmp';
+
+  // Set default input date to today
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  baseDateInput.value = `${yyyy}-${mm}-${dd}`;
+
+  // ============================================================
+  // Fetal Milestones Data
+  // ============================================================
+  const milestones = [
+    { week: 4, title: "Implantation Complete", desc: "The embryo is about the size of a poppy seed. Basic structures like the neural tube are beginning to form." },
+    { week: 8, title: "Heart Begins to Beat", desc: "Now officially a fetus, basic organ structures and visible digits/facial features are forming." },
+    { week: 12, title: "First Trimester Ends", desc: "The fetus is moving hands and feet. Organs, muscles, and circulatory systems are fully formed." },
+    { week: 16, title: "Bones & Sensory Progress", desc: "Skeletal mineralization begins. The baby can begin to perceive sound and voice vibrations." },
+    { week: 20, title: "Midpoint & Active Movement", desc: "Anatomy scan stage. The skin develops a protective coating, and movements (quickening) are easily felt." },
+    { week: 24, title: "Viability Threshold", desc: "Lungs begin forming air sacs. The nervous system and sensory coordination are developing rapidly." },
+    { week: 28, title: "Third Trimester Begins", desc: "Eyes begin to open. The baby responds actively to sound, light, and external temperature changes." },
+    { week: 32, title: "Surfactant & Fat Accumulation", desc: "Bones harden, though skull bones remain flexible. The body builds fat reserves to regulate temperature." },
+    { week: 36, title: "Lungs Mature", desc: "The baby drops into a head-down position. Organ systems are fully ready for independent life." },
+    { week: 40, title: "Full Term & Delivery", desc: "Average birth weight and size. Fetal development is complete, and the baby is ready for birth." }
+  ];
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const updateMethodToggle = () => {
+    if (method === 'lmp') {
+      btnLmp.classList.add('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btnLmp.classList.remove('bg-canvas', 'text-body');
+      btnConception.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btnConception.classList.add('bg-canvas', 'text-body');
+      lblDate.textContent = "First Day of Last Period";
+      cycleLengthContainer.style.display = 'block';
+    } else {
+      btnConception.classList.add('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btnConception.classList.remove('bg-canvas', 'text-body');
+      btnLmp.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold', 'border-hairline-strong');
+      btnLmp.classList.add('bg-canvas', 'text-body');
+      lblDate.textContent = "Conception Date";
+      cycleLengthContainer.style.display = 'none';
+    }
+    calculate();
+  };
+
+  const calculate = () => {
+    const baseDateVal = baseDateInput.value;
+    if (!baseDateVal) return;
+
+    const baseDate = new Date(baseDateVal + 'T12:00:00'); // Midday to prevent timezone shifts
+    const cycleLength = parseInt(cycleLengthInput.value, 10) || 28;
+
+    let dueDate = new Date();
+    let currentAgeDays = 0;
+
+    if (method === 'lmp') {
+      // Due Date = LMP + 280 days + (Cycle length - 28)
+      dueDate = new Date(baseDate.getTime() + 280 * 24 * 60 * 60 * 1000);
+      dueDate = new Date(dueDate.getTime() + (cycleLength - 28) * 24 * 60 * 60 * 1000);
+
+      // Gestational Age
+      const diffTime = today.getTime() - baseDate.getTime();
+      currentAgeDays = Math.floor(diffTime / (24 * 60 * 60 * 1000));
+    } else {
+      // Due Date = Conception + 266 days
+      dueDate = new Date(baseDate.getTime() + 266 * 24 * 60 * 60 * 1000);
+
+      // Conception date means gestational age starts 14 days prior to conception date
+      const virtualLmp = new Date(baseDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+      const diffTime = today.getTime() - virtualLmp.getTime();
+      currentAgeDays = Math.floor(diffTime / (24 * 60 * 60 * 1000));
+    }
+
+    // Format Due Date
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    resDueDate.textContent = dueDate.toLocaleDateString('en-US', options);
+
+    // Days remaining to due date
+    const timeToDue = dueDate.getTime() - today.getTime();
+    const daysRemaining = Math.max(0, Math.ceil(timeToDue / (24 * 60 * 60 * 1000)));
+    resDueCountdown.textContent = daysRemaining > 0 
+      ? `Days remaining: ${daysRemaining} (${Math.ceil(daysRemaining / 7)} weeks)`
+      : "Your baby is due!";
+
+    // Enforce limits for gestational calculations (0 to 280 days)
+    const activeDays = Math.max(0, Math.min(280, currentAgeDays));
+    const weeks = Math.floor(activeDays / 7);
+    const remainingDays = activeDays % 7;
+
+    // Gestational age output
+    resGestational.textContent = `${weeks} weeks, ${remainingDays} days`;
+
+    // Trimester
+    let trimester = "First Trimester";
+    if (weeks >= 14 && weeks < 28) {
+      trimester = "Second Trimester";
+    } else if (weeks >= 28) {
+      trimester = "Third Trimester";
+    }
+    resTrimester.textContent = trimester;
+
+    // Progress Percentage
+    const progressPct = (activeDays / 280) * 100;
+    resProgress.textContent = `${progressPct.toFixed(1)}%`;
+    timelineBar.style.width = `${progressPct}%`;
+
+    // Milestones render
+    milestonesTimeline.innerHTML = '';
+    milestones.forEach(m => {
+      const isPast = weeks >= m.week;
+      const card = document.createElement('div');
+      card.className = `relative pb-1 ${isPast ? 'text-ink' : 'text-mute opacity-60'}`;
+      card.innerHTML = `
+        <div class="absolute -left-[23px] top-1.5 w-2 h-2 rounded-full border border-hairline-strong ${isPast ? 'bg-emerald-500' : 'bg-canvas-soft-2'}"></div>
+        <h4 class="text-xs font-mono font-bold uppercase tracking-wider">Week ${m.week}: ${m.title}</h4>
+        <p class="text-xs font-sans mt-0.5 leading-relaxed">${m.desc}</p>
+      `;
+      milestonesTimeline.appendChild(card);
+    });
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  btnLmp.addEventListener('click', () => {
+    if (method !== 'lmp') {
+      method = 'lmp';
+      updateMethodToggle();
+    }
+  });
+
+  btnConception.addEventListener('click', () => {
+    if (method !== 'conception') {
+      method = 'conception';
+      updateMethodToggle();
+    }
+  });
+
+  baseDateInput.addEventListener('change', calculate);
+  cycleLengthInput.addEventListener('input', calculate);
+
+  // Initial Calculation
+  calculate();
+</script>

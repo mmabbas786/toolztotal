@@ -87,7 +87,14 @@ export const toolCatalog: Category[] = [
     slug: "health",
     description: "BMI calculators, caloric targets, macro splitters, and target heart rates.",
     icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
-    tools: []
+    tools: [
+      { name: "Calorie Calculator", slug: "calorie-calculator", description: "Estimate daily calorie needs (TDEE) and BMR based on physical stats and goals.", status: "live", keywords: ["calorie calculator", "tdee calculator", "bmr calculator"] },
+      { name: "Macro Calculator", slug: "macro-calculator", description: "Calculate macronutrient targets (grams and calories of protein, carbs, fats) for cut, maintain, or bulk.", status: "live", keywords: ["macro calculator", "macronutrient target", "keto macro calculator"] },
+      { name: "BMI Calculator", slug: "bmi-calculator", description: "Calculate Body Mass Index (BMI), BMI Prime, and Ponderal Index instantly.", status: "live", keywords: ["bmi calculator", "bmi prime", "ponderal index"] },
+      { name: "Pregnancy Due Date Calculator", slug: "pregnancy-calculator", description: "Estimate pregnancy due date, gestational age, and view week-by-week milestones.", status: "live", keywords: ["pregnancy calculator", "pregnancy due date", "baby due date"] },
+      { name: "Body Fat Percentage Calculator", slug: "body-fat-calculator", description: "Estimate body fat percentage using Navy circumference and BMI methods side-by-side.", status: "live", keywords: ["body fat calculator", "body fat percentage", "navy body fat method"] },
+      { name: "Ideal Weight Calculator", slug: "ideal-weight-calculator", description: "Find your ideal weight range based on gender, height, and multiple clinical formulas side-by-side.", status: "live", keywords: ["ideal weight calculator", "ideal body weight", "devine formula"] }
+    ]
   },
   {
     name: "Legal & Employment",
