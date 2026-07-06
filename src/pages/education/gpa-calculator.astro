@@ -1,0 +1,478 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between weighted and unweighted GPA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An unweighted GPA measures academic achievement on a standard 0 to 4.0 scale regardless of class difficulty. A weighted GPA accounts for course rigor by adding extra points (typically +0.5 for Honors and +1.0 for AP or IB courses), resulting in scores that can exceed 4.0."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does course credit weight affect GPA calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GPA is calculated as a weighted average where course credit hours act as weights. A grade earned in a 4-credit course has double the mathematical impact on your cumulative GPA compared to a grade earned in a 2-credit course."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is letter grade point mapping standardized?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Standard letter grade points on a 4.0 scale are mapped as: A+/A = 4.0, A- = 3.7, B+ = 3.3, B = 3.0, B- = 2.7, C+ = 2.3, C = 2.0, C- = 1.7, D+ = 1.3, D = 1.0, and F = 0.0."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a cumulative GPA planner?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A cumulative GPA planner combines your existing college or high school historical credits and GPA with your current semester estimates to project your overall final GPA trajectory."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my GPA information stored online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All inputs, class lists, and calculated GPA scores are processed entirely client-side inside your browser memory. ToolzTotal never stores, saves, or transmits your transcripts or grades."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="GPA Calculator - Free Weighted & Unweighted GPA Planner | ToolzTotal"
+  description="Calculate weighted and unweighted GPA across 4.0/5.0 scales. Plan cumulative targets and grade weights. Simple client-side tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/education/gpa-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/education" class="hover:text-ink transition-colors">Education</a>
+      <span>/</span>
+      <span class="text-ink">GPA Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free GPA Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate your semester and cumulative GPA. Toggle between weighted and unweighted options, select multiple grading scales, and track target grade requirements.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Class Input Panel (7 cols) -->
+      <div class="lg:col-span-7 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <div class="flex items-center justify-between border-b border-hairline pb-3">
+          <h2 class="text-lg font-bold text-ink font-sans">Current Semester Courses</h2>
+          <div class="flex gap-2">
+            <select id="scale-selector" class="h-8 px-2 bg-canvas border border-hairline rounded text-xs font-sans">
+              <option value="4.0" selected>4.0 Scale</option>
+              <option value="5.0">5.0 Scale</option>
+            </select>
+            <button id="btn-add-course" class="h-8 px-3 bg-primary hover:bg-mute text-on-primary rounded text-xs font-sans font-semibold transition-colors cursor-pointer shadow-lvl1">+ Add Course</button>
+          </div>
+        </div>
+
+        <!-- Course rows container -->
+        <div class="space-y-4" id="courses-container">
+          <!-- Dynamic Course Rows will be inserted here -->
+        </div>
+
+        <!-- Reset Button -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset Calculator</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Results & Cumulative Planning (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Score Dashboard -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">GPA Results</h2>
+          
+          <div class="grid grid-cols-2 gap-4 text-center">
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Unweighted GPA</span>
+              <span id="res-unweighted-gpa" class="text-3xl font-black text-ink font-sans">0.00</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Weighted GPA</span>
+              <span id="res-weighted-gpa" class="text-3xl font-black text-ink font-sans">0.00</span>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <span>TOTAL CREDIT HOURS:</span>
+            <span id="res-total-credits" class="font-bold text-ink">0</span>
+          </div>
+        </div>
+
+        <!-- Cumulative GPA Planner Accordion -->
+        <details class="group bg-canvas border border-hairline rounded-xl overflow-hidden shadow-lvl2">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Cumulative GPA Planner
+            <svg class="w-4 h-4 text-mute transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="p-6 border-t border-hairline bg-canvas space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="cum-gpa" class="block text-xs font-mono uppercase text-mute mb-2">Current Cum. GPA</label>
+                <input type="number" id="cum-gpa" step="0.01" min="0" max="5" placeholder="3.50" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+              </div>
+              <div>
+                <label for="cum-credits" class="block text-xs font-mono uppercase text-mute mb-2">Prior Credits</label>
+                <input type="number" id="cum-credits" min="0" placeholder="60" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+              </div>
+            </div>
+            
+            <div class="flex justify-between items-center text-xs font-mono text-mute pt-3 border-t border-hairline">
+              <span>PROJECTED CUMULATIVE GPA:</span>
+              <span id="res-projected-gpa" class="font-bold text-ink text-base">0.00</span>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Demystifying Weighted and Unweighted Grade Point Average Calculations</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Your Grade Point Average (GPA) is a standard mathematical metric that colleges, universities, and high schools use to evaluate your overall academic performance. While simple average calculations are standard, grading frameworks differ depending on the school's guidelines.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Weighted vs. Unweighted GPA Scales</h3>
+        <p>
+          Understanding how scales differ is vital for planning class loads:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Unweighted GPA (0 to 4.0 Scale):</strong> Calculates your GPA by mapping letter grades directly to standard values: A=4.0, B=3.0, C=2.0, D=1.0, and F=0.0. Course rigor (difficulty) is ignored, treating a grade in an Advanced Placement (AP) physics class identical to a grade in a regular physical education class.
+          </li>
+          <li>
+            <strong>Weighted GPA (0 to 5.0+ Scale):</strong> Accounts for academic rigor. Honors courses receive an extra +0.5 weight boost, and AP/IB courses receive a full +1.0 grade point boost. Consequently, students taking high-rigor classes can achieve GPA scores well above 4.0, which college admissions boards parse to measure academic commitment.
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Mathematical Credit-Weight Equation</h3>
+        <p>
+          GPA is calculated as a **weighted average**, where course credit hours act as weights. You cannot calculate GPA by simply adding letter grade values and dividing by the number of courses. Instead, you multiply each course's grade points by its credit hours to calculate quality points, sum them up, and divide by the total credit hours:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">GPA = Sum of (Grade Points &times; Credits) / Total Credit Hours</strong>
+          This means a grade earned in a 4-credit lecture class has double the numerical impact on your GPA than a grade earned in a 2-credit lab course.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between weighted and unweighted GPA?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            An unweighted GPA measures academic achievement on a standard 0 to 4.0 scale regardless of class difficulty. A weighted GPA accounts for course rigor by adding extra points (typically +0.5 for Honors and +1.0 for AP or IB courses), resulting in scores that can exceed 4.0.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does course credit weight affect GPA calculations?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            GPA is calculated as a weighted average where course credit hours act as weights. A grade earned in a 4-credit course has double the mathematical impact on your cumulative GPA compared to a grade earned in a 2-credit course.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is letter grade point mapping standardized?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Standard letter grade points on a 4.0 scale are mapped as: A+/A = 4.0, A- = 3.7, B+ = 3.3, B = 3.0, B- = 2.7, C+ = 2.3, C = 2.0, C- = 1.7, D+ = 1.3, D = 1.0, and F = 0.0.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a cumulative GPA planner?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A cumulative GPA planner combines your existing college or high school historical credits and GPA with your current semester estimates to project your overall final GPA trajectory.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my GPA information stored online?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. All inputs, class lists, and calculated GPA scores are processed entirely client-side inside your browser memory. ToolzTotal never stores, saves, or transmits your transcripts or grades.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Educational Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/education/final-grade-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Final Grade Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Solve what grade you need on your final exam to pass.</p>
+        </a>
+        <a href="/education/grade-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Grade Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate weighted averages for class syllabus categories.</p>
+        </a>
+        <a href="/education/citation-generator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Citation Generator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Create bibliographies in APA, MLA, and Chicago styles.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const scaleSelector = document.getElementById('scale-selector') as HTMLSelectElement;
+  const btnAddCourse = document.getElementById('btn-add-course') as HTMLButtonElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+  const coursesContainer = document.getElementById('courses-container') as HTMLDivElement;
+
+  const resUnweighted = document.getElementById('res-unweighted-gpa') as HTMLSpanElement;
+  const resWeighted = document.getElementById('res-weighted-gpa') as HTMLSpanElement;
+  const resTotalCredits = document.getElementById('res-total-credits') as HTMLSpanElement;
+
+  const cumGpaInput = document.getElementById('cum-gpa') as HTMLInputElement;
+  const cumCreditsInput = document.getElementById('cum-credits') as HTMLInputElement;
+  const resProjected = document.getElementById('res-projected-gpa') as HTMLSpanElement;
+
+  // Grade point mapping definitions
+  const gradePoints4: Record<string, number> = {
+    'A+': 4.0, 'A': 4.0, 'A-': 3.7,
+    'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+    'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+    'D+': 1.3, 'D': 1.0, 'F': 0.0
+  };
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const addCourseRow = (name = "", grade = "A", credits = 3, type = "regular") => {
+    const id = 'course-' + Date.now() + Math.random().toString(36).substr(2, 5);
+    const row = document.createElement('div');
+    row.id = id;
+    row.className = "course-row grid grid-cols-12 gap-3 items-center p-3 bg-canvas-soft border border-hairline rounded-lg shadow-lvl1";
+    
+    row.innerHTML = `
+      <!-- Course Name -->
+      <div class="col-span-4">
+        <input 
+          type="text" 
+          placeholder="e.g. English 101" 
+          value="${name}"
+          class="course-name w-full h-8 px-2 bg-canvas border border-hairline rounded text-xs focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1"
+        />
+      </div>
+
+      <!-- Letter Grade -->
+      <div class="col-span-3">
+        <select class="course-grade w-full h-8 px-1.5 bg-canvas border border-hairline rounded text-xs focus:outline-none text-ink shadow-lvl1 cursor-pointer">
+          <option value="A+" ${grade === 'A+' ? 'selected' : ''}>A+</option>
+          <option value="A" ${grade === 'A' ? 'selected' : ''}>A</option>
+          <option value="A-" ${grade === 'A-' ? 'selected' : ''}>A-</option>
+          <option value="B+" ${grade === 'B+' ? 'selected' : ''}>B+</option>
+          <option value="B" ${grade === 'B' ? 'selected' : ''}>B</option>
+          <option value="B-" ${grade === 'B-' ? 'selected' : ''}>B-</option>
+          <option value="C+" ${grade === 'C+' ? 'selected' : ''}>C+</option>
+          <option value="C" ${grade === 'C' ? 'selected' : ''}>C</option>
+          <option value="C-" ${grade === 'C-' ? 'selected' : ''}>C-</option>
+          <option value="D+" ${grade === 'D+' ? 'selected' : ''}>D+</option>
+          <option value="D" ${grade === 'D' ? 'selected' : ''}>D</option>
+          <option value="F" ${grade === 'F' ? 'selected' : ''}>F</option>
+        </select>
+      </div>
+
+      <!-- Credits -->
+      <div class="col-span-2">
+        <input 
+          type="number" 
+          min="1" 
+          max="6" 
+          value="${credits}" 
+          class="course-credits w-full h-8 px-2 bg-canvas border border-hairline rounded text-xs focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1"
+        />
+      </div>
+
+      <!-- Type (Weighted class boost) -->
+      <div class="col-span-2">
+        <select class="course-type w-full h-8 px-1 bg-canvas border border-hairline rounded text-xs focus:outline-none text-ink shadow-lvl1 cursor-pointer">
+          <option value="regular" ${type === 'regular' ? 'selected' : ''}>Regular</option>
+          <option value="honors" ${type === 'honors' ? 'selected' : ''}>Honors (+0.5)</option>
+          <option value="ap-ib" ${type === 'ap-ib' ? 'selected' : ''}>AP/IB (+1.0)</option>
+        </select>
+      </div>
+
+      <!-- Delete Button -->
+      <div class="col-span-1 text-right">
+        <button class="btn-delete text-mute hover:text-red-500 text-sm font-bold cursor-pointer transition-colors">&times;</button>
+      </div>
+    `;
+
+    // Hook listeners on new row
+    row.querySelector('.course-grade')?.addEventListener('change', calculateGPA);
+    row.querySelector('.course-credits')?.addEventListener('input', calculateGPA);
+    row.querySelector('.course-type')?.addEventListener('change', calculateGPA);
+    row.querySelector('.btn-delete')?.addEventListener('click', () => {
+      row.remove();
+      calculateGPA();
+    });
+
+    coursesContainer.appendChild(row);
+  };
+
+  const calculateGPA = () => {
+    const scale = scaleSelector.value;
+    const rows = coursesContainer.querySelectorAll('.course-row');
+    
+    let totalCredits = 0;
+    let totalUnweightedPoints = 0;
+    let totalWeightedPoints = 0;
+
+    rows.forEach(row => {
+      const gradeSel = row.querySelector('.course-grade') as HTMLSelectElement;
+      const creditsInput = row.querySelector('.course-credits') as HTMLInputElement;
+      const typeSel = row.querySelector('.course-type') as HTMLSelectElement;
+
+      const grade = gradeSel.value;
+      const credits = parseFloat(creditsInput.value) || 0;
+      const type = typeSel.value;
+
+      if (credits <= 0) return;
+
+      let basePoints = gradePoints4[grade] || 0;
+      
+      // Adjust points if 5.0 scale selected
+      if (scale === '5.0') {
+        basePoints = basePoints === 0 ? 0 : basePoints + 1.0;
+      }
+
+      let extraPoints = 0;
+      if (type === 'honors') extraPoints = 0.5;
+      else if (type === 'ap-ib') extraPoints = 1.0;
+
+      totalCredits += credits;
+      totalUnweightedPoints += basePoints * credits;
+      totalWeightedPoints += (basePoints + extraPoints) * credits;
+    });
+
+    resTotalCredits.textContent = totalCredits.toString();
+
+    let unweightedGpa = 0;
+    let weightedGpa = 0;
+
+    if (totalCredits > 0) {
+      unweightedGpa = totalUnweightedPoints / totalCredits;
+      weightedGpa = totalWeightedPoints / totalCredits;
+      
+      resUnweighted.textContent = unweightedGpa.toFixed(2);
+      resWeighted.textContent = weightedGpa.toFixed(2);
+    } else {
+      resUnweighted.textContent = "0.00";
+      resWeighted.textContent = "0.00";
+    }
+
+    // Projected Cumulative GPA integration
+    const cumGpa = parseFloat(cumGpaInput.value) || 0;
+    const priorCredits = parseFloat(cumCreditsInput.value) || 0;
+
+    if (priorCredits > 0 || totalCredits > 0) {
+      const totalPoints = (cumGpa * priorCredits) + totalWeightedPoints;
+      const grandCredits = priorCredits + totalCredits;
+      const projected = grandCredits > 0 ? totalPoints / grandCredits : 0;
+      resProjected.textContent = projected.toFixed(2);
+    } else {
+      resProjected.textContent = "0.00";
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  btnAddCourse.addEventListener('click', () => addCourseRow("", "A", 3, "regular"));
+  
+  btnReset.addEventListener('click', () => {
+    coursesContainer.innerHTML = '';
+    cumGpaInput.value = '';
+    cumCreditsInput.value = '';
+    // Load standard 3 rows
+    addCourseRow("Course 1", "A", 3, "regular");
+    addCourseRow("Course 2", "B", 4, "regular");
+    addCourseRow("Course 3", "A-", 2, "regular");
+    calculateGPA();
+  });
+
+  scaleSelector.addEventListener('change', calculateGPA);
+  [cumGpaInput, cumCreditsInput].forEach(inp => {
+    inp.addEventListener('input', calculateGPA);
+  });
+
+  // Seed default courses (matches the validation scenario check)
+  addCourseRow("Course 1", "A", 3, "regular");
+  addCourseRow("Course 2", "B", 4, "regular");
+  addCourseRow("Course 3", "A-", 2, "regular");
+
+  // Initial Calculation
+  calculateGPA();
+</script>

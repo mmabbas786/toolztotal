@@ -294,6 +294,32 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Education Tools -->
+  <url>
+    <loc>https://toolztotal.com/education/gpa-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolztotal.com/education/final-grade-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolztotal.com/education/grade-calculator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://toolztotal.com/education/citation-generator</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Legal & Info -->
   <url>
     <loc>https://toolztotal.com/privacy</loc>

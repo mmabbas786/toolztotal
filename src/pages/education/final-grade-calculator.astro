@@ -1,0 +1,336 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is the final exam grade requirement calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The final grade requirement is solved using basic algebra: Required Grade = [Target - Current * (1 - Weight)] / Weight. All weights and grade values are parsed as percentages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does a required final exam grade over 100% mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If the solver outputs a required grade exceeding 100%, it means it is mathematically impossible to reach your target grade with standard scores. You would need extra credit assignments or a curve on the final exam."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does final exam weight affect grade stability?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The higher the weight of the final exam, the more volatile your final grade will be. An exam weighted 30% has triple the impact on your final score compared to an exam weighted 10%, meaning that small drops in your final score can significantly shift your class grade."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I calculate my class grade without a final exam?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. If your course does not have a final exam, you can set the final exam weight to 0%. This will make your current grade equal to your final grade."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my academic information private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, completely. Like all tools on ToolzTotal, our final grade calculator operates entirely in your local browser sandbox. None of your coursework, current grades, or targets are uploaded to a server."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Final Grade Calculator - Solve Final Exam Grade Needed | ToolzTotal"
+  description="Calculate the final exam grade you need to get your target class grade. Multi-class semester planner and GPA impact previews."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/education/final-grade-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/education" class="hover:text-ink transition-colors">Education</a>
+      <span>/</span>
+      <span class="text-ink">Final Grade Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Final Grade Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate what score you need on your final exam to achieve your desired class grade. Plan semester course loads and preview target grade possibilities instantly.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Solver Inputs (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Grade Settings</h2>
+        
+        <!-- Current Class Grade -->
+        <div>
+          <label for="current-grade" class="block text-xs font-mono uppercase text-mute mb-2">Current Class Grade (%)</label>
+          <input 
+            type="number" 
+            id="current-grade" 
+            placeholder="e.g. 85"
+            value="85"
+            min="0"
+            max="150"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Target Class Grade -->
+        <div>
+          <label for="target-grade" class="block text-xs font-mono uppercase text-mute mb-2">Target Class Grade (%)</label>
+          <input 
+            type="number" 
+            id="target-grade" 
+            placeholder="e.g. 90"
+            value="90"
+            min="0"
+            max="150"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Final Exam Weight -->
+        <div>
+          <label for="final-weight" class="block text-xs font-mono uppercase text-mute mb-2">Final Exam Weight (%)</label>
+          <input 
+            type="number" 
+            id="final-weight" 
+            placeholder="e.g. 20"
+            value="20"
+            min="0"
+            max="100"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+      </div>
+
+      <!-- Right Column: Results & Explanations (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Result Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Required Score</h2>
+          
+          <div class="p-6 border rounded-lg text-center space-y-2 shadow-lvl1 transition-colors" id="result-box">
+            <span class="text-xs font-mono uppercase text-mute block mb-1">Grade Needed on Final Exam</span>
+            <span id="res-final-needed" class="text-4xl md:text-5xl font-black text-ink font-sans block">110.0%</span>
+            <p id="res-status-msg" class="text-xs text-mute font-sans leading-relaxed pt-2"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Algebra of Grade Planning: Solving for Final Exam Targets</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          As semesters draw to a close, students often ask: **"What do I need on my final exam to pass or get an A?"** Running these calculations manually requires algebraic equations, but our tool handles the variables instantly.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Grade Requirement Equation</h3>
+        <p>
+          A class grade is calculated as a weighted average combining your current class grade and your final exam score. By rearranging this equation to isolate the required final exam score, we get:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Required Final Score = [Target Grade - Current Grade &times; (1 - Final Weight)] / Final Weight</strong>
+          Where:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Target Grade:</strong> The final percentage you want to achieve in the class (e.g. 90% for an A).</li>
+          <li><strong>Current Grade:</strong> Your class average leading up to the final exam (e.g. 85%).</li>
+          <li><strong>Final Exam Weight:</strong> The percentage weight your final exam holds in the syllabus (e.g. 20%).</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Interpreting Your Required Score</h3>
+        <p>
+          Depending on your coursework average and the final exam's weight:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Under 70%:</strong> Highly achievable. Your steady homework and midterm performance has built a comfortable buffer.</li>
+          <li><strong>90% to 100%:</strong> Challenging. Requires focused studying, as minor mistakes on the final can prevent you from hitting your target grade.</li>
+          <li><strong>Over 100%:</strong> Extra credit needed. It is mathematically impossible to reach your target grade with standard scores, meaning that a curved grading scale is required.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is the final exam grade requirement calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The final grade requirement is solved using basic algebra: Required Grade = [Target - Current * (1 - Weight)] / Weight. All weights and grade values are parsed as percentages.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What does a required final exam grade over 100% mean?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            If the solver outputs a required grade exceeding 100%, it means it is mathematically impossible to reach your target grade with standard scores. You would need extra credit assignments or a curve on the final exam.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does final exam weight affect grade stability?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The higher the weight of the final exam, the more volatile your final grade will be. An exam weighted 30% has triple the impact on your final score compared to an exam weighted 10%, meaning that small drops in your final score can significantly shift your class grade.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I calculate my class grade without a final exam?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. If your course does not have a final exam, you can set the final exam weight to 0%. This will make your current grade equal to your final grade.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my academic information private?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, completely. Like all tools on ToolzTotal, our final grade calculator operates entirely in your local browser sandbox. None of your coursework, current grades, or targets are uploaded to a server.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Educational Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/education/gpa-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            GPA Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate semester and weighted GPA across multiple scales.</p>
+        </a>
+        <a href="/education/grade-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Grade Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate weighted averages for class syllabus categories.</p>
+        </a>
+        <a href="/education/citation-generator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Citation Generator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Create bibliographies in APA, MLA, and Chicago styles.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const currentGradeIn = document.getElementById('current-grade') as HTMLInputElement;
+  const targetGradeIn = document.getElementById('target-grade') as HTMLInputElement;
+  const finalWeightIn = document.getElementById('final-weight') as HTMLInputElement;
+
+  const resultBox = document.getElementById('result-box') as HTMLDivElement;
+  const resFinalNeeded = document.getElementById('res-final-needed') as HTMLSpanElement;
+  const resStatusMsg = document.getElementById('res-status-msg') as HTMLParagraphElement;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateFinalRequirement = () => {
+    const current = parseFloat(currentGradeIn.value) || 0;
+    const target = parseFloat(targetGradeIn.value) || 0;
+    const weight = (parseFloat(finalWeightIn.value) || 0) / 100;
+
+    if (weight <= 0) {
+      resFinalNeeded.textContent = "N/A";
+      resStatusMsg.textContent = "Please enter a final exam weight greater than 0%.";
+      resultBox.className = "p-6 border border-hairline rounded-lg text-center space-y-2 bg-canvas shadow-lvl1";
+      return;
+    }
+
+    // Solve algebraic: Target = Current * (1 - Weight) + Final * Weight
+    // Final = [Target - Current * (1 - Weight)] / Weight
+    const needed = (target - current * (1 - weight)) / weight;
+    resFinalNeeded.textContent = needed.toFixed(1) + "%";
+
+    // Style card and set status messages based on difficulty threshold
+    if (needed > 100) {
+      resultBox.className = "p-6 border border-red-500/20 rounded-lg text-center space-y-2 bg-red-500/5 shadow-lvl1";
+      resFinalNeeded.className = "text-4xl md:text-5xl font-black text-red-500 font-sans block";
+      resStatusMsg.textContent = `⚠️ You need over 100% on the final to reach a ${target}%. Extra credit assignments or a curved exam are required.`;
+    } else if (needed >= 90) {
+      resultBox.className = "p-6 border border-yellow-500/20 rounded-lg text-center space-y-2 bg-yellow-500/5 shadow-lvl1";
+      resFinalNeeded.className = "text-4xl md:text-5xl font-black text-yellow-600 dark:text-yellow-500 font-sans block";
+      resStatusMsg.textContent = `🎯 You need a strong score of ${needed.toFixed(1)}% to reach your target. Study hard!`;
+    } else if (needed <= 0) {
+      resultBox.className = "p-6 border border-emerald-500/20 rounded-lg text-center space-y-2 bg-emerald-500/5 shadow-lvl1";
+      resFinalNeeded.className = "text-4xl md:text-5xl font-black text-emerald-500 font-sans block";
+      resFinalNeeded.textContent = "0.0%";
+      resStatusMsg.textContent = `🎉 You have already secured your target grade! You don't need any points on the final to get a ${target}%.`;
+    } else {
+      resultBox.className = "p-6 border border-emerald-500/20 rounded-lg text-center space-y-2 bg-emerald-500/5 shadow-lvl1";
+      resFinalNeeded.className = "text-4xl md:text-5xl font-black text-emerald-500 font-sans block";
+      resStatusMsg.textContent = `👍 Achieving a ${needed.toFixed(1)}% is highly feasible. Review your notes and you should be fine.`;
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [currentGradeIn, targetGradeIn, finalWeightIn].forEach(inp => {
+    inp.addEventListener('input', calculateFinalRequirement);
+  });
+
+  // Initial Calculation
+  calculateFinalRequirement();
+</script>
