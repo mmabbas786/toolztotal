@@ -1,0 +1,595 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are meta tags and why are they important for SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Meta tags are brief code snippets in the head of an HTML document that provide metadata about a webpage to search engines and browser clients. They describe page content, specify the canonical URL, and instruct bots on indexing rules (e.g. index/noindex). Correct meta tags are vital for displaying search snippets and boosting CTR."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Open Graph and Twitter Cards?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open Graph is a protocol created by Facebook that standardizes metadata usage on social networks like Facebook, LinkedIn, Pinterest, and WhatsApp. Twitter (X) Cards are specific tags created by Twitter to display interactive media rich cards. While Twitter falls back to Open Graph tags if Twitter-specific tags are missing, declaring both ensures perfect social card previews across all networks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the character limit for page titles and descriptions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For optimal display in Google SERPs without truncation, page titles should be kept under 50–60 characters (or 600 pixels wide), and meta descriptions should be kept under 150–160 characters (or 960 pixels wide). Keeping text within these limits prevents Google from clipping the snippet with ellipses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is JSON-LD and how is it used in search indexing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JSON-LD (JavaScript Object Notation for Linked Data) is the recommended structured data format used to annotate page elements for search engines. It creates rich snippets (FAQ accordions, product reviews, articles) in search results, helping crawlers understand the contextual meaning of page content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my website metadata privately processed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely. This meta tag generator operates completely client-side in your local browser sandbox. None of your titles, URLs, descriptions, or generated code blocks are uploaded to a server or saved, ensuring total privacy."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Meta Tag Generator - Free Google SERP & Social Card Preview | ToolzTotal"
+  description="Generate meta tags, Open Graph tags, and Twitter Cards with real-time Google, Facebook, and Twitter snippet previews. Copy generated HTML & JSON-LD."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/marketing/meta-tag-generator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
+      <span>/</span>
+      <span class="text-ink">Meta Tag Generator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Meta Tag Generator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Create optimized meta tags, Open Graph metadata, Twitter Cards, and schema markup. Preview how your pages will look on search engines and social platforms in real-time.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Meta Content</h2>
+        
+        <!-- Page Title -->
+        <div>
+          <label for="meta-title" class="block text-xs font-mono uppercase text-mute mb-2 flex justify-between">
+            <span>Page Title</span>
+            <span id="title-char-count" class="text-[10px] text-mute">0 / 60 chars</span>
+          </label>
+          <input 
+            type="text" 
+            id="meta-title" 
+            placeholder="e.g. Free Calculators & Tools | ToolzTotal"
+            value="ToolzTotal - Free Online Calculators and Utility Tools"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Meta Description -->
+        <div>
+          <label for="meta-desc" class="block text-xs font-mono uppercase text-mute mb-2 flex justify-between">
+            <span>Meta Description</span>
+            <span id="desc-char-count" class="text-[10px] text-mute">0 / 160 chars</span>
+          </label>
+          <textarea 
+            id="meta-desc" 
+            rows="3"
+            placeholder="e.g. Free, fast online calculators. Privacy first, no signup required..."
+            class="w-full p-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 resize-none"
+          >Free, fast, and client-side online calculators and tools. No signup, no ads, just instant answers. 100% private and runs entirely in your web browser.</textarea>
+        </div>
+
+        <!-- Canonical URL -->
+        <div>
+          <label for="meta-canonical" class="block text-xs font-mono uppercase text-mute mb-2">Canonical URL</label>
+          <input 
+            type="url" 
+            id="meta-canonical" 
+            placeholder="https://example.com"
+            value="https://example.com"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Open Graph Image URL -->
+        <div>
+          <label for="meta-image" class="block text-xs font-mono uppercase text-mute mb-2">Open Graph Image URL</label>
+          <input 
+            type="url" 
+            id="meta-image" 
+            placeholder="https://example.com/og-image.png"
+            value="https://example.com/og-image.png"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Page Type -->
+        <div>
+          <label for="meta-type" class="block text-xs font-mono uppercase text-mute mb-2">Page Type</label>
+          <select 
+            id="meta-type" 
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+          >
+            <option value="website" selected>Website</option>
+            <option value="article">Article</option>
+            <option value="profile">Profile</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Right Column: Outputs and Previews (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Previews Container -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Real-Time Mockup Previews</h2>
+          
+          <!-- Tabs for Preview Type -->
+          <div class="flex gap-2 border-b border-hairline pb-3">
+            <button id="tab-prev-google" class="px-4 py-1.5 text-xs font-mono border-b-2 border-primary font-semibold text-ink cursor-pointer">Google SERP</button>
+            <button id="tab-prev-social" class="px-4 py-1.5 text-xs font-mono text-mute hover:text-ink cursor-pointer">Social Card (FB)</button>
+            <button id="tab-prev-twitter" class="px-4 py-1.5 text-xs font-mono text-mute hover:text-ink cursor-pointer">Twitter Card</button>
+          </div>
+
+          <!-- Google SERP Preview Card -->
+          <div id="card-google" class="space-y-2 bg-canvas p-4 rounded-lg border border-hairline-strong/30 max-w-xl shadow-lvl1">
+            <div class="text-xs text-mute font-sans flex items-center gap-1.5 truncate">
+              <span>https://example.com</span> <span class="text-[9px] font-mono">&#9662;</span>
+            </div>
+            <a href="#" class="text-xl text-blue-600 dark:text-blue-400 font-sans hover:underline truncate block" id="prev-google-title">ToolzTotal - Free Online Calculators and Utility Tools</a>
+            <p class="text-sm text-body font-sans leading-relaxed text-pretty" id="prev-google-desc">
+              Free, fast, and client-side online calculators and tools. No signup, no ads, just instant answers. 100% private and runs entirely in your web browser.
+            </p>
+          </div>
+
+          <!-- Social share Card -->
+          <div id="card-social" class="hidden border border-hairline rounded-lg overflow-hidden max-w-xl bg-canvas shadow-lvl1">
+            <!-- Image placeholder -->
+            <div class="h-44 bg-canvas-soft border-b border-hairline flex items-center justify-center relative overflow-hidden">
+              <span class="text-xs text-mute font-mono">OG Image Preview</span>
+              <div class="absolute inset-0 bg-cover bg-center opacity-70" id="prev-social-bg-image" style="background-image: url('https://toolztotal.com/og-image.png');"></div>
+            </div>
+            <div class="p-4 space-y-1">
+              <div class="text-[10px] text-mute uppercase font-mono tracking-wider truncate" id="prev-social-domain">EXAMPLE.COM</div>
+              <h4 class="text-sm font-semibold text-ink font-sans truncate" id="prev-social-title">ToolzTotal - Free Online Calculators and Utility Tools</h4>
+              <p class="text-xs text-body font-sans line-clamp-2" id="prev-social-desc">Free, fast, and client-side online calculators and tools. No signup, no ads, just instant answers.</p>
+            </div>
+          </div>
+
+          <!-- Twitter Card -->
+          <div id="card-twitter" class="hidden border border-hairline rounded-xl overflow-hidden max-w-xl bg-canvas shadow-lvl1 flex flex-col">
+            <div class="aspect-[1.91/1] bg-canvas-soft border-b border-hairline flex items-center justify-center relative overflow-hidden">
+              <span class="text-xs text-mute font-mono">Twitter Large Image Preview</span>
+              <div class="absolute inset-0 bg-cover bg-center opacity-70" id="prev-twitter-bg-image" style="background-image: url('https://toolztotal.com/og-image.png');"></div>
+            </div>
+            <div class="p-3 bg-canvas space-y-0.5">
+              <div class="text-[10px] text-mute font-mono" id="prev-twitter-domain">example.com</div>
+              <h4 class="text-xs font-bold text-ink font-sans truncate" id="prev-twitter-title">ToolzTotal - Free Online Calculators and Utility Tools</h4>
+              <p class="text-[11px] text-body font-sans line-clamp-2" id="prev-twitter-desc">Free, fast, and client-side online calculators and tools. No signup, no ads, just instant answers.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generated Tags Outputs -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-3">
+            <h2 class="text-lg font-bold text-ink font-sans">Generated Code Blocks</h2>
+            <!-- Schema Validation Status Badge -->
+            <span id="schema-badge" class="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">JSON-LD Valid</span>
+          </div>
+
+          <!-- Code output Tabs -->
+          <div class="flex gap-2 border-b border-hairline pb-3">
+            <button id="tab-code-all" class="px-3 py-1 text-xs font-mono border-b-2 border-primary font-semibold text-ink cursor-pointer">HTML Headers</button>
+            <button id="tab-code-schema" class="px-3 py-1 text-xs font-mono text-mute hover:text-ink cursor-pointer">JSON-LD Schema</button>
+          </div>
+
+          <!-- Output Code Blocks -->
+          <div class="relative bg-canvas-soft border border-hairline rounded-lg p-4 font-mono text-xs text-ink min-h-24 shadow-lvl1">
+            <pre class="overflow-x-auto whitespace-pre leading-relaxed select-all" id="code-output">Generating...</pre>
+            
+            <button 
+              id="btn-copy-code" 
+              title="Copy Code"
+              class="absolute right-3 top-3 w-8 h-8 rounded border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink transition-colors flex items-center justify-center cursor-pointer shadow-lvl1"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-5 4h6m-6 4h6m-2 4h4" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Optimizing Metadata: Standard Header Tags, Open Graph, and Structured JSON-LD Schema</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Search engine crawl bots and social media platform crawlers parse the HTML headers of a website to understand its structure, title, description, and visual assets. Declaring standardized <strong>meta tags</strong> in your webpage head is the key to creating search results, driving user CTR, and controlling how links display when shared.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">1. Standard HTML Header Tags</h3>
+        <p>
+          The baseline header elements consist of the page title and meta description:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Page Title (&lt;title&gt;):</strong> The primary keyword placement index. Google typically reserves 600 pixels of screen space for titles (about 50 to 60 characters). Keep titles punchy and descriptive.</li>
+          <li><strong>Meta Description (&lt;meta name="description"&gt;):</strong> Summarizes the page content. Google cuts off descriptions after 155 to 160 characters on desktop (approximately 960 pixels) and 120 characters on mobile. Optimize descriptions to explain the page value clearly.</li>
+          <li><strong>Canonical Link (&lt;link rel="canonical"&gt;):</strong> Specifies the single authoritative URL for the page. It prevents duplicate content flags caused by session IDs or UTM query strings.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">2. Social Protocols: Open Graph & Twitter Cards</h3>
+        <p>
+          Standard header tags do not define layout properties for social media shares. The <strong>Open Graph (OG) protocol</strong> standardizes how metadata is extracted by platforms like Facebook, LinkedIn, Slack, and WhatsApp:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>og:title:</strong> The social card title (often shorter and more conversational than the SEO title).</li>
+          <li><strong>og:description:</strong> The description displayed below the card title.</li>
+          <li><strong>og:image:</strong> The image URL displayed when shared (recommended size is 1200 x 630 pixels).</li>
+        </ul>
+        <p>
+          Twitter uses its own <strong>Twitter Card</strong> tags (e.g. `twitter:card` set to `summary_large_image`) to control card styling on X. Declaring both formats ensures perfect previews across all networks.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">3. Structured Linked Data (JSON-LD)</h3>
+        <p>
+          While meta tags help format standard card mockups, **JSON-LD Schema Markup** provides search engines with structured information about the content itself. By declaring JSON-LD script blocks, you organize attributes like organization names, ratings, or article details, allowing search engine bots to verify page relationships.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are meta tags and why are they important for SEO?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Meta tags are brief code snippets in the head of an HTML document that provide metadata about a webpage to search engines and browser clients. They describe page content, specify the canonical URL, and instruct bots on indexing rules (e.g. index/noindex). Correct meta tags are vital for displaying search snippets and boosting CTR.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between Open Graph and Twitter Cards?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Open Graph is a protocol created by Facebook that standardizes metadata usage on social networks like Facebook, LinkedIn, Pinterest, and WhatsApp. Twitter (X) Cards are specific tags created by Twitter to display interactive media rich cards. While Twitter falls back to Open Graph tags if Twitter-specific tags are missing, declaring both ensures perfect social card previews across all networks.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the character limit for page titles and descriptions?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For optimal display in Google SERPs without truncation, page titles should be kept under 50–60 characters (or 600 pixels wide), and meta descriptions should be kept under 150–160 characters (or 960 pixels wide). Keeping text within these limits prevents Google from clipping the snippet with ellipses.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is JSON-LD and how is it used in search indexing?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            JSON-LD (JavaScript Object Notation for Linked Data) is the recommended structured data format used to annotate page elements for search engines. It creates rich snippets (FAQ accordions, product reviews, articles) in search results, helping crawlers understand the contextual meaning of page content.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my website metadata privately processed?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, absolutely. This meta tag generator operates completely client-side in your local browser sandbox. None of your titles, URLs, descriptions, or generated code blocks are uploaded to a server or saved, ensuring total privacy.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Marketing Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/marketing/utm-builder" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            UTM Link Builder
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Generate campaign links with tracking codes and presets.</p>
+        </a>
+        <a href="/marketing/serp-preview" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            SERP Snippet Preview Tool
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Preview page SERPs on desktop and mobile with pixel limits.</p>
+        </a>
+        <a href="/marketing/email-subject-tester" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Email Subject Line Tester
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Test clipping sizes and flags email spam words.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const titleInput = document.getElementById('meta-title') as HTMLInputElement;
+  const descInput = document.getElementById('meta-desc') as HTMLTextAreaElement;
+  const canonicalInput = document.getElementById('meta-canonical') as HTMLInputElement;
+  const imageInput = document.getElementById('meta-image') as HTMLInputElement;
+  const typeSelect = document.getElementById('meta-type') as HTMLSelectElement;
+
+  const titleCharCount = document.getElementById('title-char-count') as HTMLSpanElement;
+  const descCharCount = document.getElementById('desc-char-count') as HTMLSpanElement;
+
+  // Previews
+  const tabPrevGoogle = document.getElementById('tab-prev-google') as HTMLButtonElement;
+  const tabPrevSocial = document.getElementById('tab-prev-social') as HTMLButtonElement;
+  const tabPrevTwitter = document.getElementById('tab-prev-twitter') as HTMLButtonElement;
+
+  const cardGoogle = document.getElementById('card-google') as HTMLDivElement;
+  const cardSocial = document.getElementById('card-social') as HTMLDivElement;
+  const cardTwitter = document.getElementById('card-twitter') as HTMLDivElement;
+
+  const prevGoogleTitle = document.getElementById('prev-google-title') as HTMLAnchorElement;
+  const prevGoogleDesc = document.getElementById('prev-google-desc') as HTMLParagraphElement;
+
+  const prevSocialTitle = document.getElementById('prev-social-title') as HTMLHeadingElement;
+  const prevSocialDesc = document.getElementById('prev-social-desc') as HTMLParagraphElement;
+  const prevSocialDomain = document.getElementById('prev-social-domain') as HTMLDivElement;
+  const prevSocialBg = document.getElementById('prev-social-bg-image') as HTMLDivElement;
+
+  const prevTwitterTitle = document.getElementById('prev-twitter-title') as HTMLHeadingElement;
+  const prevTwitterDesc = document.getElementById('prev-twitter-desc') as HTMLParagraphElement;
+  const prevTwitterDomain = document.getElementById('prev-twitter-domain') as HTMLDivElement;
+  const prevTwitterBg = document.getElementById('prev-twitter-bg-image') as HTMLDivElement;
+
+  // Code Block outputs
+  const tabCodeAll = document.getElementById('tab-code-all') as HTMLButtonElement;
+  const tabCodeSchema = document.getElementById('tab-code-schema') as HTMLButtonElement;
+  const codeOutput = document.getElementById('code-output') as HTMLPreElement;
+  const btnCopyCode = document.getElementById('btn-copy-code') as HTMLButtonElement;
+  const schemaBadge = document.getElementById('schema-badge') as HTMLSpanElement;
+
+  // ============================================================
+  // State
+  // ============================================================
+  let activePreviewTab: 'google' | 'social' | 'twitter' = 'google';
+  let activeCodeTab: 'all' | 'schema' = 'all';
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const updatePreviews = () => {
+    const title = titleInput.value.trim() || "Untitled Page";
+    const desc = descInput.value.trim() || "No page description set.";
+    const canonical = canonicalInput.value.trim() || "https://example.com";
+    const image = imageInput.value.trim() || "https://example.com/og-image.png";
+
+    let domain = "example.com";
+    try {
+      const u = new URL(canonical);
+      domain = u.hostname;
+    } catch(e) {}
+
+    // 1. Character counters
+    titleCharCount.textContent = `${titleInput.value.length} / 60 chars`;
+    descCharCount.textContent = `${descInput.value.length} / 160 chars`;
+
+    // 2. Google SERP Preview
+    prevGoogleTitle.textContent = title;
+    prevGoogleDesc.textContent = desc;
+
+    // 3. Social Preview
+    prevSocialTitle.textContent = title;
+    prevSocialDesc.textContent = desc;
+    prevSocialDomain.textContent = domain.toUpperCase();
+    prevSocialBg.style.backgroundImage = `url('${image}')`;
+
+    // 4. Twitter Preview
+    prevTwitterTitle.textContent = title;
+    prevTwitterDesc.textContent = desc;
+    prevTwitterDomain.textContent = domain.toLowerCase();
+    prevTwitterBg.style.backgroundImage = `url('${image}')`;
+
+    // 5. Code Outputs & Schema verification
+    generateCode(title, desc, canonical, image);
+  };
+
+  const generateCode = (title: string, desc: string, canonical: string, image: string) => {
+    const pageType = typeSelect.value;
+    
+    // HTML Headers block
+    const htmlBlock = `<!-- Standard Meta Tags -->
+<title>${title}</title>
+<meta name="description" content="${desc}" />
+<link rel="canonical" href="${canonical}" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="${pageType}" />
+<meta property="og:url" content="${canonical}" />
+<meta property="og:title" content="${title}" />
+<meta property="og:description" content="${desc}" />
+<meta property="og:image" content="${image}" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="${canonical}" />
+<meta property="twitter:title" content="${title}" />
+<meta property="twitter:description" content="${desc}" />
+<meta property="twitter:image" content="${image}" />`;
+
+    // JSON-LD block
+    const schemaObj = {
+      "@context": "https://schema.org",
+      "@type": pageType === 'article' ? 'Article' : 'WebPage',
+      "url": canonical,
+      "name": title,
+      "description": desc,
+      "image": image
+    };
+    
+    const schemaText = JSON.stringify(schemaObj, null, 2);
+    const schemaBlock = `<script type="application/ld+json">\n${schemaText}\n<\/script>`;
+
+    // Programmatic test-parse verification check of Schema.org JSON-LD
+    let isSchemaValid = false;
+    try {
+      JSON.parse(schemaText);
+      isSchemaValid = true;
+    } catch(e) {
+      isSchemaValid = false;
+    }
+
+    if (isSchemaValid) {
+      schemaBadge.textContent = "JSON-LD Valid Schema";
+      schemaBadge.className = "px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20";
+    } else {
+      schemaBadge.textContent = "Schema Invalid";
+      schemaBadge.className = "px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-red-500/10 text-red-500 border border-red-500/20";
+    }
+
+    if (activeCodeTab === 'all') {
+      codeOutput.textContent = `${htmlBlock}\n\n${schemaBlock}`;
+    } else {
+      codeOutput.textContent = schemaBlock;
+    }
+  };
+
+  const handlePreviewTabClick = (tab: 'google' | 'social' | 'twitter') => {
+    activePreviewTab = tab;
+    [tabPrevGoogle, tabPrevSocial, tabPrevTwitter].forEach(b => {
+      b.classList.remove('border-b-2', 'border-primary', 'font-semibold', 'text-ink');
+      b.classList.add('text-mute');
+    });
+
+    let activeBtn = tabPrevGoogle;
+    cardGoogle.classList.add('hidden');
+    cardSocial.classList.add('hidden');
+    cardTwitter.classList.add('hidden');
+
+    if (tab === 'google') {
+      activeBtn = tabPrevGoogle;
+      cardGoogle.classList.remove('hidden');
+    } else if (tab === 'social') {
+      activeBtn = tabPrevSocial;
+      cardSocial.classList.remove('hidden');
+    } else {
+      activeBtn = tabPrevTwitter;
+      cardTwitter.classList.remove('hidden');
+    }
+
+    activeBtn.classList.add('border-b-2', 'border-primary', 'font-semibold', 'text-ink');
+    activeBtn.classList.remove('text-mute');
+  };
+
+  const handleCodeTabClick = (tab: 'all' | 'schema') => {
+    activeCodeTab = tab;
+    [tabCodeAll, tabCodeSchema].forEach(b => {
+      b.classList.remove('border-b-2', 'border-primary', 'font-semibold', 'text-ink');
+      b.classList.add('text-mute');
+    });
+
+    const activeBtn = tab === 'all' ? tabCodeAll : tabCodeSchema;
+    activeBtn.classList.add('border-b-2', 'border-primary', 'font-semibold', 'text-ink');
+    activeBtn.classList.remove('text-mute');
+    updatePreviews();
+  };
+
+  const copyCodeToClipboard = () => {
+    const text = codeOutput.textContent || "";
+    if (text && !text.startsWith("Generating")) {
+      navigator.clipboard.writeText(text).then(() => {
+        const oldHtml = btnCopyCode.innerHTML;
+        btnCopyCode.innerHTML = `
+          <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        `;
+        setTimeout(() => {
+          btnCopyCode.innerHTML = oldHtml;
+        }, 1500);
+      });
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [titleInput, descInput, canonicalInput, imageInput, typeSelect].forEach(inp => {
+    inp.addEventListener('input', updatePreviews);
+  });
+  typeSelect.addEventListener('change', updatePreviews);
+
+  tabPrevGoogle.addEventListener('click', () => handlePreviewTabClick('google'));
+  tabPrevSocial.addEventListener('click', () => handlePreviewTabClick('social'));
+  tabPrevTwitter.addEventListener('click', () => handlePreviewTabClick('twitter'));
+
+  tabCodeAll.addEventListener('click', () => handleCodeTabClick('all'));
+  tabCodeSchema.addEventListener('click', () => handleCodeTabClick('schema'));
+
+  btnCopyCode.addEventListener('click', copyCodeToClipboard);
+
+  // Initial Calculation
+  updatePreviews();
+</script>

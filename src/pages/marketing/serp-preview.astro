@@ -1,0 +1,577 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is pixel width more accurate than character count for search results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google renders search snippets using a proportional Arial font. Because letters differ in pixel width (e.g. a capital 'W' is much wider than a lowercase 'i'), character counts only estimate size. Pixel width measures the actual physical size Google allocates, providing a precise preview of truncation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are Google's title and description pixel limits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On Google desktop search results, titles clip after 600 pixels (about 50–60 characters) and descriptions clip after 960 pixels (about 150–160 characters). On mobile devices, titles have similar limits but descriptions clip after roughly 680 pixels (about 110–120 characters)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are rich snippets and how do they look in previews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rich snippets display additional structured data in search listings, such as review stars, price ranges, or collapsible FAQ drop-downs. Adding these elements can significantly improve a search snippet's visual size, visibility, and Click-Through Rate (CTR)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Google handle title tags that are too long?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If a title tag exceeds the 600-pixel width limit, Google cuts it off with an ellipsis (...) to fit. In some cases, Google may rewrite long titles entirely using the page's H1 tag or anchor texts to improve readability for users."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my SERP data sent to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Like all tools on ToolzTotal, this SERP preview tool processes all input values, pixel width measurements, and simulations locally in your browser sandbox using client-side JavaScript."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="SERP Snippet Preview Tool - Free Search Snippet Checker | ToolzTotal"
+  description="Preview how your webpage appears in Google search results on desktop and mobile. Checks pixel width clipping limits. Simulate reviews and FAQ snippets."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/marketing/serp-preview"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
+      <span>/</span>
+      <span class="text-ink">SERP Preview Tool</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free SERP Snippet Preview Tool
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Preview how your title tags and meta descriptions display in Google's search result layouts. Monitor exact pixel width clipping limits for desktop and mobile devices.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Search Settings</h2>
+        
+        <!-- Target Title -->
+        <div>
+          <label for="serp-title" class="block text-xs font-mono uppercase text-mute mb-2">Title Tag</label>
+          <input 
+            type="text" 
+            id="serp-title" 
+            placeholder="Enter page title..."
+            value="ToolzTotal - 100% Free Online Calculators & Digital Tools"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Meta Description -->
+        <div>
+          <label for="serp-desc" class="block text-xs font-mono uppercase text-mute mb-2">Meta Description</label>
+          <textarea 
+            id="serp-desc" 
+            rows="3"
+            placeholder="Enter meta description..."
+            class="w-full p-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 resize-none"
+          >Browse our suite of fast, privacy-first online calculators. No signups, no clutter, and zero tracking scripts. Works 100% client-side in your browser.</textarea>
+        </div>
+
+        <!-- URL -->
+        <div>
+          <label for="serp-url" class="block text-xs font-mono uppercase text-mute mb-2">URL</label>
+          <input 
+            type="text" 
+            id="serp-url" 
+            value="https://toolztotal.com/health/bmi-calculator"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Rich Snippet Toggles -->
+        <div class="space-y-4 pt-4 border-t border-hairline">
+          <h3 class="text-xs font-mono uppercase text-mute">Rich Snippet Simulations</h3>
+          
+          <!-- Rating Toggle -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label for="toggle-rating" class="text-xs font-sans text-body">Simulate Review Stars</label>
+              <input type="checkbox" id="toggle-rating" class="w-4 h-4 accent-primary cursor-pointer" />
+            </div>
+            
+            <div id="rating-inputs" class="hidden grid grid-cols-2 gap-2">
+              <div>
+                <label for="num-rating" class="block text-[10px] font-mono uppercase text-mute mb-1">Rating (1-5)</label>
+                <input type="number" id="num-rating" min="1" max="5" step="0.1" value="4.8" class="w-full h-8 px-2 bg-canvas border border-hairline rounded text-xs font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+              </div>
+              <div>
+                <label for="num-reviews" class="block text-[10px] font-mono uppercase text-mute mb-1">Votes Count</label>
+                <input type="number" id="num-reviews" value="124" class="w-full h-8 px-2 bg-canvas border border-hairline rounded text-xs font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ Toggle -->
+          <div class="space-y-3 pt-2 border-t border-hairline">
+            <div class="flex items-center justify-between">
+              <label for="toggle-faq" class="text-xs font-sans text-body">Simulate FAQ Schema</label>
+              <input type="checkbox" id="toggle-faq" class="w-4 h-4 accent-primary cursor-pointer" />
+            </div>
+            
+            <div id="faq-inputs" class="hidden space-y-2">
+              <input type="text" id="faq-q1" placeholder="FAQ Question 1" value="Is this calculator free?" class="w-full h-8 px-2 bg-canvas border border-hairline rounded text-xs font-sans focus:outline-none" />
+              <input type="text" id="faq-q2" placeholder="FAQ Question 2" value="Do I need to sign up?" class="w-full h-8 px-2 bg-canvas border border-hairline rounded text-xs font-sans focus:outline-none" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Visualizer Previews (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Live SERP Visualizer -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-3">
+            <h2 class="text-lg font-bold text-ink font-sans">Google Search Preview</h2>
+            <!-- Desktop / Mobile Toggle -->
+            <div class="flex border border-hairline rounded-lg overflow-hidden bg-canvas">
+              <button id="btn-view-desktop" class="h-8 px-3 text-xs font-mono bg-canvas-soft-2 text-ink font-semibold border-r border-hairline transition-colors cursor-pointer">Desktop</button>
+              <button id="btn-view-mobile" class="h-8 px-3 text-xs font-mono text-mute transition-colors cursor-pointer hover:bg-canvas-soft">Mobile</button>
+            </div>
+          </div>
+
+          <!-- Mockup Container -->
+          <div class="bg-canvas p-6 rounded-lg border border-hairline-strong/30 max-w-xl shadow-lvl1 space-y-2 font-sans transition-all duration-300" id="serp-card-container">
+            <!-- URL/Breadcrumb structure -->
+            <div class="flex items-center gap-1.5 text-xs text-mute truncate leading-none">
+              <div class="w-6 h-6 rounded-full bg-canvas-soft-2 border border-hairline flex items-center justify-center text-[10px] font-mono select-none font-bold">T</div>
+              <div class="flex flex-col">
+                <span class="text-ink font-semibold text-[11px] leading-tight">ToolzTotal</span>
+                <span class="text-[10px] text-mute leading-none truncate" id="mock-breadcrumb">https://toolztotal.com &rsaquo; health &rsaquo; bmi</span>
+              </div>
+            </div>
+
+            <!-- Title -->
+            <a href="#" class="text-xl text-blue-800 dark:text-blue-400 font-sans hover:underline block leading-tight font-medium" id="mock-title" style="font-family: Arial, sans-serif;">
+              ToolzTotal - 100% Free Online Calculators & Digital Tools
+            </a>
+
+            <!-- Rich Snippet Stars -->
+            <div id="mock-stars-line" class="hidden flex items-center gap-1.5 text-xs text-mute font-sans my-1">
+              <div class="flex text-amber-500 text-sm leading-none">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <span>Rating: <strong class="text-ink" id="mock-stars-val">4.8</strong> - <span id="mock-stars-votes">124</span> votes</span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-sm text-body font-sans leading-relaxed text-pretty" id="mock-desc" style="font-family: Arial, sans-serif;">
+              Browse our suite of fast, privacy-first online calculators. No signups, no clutter, and zero tracking scripts. Works 100% client-side in your browser.
+            </p>
+
+            <!-- FAQ simulation lines -->
+            <div id="mock-faq-line" class="hidden space-y-2 pt-2 border-t border-hairline text-xs font-sans text-blue-800 dark:text-blue-400">
+              <div class="flex justify-between items-center py-1 cursor-pointer hover:underline border-b border-hairline/30">
+                <span id="mock-faq-q1">Is this calculator free?</span>
+                <span>&#9662;</span>
+              </div>
+              <div class="flex justify-between items-center py-1 cursor-pointer hover:underline">
+                <span id="mock-faq-q2">Do I need to sign up?</span>
+                <span>&#9662;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Truncation & Pixel Width Metrics -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Clipping Metrics & Limits</h2>
+          
+          <div class="space-y-4">
+            <!-- Title Bar -->
+            <div>
+              <div class="flex justify-between text-xs font-mono text-mute mb-2">
+                <span>TITLE PIXEL WIDTH</span>
+                <span id="title-pixels-lbl">420px / 600px</span>
+              </div>
+              <div class="h-2.5 w-full bg-canvas-soft-2 rounded-full overflow-hidden flex shadow-lvl1">
+                <div id="bar-title-pixels" class="h-full bg-emerald-500 rounded-full" style="width: 70%;"></div>
+              </div>
+              <div class="text-[10px] text-mute mt-1.5 font-sans" id="title-warn-txt">Title fits within limits.</div>
+            </div>
+
+            <!-- Description Bar -->
+            <div>
+              <div class="flex justify-between text-xs font-mono text-mute mb-2">
+                <span>DESCRIPTION PIXEL WIDTH</span>
+                <span id="desc-pixels-lbl">640px / 960px</span>
+              </div>
+              <div class="h-2.5 w-full bg-canvas-soft-2 rounded-full overflow-hidden flex shadow-lvl1">
+                <div id="bar-desc-pixels" class="h-full bg-emerald-500 rounded-full" style="width: 66%;"></div>
+              </div>
+              <div class="text-[10px] text-mute mt-1.5 font-sans" id="desc-warn-txt">Description fits within limits.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Analyzing SERP Snippets: Understanding Character vs. Pixel Clipping Widths</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Managing search result displays—specifically page titles and meta descriptions—is critical for driving organic traffic to your website. If your content titles or descriptions are cut off by Google, search engine users are less likely to click your link. To write clickable snippets, you must understand the math behind <strong>pixel-width truncation</strong>.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Character Count is an Inaccurate SEO Estimate</h3>
+        <p>
+          Many classic SEO plugins track metadata length using simple character counters, recommending titles keep under 60 characters and descriptions under 160 characters. While character counting is simple, it is statistically inaccurate.
+        </p>
+        <p>
+          Google renders search titles and descriptions in a proportional sans-serif font family (primarily **Arial**). In proportional typefaces, the horizontal pixel footprint of letters varies dramatically:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li>Capital letters like **W** and **M** consume up to 15 to 17 pixels of screen space.</li>
+          <li>Lowercase letters like **i**, **l**, and **t** consume only 4 to 6 pixels of screen space.</li>
+          <li>Spaces, periods, and symbols are also narrow.</li>
+        </ul>
+        <p>
+          As a result, a title tag composed of 50 capital "W"s will be heavily clipped by Google's display layout, while a title tag composed of 75 narrow letters may display in full.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Google's Exact Pixel Limits</h3>
+        <p>
+          Our SERP snippet tool uses a virtual off-screen canvas to measure the exact pixel width of text rendered in Arial, mirroring how search engines perform the checks:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Title Tag limits:</strong> Google allocates **600 pixels** of display space for title tags on both desktop and mobile devices. Any text exceeding this limit is clipped with ellipses (`...`).
+          </li>
+          <li>
+            <strong>Desktop Description limits:</strong> Allocates **960 pixels** of description line space, which fits approximately two lines of description text.
+          </li>
+          <li>
+            <strong>Mobile Description limits:</strong> Allocates **680 pixels** of description line space. Because screen sizes are narrower, descriptions clip much sooner on mobile devices. Keep descriptions under 120 characters if you target mobile traffic specifically.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Why is pixel width more accurate than character count for search results?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Google renders search snippets using a proportional Arial font. Because letters differ in pixel width (e.g. a capital 'W' is much wider than a lowercase 'i'), character counts only estimate size. Pixel width measures the actual physical size Google allocates, providing a precise preview of truncation.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are Google's title and description pixel limits?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            On Google desktop search results, titles clip after 600 pixels (about 50–60 characters) and descriptions clip after 960 pixels (about 150–160 characters). On mobile devices, titles have similar limits but descriptions clip after roughly 680 pixels (about 110–120 characters).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are rich snippets and how do they look in previews?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Rich snippets display additional structured data in search listings, such as review stars, price ranges, or collapsible FAQ drop-downs. Adding these elements can significantly improve a search snippet's visual size, visibility, and Click-Through Rate (CTR).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does Google handle title tags that are too long?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            If a title tag exceeds the 600-pixel width limit, Google cuts it off with an ellipsis (...) to fit. In some cases, Google may rewrite long titles entirely using the page's H1 tag or anchor texts to improve readability for users.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my SERP data sent to a server?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. Like all tools on ToolzTotal, this SERP preview tool processes all input values, pixel width measurements, and simulations locally in your browser sandbox using client-side JavaScript.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Marketing Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/marketing/meta-tag-generator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Meta Tag Generator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Generate meta tags with Google and social sharing snippet previews.</p>
+        </a>
+        <a href="/marketing/utm-builder" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            UTM Link Builder
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Generate campaign links with tracking codes and presets.</p>
+        </a>
+        <a href="/marketing/email-subject-tester" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Email Subject Line Tester
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Test clipping sizes and flags email spam words.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const titleInput = document.getElementById('serp-title') as HTMLInputElement;
+  const descInput = document.getElementById('serp-desc') as HTMLTextAreaElement;
+  const urlInput = document.getElementById('serp-url') as HTMLInputElement;
+
+  const toggleRating = document.getElementById('toggle-rating') as HTMLInputElement;
+  const ratingInputs = document.getElementById('rating-inputs') as HTMLDivElement;
+  const numRating = document.getElementById('num-rating') as HTMLInputElement;
+  const numReviews = document.getElementById('num-reviews') as HTMLInputElement;
+
+  const toggleFaq = document.getElementById('toggle-faq') as HTMLInputElement;
+  const faqInputs = document.getElementById('faq-inputs') as HTMLDivElement;
+  const faqQ1Input = document.getElementById('faq-q1') as HTMLInputElement;
+  const faqQ2Input = document.getElementById('faq-q2') as HTMLInputElement;
+
+  const btnViewDesktop = document.getElementById('btn-view-desktop') as HTMLButtonElement;
+  const btnViewMobile = document.getElementById('btn-view-mobile') as HTMLButtonElement;
+
+  const serpCardContainer = document.getElementById('serp-card-container') as HTMLDivElement;
+  const mockBreadcrumb = document.getElementById('mock-breadcrumb') as HTMLSpanElement;
+  const mockTitle = document.getElementById('mock-title') as HTMLAnchorElement;
+  const mockDesc = document.getElementById('mock-desc') as HTMLParagraphElement;
+  
+  const mockStarsLine = document.getElementById('mock-stars-line') as HTMLDivElement;
+  const mockStarsVal = document.getElementById('mock-stars-val') as HTMLSpanElement;
+  const mockStarsVotes = document.getElementById('mock-stars-votes') as HTMLSpanElement;
+
+  const mockFaqLine = document.getElementById('mock-faq-line') as HTMLDivElement;
+  const mockFaqQ1 = document.getElementById('mock-faq-q1') as HTMLSpanElement;
+  const mockFaqQ2 = document.getElementById('mock-faq-q2') as HTMLSpanElement;
+
+  const titlePixelsLbl = document.getElementById('title-pixels-lbl') as HTMLSpanElement;
+  const barTitlePixels = document.getElementById('bar-title-pixels') as HTMLDivElement;
+  const titleWarnTxt = document.getElementById('title-warn-txt') as HTMLDivElement;
+
+  const descPixelsLbl = document.getElementById('desc-pixels-lbl') as HTMLSpanElement;
+  const barDescPixels = document.getElementById('bar-desc-pixels') as HTMLDivElement;
+  const descWarnTxt = document.getElementById('desc-warn-txt') as HTMLDivElement;
+
+  // ============================================================
+  // State
+  // ============================================================
+  let viewMode: 'desktop' | 'mobile' = 'desktop';
+
+  // Canvas context for measuring text widths in proportional Arial
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d')!;
+
+  const getPixelWidth = (text: string, fontSpec: string) => {
+    ctx.font = fontSpec;
+    return ctx.measureText(text).width;
+  };
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const updateSERP = () => {
+    const titleVal = titleInput.value;
+    const descVal = descInput.value;
+    const urlVal = urlInput.value;
+
+    // 1. URL parsing to format Breadcrumbs mockup
+    let breadcrumbText = "https://example.com";
+    try {
+      const u = new URL(urlVal.startsWith('http') ? urlVal : 'https://' + urlVal);
+      const parts = u.pathname.split('/').filter(Boolean);
+      breadcrumbText = u.origin + (parts.length > 0 ? ' &rsaquo; ' + parts.join(' &rsaquo; ') : '');
+    } catch(e) {
+      breadcrumbText = urlVal;
+    }
+    mockBreadcrumb.innerHTML = breadcrumbText;
+
+    // 2. Measure actual pixel footprint (Title: 20px Arial bold, Desc: 14px Arial)
+    const titleWidth = getPixelWidth(titleVal, 'bold 20px Arial');
+    const descWidth = getPixelWidth(descVal, '14px Arial');
+
+    // Title Limits (600px desktop)
+    const titleLimit = 600;
+    const titlePercent = Math.min(100, (titleWidth / titleLimit) * 100);
+    titlePixelsLbl.textContent = `${Math.round(titleWidth)}px / ${titleLimit}px`;
+    barTitlePixels.style.width = `${titlePercent}%`;
+
+    if (titleWidth > titleLimit) {
+      barTitlePixels.className = "h-full bg-red-500 rounded-full";
+      titleWarnTxt.textContent = "Title exceeds 600px width limit. Google will truncate this tag with ellipses (...).";
+      titleWarnTxt.className = "text-[10px] text-red-500 mt-1.5 font-sans font-medium";
+      
+      // Simulate truncation on UI
+      mockTitle.textContent = truncateText(titleVal, 'bold 20px Arial', titleLimit);
+    } else {
+      barTitlePixels.className = "h-full bg-emerald-500 rounded-full";
+      titleWarnTxt.textContent = "Title fits within limits.";
+      titleWarnTxt.className = "text-[10px] text-mute mt-1.5 font-sans";
+      mockTitle.textContent = titleVal;
+    }
+
+    // Description Limits (Desktop: 960px, Mobile: 680px)
+    const descLimit = viewMode === 'desktop' ? 960 : 680;
+    const descPercent = Math.min(100, (descWidth / descLimit) * 100);
+    descPixelsLbl.textContent = `${Math.round(descWidth)}px / ${descLimit}px`;
+    barDescPixels.style.width = `${descPercent}%`;
+
+    if (descWidth > descLimit) {
+      barDescPixels.className = "h-full bg-red-500 rounded-full";
+      descWarnTxt.textContent = `Description exceeds ${descLimit}px limit (${viewMode} standard). Google will truncate it.`;
+      descWarnTxt.className = "text-[10px] text-red-500 mt-1.5 font-sans font-medium";
+      mockDesc.textContent = truncateText(descVal, '14px Arial', descLimit);
+    } else {
+      barDescPixels.className = "h-full bg-emerald-500 rounded-full";
+      descWarnTxt.textContent = `Description fits within ${viewMode} limits.`;
+      descWarnTxt.className = "text-[10px] text-mute mt-1.5 font-sans";
+      mockDesc.textContent = descVal;
+    }
+
+    // 3. Rich Snippets Simulations
+    if (toggleRating.checked) {
+      ratingInputs.classList.remove('hidden');
+      mockStarsLine.classList.remove('hidden');
+      mockStarsVal.textContent = parseFloat(numRating.value).toFixed(1);
+      mockStarsVotes.textContent = parseInt(numReviews.value, 10).toLocaleString();
+    } else {
+      ratingInputs.classList.add('hidden');
+      mockStarsLine.classList.add('hidden');
+    }
+
+    if (toggleFaq.checked) {
+      faqInputs.classList.remove('hidden');
+      mockFaqLine.classList.remove('hidden');
+      mockFaqQ1.textContent = faqQ1Input.value || "FAQ Question 1";
+      mockFaqQ2.textContent = faqQ2Input.value || "FAQ Question 2";
+    } else {
+      faqInputs.classList.add('hidden');
+      mockFaqLine.classList.add('hidden');
+    }
+  };
+
+  const truncateText = (text: string, fontSpec: string, limit: number) => {
+    let current = text;
+    if (getPixelWidth(current, fontSpec) <= limit) return current;
+
+    // Binary search/slice truncation
+    let low = 0;
+    let high = text.length;
+    let mid = 0;
+    while (low < high) {
+      mid = Math.floor((low + high) / 2);
+      const test = text.substring(0, mid) + "...";
+      if (getPixelWidth(test, fontSpec) > limit) {
+        high = mid;
+      } else {
+        low = mid + 1;
+      }
+    }
+    return text.substring(0, low - 1) + "...";
+  };
+
+  const toggleViewMode = (mode: 'desktop' | 'mobile') => {
+    viewMode = mode;
+    if (mode === 'desktop') {
+      btnViewDesktop.classList.add('bg-canvas-soft-2', 'text-ink', 'font-semibold');
+      btnViewDesktop.classList.remove('text-mute');
+      btnViewMobile.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold');
+      btnViewMobile.classList.add('text-mute');
+      serpCardContainer.style.maxWidth = "576px"; // Standard Google desktop snippet container
+    } else {
+      btnViewMobile.classList.add('bg-canvas-soft-2', 'text-ink', 'font-semibold');
+      btnViewMobile.classList.remove('text-mute');
+      btnViewDesktop.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold');
+      btnViewDesktop.classList.add('text-mute');
+      serpCardContainer.style.maxWidth = "375px"; // Standard mobile card width
+    }
+    updateSERP();
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [titleInput, descInput, urlInput, numRating, numReviews, faqQ1Input, faqQ2Input].forEach(el => {
+    el.addEventListener('input', updateSERP);
+  });
+
+  [toggleRating, toggleFaq].forEach(el => {
+    el.addEventListener('change', updateSERP);
+  });
+
+  btnViewDesktop.addEventListener('click', () => toggleViewMode('desktop'));
+  btnViewMobile.addEventListener('click', () => toggleViewMode('mobile'));
+
+  // Initial Calculation
+  updateSERP();
+</script>

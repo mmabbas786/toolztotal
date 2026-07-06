@@ -1,0 +1,485 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are UTM parameters and why are they used?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UTM (Urchin Tracking Module) parameters are five simple text tags you add to the end of a URL. When a user clicks your link, these tags are sent back to your analytics software (like Google Analytics 4) to track the exact source, medium, and campaign name that referred the visitor, helping you measure marketing ROI."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the five main UTM parameters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The five standard UTM parameters are: 1. utm_source (describes the platform/referrer, e.g. 'newsletter'); 2. utm_medium (describes the channel/marketing medium, e.g. 'email'); 3. utm_campaign (describes the specific campaign, e.g. 'summer_sale'); 4. utm_term (describes paid keywords); and 5. utm_content (differentiates similar links/ads within a single campaign)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do UTM parameters affect search engine SEO rankings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, UTM parameters do not directly affect SEO rankings. However, to prevent search engines from indexing duplicate versions of your pages with UTM strings, you should ensure that your site implements self-referential canonical tags, which direct crawl bots to index only the clean, parameter-free URL."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should UTM tags be lowercase or uppercase?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UTM parameters are case-sensitive. Analytics tools like Google Analytics treat 'Email' and 'email' as two separate traffic mediums. It is highly recommended to always use lowercase letters for all UTM values to maintain consistent reporting and clean data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this UTM builder privacy-first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All parameters, links, and QR codes are processed client-side inside your local browser. ToolzTotal never stores, logs, or uploads your URLs to a server, keeping your campaign links, product structure, and analytics strategies completely private."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="UTM Link Builder - Free Campaign URL Tracking Generator | ToolzTotal"
+  description="Generate Google Analytics tracking links with custom UTM parameters. Preset campaign templates and instant QR code generator download."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/marketing/utm-builder"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
+      <span>/</span>
+      <span class="text-ink">UTM Link Builder</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free UTM Link Builder
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Construct Google Analytics 4 (GA4) compliant URL tracking links. Fill in custom UTM variables, use template presets, and generate a downloadable QR code.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3 font-sans">Campaign Settings</h2>
+        
+        <!-- Preset Templates -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">Preset Templates</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button id="preset-newsletter" class="h-10 border border-hairline bg-canvas text-body rounded-lg font-sans text-xs transition-colors cursor-pointer hover:border-hairline-strong shadow-lvl1">Email Newsletter</button>
+            <button id="preset-facebook" class="h-10 border border-hairline bg-canvas text-body rounded-lg font-sans text-xs transition-colors cursor-pointer hover:border-hairline-strong shadow-lvl1">Social (Facebook)</button>
+            <button id="preset-google" class="h-10 border border-hairline bg-canvas text-body rounded-lg font-sans text-xs transition-colors cursor-pointer hover:border-hairline-strong shadow-lvl1">Paid Search (PPC)</button>
+          </div>
+        </div>
+
+        <!-- Website URL -->
+        <div>
+          <label for="url" class="block text-xs font-mono uppercase text-mute mb-2">Website URL *</label>
+          <input 
+            type="url" 
+            id="url" 
+            placeholder="https://example.com"
+            value="https://example.com"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Source & Medium -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="source" class="block text-xs font-mono uppercase text-mute mb-2">Campaign Source (utm_source) *</label>
+            <input 
+              type="text" 
+              id="source" 
+              placeholder="newsletter, google, facebook"
+              value="newsletter"
+              class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+          <div>
+            <label for="medium" class="block text-xs font-mono uppercase text-mute mb-2">Campaign Medium (utm_medium)</label>
+            <input 
+              type="text" 
+              id="medium" 
+              placeholder="email, cpc, social"
+              value="email"
+              class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+        </div>
+
+        <!-- Campaign Name -->
+        <div>
+          <label for="campaign" class="block text-xs font-mono uppercase text-mute mb-2">Campaign Name (utm_campaign)</label>
+          <input 
+            type="text" 
+            id="campaign" 
+            placeholder="summer_sale, launch_2026"
+            value="summer_sale"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Optional Term and Content Accordion -->
+        <details class="group border border-hairline rounded-lg bg-canvas-soft overflow-hidden">
+          <summary class="px-4 py-3 cursor-pointer text-xs font-mono uppercase text-body hover:text-ink transition-colors select-none flex items-center justify-between list-none">
+            <span>Optional Parameters (Term & Content)</span>
+            <svg class="w-4 h-4 text-mute transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="p-4 border-t border-hairline bg-canvas space-y-4">
+            <div>
+              <label for="term" class="block text-xs font-mono uppercase text-mute mb-2">Campaign Term (utm_term)</label>
+              <input 
+                type="text" 
+                id="term" 
+                placeholder="running+shoes, keyword"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+              />
+            </div>
+            <div>
+              <label for="content" class="block text-xs font-mono uppercase text-mute mb-2">Campaign Content (utm_content)</label>
+              <input 
+                type="text" 
+                id="content" 
+                placeholder="banner_ad, text_link_footer"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+              />
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Right Column: Outputs (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Generated Campaign link</h2>
+          
+          <!-- Live Generated Link Box -->
+          <div class="space-y-3">
+            <label class="block text-xs font-mono uppercase text-mute">Your Tracking URL</label>
+            <div class="relative bg-canvas-soft border border-hairline rounded-lg p-4 font-mono text-xs text-ink break-all select-all pr-12 min-h-16 flex items-center shadow-lvl1">
+              <span id="generated-url">Generating...</span>
+              <button 
+                id="btn-copy" 
+                title="Copy URL"
+                class="absolute right-3 top-3 w-8 h-8 rounded border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink transition-colors flex items-center justify-center cursor-pointer shadow-lvl1"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-5 4h6m-6 4h6m-2 4h4" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- QR Code Preview & Download -->
+          <div class="space-y-4 pt-4 border-t border-hairline">
+            <h3 class="text-xs font-mono uppercase text-mute">QR Code for Tracking URL</h3>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-6">
+              <!-- Canvas container -->
+              <div class="bg-white border border-hairline rounded-lg p-4 shadow-lvl2 flex items-center justify-center shrink-0">
+                <canvas id="qr-canvas" class="w-32 h-32"></canvas>
+              </div>
+              <div class="space-y-3 text-center sm:text-left">
+                <p class="text-xs text-mute font-sans leading-relaxed">
+                  Generate a high-quality QR code of the tracking link. Download it directly for print campaigns, billboards, flyers, or physical menus.
+                </p>
+                <button 
+                  id="btn-download-qr" 
+                  class="h-10 bg-primary hover:bg-mute text-on-primary font-sans text-xs font-semibold px-4 rounded-lg transition-colors cursor-pointer shadow-lvl1 inline-flex items-center gap-1.5"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download QR (PNG)
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Mechanics of UTM Campaign Tracking: Analyzing Marketing ROI</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          In digital marketing, knowing exactly where your visitors come from is essential for optimizing campaign budgets and calculating return on investment (ROI). Without precise parameters, traffic coming from newsletters, social bios, or paid media may be aggregated together as "Direct" or generic "Referral" traffic. <strong>UTM parameter tags</strong> solve this by appending tracking labels to URLs.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Five Standard UTM Parameters</h3>
+        <p>
+          Each parameter tells a specific story in your analytical reports (such as Google Analytics 4):
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Campaign Source (`utm_source`):</strong> Identifies the platform or referrer sending traffic, such as `newsletter`, `google`, `facebook`, or `activecampaign`. (Required)
+          </li>
+          <li>
+            <strong>Campaign Medium (`utm_medium`):</strong> Identifies the broader marketing channel or vehicle, such as `email`, `cpc` (cost-per-click), `social`, `banner`, or `organic`.
+          </li>
+          <li>
+            <strong>Campaign Name (`utm_campaign`):</strong> Identifies the specific marketing campaign, launch, or product promotion, such as `summer_sale_2026` or `rebrand_announcement`.
+          </li>
+          <li>
+            <strong>Campaign Term (`utm_term`):</strong> Primarily used for paid search keyword targets to track specific search query referrals, such as `running+shoes` or `free+calculator`.
+          </li>
+          <li>
+            <strong>Campaign Content (`utm_content`):</strong> Used to differentiate links pointing to the same destination within a single ad or email, such as `header_cta_button` versus `text_link_footer`.
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Best Practices for Clean Analytics Data</h3>
+        <p>
+          To maintain consistent reporting and prevent data fragmentation, follow these rules:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Always Use Lowercase:</strong> UTM parameters are case-sensitive. Analytics tools record `Email`, `email`, and `EMAIL` as separate channels, which clutters your traffic reports.</li>
+          <li><strong>Avoid Spaces:</strong> Replace spaces with hyphens (`-`) or underscores (`_`). Standard spaces are encoded as `%20` in browser search bars, which can break some older link parsers.</li>
+          <li><strong>Never Use UTMs for Internal Links:</strong> Only use UTM parameters for external inbound links. Appending UTM tags to internal menus or footer links reset the user session, inflating visitor counts and disrupting attribution models.</li>
+          <li><strong>Ensure Canonical URL Consistency:</strong> Ensure your website implements self-referring `<link rel="canonical">` tags on target pages. This ensures that search engine crawlers ignore the parameter-heavy UTM tags and index only the clean, original page.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are UTM parameters and why are they used?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            UTM (Urchin Tracking Module) parameters are five simple text tags you add to the end of a URL. When a user clicks your link, these tags are sent back to your analytics software (like Google Analytics 4) to track the exact source, medium, and campaign name that referred the visitor, helping you measure marketing ROI.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are the five main UTM parameters?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The five standard UTM parameters are: 1. utm_source (describes the platform/referrer, e.g. 'newsletter'); 2. utm_medium (describes the channel/marketing medium, e.g. 'email'); 3. utm_campaign (describes the specific campaign, e.g. 'summer_sale'); 4. utm_term (describes paid keywords); and 5. utm_content (differentiates similar links/ads within a single campaign).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Do UTM parameters affect search engine SEO rankings?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, UTM parameters do not directly affect SEO rankings. However, to prevent search engines from indexing duplicate versions of your pages with UTM strings, you should ensure that your site implements self-referential canonical tags, which direct crawl bots to index only the clean, parameter-free URL.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Should UTM tags be lowercase or uppercase?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            UTM parameters are case-sensitive. Analytics tools like Google Analytics treat 'Email' and 'email' as two separate traffic mediums. It is highly recommended to always use lowercase letters for all UTM values to maintain consistent reporting and clean data.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is this UTM builder privacy-first?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            All parameters, links, and QR codes are processed client-side inside your local browser. ToolzTotal never stores, logs, or uploads your URLs to a server, keeping your campaign links, product structure, and analytics strategies completely private.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Marketing Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/marketing/meta-tag-generator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Meta Tag Generator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Generate meta tags with Google and social sharing snippet previews.</p>
+        </a>
+        <a href="/marketing/serp-preview" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            SERP Snippet Preview Tool
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Preview page SERPs on desktop and mobile with pixel limits.</p>
+        </a>
+        <a href="/marketing/email-subject-tester" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Email Subject Line Tester
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Test clipping sizes and flags email spam words.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const btnNewsletter = document.getElementById('preset-newsletter') as HTMLButtonElement;
+  const btnFacebook = document.getElementById('preset-facebook') as HTMLButtonElement;
+  const btnGoogle = document.getElementById('preset-google') as HTMLButtonElement;
+
+  const urlInput = document.getElementById('url') as HTMLInputElement;
+  const sourceInput = document.getElementById('source') as HTMLInputElement;
+  const mediumInput = document.getElementById('medium') as HTMLInputElement;
+  const campaignInput = document.getElementById('campaign') as HTMLInputElement;
+  const termInput = document.getElementById('term') as HTMLInputElement;
+  const contentInput = document.getElementById('content') as HTMLInputElement;
+
+  const generatedUrl = document.getElementById('generated-url') as HTMLSpanElement;
+  const btnCopy = document.getElementById('btn-copy') as HTMLButtonElement;
+  
+  const qrCanvas = document.getElementById('qr-canvas') as HTMLCanvasElement;
+  const btnDownloadQr = document.getElementById('btn-download-qr') as HTMLButtonElement;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const applyPreset = (source: string, medium: string, campaign: string) => {
+    sourceInput.value = source;
+    mediumInput.value = medium;
+    campaignInput.value = campaign;
+    buildUrl();
+  };
+
+  const buildUrl = async () => {
+    const rawUrl = urlInput.value.trim();
+    const source = sourceInput.value.trim();
+    const medium = mediumInput.value.trim();
+    const campaign = campaignInput.value.trim();
+    const term = termInput.value.trim();
+    const content = contentInput.value.trim();
+
+    if (!rawUrl) {
+      generatedUrl.textContent = "Please enter a valid website URL.";
+      return;
+    }
+
+    try {
+      // Validate and construct base URL
+      let urlStr = rawUrl;
+      if (!/^https?:\/\//i.test(urlStr)) {
+        urlStr = 'https://' + urlStr;
+      }
+      const parsedUrl = new URL(urlStr);
+
+      // Append parameters if set
+      if (source) parsedUrl.searchParams.set('utm_source', source);
+      if (medium) parsedUrl.searchParams.set('utm_medium', medium);
+      if (campaign) parsedUrl.searchParams.set('utm_campaign', campaign);
+      if (term) parsedUrl.searchParams.set('utm_term', term);
+      if (content) parsedUrl.searchParams.set('utm_content', content);
+
+      const finalUrl = parsedUrl.toString();
+      generatedUrl.textContent = finalUrl;
+
+      // Render QR Code using the module library
+      const QRCode = (await import('qrcode')).default;
+      QRCode.toCanvas(qrCanvas, finalUrl, {
+        width: 128,
+        margin: 1,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      }, (error) => {
+        if (error) console.error("QR Code Error:", error);
+      });
+
+    } catch (e) {
+      generatedUrl.textContent = "Invalid URL format.";
+    }
+  };
+
+  const copyToClipboard = () => {
+    const text = generatedUrl.textContent || "";
+    if (text && !text.startsWith("Please") && !text.startsWith("Invalid") && !text.startsWith("Generating")) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Simple success visual state change
+        const oldHtml = btnCopy.innerHTML;
+        btnCopy.innerHTML = `
+          <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        `;
+        setTimeout(() => {
+          btnCopy.innerHTML = oldHtml;
+        }, 1500);
+      });
+    }
+  };
+
+  const downloadQr = () => {
+    const dataUrl = qrCanvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = `utm_qrcode_${Date.now()}.png`;
+    link.href = dataUrl;
+    link.click();
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  btnNewsletter.addEventListener('click', () => applyPreset('newsletter', 'email', 'summer_promo'));
+  btnFacebook.addEventListener('click', () => applyPreset('facebook', 'social', 'cpc_audience_1'));
+  btnGoogle.addEventListener('click', () => applyPreset('google', 'cpc', 'search_brand'));
+
+  [urlInput, sourceInput, mediumInput, campaignInput, termInput, contentInput].forEach(inp => {
+    inp.addEventListener('input', buildUrl);
+  });
+
+  btnCopy.addEventListener('click', copyToClipboard);
+  btnDownloadQr.addEventListener('click', downloadQr);
+
+  // Initial render
+  buildUrl();
+</script>

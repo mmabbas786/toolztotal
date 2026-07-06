@@ -80,7 +80,13 @@ export const toolCatalog: Category[] = [
     slug: "marketing",
     description: "Optimize meta tags, analyze keyword densities, and generate redirects.",
     icon: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
-    tools: []
+    tools: [
+      { name: "UTM Link Builder", slug: "utm-builder", description: "Generate tracking URLs with custom campaign UTM parameters, campaign presets, and instant QR code download.", status: "live", keywords: ["utm builder", "utm tracking", "google analytics link builder"] },
+      { name: "Meta Tag Generator", slug: "meta-tag-generator", description: "Generate meta tags, Open Graph tags, and Twitter Cards with real-time Google and social preview mockups.", status: "live", keywords: ["meta tag generator", "og tags", "twitter card generator"] },
+      { name: "SERP Snippet Preview Tool", slug: "serp-preview", description: "Preview how your page appears in Google search results on desktop and mobile. Checks pixel width clipping limits.", status: "live", keywords: ["serp preview", "google search preview", "serp snippet checker"] },
+      { name: "Email Subject Line Tester", slug: "email-subject-tester", description: "Test your email subject lines for character limits, spam trigger words, and get alternative A/B testing suggestions.", status: "live", keywords: ["email subject tester", "subject line checker", "email spam scanner"] },
+      { name: "Headline Analyzer", slug: "headline-analyzer", description: "Analyze your headlines for Emotional Marketing Value (EMV) score, power words, sentiment, and length optimizations.", status: "live", keywords: ["headline analyzer", "headline analyzer tool", "emv score checker"] }
+    ]
   },
   {
     name: "Health & Fitness",

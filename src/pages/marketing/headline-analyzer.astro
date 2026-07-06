@@ -1,0 +1,529 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an Emotional Marketing Value (EMV) score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Emotional Marketing Value (EMV) score is a metric developed by the Advanced Marketing Institute to assess the emotional impact of a headline. It measures the ratio of emotional words to total words. A score between 30% and 50% is considered highly effective, while exceptional headlines exceed 50%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are power words and why should I use them in headlines?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Power words are trigger words that evoke strong psychological responses (curiosity, excitement, reassurance, or urgency). Examples include 'ultimate', 'guaranteed', 'proven', and 'revealed'. Incorporating power words can improve click-through rates (CTR) by making headlines feel compelling."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does sentiment affect headline performance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Headlines with strong positive or negative sentiment generally outperform neutral headlines. Positive headlines offer solutions or benefits (e.g. 'proven way to save money'), while negative headlines address pain points or fears (e.g. 'mistakes to avoid'). Matching sentiment to your audience's intent is key."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the recommended length for blog post and YouTube headlines?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Recommended headline lengths vary by channel: Blog post headlines are ideal between 50 and 60 characters to fit search results; YouTube titles should be kept under 70 characters to display fully in search feeds; and social media headlines can range from 100 to 120 characters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my headlines private when using this analyzer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, completely private. This tool operates 100% client-side inside your local browser. No inputs or scores are transmitted to a server or stored."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Headline Analyzer - Free Emotional Value & Power Words Checker | ToolzTotal"
+  description="Analyze your headlines for Emotional Marketing Value (EMV) score, power words, sentiment, and length optimizations. Free client-side tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/marketing/headline-analyzer"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
+      <span>/</span>
+      <span class="text-ink">Headline Analyzer</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Headline Analyzer
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Evaluate your headlines for emotional marketing impact. Optimize word ratios, identify power phrases, check sentiment, and adjust title lengths.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Your Headline</h2>
+        
+        <!-- Headline Input -->
+        <div>
+          <label for="headline-input" class="block text-xs font-mono uppercase text-mute mb-2 flex justify-between">
+            <span>Headline text</span>
+            <span id="char-count" class="text-[10px] text-mute">0 chars</span>
+          </label>
+          <textarea 
+            id="headline-input" 
+            rows="3"
+            placeholder="Type your headline here..."
+            class="w-full p-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 resize-none"
+          >5 Proven Secret Ways to Instantly Boost Your Conversion Rates Today!</textarea>
+        </div>
+      </div>
+
+      <!-- Right Column: Results (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Score and Metrics Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Headline Score</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- EMV Score -->
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-5 flex flex-col justify-center">
+              <span class="text-xs font-mono uppercase text-mute mb-1">Emotional Value (EMV)</span>
+              <div class="flex items-baseline gap-1">
+                <span id="res-score" class="text-4xl md:text-5xl font-black text-ink font-sans tracking-tight">40%</span>
+              </div>
+              <span id="res-score-badge" class="mt-4 px-2.5 py-1 text-xs font-semibold rounded-full w-fit bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Highly Effective</span>
+            </div>
+
+            <!-- Stats Block -->
+            <div class="space-y-4">
+              <div class="flex justify-between items-center py-2 border-b border-hairline">
+                <span class="text-sm text-body font-sans">Power Words</span>
+                <span id="res-power-count" class="text-base font-bold text-ink font-sans">2</span>
+              </div>
+              <div class="flex justify-between items-center py-2 border-b border-hairline">
+                <span class="text-sm text-body font-sans">Sentiment</span>
+                <span id="res-sentiment" class="text-base font-bold text-ink font-sans">Positive</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-sm text-body font-sans">Word Count</span>
+                <span id="res-word-count" class="text-base font-bold text-ink font-sans">9 words</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vocabulary Breakdown -->
+          <div class="space-y-4 pt-4 border-t border-hairline">
+            <h3 class="text-xs font-mono uppercase text-mute">Word Type Distribution</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div class="p-3 bg-canvas-soft-2 rounded-lg border border-hairline text-center">
+                <span class="text-[9px] font-mono text-mute block mb-1">COMMON</span>
+                <span id="dist-common" class="text-base font-bold text-ink font-sans">50%</span>
+              </div>
+              <div class="p-3 bg-canvas-soft-2 rounded-lg border border-hairline text-center">
+                <span class="text-[9px] font-mono text-mute block mb-1">UNCOMMON</span>
+                <span id="dist-uncommon" class="text-base font-bold text-ink font-sans">15%</span>
+              </div>
+              <div class="p-3 bg-canvas-soft-2 rounded-lg border border-hairline text-center">
+                <span class="text-[9px] font-mono text-mute block mb-1">POWER</span>
+                <span id="dist-power" class="text-base font-bold text-ink font-sans">20%</span>
+              </div>
+              <div class="p-3 bg-canvas-soft-2 rounded-lg border border-hairline text-center">
+                <span class="text-[9px] font-mono text-mute block mb-1">EMOTIONAL</span>
+                <span id="dist-emotional" class="text-base font-bold text-ink font-sans">15%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Platform Length Optimizations -->
+          <div class="space-y-4 pt-4 border-t border-hairline">
+            <h3 class="text-xs font-mono uppercase text-mute">Platform Length Optimizations</h3>
+            
+            <div class="space-y-3">
+              <!-- Blog -->
+              <div>
+                <div class="flex justify-between text-xs font-mono text-mute mb-1">
+                  <span>BLOG POST TITLES (50-60 chars)</span>
+                  <span id="lbl-blog-status">Excellent</span>
+                </div>
+                <div class="h-2 w-full bg-canvas-soft-2 rounded-full overflow-hidden">
+                  <div id="bar-blog" class="h-full bg-emerald-500 rounded-full" style="width: 100%;"></div>
+                </div>
+              </div>
+
+              <!-- YouTube -->
+              <div>
+                <div class="flex justify-between text-xs font-mono text-mute mb-1">
+                  <span>YOUTUBE TITLES (Max 70 chars)</span>
+                  <span id="lbl-youtube-status">Excellent</span>
+                </div>
+                <div class="h-2 w-full bg-canvas-soft-2 rounded-full overflow-hidden">
+                  <div id="bar-youtube" class="h-full bg-emerald-500 rounded-full" style="width: 85%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Psychology of Headline Optimization: Power Words and Emotional Value</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A headline is the single most critical element of any content strategy. Whether writing blog posts, drafting email campaigns, or launching video pages, the headline acts as the gatekeeper. On average, 8 out of 10 people read headline copy, but only 2 out of 10 click through to read the rest of the page. Improving your click-through rate (CTR) depends on understanding the psychology of headline structure.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Emotional Marketing Value (EMV) Score</h3>
+        <p>
+          Our analyzer implements the **Emotional Marketing Value (EMV)** scoring methodology. This metric assesses how effectively a title connects with human emotions, calculating the percentage of emotionally charged words relative to the total word count:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">EMV Score = (Emotional Words / Total Words) &times; 100%</strong>
+          In general marketing copy:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>0% - 15%:</strong> Low emotional connection. Typically descriptive or academic.</li>
+          <li><strong>16% - 30%:</strong> Moderate emotional impact. Standard informational copy.</li>
+          <li><strong>31% - 50%:</strong> Highly effective. Promotes strong curiosity and clicks.</li>
+          <li><strong>Over 50%:</strong> Exceptional emotional impact. Highly persuasive.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Four Word Types in Effective Headlines</h3>
+        <p>
+          Optimizing your score requires a healthy balance of four vocabulary categories:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Common Words (Ideal: 20% - 30%):</strong> Structural words that bind the sentence together, such as `how to`, `these`, `these are`, `what is`, or `why`. They provide readability.
+          </li>
+          <li>
+            <strong>Uncommon Words (Ideal: 10% - 20%):</strong> Specific, descriptive words that add focus, such as `secret`, `surprising`, `unusual`, or `essential`.
+          </li>
+          <li>
+            <strong>Power Words (Ideal: 10% - 20%):</strong> Emotionally intense terms that trigger curiosity or urgency, such as `ultimate`, `proven`, `guaranteed`, `proven`, or `epic`.
+          </li>
+          <li>
+            <strong>Emotional Words (Ideal: 10% - 15%):</strong> Terms that appeal to core human feelings (empathy, safety, fear, or gain), such as `love`, `fear`, `danger`, `excited`, or `warning`.
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Length Guidelines by Platform</h3>
+        <p>
+          A great copy structure can still fail if the platform cuts it off. Optimize your length for your primary channel:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Blog Posts (SEO):</strong> Keep titles between 50 and 60 characters so Google renders them completely in search snippets.</li>
+          <li><strong>YouTube Videos:</strong> Keep titles under 70 characters. Long titles are truncated in feed grids, hiding your value hook.</li>
+          <li><strong>Social Media (X/Facebook):</strong> Keep titles around 100 characters to allow room for commentary.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is an Emotional Marketing Value (EMV) score?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The Emotional Marketing Value (EMV) score is a metric developed by the Advanced Marketing Institute to assess the emotional impact of a headline. It measures the ratio of emotional words to total words. A score between 30% and 50% is considered highly effective, while exceptional headlines exceed 50%.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are power words and why should I use them in headlines?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Power words are trigger words that evoke strong psychological responses (curiosity, excitement, reassurance, or urgency). Examples include 'ultimate', 'guaranteed', 'proven', and 'revealed'. Incorporating power words can improve click-through rates (CTR) by making headlines feel compelling.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does sentiment affect headline performance?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Headlines with strong positive or negative sentiment generally outperform neutral headlines. Positive headlines offer solutions or benefits (e.g. 'proven way to save money'), while negative headlines address pain points or fears (e.g. 'mistakes to avoid'). Matching sentiment to your audience's intent is key.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the recommended length for blog post and YouTube headlines?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Recommended headline lengths vary by channel: Blog post headlines are ideal between 50 and 60 characters to fit search results; YouTube titles should be kept under 70 characters to display fully in search feeds; and social media headlines can range from 100 to 120 characters.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Are my headlines private when using this analyzer?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, completely private. This tool operates 100% client-side inside your local browser. No inputs or scores are transmitted to a server or stored.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Marketing Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/marketing/email-subject-tester" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Email Subject Line Tester
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Test clipping sizes and flags email spam words.</p>
+        </a>
+        <a href="/marketing/serp-preview" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            SERP Snippet Preview Tool
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Preview page SERPs on desktop and mobile with pixel limits.</p>
+        </a>
+        <a href="/marketing/meta-tag-generator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Meta Tag Generator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Generate meta tags with Google and social sharing snippet previews.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const headlineInput = document.getElementById('headline-input') as HTMLTextAreaElement;
+  const charCount = document.getElementById('char-count') as HTMLSpanElement;
+
+  const resScore = document.getElementById('res-score') as HTMLSpanElement;
+  const resScoreBadge = document.getElementById('res-score-badge') as HTMLSpanElement;
+  const resPowerCount = document.getElementById('res-power-count') as HTMLSpanElement;
+  const resSentiment = document.getElementById('res-sentiment') as HTMLSpanElement;
+  const resWordCount = document.getElementById('res-word-count') as HTMLSpanElement;
+
+  const distCommon = document.getElementById('dist-common') as HTMLSpanElement;
+  const distUncommon = document.getElementById('dist-uncommon') as HTMLSpanElement;
+  const distPower = document.getElementById('dist-power') as HTMLSpanElement;
+  const distEmotional = document.getElementById('dist-emotional') as HTMLSpanElement;
+
+  const lblBlogStatus = document.getElementById('lbl-blog-status') as HTMLSpanElement;
+  const barBlog = document.getElementById('bar-blog') as HTMLDivElement;
+
+  const lblYoutubeStatus = document.getElementById('lbl-youtube-status') as HTMLSpanElement;
+  const barYoutube = document.getElementById('bar-youtube') as HTMLDivElement;
+
+  // ============================================================
+  // Dictionaries of Word Types
+  // ============================================================
+  const commonWords = ['how', 'to', 'what', 'why', 'this', 'these', 'the', 'a', 'an', 'your', 'my', 'their', 'our', 'is', 'are', 'in', 'on', 'at', 'with', 'for'];
+  const uncommonWords = ['secret', 'secrets', 'unusual', 'surprising', 'latest', 'pioneering', 'discover', 'reveal', 'strange', 'weird', 'audacious', 'rare', 'bold', 'new', 'easy'];
+  const powerWords = ['ultimate', 'proven', 'guaranteed', 'instant', 'instantly', 'epic', 'legendary', 'massive', 'huge', 'expert', 'powerful', 'free', 'save', 'boost', 'growth'];
+  const emotionalWords = ['love', 'fear', 'danger', 'excited', 'warning', 'grief', 'joy', 'excited', 'worry', 'critical', 'happy', 'sad', 'scared', 'smart', 'guilt', 'success', 'fail'];
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const analyzeHeadline = () => {
+    const text = headlineInput.value;
+    const cleanText = text.trim();
+    charCount.textContent = `${cleanText.length} chars`;
+
+    if (!cleanText) {
+      resetDashboard();
+      return;
+    }
+
+    // Split words
+    const words = cleanText.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "").split(/\s+/).filter(Boolean);
+    const totalWords = words.length;
+
+    resWordCount.textContent = `${totalWords} ${totalWords === 1 ? 'word' : 'words'}`;
+
+    if (totalWords === 0) {
+      resetDashboard();
+      return;
+    }
+
+    let commonCount = 0;
+    let uncommonCount = 0;
+    let powerCount = 0;
+    let emotionalCount = 0;
+
+    words.forEach(word => {
+      if (powerWords.includes(word)) {
+        powerCount++;
+      } else if (emotionalWords.includes(word)) {
+        emotionalCount++;
+      } else if (uncommonWords.includes(word)) {
+        uncommonCount++;
+      } else if (commonWords.includes(word)) {
+        commonCount++;
+      }
+    });
+
+    // Calculate Ratios
+    const commonPct = Math.round((commonCount / totalWords) * 100);
+    const uncommonPct = Math.round((uncommonCount / totalWords) * 100);
+    const powerPct = Math.round((powerCount / totalWords) * 100);
+    const emotionalPct = Math.round((emotionalCount / totalWords) * 100);
+
+    distCommon.textContent = `${commonPct}%`;
+    distUncommon.textContent = `${uncommonPct}%`;
+    distPower.textContent = `${powerPct}%`;
+    distEmotional.textContent = `${emotionalPct}%`;
+
+    resPowerCount.textContent = powerCount.toString();
+
+    // Emotional Marketing Value calculation (based on emotional + power words)
+    const emvScore = Math.round(((emotionalCount + powerCount) / totalWords) * 100);
+    resScore.textContent = `${emvScore}%`;
+
+    // EMV Score Badge styling
+    if (emvScore < 15) {
+      resScoreBadge.textContent = "Neutral";
+      resScoreBadge.className = "mt-4 px-2.5 py-1 text-xs font-semibold rounded-full w-fit bg-canvas-soft-2 text-mute border border-hairline";
+    } else if (emvScore >= 15 && emvScore < 30) {
+      resScoreBadge.textContent = "Moderately Effective";
+      resScoreBadge.className = "mt-4 px-2.5 py-1 text-xs font-semibold rounded-full w-fit bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 border";
+    } else if (emvScore >= 30 && emvScore < 50) {
+      resScoreBadge.textContent = "Highly Effective";
+      resScoreBadge.className = "mt-4 px-2.5 py-1 text-xs font-semibold rounded-full w-fit bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 border";
+    } else {
+      resScoreBadge.textContent = "Exceptional Impact";
+      resScoreBadge.className = "mt-4 px-2.5 py-1 text-xs font-semibold rounded-full w-fit bg-teal-500/10 text-teal-500 border border-teal-500/20 border";
+    }
+
+    // Sentiment check
+    let sentiment = "Neutral";
+    const posWords = ['proven', 'boost', 'free', 'save', 'growth', 'love', 'excited', 'joy', 'happy', 'success', 'smart'];
+    const negWords = ['danger', 'fear', 'warning', 'grief', 'worry', 'critical', 'sad', 'scared', 'guilt', 'fail'];
+    
+    let posCount = 0;
+    let negCount = 0;
+    words.forEach(word => {
+      if (posWords.includes(word)) posCount++;
+      if (negWords.includes(word)) negCount++;
+    });
+
+    if (posCount > negCount) {
+      sentiment = "Positive";
+    } else if (negCount > posCount) {
+      sentiment = "Negative";
+    }
+    resSentiment.textContent = sentiment;
+
+    // Platform Length checks
+    const charLen = cleanText.length;
+    
+    // Blog limit (50-60 chars)
+    if (charLen >= 50 && charLen <= 60) {
+      lblBlogStatus.textContent = "Perfect";
+      barBlog.className = "h-full bg-emerald-500 rounded-full";
+      barBlog.style.width = "100%";
+    } else if (charLen < 50) {
+      lblBlogStatus.textContent = "Short";
+      barBlog.className = "h-full bg-yellow-500 rounded-full";
+      barBlog.style.width = `${(charLen / 50) * 100}%`;
+    } else {
+      lblBlogStatus.textContent = "Too Long";
+      barBlog.className = "h-full bg-red-500 rounded-full";
+      barBlog.style.width = "100%";
+    }
+
+    // YouTube limit (Max 70 chars)
+    if (charLen <= 70) {
+      lblYouTubeStatus(charLen);
+    } else {
+      lblYoutubeStatus.textContent = "Too Long";
+      barYoutube.className = "h-full bg-red-500 rounded-full";
+      barYoutube.style.width = "100%";
+    }
+  };
+
+  const lblYouTubeStatus = (charLen: number) => {
+    if (charLen >= 55) {
+      lblYoutubeStatus.textContent = "Excellent";
+      barYoutube.className = "h-full bg-emerald-500 rounded-full";
+      barYoutube.style.width = `${(charLen / 70) * 100}%`;
+    } else {
+      lblYoutubeStatus.textContent = "Good";
+      barYoutube.className = "h-full bg-teal-500 rounded-full";
+      barYoutube.style.width = `${(charLen / 70) * 100}%`;
+    }
+  };
+
+  const resetDashboard = () => {
+    resScore.textContent = "0%";
+    resScoreBadge.textContent = "Neutral";
+    resScoreBadge.className = "mt-4 px-2.5 py-1 text-xs font-semibold rounded-full w-fit bg-canvas-soft-2 text-mute border border-hairline";
+    resPowerCount.textContent = "0";
+    resSentiment.textContent = "Neutral";
+    resWordCount.textContent = "0 words";
+
+    distCommon.textContent = "0%";
+    distUncommon.textContent = "0%";
+    distPower.textContent = "0%";
+    distEmotional.textContent = "0%";
+
+    lblBlogStatus.textContent = "Short";
+    barBlog.style.width = "0%";
+    lblYoutubeStatus.textContent = "Short";
+    barYoutube.style.width = "0%";
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  headlineInput.addEventListener('input', analyzeHeadline);
+
+  // Initial render
+  analyzeHeadline();
+</script>
