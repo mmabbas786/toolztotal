@@ -144,13 +144,13 @@ const totalToolCount = toolCatalog.reduce((sum, cat) => sum + cat.tools.filter(t
           <svg class="absolute left-4 w-5 h-5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
-          <input 
-            type="text" 
-            id="tool-search" 
-            placeholder="Search free calculators & tools..." 
-            class="w-full h-14 pl-12 pr-12 bg-canvas border border-hairline rounded-full text-base font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl3 hover:border-hairline-strong"
-          />
-          <kbd class="absolute right-4 hidden sm:inline-block bg-canvas-soft-2 border border-hairline px-2 py-0.5 rounded text-xs text-mute font-mono">⌘K</kbd>
+          <button 
+            id="homepage-search-trigger" 
+            class="w-full h-14 pl-12 pr-16 bg-canvas border border-hairline rounded-full text-base font-sans text-left text-mute/80 transition-colors shadow-lvl3 hover:border-hairline-strong flex items-center justify-between cursor-pointer"
+          >
+            <span>Search free calculators & tools...</span>
+            <kbd class="hidden sm:inline-block bg-canvas-soft-2 border border-hairline px-2 py-0.5 rounded text-xs text-mute font-mono">⌘K</kbd>
+          </button>
         </div>
 
         <div class="flex flex-wrap items-center justify-center gap-2">
@@ -234,17 +234,8 @@ const totalToolCount = toolCatalog.reduce((sum, cat) => sum + cat.tools.filter(t
           <p class="text-3xl font-bold tracking-tight text-ink font-sans">Browse the tool directory.</p>
         </div>
         <div class="text-xs text-mute font-mono border border-hairline bg-canvas-soft-2 px-3 py-1.5 rounded-lg shadow-lvl1">
-          Showing <span id="visible-tools-count">{totalToolCount}</span> / <span id="total-tools-count">{totalToolCount}</span> tools
+          {totalToolCount} tools available
         </div>
-      </div>
-
-      <!-- No Search Results State -->
-      <div id="no-results" class="hidden text-center py-16 border border-hairline border-dashed rounded-lg bg-canvas-soft-2 max-w-md mx-auto">
-        <svg class="w-8 h-8 text-mute mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <h3 class="text-base font-bold text-ink font-sans mb-1">No tools match your search</h3>
-        <p class="text-body text-xs font-sans">Try searching for keywords like "mortgage," "interest," or "tax".</p>
       </div>
 
       <!-- Catalog List -->
@@ -386,73 +377,7 @@ const totalToolCount = toolCatalog.reduce((sum, cat) => sum + cat.tools.filter(t
 
   <!-- Client-side Interactive Search & FAQ Toggle Script -->
   <script>
-    // Search filtering implementation
-    const searchInput = document.getElementById('tool-search') as HTMLInputElement | null;
-    const cards = document.querySelectorAll('.tool-card');
-    const categoryBlocks = document.querySelectorAll('.category-block');
-    const noResults = document.getElementById('no-results');
-    const countSpan = document.getElementById('visible-tools-count');
-    const totalSpan = document.getElementById('total-tools-count');
-    const totalCount = parseInt(totalSpan?.textContent || '0', 10);
 
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
-        let visibleCount = 0;
-
-        if (!query) {
-          // Reset all to visible
-          cards.forEach(c => ((c as HTMLElement).style.display = ''));
-          categoryBlocks.forEach(b => ((b as HTMLElement).style.display = ''));
-          noResults?.classList.add('hidden');
-          if (countSpan) countSpan.textContent = totalCount.toString();
-          return;
-        }
-
-        categoryBlocks.forEach(block => {
-          let hasVisibleCards = false;
-          const blockCards = block.querySelectorAll('.tool-card');
-          
-          blockCards.forEach(card => {
-            const name = (card.getAttribute('data-name') || '').toLowerCase();
-            const desc = (card.getAttribute('data-description') || '').toLowerCase();
-            const kws = (card.getAttribute('data-keywords') || '').toLowerCase();
-            const catName = (card.getAttribute('data-category') || '').toLowerCase();
-
-            if (
-              name.includes(query) || 
-              desc.includes(query) || 
-              kws.includes(query) ||
-              catName.includes(query)
-            ) {
-              (card as HTMLElement).style.display = 'flex';
-              hasVisibleCards = true;
-              visibleCount++;
-            } else {
-              (card as HTMLElement).style.display = 'none';
-            }
-          });
-
-          if (hasVisibleCards) {
-            (block as HTMLElement).style.display = 'block';
-          } else {
-            (block as HTMLElement).style.display = 'none';
-          }
-        });
-
-        // Toggle no-results block
-        if (visibleCount === 0) {
-          noResults?.classList.remove('hidden');
-        } else {
-          noResults?.classList.add('hidden');
-        }
-
-        // Update count tag
-        if (countSpan) {
-          countSpan.textContent = visibleCount.toString();
-        }
-      });
-    }
 
     // FAQ Accordion Toggle script
     const faqTriggers = document.querySelectorAll('.faq-trigger');
