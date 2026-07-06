@@ -49,9 +49,19 @@ const upcomingTools = category.tools.filter(t => t.status === 'coming-soon');
             class="group block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-300 rounded-lg p-6 hover:shadow-lvl3 shadow-lvl2 relative overflow-hidden"
           >
             <div class="flex items-start justify-between mb-4">
-              <span class="text-xs font-mono px-2 py-0.5 rounded bg-canvas-soft-2 text-mute border border-hairline uppercase tracking-wider">
-                {tool.status === 'live' ? 'Live' : 'Coming Soon'}
-              </span>
+              {tool.status === 'live' ? (
+                <div class="flex items-center gap-2">
+                  <span class="relative flex h-1.5 w-1.5 flex-shrink-0">
+                    <span class="live-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="live-glow-dot relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 dark:bg-emerald-400"></span>
+                  </span>
+                  <span class="text-[9px] font-mono text-emerald-700 dark:text-emerald-400 uppercase tracking-wider font-bold">Live</span>
+                </div>
+              ) : (
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-canvas-soft-2 text-mute border border-hairline uppercase tracking-wider">
+                  Coming Soon
+                </span>
+              )}
               <svg class="w-4 h-4 text-mute group-hover:text-primary transition-colors transform group-hover:translate-x-1 duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
               </svg>
