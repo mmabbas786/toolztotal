@@ -72,6 +72,8 @@ export const toolCatalog: Category[] = [
       { name: "Base64 Encoder/Decoder", slug: "base64-encoder-decoder", description: "Encode and decode Base64 strings, images, and files with drag-and-drop support and data URI preview.", status: "live", keywords: ["base64 encode", "base64 decode", "base64 image"] },
       { name: "Diff Checker", slug: "diff-checker", description: "Compare text and code side-by-side or inline with line-level and word-level diff highlighting.", status: "live", keywords: ["diff checker", "text compare", "code diff tool"] },
       { name: "Color Picker & Converter", slug: "color-picker", description: "Pick, convert, and analyze colors with HEX/RGB/HSL support, WCAG contrast checker, palette generator, and CSS gradient builder.", status: "live", keywords: ["color picker", "hex to rgb", "color contrast checker"] },
+      { name: "Subnet Calculator", slug: "subnet-calculator", description: "Calculate network address, broadcast, subnet mask, usable host ranges, and wildcard masks for IPv4/IPv6 CIDR blocks.", status: "live", keywords: ["subnet calculator", "cidr calculator", "ip subnet planner"] },
+      { name: "CSS Minifier / Beautifier", slug: "css-minifier", description: "Minify or beautify your CSS stylesheets, strip comments, and visualize code compression metrics.", status: "live", keywords: ["css minifier", "css beautifier", "minify css online"] }
     ]
   },
   {
