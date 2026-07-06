@@ -1,0 +1,399 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is keyword density and why is it important for SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Keyword density is the percentage frequency of a specific word or phrase relative to the total number of words on a page. While target keywords help search bots understand content topics, repeating keywords too often can trigger over-optimization penalties."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the recommended keyword density percentage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The recommended keyword density for SEO copywriting is between 1% and 2.5%. Exceeding 3% density can trigger keyword stuffing algorithms, causing page rankings to drop."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are 2-word and 3-word phrase density checks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Checking 2-word (bigram) and 3-word (trigram) phrases allows writers to trace search queries (e.g. 'mortgage payment calculator' or 'interest rate tables') to ensure key search intent triggers are mapped."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does TF-IDF factor into keyword density?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TF-IDF (Term Frequency-Inverse Document Frequency) measures how unique a word is to a page compared to a large text corpus. Search engines use TF-IDF rather than raw density to identify semantic significance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my text data stored or shared?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Like all tools on ToolzTotal, our keyword density checker processes text data locally in your browser sandbox using client-side JavaScript."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Keyword Density Checker - Free SEO Over-Optimization Scanner | ToolzTotal"
+  description="Analyze keyword frequency density on your copy. Check 1-word, 2-word, and 3-word phrase frequencies and prevent keyword stuffing."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/text/keyword-density-checker"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
+      <span>/</span>
+      <span class="text-ink">Keyword Density Checker</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Keyword Density Checker
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Scan your content for search engine keyword stuffing. Check frequency breakdowns for 1-word, 2-word, and 3-word keyword combinations instantly.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Input Panel (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <div class="flex items-center justify-between border-b border-hairline pb-3">
+          <h2 class="text-lg font-bold text-ink font-sans">SEO Editor</h2>
+          <button id="btn-clear" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Clear</button>
+        </div>
+        
+        <!-- Text Area -->
+        <div>
+          <textarea 
+            id="text-input" 
+            rows="14"
+            placeholder="Paste your SEO copy here to scan keyword density..."
+            class="w-full p-4 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 resize-y min-h-[300px]"
+          >Keyword density is important for SEO optimization. However, repeating your primary keyword too often can trigger over-optimization filters. Keep keyword density between one and two percent to avoid search engines penalty.</textarea>
+        </div>
+      </div>
+
+      <!-- Right Column: Density Analysis Tables (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <!-- Alert bar if over-optimized -->
+        <div id="density-alert-bar" class="hidden p-4 rounded-lg bg-error-soft border border-error-deep/20 text-error-deep text-xs font-sans font-semibold shadow-lvl1">
+          ⚠️ Warning: Some keywords exceed the recommended 3.0% over-optimization threshold!
+        </div>
+
+        <!-- Density Tables Container -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-3">
+            <h2 class="text-base font-bold text-ink font-sans">Keyword Frequencies</h2>
+            <!-- Tab switches -->
+            <div class="flex border border-hairline rounded bg-canvas overflow-hidden">
+              <button id="tab-words-1" class="h-7 px-2.5 text-[10px] font-mono bg-canvas-soft-2 text-ink font-semibold border-r border-hairline cursor-pointer">1-Word</button>
+              <button id="tab-words-2" class="h-7 px-2.5 text-[10px] font-mono text-mute border-r border-hairline cursor-pointer">2-Word</button>
+              <button id="tab-words-3" class="h-7 px-2.5 text-[10px] font-mono text-mute cursor-pointer">3-Word</button>
+            </div>
+          </div>
+
+          <!-- Density Table Output -->
+          <div class="overflow-x-auto min-h-48">
+            <table class="w-full text-left text-xs font-sans">
+              <thead>
+                <tr class="border-b border-hairline text-mute font-mono">
+                  <th class="py-2">KEYWORD / PHRASE</th>
+                  <th class="py-2 text-center">FREQUENCY</th>
+                  <th class="py-2 text-right">DENSITY</th>
+                </tr>
+              </thead>
+              <tbody id="density-table-body" class="divide-y divide-hairline">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Evaluating Keyword Density: Avoiding Search Engine Over-Optimization and Keyword Stuffing</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Search engine optimization (SEO) depends on helping search crawler bots identify the primary topics of a webpage. Incorporating relevant keywords and variations is essential. However, repeating keywords excessively—known as **keyword stuffing**—triggers search filter warnings.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">What is Keyword Density?</h3>
+        <p>
+          Keyword density is a percentage index that measures how frequently a specific term occurs relative to the total word count of the document.
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Keyword Density = (Term Count / Total Words) &times; 100%</strong>
+          For example, if your article contains 100 words, and your target phrase occurs 3 times, your density is 3%.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Recommended SEO Densities</h3>
+        <p>
+          In modern search indexing algorithms, there is no single "perfect" keyword density. However, general SEO copy guidelines suggest:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li><strong>1.0% to 2.5%:</strong> The target sweet spot. Keywords are present enough to signal topic relevance without looking unnatural.</li>
+          <li><strong>Over 3.0%:</strong> Over-optimization warning zone. Exceeding 3% can trigger spam filter flags, hurting organic search rankings.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding 1-Word, 2-Word, and 3-Word Combinations</h3>
+        <p>
+          Analyzing text length using multi-word phrases offers more depth:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>1-Word Keywords:</strong> Focuses on individual key nouns (e.g. `mortgage` or `loan`). We automatically filter out common stop words like `the` or `and` to highlight meaningful keywords.</li>
+          <li><strong>2-Word Phrases (Bigrams):</strong> Traces core concepts like `interest rate` or `tax calculator`.</li>
+          <li><strong>3-Word Phrases (Trigrams):</strong> Captures specific long-tail search queries like `compound interest calculator`. Checking these phrases helps ensure key search intent triggers are mapped.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is keyword density and why is it important for SEO?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Keyword density is the percentage frequency of a specific word or phrase relative to the total number of words on a page. While target keywords help search bots understand content topics, repeating keywords too often can trigger over-optimization penalties.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the recommended keyword density percentage?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The recommended keyword density for SEO copywriting is between 1% and 2.5%. Exceeding 3% density can trigger keyword stuffing algorithms, causing page rankings to drop.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are 2-word and 3-word phrase density checks?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Checking 2-word (bigram) and 3-word (trigram) phrases allows writers to trace search queries (e.g. 'mortgage payment calculator' or 'interest rate tables') to ensure key search intent triggers are mapped.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does TF-IDF factor into keyword density?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            TF-IDF (Term Frequency-Inverse Document Frequency) measures how unique a word is to a page compared to a large text corpus. Search engines use TF-IDF rather than raw density to identify semantic significance.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my text data stored or shared?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. Like all tools on ToolzTotal, our keyword density checker processes text data locally in your browser sandbox using client-side JavaScript.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Text Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/text/word-counter" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Word Counter
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Count words, characters, sentences, paragraphs in real-time.</p>
+        </a>
+        <a href="/text/character-counter" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Character Counter
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Check specific social platform character limit caps and warnings.</p>
+        </a>
+        <a href="/text/readability-checker" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Readability Score Checker
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Determine sentence complexity and Flesch grade metrics.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const textInput = document.getElementById('text-input') as HTMLTextAreaElement;
+  const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
+
+  const densityAlertBar = document.getElementById('density-alert-bar') as HTMLDivElement;
+
+  const tabWords1 = document.getElementById('tab-words-1') as HTMLButtonElement;
+  const tabWords2 = document.getElementById('tab-words-2') as HTMLButtonElement;
+  const tabWords3 = document.getElementById('tab-words-3') as HTMLButtonElement;
+
+  const tableBody = document.getElementById('density-table-body') as HTMLTableSectionElement;
+
+  // ============================================================
+  // Stop Words list
+  // ============================================================
+  const stopWords = ['the', 'and', 'a', 'of', 'to', 'is', 'in', 'it', 'you', 'that', 'this', 'on', 'for', 'are', 'with', 'as', 'an', 'be', 'at', 'or', 'by', 'from', 'your', 'my'];
+
+  // ============================================================
+  // State
+  // ============================================================
+  let activeTab: 1 | 2 | 3 = 1;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const runAnalysis = () => {
+    const text = textInput.value;
+    const cleanText = text.trim();
+
+    if (!cleanText) {
+      tableBody.innerHTML = '<tr><td colspan="3" class="py-4 text-center text-mute">Paste text in editor to analyze.</td></tr>';
+      densityAlertBar.classList.add('hidden');
+      return;
+    }
+
+    // Clean punctuation and split into words
+    const words = cleanText.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "").split(/\s+/).filter(Boolean);
+    const totalWordsCount = words.length;
+
+    if (totalWordsCount === 0) {
+      tableBody.innerHTML = '<tr><td colspan="3" class="py-4 text-center text-mute">Paste text in editor to analyze.</td></tr>';
+      densityAlertBar.classList.add('hidden');
+      return;
+    }
+
+    let densityList: [string, number][] = [];
+    let hasAlert = false;
+
+    if (activeTab === 1) {
+      // 1-Word density
+      const filtered = words.filter(w => !stopWords.includes(w) && w.length > 2);
+      const freq: Record<string, number> = {};
+      filtered.forEach(w => freq[w] = (freq[w] || 0) + 1);
+
+      densityList = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    } else if (activeTab === 2) {
+      // 2-Word phrases (bigrams)
+      const freq: Record<string, number> = {};
+      for (let i = 0; i < words.length - 1; i++) {
+        const bigram = `${words[i]} ${words[i+1]}`;
+        freq[bigram] = (freq[bigram] || 0) + 1;
+      }
+      densityList = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    } else {
+      // 3-Word phrases (trigrams)
+      const freq: Record<string, number> = {};
+      for (let i = 0; i < words.length - 2; i++) {
+        const trigram = `${words[i]} ${words[i+1]} ${words[i+2]}`;
+        freq[trigram] = (freq[trigram] || 0) + 1;
+      }
+      densityList = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    }
+
+    tableBody.innerHTML = '';
+    densityList.forEach(([phrase, count]) => {
+      const pct = (count / totalWordsCount) * 100;
+      if (pct > 3.0) hasAlert = true;
+
+      const row = document.createElement('tr');
+      row.className = "border-b border-hairline hover:bg-canvas-soft-2 transition-colors";
+      row.innerHTML = `
+        <td class="py-3 font-semibold text-ink font-mono">${phrase}</td>
+        <td class="py-3 text-center text-body font-mono">${count}</td>
+        <td class="py-3 text-right font-mono font-bold ${pct > 3.0 ? 'text-red-500' : 'text-ink'}">${pct.toFixed(1)}%</td>
+      `;
+      tableBody.appendChild(row);
+    });
+
+    if (hasAlert) {
+      densityAlertBar.classList.remove('hidden');
+    } else {
+      densityAlertBar.classList.add('hidden');
+    }
+  };
+
+  const handleTabClick = (tab: 1 | 2 | 3) => {
+    activeTab = tab;
+    [tabWords1, tabWords2, tabWords3].forEach(b => {
+      b.classList.remove('bg-canvas-soft-2', 'text-ink', 'font-semibold');
+      b.classList.add('text-mute');
+    });
+
+    const activeBtn = tab === 1 ? tabWords1 : tab === 2 ? tabWords2 : tabWords3;
+    activeBtn.classList.add('bg-canvas-soft-2', 'text-ink', 'font-semibold');
+    activeBtn.classList.remove('text-mute');
+
+    runAnalysis();
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  textInput.addEventListener('input', runAnalysis);
+  btnClear.addEventListener('click', () => {
+    textInput.value = '';
+    runAnalysis();
+  });
+
+  tabWords1.addEventListener('click', () => handleTabClick(1));
+  tabWords2.addEventListener('click', () => handleTabClick(2));
+  tabWords3.addEventListener('click', () => handleTabClick(3));
+
+  // Initial call
+  runAnalysis();
+</script>

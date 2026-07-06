@@ -73,7 +73,13 @@ export const toolCatalog: Category[] = [
     slug: "text",
     description: "Word counters, text diff comparers, case text converters, and content clean utilities.",
     icon: "M4 6h16M4 12h16M4 18h7",
-    tools: []
+    tools: [
+      { name: "Word Counter", slug: "word-counter", description: "Count words, characters, sentences, estimated reading/speaking times, and estimate readability score in real-time.", status: "live", keywords: ["word counter", "word count tool", "character counter online"] },
+      { name: "Character Counter", slug: "character-counter", description: "Count characters and paragraph spaces. Social media platform limits (X, Instagram, LinkedIn) with live over-limit warnings.", status: "live", keywords: ["character counter", "char count checker", "social media character limits"] },
+      { name: "Readability Score Checker", slug: "readability-checker", description: "Analyze text readability using Flesch Reading Ease, Flesch-Kincaid Grade, Gunning Fog, SMOG, and Coleman-Liau indexes.", status: "live", keywords: ["readability score checker", "readability checker", "flesch reading ease formula"] },
+      { name: "Case Converter", slug: "case-converter", description: "Convert text casing between Sentence case, UPPERCASE, lowercase, camelCase, PascalCase, snake_case, and kebab-case.", status: "live", keywords: ["case converter", "camelcase converter", "uppercase lowercase checker"] },
+      { name: "Keyword Density Checker", slug: "keyword-density-checker", description: "Calculate word and 2-3 word phrase frequencies. Evaluates density percentages to warn against search engine over-optimization.", status: "live", keywords: ["keyword density checker", "keyword count", "seo keyword density check"] }
+    ]
   },
   {
     name: "Marketing & SEO",

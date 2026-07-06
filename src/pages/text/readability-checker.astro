@@ -1,0 +1,458 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is the Flesch Reading Ease score interpreted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Flesch Reading Ease scale ranges from 0 to 100: 90-100 means very easy (fifth-grade reading level); 60-70 means standard/plain English (eighth to ninth-grade level); and 0-30 means highly complicated academic or legal text (college graduate level)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Flesch Reading Ease and Flesch-Kincaid Grade Level?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "While both use total sentences, words, and syllables, Flesch Reading Ease outputs a score from 0 to 100 representing reading comfort, whereas Flesch-Kincaid Grade Level outputs a numeric value matching U.S. school grade levels (e.g. 8.0 matches eighth grade)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the Coleman-Liau readability index work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Unlike Flesch-based formulas which count syllables, the Coleman-Liau Index relies on letter and sentence counts per 100 words. Since character length is easier to extract than syllables, it offers consistent, formula-driven grade level estimates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the SMOG readability formula?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SMOG (Simple Measure of Gobbledygook) is a readability metric that estimates the years of education needed to comprehend a text. It calculates scores based on the count of complex words (words with 3+ syllables) found within a sample of sentences."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I improve my text's readability score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can improve your readability score by breaking long sentences into shorter, standalone sentences and substituting complex words with simpler, shorter synonyms (e.g., use 'help' instead of 'facilitate')."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Readability Score Checker - Free Multi-Metric Checker | ToolzTotal"
+  description="Analyze text readability using Flesch Reading Ease, Flesch-Kincaid Grade, Gunning Fog, SMOG, and Coleman-Liau readability index scales."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/text/readability-checker"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
+      <span>/</span>
+      <span class="text-ink">Readability Score Checker</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Readability Score Checker
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Determine the reading difficulty of your copy. Analyze paragraph structure using Flesch, Flesch-Kincaid, Gunning Fog, SMOG, and Coleman-Liau indexes.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Input Panel (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <div class="flex items-center justify-between border-b border-hairline pb-3">
+          <h2 class="text-lg font-bold text-ink font-sans">Content Editor</h2>
+          <button id="btn-clear" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Clear text</button>
+        </div>
+        
+        <!-- Text Area -->
+        <div>
+          <textarea 
+            id="text-input" 
+            rows="14"
+            placeholder="Paste your content here to check readability metrics..."
+            class="w-full p-4 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 resize-y min-h-[300px]"
+          >The brown fox jumps over the lazy dog. Writing is fun and easy. Readability metrics are important.</textarea>
+        </div>
+      </div>
+
+      <!-- Right Column: Readability Metrics (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <!-- Dashboard Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Readability Dashboard</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Flesch Reading Ease -->
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Flesch Reading Ease</span>
+              <span id="metric-fre" class="text-3xl font-black text-ink font-sans">0.0</span>
+              <span id="label-fre" class="block text-xs font-semibold text-mute font-sans mt-2">N/A</span>
+            </div>
+
+            <!-- Flesch-Kincaid Grade -->
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Flesch-Kincaid Grade</span>
+              <span id="metric-fkgl" class="text-3xl font-black text-ink font-sans">0.0</span>
+              <span id="label-fkgl" class="block text-xs font-semibold text-mute font-sans mt-2">Grade Level</span>
+            </div>
+          </div>
+
+          <!-- Other metrics grid -->
+          <div class="grid grid-cols-3 gap-3 pt-2 border-t border-hairline">
+            <div class="text-center p-2 bg-canvas-soft-2 border border-hairline rounded">
+              <span class="text-[9px] font-mono text-mute block mb-1">GUNNING FOG</span>
+              <span id="metric-fog" class="text-sm font-bold text-ink font-mono">0.0</span>
+            </div>
+            <div class="text-center p-2 bg-canvas-soft-2 border border-hairline rounded">
+              <span class="text-[9px] font-mono text-mute block mb-1">SMOG GRADE</span>
+              <span id="metric-smog" class="text-sm font-bold text-ink font-mono">0.0</span>
+            </div>
+            <div class="text-center p-2 bg-canvas-soft-2 border border-hairline rounded">
+              <span class="text-[9px] font-mono text-mute block mb-1">COLEMAN-LIAU</span>
+              <span id="metric-cl" class="text-sm font-bold text-ink font-mono">0.0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paragraph stats -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-4">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Sentence Statistics</h2>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="flex justify-between border-b border-hairline pb-2">
+              <span class="text-body font-sans">Average Sentence Length</span>
+              <span id="stat-asl" class="font-bold text-ink font-mono">0.0 words</span>
+            </div>
+            <div class="flex justify-between border-b border-hairline pb-2">
+              <span class="text-body font-sans">Complex Words (3+ syl)</span>
+              <span id="stat-complex" class="font-bold text-ink font-mono">0</span>
+            </div>
+            <div class="flex justify-between pb-2">
+              <span class="text-body font-sans">Average Syllables/Word</span>
+              <span id="stat-asw" class="font-bold text-ink font-mono">0.00</span>
+            </div>
+            <div class="flex justify-between pb-2">
+              <span class="text-body font-sans">Total Sentences</span>
+              <span id="stat-sentences" class="font-bold text-ink font-mono">0</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Demystifying Readability Formulas: Math, Syllables, and Sentence Structure</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Readability metrics assess the accessibility of written text. For writers, journalists, and SEO professionals, monitoring text readability ensures that the message matches the target audience's reading grade level. Writing that is overly complex can cause readers to abandon your page, while text that is too simple can sound flat.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">1. Flesch Reading Ease Formula</h3>
+        <p>
+          Developed by Rudolf Flesch in 1948, the **Flesch Reading Ease (FRE)** score measures reading difficulty on a scale from 0 to 100. The math divides total words by sentences, and syllables by total words:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">FRE = 206.835 - 1.015 &times; (Words / Sentences) - 84.6 &times; (Syllables / Words)</strong>
+          Scores are classified into readability levels:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>90 - 100 (Very Easy):</strong> Easy for a fifth-grade student. Conversational and clear.</li>
+          <li><strong>60 - 70 (Standard):</strong> Conversational English for eighth to ninth-graders. Ideal for blog posts and product guides.</li>
+          <li><strong>0 - 30 (Very Confusing):</strong> Academic or legal prose. Requires a college education to parse easily.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">2. Flesch-Kincaid Grade Level</h3>
+        <p>
+          Co-developed with the U.S. Navy in 1975, the **Flesch-Kincaid Grade Level** translates reading difficulty into U.S. school grade levels:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">FKGL = 0.39 &times; (Words / Sentences) + 11.8 &times; (Syllables / Words) - 15.59</strong>
+          A score of 8.0 indicates the text is accessible to an average eighth-grader.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">3. Other Readability Metrics</h3>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Gunning Fog Index:</strong> Focuses on complex words (words with three or more syllables), mapping readability directly to school grade levels.
+          </li>
+          <li>
+            <strong>SMOG Grade (Simple Measure of Gobbledygook):</strong> Measures complex words over a 30-sentence sample. Widely used for medical and healthcare copy verification.
+          </li>
+          <li>
+            <strong>Coleman-Liau Index:</strong> Ignores syllables entirely, relying instead on character counts and sentences per 100 words. Since character counting is less error-prone than syllable estimation, it provides stable results.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is the Flesch Reading Ease score interpreted?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The Flesch Reading Ease scale ranges from 0 to 100: 90-100 means very easy (fifth-grade reading level); 60-70 means standard/plain English (eighth to ninth-grade level); and 0-30 means highly complicated academic or legal text (college graduate level).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between Flesch Reading Ease and Flesch-Kincaid Grade Level?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            While both use total sentences, words, and syllables, Flesch Reading Ease outputs a score from 0 to 100 representing reading comfort, whereas Flesch-Kincaid Grade Level outputs a numeric value matching U.S. school grade levels (e.g. 8.0 matches eighth grade).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does the Coleman-Liau readability index work?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Unlike Flesch-based formulas which count syllables, the Coleman-Liau Index relies on letter and sentence counts per 100 words. Since character length is easier to extract than syllables, it offers consistent, formula-driven grade level estimates.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the SMOG readability formula?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            SMOG (Simple Measure of Gobbledygook) is a readability metric that estimates the years of education needed to comprehend a text. It calculates scores based on the count of complex words (words with 3+ syllables) found within a sample of sentences.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How can I improve my text's readability score?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            You can improve your readability score by breaking long sentences into shorter, standalone sentences and substituting complex words with simpler, shorter synonyms (e.g., use 'help' instead of 'facilitate').
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Text Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/text/word-counter" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Word Counter
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Count words, characters, sentences, paragraphs in real-time.</p>
+        </a>
+        <a href="/text/character-counter" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Character Counter
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Check specific social platform character limit caps and warnings.</p>
+        </a>
+        <a href="/text/keyword-density-checker" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Keyword Density Checker
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Scan copy for single and multi-word keyword density tables.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const textInput = document.getElementById('text-input') as HTMLTextAreaElement;
+  const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
+
+  const metricFre = document.getElementById('metric-fre') as HTMLSpanElement;
+  const labelFre = document.getElementById('label-fre') as HTMLSpanElement;
+
+  const metricFkgl = document.getElementById('metric-fkgl') as HTMLSpanElement;
+  const labelFkgl = document.getElementById('label-fkgl') as HTMLSpanElement;
+
+  const metricFog = document.getElementById('metric-fog') as HTMLSpanElement;
+  const metricSmog = document.getElementById('metric-smog') as HTMLSpanElement;
+  const metricCl = document.getElementById('metric-cl') as HTMLSpanElement;
+
+  const statAsl = document.getElementById('stat-asl') as HTMLSpanElement;
+  const statComplex = document.getElementById('stat-complex') as HTMLSpanElement;
+  const statAsw = document.getElementById('stat-asw') as HTMLSpanElement;
+  const statSentences = document.getElementById('stat-sentences') as HTMLSpanElement;
+
+  // ============================================================
+  // Heuristic Syllable counter helper
+  // ============================================================
+  const countSyllables = (word: string) => {
+    word = word.toLowerCase().trim();
+    if (word.length <= 3) return 1;
+    // Remove silent endings
+    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+    word = word.replace(/^y/, '');
+    const vowels = word.match(/[aeiouy]{1,2}/g);
+    return vowels ? vowels.length : 1;
+  };
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const analyzeReadability = () => {
+    const text = textInput.value;
+    const cleanText = text.trim();
+
+    if (!cleanText) {
+      resetDashboard();
+      return;
+    }
+
+    // 1. Sentences split (by . ! ?)
+    const sentences = cleanText.split(/[.!?]+/).filter(s => s.trim().length > 0);
+    const sentenceCount = sentences.length || 1;
+    statSentences.textContent = sentenceCount.toString();
+
+    // 2. Words split
+    const words = cleanText.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "").split(/\s+/).filter(Boolean);
+    const wordCount = words.length || 1;
+
+    // 3. Letters split (pure alphabetic characters)
+    const lettersCount = cleanText.replace(/[^a-zA-Z]/g, '').length;
+
+    // 4. Syllable metrics
+    let totalSyllables = 0;
+    let complexCount = 0;
+
+    words.forEach(w => {
+      const syl = countSyllables(w);
+      totalSyllables += syl;
+      if (syl >= 3) {
+        complexCount++;
+      }
+    });
+
+    statComplex.textContent = complexCount.toLocaleString();
+
+    const asl = wordCount / sentenceCount;
+    const asw = totalSyllables / wordCount;
+
+    statAsl.textContent = `${asl.toFixed(1)} words`;
+    statAsw.textContent = asw.toFixed(2);
+
+    // ==========================================
+    // Readability Index Calculations
+    // ==========================================
+
+    // Flesch Reading Ease (0-100 scale)
+    const freVal = 206.835 - (1.015 * asl) - (84.6 * asw);
+    const fre = Math.max(0, Math.min(100, freVal));
+    metricFre.textContent = fre.toFixed(1);
+
+    // Flesch Reading Ease text label
+    let freLabel = "N/A";
+    if (fre >= 90) freLabel = "Very Easy (5th Grade)";
+    else if (fre >= 80) freLabel = "Easy (6th Grade)";
+    else if (fre >= 70) freLabel = "Fairly Easy (7th Grade)";
+    else if (fre >= 60) freLabel = "Standard (8th-9th Grade)";
+    else if (fre >= 50) freLabel = "Fairly Difficult (10th-12th Grade)";
+    else if (fre >= 30) freLabel = "Difficult (College)";
+    else freLabel = "Very Confusing (Graduate)";
+    labelFre.textContent = freLabel;
+
+    // Flesch-Kincaid Grade Level
+    const fkglVal = (0.39 * asl) + (11.8 * asw) - 15.59;
+    const fkgl = Math.max(0, fkglVal);
+    metricFkgl.textContent = fkgl.toFixed(1);
+
+    // Flesch-Kincaid text label
+    let fkglLabel = "Easy";
+    if (fkgl >= 13) fkglLabel = "College Graduate Level";
+    else if (fkgl >= 9) fkglLabel = "High School Level";
+    else if (fkgl >= 6) fkglLabel = "Middle School Level";
+    else fkglLabel = "Elementary Level";
+    labelFkgl.textContent = fkglLabel;
+
+    // Gunning Fog Index
+    const fog = 0.4 * (asl + 100 * (complexCount / wordCount));
+    metricFog.textContent = Math.max(0, fog).toFixed(1);
+
+    // SMOG Grade (Simple Measure of Gobbledygook)
+    const smogVal = 1.0430 * Math.sqrt(complexCount * (30 / sentenceCount)) + 3.1291;
+    metricSmog.textContent = Math.max(0, smogVal).toFixed(1);
+
+    // Coleman-Liau Index
+    const l = (lettersCount / wordCount) * 100;
+    const s = (sentenceCount / wordCount) * 100;
+    const cl = (0.0588 * l) - (0.296 * s) - 15.8;
+    metricCl.textContent = Math.max(0, cl).toFixed(1);
+  };
+
+  const resetDashboard = () => {
+    metricFre.textContent = "0.0";
+    labelFre.textContent = "N/A";
+    metricFkgl.textContent = "0.0";
+    labelFkgl.textContent = "Grade Level";
+    metricFog.textContent = "0.0";
+    metricSmog.textContent = "0.0";
+    metricCl.textContent = "0.0";
+
+    statAsl.textContent = "0.0 words";
+    statComplex.textContent = "0";
+    statAsw.textContent = "0.00";
+    statSentences.textContent = "0";
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  textInput.addEventListener('input', analyzeReadability);
+  btnClear.addEventListener('click', () => {
+    textInput.value = '';
+    analyzeReadability();
+  });
+
+  // Initial Calculation
+  analyzeReadability();
+</script>
