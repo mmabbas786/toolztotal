@@ -6,12 +6,14 @@ interface Props {
   title?: string;
   description?: string;
   faqJsonLd?: string;
+  canonicalUrl?: string;
 }
 
 const {
   title = "Free Online Calculators & Tools | ToolzTotal",
   description = "Free online calculators and tools — no signup, no clutter, just answers. 100% client-side, privacy-first, and near-instant load times.",
-  faqJsonLd
+  faqJsonLd,
+  canonicalUrl
 } = Astro.props;
 
 // Standard categories list for nav & footer
@@ -42,17 +44,18 @@ const categories = [
     
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl || "https://toolztotal.com/"} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://toolztotal.com/" />
+    <meta property="og:url" content={canonicalUrl || "https://toolztotal.com/"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://toolztotal.com/og-image.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://toolztotal.com/" />
+    <meta property="twitter:url" content={canonicalUrl || "https://toolztotal.com/"} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content="https://toolztotal.com/og-image.png" />
