@@ -1,7 +1,7 @@
 # Prevent indexing of the default pages.dev subdomain
-https://:project.pages.dev/*
+https://toolztotal.pages.dev/*
   X-Robots-Tag: noindex
 
 # Prevent indexing of branch, preview, and master pages.dev subdomains
-https://:subdomain.:project.pages.dev/*
+https://:subdomain.toolztotal.pages.dev/*
   X-Robots-Tag: noindex
