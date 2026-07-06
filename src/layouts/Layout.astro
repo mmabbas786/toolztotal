@@ -287,21 +287,12 @@ const categories = [
 
     <!-- Theme Toggle and Mobile Menu Scripts -->
     <script>
-      // Theme Toggle — uses View Transitions API for GPU-composited crossfade
+      // Theme Toggle — lightweight DOM class toggle with CSS transition fade
       const themeToggle = document.getElementById('theme-toggle');
       if (themeToggle) {
         themeToggle.addEventListener('click', () => {
-          const applyTheme = () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-          };
-
-          if (!document.startViewTransition) {
-            applyTheme();
-            return;
-          }
-
-          document.startViewTransition(applyTheme);
+          const isDark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
       }
 

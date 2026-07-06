@@ -103,26 +103,34 @@
   animation: none !important;
 }
 
-/* View Transitions API — smooth GPU crossfade for dark/light toggle */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 250ms;
-  animation-timing-function: ease;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root) {
-  animation-name: vt-fade-out;
-}
-::view-transition-new(root) {
-  animation-name: vt-fade-in;
-}
-@keyframes vt-fade-out {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-@keyframes vt-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* Smooth hardware-accelerated transitions for dark/light mode toggle */
+html:not(.no-transition),
+html:not(.no-transition) body,
+html:not(.no-transition) header,
+html:not(.no-transition) footer,
+html:not(.no-transition) main,
+html:not(.no-transition) a,
+html:not(.no-transition) button,
+html:not(.no-transition) input,
+html:not(.no-transition) kbd,
+html:not(.no-transition) span,
+html:not(.no-transition) p,
+html:not(.no-transition) h1,
+html:not(.no-transition) h2,
+html:not(.no-transition) h3,
+html:not(.no-transition) h4,
+html:not(.no-transition) h5,
+html:not(.no-transition) h6,
+html:not(.no-transition) svg,
+html:not(.no-transition) .tool-card,
+html:not(.no-transition) .category-block {
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              fill 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              stroke 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Live status dot — blinking glow animation */
