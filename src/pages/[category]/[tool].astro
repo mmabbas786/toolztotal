@@ -1,0 +1,150 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { toolCatalog } from '../../data/tools';
+
+export function getStaticPaths() {
+  return toolCatalog.flatMap(category => 
+    category.tools
+      .filter(tool => tool.status !== 'live')
+      .map(tool => ({
+        params: { category: category.slug, tool: tool.slug },
+        props: { category, tool }
+      }))
+  );
+}
+
+const { category, tool } = Astro.props;
+---
+
+<Layout 
+  title={`${tool.name} | ToolzTotal`}
+  description={`Calculate results instantly with the free ${tool.name}. Privacy-first, 100% client-side calculation, and no signups required.`}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-16 md:py-24">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href={`/${category.slug}`} class="hover:text-ink transition-colors">{category.name}</a>
+      <span>/</span>
+      <span class="text-ink">{tool.name}</span>
+    </nav>
+
+    <!-- Layout container -->
+    <div class="max-w-4xl mx-auto border border-hairline bg-canvas rounded-xl p-8 md:p-12 shadow-lvl3 relative overflow-hidden transition-colors duration-200">
+      <!-- Top banner -->
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas-soft-2 px-3 py-1 rounded-full mb-8 shadow-lvl1">
+        <span class="w-2 h-2 rounded-full bg-warning-deep animate-pulse"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Coming Soon</span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        {tool.name}
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed mb-8 max-w-2xl">
+        {tool.description} Like all tools on ToolzTotal, this calculator will run 100% client-side. No data is ever uploaded, and no account is required.
+      </p>
+
+      <!-- Launching soon dashboard mock -->
+      <div class="border border-hairline rounded-lg p-6 bg-canvas-soft-2/50 mb-12 shadow-lvl2 relative">
+        <h3 class="text-sm font-bold text-ink mb-4 font-sans">Interactive Calculator Dashboard</h3>
+        
+        <!-- Blurred dummy form to represent layout -->
+        <div class="space-y-4 filter blur-[2px] opacity-40 select-none pointer-events-none">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-mono uppercase text-mute mb-2">Principal Amount</label>
+              <div class="h-10 bg-canvas border border-hairline rounded-md"></div>
+            </div>
+            <div>
+              <label class="block text-xs font-mono uppercase text-mute mb-2">Annual Interest Rate (%)</label>
+              <div class="h-10 bg-canvas border border-hairline rounded-md"></div>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-mono uppercase text-mute mb-2">Loan Term</label>
+            <div class="h-10 bg-canvas border border-hairline rounded-md"></div>
+          </div>
+          <div class="h-10 bg-primary rounded-full"></div>
+        </div>
+
+        <!-- Overlay content -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-canvas/30 backdrop-blur-[1px] rounded-lg">
+          <svg class="w-10 h-10 text-mute mb-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM12 15a3 3 0 110-6 3 3 0 010 6z" />
+          </svg>
+          <h4 class="text-base font-bold text-ink font-sans mb-2">Development in Progress</h4>
+          <p class="text-body text-sm font-sans max-w-sm">
+            We are fine-tuning the formulas and client-side code for {tool.name}. It will load in milliseconds.
+          </p>
+        </div>
+      </div>
+
+      <!-- Privacy-first Email-free Notification System -->
+      <div class="bg-canvas border border-hairline rounded-lg p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lvl2">
+        <div class="flex-grow">
+          <h4 class="text-base font-bold text-ink font-sans mb-1">Privacy-First Reminders</h4>
+          <p class="text-body text-xs font-sans max-w-lg leading-relaxed">
+            Click the button to save a local notification trigger in your browser. No email, no signup. When this tool becomes live, a badge will light up on your dashboard.
+          </p>
+        </div>
+        <div>
+          <button 
+            id="notify-button" 
+            data-slug={tool.slug}
+            class="h-10 bg-primary text-on-primary hover:bg-mute font-sans text-sm font-medium px-6 rounded-full transition-all cursor-pointer whitespace-nowrap shadow-lvl2"
+          >
+            Notify Me When Live
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="mt-12 flex items-center justify-between border-t border-hairline pt-8">
+        <a href={`/${category.slug}`} class="text-body hover:text-ink font-sans text-sm flex items-center gap-2 transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to {category.name}
+        </a>
+        <a href="/" class="text-mute hover:text-ink font-sans text-xs transition-colors">
+          Back to all calculators
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const button = document.getElementById('notify-button');
+    if (button) {
+      const slug = button.getAttribute('data-slug');
+      const storageKey = `notify-${slug}`;
+
+      const updateButtonState = () => {
+        const isNotified = localStorage.getItem(storageKey) === 'true';
+        if (isNotified) {
+          button.textContent = '✓ Notification Saved';
+          button.classList.remove('bg-primary', 'text-on-primary');
+          button.classList.add('bg-canvas-soft-2', 'text-body', 'border', 'border-hairline');
+        } else {
+          button.textContent = 'Notify Me When Live';
+          button.classList.add('bg-primary', 'text-on-primary');
+          button.classList.remove('bg-canvas-soft-2', 'text-body', 'border', 'border-hairline');
+        }
+      };
+
+      updateButtonState();
+
+      button.addEventListener('click', () => {
+        const isNotified = localStorage.getItem(storageKey) === 'true';
+        if (isNotified) {
+          localStorage.removeItem(storageKey);
+        } else {
+          localStorage.setItem(storageKey, 'true');
+        }
+        updateButtonState();
+      });
+    }
+  </script>
+</Layout>

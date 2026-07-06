@@ -1,0 +1,919 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a JSON Formatter & Validator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A JSON Formatter & Validator is a developer tool that takes raw, unformatted, or malformed JSON data and formats it into a readable, well-indented structure. It also validates whether the input is proper JSON according to the ECMAScript specification, pinpointing syntax errors with line and column numbers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does JSON formatting work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JSON formatting works by parsing the input string using JavaScript's built-in JSON.parse() method. If parsing succeeds, the resulting object is serialized back using JSON.stringify() with configurable indentation (typically 2 spaces). This produces a clean, well-structured output with proper nesting and line breaks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is JSON minification used for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JSON minification removes all unnecessary whitespace, line breaks, and indentation from a JSON string, producing a compact representation. This is useful for reducing file size in production APIs, saving bandwidth during data transfer, and preparing JSON for storage in space-constrained environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I validate JSON against a schema?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this tool supports schema validation where you can paste a JSON Schema definition and check whether your input JSON conforms to it. The validator checks for required fields, data types, and structural constraints defined in the schema, reporting any mismatches with the specific field paths that failed validation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this JSON tool free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this JSON Formatter & Validator is completely free to use with no signup required. It runs entirely client-side in your browser—no JSON data is ever sent to any server. All formatting, validation, and schema checking happens locally, ensuring your data remains private and secure at all times."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did I get a 'SyntaxError: Unexpected token' error?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This error occurs when the input text violates the strict JSON specification. Common violations include trailing commas after the last item in an object or array, unquoted keys, single quotes instead of double quotes on keys or strings, or unescaped control characters. The validator points out the exact line and character position of the error to help you locate and fix it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a JSON collapsible tree view?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A collapsible tree view is a visual representation of the JSON object hierarchy. It lets you expand or collapse individual nodes (objects and arrays) so you can easily navigate complex, deeply nested JSON data structures without scrolling through thousands of lines of text."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this JSON Formatter support big files?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this tool can format and validate JSON payloads up to several megabytes. Because all processing is done locally inside your browser's V8 Javascript engine, performance is extremely fast and limited only by your computer's memory and CPU capacity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between JSON and JavaScript objects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JSON (JavaScript Object Notation) is a text-based data serialization format, whereas a JavaScript object is a memory representation of a data structure. JSON requires double quotes around all keys, forbids functions, methods, and comments, and supports a limited set of data types (string, number, object, array, boolean, and null)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use comments in JSON?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The official JSON standard (RFC 8259) explicitly forbids comments. Any comment (such as // or /* */) inside a JSON string will trigger a syntax validation error. If you need to store metadata, it is recommended to add a dedicated key-value pair, like '_comment': 'message'."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="JSON Formatter & Validator - Free, Fast, No Signup | ToolzTotal"
+  description="Format, validate, minify, and pretty-print JSON in real-time. Collapsible tree view, syntax highlighting, schema validation — all client-side and free."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
+      <span>/</span>
+      <span class="text-ink">JSON Formatter & Validator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-10">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        JSON Formatter & Validator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Format, validate, minify, and pretty-print your JSON in real-time. Explore with a collapsible tree view, syntax-highlighted output, and optional JSON Schema validation — all client-side.
+      </p>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="w-full mb-6 flex flex-wrap items-center gap-2 px-4 py-2.5 bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3">
+      <div class="inline-flex rounded-lg bg-canvas-soft p-0.5 ring-1 ring-inset ring-hairline shadow-lvl1">
+        <button type="button" id="action-format" class="action-btn px-3 py-1.5 text-xs font-mono rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer">Beautify</button>
+        <button type="button" id="action-minify" class="action-btn px-3 py-1.5 text-xs font-mono rounded-md text-mute hover:text-ink cursor-pointer">Minify</button>
+        <button type="button" id="action-validate" class="action-btn px-3 py-1.5 text-xs font-mono rounded-md text-mute hover:text-ink cursor-pointer">Validate</button>
+      </div>
+      <span class="w-px h-5 bg-hairline mx-1 hidden sm:block"></span>
+      <button type="button" id="btn-copy" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+        Copy
+      </button>
+      <button type="button" id="btn-download" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Download
+      </button>
+      <button type="button" id="btn-clear" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        Clear
+      </button>
+      <span class="ml-auto text-[10px] font-mono text-mute hidden sm:block" id="char-count">0 chars</span>
+    </div>
+
+    <!-- Two-Panel Workspace -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
+      <!-- Left Panel: Input -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-hairline">
+          <label for="json-input" class="text-[11px] font-mono font-medium uppercase tracking-widest text-mute">Input</label>
+          <span class="text-[11px] font-mono text-mute/60" id="input-status">waiting for input</span>
+        </div>
+        <div class="relative">
+          <div id="line-numbers" class="absolute left-0 top-0 bottom-0 w-[44px] bg-canvas-soft border-r border-hairline pt-2.5 text-right pr-2.5 text-[11px] font-mono text-mute/50 select-none leading-[1.6] overflow-hidden" style="white-space: pre;" aria-hidden="true"><div id="line-nums-inner" style="white-space: pre;">1</div></div>
+          <textarea
+            id="json-input"
+            class="w-full h-[360px] min-h-[220px] resize-y bg-canvas text-ink font-mono text-[13px] leading-[1.6] pr-4 pt-2.5 pb-2.5 border-none outline-none focus:outline-none placeholder:text-mute/30"
+            style="padding-left: 56px;"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Right Panel: Output -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-hairline">
+          <span class="text-[11px] font-mono font-medium uppercase tracking-widest text-mute">Output</span>
+          <span class="text-[11px] font-mono text-mute/60" id="output-status">ready</span>
+        </div>
+        <div id="output-area" class="w-full h-[360px] min-h-[220px] bg-canvas text-ink font-mono text-[13px] leading-[1.6] p-4 overflow-auto whitespace-pre-wrap break-all">
+          <span class="text-mute/50 text-sm">Formatted output will appear here.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collapsible Tree View -->
+    <div class="w-full bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 mb-6 overflow-hidden">
+      <button type="button" id="tree-toggle" class="w-full flex items-center justify-between px-4 py-2.5 text-left text-sm font-sans font-medium text-ink hover:bg-canvas-soft transition-colors cursor-pointer" aria-expanded="false">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/></svg>
+          Collapsible Tree View
+        </span>
+        <svg id="tree-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div id="tree-container" class="hidden border-t border-hairline p-4 max-h-[500px] overflow-auto bg-canvas-soft">
+        <div id="tree-root" class="font-mono text-[13px] leading-relaxed text-ink">Parse valid JSON to see the tree view.</div>
+      </div>
+    </div>
+
+    <!-- Schema Validation Section -->
+    <div class="w-full bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 mb-10 overflow-hidden">
+      <button type="button" id="schema-toggle" class="w-full flex items-center justify-between px-4 py-2.5 text-left text-sm font-sans font-medium text-ink hover:bg-canvas-soft transition-colors cursor-pointer" aria-expanded="false">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Validate Against JSON Schema
+        </span>
+        <svg id="schema-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div id="schema-container" class="hidden border-t border-hairline p-4 md:p-6 space-y-4">
+        <div class="flex items-center gap-2 mb-2">
+          <label for="schema-input" class="text-xs font-mono uppercase tracking-wider text-mute">JSON Schema</label>
+          <button type="button" id="btn-validate-schema" class="ml-auto h-7 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors cursor-pointer shadow-lvl1">Validate</button>
+        </div>
+        <textarea
+          id="schema-input"
+          class="w-full min-h-[120px] bg-canvas ring-1 ring-inset ring-hairline rounded-lg text-ink font-mono text-[13px] leading-[1.6] p-3 resize-y outline-none focus:ring-hairline-strong placeholder:text-mute/30"
+          placeholder='{"type": "object", "required": ["name"], "properties": {"name": {"type": "string"}, "age": {"type": "number"}}}'
+          spellcheck="false"
+        ></textarea>
+        <div id="schema-result" class="text-sm font-mono leading-relaxed min-h-[30px] text-mute">Enter a schema and click Validate to check your JSON against it.</div>
+      </div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding JSON Structure, Formatting, and Validation</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>json formatter and validator</strong> is one of the most widely used utilities in web development, system integration, and API debugging. JSON (JavaScript Object Notation) has become the de facto standard data interchange format for modern web services, mobile apps, and configurations. Our <strong>free json formatter online</strong> gives you a real-time environment to parse raw JSON payloads, inspect them with syntax highlighting, validate them against the RFC specification, and test structural compliance using JSON Schema.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Correct JSON Formatting and Indentation Matters</h3>
+        <p>
+          In production environments, web servers and APIs minify JSON to save bandwidth. Minified JSON removes all spaces, tabs, and line breaks, presenting data as a single continuous string. While this is optimal for machine-to-machine communication, it is nearly impossible for developers to read or debug. A <strong>beautify json online</strong> tool takes this minified text and reformats it with consistent indentation (commonly 2 or 4 spaces) and line breaks, visually grouping keys and nested structures so you can inspect values and object relations at a glance.
+        </p>
+        <p>
+          Furthermore, our editor includes a collapsible tree view that maps out the data hierarchy. When working with huge files, you can collapse specific nested objects or arrays, focusing only on the sections of the structure you need to analyze.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Common JSON Syntax Pitfalls and How to Avoid Them</h3>
+        <p>
+          The JSON standard is strict, and even minor mistakes will cause syntax errors that break application code or API requests. Here are the most common validation issues developers run into:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Trailing Commas:</strong> Adding a comma after the final key-value pair in an object or the last item in an array is forbidden. JavaScript allows this, but JSON parsers will reject it.</li>
+          <li><strong>Single Quotes:</strong> In JSON, all string literals and object keys must be enclosed in double quotes (<code>"</code>). Single quotes (<code>'</code>) are invalid.</li>
+          <li><strong>Unquoted Keys:</strong> Unlike JavaScript objects, every key in JSON must be wrapped in double quotes (e.g., <code>"id": 101</code> instead of <code>id: 101</code>).</li>
+          <li><strong>Escaping Issues:</strong> Backslashes (<code>\</code>) and quotes inside string values must be properly escaped (e.g., <code>\"</code>) to prevent parser exceptions.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Integrating Schema Validation for Enterprise Testing</h3>
+        <p>
+          While basic validation checks that your syntax is correct, schema validation ensures that your JSON conforms to a specific structure. By providing a JSON Schema (a metadata definition of required fields, expected data types, string patterns, and number ranges), you can instantly verify that API payloads contain all necessary parameters. Our tool includes built-in schema checking, helping you catch missing properties or incorrect type definitions on the fly.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is a JSON Formatter & Validator?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A JSON Formatter & Validator is a developer tool that takes raw, unformatted, or malformed JSON data and formats it into a readable, well-indented structure. It also validates whether the input is proper JSON according to the ECMAScript specification, pinpointing syntax errors with line and column numbers.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>How does JSON formatting work?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">JSON formatting works by parsing the input string using JavaScript's built-in <code class="bg-canvas-soft-2 px-1 rounded text-xs font-mono">JSON.parse()</code> method. If parsing succeeds, the resulting object is serialized back using <code class="bg-canvas-soft-2 px-1 rounded text-xs font-mono">JSON.stringify()</code> with configurable indentation (typically 2 spaces). This produces a clean, well-structured output with proper nesting and line breaks.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is JSON minification used for?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">JSON minification removes all unnecessary whitespace, line breaks, and indentation from a JSON string, producing a compact representation. This is useful for reducing file size in production APIs, saving bandwidth during data transfer, and preparing JSON for storage in space-constrained environments.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I validate JSON against a schema?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, this tool supports schema validation where you can paste a JSON Schema definition and check whether your input JSON conforms to it. The validator checks for required fields, data types, and structural constraints defined in the schema, reporting any mismatches with the specific field paths that failed validation.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Is this JSON tool free and private?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, this JSON Formatter & Validator is completely free to use with no signup required. It runs entirely client-side in your browser — no JSON data is ever sent to any server. All formatting, validation, and schema checking happens locally, ensuring your data remains private and secure at all times.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Why did I get a 'SyntaxError: Unexpected token' error?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">This error occurs when the input text violates the strict JSON specification. Common violations include trailing commas after the last item in an object or array, unquoted keys, single quotes instead of double quotes on keys or strings, or unescaped control characters. The validator points out the exact line and character position of the error to help you locate and fix it.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is a JSON collapsible tree view?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A collapsible tree view is a visual representation of the JSON object hierarchy. It lets you expand or collapse individual nodes (objects and arrays) so you can easily navigate complex, deeply nested JSON data structures without scrolling through thousands of lines of text.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Does this JSON Formatter support big files?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, this tool can format and validate JSON payloads up to several megabytes. Because all processing is done locally inside your browser's V8 Javascript engine, performance is extremely fast and limited only by your computer's memory and CPU capacity.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is the difference between JSON and JavaScript objects?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">JSON (JavaScript Object Notation) is a text-based data serialization format, whereas a JavaScript object is a memory representation of a data structure. JSON requires double quotes around all keys, forbids functions, methods, and comments, and supports a limited set of data types (string, number, object, array, boolean, and null).</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I use comments in JSON?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">No. The official JSON standard (RFC 8259) explicitly forbids comments. Any comment (such as // or /* */) inside a JSON string will trigger a syntax validation error. If you need to store metadata, it is recommended to add a dedicated key-value pair, like '_comment': 'message'.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Developer Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/dev/regex-tester" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl3 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Regex Tester
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Test regular expressions in real-time with highlighted matches and capture groups.</p>
+        </a>
+        <a href="/dev/uuid-generator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl3 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            UUID Generator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Generate v4 UUIDs in bulk with options for uppercase, lowercase, and formatting.</p>
+        </a>
+        <a href="/dev/base64-encoder-decoder" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl3 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Base64 Encoder/Decoder
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Encode and decode Base64 strings with support for text, file uploads, and URLs.</p>
+        </a>
+        <a href="/dev/diff-checker" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl3 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Diff Checker
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare two blocks of text side-by-side and see the differences highlighted inline.</p>
+        </a>
+        <a href="/dev/color-picker" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl3 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Color Picker & Converter
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Pick, convert, and preview colors across HEX, RGB, HSL, and OKLCH formats.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client Script -->
+  <script>
+    // ---- DOM refs ----
+    const jsonInput = document.getElementById('json-input') as HTMLTextAreaElement;
+    const outputArea = document.getElementById('output-area') as HTMLDivElement;
+    const inputStatus = document.getElementById('input-status') as HTMLSpanElement;
+    const outputStatus = document.getElementById('output-status') as HTMLSpanElement;
+    const charCount = document.getElementById('char-count') as HTMLSpanElement;
+    const lineNumbers = document.getElementById('line-numbers') as HTMLDivElement;
+    const lineNumsInner = document.getElementById('line-nums-inner') as HTMLDivElement;
+
+    const actionFormat = document.getElementById('action-format') as HTMLButtonElement;
+    const actionMinify = document.getElementById('action-minify') as HTMLButtonElement;
+    const actionValidate = document.getElementById('action-validate') as HTMLButtonElement;
+
+    const btnCopy = document.getElementById('btn-copy') as HTMLButtonElement;
+    const btnDownload = document.getElementById('btn-download') as HTMLButtonElement;
+    const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
+
+    const treeToggle = document.getElementById('tree-toggle') as HTMLButtonElement;
+    const treeChevron = document.getElementById('tree-chevron') as SVGElement;
+    const treeContainer = document.getElementById('tree-container') as HTMLDivElement;
+    const treeRoot = document.getElementById('tree-root') as HTMLDivElement;
+
+    const schemaToggle = document.getElementById('schema-toggle') as HTMLButtonElement;
+    const schemaChevron = document.getElementById('schema-chevron') as SVGElement;
+    const schemaContainer = document.getElementById('schema-container') as HTMLDivElement;
+    const schemaInput = document.getElementById('schema-input') as HTMLTextAreaElement;
+    const schemaResult = document.getElementById('schema-result') as HTMLDivElement;
+    const btnValidateSchema = document.getElementById('btn-validate-schema') as HTMLButtonElement;
+
+    const actionBtns = document.querySelectorAll('.action-btn') as NodeListOf<HTMLButtonElement>;
+
+    // ---- state ----
+    let currentAction: 'format' | 'minify' | 'validate' = 'format';
+
+    // ---- helpers ----
+    function setActiveAction(active: HTMLButtonElement) {
+      actionBtns.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+        b.classList.add('text-mute');
+      });
+      active.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      active.classList.remove('text-mute');
+    }
+
+    function getActionName(btn: HTMLButtonElement): 'format' | 'minify' | 'validate' {
+      if (btn === actionFormat) return 'format';
+      if (btn === actionMinify) return 'minify';
+      return 'validate';
+    }
+
+    function updateLineNumbers(text: string) {
+      const lines = text.split('\n');
+      const count = lines.length;
+      let html = '';
+      for (let i = 1; i <= count; i++) {
+        html += i + '\n';
+      }
+      lineNumsInner.textContent = html;
+    }
+
+    function countChars(text: string) {
+      charCount.textContent = `${text.length} char${text.length !== 1 ? 's' : ''}`;
+    }
+
+    // ---- syntax highlighting ----
+    function highlightJSON(json: string): string {
+      return json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"([^"\\]*(\\.[^"\\]*)*)"(?=\s*:)/g, '<span class="json-key">"$1"</span>')
+        .replace(/:(\s*)"([^"\\]*(\\.[^"\\]*)*)"/g, ':<span class="json-string">"$2"</span>')
+        .replace(/:(\s*)(true|false)/g, ':<span class="json-bool">$2</span>')
+        .replace(/:(\s*)null/g, ':<span class="json-null">null</span>')
+        .replace(/:(\s*)(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g, ':<span class="json-num">$2</span>')
+        .replace(/([{}\[\]])/g, '<span class="json-brace">$1</span>');
+    }
+
+    // ---- tree view ----
+    function buildTree(value: unknown, indent: number = 0): string {
+      const pad = '  '.repeat(indent);
+      if (value === null) return `<span class="json-null">null</span>`;
+      if (typeof value === 'boolean') return `<span class="json-bool">${value}</span>`;
+      if (typeof value === 'number') return `<span class="json-num">${value}</span>`;
+      if (typeof value === 'string') {
+        const escaped = value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `<span class="json-string">"${escaped}"</span>`;
+      }
+      if (Array.isArray(value)) {
+        if (value.length === 0) return '<span class="json-brace">[</span><span class="json-brace">]</span>';
+        let html = `<span class="json-brace json-toggle" data-expanded="true">[</span><span class="json-ellipsis hidden">...</span>\n`;
+        html += `<div class="json-children">`;
+        for (let i = 0; i < value.length; i++) {
+          const comma = i < value.length - 1 ? ',' : '';
+          html += `${pad}  ${buildTree(value[i], indent + 1)}${comma}\n`;
+        }
+        html += `${pad}</div><span class="json-brace">]</span>`;
+        return html;
+      }
+      if (typeof value === 'object') {
+        const keys = Object.keys(value);
+        if (keys.length === 0) return '<span class="json-brace">{</span><span class="json-brace">}</span>';
+        let html = `<span class="json-brace json-toggle" data-expanded="true">{</span><span class="json-ellipsis hidden">...</span>\n`;
+        html += `<div class="json-children">`;
+        for (let i = 0; i < keys.length; i++) {
+          const k = keys[i];
+          const comma = i < keys.length - 1 ? ',' : '';
+          const escapedKey = k.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          html += `${pad}  <span class="json-key">"${escapedKey}"</span>: ${buildTree(value[k], indent + 1)}${comma}\n`;
+        }
+        html += `${pad}</div><span class="json-brace">}</span>`;
+        return html;
+      }
+      return String(value);
+    }
+
+    function renderTreeView(jsonStr: string) {
+      try {
+        const parsed = JSON.parse(jsonStr);
+        const html = buildTree(parsed);
+        treeRoot.innerHTML = html;
+
+        // attach toggle listeners for collapsible nodes
+        treeRoot.querySelectorAll('.json-toggle').forEach(el => {
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const toggle = e.currentTarget as HTMLElement;
+            const parentBlock = toggle.parentElement as HTMLElement;
+            if (!parentBlock) return;
+            const children = parentBlock.querySelector(':scope > .json-children') as HTMLElement;
+            const ellipsis = parentBlock.querySelector(':scope > .json-ellipsis') as HTMLElement;
+            if (!children) return;
+            const isExpanded = toggle.getAttribute('data-expanded') === 'true';
+            if (isExpanded) {
+              children.classList.add('hidden');
+              if (ellipsis) ellipsis.classList.remove('hidden');
+              toggle.setAttribute('data-expanded', 'false');
+            } else {
+              children.classList.remove('hidden');
+              if (ellipsis) ellipsis.classList.add('hidden');
+              toggle.setAttribute('data-expanded', 'true');
+            }
+          });
+        });
+      } catch {
+        treeRoot.textContent = 'Parse valid JSON to see the tree view.';
+      }
+    }
+
+    // ---- schema validation ----
+    function validateAgainstSchema(data: unknown, schema: any): string[] {
+      const errors: string[] = [];
+
+      function checkType(val: unknown, expectedType: string, path: string) {
+        const typeMap: Record<string, string> = {
+          string: 'string',
+          number: 'number',
+          integer: 'number',
+          boolean: 'boolean',
+          'null': 'object',
+          array: 'array',
+          object: 'object'
+        };
+        if (expectedType === 'integer') {
+          if (typeof val !== 'number' || !Number.isInteger(val)) {
+            errors.push(`${path}: expected integer, got ${typeof val}`);
+          }
+          return;
+        }
+        if (expectedType === 'array') {
+          if (!Array.isArray(val)) {
+            errors.push(`${path}: expected array, got ${typeof val}`);
+          }
+          return;
+        }
+        const actualType = typeof val;
+        const expectedJsType = typeMap[expectedType] || expectedType;
+        if (actualType !== expectedJsType) {
+          errors.push(`${path}: expected ${expectedType}, got ${actualType}`);
+        }
+      }
+
+      function validateSub(obj: unknown, schemaNode: any, path: string) {
+        if (!schemaNode || typeof schemaNode !== 'object') return;
+
+        // type check
+        if (schemaNode.type) {
+          if (Array.isArray(schemaNode.type)) {
+            // check any of the types
+            const actualType = Array.isArray(obj) ? 'array' : typeof obj;
+            if (!schemaNode.type.includes(actualType)) {
+              errors.push(`${path}: expected one of [${schemaNode.type.join(', ')}], got ${actualType === 'array' ? 'array' : typeof obj}`);
+            }
+          } else {
+            checkType(obj, schemaNode.type, path);
+          }
+        }
+
+        // enum check
+        if (schemaNode.enum && Array.isArray(schemaNode.enum)) {
+          if (!schemaNode.enum.includes(obj)) {
+            errors.push(`${path}: value must be one of [${schemaNode.enum.join(', ')}]`);
+          }
+        }
+
+        if (typeof obj !== 'object' || obj === null) return;
+
+        // required check
+        if (schemaNode.required && Array.isArray(schemaNode.required) && !Array.isArray(obj)) {
+          for (const reqKey of schemaNode.required) {
+            if (!(reqKey in (obj as Record<string, unknown>))) {
+              errors.push(`${path}: missing required field "${reqKey}"`);
+            }
+          }
+        }
+
+        // properties check
+        if (schemaNode.properties && typeof schemaNode.properties === 'object' && !Array.isArray(obj)) {
+          for (const [key, propSchema] of Object.entries(schemaNode.properties as Record<string, unknown>)) {
+            const subPath = path ? `${path}.${key}` : key;
+            if (key in (obj as Record<string, unknown>)) {
+              validateSub((obj as Record<string, unknown>)[key], propSchema, subPath);
+            }
+          }
+        }
+
+        // additionalProperties check
+        if (schemaNode.additionalProperties === false && !Array.isArray(obj) && typeof obj === 'object') {
+          const allowed = new Set(Object.keys(schemaNode.properties || {}));
+          for (const key of Object.keys(obj as Record<string, unknown>)) {
+            if (!allowed.has(key)) {
+              errors.push(`${path}: unexpected property "${key}" (additionalProperties not allowed)`);
+            }
+          }
+        }
+
+        // items check for arrays
+        if (schemaNode.items && Array.isArray(obj)) {
+          const itemsSchema = schemaNode.items;
+          for (let i = 0; i < (obj as unknown[]).length; i++) {
+            validateSub((obj as unknown[])[i], itemsSchema, `${path}[${i}]`);
+          }
+        }
+
+        // minLength / maxLength
+        if (typeof obj === 'string') {
+          if (schemaNode.minLength !== undefined && (obj as string).length < schemaNode.minLength) {
+            errors.push(`${path}: minLength ${schemaNode.minLength}, got ${(obj as string).length}`);
+          }
+          if (schemaNode.maxLength !== undefined && (obj as string).length > schemaNode.maxLength) {
+            errors.push(`${path}: maxLength ${schemaNode.maxLength}, got ${(obj as string).length}`);
+          }
+        }
+
+        // minimum / maximum
+        if (typeof obj === 'number') {
+          if (schemaNode.minimum !== undefined && (obj as number) < schemaNode.minimum) {
+            errors.push(`${path}: minimum ${schemaNode.minimum}, got ${obj}`);
+          }
+          if (schemaNode.maximum !== undefined && (obj as number) > schemaNode.maximum) {
+            errors.push(`${path}: maximum ${schemaNode.maximum}, got ${obj}`);
+          }
+        }
+
+        // minItems / maxItems
+        if (Array.isArray(obj)) {
+          if (schemaNode.minItems !== undefined && (obj as unknown[]).length < schemaNode.minItems) {
+            errors.push(`${path}: minItems ${schemaNode.minItems}, got ${(obj as unknown[]).length}`);
+          }
+          if (schemaNode.maxItems !== undefined && (obj as unknown[]).length > schemaNode.maxItems) {
+            errors.push(`${path}: maxItems ${schemaNode.maxItems}, got ${(obj as unknown[]).length}`);
+          }
+        }
+      }
+
+      validateSub(data, schema, '');
+      return errors;
+    }
+
+    function runSchemaValidation() {
+      const rawInput = jsonInput.value.trim();
+      const rawSchema = schemaInput.value.trim();
+      if (!rawInput || !rawSchema) {
+        schemaResult.innerHTML = '<span class="text-mute">Enter both JSON input and a schema, then click Validate.</span>';
+        return;
+      }
+
+      let parsedInput: unknown;
+      let parsedSchema: unknown;
+
+      try {
+        parsedInput = JSON.parse(rawInput);
+      } catch (e: any) {
+        schemaResult.innerHTML = `<span class="text-error">Input is not valid JSON: ${escapeHtml(e.message)}</span>`;
+        return;
+      }
+
+      try {
+        parsedSchema = JSON.parse(rawSchema);
+      } catch (e: any) {
+        schemaResult.innerHTML = `<span class="text-error">Schema is not valid JSON: ${escapeHtml(e.message)}</span>`;
+        return;
+      }
+
+      if (typeof parsedSchema !== 'object' || parsedSchema === null || Array.isArray(parsedSchema)) {
+        schemaResult.innerHTML = '<span class="text-error">Schema must be a JSON object.</span>';
+        return;
+      }
+
+      const errs = validateAgainstSchema(parsedInput, parsedSchema);
+      if (errs.length === 0) {
+        schemaResult.innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-bold">&#10003; Valid &#8212; JSON matches the schema.</span>';
+      } else {
+        let html = '<span class="text-error font-bold">Validation errors found:</span><ul class="list-disc pl-5 mt-2 space-y-1 text-error">';
+        for (const err of errs) {
+          html += `<li>${escapeHtml(err)}</li>`;
+        }
+        html += '</ul>';
+        schemaResult.innerHTML = html;
+      }
+    }
+
+    // ---- escape ----
+    function escapeHtml(str: string) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ---- core process ----
+    function processJSON(action: 'format' | 'minify' | 'validate') {
+      const raw = jsonInput.value;
+      const trimmed = raw.trim();
+
+      updateLineNumbers(raw);
+      countChars(raw);
+
+      if (!trimmed) {
+        outputArea.innerHTML = '<span class="text-mute/50">Enter JSON to see the output.</span>';
+        inputStatus.textContent = 'waiting for input';
+        outputStatus.textContent = 'ready';
+        return;
+      }
+
+      inputStatus.textContent = `${raw.length} chars`;
+
+      let parsed: unknown;
+      try {
+        parsed = JSON.parse(trimmed);
+      } catch (e: any) {
+        const msg = e.message || 'Invalid JSON';
+        outputArea.innerHTML = `<span class="text-error font-mono">&#10007; ${escapeHtml(msg)}</span>`;
+        outputStatus.textContent = 'error';
+        return;
+      }
+
+      outputStatus.textContent = 'valid';
+
+      if (action === 'validate') {
+        outputArea.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-mono font-bold text-sm">&#10003; Valid JSON</span>`;
+        return;
+      }
+
+      if (action === 'minify') {
+        const minified = JSON.stringify(parsed);
+        outputArea.textContent = minified;
+        return;
+      }
+
+      // format
+      const formatted = JSON.stringify(parsed, null, 2);
+      const highlighted = highlightJSON(formatted);
+      outputArea.innerHTML = highlighted;
+    }
+
+    // ---- action switching ----
+    function setAction(action: 'format' | 'minify' | 'validate') {
+      currentAction = action;
+      processJSON(action);
+
+      // update tree: only in format mode
+      if (action === 'format') {
+        const raw = jsonInput.value.trim();
+        if (raw) {
+          try { JSON.parse(raw); renderTreeView(raw); } catch {}
+        }
+      }
+    }
+
+    function handleActionClick(btn: HTMLButtonElement) {
+      setActiveAction(btn);
+      const action = getActionName(btn);
+      setAction(action);
+
+      // hide tree/schema sections when not in format mode
+      if (action !== 'format') {
+        treeContainer.classList.add('hidden');
+        treeToggle.setAttribute('aria-expanded', 'false');
+        treeChevron.classList.remove('rotate-180');
+      }
+    }
+
+    actionFormat.addEventListener('click', () => handleActionClick(actionFormat));
+    actionMinify.addEventListener('click', () => handleActionClick(actionMinify));
+    actionValidate.addEventListener('click', () => handleActionClick(actionValidate));
+
+    // ---- input events ----
+    jsonInput.addEventListener('input', () => {
+      processJSON(currentAction);
+      const raw = jsonInput.value.trim();
+      if (currentAction === 'format' && raw) {
+        try { JSON.parse(raw); renderTreeView(raw); } catch {}
+      }
+    });
+
+    jsonInput.addEventListener('scroll', () => {
+      lineNumbers.scrollTop = jsonInput.scrollTop;
+    });
+
+    // ---- copy ----
+    btnCopy.addEventListener('click', async () => {
+      let text = outputArea.textContent || '';
+      if (!text || text.startsWith('Enter') || text.startsWith('\u2717')) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        outputStatus.textContent = 'copied!';
+        setTimeout(() => { outputStatus.textContent = 'ready'; }, 1500);
+      } catch {
+        outputStatus.textContent = 'copy failed';
+      }
+    });
+
+    // ---- download ----
+    btnDownload.addEventListener('click', () => {
+      let content = outputArea.textContent || '';
+      if (!content || content.startsWith('Enter') || content.startsWith('\u2717')) return;
+      const blob = new Blob([content], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'formatted.json';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // ---- clear ----
+    btnClear.addEventListener('click', () => {
+      jsonInput.value = '';
+      outputArea.innerHTML = '<span class="text-mute/50 text-sm">Formatted output will appear here.</span>';
+      inputStatus.textContent = 'waiting for input';
+      outputStatus.textContent = 'ready';
+      charCount.textContent = '0 chars';
+      lineNumsInner.textContent = '1';
+      treeRoot.textContent = 'Parse valid JSON to see the tree view.';
+      schemaResult.innerHTML = '<span class="text-mute text-sm">Enter a schema and click Validate to check your JSON against it.</span>';
+    });
+
+    // ---- tree toggle ----
+    treeToggle.addEventListener('click', () => {
+      const expanded = treeToggle.getAttribute('aria-expanded') === 'true';
+      treeToggle.setAttribute('aria-expanded', (!expanded).toString());
+      treeContainer.classList.toggle('hidden', expanded);
+      treeChevron.classList.toggle('rotate-180', !expanded);
+      if (!expanded) {
+        const raw = jsonInput.value.trim();
+        if (raw) {
+          try { JSON.parse(raw); renderTreeView(raw); } catch {}
+        }
+      }
+    });
+
+    // ---- schema toggle ----
+    schemaToggle.addEventListener('click', () => {
+      const expanded = schemaToggle.getAttribute('aria-expanded') === 'true';
+      schemaToggle.setAttribute('aria-expanded', (!expanded).toString());
+      schemaContainer.classList.toggle('hidden', expanded);
+      schemaChevron.classList.toggle('rotate-180', !expanded);
+    });
+
+    btnValidateSchema.addEventListener('click', runSchemaValidation);
+
+    // ---- resize synchronization ----
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          outputArea.style.height = `${jsonInput.offsetHeight}px`;
+        }
+      });
+      ro.observe(jsonInput);
+    }
+
+    // ---- init ----
+    const SAMPLE_JSON = JSON.stringify({"name": "JSON Formatter", "version": 1.0, "features": ["format", "minify", "validate"], "active": true, "meta": {"author": "ToolzTotal", "license": "MIT", "tags": ["developer", "json", "utility"]}}, null, 2);
+    jsonInput.value = SAMPLE_JSON;
+    updateLineNumbers(SAMPLE_JSON);
+    countChars(SAMPLE_JSON);
+    processJSON('format');
+    renderTreeView(SAMPLE_JSON);
+  </script>
+
+  <!-- Syntax highlight styles -->
+  <style is:global>
+    .json-key { color: #0070f3; }
+    .json-string { color: #067d17; }
+    .json-num { color: #d9730d; }
+    .json-bool { color: #7928ca; }
+    .json-null { color: #7928ca; }
+    .json-brace { color: #888888; }
+    .json-toggle { cursor: pointer; user-select: none; }
+    .json-toggle:hover { opacity: 0.7; }
+    .json-children { margin-left: 1.5em; border-left: 1px solid var(--color-hairline); padding-left: 0.5em; }
+    .json-ellipsis { cursor: pointer; color: var(--color-mute); user-select: none; }
+    .json-ellipsis:hover { color: var(--color-body); }
+    .text-error { color: var(--color-error); }
+  </style>
+</Layout>

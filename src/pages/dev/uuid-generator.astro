@@ -1,0 +1,710 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a UUID?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A UUID (Universally Unique Identifier) is a 128-bit identifier standardized by the Open Software Foundation. It is used to uniquely identify information in computer systems. The term GUID (Globally Unique Identifier) is a Microsoft implementation of the UUID standard and is used interchangeably."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between UUID v1, v4, and v7?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UUID v1 generates time-based identifiers using the current timestamp and the host machine's MAC address (or a random node), making them chronologically sortable but potentially predictable. UUID v4 uses purely random numbers, offering 122 bits of entropy and is the most commonly used version. UUID v7 (RFC 9562) combines a Unix timestamp with random data, providing time-ordering like v1 but with the simplicity and security of random generation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are generated UUIDs truly unique?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UUIDs are designed to be unique across space and time. UUID v4 has 2^122 possible values — the probability of collision is extremely low. UUID v1 uses timestamps and node identifiers to guarantee uniqueness within a system. UUID v7 combines timestamps with random bits, making collisions practically impossible under normal usage. All versions are safe for production use as database primary keys, distributed system identifiers, or API resource IDs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use UUID v4 or v7 for my database primary keys?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UUID v7 is generally recommended for database primary keys because it is time-ordered, which improves B-tree index performance and reduces page splits in databases like PostgreSQL and MySQL. UUID v4 values are randomly distributed and can cause index fragmentation at scale. UUID v1 also provides time-ordering but may leak the timestamp and potentially the machine identity. For modern applications, UUID v7 offers the best balance of performance, privacy, and sortability."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this UUID generator free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this UUID generator is completely free to use. There are no usage limits, no registration required, and no premium tiers. All UUID generation happens locally in your browser using the Web Crypto API — no data is sent to any server. You can generate as many UUIDs as you need for personal projects, commercial applications, or any other use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a GUID? Are UUID and GUID the same?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GUID stands for Globally Unique Identifier. It is Microsoft's implementation of the UUID standard. Conceptually and structurally, they are the same 128-bit identifiers, though Microsoft tools traditionally write them in uppercase and sometimes wrap them in curly braces."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the Web Crypto API generate random bits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Web Crypto API uses cryptographically secure pseudorandom number generators (CSPRNG) provided by the host operating system (such as /dev/urandom on Unix systems). This is much more secure than Math.random(), preventing predictability in production systems."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the chance of a UUID collision?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For UUID v4, you would need to generate 1 billion UUIDs per second for about 85 years to have a 50% chance of a single collision. For UUID v7, because the first 48 bits represent a timestamp, collisions can only happen if two identical random parts are generated within the exact same millisecond, which is highly improbable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is UUID v7 sortable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UUID v7 stores a 48-bit Unix timestamp in its most significant bits (at the beginning of the string). Since values generated later will have a larger timestamp, they naturally sort lexicographically after earlier ones, matching creation order."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I generate UUIDs in bulk?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This generator lets you generate up to 500 UUIDs at a time. You can choose the format (standard, uppercase, no hyphens, CSV, JSON array) and copy or download them instantly."
+      }
+    }
+  ]
+});
+---
+
+<Layout
+  title="UUID Generator - Free v1, v4, v7 UUID/GUID Generator | ToolzTotal"
+  description="Generate UUIDs/GUIDs in v1 (time-based), v4 (random), and v7 (time-ordered) formats with bulk generation and copy-to-clipboard support. Client-side only."
+  faqJsonLd={faqSchema}
+>
+  <div class="max-w-[1000px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
+      <span>/</span>
+      <span class="text-ink">UUID Generator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        UUID / GUID Generator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Generate universally unique identifiers in v1 (time-based), v4 (random), and v7 (time-ordered) formats.
+        Bulk generation, case toggling, and instant copy — all client-side.
+      </p>
+    </div>
+
+    <!-- Workspace -->
+    <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6">
+
+      <!-- Version Selector -->
+      <div>
+        <label class="block text-xs font-mono uppercase text-mute mb-3">UUID Version</label>
+        <div class="flex rounded-lg bg-canvas-soft-2 p-1 border border-hairline shadow-lvl1 w-fit gap-1">
+          <button type="button" id="ver-v1" class="version-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all">
+            v1 (Time-Based)
+          </button>
+          <button type="button" id="ver-v4" class="version-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">
+            v4 (Random)
+          </button>
+          <button type="button" id="ver-v7" class="version-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all">
+            v7 (Time-Ordered)
+          </button>
+        </div>
+        <input type="hidden" id="active-version" value="v4" />
+      </div>
+
+      <!-- Options Row -->
+      <div class="flex flex-wrap items-end gap-6">
+        <!-- Bulk Count -->
+        <div>
+          <label for="bulk-count" class="block text-xs font-mono uppercase text-mute mb-2">Bulk Count</label>
+          <div class="flex items-center gap-0">
+            <button type="button" id="count-dec" class="w-9 h-9 border border-hairline rounded-l-md bg-canvas hover:bg-canvas-soft text-body hover:text-ink flex items-center justify-center cursor-pointer transition-colors shadow-lvl1 text-sm font-sans" aria-label="Decrease count">&minus;</button>
+            <input type="number" id="bulk-count" value="1" min="1" max="100" class="w-16 h-9 border-t border-b border-hairline bg-canvas text-center text-sm font-sans font-mono text-ink focus:outline-none tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+            <button type="button" id="count-inc" class="w-9 h-9 border border-hairline rounded-r-md bg-canvas hover:bg-canvas-soft text-body hover:text-ink flex items-center justify-center cursor-pointer transition-colors shadow-lvl1 text-sm font-sans" aria-label="Increase count">+</button>
+          </div>
+        </div>
+
+        <!-- Case Toggle -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">Case</label>
+          <div class="flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+            <button type="button" id="case-lower" class="case-btn px-3 py-1.5 text-[11px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer">
+              Lower
+            </button>
+            <button type="button" id="case-upper" class="case-btn px-3 py-1.5 text-[11px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer">
+              UPPER
+            </button>
+          </div>
+          <input type="hidden" id="active-case" value="lower" />
+        </div>
+
+        <!-- Dashes Toggle -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">Dashes</label>
+          <div class="flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+            <button type="button" id="dash-on" class="dash-btn px-3 py-1.5 text-[11px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer">
+              With Dashes
+            </button>
+            <button type="button" id="dash-off" class="dash-btn px-3 py-1.5 text-[11px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer">
+              Without Dashes
+            </button>
+          </div>
+          <input type="hidden" id="active-dashes" value="on" />
+        </div>
+      </div>
+
+      <!-- Generate Button -->
+      <div class="pt-2">
+        <button type="button" id="generate-btn" class="h-12 px-8 bg-primary text-on-primary hover:opacity-90 font-sans text-sm font-semibold rounded-full shadow-lvl2 transition-all cursor-pointer inline-flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Generate UUID(s)
+        </button>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="hidden mt-8 bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-4">
+
+      <!-- Results Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-hairline">
+        <div>
+          <span id="results-count-label" class="text-xs font-mono uppercase text-mute">Generated UUID</span>
+          <span id="results-timestamp" class="text-[10px] font-mono text-mute ml-3"></span>
+        </div>
+        <button type="button" id="copy-all-btn" class="h-8 px-4 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          Copy All
+        </button>
+      </div>
+
+      <!-- Single UUID Display -->
+      <div id="single-display" class="w-full">
+        <div class="bg-canvas-soft border border-hairline rounded-lg p-4 md:p-6 shadow-lvl1">
+          <div class="flex items-center justify-between gap-4">
+            <code id="uuid-output" class="text-lg md:text-xl font-mono text-ink break-all select-all tracking-wide"></code>
+            <button type="button" class="copy-btn h-8 w-8 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink rounded-md shadow-lvl1 transition-colors flex items-center justify-center flex-shrink-0 cursor-pointer" data-uuid="">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk UUID Display -->
+      <div id="bulk-display" class="hidden">
+        <div id="bulk-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1">
+        </div>
+      </div>
+
+      <!-- Copy Feedback Toast -->
+      <div id="copy-toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-xs font-sans px-4 py-2.5 rounded-full shadow-lvl5 z-50 transition-opacity duration-300">
+        Copied to clipboard
+      </div>
+    </div>
+
+    <!-- Info Card -->
+    <div id="info-card" class="hidden mt-6 bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span id="info-version-badge" class="text-xs font-mono uppercase text-mute">UUID v4 (Random)</span>
+        </div>
+        <p id="info-description" class="text-body text-sm font-sans leading-relaxed">
+          UUID v4 generates purely random identifiers using 122 bits of entropy from the Web Crypto API.
+          Each UUID is statistically unique and suitable for most applications including database keys,
+          session tokens, and API resource identifiers.
+        </p>
+        <div class="flex flex-wrap gap-6 text-xs font-mono text-mute pt-2 border-t border-hairline">
+          <span>RFC <a id="info-rfc-link" href="https://datatracker.ietf.org/doc/html/rfc4122" target="_blank" rel="noopener" class="hover:text-ink underline underline-offset-2">4122</a></span>
+          <span id="info-uuids-count">UUIDs: 1</span>
+          <span id="info-gen-time">Generated in 0ms</span>
+        </div>
+      </div>
+    </div>    <!-- Info / SEO Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">About the UUID Generator: Versions, Security, and Database Optimization</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>UUID</strong> (Universally Unique Identifier) is a 128-bit label used to uniquely identify resources in computer systems. Standardized by the Open Software Foundation (and detailed in RFC 9562 / RFC 4122), UUIDs provide a decentralized way to generate unique IDs without requiring a central coordinator or server. The term <strong>GUID</strong> (Globally Unique Identifier) is Microsoft's implementation of this same standard, and they are functionally identical.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Comparing UUID Versions: Which One Should You Use?</h3>
+        <p>
+          Depending on your system architecture, choosing the right UUID version is critical:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>UUID v1 (Time-Based):</strong> Combines the current system timestamp with a clock sequence and a node identifier (typically the host's MAC address). This guarantees chronological order, but it leaks system details and timestamps, making them insecure for sensitive tokens.</li>
+          <li><strong>UUID v4 (Random):</strong> Generates a purely random 128-bit value (with 6 bits reserved for metadata), yielding 122 bits of entropy. It is the most popular choice for general use, session IDs, and API resources due to its simple implementation and virtual zero collision probability.</li>
+          <li><strong>UUID v7 (Time-Ordered):</strong> The modern standard for databases. It places a 48-bit Unix timestamp in milliseconds at the beginning, followed by 74 bits of random entropy. This design provides time-ordering, allowing database indexes (like B-trees) to remain highly efficient by preventing random page splits.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Database Indexing Performance: UUID v4 vs. UUID v7</h3>
+        <p>
+          In relational databases like PostgreSQL, MySQL, and SQL Server, using UUID v4 as a primary key can cause significant write performance issues at scale. Because UUID v4 is completely random, inserting new records causes page splits and random disk I/O as the database tries to sort values into indexes. UUID v7 resolves this index fragmentation by starting with a timestamp. New records are always appended to the end of the index tree (similar to auto-incrementing integers), providing massive write throughput improvements while keeping the benefits of globally unique 128-bit keys.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Security and Privacy of Browser-Based Generation</h3>
+        <p>
+          All UUIDs generated on ToolzTotal are computed locally inside your browser using JavaScript's cryptographically secure <code>crypto.getRandomValues()</code> API. This API utilizes the underlying operating system's secure entropy source (such as Unix <code>/dev/urandom</code>), guaranteeing that the random number generation is safe from patterns or predictability. Because everything runs client-side, your generated keys never travel over the network, making them safe for API tokens, secret session keys, and sensitive production keys.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is a UUID?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A UUID (Universally Unique Identifier) is a 128-bit identifier standardized by the Open Software Foundation. It is used to uniquely identify information in computer systems. The term GUID (Globally Unique Identifier) is a Microsoft implementation of the UUID standard and is used interchangeably.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What's the difference between UUID v1, v4, and v7?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">UUID v1 generates time-based identifiers using the current timestamp and the host machine's MAC address (or a random node), making them chronologically sortable but potentially predictable. UUID v4 uses purely random numbers, offering 122 bits of entropy and is the most commonly used version. UUID v7 (RFC 9562) combines a Unix timestamp with random data, providing time-ordering like v1 but with the simplicity and security of random generation.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Are generated UUIDs truly unique?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">UUIDs are designed to be unique across space and time. UUID v4 has 2^122 possible values &mdash; the probability of collision is extremely low. UUID v1 uses timestamps and node identifiers to guarantee uniqueness within a system. UUID v7 combines timestamps with random bits, making collisions practically impossible under normal usage. All versions are safe for production use as database primary keys, distributed system identifiers, or API resource IDs.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Should I use UUID v4 or v7 for my database primary keys?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">UUID v7 is generally recommended for database primary keys because it is time-ordered, which improves B-tree index performance and reduces page splits in databases like PostgreSQL and MySQL. UUID v4 values are randomly distributed and can cause index fragmentation at scale. UUID v1 also provides time-ordering but may leak the timestamp and potentially the machine identity. For modern applications, UUID v7 offers the best balance of performance, privacy, and sortability.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Is this UUID generator free to use?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, this UUID generator is completely free to use. There are no usage limits, no registration required, and no premium tiers. All UUID generation happens locally in your browser using the Web Crypto API &mdash; no data is sent to any server. You can generate as many UUIDs as you need for personal projects, commercial applications, or any other use.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is a GUID? Are UUID and GUID the same?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">GUID stands for Globally Unique Identifier. It is Microsoft's implementation of the UUID standard. Conceptually and structurally, they are the same 128-bit identifiers, though Microsoft tools traditionally write them in uppercase and sometimes wrap them in curly braces.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>How does the Web Crypto API generate random bits?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">The Web Crypto API uses cryptographically secure pseudorandom number generators (CSPRNG) provided by the host operating system (such as /dev/urandom on Unix systems). This is much more secure than Math.random(), preventing predictability in production systems.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is the chance of a UUID collision?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">For UUID v4, you would need to generate 1 billion UUIDs per second for about 85 years to have a 50% chance of a single collision. For UUID v7, because the first 48 bits represent a timestamp, collisions can only happen if two identical random parts are generated within the exact same millisecond, which is highly improbable.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Why is UUID v7 sortable?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">UUID v7 stores a 48-bit Unix timestamp in its most significant bits (at the beginning of the string). Since values generated later will have a larger timestamp, they naturally sort lexicographically after earlier ones, matching creation order.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Can I generate UUIDs in bulk?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. This generator lets you generate up to 500 UUIDs at a time. You can choose the format (standard, uppercase, no hyphens, CSV, JSON array) and copy or download them instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-6">Related Developer Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="/dev/json-formatter" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JSON Formatter</span>
+        </a>
+        <a href="/dev/regex-tester" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Regex Tester</span>
+        </a>
+        <a href="/dev/base64-encoder-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Base64 Encode/Decode</span>
+        </a>
+        <a href="/dev/diff-checker" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Diff Checker</span>
+        </a>
+        <a href="/dev/color-picker" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Color Picker</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // DOM refs
+    const versionBtns = document.querySelectorAll('.version-btn');
+    const activeVersion = document.getElementById('active-version');
+    const bulkCount = document.getElementById('bulk-count');
+    const countDec = document.getElementById('count-dec');
+    const countInc = document.getElementById('count-inc');
+    const caseBtns = document.querySelectorAll('.case-btn');
+    const activeCase = document.getElementById('active-case');
+    const dashBtns = document.querySelectorAll('.dash-btn');
+    const activeDashes = document.getElementById('active-dashes');
+    const generateBtn = document.getElementById('generate-btn');
+    const resultsSection = document.getElementById('results-section');
+    const singleDisplay = document.getElementById('single-display');
+    const uuidOutput = document.getElementById('uuid-output');
+    const bulkDisplay = document.getElementById('bulk-display');
+    const bulkGrid = document.getElementById('bulk-grid');
+    const copyAllBtn = document.getElementById('copy-all-btn');
+    const copyToast = document.getElementById('copy-toast');
+    const resultsCountLabel = document.getElementById('results-count-label');
+    const resultsTimestamp = document.getElementById('results-timestamp');
+    const infoCard = document.getElementById('info-card');
+    const infoVersionBadge = document.getElementById('info-version-badge');
+    const infoDescription = document.getElementById('info-description');
+    const infoRfcLink = document.getElementById('info-rfc-link');
+    const infoUuidsCount = document.getElementById('info-uuids-count');
+    const infoGenTime = document.getElementById('info-gen-time');
+
+    // UUID constants
+    const UUID_EPOCH_OFFSET = 122192928000000000n; // BigInt — gregorian offset to Unix epoch in 100ns units
+    const VARIANT_BITS = 0x80;
+
+    function randomBytes(n) {
+      const bytes = new Uint8Array(n);
+      crypto.getRandomValues(bytes);
+      return bytes;
+    }
+
+    function hex(b, upper) {
+      return upper ? b.toString(16).padStart(2, '0').toUpperCase() : b.toString(16).padStart(2, '0');
+    }
+
+    function bytesToHex(bytes, dashes, upper) {
+      const h = Array.from(bytes).map(b => hex(b, upper)).join('');
+      if (!dashes) return h;
+      return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20, 32);
+    }
+
+    function generateV4(upper, dashes) {
+      const bytes = randomBytes(16);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40;
+      bytes[8] = (bytes[8] & 0x3f) | VARIANT_BITS;
+      return bytesToHex(bytes, dashes, upper);
+    }
+
+    function generateV1(upper, dashes) {
+      // All timestamp math in BigInt to preserve 60-bit precision.
+      // JS bitwise ops coerce to 32-bit signed int, so >> on values > 2^31 gives wrong results.
+      const now = BigInt(Date.now());
+      const ts100ns = now * 10000n + UUID_EPOCH_OFFSET; // 100ns ticks since UUID epoch (1582-10-15)
+
+      // Extract the three timestamp fields per RFC 4122 §4.1.3
+      const timeLow  = ts100ns & 0xffffffffn;          // bits 0-31
+      const timeMid  = (ts100ns >> 32n) & 0xffffn;     // bits 32-47
+      const timeHi   = (ts100ns >> 48n) & 0x0fffn;    // bits 48-59
+
+      const clockSeqHi  = (0x10 & 0x3f) | VARIANT_BITS;
+      const clockSeqLow = randomBytes(1)[0] & 0xff;
+      const node = randomBytes(6);
+
+      // Convert BigInt fields to Number only here at the byte boundary
+      const tl = Number(timeLow);
+      const tm = Number(timeMid);
+      const th = Number(timeHi);
+
+      const bytes = new Uint8Array(16);
+      bytes[0] = (tl >> 24) & 0xff;
+      bytes[1] = (tl >> 16) & 0xff;
+      bytes[2] = (tl >> 8)  & 0xff;
+      bytes[3] =  tl        & 0xff;
+      bytes[4] = (tm >> 8)  & 0xff;
+      bytes[5] =  tm        & 0xff;
+      bytes[6] = ((th >> 8) & 0x0f) | 0x10; // version nibble = 1
+      bytes[7] =  th        & 0xff;
+      bytes[8] =  clockSeqHi;
+      bytes[9] =  clockSeqLow;
+      bytes[10] = node[0];
+      bytes[11] = node[1];
+      bytes[12] = node[2];
+      bytes[13] = node[3];
+      bytes[14] = node[4];
+      bytes[15] = node[5];
+
+      return bytesToHex(bytes, dashes, upper);
+    }
+
+    function generateV7(upper, dashes) {
+      const now = Date.now();
+      const tsHigh = (now >> 16) & 0xffffffff;
+      const tsLow = now & 0xffff;
+      const rand = randomBytes(10);
+
+      const bytes = new Uint8Array(16);
+      bytes[0] = (tsHigh >> 24) & 0xff;
+      bytes[1] = (tsHigh >> 16) & 0xff;
+      bytes[2] = (tsHigh >> 8) & 0xff;
+      bytes[3] = tsHigh & 0xff;
+      bytes[4] = (tsLow >> 8) & 0xff;
+      bytes[5] = tsLow & 0xff;
+      bytes[6] = (rand[0] & 0x0f) | 0x70;
+      bytes[7] = rand[1];
+      bytes[8] = (rand[2] & 0x3f) | VARIANT_BITS;
+      bytes[9] = rand[3];
+      bytes[10] = rand[4];
+      bytes[11] = rand[5];
+      bytes[12] = rand[6];
+      bytes[13] = rand[7];
+      bytes[14] = rand[8];
+      bytes[15] = rand[9];
+
+      return bytesToHex(bytes, dashes, upper);
+    }
+
+    function generate(version, upper, dashes, count) {
+      const uuids = [];
+      const fn = version === 'v1' ? generateV1 : version === 'v7' ? generateV7 : generateV4;
+      for (let i = 0; i < count; i++) {
+        uuids.push(fn(upper, dashes));
+      }
+      return uuids;
+    }
+
+    function showToast(msg) {
+      copyToast.textContent = msg || 'Copied to clipboard';
+      copyToast.classList.remove('hidden');
+      setTimeout(() => copyToast.classList.add('hidden'), 2000);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => showToast()).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      });
+    }
+
+    // Pill toggle helper
+    function activatePill(btns, activeId, valueInput) {
+      btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          btns.forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+            b.classList.add('text-mute', 'hover:text-ink');
+          });
+          btn.classList.remove('text-mute', 'hover:text-ink');
+          btn.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+          if (valueInput) valueInput.value = btn.id.replace(/^(case|dash|ver)-/, '');
+        });
+      });
+    }
+
+    activatePill(versionBtns, null, activeVersion);
+    activatePill(caseBtns, null, activeCase);
+    activatePill(dashBtns, null, activeDashes);
+
+    // Bulk count controls
+    countDec.addEventListener('click', () => {
+      let v = parseInt(bulkCount.value) || 1;
+      if (v > 1) bulkCount.value = String(v - 1);
+    });
+    countInc.addEventListener('click', () => {
+      let v = parseInt(bulkCount.value) || 1;
+      if (v < 100) bulkCount.value = String(v + 1);
+    });
+    bulkCount.addEventListener('change', () => {
+      let v = parseInt(bulkCount.value) || 1;
+      if (v < 1) v = 1;
+      if (v > 100) v = 100;
+      bulkCount.value = String(v);
+    });
+
+    // Version info data
+    const versionInfo = {
+      v1: {
+        badge: 'UUID v1 (Time-Based)',
+        desc: 'UUID v1 generates time-based identifiers using the current timestamp (100-ns intervals since October 15, 1582) combined with a random clock sequence and node identifier. These are chronologically sortable.',
+        rfc: 'https://datatracker.ietf.org/doc/html/rfc4122'
+      },
+      v4: {
+        badge: 'UUID v4 (Random)',
+        desc: 'UUID v4 generates purely random identifiers using 122 bits of entropy from the Web Crypto API. Each UUID is statistically unique and suitable for most applications including database keys, session tokens, and API resource identifiers.',
+        rfc: 'https://datatracker.ietf.org/doc/html/rfc4122'
+      },
+      v7: {
+        badge: 'UUID v7 (Time-Ordered)',
+        desc: 'UUID v7 (RFC 9562) combines a 48-bit Unix timestamp with random data. It provides time-ordering like v1 without exposing system information, making it ideal for database primary keys and distributed systems.',
+        rfc: 'https://datatracker.ietf.org/doc/html/rfc9562'
+      }
+    };
+
+    function updateInfo(version, count, genTime) {
+      const info = versionInfo[version];
+      infoVersionBadge.textContent = info.badge;
+      infoDescription.textContent = info.desc;
+      infoRfcLink.textContent = version === 'v7' ? '9562' : '4122';
+      infoRfcLink.href = info.rfc;
+      infoUuidsCount.textContent = `UUIDs: ${count}`;
+      infoGenTime.textContent = `Generated in ${genTime}ms`;
+    }
+
+    // Generate action
+    generateBtn.addEventListener('click', () => {
+      const ver = activeVersion.value;
+      const upper = activeCase.value === 'upper';
+      const dashes = activeDashes.value === 'on';
+      const count = parseInt(bulkCount.value) || 1;
+      const start = performance.now();
+      const uuids = generate(ver, upper, dashes, count);
+      const elapsed = Math.round((performance.now() - start) * 100) / 100;
+
+      const now = new Date();
+      const ts = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      resultsSection.classList.remove('hidden');
+      resultsTimestamp.textContent = `Generated at ${ts}`;
+      resultsCountLabel.textContent = count === 1 ? 'Generated UUID' : `Generated UUIDs (${count})`;
+
+      if (count === 1) {
+        singleDisplay.classList.remove('hidden');
+        bulkDisplay.classList.add('hidden');
+        uuidOutput.textContent = uuids[0];
+        const cb = singleDisplay.querySelector('.copy-btn');
+        cb.setAttribute('data-uuid', uuids[0]);
+      } else {
+        singleDisplay.classList.add('hidden');
+        bulkDisplay.classList.remove('hidden');
+        bulkGrid.innerHTML = '';
+        uuids.forEach(u => {
+          const div = document.createElement('div');
+          div.className = 'flex items-center justify-between gap-3 bg-canvas-soft border border-hairline rounded-lg p-3 shadow-lvl1';
+          const code = document.createElement('code');
+          code.className = 'text-xs font-mono text-ink break-all select-all flex-1 min-w-0';
+          code.textContent = u;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'copy-btn h-7 w-7 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink rounded-md shadow-lvl1 transition-colors flex items-center justify-center flex-shrink-0 cursor-pointer';
+          btn.setAttribute('data-uuid', u);
+          btn.innerHTML = '<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>';
+          btn.addEventListener('click', () => copyToClipboard(u));
+          div.appendChild(code);
+          div.appendChild(btn);
+          bulkGrid.appendChild(div);
+        });
+      }
+
+      updateInfo(ver, count, elapsed);
+      infoCard.classList.remove('hidden');
+
+      // Copy All
+      const allText = uuids.join('\n');
+      copyAllBtn.onclick = () => copyToClipboard(allText);
+    });
+
+    // Copy single UUID
+    document.addEventListener('click', (e) => {
+      const copyBtn = e.target.closest('.copy-btn');
+      if (copyBtn && !copyBtn.closest('#copy-all-btn')) {
+        const uuid = copyBtn.getAttribute('data-uuid');
+        if (uuid) copyToClipboard(uuid);
+      }
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('svg');
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) {
+          content.classList.add('hidden');
+          icon.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          icon.classList.add('rotate-180');
+        }
+      });
+    });
+  </script>
+</Layout>

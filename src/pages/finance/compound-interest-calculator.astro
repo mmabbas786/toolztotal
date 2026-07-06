@@ -1,0 +1,888 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is compound interest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compound interest is interest calculated on both the initial principal and the accumulated interest from previous periods. Unlike simple interest — which only accrues on the principal — compounding allows your money to grow exponentially over time because each period's interest earnings are added to the base that earns interest in the next period. Albert Einstein reportedly called it the 'eighth wonder of the world.'"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does compounding frequency affect my returns?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The more frequently interest compounds, the faster your balance grows. Daily compounding yields slightly higher returns than monthly compounding, which beats quarterly, which beats semiannual, which beats annual compounding — given the same nominal interest rate. The difference is marginal at low rates but becomes more significant with higher rates and longer time horizons."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the compound interest formula?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The compound interest formula is A = P(1 + r/n)^(nt) + PMT × ((1 + r/n)^(nt) − 1) / (r/n), where A is the final amount, P is the initial principal, PMT is the monthly contribution, r is the annual interest rate (as a decimal), n is the number of compounding periods per year, and t is the number of years. The first term handles the initial investment; the second term handles recurring contributions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should I contribute monthly to reach my goal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The monthly contribution needed depends on your target amount, time horizon, expected annual return, and compounding frequency. As a rule of thumb, starting earlier allows you to contribute less per month because compound interest does more of the heavy lifting. For example, investing $500/month at 7% annual return for 30 years yields over $600,000 — far more than the $180,000 you actually contributed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Effective Annual Rate the same as the nominal rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The nominal annual rate is the stated rate before compounding is factored in. The Effective Annual Rate (EAR) accounts for the effect of compounding frequency and represents the actual annualized return you earn. For example, a 7% nominal rate compounded monthly yields an EAR of approximately 7.23%. The more frequent the compounding, the larger the gap between nominal and effective rates."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="Compound Interest Calculator - Free Investment Growth Calculator | ToolzTotal"
+  description="Free compound interest calculator — estimate your investment growth with monthly contributions, compounding frequency, and a full growth timeline chart. Plan your savings today."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">Compound Interest Calculator</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Compound Interest Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        See how your money grows over time with compound interest. Adjust the initial investment, monthly contributions, rate, and compounding frequency to model any savings or investment scenario.
+      </p>
+    </div>
+
+    <!-- Main Calculator Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl">
+
+      <!-- LEFT: Inputs -->
+      <div class="lg:col-span-5 space-y-6">
+
+        <!-- Input Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h2 class="text-base font-bold text-ink font-sans">Investment Parameters</h2>
+            <p class="text-xs text-mute font-sans mt-1">Adjust the values below to model your growth.</p>
+          </div>
+
+          <!-- Initial Investment -->
+          <div>
+            <label for="initial-investment" class="block text-xs font-mono uppercase text-mute mb-2">Initial Investment</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input
+                type="number"
+                id="initial-investment"
+                value="10000"
+                min="0"
+                step="500"
+                class="w-full h-11 pl-7 pr-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Monthly Contribution -->
+          <div>
+            <label for="monthly-contribution" class="block text-xs font-mono uppercase text-mute mb-2">Monthly Contribution</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input
+                type="number"
+                id="monthly-contribution"
+                value="500"
+                min="0"
+                step="50"
+                class="w-full h-11 pl-7 pr-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Length of Time -->
+          <div>
+            <label for="time-years" class="block text-xs font-mono uppercase text-mute mb-2">Length of Time in Years</label>
+            <input
+              type="number"
+              id="time-years"
+              value="10"
+              min="1"
+              max="100"
+              step="1"
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Annual Interest Rate -->
+          <div>
+            <label for="annual-rate" class="block text-xs font-mono uppercase text-mute mb-2">Estimated Annual Interest Rate</label>
+            <div class="relative">
+              <input
+                type="number"
+                id="annual-rate"
+                value="7"
+                min="0"
+                max="100"
+                step="0.25"
+                class="w-full h-11 pl-3 pr-8 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+            </div>
+          </div>
+
+          <!-- Compound Frequency -->
+          <div>
+            <label for="compound-frequency" class="block text-xs font-mono uppercase text-mute mb-2">Compound Frequency</label>
+            <select
+              id="compound-frequency"
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+            >
+              <option value="1">Annually</option>
+              <option value="2">Semiannually</option>
+              <option value="4">Quarterly</option>
+              <option value="12" selected>Monthly</option>
+              <option value="365">Daily</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- Results Panel -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="flex items-start justify-between border-b border-hairline pb-5 mb-6">
+            <div>
+              <p class="text-xs font-mono uppercase text-mute mb-1.5">Final Balance</p>
+              <div id="result-final-balance" class="text-4xl md:text-5xl font-bold tracking-tight text-violet-600 dark:text-violet-400 font-sans tabular-nums">
+                $0
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Total Contributions</span>
+              <span id="stat-total-contributions" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Total Interest Earned</span>
+              <span id="stat-total-interest" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Effective Annual Rate</span>
+              <span id="stat-effective-rate" class="text-base font-bold text-ink font-sans tabular-nums">0.00%</span>
+            </div>
+          </div>
+
+          <p class="mt-4 text-[10px] text-mute font-sans leading-relaxed">
+            Results assume the selected compounding frequency. Actual returns may vary based on market conditions, fees, and taxes. This is not financial advice.
+          </p>
+        </div>
+
+        <!-- Growth Chart Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4 mb-6">
+            <div>
+              <h3 class="text-sm font-bold text-ink font-sans">Growth Timeline</h3>
+              <p class="text-xs text-mute font-sans mt-0.5">Balance trajectory over the investment period.</p>
+            </div>
+            <button
+              type="button"
+              id="download-csv"
+              class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download CSV
+            </button>
+          </div>
+
+          <div class="w-full relative">
+            <svg id="growth-chart" viewBox="0 0 600 220" class="w-full h-auto max-h-[300px]">
+              <!-- Grid lines -->
+              <line x1="50" y1="15" x2="590" y2="15" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+              <line x1="50" y1="60" x2="590" y2="60" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+              <line x1="50" y1="105" x2="590" y2="105" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" stroke-dasharray="2 2" />
+              <line x1="50" y1="150" x2="590" y2="150" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+              <line x1="50" y1="195" x2="590" y2="195" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+
+              <!-- Y-axis labels -->
+              <text x="42" y="20" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-max">$100k</text>
+              <text x="42" y="110" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-mid">$50k</text>
+              <text x="42" y="198" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end">$0</text>
+
+              <!-- Total Value line + fill -->
+              <path id="chart-line-fill" class="fill-violet-500/10 dark:fill-violet-500/5" d="M 50,195 L 590,195 Z" />
+              <path id="chart-line" class="stroke-violet-600 dark:stroke-violet-400 fill-none" stroke-width="2.5" d="M 50,195 L 590,195 Z" />
+
+              <!-- Total Contributions line -->
+              <path id="chart-contributions" class="stroke-neutral-400 dark:stroke-neutral-600 fill-none" stroke-dasharray="3 3" stroke-width="1.5" d="M 50,195 L 590,195 Z" />
+
+              <!-- X-axis labels -->
+              <g id="chart-x-labels">
+                <text x="50" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Start</text>
+                <text x="320" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Half</text>
+                <text x="590" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">End</text>
+              </g>
+            </svg>
+
+            <!-- Chart Legend -->
+            <div class="flex flex-wrap gap-x-5 gap-y-2 justify-center items-center text-[10px] font-mono text-mute mt-4 border-t border-hairline pt-3">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-1.5 bg-violet-600 inline-block rounded-xs"></span>
+                <span>Total Value</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-0.5 border-t border-dashed border-neutral-400 inline-block"></span>
+                <span>Total Contributions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rate Comparison Table -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="border-b border-hairline pb-4 mb-4">
+            <h3 class="text-sm font-bold text-ink font-sans">Compounding Frequency Comparison</h3>
+            <p class="text-xs text-mute font-sans mt-0.5">How different compounding intervals affect your final balance at the same nominal rate.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="freq-comparison-grid">
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 text-center shadow-lvl1">
+              <p class="text-[10px] font-mono uppercase text-mute mb-1">Annual</p>
+              <p id="freq-comp-annual" class="text-base font-bold text-ink font-sans tabular-nums">$0</p>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 text-center shadow-lvl1">
+              <p class="text-[10px] font-mono uppercase text-mute mb-1">Monthly</p>
+              <p id="freq-comp-monthly" class="text-base font-bold text-ink font-sans tabular-nums">$0</p>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 text-center shadow-lvl1">
+              <p class="text-[10px] font-mono uppercase text-mute mb-1">Daily</p>
+              <p id="freq-comp-daily" class="text-base font-bold text-ink font-sans tabular-nums">$0</p>
+            </div>
+          </div>
+          <p class="mt-3 text-[10px] text-mute font-mono">Comparison at your current inputs — only compounding frequency changes.</p>
+        </div>
+
+        <!-- Yearly Breakdown Table -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="border-b border-hairline pb-4 mb-4">
+            <h3 class="text-sm font-bold text-ink font-sans">Yearly Breakdown</h3>
+            <p class="text-xs text-mute font-sans mt-0.5">Annual view of balance, contributions, and interest earned.</p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead>
+                <tr class="bg-canvas-soft border-b border-hairline font-mono text-mute uppercase tracking-wider text-[10px]">
+                  <th class="py-2.5 px-3">Year</th>
+                  <th class="py-2.5 px-3 text-right">Start Balance</th>
+                  <th class="py-2.5 px-3 text-right">Annual Contributions</th>
+                  <th class="py-2.5 px-3 text-right">Interest Earned</th>
+                  <th class="py-2.5 px-3 text-right">End Balance</th>
+                </tr>
+              </thead>
+              <tbody id="yearly-table-body" class="divide-y divide-hairline text-body tabular-nums">
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-3 text-[10px] text-mute font-mono">Showing annual snapshots. Download CSV for month-by-month data.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-24 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Compound Interest and Your Investment Growth</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>compound interest calculator</strong> is one of the most powerful tools for long-term financial planning. Whether you are saving for retirement, building a college fund, or growing an investment portfolio, understanding how compounding amplifies your returns over time is essential. This <strong>investment growth calculator</strong> shows you exactly how your money can grow when you combine an initial principal with regular monthly contributions and the magic of compounding.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Compound Interest Formula Explained</h3>
+        <p>
+          The mathematical engine behind this calculator is the compound interest formula, which accounts for both your initial lump sum and any recurring contributions you make along the way:
+        </p>
+        <p class="font-mono text-center text-ink py-4 bg-canvas-soft border border-hairline rounded-md text-sm leading-relaxed">
+          A = P(1 + r/n)^(nt) + PMT × ((1 + r/n)^(nt) − 1) / (r/n)
+        </p>
+        <p>
+          Where <strong>A</strong> is the final balance, <strong>P</strong> is the initial principal, <strong>PMT</strong> is the monthly contribution, <strong>r</strong> is the annual interest rate (as a decimal), <strong>n</strong> is the number of compounding periods per year, and <strong>t</strong> is the number of years. The first term calculates the growth of your initial investment using geometric compounding. The second term — known as the future value of an annuity formula — accounts for every monthly contribution you make, treating each one as if it were a separate investment that grows from the month it was deposited.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Compounding Frequency Matters</h3>
+        <p>
+          The frequency at which interest is compounded has a meaningful impact on your total returns. This <strong>savings growth calculator</strong> lets you choose from annual, semiannual, quarterly, monthly, or daily compounding. Daily compounding applies interest 365 times per year, which means each day's interest begins earning its own interest the very next day. While the differences may seem small over short periods, they compound significantly over decades.
+        </p>
+        <p>
+          To illustrate: a $10,000 initial investment with $500 monthly contributions at 7% annual interest over 30 years yields approximately $612,532 with annual compounding versus $621,462 with daily compounding. That is nearly $9,000 more from compounding frequency alone — and that gap widens with higher contribution amounts and interest rates. This is why choosing accounts with more frequent compounding is one of the simplest ways to boost long-term returns without taking on additional risk.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Power of Starting Early: Time Is Your Greatest Asset</h3>
+        <p>
+          The single most important variable in the compound interest equation is time. The earlier you begin investing, the less you need to contribute each month to achieve the same financial goal. This is not a small effect — it is the defining feature of exponential growth. Consider two investors:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Investor A</strong> starts at age 25, invests $500 per month at 7% annual return, and stops at age 65. Total contributions: $240,000. Final balance: approximately $1.34 million.</li>
+          <li><strong>Investor B</strong> starts at age 35, invests $1,000 per month at the same 7% return, and also stops at 65. Total contributions: $360,000. Final balance: approximately $1.22 million.</li>
+        </ul>
+        <p>
+          Despite contributing $120,000 more in total, Investor B ends up with less than Investor A — purely because they started ten years later. A <strong>compound savings calculator</strong> makes these trade-offs visible and concrete, helping you understand why delaying even a few years can cost six figures in future value.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Effective Annual Rate (EAR)</h3>
+        <p>
+          The Effective Annual Rate (EAR) is the actual annual return you earn after accounting for compounding frequency. While a bank or investment account might quote a nominal rate of 7%, the EAR can be higher depending on how often interest compounds. The formula for EAR is:
+        </p>
+        <p class="font-mono text-center text-ink py-4 bg-canvas-soft border border-hairline rounded-md text-sm">
+          EAR = (1 + r/n)^n − 1
+        </p>
+        <p>
+          With monthly compounding, a 7% nominal rate becomes approximately 7.23% effective. With daily compounding, it becomes about 7.25%. With annual compounding, the EAR equals the nominal rate. The EAR is the truest measure of your investment's annual yield and is the most honest comparison tool when evaluating different accounts, CDs, bonds, or any interest-bearing product.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Common Strategies for Maximizing Compound Growth</h3>
+        <p>
+          Here are several evidence-based approaches to get the most out of compound interest:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Start as early as possible.</strong> Even small amounts invested in your twenties can outgrow much larger contributions started later. Time is the multiplier you cannot buy.</li>
+          <li><strong>Increase contributions over time.</strong> As your income grows, increase your monthly investment amount. A 1% increase in contribution rate each year can dramatically boost your final balance.</li>
+          <li><strong>Reinvest all earnings.</strong> Dividends, interest payments, and capital gains should be reinvested rather than withdrawn. Reinvesting keeps the compounding engine running at full power.</li>
+          <li><strong>Minimize fees.</strong> High expense ratios, management fees, and transaction costs eat directly into your compounding base. Even a 1% annual fee can reduce your final balance by 25% or more over a 30-year horizon.</li>
+          <li><strong>Stay invested through volatility.</strong> Trying to time the market often means missing the best performing days. Consistent, long-term investing almost always outperforms frequent trading.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How This Calculator Differs from Simple Interest Calculators</h3>
+        <p>
+          A <strong>simple interest calculator</strong> only computes interest on the principal amount, ignoring the compounding effect entirely. A <strong>compound interest calculator</strong> like this one models the exponential growth curve that real investments follow. Many people underestimate their future savings because they think in linear terms when growth is actually exponential. This tool bridges that gap by showing you a month-by-month projection with the exact compounding you select — so you can see not just the final number but the <em>shape</em> of your financial future.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Rule of 72: A Quick Mental Shortcut</h3>
+        <p>
+          The Rule of 72 is a simple way to estimate how long it will take for your money to double at a fixed annual rate of return. Divide 72 by your annual interest rate to get the approximate number of years. For example, at 7% annual return, 72 ÷ 7 ≈ 10.3 years to double. At 10%, it takes about 7.2 years. This rule works best for rates between 6% and 10% and gives a rough but surprisingly accurate estimate that you can calculate in your head — no compound interest calculator required.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tax Considerations and Inflation</h3>
+        <p>
+          While this calculator provides an accurate mathematical projection, real-world returns are affected by two important factors it does not model. First, taxes on interest and capital gains can reduce your net return depending on your tax bracket and account type (taxable brokerage vs. IRA vs. 401(k)). Tax-advantaged accounts like Roth IRAs and 401(k)s allow your investments to compound tax-free or tax-deferred, which can dramatically improve your after-tax final balance. Second, inflation erodes purchasing power over time: a 7% nominal return in a 3% inflation environment yields only about 4% real growth. For after-tax and inflation-adjusted projections, consider using this tool together with other financial planning resources and consulting with a qualified financial advisor.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">When to Use This Calculator vs. a Loan or Mortgage Calculator</h3>
+        <p>
+          This <strong>compound growth calculator</strong> is designed for investment and savings scenarios where you earn returns on your money. It is the right tool for modeling retirement accounts, brokerage portfolios, savings accounts, and any growth-oriented financial product. If you are borrowing money instead of investing it — such as taking out a mortgage, auto loan, or personal loan — you should use a <strong>loan calculator</strong> or <strong>amortization calculator</strong> instead. Those tools apply the same compounding math in reverse, calculating how much you owe based on the principal, interest rate, and term of the debt.
+        </p>
+
+        <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+          <strong>Important Note:</strong> This calculator provides mathematical estimates for planning and educational purposes only. It does not account for taxes, inflation, fees, or market volatility. Past performance and projected returns are not guarantees of future results. All investment involves risk, including the potential loss of principal. Consult a qualified financial advisor before making investment decisions.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-3" id="faq-accordion">
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is compound interest?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Compound interest is the interest calculated on both your initial principal and the accumulated interest from previous periods. Unlike simple interest — which only earns on the original amount — compounding creates a snowball effect where your money grows exponentially. The key insight is that each period's interest earnings increase the base that earns interest in the next period, creating accelerating growth over time. This is why long-term investors see their portfolios accelerate dramatically in later years.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does compounding frequency affect my returns?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Compounding frequency determines how often earned interest is added to your principal balance. Daily compounding gives you the highest return for a given nominal rate, followed by monthly, quarterly, semiannual, and annual. The differences are modest over short periods but compound substantially over long time horizons — especially with higher interest rates. For example, $10,000 invested at 7% over 30 years grows to about $76,123 with annual compounding, roughly $79,970 with monthly compounding, and about $81,797 with daily compounding.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the compound interest formula?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The full formula used by this calculator is A = P(1 + r/n)^(nt) + PMT × ((1 + r/n)^(nt) − 1) / (r/n). It has two parts: the first term P(1 + r/n)^(nt) grows your initial investment at the compound rate over time, and the second term handles recurring monthly contributions using the future value of an annuity formula. Each contribution earns compound interest from the month it was deposited, so earlier contributions grow more than later ones.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How much should I contribute monthly to reach my goal?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The required monthly contribution depends on your target amount, time horizon, expected return, and compounding frequency. Starting early dramatically reduces the monthly amount needed because compound interest does more of the heavy lifting. Use the inputs above to experiment — try different monthly contribution levels and time periods to see how they affect your final balance. A general guideline is to aim for saving 15% to 20% of your gross income, but the ideal amount depends on your specific goals and timeline.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is the Effective Annual Rate the same as the nominal rate?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. The nominal rate is the stated annual interest rate before compounding is taken into account. The Effective Annual Rate (EAR) accounts for the effect of compounding frequency and represents the actual annualized yield you earn. For example, a nominal rate of 7% compounded monthly yields an EAR of about 7.23%, while daily compounding pushes it to about 7.25%. The gap between nominal and effective rates grows with higher rates and more frequent compounding — which is why comparing EARs is essential when evaluating savings accounts, CDs, or loans.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="mt-20 pt-12 border-t border-hairline max-w-5xl">
+      <h2 class="text-sm font-mono uppercase text-mute tracking-wider mb-6">Related Tools</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/finance/roi-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            ROI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate return on investment and annualized CAGR over time.</p>
+        </a>
+        <a href="/finance/loan-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Loan Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate monthly payments for personal, auto, or student loans.</p>
+        </a>
+        <a href="/finance/amortization-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Amortization Schedule Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">View a full amortization table for any loan with a fixed rate.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM References
+  // ============================================================
+  const initialInvestmentInput = document.getElementById('initial-investment') as HTMLInputElement;
+  const monthlyContributionInput = document.getElementById('monthly-contribution') as HTMLInputElement;
+  const timeYearsInput = document.getElementById('time-years') as HTMLInputElement;
+  const annualRateInput = document.getElementById('annual-rate') as HTMLInputElement;
+  const compoundFreqSelect = document.getElementById('compound-frequency') as HTMLSelectElement;
+  const downloadCsvBtn = document.getElementById('download-csv') as HTMLButtonElement;
+
+  const resultFinalBalance = document.getElementById('result-final-balance') as HTMLElement;
+  const statTotalContributions = document.getElementById('stat-total-contributions') as HTMLElement;
+  const statTotalInterest = document.getElementById('stat-total-interest') as HTMLElement;
+  const statEffectiveRate = document.getElementById('stat-effective-rate') as HTMLElement;
+
+  const chartLine = document.getElementById('chart-line') as SVGPathElement;
+  const chartLineFill = document.getElementById('chart-line-fill') as SVGPathElement;
+  const chartContributions = document.getElementById('chart-contributions') as SVGPathElement;
+  const chartYMax = document.getElementById('chart-y-max') as SVGTextElement;
+  const chartYMid = document.getElementById('chart-y-mid') as SVGTextElement;
+
+  const yearlyTableBody = document.getElementById('yearly-table-body') as HTMLElement;
+
+  const freqCompAnnual = document.getElementById('freq-comp-annual') as HTMLElement;
+  const freqCompMonthly = document.getElementById('freq-comp-monthly') as HTMLElement;
+  const freqCompDaily = document.getElementById('freq-comp-daily') as HTMLElement;
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  const fmt = (n: number): string => '$' + Math.round(n).toLocaleString('en-US');
+  const fmtRaw = (n: number): string => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtPercent = (n: number): string => n.toFixed(2) + '%';
+
+  // ============================================================
+  // Core Calculation Engine
+  // ============================================================
+  interface TimelinePoint {
+    month: number;
+    balance: number;
+    contributions: number;
+  }
+
+  let timelineData: TimelinePoint[] = [];
+
+  const calculate = (): void => {
+    const P = Math.max(0, parseFloat(initialInvestmentInput.value) || 0);
+    const PMT = Math.max(0, parseFloat(monthlyContributionInput.value) || 0);
+    const t = Math.max(1, Math.min(100, parseFloat(timeYearsInput.value) || 1));
+    const r = Math.max(0, Math.min(100, parseFloat(annualRateInput.value) || 0)) / 100;
+    const n = parseFloat(compoundFreqSelect.value);
+
+    const totalMonths = Math.round(t * 12);
+    const monthlyRate = r / 12;
+
+    // Build month-by-month timeline
+    timelineData = [];
+    let balance = P;
+    let totalContrib = P;
+
+    for (let month = 0; month <= totalMonths; month++) {
+      timelineData.push({
+        month,
+        balance: Math.round(balance * 100) / 100,
+        contributions: Math.round(totalContrib * 100) / 100,
+      });
+
+      if (month < totalMonths) {
+        totalContrib += PMT;
+        balance += PMT;
+
+        if (n === 12) {
+          balance *= (1 + monthlyRate);
+        } else {
+          const effectiveMonthlyRate = Math.pow(1 + r / n, n / 12) - 1;
+          balance *= (1 + effectiveMonthlyRate);
+        }
+      }
+    }
+
+    const finalPoint = timelineData[totalMonths];
+    const finalBalance = finalPoint.balance;
+    const totalContributions = finalPoint.contributions;
+    const totalInterest = finalBalance - totalContributions;
+
+    // Effective Annual Rate
+    const ear = r > 0 ? (Math.pow(1 + r / n, n) - 1) * 100 : 0;
+
+    // Update DOM
+    resultFinalBalance.textContent = fmt(finalBalance);
+    statTotalContributions.textContent = fmt(totalContributions);
+    statTotalInterest.textContent = fmt(totalInterest);
+    statEffectiveRate.textContent = fmtPercent(ear);
+
+    // Draw chart
+    drawChart();
+
+    // Build yearly table
+    buildYearlyTable(r, n, PMT, ear);
+
+    // Update frequency comparison
+    updateFreqComparison(P, PMT, t, r);
+  };
+
+  // ============================================================
+  // SVG Chart Drawing
+  // ============================================================
+  const drawChart = (): void => {
+    const data = timelineData;
+    if (data.length < 2) return;
+
+    const margin = { top: 15, bottom: 25, left: 50, right: 10 };
+    const chartW = 600;
+    const chartH = 220;
+    const plotW = chartW - margin.left - margin.right;
+    const plotH = chartH - margin.top - margin.bottom;
+
+    let maxVal = 0;
+    for (const d of data) {
+      if (d.balance > maxVal) maxVal = d.balance;
+      if (d.contributions > maxVal) maxVal = d.contributions;
+    }
+    if (maxVal <= 0) maxVal = 1;
+
+    const magnitude = Math.pow(10, Math.floor(Math.log10(maxVal)));
+    const normalized = maxVal / magnitude;
+    let niceMax: number;
+    if (normalized <= 1) niceMax = magnitude;
+    else if (normalized <= 2) niceMax = 2 * magnitude;
+    else if (normalized <= 5) niceMax = 5 * magnitude;
+    else niceMax = 10 * magnitude;
+
+    const xScale = (i: number): number => margin.left + (i / (data.length - 1)) * plotW;
+    const yScale = (v: number): number => margin.top + plotH - (v / niceMax) * plotH;
+
+    let lineD = '';
+    let fillD = '';
+    let contribD = '';
+
+    for (let i = 0; i < data.length; i++) {
+      const x = xScale(i);
+      const yBal = yScale(data[i].balance);
+      const yCont = yScale(data[i].contributions);
+      const cmd = i === 0 ? 'M' : 'L';
+      lineD += `${cmd} ${x.toFixed(1)},${yBal.toFixed(1)} `;
+      contribD += `${cmd} ${x.toFixed(1)},${yCont.toFixed(1)} `;
+    }
+
+    fillD = lineD + ` L ${xScale(data.length - 1).toFixed(1)},${yScale(0).toFixed(1)} L ${xScale(0).toFixed(1)},${yScale(0).toFixed(1)} Z`;
+
+    chartLine.setAttribute('d', lineD.trim());
+    chartLineFill.setAttribute('d', fillD);
+    chartContributions.setAttribute('d', contribD.trim());
+
+    chartYMax.textContent = '$' + (niceMax).toLocaleString('en-US');
+    chartYMid.textContent = '$' + (niceMax / 2).toLocaleString('en-US');
+  };
+
+  // ============================================================
+  // Yearly Breakdown Table
+  // ============================================================
+  const buildYearlyTable = (annualRate: number, compoundPeriods: number, monthlyContrib: number, ear: number): void => {
+    const P = Math.max(0, parseFloat(initialInvestmentInput.value) || 0);
+    const totalYears = Math.max(1, Math.min(100, parseFloat(timeYearsInput.value) || 1));
+
+    let html = '';
+    let balance = P;
+    let cumulativeContrib = P;
+
+    for (let year = 1; year <= totalYears; year++) {
+      const startBalance = Math.round(balance * 100) / 100;
+      const yearlyContribTotal = monthlyContrib * 12;
+      const effectiveMonthlyRate = Math.pow(1 + annualRate / compoundPeriods, compoundPeriods / 12) - 1;
+
+      let yearEndBalance = balance;
+      for (let m = 0; m < 12; m++) {
+        cumulativeContrib += monthlyContrib;
+        yearEndBalance += monthlyContrib;
+        yearEndBalance *= (1 + effectiveMonthlyRate);
+      }
+      yearEndBalance = Math.round(yearEndBalance * 100) / 100;
+
+      const interestEarned = Math.round((yearEndBalance - startBalance - yearlyContribTotal) * 100) / 100;
+
+      html += '<tr class="' + (year % 2 === 0 ? 'bg-canvas-soft/50' : '') + '">';
+      html += '<td class="py-2 px-3 font-medium text-ink">' + year + '</td>';
+      html += '<td class="py-2 px-3 text-right font-mono">' + fmt(startBalance) + '</td>';
+      html += '<td class="py-2 px-3 text-right font-mono">' + fmt(yearlyContribTotal) + '</td>';
+      html += '<td class="py-2 px-3 text-right font-mono text-emerald-600 dark:text-emerald-400">' + fmt(interestEarned) + '</td>';
+      html += '<td class="py-2 px-3 text-right font-mono font-semibold text-ink">' + fmt(yearEndBalance) + '</td>';
+      html += '</tr>';
+
+      balance = yearEndBalance;
+    }
+
+    yearlyTableBody.innerHTML = html;
+  };
+
+  // ============================================================
+  // Frequency Comparison
+  // ============================================================
+  const projectBalance = (
+    principal: number,
+    monthly: number,
+    years: number,
+    annualRate: number,
+    periodsPerYear: number
+  ): number => {
+    let bal = principal;
+    const totalMonths = Math.round(years * 12);
+    const effectiveMonthlyRate = Math.pow(1 + annualRate / periodsPerYear, periodsPerYear / 12) - 1;
+    for (let m = 0; m < totalMonths; m++) {
+      bal += monthly;
+      bal *= (1 + effectiveMonthlyRate);
+    }
+    return bal;
+  };
+
+  const updateFreqComparison = (
+    principal: number,
+    monthly: number,
+    years: number,
+    annualRate: number
+  ): void => {
+    const annualBal = projectBalance(principal, monthly, years, annualRate, 1);
+    const monthlyBal = projectBalance(principal, monthly, years, annualRate, 12);
+    const dailyBal = projectBalance(principal, monthly, years, annualRate, 365);
+    freqCompAnnual.textContent = fmt(annualBal);
+    freqCompMonthly.textContent = fmt(monthlyBal);
+    freqCompDaily.textContent = fmt(dailyBal);
+  };
+
+  // ============================================================
+  // Compound Interest Formula (direct formula for verification)
+  // ============================================================
+  const compoundFormula = (
+    principal: number,
+    monthly: number,
+    years: number,
+    annualRate: number,
+    periodsPerYear: number
+  ): number => {
+    const r = annualRate;
+    const n = periodsPerYear;
+    const t = years;
+    const nt = n * t;
+    const base = 1 + r / n;
+    const initialTerm = principal * Math.pow(base, nt);
+    let contributionTerm = 0;
+    if (r > 0 && monthly > 0) {
+      const annuityFactor = (Math.pow(base, nt) - 1) / (r / n);
+      contributionTerm = monthly * 12 * annuityFactor * (r / n) / (r / n);
+      contributionTerm = monthly * 12 * annuityFactor * (1 / n);
+      // Correct formula for PMT at end of each period:
+      // FV = PMT * ((1 + r/n)^(nt) - 1) / (r/n)
+      // Where PMT is already the total per period contribution
+      const pmtPerPeriod = monthly * 12 / n;
+      contributionTerm = pmtPerPeriod * annuityFactor;
+    }
+    return initialTerm + contributionTerm;
+  };
+
+  // ============================================================
+  // CSV Export
+  // ============================================================
+  const exportCsv = (): void => {
+    if (timelineData.length === 0) return;
+
+    const P = Math.max(0, parseFloat(initialInvestmentInput.value) || 0);
+    const PMT = Math.max(0, parseFloat(monthlyContributionInput.value) || 0);
+    const t = Math.max(1, parseFloat(timeYearsInput.value) || 1);
+    const r = Math.max(0, parseFloat(annualRateInput.value) || 0);
+    const nLabel = compoundFreqSelect.options[compoundFreqSelect.selectedIndex].text;
+
+    const rows: string[][] = [
+      ['Compound Interest Calculator - ToolzTotal.com', ''],
+      ['', ''],
+      ['Input', 'Value'],
+      ['Initial Investment', fmtRaw(P)],
+      ['Monthly Contribution', fmtRaw(PMT)],
+      ['Length of Time (years)', t.toString()],
+      ['Annual Interest Rate (%)', r.toFixed(2)],
+      ['Compound Frequency', nLabel],
+      ['', ''],
+      ['Month', 'Balance ($)', 'Contributions ($)'],
+    ];
+
+    for (const d of timelineData) {
+      rows.push([d.month.toString(), fmtRaw(d.balance), fmtRaw(d.contributions)]);
+    }
+
+    const finalBal = timelineData[timelineData.length - 1].balance;
+    const totalContrib = timelineData[timelineData.length - 1].contributions;
+    const interest = finalBal - totalContrib;
+
+    rows.push(['', '', '']);
+    rows.push(['Summary', '', '']);
+    rows.push(['Final Balance', fmtRaw(finalBal), '']);
+    rows.push(['Total Contributions', fmtRaw(totalContrib), '']);
+    rows.push(['Total Interest Earned', fmtRaw(interest), '']);
+    rows.push(['', '', '']);
+    rows.push(['DISCLAIMER', 'Estimates only. Not financial advice.', '']);
+
+    const csv = rows.map(r => r.map(c => '"' + c.replace(/"/g, '""') + '"').join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'compound-interest-estimate-toolztotal.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  // ============================================================
+  // Input Validation — clamp values to safe ranges
+  // ============================================================
+  const sanitizeNumber = (val: string, min: number, max: number, fallback: number): number => {
+    const n = parseFloat(val);
+    if (isNaN(n) || !isFinite(n)) return fallback;
+    return Math.max(min, Math.min(max, n));
+  };
+
+  const validateInputs = (): void => {
+    const P = sanitizeNumber(initialInvestmentInput.value, 0, 100_000_000, 0);
+    const PMT = sanitizeNumber(monthlyContributionInput.value, 0, 10_000_000, 0);
+    const t = sanitizeNumber(timeYearsInput.value, 1, 100, 1);
+    const r = sanitizeNumber(annualRateInput.value, 0, 100, 0);
+
+    // Clamp displayed values if they exceed reasonable ranges
+    if (parseFloat(initialInvestmentInput.value) > 100_000_000) {
+      initialInvestmentInput.value = '100000000';
+    }
+    if (parseFloat(monthlyContributionInput.value) > 10_000_000) {
+      monthlyContributionInput.value = '10000000';
+    }
+    if (parseFloat(timeYearsInput.value) > 100) {
+      timeYearsInput.value = '100';
+    }
+    if (parseFloat(annualRateInput.value) > 100) {
+      annualRateInput.value = '100';
+    }
+  };
+
+  // ============================================================
+  // Enhanced calculate with validation wrapper
+  // ============================================================
+  const safeCalculate = (): void => {
+    validateInputs();
+    calculate();
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  const inputs: (HTMLElement | HTMLSelectElement)[] = [
+    initialInvestmentInput,
+    monthlyContributionInput,
+    timeYearsInput,
+    annualRateInput,
+    compoundFreqSelect,
+  ];
+
+  for (const el of inputs) {
+    el.addEventListener('input', safeCalculate);
+    el.addEventListener('change', safeCalculate);
+    // Handle direct paste and blur events too
+    el.addEventListener('blur', safeCalculate);
+  }
+
+  downloadCsvBtn.addEventListener('click', exportCsv);
+
+  // Handle keyboard shortcuts: press Enter to recalculate
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && inputs.some(el => el === document.activeElement)) {
+      safeCalculate();
+    }
+  });
+
+  // ============================================================
+  // Initial calculation on page load
+  // ============================================================
+  safeCalculate();
+</script>

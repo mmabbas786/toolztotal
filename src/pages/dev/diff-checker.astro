@@ -1,0 +1,879 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a Diff Checker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Diff Checker is a developer tool that compares two blocks of text or code and highlights the differences between them. It shows which lines were added, removed, or modified, helping developers quickly understand what changed between two versions of a file, configuration, or any textual content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the diff algorithm work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool uses an LCS (Longest Common Subsequence) based diff algorithm. It splits both inputs into lines, finds the longest sequence of lines common to both texts, then identifies insertions, deletions, and modifications. For modified lines, it performs a secondary word-level comparison to highlight exactly which words changed within the same line."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between side-by-side and inline diff views?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Side-by-side view displays the original and changed texts in two parallel columns, making it easy to scan the overall differences at a glance. Inline (unified) view merges both versions into a single scrolling view with color-coded lines, where added lines are shown in green and removed lines in red. Both views support line numbers and word-level highlighting for modified lines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I ignore whitespace or case when comparing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, the tool provides two options: Ignore Whitespace trims leading/trailing whitespace and normalizes internal whitespace before comparing lines. Ignore Case converts all text to lowercase before comparison. These options help focus on semantic differences rather than formatting or casing issues, which is particularly useful when comparing code or configuration files."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this diff checker free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this Diff Checker is completely free to use with no signup required. All comparison logic runs entirely client-side in your browser — no text or code is ever sent to any server. Your data remains private and secure at all times, making it safe to compare sensitive code, configuration files, or confidential documents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between line-level and character-level comparisons?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Line-level comparison evaluates entire lines to mark them as added or deleted. Character or word-level comparison runs inside modified lines to pinpoint the exact difference (such as changing a variable name or typo), giving you highly precise visual feedback instead of highlighting the entire line blindly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the Ignore Whitespace option affect the diff output display?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The options only control how the diff engine evaluates equality. The final diff view will still show the original formatting and spaces of your input text, but it won't highlight those lines as different if the only change was indentation or empty lines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I copy the diff results directly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. While you cannot download raw HTML diff logs directly, you can copy the original or modified text inputs using the Copy buttons, or use your browser's selection tool to highlight and copy formatted inline diff blocks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool support comparing files directly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Currently, the tool supports copying and pasting text directly into the Original and Changed text areas. If you have files (like .txt, .js, .json, or .css), you can open them in any text editor, select all, and copy-paste them into the tool to run the diff comparison instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Longest Common Subsequence (LCS) algorithm?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The LCS algorithm is a classic computer science method used to find the longest subsequence common to two sequences. It is the mathematical backbone of version control systems like Git and diffing utilities, helping determine the minimal number of insertions and deletions needed to transform one text into another."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+
+const ogMeta = {
+  title: "Diff Checker - Compare Text & Code Online, Free | ToolzTotal",
+  description: "Compare two blocks of text or code side-by-side or inline. Word-level diff highlighting, ignore whitespace/case options — all client-side and free.",
+  url: "https://toolztotal.com/dev/diff-checker",
+  image: "https://toolztotal.com/og-default.png",
+};
+---
+
+<Layout
+  title="Diff Checker - Compare Text & Code Online, Free | ToolzTotal"
+  description="Compare two blocks of text or code side-by-side or inline. Word-level diff highlighting, ignore whitespace/case options — all client-side and free."
+  faqJsonLd={faqJsonLd}
+>
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+  <meta slot="head" name="twitter:title" content={ogMeta.title} />
+  <meta slot="head" name="twitter:description" content={ogMeta.description} />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
+      <span>/</span>
+      <span class="text-ink">Diff Checker</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-10">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Diff Checker
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Compare two blocks of text or code side-by-side or in unified view. See exactly what changed with
+        line-level and word-level highlighting — all client-side.
+      </p>
+    </div>
+
+    <!-- Controls Row -->
+    <div class="w-full mb-6 flex flex-wrap items-center gap-3 py-3 px-4 bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3">
+      <!-- View toggle -->
+      <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+        <button type="button" id="view-side" class="view-btn px-3 py-1.5 text-xs font-mono rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer">Side-by-Side</button>
+        <button type="button" id="view-inline" class="view-btn px-3 py-1.5 text-xs font-mono rounded-md text-mute hover:text-ink cursor-pointer">Inline</button>
+      </div>
+      <span class="w-px h-5 bg-hairline mx-1 hidden sm:block"></span>
+
+      <!-- Options -->
+      <label class="flex items-center gap-1.5 text-xs font-mono text-mute cursor-pointer select-none">
+        <input type="checkbox" id="opt-ignore-whitespace" class="accent-primary w-3.5 h-3.5 rounded border-hairline cursor-pointer" />
+        Ignore Whitespace
+      </label>
+      <label class="flex items-center gap-1.5 text-xs font-mono text-mute cursor-pointer select-none">
+        <input type="checkbox" id="opt-ignore-case" class="accent-primary w-3.5 h-3.5 rounded border-hairline cursor-pointer" />
+        Ignore Case
+      </label>
+      <span class="w-px h-5 bg-hairline mx-1 hidden sm:block"></span>
+
+      <!-- Swap -->
+      <button type="button" id="btn-swap" class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+        Swap
+      </button>
+
+      <!-- Clear -->
+      <button type="button" id="btn-clear" class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        Clear
+      </button>
+    </div>
+
+    <!-- Diff Stats Bar -->
+    <div id="diff-stats" class="w-full mb-6 px-4 py-2 bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl1 hidden">
+      <div class="flex flex-wrap items-center gap-4 text-xs font-mono">
+        <span class="text-emerald-600 dark:text-emerald-400" id="stat-additions">0 additions</span>
+        <span class="text-red-500" id="stat-deletions">0 deletions</span>
+        <span class="text-mute" id="stat-unchanged">0 unchanged</span>
+      </div>
+    </div>
+
+    <!-- Input Panels (Side-by-Side Mode) -->
+    <div id="input-panels" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <!-- Left -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-3 border-b border-hairline bg-canvas-soft">
+          <label for="text-original" class="text-xs font-mono uppercase tracking-wider text-mute">Original</label>
+          <span class="text-[10px] font-mono text-mute" id="original-lines">0 lines</span>
+        </div>
+        <textarea
+          id="text-original"
+          class="w-full h-[320px] min-h-[200px] resize-y bg-canvas-soft-2 text-ink font-mono text-[13px] leading-[1.6] p-4 border-none outline-none focus:outline-none placeholder:text-mute/50"
+          placeholder="Paste or type the original text here..."
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+      </div>
+
+      <!-- Right -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-3 border-b border-hairline bg-canvas-soft">
+          <label for="text-changed" class="text-xs font-mono uppercase tracking-wider text-mute">Changed</label>
+          <span class="text-[10px] font-mono text-mute" id="changed-lines">0 lines</span>
+        </div>
+        <textarea
+          id="text-changed"
+          class="w-full h-[320px] min-h-[200px] resize-y bg-canvas-soft-2 text-ink font-mono text-[13px] leading-[1.6] p-4 border-none outline-none focus:outline-none placeholder:text-mute/50"
+          placeholder="Paste or type the changed text here..."
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Diff Output: Side-by-Side View -->
+    <div id="diff-output-side" class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden mb-6">
+      <div class="flex items-center justify-between px-5 py-3 border-b border-hairline bg-canvas-soft">
+        <span class="text-xs font-mono uppercase tracking-wider text-mute">Diff Output</span>
+        <span class="text-[10px] font-mono text-mute" id="diff-timing"></span>
+      </div>
+      <div id="diff-side-content" class="grid grid-cols-1 md:grid-cols-2 font-mono text-[13px] leading-[1.6]">
+        <div class="border-r border-hairline">
+          <div class="px-3 py-1.5 bg-canvas-soft-2 border-b border-hairline text-[10px] font-mono uppercase tracking-wider text-mute">Original</div>
+          <div id="diff-side-left" class="overflow-auto max-h-[600px]"></div>
+        </div>
+        <div>
+          <div class="px-3 py-1.5 bg-canvas-soft-2 border-b border-hairline text-[10px] font-mono uppercase tracking-wider text-mute">Changed</div>
+          <div id="diff-side-right" class="overflow-auto max-h-[600px]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diff Output: Inline View -->
+    <div id="diff-output-inline" class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden mb-6 hidden">
+      <div class="flex items-center justify-between px-5 py-3 border-b border-hairline bg-canvas-soft">
+        <span class="text-xs font-mono uppercase tracking-wider text-mute">Unified Diff</span>
+        <span class="text-[10px] font-mono text-mute" id="inline-timing"></span>
+      </div>
+      <div id="diff-inline-content" class="font-mono text-[13px] leading-[1.6] overflow-auto max-h-[600px]"></div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Online Diff Checker: Compare Text and Code Side-by-Side</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          An <strong>online diff checker</strong> is a vital developer tool for comparing two versions of a document, source code file, database schema, or configuration layout. When coding or merging modifications, it is incredibly easy for typos, missing semicolons, or indentation mismatches to break application state. This <strong>code comparison tool</strong> provides visual highlighting of added, removed, and modified lines, with second-pass word-level detailing to show exactly what changed inside the line.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Comparing Side-by-Side vs. Unified Inline Views</h3>
+        <p>
+          Our diffing utility supports two layouts to suit your workflow:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Side-by-Side View:</strong> Splits the output into two columns, placing the Original text on the left and the Changed text on the right. This layout is perfect for examining large blocks of structural text, allowing you to scan horizontal edits without losing line alignment.</li>
+          <li><strong>Inline View:</strong> Merges both versions into a single unified column, showing deletions marked in red (with a minus symbol) and additions in green (with a plus symbol) sequentially. This layout mimics version control diff representations in platforms like GitHub and is highly efficient for single-file patch analysis.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Advanced Comparison Filters: Ignoring Casing and Whitespace</h3>
+        <p>
+          Oftentimes, text changes are trivial, such as standardizing tab indentations or correcting string casing. Standard diff tools highlight these lines as changes, cluttering the view. Our tool includes two helpful ignore options:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Ignore Whitespace:</strong> Trims leading, trailing, and duplicate empty spaces before running the comparison, focusing only on semantic string content.</li>
+          <li><strong>Ignore Case:</strong> Disables case matching, treating capital and lowercase letters as identical. This is helpful when validating case-insensitive code languages or documents.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Privacy-First Text Comparison</h3>
+        <p>
+          Privacy is our primary commitment. All file handling and LCS diff computations occur locally on your machine inside your browser using client-side JavaScript. No text, proprietary code snippets, or configuration files are uploaded or sent over the internet, keeping your IP and data safe from external servers.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is a Diff Checker?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A Diff Checker is a developer tool that compares two blocks of text or code and highlights the differences between them. It shows which lines were added, removed, or modified, helping developers quickly understand what changed between two versions of a file, configuration, or any textual content.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>How does the diff algorithm work?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">This tool uses an LCS (Longest Common Subsequence) based diff algorithm. It splits both inputs into lines, finds the longest sequence of lines common to both texts, then identifies insertions, deletions, and modifications. For modified lines, it performs a secondary word-level comparison to highlight exactly which words changed within the same line.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is the difference between side-by-side and inline diff views?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Side-by-side view displays the original and changed texts in two parallel columns, making it easy to scan the overall differences at a glance. Inline (unified) view merges both versions into a single scrolling view with color-coded lines, where added lines are shown in green and removed lines in red. Both views support line numbers and word-level highlighting for modified lines.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I ignore whitespace or case when comparing?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, the tool provides two options: Ignore Whitespace trims leading/trailing whitespace and normalizes internal whitespace before comparing lines. Ignore Case converts all text to lowercase before comparison. These options help focus on semantic differences rather than formatting or casing issues, which is particularly useful when comparing code or configuration files.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Is this diff checker free and private?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, this Diff Checker is completely free to use with no signup required. All comparison logic runs entirely client-side in your browser — no text or code is ever sent to any server. Your data remains private and secure at all times, making it safe to compare sensitive code, configuration files, or confidential documents.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is the difference between line-level and character-level comparisons?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Line-level comparison evaluates entire lines to mark them as added or deleted. Character or word-level comparison runs inside modified lines to pinpoint the exact difference (such as changing a variable name or typo), giving you highly precise visual feedback instead of highlighting the entire line blindly.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Does the Ignore Whitespace option affect the diff output display?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">No. The options only control how the diff engine evaluates equality. The final diff view will still show the original formatting and spaces of your input text, but it won't highlight those lines as different if the only change was indentation or empty lines.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I copy the diff results directly?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. While you cannot download raw HTML diff logs directly, you can copy the original or modified text inputs using the Copy buttons, or use your browser's selection tool to highlight and copy formatted inline diff blocks.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Does this tool support comparing files directly?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Currently, the tool supports copying and pasting text directly into the Original and Changed text areas. If you have files (like .txt, .js, .json, or .css), you can open them in any text editor, select all, and copy-paste them into the tool to run the diff comparison instantly.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is the Longest Common Subsequence (LCS) algorithm?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">The LCS algorithm is a classic computer science method used to find the longest subsequence common to two sequences. It is the mathematical backbone of version control systems like Git and diffing utilities, helping determine the minimal number of insertions and deletions needed to transform one text into another.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Developer Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/dev/json-formatter" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            JSON Formatter
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Format, validate, and minify JSON data with schema validation.</p>
+        </a>
+        <a href="/dev/regex-tester" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Regex Tester
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Test regular expressions with live highlighting and capture groups.</p>
+        </a>
+        <a href="/dev/base64-encoder-decoder" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Base64 Encode/Decode
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Encode and decode Base64 strings with file and URL support.</p>
+        </a>
+        <a href="/dev/uuid-generator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            UUID Generator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Generate UUID v4 and v7 identifiers instantly in bulk.</p>
+        </a>
+        <a href="/dev/color-picker" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Color Picker & Converter
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Pick, convert, and preview colors across HEX, RGB, and HSL formats.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <style is:global>
+    .diff-line { display: flex; min-height: 1.6em; border-bottom: 1px solid var(--color-hairline); }
+    .diff-line:last-child { border-bottom: none; }
+    .diff-ln { width: 44px; min-width: 44px; text-align: right; padding: 1px 8px 1px 4px; font-size: 11px; color: var(--color-mute); user-select: none; border-right: 1px solid var(--color-hairline); background: var(--color-canvas-soft); }
+    .diff-content { flex: 1; padding: 1px 12px; white-space: pre-wrap; word-break: break-all; font-size: 13px; }
+    .diff-equal { background: var(--color-canvas); }
+    .diff-equal .diff-content { color: var(--color-ink); }
+    .diff-add { background: color-mix(in srgb, #22c55e 12%, transparent); }
+    .diff-add .diff-content { color: var(--color-ink); }
+    .diff-del { background: color-mix(in srgb, #ef4444 12%, transparent); }
+    .diff-del .diff-content { color: var(--color-ink); }
+    .diff-replace { background: color-mix(in srgb, #f59e0b 10%, transparent); }
+    .diff-replace .diff-content { color: var(--color-ink); }
+    .wd-add { background: color-mix(in srgb, #22c55e 35%, transparent); border-radius: 2px; padding: 0 1px; }
+    .wd-del { background: color-mix(in srgb, #ef4444 35%, transparent); border-radius: 2px; padding: 0 1px; text-decoration: line-through; }
+    .inline-sign { width: 22px; min-width: 22px; text-align: center; font-weight: 700; font-size: 13px; user-select: none; }
+    .inline-plus { color: #22c55e; }
+    .inline-minus { color: #ef4444; }
+  </style>
+
+  <script>
+    // ---- DOM refs ----
+    const textOriginal = document.getElementById('text-original') as HTMLTextAreaElement;
+    const textChanged = document.getElementById('text-changed') as HTMLTextAreaElement;
+    const originalLines = document.getElementById('original-lines') as HTMLSpanElement;
+    const changedLines = document.getElementById('changed-lines') as HTMLSpanElement;
+
+    const viewSide = document.getElementById('view-side') as HTMLButtonElement;
+    const viewInline = document.getElementById('view-inline') as HTMLButtonElement;
+    const viewBtns = document.querySelectorAll('.view-btn') as NodeListOf<HTMLButtonElement>;
+
+    const optIgnoreWS = document.getElementById('opt-ignore-whitespace') as HTMLInputElement;
+    const optIgnoreCase = document.getElementById('opt-ignore-case') as HTMLInputElement;
+
+    const btnSwap = document.getElementById('btn-swap') as HTMLButtonElement;
+    const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
+
+    const diffStats = document.getElementById('diff-stats') as HTMLDivElement;
+    const statAdditions = document.getElementById('stat-additions') as HTMLSpanElement;
+    const statDeletions = document.getElementById('stat-deletions') as HTMLSpanElement;
+    const statUnchanged = document.getElementById('stat-unchanged') as HTMLSpanElement;
+
+    const diffOutputSide = document.getElementById('diff-output-side') as HTMLDivElement;
+    const diffOutputInline = document.getElementById('diff-output-inline') as HTMLDivElement;
+    const diffSideLeft = document.getElementById('diff-side-left') as HTMLDivElement;
+    const diffSideRight = document.getElementById('diff-side-right') as HTMLDivElement;
+    const diffInlineContent = document.getElementById('diff-inline-content') as HTMLDivElement;
+    const diffTiming = document.getElementById('diff-timing') as HTMLSpanElement;
+    const inlineTiming = document.getElementById('inline-timing') as HTMLSpanElement;
+
+    // ---- LCS-based diff ----
+    function lcsLength(x: string[], y: string[]): number[][] {
+      const m = x.length;
+      const n = y.length;
+      const dp: number[][] = Array.from({ length: m + 1 }, () => new Uint16Array(n + 1));
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          dp[i][j] = x[i - 1] === y[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+        }
+      }
+      return dp as number[][];
+    }
+
+    interface DiffOp {
+      type: 'equal' | 'insert' | 'delete' | 'replace';
+      aIndex: number;
+      bIndex: number;
+      textA: string;
+      textB: string;
+    }
+
+    function backtrack(
+      dp: number[][], x: string[], y: string[], i: number, j: number,
+      aStart: number, bStart: number, ops: DiffOp[]
+    ) {
+      if (i === 0 && j === 0) return;
+
+      const ai = aStart + i - 1;
+      const bj = bStart + j - 1;
+
+      if (i > 0 && j > 0 && x[i - 1] === y[j - 1]) {
+        backtrack(dp, x, y, i - 1, j - 1, aStart, bStart, ops);
+        ops.push({ type: 'equal', aIndex: ai, bIndex: bj, textA: x[i - 1], textB: y[j - 1] });
+      } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+        backtrack(dp, x, y, i, j - 1, aStart, bStart, ops);
+        ops.push({ type: 'insert', aIndex: -1, bIndex: bj, textA: '', textB: y[j - 1] });
+      } else if (i > 0) {
+        backtrack(dp, x, y, i - 1, j, aStart, bStart, ops);
+        ops.push({ type: 'delete', aIndex: ai, bIndex: -1, textA: x[i - 1], textB: '' });
+      }
+    }
+
+    function computeDiff(a: string[], b: string[]): DiffOp[] {
+      const m = a.length;
+      const n = b.length;
+
+      if (m === 0 && n === 0) return [];
+      if (m === 0) return b.map((t, j) => ({ type: 'insert' as const, aIndex: -1, bIndex: j, textA: '', textB: t }));
+      if (n === 0) return a.map((t, i) => ({ type: 'delete' as const, aIndex: i, bIndex: -1, textA: t, textB: '' }));
+
+      // Split into smaller chunks for efficiency
+      const ops: DiffOp[] = [];
+      let ai = 0, bj = 0;
+
+      // Find common prefix
+      while (ai < m && bj < n && a[ai] === b[bj]) {
+        ops.push({ type: 'equal', aIndex: ai, bIndex: bj, textA: a[ai], textB: b[bj] });
+        ai++; bj++;
+      }
+
+      // Find common suffix
+      let ae = m - 1, be = n - 1;
+      while (ae >= ai && be >= bj && a[ae] === b[be]) {
+        ae--; be--;
+      }
+
+      const suffix: DiffOp[] = [];
+      let sae = ae + 1, sbe = be + 1;
+      while (sae < m && sbe < n && a[sae] === b[sbe]) {
+        suffix.push({ type: 'equal', aIndex: sae, bIndex: sbe, textA: a[sae], textB: b[sbe] });
+        sae++; sbe++;
+      }
+
+      // Diff the middle section
+      const midA = a.slice(ai, ae + 1);
+      const midB = b.slice(bj, be + 1);
+
+      if (midA.length === 0 && midB.length === 0) {
+        // nothing to do
+      } else if (midA.length === 0) {
+        for (let j = 0; j < midB.length; j++) {
+          ops.push({ type: 'insert', aIndex: -1, bIndex: bj + j, textA: '', textB: midB[j] });
+        }
+      } else if (midB.length === 0) {
+        for (let i = 0; i < midA.length; i++) {
+          ops.push({ type: 'delete', aIndex: ai + i, bIndex: -1, textA: midA[i], textB: '' });
+        }
+      } else if (midA.length * midB.length <= 10000) {
+        const dp = lcsLength(midA, midB);
+        const midOps: DiffOp[] = [];
+        backtrack(dp, midA, midB, midA.length, midB.length, ai, bj, midOps);
+
+        // Merge adjacent delete+insert into replace
+        const merged: DiffOp[] = [];
+        for (let k = 0; k < midOps.length; k++) {
+          const op = midOps[k];
+          if (op.type === 'delete' && k + 1 < midOps.length && midOps[k + 1].type === 'insert') {
+            const next = midOps[k + 1];
+            merged.push({ type: 'replace', aIndex: op.aIndex, bIndex: next.bIndex, textA: op.textA, textB: next.textB });
+            k++;
+          } else {
+            merged.push(op);
+          }
+        }
+        ops.push(...merged);
+      } else {
+        // Fallback for large inputs: simple line-by-line
+        const maxLen = Math.max(midA.length, midB.length);
+        for (let k = 0; k < maxLen; k++) {
+          if (k < midA.length && k < midB.length) {
+            if (midA[k] === midB[k]) {
+              ops.push({ type: 'equal', aIndex: ai + k, bIndex: bj + k, textA: midA[k], textB: midB[k] });
+            } else {
+              ops.push({ type: 'replace', aIndex: ai + k, bIndex: bj + k, textA: midA[k], textB: midB[k] });
+            }
+          } else if (k < midA.length) {
+            ops.push({ type: 'delete', aIndex: ai + k, bIndex: -1, textA: midA[k], textB: '' });
+          } else {
+            ops.push({ type: 'insert', aIndex: -1, bIndex: bj + k, textA: '', textB: midB[k] });
+          }
+        }
+      }
+
+      ops.push(...suffix);
+      return ops;
+    }
+
+    // ---- Word-level diff ----
+    function wordDiff(a: string, b: string): { text: string; type: 'equal' | 'add' | 'del' }[] {
+      if (a === b) return [{ text: a, type: 'equal' }];
+      const wordsA = a.split(/(\s+)/);
+      const wordsB = b.split(/(\s+)/);
+      const result: { text: string; type: 'equal' | 'add' | 'del' }[] = [];
+
+      const m = wordsA.length, n = wordsB.length;
+      if (m === 0 && n === 0) return result;
+      if (m === 0) return wordsB.map(w => ({ text: w, type: 'add' as const }));
+
+      const dp: number[][] = Array.from({ length: m + 1 }, () => new Uint16Array(n + 1));
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          dp[i][j] = wordsA[i - 1] === wordsB[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+        }
+      }
+
+      function backtrackWords(i: number, j: number) {
+        if (i === 0 && j === 0) return;
+        if (i > 0 && j > 0 && wordsA[i - 1] === wordsB[j - 1]) {
+          backtrackWords(i - 1, j - 1);
+          result.push({ text: wordsA[i - 1], type: 'equal' });
+        } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+          backtrackWords(i, j - 1);
+          result.push({ text: wordsB[j - 1], type: 'add' });
+        } else if (i > 0) {
+          backtrackWords(i - 1, j);
+          result.push({ text: wordsA[i - 1], type: 'del' });
+        }
+      }
+
+      backtrackWords(m, n);
+      return result;
+    }
+
+    function escapeHtml(s: string): string {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function normalizeLine(s: string, ignoreWS: boolean, ignoreCase: boolean): string {
+      let r = s;
+      if (ignoreWS) r = r.trim().replace(/\s+/g, ' ');
+      if (ignoreCase) r = r.toLowerCase();
+      return r;
+    }
+
+    // ---- Main diff engine ----
+    function runDiff() {
+      const rawA = textOriginal.value;
+      const rawB = textChanged.value;
+      const ignoreWS = optIgnoreWS.checked;
+      const ignoreCase = optIgnoreCase.checked;
+
+      originalLines.textContent = rawA ? `${rawA.split('\n').length} lines` : '0 lines';
+      changedLines.textContent = rawB ? `${rawB.split('\n').length} lines` : '0 lines';
+
+      const start = performance.now();
+      const linesA = rawA === '' ? [] : rawA.split('\n');
+      const linesB = rawB === '' ? [] : rawB.split('\n');
+
+      // Normalize for comparison
+      const normA = linesA.map(l => normalizeLine(l, ignoreWS, ignoreCase));
+      const normB = linesB.map(l => normalizeLine(l, ignoreWS, ignoreCase));
+
+      const ops = computeDiff(normA, normB);
+
+      // Calculate stats
+      let additions = 0, deletions = 0, unchanged = 0;
+      for (const op of ops) {
+        if (op.type === 'equal') unchanged++;
+        else if (op.type === 'insert') additions++;
+        else if (op.type === 'delete') deletions++;
+        else if (op.type === 'replace') { additions++; deletions++; }
+      }
+
+      const hasContent = ops.length > 0;
+      if (hasContent) {
+        diffStats.classList.remove('hidden');
+        statAdditions.textContent = `${additions} addition${additions !== 1 ? 's' : ''}`;
+        statDeletions.textContent = `${deletions} deletion${deletions !== 1 ? 's' : ''}`;
+        statUnchanged.textContent = `${unchanged} unchanged`;
+      } else {
+        diffStats.classList.add('hidden');
+      }
+
+      const elapsed = Math.round((performance.now() - start) * 100) / 100;
+      const timing = `Computed in ${elapsed}ms`;
+
+      // ---- Render side-by-side ----
+      let leftHtml = '', rightHtml = '';
+      for (const op of ops) {
+        const cls = op.type === 'equal' ? 'diff-equal' : op.type === 'insert' ? 'diff-add' : op.type === 'delete' ? 'diff-del' : 'diff-replace';
+
+        if (op.type === 'replace' && op.textA && op.textB) {
+          const wordPartsA = wordDiff(op.textA, op.textB);
+          const wordPartsB = wordDiff(op.textA, op.textB);
+          leftHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.aIndex + 1}</span><span class="diff-content">`;
+          for (const part of wordPartsA) {
+            if (part.type === 'del') leftHtml += `<span class="wd-del">${escapeHtml(part.text)}</span>`;
+            else if (part.type === 'add') { /* skip in left */ }
+            else leftHtml += escapeHtml(part.text);
+          }
+          leftHtml += '</span></div>';
+
+          const lnB = op.bIndex + 1;
+          rightHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${lnB}</span><span class="diff-content">`;
+          for (const part of wordPartsB) {
+            if (part.type === 'add') rightHtml += `<span class="wd-add">${escapeHtml(part.text)}</span>`;
+            else if (part.type === 'del') { /* skip in right */ }
+            else rightHtml += escapeHtml(part.text);
+          }
+          rightHtml += '</span></div>';
+        } else {
+          if (op.type !== 'insert') {
+            leftHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.aIndex + 1}</span><span class="diff-content">${escapeHtml(op.textA)}</span></div>`;
+          } else {
+            leftHtml += `<div class="diff-line diff-add"><span class="diff-ln">&nbsp;</span><span class="diff-content">&nbsp;</span></div>`;
+          }
+
+          if (op.type !== 'delete') {
+            rightHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.bIndex + 1}</span><span class="diff-content">${escapeHtml(op.textB)}</span></div>`;
+          } else {
+            rightHtml += `<div class="diff-line diff-del"><span class="diff-ln">&nbsp;</span><span class="diff-content">&nbsp;</span></div>`;
+          }
+        }
+      }
+
+      diffSideLeft.innerHTML = leftHtml || '<div class="p-4 text-mute text-xs">No content to display.</div>';
+      diffSideRight.innerHTML = rightHtml || '<div class="p-4 text-mute text-xs">No content to display.</div>';
+      diffTiming.textContent = timing;
+
+      // ---- Render inline ----
+      let inlineHtml = '';
+      for (const op of ops) {
+        const cls = op.type === 'equal' ? 'diff-equal' : op.type === 'insert' ? 'diff-add' : op.type === 'delete' ? 'diff-del' : 'diff-replace';
+        const sign = op.type === 'insert' ? '+' : op.type === 'delete' ? '-' : ' ';
+        const signCls = op.type === 'insert' ? 'inline-plus' : op.type === 'delete' ? 'inline-minus' : '';
+
+        if (op.type === 'replace' && op.textA && op.textB) {
+          const wordParts = wordDiff(op.textA, op.textB);
+          inlineHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.aIndex + 1}</span><span class="inline-sign ${signCls}">&minus;</span><span class="diff-content">`;
+          for (const part of wordParts) {
+            if (part.type === 'del') inlineHtml += `<span class="wd-del">${escapeHtml(part.text)}</span>`;
+            else if (part.type !== 'add') inlineHtml += escapeHtml(part.text);
+          }
+          inlineHtml += '</span></div>';
+          inlineHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.bIndex + 1}</span><span class="inline-sign ${signCls}">+</span><span class="diff-content">`;
+          for (const part of wordParts) {
+            if (part.type === 'add') inlineHtml += `<span class="wd-add">${escapeHtml(part.text)}</span>`;
+            else if (part.type !== 'del') inlineHtml += escapeHtml(part.text);
+          }
+          inlineHtml += '</span></div>';
+        } else {
+          if (op.type !== 'insert') {
+            inlineHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.aIndex + 1}</span><span class="inline-sign ${signCls}">${escapeHtml(sign)}</span><span class="diff-content">${escapeHtml(op.textA)}</span></div>`;
+          }
+          if (op.type !== 'delete') {
+            inlineHtml += `<div class="diff-line ${cls}"><span class="diff-ln">${op.bIndex + 1}</span><span class="inline-sign ${signCls}">${escapeHtml(sign)}</span><span class="diff-content">${escapeHtml(op.textB)}</span></div>`;
+          }
+        }
+      }
+
+      diffInlineContent.innerHTML = inlineHtml || '<div class="p-4 text-mute text-xs">No content to display.</div>';
+      inlineTiming.textContent = timing;
+    }
+
+    // ---- View toggle ----
+    function setActiveView(active: HTMLButtonElement) {
+      viewBtns.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+        b.classList.add('text-mute', 'hover:text-ink');
+      });
+      active.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      active.classList.remove('text-mute', 'hover:text-ink');
+    }
+
+    viewSide.addEventListener('click', () => {
+      setActiveView(viewSide);
+      diffOutputSide.classList.remove('hidden');
+      diffOutputInline.classList.add('hidden');
+    });
+
+    viewInline.addEventListener('click', () => {
+      setActiveView(viewInline);
+      diffOutputSide.classList.add('hidden');
+      diffOutputInline.classList.remove('hidden');
+    });
+
+    // ---- Swap ----
+    btnSwap.addEventListener('click', () => {
+      const tmp = textOriginal.value;
+      textOriginal.value = textChanged.value;
+      textChanged.value = tmp;
+      runDiff();
+    });
+
+    // ---- Clear ----
+    btnClear.addEventListener('click', () => {
+      textOriginal.value = '';
+      textChanged.value = '';
+      diffSideLeft.innerHTML = '';
+      diffSideRight.innerHTML = '';
+      diffInlineContent.innerHTML = '';
+      diffStats.classList.add('hidden');
+      originalLines.textContent = '0 lines';
+      changedLines.textContent = '0 lines';
+      diffTiming.textContent = '';
+      inlineTiming.textContent = '';
+    });
+
+    // ---- Auto-run on input ----
+    let debounceTimer: number | null = null;
+    function debouncedDiff() {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = window.setTimeout(runDiff, 200);
+    }
+
+    textOriginal.addEventListener('input', debouncedDiff);
+    textChanged.addEventListener('input', debouncedDiff);
+    optIgnoreWS.addEventListener('change', debouncedDiff);
+    optIgnoreCase.addEventListener('change', debouncedDiff);
+
+    // ---- resize synchronization ----
+    if (typeof ResizeObserver !== 'undefined') {
+      let isSyncing = false;
+      const ro = new ResizeObserver(entries => {
+        if (isSyncing) return;
+        isSyncing = true;
+        for (const entry of entries) {
+          const h = (entry.target as HTMLElement).offsetHeight;
+          if (entry.target === textOriginal) {
+            textChanged.style.height = `${h}px`;
+          } else if (entry.target === textChanged) {
+            textOriginal.style.height = `${h}px`;
+          }
+        }
+        isSyncing = false;
+      });
+      ro.observe(textOriginal);
+      ro.observe(textChanged);
+    }
+
+    // ---- Init with sample data ----
+    textOriginal.value = `function greet(name) {
+  console.log("Hello, " + name + "!");
+  return true;
+}
+
+const PI = 3.14;
+let count = 0;
+
+if (count > 10) {
+  console.log("Too many!");
+}`;
+
+    textChanged.value = `function greet(name) {
+  console.log(\`Hello, \${name}!\`);
+  return true;
+}
+
+const PI = 3.14159;
+let counter = 0;
+
+if (counter > 5) {
+  console.log("Too many!");
+  alert("Limit reached");
+}`;
+
+    runDiff();
+  </script>
+</Layout>

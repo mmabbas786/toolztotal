@@ -1,0 +1,783 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is refinancing worth it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Refinancing is generally worth it if the new interest rate is significantly lower than your current rate and you plan to stay in your home long enough to recoup the closing costs through monthly savings. A common benchmark is that refinancing makes sense if you can lower your rate by at least 0.75% to 1% and you plan to remain in the home beyond the break-even point — typically 2 to 3 years. This calculator helps you compare your current and proposed loan terms to determine whether refinancing will save you money over the time you expect to own the home."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's a good break-even period to refinance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A break-even period of 2 to 3 years (24 to 36 months) is generally considered favorable for refinancing. This represents the number of months it takes for your monthly savings to offset the closing costs of the new loan. If the break-even point is longer than 3 years, you should weigh whether you plan to stay in the home that long. If you expect to move before the break-even date, the savings may not justify the upfront costs. Use the break-even analysis in this calculator to see exactly how many months it will take to recover your closing costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What closing costs should I expect?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typical mortgage refinance closing costs range from 2% to 5% of the loan amount and may include the origination fee (typically 0.5% to 1% of the loan), appraisal fee ($400 to $600), title search and insurance ($700 to $900), credit report fee ($30 to $50), recording fees ($100 to $250), prepaid interest and escrow deposits, and any mortgage points you choose to purchase. A no-closing-cost refinance is also an option, where the lender covers some or all upfront fees in exchange for a slightly higher interest rate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does refinancing reset my amortization clock?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, refinancing replaces your existing mortgage with a new loan, which typically resets the amortization clock to the beginning of a new term. If you have 25 years remaining on your current 30-year mortgage and refinance into a new 30-year loan, you will restart the 30-year amortization schedule. This means you will be paying mostly interest again in the early years of the new loan, potentially increasing the total interest paid over the full ownership period — even if the monthly payment is lower. A shorter-term refinance can mitigate this effect."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I refinance to a shorter term?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Refinancing from a 30-year to a 15-year or 20-year mortgage can save tens of thousands of dollars in interest over the life of the loan, often at a lower interest rate. However, the monthly payments will be significantly higher because you are paying off the principal faster. This strategy is best for homeowners who have stable cash flow, want to build equity quickly, and plan to stay in their home for many years. Use this refinance calculator to compare total interest costs and monthly payments across different term lengths."
+      }
+    }
+  ]
+};
+
+const ogMeta = {
+  title: "Mortgage Refinance Calculator - Free Refinance Savings Estimator | ToolzTotal",
+  description: "Compare your current mortgage vs a new loan to see if refinancing saves you money. Free break-even analysis, side-by-side comparison, and interactive calculator.",
+  image: "https://toolztotal.com/og-image.png",
+};
+
+const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-refinance-calculator";
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title={ogMeta.title}
+  description={ogMeta.description}
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/real-estate" class="hover:text-ink transition-colors">Real Estate & Mortgage</a>
+      <span>/</span>
+      <span class="text-ink">Mortgage Refinance Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Mortgage Refinance Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Compare your current mortgage terms against a new loan to determine if refinancing makes financial sense. See your monthly savings, break-even point, and a full side-by-side comparison of total interest costs.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Current Loan Details</h2>
+
+        <!-- Current Loan Balance -->
+        <div>
+          <label for="current-balance" class="block text-xs font-mono uppercase text-mute mb-2">Current Loan Balance</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="current-balance"
+              value="300000"
+              step="5000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 300,000"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Current Interest Rate -->
+        <div>
+          <label for="current-rate" class="block text-xs font-mono uppercase text-mute mb-2">Current Interest Rate</label>
+          <div class="relative">
+            <input
+              type="number"
+              id="current-rate"
+              value="7"
+              step="0.125"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 7"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+        </div>
+
+        <!-- Current Remaining Term -->
+        <div>
+          <label for="current-term" class="block text-xs font-mono uppercase text-mute mb-2">Current Remaining Term</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" data-years="10" class="curr-term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">10 Yrs</button>
+            <button type="button" data-years="15" class="curr-term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">15 Yrs</button>
+            <button type="button" data-years="20" class="curr-term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">20 Yrs</button>
+            <button type="button" data-years="25" class="curr-term-btn h-10 border-hairline-strong bg-primary text-on-primary rounded-md font-sans text-xs font-medium transition-all shadow-lvl2 cursor-pointer">25 Yrs</button>
+          </div>
+          <input type="hidden" id="current-term" value="25" />
+        </div>
+
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3 pt-2">New Loan Details</h2>
+
+        <!-- New Interest Rate -->
+        <div>
+          <label for="new-rate" class="block text-xs font-mono uppercase text-mute mb-2">New Interest Rate</label>
+          <div class="relative">
+            <input
+              type="number"
+              id="new-rate"
+              value="6"
+              step="0.125"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 6"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+        </div>
+
+        <!-- New Loan Term -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">New Loan Term</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" data-years="10" class="new-term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">10 Yrs</button>
+            <button type="button" data-years="15" class="new-term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">15 Yrs</button>
+            <button type="button" data-years="20" class="new-term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">20 Yrs</button>
+            <button type="button" data-years="30" class="new-term-btn h-10 border-hairline-strong bg-primary text-on-primary rounded-md font-sans text-xs font-medium transition-all shadow-lvl2 cursor-pointer">30 Yrs</button>
+          </div>
+          <input type="hidden" id="new-term" value="30" />
+        </div>
+
+        <!-- Estimated Closing Costs -->
+        <div>
+          <label for="closing-costs" class="block text-xs font-mono uppercase text-mute mb-2">Estimated Closing Costs</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="closing-costs"
+              value="4000"
+              step="500"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 4,000"
+              autocomplete="off"
+            />
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5 leading-normal">Typical closing costs range from 2% to 5% of the loan amount.</p>
+        </div>
+
+        <!-- Calculate Button -->
+        <button
+          type="button"
+          id="calculate-btn"
+          class="w-full h-11 bg-primary text-on-primary font-sans font-medium text-sm rounded-lg hover:opacity-90 transition-all shadow-lvl2 cursor-pointer active:scale-[0.98]"
+        >
+          Calculate Refinance Savings
+        </button>
+
+      </div>
+
+      <!-- Right Column: Results (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- Monthly Savings Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Monthly Savings</h2>
+          <div id="monthly-savings" class="text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-2 tabular-nums">
+            $0
+          </div>
+          <div id="savings-status" class="text-sm font-sans mb-6">
+            Enter your loan details and click Calculate.
+          </div>
+
+          <!-- Break-Even Callout -->
+          <div class="bg-canvas-soft border border-hairline rounded-lg p-5 shadow-lvl1">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-mono uppercase text-mute tracking-wider">Break-Even Point</span>
+              <span id="break-even-months" class="text-lg font-bold text-ink font-sans tabular-nums">--</span>
+            </div>
+            <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full overflow-hidden">
+              <div id="break-even-bar" class="h-full bg-primary transition-all duration-300" style="width: 0%;"></div>
+            </div>
+            <p id="break-even-note" class="text-[11px] text-mute font-sans mt-2 leading-normal">
+              Months to recover closing costs through monthly savings.
+            </p>
+          </div>
+        </div>
+
+        <!-- Side-by-Side Comparison Table -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-4">Side-by-Side Comparison</h2>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead>
+                <tr class="bg-canvas-soft border-b border-hairline font-mono text-mute uppercase tracking-wider text-[10px]">
+                  <th class="py-3 px-3">Metric</th>
+                  <th class="py-3 px-3 text-right">Current Loan</th>
+                  <th class="py-3 px-3 text-right">New Loan</th>
+                  <th class="py-3 px-3 text-right">Difference</th>
+                </tr>
+              </thead>
+              <tbody id="comparison-table-body" class="divide-y divide-hairline text-body tabular-nums">
+                <tr>
+                  <td class="py-2.5 px-3 font-medium text-ink">Monthly Payment</td>
+                  <td id="comp-curr-payment" class="py-2.5 px-3 text-right">$0</td>
+                  <td id="comp-new-payment" class="py-2.5 px-3 text-right">$0</td>
+                  <td id="comp-diff-payment" class="py-2.5 px-3 text-right">$0</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-medium text-ink">Total Interest (remaining)</td>
+                  <td id="comp-curr-interest" class="py-2.5 px-3 text-right">$0</td>
+                  <td id="comp-new-interest" class="py-2.5 px-3 text-right">$0</td>
+                  <td id="comp-diff-interest" class="py-2.5 px-3 text-right">$0</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-medium text-ink">Total Payments (remaining)</td>
+                  <td id="comp-curr-total" class="py-2.5 px-3 text-right">$0</td>
+                  <td id="comp-new-total" class="py-2.5 px-3 text-right">$0</td>
+                  <td id="comp-diff-total" class="py-2.5 px-3 text-right">$0</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-medium text-ink">Payoff Date</td>
+                  <td id="comp-curr-payoff" class="py-2.5 px-3 text-right">--</td>
+                  <td id="comp-new-payoff" class="py-2.5 px-3 text-right">--</td>
+                  <td class="py-2.5 px-3 text-right text-mute">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Savings Summary Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-4">Savings Summary</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Monthly Savings</span>
+              <span id="summary-monthly-savings" class="text-lg font-bold text-ink font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Total Interest Savings</span>
+              <span id="summary-interest-savings" class="text-lg font-bold text-ink font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Break-Even</span>
+              <span id="summary-break-even" class="text-lg font-bold text-ink font-sans tabular-nums">--</span>
+            </div>
+          </div>
+          <div id="break-even-description" class="mt-4 p-3 bg-canvas-soft-2 border border-hairline rounded-lg text-xs text-body font-sans leading-relaxed">
+            Enter your loan details and click Calculate to see your refinance savings analysis.
+          </div>
+
+          <!-- Disclaimer inline -->
+          <div class="mt-6 pt-4 border-t border-hairline text-[10px] text-mute leading-normal font-sans">
+            <strong>Disclaimer:</strong> This calculator provides estimates for informational purposes only. Actual savings depend on your specific loan terms, credit profile, property value, and lender fees. Consult a licensed mortgage professional for a formal refinance quote.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SEO Content Section -->
+    <article class="mt-24 max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">When Should You Refinance Your Mortgage?</h2>
+      <p class="text-mute text-xs font-mono mb-8 uppercase tracking-wider">Understanding refinancing, break-even analysis, and your options</p>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+
+        <p>
+          Refinancing your mortgage means replacing your existing home loan with a new one — ideally at a lower interest rate, with better terms, or both. The goal is to reduce your monthly payment, save on total interest over the life of the loan, or switch to a more favorable loan structure. A <strong>mortgage refinance calculator</strong> like this one helps you quantify whether the potential savings justify the upfront costs.
+        </p>
+        <p>
+          The decision to refinance is not purely mathematical — it also depends on how long you plan to stay in your home, your current financial stability, and the broader interest rate environment. By comparing your current loan terms against the proposed new loan, you can make an informed, data-driven decision that aligns with your financial goals. This tool walks you through the key factors: break-even analysis, monthly savings, total interest comparison, and term adjustments.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Break-Even Analysis Determines If Refinancing Makes Sense</h3>
+        <p>
+          The break-even point is the single most important metric in any refinancing decision. It tells you how many months it will take for your monthly savings to cover the closing costs of the new loan. For example, if your closing costs are $4,000 and you save $200 per month, your break-even period is 20 months. If you plan to stay in your home beyond that point, the refinance is financially beneficial. If you expect to move or sell before the break-even date, the upfront costs may outweigh the long-term savings.
+        </p>
+        <p>
+          Most financial experts recommend refinancing only if you can recoup the closing costs within 2 to 3 years (24 to 36 months) and you intend to remain in the home for that duration. A shorter break-even period is always better, but even a 3-year break-even can be worthwhile if you plan to stay in the home for 10 or more years. Use the break-even bar in this calculator to visualize how your closing costs, interest rate differential, and loan term interact to determine the recovery timeline.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Rate-and-Term Refinancing vs. Cash-Out Refinancing</h3>
+        <p>
+          There are two primary types of refinancing: rate-and-term and cash-out. <strong>Rate-and-term refinancing</strong> is the most common and focuses on lowering your interest rate, adjusting your loan term, or both — without changing the loan principal beyond closing costs rolled into the balance. This is the type of refinance analyzed by this calculator, where you compare current versus new monthly payments and total interest costs.
+        </p>
+        <p>
+          <strong>Cash-out refinancing</strong> involves taking out a new loan for more than you owe on your current mortgage and receiving the difference as cash. This is typically used for home improvements, debt consolidation, or major expenses. While a cash-out refinance can provide access to funds at a relatively low interest rate, it increases your loan balance and can reduce or eliminate the equity you have built. A cash-out refinance requires a separate analysis beyond the standard comparison provided here.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Closing Costs and Their Impact on Savings</h3>
+        <p>
+          Closing costs are the fees and expenses you pay to originate your new refinance loan. They typically range from 2% to 5% of the loan amount and include the origination fee, appraisal fee, title search and insurance, credit report fee, recording fees, prepaid interest, and escrow deposits. Some lenders offer no-closing-cost refinancing, where these fees are either rolled into the loan balance or exchanged for a slightly higher interest rate.
+        </p>
+        <p>
+          The interplay between closing costs and monthly savings defines your break-even point. Lower closing costs or higher monthly savings result in a shorter break-even period. You can compare different scenarios by adjusting the closing costs input and observing how the break-even timeline changes. Some lenders also allow you to pay mortgage points upfront to buy down your interest rate — each point typically costs 1% of the loan amount and reduces the rate by about 0.25%. This can be advantageous if you plan to stay in the home long enough to recoup the cost through lower monthly payments.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">When NOT to Refinance Your Mortgage</h3>
+        <p>
+          Refinancing is not always the right move. You should think carefully before refinancing if: (1) You plan to move or sell your home within the next 1 to 2 years, as the closing costs may exceed any monthly savings; (2) Your credit score has dropped significantly since you took out your current mortgage, which could result in a higher rate offer; (3) You have a low remaining balance, where the closing costs as a percentage of the balance make refinancing uneconomical; (4) You are extending your loan term significantly — for example, refinancing a loan with 20 years remaining into a new 30-year term — which resets the amortization clock and may increase total interest paid even if the monthly payment drops; (5) You already have a low interest rate and the current market rates are higher or only marginally lower.
+        </p>
+        <p>
+          Remember that refinancing restarts your amortization schedule. If you are 10 years into a 30-year mortgage, the majority of your remaining payments go toward principal rather than interest. Refinancing into a new 30-year loan means you will pay primarily interest again in the early years, potentially increasing the total cost of homeownership even with a lower monthly payment. A shorter-term refinance — from a 30-year to a 15-year or 20-year — can offset this effect but comes with higher monthly payments.
+        </p>
+
+        <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+          <strong>Important Disclaimer:</strong> The calculations and estimates provided by this refinance calculator are for informational and educational purposes only. They do not constitute financial advice, loan pre-approval, or a commitment to lend. Actual refinance terms, interest rates, closing costs, and approval depend on your credit profile, property value, loan-to-value ratio, and the specific lender's underwriting criteria. Consult a licensed mortgage professional for a personalized refinance analysis and formal quote.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <!-- Q1 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Is refinancing worth it?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Refinancing is generally worth it if the new interest rate is significantly lower than your current rate and you plan to stay in your home long enough to recoup the closing costs through monthly savings. A common benchmark is that refinancing makes sense if you can lower your rate by at least 0.75% to 1% and you plan to remain in the home beyond the break-even point — typically 2 to 3 years. This calculator helps you compare your current and proposed loan terms to determine whether refinancing will save you money over the time you expect to own the home.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q2 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What's a good break-even period to refinance?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              A break-even period of 2 to 3 years (24 to 36 months) is generally considered favorable for refinancing. This represents the number of months it takes for your monthly savings to offset the closing costs of the new loan. If the break-even point is longer than 3 years, you should weigh whether you plan to stay in the home that long. If you expect to move before the break-even date, the savings may not justify the upfront costs. Use the break-even analysis in this calculator to see exactly how many months it will take to recover your closing costs.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q3 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What closing costs should I expect?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Typical mortgage refinance closing costs range from 2% to 5% of the loan amount and may include the origination fee (typically 0.5% to 1% of the loan), appraisal fee ($400 to $600), title search and insurance ($700 to $900), credit report fee ($30 to $50), recording fees ($100 to $250), prepaid interest and escrow deposits, and any mortgage points you choose to purchase. A no-closing-cost refinance is also an option, where the lender covers some or all upfront fees in exchange for a slightly higher interest rate.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q4 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Does refinancing reset my amortization clock?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes, refinancing replaces your existing mortgage with a new loan, which typically resets the amortization clock to the beginning of a new term. If you have 25 years remaining on your current 30-year mortgage and refinance into a new 30-year loan, you will restart the 30-year amortization schedule. This means you will be paying mostly interest again in the early years of the new loan, potentially increasing the total interest paid over the full ownership period — even if the monthly payment is lower. A shorter-term refinance can mitigate this effect.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q5 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Should I refinance to a shorter term?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Refinancing from a 30-year to a 15-year or 20-year mortgage can save tens of thousands of dollars in interest over the life of the loan, often at a lower interest rate. However, the monthly payments will be significantly higher because you are paying off the principal faster. This strategy is best for homeowners who have stable cash flow, want to build equity quickly, and plan to stay in their home for many years. Use this refinance calculator to compare total interest costs and monthly payments across different term lengths.
+            </p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Real Estate & Mortgage Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <a
+          href="/finance/mortgage-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate monthly mortgage payments including taxes, insurance, PMI, and HOA with a full amortization schedule.</p>
+        </a>
+
+        <a
+          href="/real-estate/mortgage-affordability-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Affordability Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Find out how much house you can afford based on your income, debts, down payment, and loan type.</p>
+        </a>
+
+        <a
+          href="/real-estate/rent-vs-buy-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Rent vs Buy Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare the long-term costs of renting versus buying a home to see which option builds more wealth over time.</p>
+        </a>
+
+        <a
+          href="/real-estate/rental-property-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Rental Property Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Analyze cash flow, cap rate, cash-on-cash return, and DSCR for rental property investments.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Calculator Logic -->
+  <script>
+    (() => {
+      // DOM Elements - Inputs
+      const currentBalanceInput = document.getElementById('current-balance');
+      const currentRateInput = document.getElementById('current-rate');
+      const currentTermInput = document.getElementById('current-term');
+      const currTermBtns = document.querySelectorAll('.curr-term-btn');
+      const newRateInput = document.getElementById('new-rate');
+      const newTermInput = document.getElementById('new-term');
+      const newTermBtns = document.querySelectorAll('.new-term-btn');
+      const closingCostsInput = document.getElementById('closing-costs');
+      const calculateBtn = document.getElementById('calculate-btn');
+
+      // DOM Elements - Results
+      const monthlySavingsEl = document.getElementById('monthly-savings');
+      const savingsStatusEl = document.getElementById('savings-status');
+      const breakEvenMonthsEl = document.getElementById('break-even-months');
+      const breakEvenBar = document.getElementById('break-even-bar');
+      const breakEvenNote = document.getElementById('break-even-note');
+
+      const compCurrPayment = document.getElementById('comp-curr-payment');
+      const compNewPayment = document.getElementById('comp-new-payment');
+      const compDiffPayment = document.getElementById('comp-diff-payment');
+      const compCurrInterest = document.getElementById('comp-curr-interest');
+      const compNewInterest = document.getElementById('comp-new-interest');
+      const compDiffInterest = document.getElementById('comp-diff-interest');
+      const compCurrTotal = document.getElementById('comp-curr-total');
+      const compNewTotal = document.getElementById('comp-new-total');
+      const compDiffTotal = document.getElementById('comp-diff-total');
+      const compCurrPayoff = document.getElementById('comp-curr-payoff');
+      const compNewPayoff = document.getElementById('comp-new-payoff');
+
+      const summaryMonthlySavings = document.getElementById('summary-monthly-savings');
+      const summaryInterestSavings = document.getElementById('summary-interest-savings');
+      const summaryBreakEven = document.getElementById('summary-break-even');
+      const breakEvenDescription = document.getElementById('break-even-description');
+
+      // State
+      let currentTermYears = 25;
+      let newTermYears = 30;
+
+      // Format Helpers
+      const fmt = (val) => {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 0,
+        }).format(val);
+      };
+
+      const fmtCents = (val) => {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(val);
+      };
+
+      const getPayoffDate = (monthsToAdd) => {
+        const date = new Date();
+        date.setMonth(date.getMonth() + monthsToAdd);
+        return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      };
+
+      // Inline Amortization Functions
+      const getMonthlyPayment = (principal, annualRate, termMonths) => {
+        if (principal <= 0 || termMonths <= 0) return 0;
+        const r = annualRate / 100 / 12;
+        if (r === 0) return principal / termMonths;
+        const factor = Math.pow(1 + r, termMonths);
+        return principal * (r * factor) / (factor - 1);
+      };
+
+      const getTotalInterest = (principal, annualRate, termMonths) => {
+        if (principal <= 0 || termMonths <= 0) return 0;
+        const r = annualRate / 100 / 12;
+        const monthlyPI = getMonthlyPayment(principal, annualRate, termMonths);
+        if (monthlyPI === 0) return 0;
+        let balance = principal;
+        let totalInterest = 0;
+        for (let m = 1; m <= termMonths; m++) {
+          if (balance <= 0) break;
+          const interestPayment = balance * r;
+          const principalPayment = Math.min(balance, monthlyPI - interestPayment);
+          balance = Math.max(0, balance - principalPayment);
+          totalInterest += interestPayment;
+        }
+        return totalInterest;
+      };
+
+      const getPayoffMonths = (principal, annualRate, termMonths) => {
+        if (principal <= 0 || termMonths <= 0) return 0;
+        const r = annualRate / 100 / 12;
+        const monthlyPI = getMonthlyPayment(principal, annualRate, termMonths);
+        if (monthlyPI === 0) return 0;
+        let balance = principal;
+        for (let m = 1; m <= termMonths; m++) {
+          if (balance <= 0) return m - 1;
+          const interestPayment = balance * r;
+          const principalPayment = Math.min(balance, monthlyPI - interestPayment);
+          balance = Math.max(0, balance - principalPayment);
+        }
+        return termMonths;
+      };
+
+      // Core Calculation
+      const calculate = () => {
+        const balance = Math.max(0, parseFloat(currentBalanceInput.value) || 0);
+        const currentRate = Math.max(0, parseFloat(currentRateInput.value) || 0);
+        const currentRemainingMonths = currentTermYears * 12;
+        const newRate = Math.max(0, parseFloat(newRateInput.value) || 0);
+        const newTermMonths = newTermYears * 12;
+        const closingCosts = Math.max(0, parseFloat(closingCostsInput.value) || 0);
+
+        if (balance <= 0) {
+          monthlySavingsEl.textContent = '$0';
+          savingsStatusEl.textContent = 'Enter a valid loan balance to calculate savings.';
+          return;
+        }
+
+        // Current loan calculations
+        const currentMonthlyPI = getMonthlyPayment(balance, currentRate, currentRemainingMonths);
+        const currentTotalInterest = getTotalInterest(balance, currentRate, currentRemainingMonths);
+        const currentPayoffMonths = getPayoffMonths(balance, currentRate, currentRemainingMonths);
+        const currentTotalPayments = currentMonthlyPI * currentPayoffMonths;
+
+        // New loan calculations
+        const newMonthlyPI = getMonthlyPayment(balance, newRate, newTermMonths);
+        const newTotalInterest = getTotalInterest(balance, newRate, newTermMonths);
+        const newPayoffMonths = getPayoffMonths(balance, newRate, newTermMonths);
+        const newTotalPayments = newMonthlyPI * newPayoffMonths;
+
+        // Savings
+        const monthlySavings = currentMonthlyPI - newMonthlyPI;
+        const totalInterestSavings = currentTotalInterest - newTotalInterest;
+        const isPositive = monthlySavings > 0;
+
+        // Break-even
+        let breakEvenMonths = null;
+        if (monthlySavings > 0 && closingCosts > 0) {
+          breakEvenMonths = Math.ceil(closingCosts / monthlySavings);
+        }
+
+        // Update Monthly Savings Display
+        if (isPositive) {
+          monthlySavingsEl.textContent = fmtCents(monthlySavings);
+          monthlySavingsEl.className = 'text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-2 tabular-nums text-emerald-600';
+          savingsStatusEl.textContent = 'You save this much every month by refinancing.';
+          savingsStatusEl.className = 'text-sm font-sans mb-6 text-emerald-600';
+        } else {
+          monthlySavingsEl.textContent = fmtCents(Math.abs(monthlySavings));
+          monthlySavingsEl.className = 'text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-2 tabular-nums text-red-500';
+          savingsStatusEl.textContent = 'Refinancing may not save you money with these terms.';
+          savingsStatusEl.className = 'text-sm font-sans mb-6 text-red-500';
+        }
+
+        // Break-Even Display
+        if (breakEvenMonths !== null) {
+          breakEvenMonthsEl.textContent = breakEvenMonths + (breakEvenMonths === 1 ? ' month' : ' months');
+          breakEvenNote.textContent = `You break even in ${breakEvenMonths} month${breakEvenMonths === 1 ? '' : 's'} — after that, you save ${fmtCents(monthlySavings)}/mo.`;
+
+          // Visual progress bar (cap at 120 months for display)
+          const maxDisplay = 120;
+          const percent = Math.min(100, (breakEvenMonths / maxDisplay) * 100);
+          breakEvenBar.style.width = `${percent}%`;
+        } else if (monthlySavings <= 0) {
+          breakEvenMonthsEl.textContent = 'N/A';
+          breakEvenNote.textContent = 'Monthly savings must be positive to calculate a break-even point.';
+          breakEvenBar.style.width = '0%';
+        } else {
+          breakEvenMonthsEl.textContent = '0 months';
+          breakEvenNote.textContent = 'With no closing costs, you break even immediately.';
+          breakEvenBar.style.width = '100%';
+        }
+
+        // Side-by-Side Comparison Table
+        compCurrPayment.textContent = fmtCents(currentMonthlyPI);
+        compNewPayment.textContent = fmtCents(newMonthlyPI);
+        const diffPayment = currentMonthlyPI - newMonthlyPI;
+        compDiffPayment.textContent = (diffPayment >= 0 ? '' : '−') + fmtCents(Math.abs(diffPayment));
+        compDiffPayment.className = diffPayment >= 0 ? 'py-2.5 px-3 text-right text-emerald-600 font-medium' : 'py-2.5 px-3 text-right text-red-500 font-medium';
+
+        compCurrInterest.textContent = fmt(currentTotalInterest);
+        compNewInterest.textContent = fmt(newTotalInterest);
+        const diffInterest = currentTotalInterest - newTotalInterest;
+        compDiffInterest.textContent = (diffInterest >= 0 ? '' : '−') + fmt(Math.abs(diffInterest));
+        compDiffInterest.className = diffInterest >= 0 ? 'py-2.5 px-3 text-right text-emerald-600 font-medium' : 'py-2.5 px-3 text-right text-red-500 font-medium';
+
+        compCurrTotal.textContent = fmt(currentTotalPayments);
+        compNewTotal.textContent = fmt(newTotalPayments);
+        const diffTotal = currentTotalPayments - newTotalPayments;
+        compDiffTotal.textContent = (diffTotal >= 0 ? '' : '−') + fmt(Math.abs(diffTotal));
+        compDiffTotal.className = diffTotal >= 0 ? 'py-2.5 px-3 text-right text-emerald-600 font-medium' : 'py-2.5 px-3 text-right text-red-500 font-medium';
+
+        compCurrPayoff.textContent = getPayoffDate(currentPayoffMonths);
+        compNewPayoff.textContent = getPayoffDate(newPayoffMonths);
+
+        // Savings Summary Card
+        summaryMonthlySavings.textContent = isPositive ? fmtCents(monthlySavings) : '$0';
+        summaryMonthlySavings.className = isPositive ? 'text-lg font-bold text-emerald-600 font-sans tabular-nums' : 'text-lg font-bold text-ink font-sans tabular-nums';
+
+        summaryInterestSavings.textContent = diffInterest >= 0 ? fmt(diffInterest) : `−${fmt(Math.abs(diffInterest))}`;
+        summaryInterestSavings.className = diffInterest >= 0 ? 'text-lg font-bold text-emerald-600 font-sans tabular-nums' : 'text-lg font-bold text-ink font-sans tabular-nums';
+
+        summaryBreakEven.textContent = breakEvenMonths !== null ? `${breakEvenMonths} mo` : 'N/A';
+
+        if (breakEvenMonths !== null) {
+          breakEvenDescription.textContent = `After ${breakEvenMonths} months, you save ${fmtCents(monthlySavings)}/mo. Total interest savings over the full term: ${fmt(totalInterestSavings)}.`;
+        } else if (monthlySavings <= 0) {
+          breakEvenDescription.textContent = 'Your monthly payment is higher with the new loan. Consider adjusting terms or checking current market rates for better options.';
+        } else {
+          breakEvenDescription.textContent = 'Your monthly payment decreases with the new loan, saving you money immediately.';
+        }
+      };
+
+      // Term Button Helpers
+      const updateCurrTermState = (years) => {
+        currentTermYears = years;
+        currentTermInput.value = years.toString();
+        currTermBtns.forEach(btn => {
+          const yr = parseInt(btn.dataset.years, 10);
+          if (yr === years) {
+            btn.classList.add('bg-primary', 'text-on-primary', 'border-hairline-strong', 'shadow-lvl2');
+            btn.classList.remove('bg-canvas', 'text-body', 'border-hairline', 'hover:bg-canvas-soft-2');
+          } else {
+            btn.classList.remove('bg-primary', 'text-on-primary', 'border-hairline-strong', 'shadow-lvl2');
+            btn.classList.add('bg-canvas', 'text-body', 'border-hairline', 'hover:bg-canvas-soft-2');
+          }
+        });
+      };
+
+      const updateNewTermState = (years) => {
+        newTermYears = years;
+        newTermInput.value = years.toString();
+        newTermBtns.forEach(btn => {
+          const yr = parseInt(btn.dataset.years, 10);
+          if (yr === years) {
+            btn.classList.add('bg-primary', 'text-on-primary', 'border-hairline-strong', 'shadow-lvl2');
+            btn.classList.remove('bg-canvas', 'text-body', 'border-hairline', 'hover:bg-canvas-soft-2');
+          } else {
+            btn.classList.remove('bg-primary', 'text-on-primary', 'border-hairline-strong', 'shadow-lvl2');
+            btn.classList.add('bg-canvas', 'text-body', 'border-hairline', 'hover:bg-canvas-soft-2');
+          }
+        });
+      };
+
+      // Event Listeners
+      currTermBtns.forEach(btn => {
+        btn.addEventListener('click', () => updateCurrTermState(parseInt(btn.dataset.years, 10)));
+      });
+
+      newTermBtns.forEach(btn => {
+        btn.addEventListener('click', () => updateNewTermState(parseInt(btn.dataset.years, 10)));
+      });
+
+      calculateBtn.addEventListener('click', calculate);
+
+      // Auto-calculate on Enter key
+      const inputFields = [
+        currentBalanceInput, currentRateInput, newRateInput, closingCostsInput
+      ];
+      inputFields.forEach(input => {
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') calculate();
+        });
+      });
+
+      // Initial load
+      updateCurrTermState(25);
+      updateNewTermState(30);
+      calculate();
+    })();
+  </script>
+</Layout>

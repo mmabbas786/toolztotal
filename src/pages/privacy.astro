@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Privacy Policy | ToolzTotal"
+  description="Privacy Policy for ToolzTotal. Our calculators and tools run 100% client-side, ensuring your data is never uploaded, stored, or tracked."
+>
+  <div class="max-w-[800px] mx-auto px-4 py-16 md:py-24">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute">
+      <a href="/" class="hover:text-ink transition-colors font-sans">Home</a>
+      <span>/</span>
+      <span class="text-ink">Privacy Policy</span>
+    </nav>
+
+    <article class="prose max-w-none">
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-8">
+        Privacy Policy
+      </h1>
+      
+      <p class="text-mute font-mono text-xs mb-8">Last Updated: July 5, 2026</p>
+      
+      <div class="space-y-8 text-body text-base font-sans leading-relaxed">
+        <p>
+          At <strong>ToolzTotal</strong>, we believe privacy is a fundamental right. Unlike typical online calculator websites that require log ins, track your inputs, or upload calculations to third-party databases, ToolzTotal is engineered from the ground up to respect your privacy.
+        </p>
+
+        <h2 class="text-xl font-bold text-ink mt-8">1. 100% Client-Side Calculations</h2>
+        <p>
+          Every tool, formula, and calculator hosted on ToolzTotal runs entirely in your local web browser. Any numbers, values, formulas, or texts you enter never leave your machine. No computational data is transmitted to, processed by, or stored on our servers.
+        </p>
+
+        <h2 class="text-xl font-bold text-ink mt-8">2. What Data We Do Not Collect</h2>
+        <p>
+          Because we do not use an application backend, database, or registration portal:
+        </p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>We do not collect names, email addresses, or phone numbers.</li>
+          <li>We do not store loan calculations, mortgage interest figures, or self-employment income inputs.</li>
+          <li>We do not compile files or track search text histories.</li>
+        </ul>
+
+        <h2 class="text-xl font-bold text-ink mt-8">3. Local Storage and Cookies</h2>
+        <p>
+          We use simple local storage keys (such as theme choice and client-side notifications) solely to enhance your user experience (e.g. persisting your dark mode choice). This data is stored locally in your browser and is not sent to our servers. We use basic placeholder analytics tags (Google Analytics) to monitor traffic volumes, which do not track individual calculations.
+        </p>
+
+        <h2 class="text-xl font-bold text-ink mt-8">4. Ads and Monetization</h2>
+        <p>
+          ToolzTotal is a clean, uncluttered interface. We do not use pop-up ads, flashing video banners, or tracking pixels that compromise your privacy or slow down page load speeds.
+        </p>
+
+        <h2 class="text-xl font-bold text-ink mt-8">5. Changes to This Policy</h2>
+        <p>
+          We may update our privacy rules from time to time. Any changes will be published directly on this page. By continuing to use our website, you agree to this privacy policy.
+        </p>
+      </div>
+    </article>
+  </div>
+</Layout>

@@ -1,0 +1,889 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an amortization schedule?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An amortization schedule is a complete table of periodic loan payments that shows each payment's allocation between principal and interest over the loan's term. It details the beginning balance, principal paid, interest paid, and ending balance for every period, giving borrowers full transparency into how their debt decreases over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is an amortization schedule calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The schedule uses the standard amortization formula: M = P x [r(1+r)^n] / [(1+r)^n - 1], where P is the principal, r is the monthly interest rate (annual rate divided by 12), and n is the total number of monthly payments. Each period, the interest portion is calculated as the remaining balance times r, and the principal portion is the total payment minus the interest. The process repeats until the balance reaches zero."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an amortization schedule used for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amortization schedules are primarily used for mortgages, auto loans, personal loans, and any fixed-rate installment debt. Borrowers use them to visualize how much of each payment goes toward interest versus principal, plan extra payments to pay off debt early, compare loan offers, and understand the total interest cost over the life of the loan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does an extra payment affect my amortization schedule?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Making an extra payment directly reduces the outstanding principal balance. Since interest is calculated on the remaining principal, a lower balance means less interest accrues in future months. This accelerates the payoff timeline — even small extra payments can shave months or years off your loan term and save thousands in total interest charges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this amortization calculator financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, this amortization calculator is an educational and planning tool only. It uses standard mathematical formulas to generate estimates, but actual loan terms, fees, compounding methods, and lender policies may differ. Always consult a qualified financial professional or your lender for binding loan disclosures and personalized advice."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="Amortization Schedule Calculator — Free Full Payment Table | ToolzTotal"
+  description="Generate a complete amortization schedule for any loan. See monthly payments, total interest, payoff dates, and the impact of extra payments with our free calculator."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">Amortization Schedule Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Amortization Schedule Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Generate a complete amortization schedule for any fixed-rate loan. See every payment broken down by principal and interest, visualize your balance over time, and discover how extra payments can save you money.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Loan Details</h2>
+
+        <!-- Loan Amount -->
+        <div>
+          <label for="loan-amount" class="block text-xs font-mono uppercase text-mute mb-2">Loan Amount</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="loan-amount"
+              value="300000"
+              step="10000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 300,000…"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div>
+          <label for="interest-rate" class="block text-xs font-mono uppercase text-mute mb-2">Annual Interest Rate</label>
+          <div class="relative">
+            <input
+              type="number"
+              id="interest-rate"
+              value="6.5"
+              step="0.125"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 6.5…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+        </div>
+
+        <!-- Loan Term (Years) -->
+        <div>
+          <label for="loan-term" class="block text-xs font-mono uppercase text-mute mb-2">Loan Term</label>
+          <div class="relative">
+            <input
+              type="number"
+              id="loan-term"
+              value="30"
+              step="1"
+              min="1"
+              max="50"
+              class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 30…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">years</span>
+          </div>
+        </div>
+
+        <!-- Extra Monthly Payment -->
+        <div class="border-t border-hairline pt-5">
+          <label for="extra-payment" class="block text-xs font-mono uppercase text-mute mb-2 flex items-center justify-between">
+            <span>Extra Monthly Payment</span>
+            <span class="text-[10px] text-emerald-500 font-mono">optional</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="extra-payment"
+              value="0"
+              step="50"
+              min="0"
+              class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 200…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5 leading-normal">See how extra principal payments shorten your term and reduce total interest.</p>
+        </div>
+
+        <!-- Calculate Button -->
+        <button
+          type="button"
+          id="calculate-btn"
+          class="w-full h-11 bg-primary text-on-primary font-sans font-medium text-sm rounded-lg hover:opacity-90 transition-all cursor-pointer shadow-lvl2"
+        >
+          Calculate Amortization Schedule
+        </button>
+      </div>
+
+      <!-- Right Column: Results Dashboard & Charts (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- Monthly Payment Display -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Monthly Payment (P&I)</h2>
+              <div id="monthly-payment-display" class="text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans tabular-nums">
+                $0.00
+              </div>
+              <p class="text-[11px] text-mute font-sans mt-2">Principal & Interest only. Does not include taxes or insurance.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+              <div class="bg-canvas-soft border border-hairline rounded-lg p-3 shadow-lvl1">
+                <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Total Interest</span>
+                <span id="total-interest-display" class="text-sm font-bold text-ink font-sans tabular-nums">$0</span>
+              </div>
+              <div class="bg-canvas-soft border border-hairline rounded-lg p-3 shadow-lvl1">
+                <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Payoff Date</span>
+                <span id="payoff-date-display" class="text-sm font-bold text-ink font-sans">--</span>
+              </div>
+              <div class="bg-canvas-soft border border-hairline rounded-lg p-3 shadow-lvl1">
+                <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Total Principal</span>
+                <span id="total-principal-display" class="text-sm font-bold text-ink font-sans tabular-nums">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Extra Payment Accelerator Impact -->
+        <div id="accel-impact-card" class="bg-canvas border border-emerald-500/20 dark:border-emerald-500/30 rounded-xl p-6 shadow-lvl3 relative hidden overflow-hidden">
+          <div class="absolute right-0 top-0 bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-500 font-mono text-[9px] uppercase px-3 py-1 rounded-bl">
+            Acceleration Benefit
+          </div>
+
+          <h3 class="text-sm font-bold text-ink font-sans mb-4 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Extra Payment Impact
+          </h3>
+
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Interest Saved</span>
+              <span id="accel-saved-interest" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Time Saved</span>
+              <span id="accel-saved-time" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans">0 months</span>
+            </div>
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">New Payoff Date</span>
+              <span id="accel-new-date" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans whitespace-nowrap">--</span>
+            </div>
+          </div>
+
+          <!-- Payoff Timeline Bars -->
+          <div class="space-y-4">
+            <div>
+              <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+                <span>Baseline Payoff Timeline</span>
+                <span id="timeline-orig-term" class="font-bold text-ink">360 Months</span>
+              </div>
+              <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full overflow-hidden">
+                <div class="h-full bg-neutral-300 dark:bg-neutral-700 w-full"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+                <span>Accelerated Payoff Timeline</span>
+                <span id="timeline-accel-term" class="font-bold text-emerald-500">--</span>
+              </div>
+              <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full flex overflow-hidden">
+                <div id="timeline-accel-bar" class="h-full bg-emerald-500 dark:bg-emerald-600" style="width: 100%;"></div>
+                <div id="timeline-saved-bar" class="h-full bg-emerald-500/25 border-l border-dashed border-emerald-500/50" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Amortization Chart & Schedule Section -->
+    <div class="mt-16 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4 mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-ink font-sans">Amortization Schedule</h2>
+          <p class="text-xs text-mute font-sans mt-0.5">Visualize declining loan balance over the full term.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Granularity Toggle -->
+          <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+            <button
+              type="button"
+              id="chart-toggle-yearly"
+              class="px-3 py-1 text-xs font-mono rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer"
+            >
+              Yearly
+            </button>
+            <button
+              type="button"
+              id="chart-toggle-monthly"
+              class="px-3 py-1 text-xs font-mono rounded-md text-mute hover:text-ink cursor-pointer"
+            >
+              Monthly
+            </button>
+          </div>
+          <!-- Download CSV -->
+          <button
+            type="button"
+            id="download-csv"
+            class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive SVG Chart -->
+      <div class="w-full relative">
+        <svg id="amortization-chart" viewBox="0 0 600 220" class="w-full h-auto max-h-[300px]">
+          <!-- Grid lines -->
+          <line x1="50" y1="15" x2="590" y2="15" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="60" x2="590" y2="60" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="105" x2="590" y2="105" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" stroke-dasharray="2 2" />
+          <line x1="50" y1="150" x2="590" y2="150" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="195" x2="590" y2="195" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+
+          <!-- Y-axis labels -->
+          <text x="42" y="20" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-max">$300k</text>
+          <text x="42" y="110" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-mid">$150k</text>
+          <text x="42" y="198" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end">0</text>
+
+          <!-- SVG Paths for Baseline Area -->
+          <path id="chart-baseline-fill" class="fill-violet-500/10 dark:fill-violet-500/5" d="M 50,195 L 590,195 Z" />
+          <path id="chart-baseline-line" class="stroke-violet-500 dark:stroke-violet-400 fill-none" stroke-width="2.5" d="M 50,195 L 590,195 Z" />
+
+          <!-- SVG Paths for Accelerated Area -->
+          <path id="chart-accel-fill" class="fill-emerald-500/10 dark:fill-emerald-500/5 hidden" d="M 50,195 L 590,195 Z" />
+          <path id="chart-accel-line" class="stroke-emerald-500 dark:stroke-emerald-400 fill-none hidden" stroke-width="2.5" stroke-dasharray="6 4" d="M 50,195 L 590,195 Z" />
+
+          <!-- X-axis Labels -->
+          <g id="chart-x-labels">
+            <text x="50" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr 0</text>
+            <text x="230" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr 10</text>
+            <text x="410" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr 20</text>
+            <text x="590" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr 30</text>
+          </g>
+        </svg>
+
+        <!-- Legend -->
+        <div class="flex gap-4 justify-center items-center text-[10px] font-mono text-mute mt-3">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3.5 h-1.5 bg-violet-500 dark:bg-violet-400 inline-block rounded-xs"></span>
+            <span>Standard Balance</span>
+          </div>
+          <div id="chart-legend-accel" class="flex items-center gap-1.5 hidden">
+            <span class="w-3.5 h-0.5 bg-emerald-500 dark:bg-emerald-400 inline-block" style="border-top: 2px dashed currentColor; height: 0;"></span>
+            <span>Accelerated Balance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsible Schedule Table -->
+      <div class="mt-8 border-t border-hairline pt-6">
+        <button
+          type="button"
+          id="toggle-schedule-table"
+          class="flex items-center justify-between w-full text-xs font-mono uppercase text-mute hover:text-ink transition-colors cursor-pointer group"
+          aria-expanded="false"
+          aria-controls="schedule-table-container"
+        >
+          <span>View Full Amortization Schedule</span>
+          <svg id="table-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div id="schedule-table-container" class="hidden mt-6 overflow-x-auto border border-hairline rounded-lg bg-canvas shadow-lvl1">
+          <table class="w-full text-left border-collapse text-xs font-sans">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline font-mono text-mute uppercase tracking-wider text-[10px]">
+                <th class="py-3 px-4" id="table-hdr-period">Year</th>
+                <th class="py-3 px-4 text-right">Beginning Balance</th>
+                <th class="py-3 px-4 text-right">Principal Paid</th>
+                <th class="py-3 px-4 text-right">Interest Paid</th>
+                <th class="py-3 px-4 text-right">Ending Balance</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body" class="divide-y divide-hairline text-body tabular-nums">
+              <!-- Dynamic Rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SEO Content -->
+    <article class="mt-24 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Your Amortization Schedule</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          An <strong>amortization schedule</strong> is one of the most powerful tools for understanding a loan. It shows every single payment across the life of your loan, breaking each one down into the portion that goes toward paying down your principal balance and the portion that covers interest charges. This <strong>amortization calculator</strong> runs entirely in your browser, giving you full visibility into your debt repayment timeline.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why an Amortization Schedule Matters</h3>
+        <p>
+          For mortgages, auto loans, and other fixed-rate installment debt, knowing your amortization schedule helps you make smarter financial decisions. You can see exactly how much interest you will pay over the full term, plan extra principal payments strategically, and compare different loan scenarios before committing. An <strong>amortization schedule calculator</strong> gives you this clarity in seconds.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Power of Extra Payments</h3>
+        <p>
+          Because interest is calculated on your remaining balance each month, any additional principal payment immediately reduces future interest charges. Our <strong>amortization calculator with extra payments</strong> shows you exactly how much you can save. Even a modest extra payment — such as $100 to $200 per month on a mortgage — can reduce your loan term by years and save tens of thousands of dollars in interest.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Reading Your Schedule</h3>
+        <p>
+          In the early years of a loan, a larger portion of each payment goes toward interest. As the balance declines, the interest portion shrinks and more of your payment goes toward principal — this is called amortization. The schedule makes this shift visible period by period. Use the yearly or monthly views above to explore the detailed breakdown, download the full schedule as CSV, and run different what-if scenarios with extra payments.
+        </p>
+
+        <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+          <strong>Important Note:</strong> This amortization calculator provides estimates based on standard mathematical formulas for educational and planning purposes. Actual loan terms, fees, compounding methods, and lender policies vary. This tool does not provide financial advice and should not replace consultation with a qualified professional. Property taxes, insurance premiums, PMI, and HOA fees are not included in these calculations.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <!-- Q1 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What is an amortization schedule?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              An amortization schedule is a complete table of periodic loan payments that shows each payment's allocation between principal and interest over the loan's term. It details the beginning balance, principal paid, interest paid, and ending balance for every period, giving borrowers full transparency into how their debt decreases over time.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How is an amortization schedule calculated?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The schedule uses the standard amortization formula: <strong>M = P x [r(1+r)^n] / [(1+r)^n - 1]</strong>, where P is the principal, r is the monthly interest rate (annual rate divided by 12), and n is the total number of monthly payments. Each period, the interest portion is calculated as the remaining balance times r, and the principal portion is the total payment minus the interest. The process repeats until the balance reaches zero.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What is an amortization schedule used for?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Amortization schedules are primarily used for mortgages, auto loans, personal loans, and any fixed-rate installment debt. Borrowers use them to visualize how much of each payment goes toward interest versus principal, plan extra payments to pay off debt early, compare loan offers, and understand the total interest cost over the life of the loan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How does an extra payment affect my amortization schedule?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Making an extra payment directly reduces the outstanding principal balance. Since interest is calculated on the remaining principal, a lower balance means less interest accrues in future months. This accelerates the payoff timeline — even small extra payments can shave months or years off your loan term and save thousands in total interest charges.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Is this amortization calculator financial advice?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No, this amortization calculator is an educational and planning tool only. It uses standard mathematical formulas to generate estimates, but actual loan terms, fees, compounding methods, and lender policies may differ. Always consult a qualified financial professional or your lender for binding loan disclosures and personalized advice.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Finance Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <a
+          href="/finance/loan-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Loan Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate monthly payments for auto, personal, or student loans with preset profiles.</p>
+        </a>
+
+        <a
+          href="/finance/mortgage-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Estimate monthly mortgage payments, including property tax, insurance, PMI, and HOA fees.</p>
+        </a>
+
+        <a
+          href="/finance/compound-interest-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Compound Interest Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Visualize the growth of savings and investments through compounding interest over time.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Calculator Logic -->
+  <script>
+    import { calculateAmortization, getYearlySchedule, generateCsv, getSvgChartPaths } from '../../utils/amortization';
+
+    // DOM Element Cache
+    const loanAmountInput = document.getElementById('loan-amount') as HTMLInputElement;
+    const interestRateInput = document.getElementById('interest-rate') as HTMLInputElement;
+    const termInput = document.getElementById('loan-term') as HTMLInputElement;
+    const extraPaymentInput = document.getElementById('extra-payment') as HTMLInputElement;
+    const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
+
+    const monthlyPaymentDisplay = document.getElementById('monthly-payment-display') as HTMLDivElement;
+    const totalInterestDisplay = document.getElementById('total-interest-display') as HTMLSpanElement;
+    const payoffDateDisplay = document.getElementById('payoff-date-display') as HTMLSpanElement;
+    const totalPrincipalDisplay = document.getElementById('total-principal-display') as HTMLSpanElement;
+
+    const accelImpactCard = document.getElementById('accel-impact-card') as HTMLDivElement;
+    const accelSavedInterest = document.getElementById('accel-saved-interest') as HTMLSpanElement;
+    const accelSavedTime = document.getElementById('accel-saved-time') as HTMLSpanElement;
+    const accelNewDate = document.getElementById('accel-new-date') as HTMLSpanElement;
+    const timelineOrigTerm = document.getElementById('timeline-orig-term') as HTMLSpanElement;
+    const timelineAccelTerm = document.getElementById('timeline-accel-term') as HTMLSpanElement;
+    const timelineAccelBar = document.getElementById('timeline-accel-bar') as HTMLDivElement;
+    const timelineSavedBar = document.getElementById('timeline-saved-bar') as HTMLDivElement;
+
+    const chartToggleYearly = document.getElementById('chart-toggle-yearly') as HTMLButtonElement;
+    const chartToggleMonthly = document.getElementById('chart-toggle-monthly') as HTMLButtonElement;
+    const chartYMax = document.getElementById('chart-y-max') as SVGTextElement;
+    const chartYMid = document.getElementById('chart-y-mid') as SVGTextElement;
+    const chartBaselineFill = document.getElementById('chart-baseline-fill') as SVGPathElement;
+    const chartBaselineLine = document.getElementById('chart-baseline-line') as SVGPathElement;
+    const chartAccelFill = document.getElementById('chart-accel-fill') as SVGPathElement;
+    const chartAccelLine = document.getElementById('chart-accel-line') as SVGPathElement;
+    const chartXLabels = document.getElementById('chart-x-labels') as SVGGraphicsElement;
+    const chartLegendAccel = document.getElementById('chart-legend-accel') as HTMLDivElement;
+
+    const toggleScheduleTable = document.getElementById('toggle-schedule-table') as HTMLButtonElement;
+    const tableChevron = document.getElementById('table-chevron') as unknown as SVGElement;
+    const scheduleTableContainer = document.getElementById('schedule-table-container') as HTMLDivElement;
+    const scheduleTableBody = document.getElementById('schedule-table-body') as HTMLTableSectionElement;
+    const tableHdrPeriod = document.getElementById('table-hdr-period') as HTMLTableCellElement;
+    const downloadCsvBtn = document.getElementById('download-csv') as HTMLButtonElement;
+
+    // Global State
+    let chartGranularity = 'yearly';
+    let csvContent = '';
+    let activeBaselineSchedule: any[] = [];
+    let activeAcceleratedSchedule: any[] = [];
+
+    // Helpers
+    const formatCurrency = (val: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+      }).format(val);
+    };
+
+    const formatCurrencyWithCents = (val: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(val);
+    };
+
+    const getPayoffDate = (monthsToAdd: number) => {
+      const date = new Date();
+      date.setMonth(date.getMonth() + monthsToAdd);
+      return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+
+    // Primary Calculation
+    const runCalculations = () => {
+      const principal = Math.max(0, parseFloat(loanAmountInput.value) || 0);
+      const annualRate = Math.max(0, parseFloat(interestRateInput.value) || 0);
+      const rawTerm = Math.max(1, parseFloat(termInput.value) || 1);
+      const extraPayment = Math.max(0, parseFloat(extraPaymentInput.value) || 0);
+
+      const termMonths = Math.round(rawTerm * 12);
+      totalPrincipalDisplay.textContent = formatCurrency(principal);
+
+      const result = calculateAmortization(principal, annualRate, termMonths, extraPayment);
+      const monthlyPI = result.monthlyPI;
+      activeBaselineSchedule = result.baseline.schedule;
+      activeAcceleratedSchedule = result.accelerated.schedule;
+
+      const baselineInterest = result.baseline.totalInterest;
+      const totalCostOfLoan = principal + baselineInterest;
+      const baselinePayoffMonths = result.baseline.payoffMonths;
+
+      if (principal > 0 && termMonths > 0) {
+        monthlyPaymentDisplay.textContent = formatCurrencyWithCents(monthlyPI + (extraPayment > 0 ? extraPayment : 0));
+      } else {
+        monthlyPaymentDisplay.textContent = '$0.00';
+      }
+      totalInterestDisplay.textContent = formatCurrency(baselineInterest);
+      payoffDateDisplay.textContent = getPayoffDate(baselinePayoffMonths);
+
+      timelineOrigTerm.textContent = `${baselinePayoffMonths} Months`;
+
+      // Accelerated Statistics
+      if (extraPayment > 0 && principal > 0 && activeAcceleratedSchedule.length > 0) {
+        accelImpactCard.classList.remove('hidden');
+        chartLegendAccel.classList.remove('hidden');
+
+        const accelInterest = result.accelerated.totalInterest;
+        const interestSavedVal = Math.max(0, baselineInterest - accelInterest);
+        accelSavedInterest.textContent = formatCurrency(interestSavedVal);
+
+        const accelMonths = result.accelerated.payoffMonths;
+        const monthsSaved = baselinePayoffMonths - accelMonths;
+        const yearsSaved = Math.floor(monthsSaved / 12);
+        const remMonths = monthsSaved % 12;
+
+        let timeSavedStr = '';
+        if (yearsSaved > 0) timeSavedStr += `${yearsSaved} yr${yearsSaved > 1 ? 's' : ''}`;
+        if (remMonths > 0) timeSavedStr += ` ${remMonths} mo${remMonths > 1 ? 's' : ''}`;
+        if (monthsSaved <= 0) timeSavedStr = '0 months';
+        accelSavedTime.textContent = timeSavedStr;
+
+        accelNewDate.textContent = getPayoffDate(accelMonths);
+        timelineAccelTerm.textContent = `${accelMonths} Months`;
+
+        const percentOfTerm = (accelMonths / baselinePayoffMonths) * 100;
+        const percentSaved = (monthsSaved / baselinePayoffMonths) * 100;
+        timelineAccelBar.style.width = `${percentOfTerm}%`;
+        timelineSavedBar.style.width = `${percentSaved}%`;
+      } else {
+        accelImpactCard.classList.add('hidden');
+        chartLegendAccel.classList.add('hidden');
+        timelineAccelBar.style.width = '100%';
+        timelineSavedBar.style.width = '0%';
+      }
+
+      updateAmortizationView();
+    };
+
+    // Render Chart & Table
+    const updateAmortizationView = () => {
+      const principal = Math.max(0, parseFloat(loanAmountInput.value) || 0);
+      if (principal <= 0 || activeBaselineSchedule.length === 0) {
+        chartBaselineLine.classList.add('hidden');
+        chartBaselineFill.classList.add('hidden');
+        chartAccelLine.classList.add('hidden');
+        chartAccelFill.classList.add('hidden');
+        scheduleTableBody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-mute font-mono">Enter a valid Loan Amount to view the schedule.</td></tr>';
+        return;
+      }
+
+      chartYMax.textContent = formatCurrency(principal);
+      chartYMid.textContent = formatCurrency(principal / 2);
+
+      const isYearly = chartGranularity === 'yearly';
+
+      const paths = getSvgChartPaths(activeBaselineSchedule, activeAcceleratedSchedule, principal, isYearly);
+      chartBaselineLine.setAttribute('d', paths.baseLineD);
+      chartBaselineFill.setAttribute('d', paths.baseFillD);
+      chartBaselineLine.classList.remove('hidden');
+      chartBaselineFill.classList.remove('hidden');
+
+      if (paths.hasAccel) {
+        chartAccelLine.setAttribute('d', paths.accelLineD);
+        chartAccelFill.setAttribute('d', paths.accelFillD);
+        chartAccelLine.classList.remove('hidden');
+        chartAccelFill.classList.remove('hidden');
+      } else {
+        chartAccelLine.classList.add('hidden');
+        chartAccelFill.classList.add('hidden');
+      }
+
+      // X-axis labels
+      const totalBaselinePeriods = activeBaselineSchedule.length;
+      let xLabelsHtml = '';
+
+      const paddingLeft = 50;
+      const paddingRight = 10;
+      const chartWidth = 600 - paddingLeft - paddingRight;
+
+      if (isYearly) {
+        const totalTermYears = Math.ceil(totalBaselinePeriods / 12);
+        const step = Math.ceil(totalTermYears / 3);
+        for (let i = 0; i <= 3; i++) {
+          const yearNum = Math.min(totalTermYears, i * step);
+          const xPos = paddingLeft + (yearNum / totalTermYears) * chartWidth;
+          xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr ${yearNum}</text>`;
+        }
+      } else {
+        const step = Math.ceil(totalBaselinePeriods / 3);
+        for (let i = 0; i <= 3; i++) {
+          const monthNum = Math.min(totalBaselinePeriods, i * step);
+          const xPos = paddingLeft + (monthNum / totalBaselinePeriods) * chartWidth;
+          xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo ${monthNum}</text>`;
+        }
+      }
+      chartXLabels.innerHTML = xLabelsHtml;
+
+      // Table rows
+      let tableRowsData: any[] = [];
+      if (isYearly) {
+        tableRowsData = getYearlySchedule(activeBaselineSchedule, principal);
+        tableHdrPeriod.textContent = 'Year';
+      } else {
+        activeBaselineSchedule.forEach(m => {
+          tableRowsData.push({
+            period: `Month ${m.period}`,
+            beginningBalance: m.beginningBalance,
+            principalPaid: m.principalPaid,
+            interestPaid: m.interestPaid,
+            endingBalance: m.endingBalance
+          });
+        });
+        tableHdrPeriod.textContent = 'Month';
+      }
+
+      let rowsHtml = '';
+      const showCount = 12;
+      let index = 0;
+      tableRowsData.forEach(row => {
+        const hidden = index >= showCount ? ' hidden-row hidden' : '';
+        rowsHtml += `
+          <tr class="hover:bg-canvas-soft-2 transition-colors border-b border-hairline${hidden}">
+            <td class="py-2.5 px-4 font-mono font-medium text-ink">${row.period}</td>
+            <td class="py-2.5 px-4 text-right">${formatCurrency(row.beginningBalance)}</td>
+            <td class="py-2.5 px-4 text-right text-emerald-600 dark:text-emerald-400 font-semibold">${formatCurrency(row.principalPaid)}</td>
+            <td class="py-2.5 px-4 text-right text-red-500 dark:text-red-400">${formatCurrency(row.interestPaid)}</td>
+            <td class="py-2.5 px-4 text-right font-medium">${formatCurrency(row.endingBalance)}</td>
+          </tr>
+        `;
+        index++;
+      });
+
+      // Show more button
+      if (tableRowsData.length > showCount) {
+        rowsHtml += `
+          <tr id="show-more-row">
+            <td colspan="5" class="py-3 text-center">
+              <button type="button" id="show-more-btn" class="text-xs font-mono text-link hover:text-link-deep transition-colors cursor-pointer">
+                Show all ${tableRowsData.length} rows &darr;
+              </button>
+            </td>
+          </tr>
+        `;
+      }
+      scheduleTableBody.innerHTML = rowsHtml;
+
+      const showMoreBtn = document.getElementById('show-more-btn');
+      if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', () => {
+          document.querySelectorAll('.hidden-row').forEach(el => el.classList.remove('hidden', 'hidden-row'));
+          showMoreBtn.closest('tr')?.remove();
+        });
+      }
+
+      csvContent = generateCsv(tableRowsData, isYearly ? 'Year' : 'Month');
+    };
+
+    // Chart granularity toggle
+    chartToggleYearly.addEventListener('click', () => {
+      if (chartGranularity === 'yearly') return;
+      chartGranularity = 'yearly';
+      chartToggleYearly.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleYearly.classList.remove('text-mute');
+      chartToggleMonthly.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleMonthly.classList.add('text-mute');
+      updateAmortizationView();
+    });
+
+    chartToggleMonthly.addEventListener('click', () => {
+      if (chartGranularity === 'monthly') return;
+      chartGranularity = 'monthly';
+      chartToggleMonthly.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleMonthly.classList.remove('text-mute');
+      chartToggleYearly.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleYearly.classList.add('text-mute');
+      updateAmortizationView();
+    });
+
+    // Table toggle
+    toggleScheduleTable.addEventListener('click', () => {
+      const isExpanded = toggleScheduleTable.getAttribute('aria-expanded') === 'true';
+      toggleScheduleTable.setAttribute('aria-expanded', (!isExpanded).toString());
+      tableChevron.classList.toggle('rotate-180', !isExpanded);
+      scheduleTableContainer.classList.toggle('hidden', isExpanded);
+    });
+
+    // CSV download
+    downloadCsvBtn.addEventListener('click', () => {
+      if (!csvContent) return;
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `amortization_schedule_${chartGranularity}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // FAQs Accordion
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling as HTMLDivElement;
+        const chevron = button.querySelector('svg') as unknown as SVGElement;
+        const isHidden = content.classList.toggle('hidden');
+        chevron.classList.toggle('rotate-180', !isHidden);
+        button.setAttribute('aria-expanded', (!isHidden).toString());
+      });
+    });
+
+    // Calculate button trigger
+    calculateBtn.addEventListener('click', runCalculations);
+
+    // Auto-calculate on input changes
+    const inputsList = [loanAmountInput, interestRateInput, termInput, extraPaymentInput];
+    inputsList.forEach(input => {
+      input.addEventListener('input', runCalculations);
+    });
+
+    // Initial
+    runCalculations();
+  </script>
+</Layout>

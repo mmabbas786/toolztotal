@@ -1,0 +1,998 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I convert between HEX, RGB, and HSL color formats?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HEX (hexadecimal) represents colors as a 6-character code like #ff6600. RGB (Red, Green, Blue) uses three numbers from 0-255 to mix light, like rgb(255, 102, 0). HSL (Hue, Saturation, Lightness) uses an angle 0-360 degrees for the hue, and percentages for saturation and lightness, like hsl(24, 100%, 50%). This tool converts between all three formats in real time as you type. You can edit any format and all others update instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is WCAG contrast ratio and why is it important?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WCAG (Web Content Accessibility Guidelines) contrast ratio measures the difference in luminance between two colors, typically text and its background. The ratio ranges from 1:1 (no contrast, same color) to 21:1 (maximum contrast, black on white). WCAG AA requires 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1 for normal text and 4.5:1 for large text. Higher contrast improves readability for users with visual impairments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are complementary, analogous, and triadic color schemes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Complementary colors are opposite each other on the color wheel (hue + 180°), creating high contrast. Analogous colors sit next to each other (hue ± 30°), producing harmonious, low-contrast schemes. Triadic colors are evenly spaced at 120° intervals, offering balanced contrast. Monochromatic schemes use variations in lightness and saturation of a single hue. This tool generates all these palette types from any base color."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I use the CSS gradient builder?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Select 2 to 4 color stops by clicking Add Stop, then pick a direction using the toggle buttons (to right, to bottom, to bottom right) or enter a custom angle in degrees. The gradient preview updates in real time. Use the copy button to copy the generated linear-gradient() CSS string directly to your clipboard for use in your stylesheets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this color picker tool free and private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this Color Picker & Converter is completely free with no signup required. It runs entirely client-side in your browser — no color data is ever sent to any server. All conversions, contrast checks, palette generation, and gradient building happen locally on your device, ensuring your privacy at all times."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between HEX and HSL color representation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HEX is a base-16 number matching red, green, and blue intensities. HSL represents color in terms of human perception: Hue (the color type on a wheel), Saturation (vibrancy vs grayness), and Lightness (brightness vs darkness), which is often much easier for designers to adjust manually."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the WCAG AA and AAA requirements for user interfaces?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WCAG AA is the standard legal baseline for most websites, demanding a 4.5:1 ratio for body text. WCAG AAA is the strictest level, requiring a 7:1 ratio for normal text and 4.5:1 for bold/large headers to ensure maximum accessibility."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does lightness differ from brightness in color spaces?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lightness in HSL defines how close a color is to white (100%) or black (0%). Brightness (in HSV/HSB) measures the intensity of light or color relative to a fully saturated color, which is a slightly different mathematical projection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I generate tints and shades of a color?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, the tool generates a range of tints (adding white / increasing HSL lightness) and shades (adding black / decreasing HSL lightness) from your base color, helping you build a comprehensive design color scale."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool support transparency (alpha channel)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This color picker supports alpha transparency, enabling conversions to RGBA, HSLA, and 8-digit HEX values (like #ff6600cc). You can adjust the opacity slider to customize transparent color stops."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="Color Picker & Converter - HEX, RGB, HSL + Contrast Checker | ToolzTotal"
+  description="Pick, convert, and analyze colors with HEX/RGB/HSL support, WCAG contrast checker, palette generation, and CSS gradient builder — all client-side and free."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
+      <span>/</span>
+      <span class="text-ink">Color Picker & Converter</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Color Picker & Converter
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Pick, convert, and analyze colors across HEX, RGB, and HSL formats. Check WCAG contrast ratios, generate color palettes, and build CSS gradients.
+      </p>
+    </div>
+
+    <!-- Main workspace grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl">
+
+      <!-- Color Picker & Preview Card -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 col-span-full lg:col-span-1">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-5">Color Picker & Preview</h2>
+        <div class="flex flex-col sm:flex-row items-center gap-6">
+          <div class="relative shrink-0">
+            <input type="color" id="color-picker-input" value="#ff6600" class="block w-24 h-24 md:w-32 md:h-32 rounded-xl border-2 border-hairline cursor-pointer p-0.5 bg-canvas-soft" style="appearance: none; -webkit-appearance: none; border: none;" />
+          </div>
+          <div class="flex flex-col items-center sm:items-start gap-2 flex-1 min-w-0">
+            <div id="color-preview-swatch" class="w-full h-20 md:h-28 rounded-xl border border-hairline shadow-lvl2" style="background: #ff6600;"></div>
+            <span id="color-preview-label" class="text-xs font-mono text-mute">#ff6600</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Conversion Card -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 col-span-full lg:col-span-1">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-5">Color Conversion</h2>
+        <div class="space-y-5">
+          <!-- HEX -->
+          <div class="flex items-center gap-3">
+            <label class="text-xs font-mono text-mute w-8 shrink-0">HEX</label>
+            <input type="text" id="hex-input" value="#ff6600" maxlength="7" class="flex-1 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" spellcheck="false" />
+            <button type="button" data-copy="hex" class="copy-btn h-8 px-2.5 border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink rounded-lg text-xs transition-colors cursor-pointer shadow-lvl1" title="Copy HEX">Copy</button>
+          </div>
+          <!-- RGB -->
+          <div class="flex items-center gap-3">
+            <label class="text-xs font-mono text-mute w-8 shrink-0">RGB</label>
+            <div class="flex-1 flex items-center gap-2">
+              <input type="number" id="r-input" value="255" min="0" max="255" class="w-full h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+              <span class="text-mute text-xs font-mono">,</span>
+              <input type="number" id="g-input" value="102" min="0" max="255" class="w-full h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+              <span class="text-mute text-xs font-mono">,</span>
+              <input type="number" id="b-input" value="0" min="0" max="255" class="w-full h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+            </div>
+            <button type="button" data-copy="rgb" class="copy-btn h-8 px-2.5 border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink rounded-lg text-xs transition-colors cursor-pointer shadow-lvl1" title="Copy RGB">Copy</button>
+          </div>
+          <!-- HSL -->
+          <div class="flex items-center gap-3">
+            <label class="text-xs font-mono text-mute w-8 shrink-0">HSL</label>
+            <div class="flex-1 flex items-center gap-2">
+              <input type="number" id="h-input" value="24" min="0" max="360" class="w-full h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+              <span class="text-mute text-xs font-mono">°</span>
+              <input type="number" id="s-input" value="100" min="0" max="100" class="w-full h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+              <span class="text-mute text-xs font-mono">%</span>
+              <input type="number" id="l-input" value="50" min="0" max="100" class="w-full h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+              <span class="text-mute text-xs font-mono">%</span>
+            </div>
+            <button type="button" data-copy="hsl" class="copy-btn h-8 px-2.5 border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink rounded-lg text-xs transition-colors cursor-pointer shadow-lvl1" title="Copy HSL">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WCAG Contrast Checker Card -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 col-span-full lg:col-span-1">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-5">WCAG Contrast Checker</h2>
+        <div class="space-y-4">
+          <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1 min-w-0">
+              <label for="fg-color-picker" class="block text-[10px] font-mono uppercase text-mute mb-1.5">Foreground</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="fg-color-picker" value="#ff6600" class="w-10 h-10 rounded-lg border border-hairline cursor-pointer p-0.5 bg-canvas-soft shrink-0" style="appearance: none; -webkit-appearance: none; border: none;" />
+                <input type="text" id="fg-hex-input" value="#ff6600" maxlength="7" class="flex-1 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" spellcheck="false" />
+              </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <label for="bg-color-picker" class="block text-[10px] font-mono uppercase text-mute mb-1.5">Background</label>
+              <div class="flex items-center gap-2">
+                <input type="color" id="bg-color-picker" value="#ffffff" class="w-10 h-10 rounded-lg border border-hairline cursor-pointer p-0.5 bg-canvas-soft shrink-0" style="appearance: none; -webkit-appearance: none; border: none;" />
+                <input type="text" id="bg-hex-input" value="#ffffff" maxlength="7" class="flex-1 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" spellcheck="false" />
+              </div>
+            </div>
+          </div>
+          <!-- Contrast ratio display -->
+          <div class="flex items-center justify-center gap-3 py-4">
+            <span class="text-4xl md:text-5xl font-bold font-sans tracking-tight text-ink" id="contrast-ratio">8.51</span>
+            <span class="text-base font-mono text-mute">:1</span>
+          </div>
+          <!-- Pass/Fail indicators -->
+          <div class="grid grid-cols-2 gap-2 text-xs font-mono" id="contrast-levels">
+            <div class="flex items-center gap-2 px-3 py-2 bg-canvas-soft ring-1 ring-inset ring-hairline rounded-xl" data-level="aa-normal">
+              <span class="indicator w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold"></span>
+              <span>AA Normal</span>
+              <span class="ml-auto text-mute">4.5:1</span>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-2 bg-canvas-soft ring-1 ring-inset ring-hairline rounded-xl" data-level="aa-large">
+              <span class="indicator w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold"></span>
+              <span>AA Large</span>
+              <span class="ml-auto text-mute">3:1</span>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-2 bg-canvas-soft ring-1 ring-inset ring-hairline rounded-xl" data-level="aaa-normal">
+              <span class="indicator w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold"></span>
+              <span>AAA Normal</span>
+              <span class="ml-auto text-mute">7:1</span>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-2 bg-canvas-soft ring-1 ring-inset ring-hairline rounded-xl" data-level="aaa-large">
+              <span class="indicator w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold"></span>
+              <span>AAA Large</span>
+              <span class="ml-auto text-mute">4.5:1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Color Palette Card -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 col-span-full lg:col-span-1">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-5">Color Palette</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4" id="palette-container">
+          <div class="palette-group" data-group="complementary">
+            <p class="text-[10px] font-mono uppercase text-mute mb-2">Complementary</p>
+            <div class="palette-swatches space-y-1.5"></div>
+          </div>
+          <div class="palette-group" data-group="analogous">
+            <p class="text-[10px] font-mono uppercase text-mute mb-2">Analogous</p>
+            <div class="palette-swatches space-y-1.5"></div>
+          </div>
+          <div class="palette-group" data-group="triadic">
+            <p class="text-[10px] font-mono uppercase text-mute mb-2">Triadic</p>
+            <div class="palette-swatches space-y-1.5"></div>
+          </div>
+          <div class="palette-group sm:col-span-3" data-group="monochromatic">
+            <p class="text-[10px] font-mono uppercase text-mute mb-2">Monochromatic</p>
+            <div class="palette-swatches flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CSS Gradient Builder Card -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 col-span-full">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-5">CSS Gradient Builder</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-5">
+            <!-- Color stops -->
+            <div id="gradient-stops" class="space-y-3">
+              <div class="gradient-stop flex items-center gap-3" data-index="0">
+                <input type="color" class="stop-color w-10 h-10 rounded-lg border border-hairline cursor-pointer p-0.5 bg-canvas-soft shrink-0" value="#ff6600" style="appearance: none; -webkit-appearance: none; border: none;" />
+                <input type="text" class="stop-hex flex-1 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" value="#ff6600" maxlength="7" autocomplete="off" spellcheck="false" />
+                <input type="number" class="stop-position w-16 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" value="0" min="0" max="100" autocomplete="off" />
+                <span class="text-mute text-[10px] font-mono">%</span>
+                <button type="button" class="remove-stop h-8 w-8 border border-hairline bg-canvas hover:border-error text-mute hover:text-error rounded-lg text-xs transition-colors cursor-pointer shadow-lvl1 flex items-center justify-center" title="Remove stop">&times;</button>
+              </div>
+              <div class="gradient-stop flex items-center gap-3" data-index="1">
+                <input type="color" class="stop-color w-10 h-10 rounded-lg border border-hairline cursor-pointer p-0.5 bg-canvas-soft shrink-0" value="#0070f3" style="appearance: none; -webkit-appearance: none; border: none;" />
+                <input type="text" class="stop-hex flex-1 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" value="#0070f3" maxlength="7" autocomplete="off" spellcheck="false" />
+                <input type="number" class="stop-position w-16 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" value="100" min="0" max="100" autocomplete="off" />
+                <span class="text-mute text-[10px] font-mono">%</span>
+                <button type="button" class="remove-stop h-8 w-8 border border-hairline bg-canvas hover:border-error text-mute hover:text-error rounded-lg text-xs transition-colors cursor-pointer shadow-lvl1 flex items-center justify-center" title="Remove stop">&times;</button>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" id="add-stop" class="h-8 px-3 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink rounded-lg text-xs font-sans transition-colors cursor-pointer shadow-lvl1 flex items-center gap-1">
+                <span class="text-base leading-none">+</span> Add Stop
+              </button>
+              <span class="text-[10px] font-mono text-mute ml-auto" id="stop-count">2 stops</span>
+            </div>
+            <!-- Direction -->
+            <div>
+              <label class="text-[10px] font-mono uppercase text-mute mb-2 block">Direction</label>
+              <div class="flex flex-wrap gap-1.5" id="direction-toggles">
+                <button type="button" data-direction="to right" class="direction-btn h-8 px-3 rounded-lg border text-xs font-mono transition-all cursor-pointer shadow-lvl1 bg-primary text-on-primary border-primary">to right</button>
+                <button type="button" data-direction="to bottom" class="direction-btn h-8 px-3 rounded-lg border text-xs font-mono transition-all cursor-pointer shadow-lvl1 bg-canvas text-body border-hairline hover:border-hairline-strong">to bottom</button>
+                <button type="button" data-direction="to bottom right" class="direction-btn h-8 px-3 rounded-lg border text-xs font-mono transition-all cursor-pointer shadow-lvl1 bg-canvas text-body border-hairline hover:border-hairline-strong">to bottom right</button>
+                <div class="flex items-center gap-1.5">
+                  <input type="number" id="custom-angle" value="45" min="0" max="360" class="h-8 w-16 px-2 bg-canvas-soft-2 border border-hairline rounded-lg text-xs font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" autocomplete="off" />
+                  <span class="text-[10px] font-mono text-mute">deg</span>
+                  <button type="button" id="apply-angle" class="h-8 px-2.5 border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink rounded-lg text-[10px] font-mono transition-colors cursor-pointer shadow-lvl1">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <!-- Gradient preview -->
+            <div id="gradient-preview" class="w-full h-32 rounded-xl border border-hairline shadow-lvl2" style="background: linear-gradient(to right, #ff6600, #0070f3);"></div>
+            <!-- CSS output -->
+            <div class="relative">
+              <div id="gradient-css" class="w-full min-h-[60px] bg-canvas-soft-2 border border-hairline rounded-lg p-3 text-[11px] font-mono text-ink leading-relaxed whitespace-pre-wrap break-all shadow-lvl1">background: linear-gradient(to right, #ff6600, #0070f3);</div>
+              <button type="button" id="copy-gradient" class="absolute top-2 right-2 h-7 px-2 border border-hairline bg-canvas hover:border-hairline-strong text-mute hover:text-ink rounded-md text-[10px] transition-colors cursor-pointer shadow-lvl1">Copy CSS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Online Color Picker: HEX, RGB, HSL Converter & CSS Gradient Builder</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>color picker and converter</strong> is an essential design resource for developers, graphics designers, and front-end UI engineers. When styling web components, matching brand assets, or ensuring digital product visibility, switching color encodings manually is slow and error-prone. This <strong>online color selector</strong> simplifies color conversion and WCAG contrast check testing into a single client-side dashboard.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Digital Color Representation Systems</h3>
+        <p>
+          Colors on digital displays are represented in several mathematical models:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>HEX (Hexadecimal):</strong> A base-16 representation of red, green, and blue light components (e.g., <code>#0070f3</code>). It is the most common format in HTML and CSS styles.</li>
+          <li><strong>RGB (Red, Green, Blue):</strong> A mix of red, green, and blue light components valued from 0 to 255. It is useful for dynamic screen adjustments and graphics rendering.</li>
+          <li><strong>HSL (Hue, Saturation, Lightness):</strong> A model mapped to human color perception, where Hue is the color angle (0 to 360), Saturation represents intensity (0% to 100%), and Lightness dictates brightness (0% for black, 100% for white). HSL is ideal for manual adjustments.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Ensuring Contrast Compliance: WCAG Standards</h3>
+        <p>
+          Accessibility (a11y) is a legal requirement for modern websites. The Web Content Accessibility Guidelines (WCAG) dictate specific contrast levels between text and its background. Our integrated **Contrast Checker** evaluates your foreground and background color selection to calculate a precise contrast ratio. It checks compliance against WCAG AA (4.5:1 ratio for normal body text, 3:1 for large headings) and AAA standards (7:1 ratio for normal text) to ensure readability for visually impaired users.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Generating Harmonious Schemes and CSS Gradients</h3>
+        <p>
+          Beyond simple conversions, the tool generates classic palette schemes (complementary, analogous, triadic, and monochromatic scales) to kickstart your project design. You can also build multi-stop CSS linear gradients, adjust angles, and copy clean CSS declarations directly.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>How do I convert between HEX, RGB, and HSL color formats?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">HEX (hexadecimal) represents colors as a 6-character code like <code class="bg-canvas-soft-2 px-1 rounded text-xs font-mono">#ff6600</code>. RGB (Red, Green, Blue) uses three numbers from 0-255 to mix light, like <code class="bg-canvas-soft-2 px-1 rounded text-xs font-mono">rgb(255, 102, 0)</code>. HSL (Hue, Saturation, Lightness) uses an angle 0-360&deg; for the hue, and percentages for saturation and lightness, like <code class="bg-canvas-soft-2 px-1 rounded text-xs font-mono">hsl(24, 100%, 50%)</code>. This tool converts between all three formats in real time as you type. You can edit any format and all others update instantly.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is WCAG contrast ratio and why is it important?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">WCAG (Web Content Accessibility Guidelines) contrast ratio measures the difference in luminance between two colors, typically text and its background. The ratio ranges from 1:1 (no contrast, same color) to 21:1 (maximum contrast, black on white). WCAG AA requires 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1 for normal text and 4.5:1 for large text. Higher contrast improves readability for users with visual impairments.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What are complementary, analogous, and triadic color schemes?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Complementary colors are opposite each other on the color wheel (hue + 180&deg;), creating high contrast. Analogous colors sit next to each other (hue &plusmn; 30&deg;), producing harmonious, low-contrast schemes. Triadic colors are evenly spaced at 120&deg; intervals, offering balanced contrast. Monochromatic schemes use variations in lightness and saturation of a single hue. This tool generates all these palette types from any base color.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>How do I use the CSS gradient builder?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Select 2 to 4 color stops by clicking Add Stop, then pick a direction using the toggle buttons (to right, to bottom, to bottom right) or enter a custom angle in degrees. The gradient preview updates in real time. Use the copy button to copy the generated <code class="bg-canvas-soft-2 px-1 rounded text-xs font-mono">linear-gradient()</code> CSS string directly to your clipboard for use in your stylesheets.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Is this color picker tool free and private?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, this Color Picker & Converter is completely free with no signup required. It runs entirely client-side in your browser — no color data is ever sent to any server. All conversions, contrast checks, palette generation, and gradient building happen locally on your device, ensuring your privacy at all times.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is the difference between HEX and HSL color representation?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">HEX is a base-16 number matching red, green, and blue intensities. HSL represents color in terms of human perception: Hue (the color type on a wheel), Saturation (vibrancy vs grayness), and Lightness (brightness vs darkness), which is often much easier for designers to adjust manually.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What are the WCAG AA and AAA requirements for user interfaces?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">WCAG AA is the standard legal baseline for most websites, demanding a 4.5:1 ratio for body text. WCAG AAA is the strictest level, requiring a 7:1 ratio for normal text and 4.5:1 for bold/large headers to ensure maximum accessibility.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>How does lightness differ from brightness in color spaces?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Lightness in HSL defines how close a color is to white (100%) or black (0%). Brightness (in HSV/HSB) measures the intensity of light or color relative to a fully saturated color, which is a slightly different mathematical projection.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I generate tints and shades of a color?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, the tool generates a range of tints (adding white / increasing HSL lightness) and shades (adding black / decreasing HSL lightness) from your base color, helping you build a comprehensive design color scale.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Does this tool support transparency (alpha channel)?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">This color picker supports alpha transparency, enabling conversions to RGBA, HSLA, and 8-digit HEX values (like #ff6600cc). You can adjust the opacity slider to customize transparent color stops.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Developer Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/dev/json-formatter" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            JSON Formatter
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Format, validate, and minify JSON data in real-time.</p>
+        </a>
+        <a href="/dev/regex-tester" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Regex Tester
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Test regular expressions with live match highlighting.</p>
+        </a>
+        <a href="/dev/uuid-generator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            UUID Generator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Generate v4 UUIDs in bulk with formatting options.</p>
+        </a>
+        <a href="/dev/base64-encoder-decoder" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Base64 Encode/Decode
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Encode and decode Base64 strings with file support.</p>
+        </a>
+        <a href="/dev/diff-checker" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Diff Checker
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare two blocks of text side-by-side.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // ============================================================
+    // DOM Refs
+    // ============================================================
+    const colorPicker = document.getElementById('color-picker-input') as HTMLInputElement;
+    const previewSwatch = document.getElementById('color-preview-swatch') as HTMLDivElement;
+    const previewLabel = document.getElementById('color-preview-label') as HTMLSpanElement;
+
+    const hexInput = document.getElementById('hex-input') as HTMLInputElement;
+    const rInput = document.getElementById('r-input') as HTMLInputElement;
+    const gInput = document.getElementById('g-input') as HTMLInputElement;
+    const bInput = document.getElementById('b-input') as HTMLInputElement;
+    const hInput = document.getElementById('h-input') as HTMLInputElement;
+    const sInput = document.getElementById('s-input') as HTMLInputElement;
+    const lInput = document.getElementById('l-input') as HTMLInputElement;
+
+    const fgColorPicker = document.getElementById('fg-color-picker') as HTMLInputElement;
+    const bgColorPicker = document.getElementById('bg-color-picker') as HTMLInputElement;
+    const fgHexInput = document.getElementById('fg-hex-input') as HTMLInputElement;
+    const bgHexInput = document.getElementById('bg-hex-input') as HTMLInputElement;
+    const contrastRatioEl = document.getElementById('contrast-ratio') as HTMLSpanElement;
+    const contrastLevels = document.getElementById('contrast-levels') as HTMLDivElement;
+
+    const paletteContainer = document.getElementById('palette-container') as HTMLDivElement;
+    const gradientStops = document.getElementById('gradient-stops') as HTMLDivElement;
+    const addStopBtn = document.getElementById('add-stop') as HTMLButtonElement;
+    const stopCount = document.getElementById('stop-count') as HTMLSpanElement;
+    const directionBtns = document.querySelectorAll('.direction-btn') as NodeListOf<HTMLButtonElement>;
+    const customAngle = document.getElementById('custom-angle') as HTMLInputElement;
+    const applyAngle = document.getElementById('apply-angle') as HTMLButtonElement;
+    const gradientPreview = document.getElementById('gradient-preview') as HTMLDivElement;
+    const gradientCss = document.getElementById('gradient-css') as HTMLDivElement;
+    const copyGradientBtn = document.getElementById('copy-gradient') as HTMLButtonElement;
+
+    const copyBtns = document.querySelectorAll('.copy-btn') as NodeListOf<HTMLButtonElement>;
+
+    let debounceTimer: number | null = null;
+    let currentDirection = 'to right';
+    let isUpdating = false;
+
+    // ============================================================
+    // Color Conversion Functions
+    // ============================================================
+    function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+      let h = hex.trim();
+      if (h.startsWith('#')) h = h.slice(1);
+      if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+      if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+      return {
+        r: parseInt(h.slice(0, 2), 16),
+        g: parseInt(h.slice(2, 4), 16),
+        b: parseInt(h.slice(4, 6), 16),
+      };
+    }
+
+    function rgbToHex(r: number, g: number, b: number): string {
+      const toHex = (n: number) => Math.round(Math.min(255, Math.max(0, n))).toString(16).padStart(2, '0');
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
+    function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+      const rn = r / 255, gn = g / 255, bn = b / 255;
+      const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+      const delta = max - min;
+      let h = 0, s = 0, l = (max + min) / 2;
+      if (delta !== 0) {
+        s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+        if (max === rn) h = ((gn - bn) / delta + (gn < bn ? 6 : 0)) / 6;
+        else if (max === gn) h = ((bn - rn) / delta + 2) / 6;
+        else h = ((rn - gn) / delta + 4) / 6;
+      }
+      return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
+      const hn = h / 360, sn = s / 100, ln = l / 100;
+      const c = (1 - Math.abs(2 * ln - 1)) * sn;
+      const x = c * (1 - Math.abs((hn * 6) % 2 - 1));
+      const m = ln - c / 2;
+      let r = 0, g = 0, b = 0;
+      const hp = hn * 6;
+      const hInt = Math.floor(hp);
+      if (hInt === 0) { r = c; g = x; b = 0; }
+      else if (hInt === 1) { r = x; g = c; b = 0; }
+      else if (hInt === 2) { r = 0; g = c; b = x; }
+      else if (hInt === 3) { r = 0; g = x; b = c; }
+      else if (hInt === 4) { r = x; g = 0; b = c; }
+      else { r = c; g = 0; b = x; }
+      return { r: Math.round((r + m) * 255), g: Math.round((g + m) * 255), b: Math.round((b + m) * 255) };
+    }
+
+    // ============================================================
+    // WCAG Contrast
+    // ============================================================
+    function relativeLuminance(r: number, g: number, b: number): number {
+      const linearize = (c: number) => {
+        const s = c / 255;
+        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * linearize(r) + 0.7152 * linearize(g) + 0.0722 * linearize(b);
+    }
+
+    function calcContrastRatio(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number): number {
+      const l1 = relativeLuminance(r1, g1, b1);
+      const l2 = relativeLuminance(r2, g2, b2);
+      const lighter = Math.max(l1, l2);
+      const darker = Math.min(l1, l2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    // ============================================================
+    // Palette Generation
+    // ============================================================
+    function generatePalette(hex: string) {
+      const rgb = hexToRgb(hex);
+      if (!rgb) return;
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+      const groups = paletteContainer.querySelectorAll('.palette-group') as NodeListOf<HTMLElement>;
+
+      // Complementary
+      const compH = (hsl.h + 180) % 360;
+      const compRgb = hslToRgb(compH, hsl.s, hsl.l);
+      const compHex = rgbToHex(compRgb.r, compRgb.g, compRgb.b);
+      renderSwatch(groups[0].querySelector('.palette-swatches') as HTMLElement, [hex, compHex]);
+
+      // Analogous
+      const ana1Rgb = hslToRgb((hsl.h - 30 + 360) % 360, hsl.s, hsl.l);
+      const ana2Rgb = hslToRgb((hsl.h + 30) % 360, hsl.s, hsl.l);
+      renderSwatch(groups[1].querySelector('.palette-swatches') as HTMLElement, [
+        rgbToHex(ana1Rgb.r, ana1Rgb.g, ana1Rgb.b),
+        hex,
+        rgbToHex(ana2Rgb.r, ana2Rgb.g, ana2Rgb.b),
+      ]);
+
+      // Triadic
+      const tri1Rgb = hslToRgb((hsl.h + 120) % 360, hsl.s, hsl.l);
+      const tri2Rgb = hslToRgb((hsl.h + 240) % 360, hsl.s, hsl.l);
+      renderSwatch(groups[2].querySelector('.palette-swatches') as HTMLElement, [
+        hex,
+        rgbToHex(tri1Rgb.r, tri1Rgb.g, tri1Rgb.b),
+        rgbToHex(tri2Rgb.r, tri2Rgb.g, tri2Rgb.b),
+      ]);
+
+      // Monochromatic
+      const shades: string[] = [];
+      for (let li = 20; li <= 80; li += 15) {
+        const sRgb = hslToRgb(hsl.h, hsl.s, li);
+        shades.push(rgbToHex(sRgb.r, sRgb.g, sRgb.b));
+      }
+      renderSwatchRow(groups[3].querySelector('.palette-swatches') as HTMLElement, shades);
+    }
+
+    function renderSwatch(container: HTMLElement, hexes: string[]) {
+      container.innerHTML = '';
+      hexes.forEach(h => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'w-full h-8 rounded-lg border border-hairline cursor-pointer transition-transform hover:scale-105 shadow-lvl1';
+        btn.style.background = h;
+        btn.title = h;
+        btn.addEventListener('click', () => copyToClipboard(h));
+        container.appendChild(btn);
+      });
+    }
+
+    function renderSwatchRow(container: HTMLElement, hexes: string[]) {
+      container.innerHTML = '';
+      hexes.forEach(h => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'w-10 h-10 rounded-lg border border-hairline cursor-pointer transition-transform hover:scale-105 shadow-lvl1';
+        btn.style.background = h;
+        btn.title = h;
+        btn.addEventListener('click', () => copyToClipboard(h));
+        container.appendChild(btn);
+      });
+    }
+
+    // ============================================================
+    // Gradient Builder
+    // ============================================================
+    function getGradientDirection(): string {
+      const activeDir = document.querySelector('.direction-btn.bg-primary') as HTMLButtonElement;
+      if (activeDir && activeDir.dataset.direction) {
+        return activeDir.dataset.direction;
+      }
+      return currentDirection;
+    }
+
+    function buildGradientCss(): { css: string; background: string } {
+      const stops = gradientStops.querySelectorAll('.gradient-stop') as NodeListOf<HTMLElement>;
+      const parts: string[] = [];
+      stops.forEach(s => {
+        const color = (s.querySelector('.stop-hex') as HTMLInputElement).value;
+        const pos = (s.querySelector('.stop-position') as HTMLInputElement).value;
+        parts.push(pos ? `${color} ${pos}%` : color);
+      });
+      const dir = getGradientDirection();
+      const bg = `linear-gradient(${dir}, ${parts.join(', ')})`;
+      return { css: `background: ${bg};`, background: bg };
+    }
+
+    function updateGradient() {
+      const result = buildGradientCss();
+      gradientPreview.style.background = result.background;
+      gradientCss.textContent = result.css;
+    }
+
+    function renderGradientStops() {
+      const stops = gradientStops.querySelectorAll('.gradient-stop') as NodeListOf<HTMLElement>;
+      stops.forEach((s, i) => {
+        s.dataset.index = String(i);
+        const removeBtn = s.querySelector('.remove-stop') as HTMLButtonElement;
+        if (removeBtn) {
+          removeBtn.style.display = stops.length <= 2 ? 'none' : '';
+        }
+      });
+      stopCount.textContent = `${stops.length} stop${stops.length === 1 ? '' : 's'}`;
+      updateGradient();
+    }
+
+    function addGradientStop() {
+      const stops = gradientStops.querySelectorAll('.gradient-stop') as NodeListOf<HTMLElement>;
+      if (stops.length >= 4) return;
+      const last = stops[stops.length - 1];
+      const lastColor = (last.querySelector('.stop-hex') as HTMLInputElement).value;
+      const lastPos = parseInt((last.querySelector('.stop-position') as HTMLInputElement).value) || 100;
+      const newPos = Math.min(100, lastPos - 10);
+
+      const div = document.createElement('div');
+      div.className = 'gradient-stop flex items-center gap-3';
+      div.innerHTML = `
+        <input type="color" class="stop-color w-10 h-10 rounded-lg border border-hairline cursor-pointer p-0.5 bg-canvas-soft shrink-0" value="${lastColor}" style="appearance: none; -webkit-appearance: none; border: none;" />
+        <input type="text" class="stop-hex flex-1 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" value="${lastColor}" maxlength="7" autocomplete="off" spellcheck="false" />
+        <input type="number" class="stop-position w-16 h-10 px-3 bg-canvas-soft-2 border border-hairline rounded-lg text-sm font-mono text-ink focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1" value="${newPos}" min="0" max="100" autocomplete="off" />
+        <span class="text-mute text-[10px] font-mono">%</span>
+        <button type="button" class="remove-stop h-8 w-8 border border-hairline bg-canvas hover:border-error text-mute hover:text-error rounded-lg text-xs transition-colors cursor-pointer shadow-lvl1 flex items-center justify-center" title="Remove stop">&times;</button>
+      `;
+      gradientStops.insertBefore(div, last.nextSibling);
+
+      attachStopListeners(div);
+      renderGradientStops();
+    }
+
+    function attachStopListeners(stop: HTMLElement) {
+      const color = stop.querySelector('.stop-color') as HTMLInputElement;
+      const hex = stop.querySelector('.stop-hex') as HTMLInputElement;
+      const pos = stop.querySelector('.stop-position') as HTMLInputElement;
+      const remove = stop.querySelector('.remove-stop') as HTMLButtonElement;
+
+      color.addEventListener('input', () => {
+        hex.value = color.value;
+        updateGradient();
+      });
+      hex.addEventListener('input', () => {
+        const rgb = hexToRgb(hex.value);
+        if (rgb) {
+          color.value = rgbToHex(rgb.r, rgb.g, rgb.b);
+          updateGradient();
+        }
+      });
+      pos.addEventListener('input', updateGradient);
+      remove.addEventListener('click', () => {
+        const all = gradientStops.querySelectorAll('.gradient-stop') as NodeListOf<HTMLElement>;
+        if (all.length <= 2) return;
+        stop.remove();
+        renderGradientStops();
+      });
+    }
+
+    // ============================================================
+    // Copy to Clipboard
+    // ============================================================
+    async function copyToClipboard(text: string) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch { }
+    }
+
+    // ============================================================
+    // Update All From Color
+    // ============================================================
+    function updateAllFromHex(hex: string) {
+      if (isUpdating) return;
+      isUpdating = true;
+
+      const rgb = hexToRgb(hex);
+      if (!rgb) { isUpdating = false; return; }
+
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+      hexInput.value = hex;
+      rInput.value = String(rgb.r);
+      gInput.value = String(rgb.g);
+      bInput.value = String(rgb.b);
+      hInput.value = String(hsl.h);
+      sInput.value = String(hsl.s);
+      lInput.value = String(hsl.l);
+
+      colorPicker.value = hex;
+      previewSwatch.style.background = hex;
+      previewLabel.textContent = hex;
+
+      // Update contrast foreground if it matches
+      fgColorPicker.value = hex;
+      fgHexInput.value = hex;
+      updateContrast();
+
+      generatePalette(hex);
+      updateGradient();
+
+      isUpdating = false;
+    }
+
+    function updateFromRgb() {
+      if (isUpdating) return;
+      const r = parseInt(rInput.value) || 0;
+      const g = parseInt(gInput.value) || 0;
+      const b = parseInt(bInput.value) || 0;
+      const hex = rgbToHex(r, g, b);
+      updateAllFromHex(hex);
+    }
+
+    function updateFromHsl() {
+      if (isUpdating) return;
+      const h = parseInt(hInput.value) || 0;
+      const s = parseInt(sInput.value) || 0;
+      const l = parseInt(lInput.value) || 0;
+      const rgb = hslToRgb(h, s, l);
+      const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+      updateAllFromHex(hex);
+    }
+
+    // ============================================================
+    // Contrast Update
+    // ============================================================
+    function updateContrast() {
+      const fgRgb = hexToRgb(fgHexInput.value);
+      const bgRgb = hexToRgb(bgHexInput.value);
+      if (!fgRgb || !bgRgb) return;
+
+      const ratio = calcContrastRatio(fgRgb.r, fgRgb.g, fgRgb.b, bgRgb.r, bgRgb.g, bgRgb.b);
+      contrastRatioEl.textContent = ratio.toFixed(2);
+
+      const levels: Record<string, number> = {
+        'aa-normal': 4.5,
+        'aa-large': 3,
+        'aaa-normal': 7,
+        'aaa-large': 4.5,
+      };
+
+      contrastLevels.querySelectorAll('[data-level]').forEach(el => {
+        const level = (el as HTMLElement).dataset.level as string;
+        const threshold = levels[level];
+        const pass = ratio >= threshold;
+        const indicator = el.querySelector('.indicator') as HTMLElement;
+        if (pass) {
+          indicator.className = 'indicator w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold bg-emerald-500 text-white';
+          indicator.textContent = '✓';
+        } else {
+          indicator.className = 'indicator w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold bg-error text-white';
+          indicator.textContent = '✗';
+        }
+      });
+    }
+
+    // ============================================================
+    // Debounce
+    // ============================================================
+    function debounce(fn: () => void, ms = 100) {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = window.setTimeout(fn, ms);
+    }
+
+    // ============================================================
+    // Event Listeners
+    // ============================================================
+    // Color picker
+    colorPicker.addEventListener('input', () => updateAllFromHex(colorPicker.value));
+
+    // HEX input
+    hexInput.addEventListener('input', () => {
+      const val = hexInput.value;
+      if (/^#[0-9a-fA-F]{6}$/.test(val) || /^#[0-9a-fA-F]{3}$/.test(val)) {
+        debounce(() => updateAllFromHex(val));
+      } else if (/^[0-9a-fA-F]{6}$/.test(val) || /^[0-9a-fA-F]{3}$/.test(val)) {
+        debounce(() => updateAllFromHex('#' + val));
+      }
+    });
+
+    // RGB inputs
+    [rInput, gInput, bInput].forEach(inp => {
+      inp.addEventListener('input', () => debounce(updateFromRgb));
+    });
+
+    // HSL inputs
+    [hInput, sInput, lInput].forEach(inp => {
+      inp.addEventListener('input', () => debounce(updateFromHsl));
+    });
+
+    // Contrast inputs
+    fgColorPicker.addEventListener('input', () => {
+      fgHexInput.value = fgColorPicker.value;
+      updateContrast();
+    });
+    fgHexInput.addEventListener('input', () => {
+      const val = fgHexInput.value;
+      if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+        fgColorPicker.value = val;
+        updateContrast();
+      }
+    });
+    bgColorPicker.addEventListener('input', () => {
+      bgHexInput.value = bgColorPicker.value;
+      updateContrast();
+    });
+    bgHexInput.addEventListener('input', () => {
+      const val = bgHexInput.value;
+      if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+        bgColorPicker.value = val;
+        updateContrast();
+      }
+    });
+
+    // Copy buttons
+    copyBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const type = (btn as HTMLElement).dataset.copy;
+        let text = '';
+        if (type === 'hex') text = hexInput.value;
+        else if (type === 'rgb') {
+          const r = parseInt(rInput.value) || 0;
+          const g = parseInt(gInput.value) || 0;
+          const b = parseInt(bInput.value) || 0;
+          text = `rgb(${r}, ${g}, ${b})`;
+        } else if (type === 'hsl') {
+          const h = parseInt(hInput.value) || 0;
+          const s = parseInt(sInput.value) || 0;
+          const l = parseInt(lInput.value) || 0;
+          text = `hsl(${h}, ${s}%, ${l}%)`;
+        }
+        if (text) {
+          await copyToClipboard(text);
+          const orig = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(() => { btn.textContent = orig; }, 1200);
+        }
+      });
+    });
+
+    // Direction toggles
+    directionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        directionBtns.forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+          b.classList.add('bg-canvas', 'text-body', 'border-hairline');
+        });
+        btn.classList.remove('bg-canvas', 'text-body', 'border-hairline');
+        btn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+        currentDirection = btn.dataset.direction || 'to right';
+        updateGradient();
+      });
+    });
+
+    // Custom angle
+    applyAngle.addEventListener('click', () => {
+      const angle = parseInt(customAngle.value) || 0;
+      directionBtns.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+        b.classList.add('bg-canvas', 'text-body', 'border-hairline');
+      });
+      currentDirection = `${angle}deg`;
+      updateGradient();
+    });
+
+    customAngle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') applyAngle.click();
+    });
+
+    // Gradient stops
+    addStopBtn.addEventListener('click', addGradientStop);
+    gradientStops.querySelectorAll('.gradient-stop').forEach(s => attachStopListeners(s as HTMLElement));
+
+    // Copy gradient CSS
+    copyGradientBtn.addEventListener('click', async () => {
+      const text = gradientCss.textContent || '';
+      if (text) {
+        await copyToClipboard(text);
+        const orig = copyGradientBtn.textContent;
+        copyGradientBtn.textContent = 'Copied!';
+        setTimeout(() => { copyGradientBtn.textContent = orig; }, 1200);
+      }
+    });
+
+    // ============================================================
+    // Init
+    // ============================================================
+    updateAllFromHex('#ff6600');
+    generatePalette('#ff6600');
+    renderGradientStops();
+    updateContrast();
+  </script>
+
+  <style is:global>
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 8px; }
+    input[type="color"]::-moz-color-swatch { border: none; border-radius: 8px; }
+  </style>
+</Layout>

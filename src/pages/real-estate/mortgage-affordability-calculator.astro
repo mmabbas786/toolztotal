@@ -1,0 +1,917 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const DTI_LIMITS = {
+  Conventional: { frontend: 0.36, backend: 0.43 },
+  FHA: { frontend: 0.47, backend: 0.50 },
+  VA: { frontend: 0.48, backend: 0.41 },
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is DTI and why does it matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "DTI stands for Debt-to-Income ratio, a key metric lenders use to evaluate your ability to manage monthly payments and repay borrowed money. It compares your total monthly debt payments to your gross monthly income. A lower DTI signals to lenders that you have a good balance between debt and income. Most lenders prefer a back-end DTI of 43% or lower, though government-backed loans like FHA and VA allow higher ratios."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between front-end and back-end DTI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Front-end DTI (also called the housing ratio) measures only your housing-related expenses — mortgage principal, interest, property taxes, and insurance — against your gross monthly income. Back-end DTI includes all your monthly debt obligations, including the housing payment plus other debts like car loans, student loans, credit card payments, and personal loans. Lenders use both ratios to determine loan eligibility, with back-end DTI typically being the more restrictive constraint."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do FHA, VA, and Conventional affordability limits differ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conventional loans typically require a front-end DTI of 28-36% and a back-end DTI of 36-43%. FHA loans are more flexible with a front-end DTI up to 47% and back-end up to 50% in many cases, making them popular for first-time homebuyers. VA loans have no strict DTI limit but generally require a front-end ratio of 48% or lower and a back-end of 41% or lower. VA loans also offer 0% down payment options and no PMI, significantly improving affordability for eligible veterans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this guarantee I'll be approved for this amount?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, this calculator provides an estimate based on standard DTI guidelines and the information you input. Actual loan approval depends on many additional factors including your credit score, employment history, assets, reserves, the specific property's appraisal value, and the lender's underwriting criteria. Different lenders may also have overlays stricter than standard Fannie Mae, Freddie Mac, FHA, or VA guidelines. Use this tool as a starting point and consult with a licensed mortgage professional for a personalized assessment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much should I budget beyond the mortgage payment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Beyond your monthly mortgage payment (PITI), homeowners should budget for ongoing costs including maintenance and repairs (typically 1-2% of the home value annually), utilities, homeowners association fees if applicable, home upgrades and furnishings, and a cash emergency fund for unexpected repairs. Closing costs, which range from 2-5% of the purchase price, should also be factored into your upfront budget. A comprehensive affordability plan accounts for all these additional expenses to ensure long-term homeownership success."
+      }
+    }
+  ]
+};
+
+const ogMeta = {
+  title: "Mortgage Affordability Calculator - Free Home Affordability Estimator | ToolzTotal",
+  description: "Find out how much house you can afford. Use our free mortgage affordability calculator based on income, debt, down payment, interest rate, and loan type with DTI analysis.",
+  image: "https://toolztotal.com/og-image.png",
+};
+
+const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-affordability-calculator";
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="Mortgage Affordability Calculator - Free Home Affordability Estimator | ToolzTotal"
+  description="Find out how much house you can afford. Use our free mortgage affordability calculator based on income, debt, down payment, interest rate, and loan type with DTI analysis."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/real-estate" class="hover:text-ink transition-colors">Real Estate & Mortgage</a>
+      <span>/</span>
+      <span class="text-ink">Mortgage Affordability Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Mortgage Affordability Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate the maximum home price you can afford based on your household income, monthly debts, down payment, and loan type. Understand your debt-to-income ratios and get a clear picture of your buying power — all in seconds.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Your Financial Profile</h2>
+
+        <!-- Annual Household Income -->
+        <div>
+          <label for="annual-income" class="block text-xs font-mono uppercase text-mute mb-2">Annual Household Income</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="annual-income"
+              value="100000"
+              step="5000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 100,000"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Monthly Debt Payments -->
+        <div>
+          <label for="monthly-debt" class="block text-xs font-mono uppercase text-mute mb-2">Monthly Debt Payments</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="monthly-debt"
+              value="500"
+              step="50"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 500"
+              autocomplete="off"
+            />
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5">Car loans, student loans, credit cards, personal loans, etc.</p>
+        </div>
+
+        <!-- Down Payment Toggle -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-mono uppercase text-mute">Down Payment</label>
+            <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+              <button
+                type="button"
+                id="dp-toggle-pct"
+                class="px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer"
+              >
+                %
+              </button>
+              <button
+                type="button"
+                id="dp-toggle-val"
+                class="px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer"
+              >
+                $
+              </button>
+            </div>
+          </div>
+
+          <div id="dp-pct-container" class="relative">
+            <input
+              type="number"
+              id="dp-pct"
+              value="20"
+              step="0.5"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 20"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+
+          <div id="dp-val-container" class="relative hidden">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input
+              type="number"
+              id="dp-val"
+              value="20000"
+              step="1000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 20,000"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div>
+          <label for="interest-rate" class="block text-xs font-mono uppercase text-mute mb-2">Interest Rate</label>
+          <div class="relative">
+            <input
+              type="number"
+              id="interest-rate"
+              value="6.5"
+              step="0.125"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 6.5"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+        </div>
+
+        <!-- Loan Term -->
+        <div>
+          <label for="loan-term" class="block text-xs font-mono uppercase text-mute mb-2">Loan Term</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" data-years="15" class="term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">15 Years</button>
+            <button type="button" data-years="20" class="term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">20 Years</button>
+            <button type="button" data-years="25" class="term-btn h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer">25 Years</button>
+            <button type="button" data-years="30" class="term-btn h-10 border-hairline-strong bg-primary text-on-primary rounded-md font-sans text-xs font-medium transition-all shadow-lvl2 cursor-pointer">30 Years</button>
+          </div>
+          <input type="hidden" id="loan-term" value="30" />
+        </div>
+
+        <!-- Optional Costs Accordion -->
+        <div class="border-t border-hairline pt-5">
+          <button
+            type="button"
+            id="toggle-optional-costs"
+            class="flex items-center justify-between w-full text-xs font-mono uppercase text-mute hover:text-ink transition-colors group cursor-pointer"
+            aria-expanded="false"
+            aria-controls="optional-costs-container"
+          >
+            <span>Optional Costs</span>
+            <svg id="costs-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="optional-costs-container" class="space-y-4 pt-4 hidden">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="property-tax" class="block text-xs font-mono uppercase text-mute mb-2">Annual Property Tax</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-xs font-sans">$</span>
+                  <input
+                    type="number"
+                    id="property-tax"
+                    value="0"
+                    step="100"
+                    min="0"
+                    class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                    placeholder="e.g., 2,400"
+                    autocomplete="off"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/yr</span>
+                </div>
+              </div>
+              <div>
+                <label for="home-insurance" class="block text-xs font-mono uppercase text-mute mb-2">Annual Home Insurance</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-xs font-sans">$</span>
+                  <input
+                    type="number"
+                    id="home-insurance"
+                    value="0"
+                    step="100"
+                    min="0"
+                    class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                    placeholder="e.g., 1,200"
+                    autocomplete="off"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/yr</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loan Type -->
+        <div>
+          <label for="loan-type" class="block text-xs font-mono uppercase text-mute mb-2">Loan Type</label>
+          <select
+            id="loan-type"
+            class="w-full h-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 px-3 cursor-pointer"
+          >
+            <option value="Conventional">Conventional</option>
+            <option value="FHA">FHA</option>
+            <option value="VA">VA</option>
+          </select>
+        </div>
+
+        <!-- Calculate Button -->
+        <button
+          type="button"
+          id="calculate-btn"
+          class="w-full h-11 bg-primary text-on-primary font-sans font-medium text-sm rounded-lg hover:opacity-90 transition-all shadow-lvl2 cursor-pointer active:scale-[0.98]"
+        >
+          Calculate Affordability
+        </button>
+
+      </div>
+
+      <!-- Right Column: Results (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- Primary Result Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Max Affordable Home Price</h2>
+          <div id="max-home-price" class="text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-2 tabular-nums">
+            $0
+          </div>
+          <div class="text-body text-sm font-sans mb-6">
+            Monthly Payment (PITI): <span id="result-monthly-piti" class="font-semibold text-ink tabular-nums">$0.00</span>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="grid grid-cols-3 gap-4 border-t border-hairline pt-6">
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Front-End DTI</span>
+              <span id="result-frontend-dti" class="text-lg font-bold text-ink font-sans tabular-nums">0.00%</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Back-End DTI</span>
+              <span id="result-backend-dti" class="text-lg font-bold text-ink font-sans tabular-nums">0.00%</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Monthly P&I</span>
+              <span id="result-monthly-pi" class="text-lg font-bold text-ink font-sans tabular-nums">$0</span>
+            </div>
+          </div>
+
+          <!-- Disclaimer inline -->
+          <div class="mt-6 pt-4 border-t border-hairline text-[10px] text-mute leading-normal font-sans">
+            <strong>Disclaimer:</strong> This calculator provides affordability estimates for informational purposes only. Actual approval depends on credit score, employment history, lender underwriting, and property appraisal. Consult a licensed mortgage professional for a personalized assessment.
+          </div>
+        </div>
+
+        <!-- DTI Visual Gauge -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-4">DTI Ratio Gauge</h3>
+
+          <!-- Gauge labels -->
+          <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+            <span>0%</span>
+            <span id="gauge-threshold-label" class="font-bold text-ink">Limit: 43%</span>
+            <span id="gauge-max-label">50%</span>
+          </div>
+
+          <!-- Gauge Bar Container -->
+          <div class="relative w-full h-8 bg-canvas-soft-2 border border-hairline rounded-md overflow-hidden">
+            <!-- Front-end portion (left) -->
+            <div id="gauge-frontend" class="absolute inset-y-0 left-0 transition-all duration-300" style="width: 0%; background: #22c55e;"></div>
+            <!-- Back-end additional portion (right of front-end) -->
+            <div id="gauge-backend" class="absolute inset-y-0 transition-all duration-300" style="width: 0%; left: 0%; background: #86efac;"></div>
+            <!-- Dashed threshold line -->
+            <div id="gauge-threshold" class="absolute top-0 bottom-0 w-0.5 border-l-2 border-dashed border-ink/60 dark:border-on-primary/60 transition-all duration-300" style="left: 0%;"></div>
+          </div>
+
+          <!-- Legend -->
+          <div class="flex items-center gap-4 mt-3 text-[10px] font-mono text-mute">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-green-500 inline-block"></span>
+              <span>Housing (Front-End)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-green-300 inline-block"></span>
+              <span>All Debts (Back-End)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-0 border-t-2 border-dashed border-ink/60 dark:border-on-primary/60 inline-block"></span>
+              <span id="gauge-legend-limit">Limit</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Breakdown (Loan Summary) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Loan Principal</span>
+            <span id="result-loan-principal" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Down Payment</span>
+            <span id="result-down-payment" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Down Payment %</span>
+            <span id="result-dp-pct" class="text-base font-bold text-ink font-sans tabular-nums">0%</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Loan Type</span>
+            <span id="result-loan-type-label" class="text-base font-bold text-ink font-sans">Conventional</span>
+          </div>
+        </div>
+
+        <!-- Detailed Monthly Breakdown -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-4">Monthly Payment Breakdown</h3>
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between text-xs font-sans">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-ink inline-block"></span>
+                <span class="text-body font-medium">Principal & Interest</span>
+              </div>
+              <span id="breakdown-pi" class="font-bold text-ink tabular-nums">$0.00</span>
+            </div>
+            <div class="flex items-center justify-between text-xs font-sans">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
+                <span class="text-body font-medium">Property Tax</span>
+              </div>
+              <span id="breakdown-tax" class="font-bold text-ink tabular-nums">$0.00</span>
+            </div>
+            <div class="flex items-center justify-between text-xs font-sans">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                <span class="text-body font-medium">Home Insurance</span>
+              </div>
+              <span id="breakdown-insurance" class="font-bold text-ink tabular-nums">$0.00</span>
+            </div>
+            <div class="flex items-center justify-between text-xs font-sans border-t border-hairline pt-2.5 mt-2.5">
+              <div class="flex items-center gap-2">
+                <span class="text-body font-bold font-sans">Total PITI</span>
+              </div>
+              <span id="breakdown-total" class="font-bold text-ink tabular-nums">$0.00</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SEO Content Section -->
+    <article class="mt-24 max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Mortgage Affordability: What Home Can You Afford?</h2>
+      <p class="text-mute text-xs font-mono mb-8 uppercase tracking-wider">Comprehensive guide to home affordability, DTI ratios, and loan types</p>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Determining how much house you can afford is one of the most important steps in the home-buying process. A <strong>mortgage affordability calculator</strong> helps bridge the gap between your financial reality and your homeownership dreams by applying industry-standard debt-to-income (DTI) ratios, current interest rates, and your down payment to arrive at a realistic maximum home price.
+        </p>
+        <p>
+          Lenders evaluate your ability to repay a mortgage primarily through your DTI ratios. Your front-end DTI (housing ratio) compares your projected monthly housing payment — principal, interest, property taxes, and insurance — to your gross monthly income. Your back-end DTI adds existing monthly debts like car payments, student loans, and credit card minimums. Each loan type has specific DTI limits that directly control what you can borrow.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Debt-to-Income (DTI) Ratios Shape Your Buying Power</h3>
+        <p>
+          DTI is the single most influential metric in determining mortgage affordability. Conventional loans backed by Fannie Mae and Freddie Mac generally cap front-end DTI at 28-36% and back-end at 36-43%. FHA loans allow higher ratios — up to 47% front-end and 50% back-end — making them attractive for first-time buyers with moderate incomes. VA loans, available to eligible military service members and veterans, offer the most flexibility with front-end limits around 48% and no strict maximum back-end, though 41% is a common benchmark.
+        </p>
+        <p>
+          Using this <strong>home affordability calculator</strong>, you can toggle between Conventional, FHA, and VA to instantly see how each program's DTI rules affect the maximum home price, monthly payment, and required down payment. This transparency helps you decide which loan type to pursue before meeting with a lender. By adjusting your income, existing debts, and down payment, you can visualize how each variable shifts the affordability needle in real time.
+        </p>
+        <p>
+          It is important to understand that DTI is not the only underwriting factor. Lenders also evaluate your credit score, employment stability, cash reserves, and the property's appraised value. A strong DTI with a weak credit profile may still result in a denial or higher interest rate. Conversely, an exceptional credit score and substantial reserves can sometimes compensate for DTI ratios that slightly exceed standard guidelines. This is why a mortgage affordability calculator that factors all major variables gives you the most accurate starting point for your home search.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">FHA vs. VA vs. Conventional: How Affordability Limits Compare</h3>
+        <p>
+          Each loan program has a unique DTI framework. Conventional loans typically require the strongest financial profile — a front-end DTI below 36% and back-end below 43% for manually underwritten loans, with automated underwriting sometimes allowing exceptions up to 45-50% with compensating factors. FHA loans are more forgiving, allowing front-end ratios up to 47% and back-end up to 50% with a minimum 3.5% down payment, though they require both an upfront and annual mortgage insurance premium. VA loans require no down payment and no PMI, with front-end limits around 48%, but impose a funding fee unless the veteran has a service-connected disability.
+        </p>
+        <p>
+          Our <strong>affordability calculator</strong> applies the exact DTI thresholds for each loan type so you can compare how switching from a Conventional 30-year loan to an FHA or VA product changes your maximum affordable purchase price. This side-by-side analysis helps you optimize your home-buying strategy.
+        </p>
+        <p>
+          It is also worth noting that FHA loans require an upfront mortgage insurance premium (UFMIP) of 1.75% of the loan amount, plus an annual MIP that varies based on your down payment and loan term. VA loans have a funding fee ranging from 0.5% to 3.3% depending on your down payment and whether you've used the benefit before, though this fee can be waived for veterans with service-connected disabilities. Conventional loans require PMI only when the down payment is below 20%, and PMI can typically be removed once you reach 20% equity. These costs affect your true monthly payment and should be considered when comparing programs.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Your Down Payment Affects Affordability</h3>
+        <p>
+          A larger down payment directly reduces the loan principal you need to borrow, which lowers your monthly payment and improves your DTI ratios. Additionally, a down payment of 20% or more eliminates the need for Private Mortgage Insurance (PMI) on Conventional loans, further reducing monthly costs and potentially increasing your buying power. FHA loans require mortgage insurance regardless of down payment size, while VA loans have no PMI requirement at all. This mortgage affordability estimator lets you toggle between a fixed dollar amount or percentage down payment to see how different scenarios impact your maximum home price.
+        </p>
+        <p>
+          You should also consider how interest rates interact with down payment size. A higher down payment often qualifies you for a lower interest rate because the lender takes on less risk. Even a 0.25% reduction in rate can save tens of thousands of dollars over the life of a 30-year loan. When using this tool, try adjusting both the down payment and interest rate together to see their combined effect on your monthly payment and total affordable purchase price.
+        </p>
+        <p>
+          The loan term also plays a critical role in affordability. A 15-year term builds equity faster and saves substantially on total interest, but comes with significantly higher monthly payments that reduce your maximum affordable home price. A 30-year term stretches payments over a longer period, lowering the monthly obligation and allowing you to qualify for a more expensive home. Our calculator lets you compare all four term options — 15, 20, 25, and 30 years — so you can find the sweet spot between monthly cash flow and long-term interest cost.
+        </p>
+
+          <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Monthly Debt Payments Matter More Than You Think</h3>
+          <p>
+            Monthly debts — including car payments, student loan minimums, credit card payments, personal loans, and child support or alimony — directly subtract from the amount of income available to cover a mortgage payment. Even small recurring debts can significantly reduce your borrowing capacity. For example, a $400 monthly car payment reduces your maximum affordable home price by roughly $60,000 to $80,000 depending on interest rates and loan terms. This is why paying down high-interest debt before applying for a mortgage can dramatically expand your home-buying budget.
+          </p>
+          <p>
+            Our affordability calculator accounts for all monthly debt obligations in its back-end DTI computation. You can experiment by adjusting the monthly debt field to see exactly how much purchasing power each debt obligation consumes. Reducing your debt load by just $200 per month could unlock an additional $30,000 or more in home price. This visibility makes the tool a powerful budgeting resource even before you begin house hunting.
+          </p>
+
+          <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+            <strong>Important Disclaimer:</strong> The affordability estimates provided by this tool are based on standard DTI guidelines and general assumptions. They do not constitute a loan approval, pre-qualification, or commitment to lend. Actual loan terms, interest rates, and approval criteria vary based on your credit profile, assets, employment history, the specific property, and the lender's underwriting standards. You should consult with a licensed mortgage loan officer for a personalized analysis and formal pre-approval before shopping for a home.
+          </p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <!-- Q1 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is DTI and why does it matter?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              DTI stands for Debt-to-Income ratio, a key metric lenders use to evaluate your ability to manage monthly payments and repay borrowed money. It compares your total monthly debt payments to your gross monthly income. A lower DTI signals to lenders that you have a good balance between debt and income. Most lenders prefer a back-end DTI of 43% or lower, though government-backed loans like FHA and VA allow higher ratios.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q2 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What's the difference between front-end and back-end DTI?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Front-end DTI (also called the housing ratio) measures only your housing-related expenses — mortgage principal, interest, property taxes, and insurance — against your gross monthly income. Back-end DTI includes all your monthly debt obligations, including the housing payment plus other debts like car loans, student loans, credit card payments, and personal loans. Lenders use both ratios to determine loan eligibility, with back-end DTI typically being the more restrictive constraint.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q3 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How do FHA, VA, and Conventional affordability limits differ?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Conventional loans typically require a front-end DTI of 28-36% and a back-end DTI of 36-43%. FHA loans are more flexible with a front-end DTI up to 47% and back-end up to 50% in many cases, making them popular for first-time homebuyers. VA loans have no strict DTI limit but generally require a front-end ratio of 48% or lower and a back-end of 41% or lower. VA loans also offer 0% down payment options and no PMI, significantly improving affordability for eligible veterans.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q4 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Does this guarantee I'll be approved for this amount?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No, this calculator provides an estimate based on standard DTI guidelines and the information you input. Actual loan approval depends on many additional factors including your credit score, employment history, assets, reserves, the specific property's appraisal value, and the lender's underwriting criteria. Different lenders may also have overlays stricter than standard Fannie Mae, Freddie Mac, FHA, or VA guidelines. Use this tool as a starting point and consult with a licensed mortgage professional for a personalized assessment.
+            </p>
+          </div>
+        </details>
+
+        <!-- Q5 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How much should I budget beyond the mortgage payment?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Beyond your monthly mortgage payment (PITI), homeowners should budget for ongoing costs including maintenance and repairs (typically 1-2% of the home value annually), utilities, homeowners association fees if applicable, home upgrades and furnishings, and a cash emergency fund for unexpected repairs. Closing costs, which range from 2-5% of the purchase price, should also be factored into your upfront budget. A comprehensive affordability plan accounts for all these additional expenses to ensure long-term homeownership success.
+            </p>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Real Estate & Mortgage Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <a
+          href="/finance/mortgage-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate monthly mortgage payments including taxes, insurance, PMI, and HOA with a full amortization schedule.</p>
+        </a>
+
+        <a
+          href="/real-estate/rent-vs-buy-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Rent vs Buy Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare the long-term financial costs of renting versus buying a home to decide which path is right for you.</p>
+        </a>
+
+        <a
+          href="/real-estate/mortgage-refinance-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Refinance Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare your current mortgage against a new loan to see if refinancing saves you money on interest and payments.</p>
+        </a>
+
+        <a
+          href="/real-estate/rental-property-calculator"
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Rental Property Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Evaluate cash flow, cap rate, cash-on-cash return, and DSCR for any rental property investment.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Calculator Logic -->
+  <script define:vars={{ DTI_LIMITS }}>
+    (() => {
+      // 1. DOM Element Cache
+      const annualIncomeInput = document.getElementById('annual-income');
+      const monthlyDebtInput = document.getElementById('monthly-debt');
+      const dpTogglePct = document.getElementById('dp-toggle-pct');
+      const dpToggleVal = document.getElementById('dp-toggle-val');
+      const dpPctContainer = document.getElementById('dp-pct-container');
+      const dpValContainer = document.getElementById('dp-val-container');
+      const dpPctInput = document.getElementById('dp-pct');
+      const dpValInput = document.getElementById('dp-val');
+      const interestRateInput = document.getElementById('interest-rate');
+      const loanTermInput = document.getElementById('loan-term');
+      const termBtns = document.querySelectorAll('.term-btn');
+      const optionalCostsToggle = document.getElementById('toggle-optional-costs');
+      const costsChevron = document.getElementById('costs-chevron');
+      const optionalCostsContainer = document.getElementById('optional-costs-container');
+      const propertyTaxInput = document.getElementById('property-tax');
+      const homeInsuranceInput = document.getElementById('home-insurance');
+      const loanTypeSelect = document.getElementById('loan-type');
+      const calculateBtn = document.getElementById('calculate-btn');
+
+      // Results DOM
+      const maxHomePriceEl = document.getElementById('max-home-price');
+      const resultMonthlyPITI = document.getElementById('result-monthly-piti');
+      const resultFrontendDTI = document.getElementById('result-frontend-dti');
+      const resultBackendDTI = document.getElementById('result-backend-dti');
+      const resultMonthlyPI = document.getElementById('result-monthly-pi');
+      const resultLoanPrincipal = document.getElementById('result-loan-principal');
+      const resultDownPayment = document.getElementById('result-down-payment');
+      const resultDpPct = document.getElementById('result-dp-pct');
+      const resultLoanTypeLabel = document.getElementById('result-loan-type-label');
+      const breakdownPi = document.getElementById('breakdown-pi');
+      const breakdownTax = document.getElementById('breakdown-tax');
+      const breakdownInsurance = document.getElementById('breakdown-insurance');
+      const breakdownTotal = document.getElementById('breakdown-total');
+
+      // Gauge elements
+      const gaugeFrontend = document.getElementById('gauge-frontend');
+      const gaugeBackend = document.getElementById('gauge-backend');
+      const gaugeThreshold = document.getElementById('gauge-threshold');
+      const gaugeThresholdLabel = document.getElementById('gauge-threshold-label');
+      const gaugeMaxLabel = document.getElementById('gauge-max-label');
+      const gaugeLegendLimit = document.getElementById('gauge-legend-limit');
+
+      // 2. State
+      let downPaymentMode = 'pct';
+      let currentTermYears = 30;
+
+      // 3. Format Helpers
+      const fmt = (val) => {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 0,
+        }).format(val);
+      };
+
+      const fmtCents = (val) => {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(val);
+      };
+
+      const fmtPct = (val) => {
+        return val.toFixed(2) + '%';
+      };
+
+      // 4. DTI Color Helper
+      const dtiColor = (ratio, limit) => {
+        if (ratio <= limit * 0.8) return '#22c55e';
+        if (ratio <= limit) return '#f59e0b';
+        return '#ef4444';
+      };
+
+      // 5. Core Calculation
+      const calculate = () => {
+        const annualIncome = Math.max(0, parseFloat(annualIncomeInput.value) || 0);
+        const monthlyDebt = Math.max(0, parseFloat(monthlyDebtInput.value) || 0);
+        const annualRate = Math.max(0, parseFloat(interestRateInput.value) || 0);
+        const termYears = currentTermYears;
+        const loanType = loanTypeSelect.value;
+        const limits = DTI_LIMITS[loanType] || DTI_LIMITS.Conventional;
+        const frontendLimit = limits.frontend;
+        const backendLimit = limits.backend;
+        const monthlyRate = annualRate / 100 / 12;
+        const n = termYears * 12;
+        const monthlyIncome = annualIncome / 12;
+
+        // Sync down payment
+        let dpPct = Math.min(100, Math.max(0, parseFloat(dpPctInput.value) || 0));
+        let dpVal = Math.max(0, parseFloat(dpValInput.value) || 0);
+
+        // We need to solve for max home price. Start by computing max PITI from DTI.
+        const maxFrontPITI = monthlyIncome * frontendLimit;
+        const maxBackTotal = monthlyIncome * backendLimit;
+        const maxBackPITI = maxBackTotal - monthlyDebt;
+        let maxPITI = Math.min(maxFrontPITI, maxBackPITI);
+        if (maxPITI < 0) maxPITI = 0;
+
+        // Subtract tax & insurance to get max P&I
+        const taxAnnual = Math.max(0, parseFloat(propertyTaxInput.value) || 0);
+        const insuranceAnnual = Math.max(0, parseFloat(homeInsuranceInput.value) || 0);
+        const monthlyTax = taxAnnual / 12;
+        const monthlyInsurance = insuranceAnnual / 12;
+        let maxPI = maxPITI - monthlyTax - monthlyInsurance;
+        if (maxPI < 0) maxPI = 0;
+
+        // Solve for principal using amortization formula inverted
+        // M = P * (r*(1+r)^n) / ((1+r)^n - 1)
+        // P = M * ((1+r)^n - 1) / (r * (1+r)^n)
+        let principal = 0;
+        if (monthlyRate > 0 && n > 0) {
+          const factor = Math.pow(1 + monthlyRate, n);
+          principal = maxPI * (factor - 1) / (monthlyRate * factor);
+        } else if (n > 0) {
+          principal = maxPI * n;
+        }
+
+        // Now compute max home price from principal and down payment %
+        // principal = homePrice - downPayment
+        // If mode is %, dpPct is given: downPayment = homePrice * dpPct / 100
+        // principal = homePrice * (1 - dpPct/100)
+        // homePrice = principal / (1 - dpPct/100)
+        let maxHomePrice = 0;
+        let downPaymentAmount = 0;
+        let downPaymentPercent = dpPct;
+
+        if (downPaymentMode === 'pct') {
+          downPaymentPercent = Math.min(100, Math.max(0, dpPct));
+          if (downPaymentPercent >= 100) {
+            maxHomePrice = 0;
+            downPaymentAmount = 0;
+          } else {
+            maxHomePrice = principal / (1 - downPaymentPercent / 100);
+            downPaymentAmount = maxHomePrice * (downPaymentPercent / 100);
+          }
+          dpVal = downPaymentAmount;
+          dpValInput.value = Math.round(dpVal).toString();
+        } else {
+          downPaymentAmount = Math.max(0, dpVal);
+          maxHomePrice = principal + downPaymentAmount;
+          downPaymentPercent = maxHomePrice > 0 ? (downPaymentAmount / maxHomePrice) * 100 : 0;
+          dpPctInput.value = downPaymentPercent.toFixed(2);
+        }
+
+        const actualPrincipal = Math.max(0, maxHomePrice - downPaymentAmount);
+
+        // Recalculate actual monthly payment
+        let actualMonthlyPI = 0;
+        if (monthlyRate > 0 && n > 0) {
+          const factor = Math.pow(1 + monthlyRate, n);
+          actualMonthlyPI = actualPrincipal > 0 ? actualPrincipal * (monthlyRate * factor) / (factor - 1) : 0;
+        } else if (n > 0) {
+          actualMonthlyPI = actualPrincipal / n;
+        }
+
+        const actualPITI = actualMonthlyPI + monthlyTax + monthlyInsurance;
+        const computedFrontendDTI = monthlyIncome > 0 ? (actualPITI / monthlyIncome) * 100 : 0;
+        const computedBackendDTI = monthlyIncome > 0 ? ((actualPITI + monthlyDebt) / monthlyIncome) * 100 : 0;
+
+        // 6. Update Results DOM
+        maxHomePriceEl.textContent = maxHomePrice > 0 ? fmt(maxHomePrice) : '$0';
+        resultMonthlyPITI.textContent = fmtCents(actualPITI);
+        resultFrontendDTI.textContent = fmtPct(computedFrontendDTI);
+        resultBackendDTI.textContent = fmtPct(computedBackendDTI);
+        resultMonthlyPI.textContent = fmt(actualMonthlyPI);
+        resultLoanPrincipal.textContent = fmt(actualPrincipal);
+        resultDownPayment.textContent = fmt(downPaymentAmount);
+        resultDpPct.textContent = downPaymentPercent.toFixed(1) + '%';
+        resultLoanTypeLabel.textContent = loanType;
+        breakdownPi.textContent = fmtCents(actualMonthlyPI);
+        breakdownTax.textContent = fmtCents(monthlyTax);
+        breakdownInsurance.textContent = fmtCents(monthlyInsurance);
+        breakdownTotal.textContent = fmtCents(actualPITI);
+
+        // Color-code DTI stats
+        const frontColor = dtiColor(computedFrontendDTI / 100, frontendLimit);
+        const backColor = dtiColor(computedBackendDTI / 100, backendLimit);
+        resultFrontendDTI.style.color = frontColor;
+        resultBackendDTI.style.color = backColor;
+
+        // 7. Update DTI Gauge
+        const maxGaugePct = Math.max(backendLimit * 1.25, 0.5) * 100;
+        const frontPctOfMax = Math.min((computedFrontendDTI / maxGaugePct) * 100, 100);
+        const backPctOfMax = Math.min((computedBackendDTI / maxGaugePct) * 100, 100);
+        const thresholdPctOfMax = Math.min((backendLimit * 100 / maxGaugePct) * 100, 100);
+
+        gaugeFrontend.style.width = frontPctOfMax + '%';
+        gaugeBackend.style.width = Math.max(0, backPctOfMax - frontPctOfMax) + '%';
+        gaugeBackend.style.left = frontPctOfMax + '%';
+        gaugeThreshold.style.left = thresholdPctOfMax + '%';
+
+        // Color the gauge sections
+        const gaugeFrontColor = dtiColor(computedFrontendDTI / 100, frontendLimit);
+        const gaugeBackColor = dtiColor(computedBackendDTI / 100, backendLimit);
+        gaugeFrontend.style.background = gaugeFrontColor;
+        gaugeBackend.style.background = gaugeBackColor;
+
+        gaugeThresholdLabel.textContent = 'Limit: ' + (backendLimit * 100).toFixed(0) + '%';
+        gaugeMaxLabel.textContent = maxGaugePct.toFixed(0) + '%';
+        gaugeLegendLimit.textContent = loanType + ' Limit';
+      };
+
+      // 8. Event Listeners
+
+      // Down payment toggle
+      dpTogglePct.addEventListener('click', () => {
+        if (downPaymentMode === 'pct') return;
+        downPaymentMode = 'pct';
+        dpTogglePct.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        dpTogglePct.classList.remove('text-mute');
+        dpToggleVal.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        dpToggleVal.classList.add('text-mute');
+        dpPctContainer.classList.remove('hidden');
+        dpValContainer.classList.add('hidden');
+      });
+
+      dpToggleVal.addEventListener('click', () => {
+        if (downPaymentMode === 'val') return;
+        downPaymentMode = 'val';
+        dpToggleVal.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        dpToggleVal.classList.remove('text-mute');
+        dpTogglePct.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        dpTogglePct.classList.add('text-mute');
+        dpValContainer.classList.remove('hidden');
+        dpPctContainer.classList.add('hidden');
+      });
+
+      // Term buttons
+      termBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const years = parseInt(btn.dataset.years, 10);
+          currentTermYears = years;
+          loanTermInput.value = years.toString();
+
+          termBtns.forEach(b => {
+            b.classList.remove('border-hairline-strong', 'bg-primary', 'text-on-primary', 'shadow-lvl2');
+            b.classList.add('border-hairline', 'bg-canvas', 'text-body');
+          });
+          btn.classList.remove('border-hairline', 'bg-canvas', 'text-body');
+          btn.classList.add('border-hairline-strong', 'bg-primary', 'text-on-primary', 'shadow-lvl2');
+        });
+      });
+
+      // Optional costs toggle
+      optionalCostsToggle.addEventListener('click', () => {
+        const isExpanded = optionalCostsToggle.getAttribute('aria-expanded') === 'true';
+        optionalCostsToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+        costsChevron.classList.toggle('rotate-180', !isExpanded);
+        optionalCostsContainer.classList.toggle('hidden', isExpanded);
+      });
+
+      // Calculate button & input listeners
+      const triggerCalculate = () => calculate();
+
+      calculateBtn.addEventListener('click', triggerCalculate);
+
+      const autoInputs = [
+        annualIncomeInput, monthlyDebtInput, dpPctInput, dpValInput,
+        interestRateInput, propertyTaxInput, homeInsuranceInput, loanTypeSelect
+      ];
+
+      autoInputs.forEach(input => {
+        input.addEventListener('input', triggerCalculate);
+        if (input.tagName === 'SELECT') {
+          input.addEventListener('change', triggerCalculate);
+        }
+      });
+
+      // 9. Initial run
+      calculate();
+    })();
+  </script>
+
+</Layout>

@@ -1,0 +1,824 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a break-even point?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The break-even point (BEP) is the level of sales at which total revenue equals total costs, resulting in neither profit nor loss. It is a critical financial metric that tells a business owner exactly how many units (or how much revenue) they need to generate to cover all fixed and variable expenses. Beyond the break-even point, every additional unit sold contributes directly to profit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you calculate the break-even point?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The break-even point in units is calculated by dividing total fixed costs by the contribution margin per unit (price per unit minus variable cost per unit). The formula is: Break-Even Units = Fixed Costs / (Price - Variable Cost Per Unit). For break-even revenue, multiply the break-even units by the price per unit. This simple calculation helps businesses understand the minimum sales volume required to avoid losses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is contribution margin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contribution margin is the difference between the selling price per unit and the variable cost per unit. It represents the portion of each sale that contributes toward covering fixed costs and generating profit. The contribution margin ratio expresses this as a percentage of the selling price. A higher contribution margin means more of each revenue dollar is available to cover fixed costs, making it easier to reach the break-even point."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is break-even revenue?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Break-even revenue is the total dollar amount of sales a business must generate to cover all of its costs — both fixed and variable — without earning a profit or incurring a loss. It is calculated by multiplying the break-even unit volume by the unit selling price. Alternatively, you can compute it by dividing total fixed costs by the contribution margin ratio. Break-even revenue provides a dollar-target benchmark for sales planning."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this break-even calculator financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This break-even analysis calculator is a general estimation and educational tool for informational purposes only. It provides simplified projections based on the inputs you supply and does not account for variable cost fluctuations, economies of scale, tax effects, or other real-world business complexities. Always consult a qualified accountant, financial advisor, or business consultant before making strategic pricing or production decisions."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+
+const ogMeta = {
+  title: "Break-Even Analysis Calculator - Free BEP & Profit Planning Tool | ToolzTotal",
+  description: "Free break-even analysis calculator — find your break-even point in units and revenue, contribution margin, and profit at any sales volume. No signup required.",
+  url: "https://toolztotal.com/finance/break-even-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+---
+
+<Layout
+  title="Break-Even Analysis Calculator - Free BEP & Profit Planning Tool | ToolzTotal"
+  description="Free break-even analysis calculator — find your break-even point in units and revenue, contribution margin, and profit at any sales volume. No signup required."
+  faqJsonLd={faqJsonLd}
+>
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+  <meta slot="head" name="twitter:title" content={ogMeta.title} />
+  <meta slot="head" name="twitter:description" content={ogMeta.description} />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">Break-Even Analysis Calculator</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Break-Even Analysis Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Find your break-even point in units and revenue, see your contribution margin, and model profit or loss at any sales volume. Perfect for pricing strategy, cost planning, and business modeling.
+      </p>
+    </div>
+
+    <!-- Disclaimers alert bar -->
+    <div class="max-w-5xl mb-10 flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl px-5 py-4">
+      <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+      </svg>
+      <p class="text-xs font-sans text-amber-700 dark:text-amber-300 leading-relaxed">
+        <strong>Not financial advice.</strong> This calculator provides simplified break-even estimates for educational and planning purposes. Real-world costs fluctuate with economies of scale, supplier pricing, and operational efficiency. Consult a qualified business advisor or accountant for strategic decisions.
+      </p>
+    </div>
+
+    <!-- Main Calculator Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl">
+
+      <!-- LEFT: Inputs -->
+      <div class="lg:col-span-5 space-y-6">
+
+        <!-- Input Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h2 class="text-base font-bold text-ink font-sans">Cost & Revenue Inputs</h2>
+            <p class="text-xs text-mute font-sans mt-1">Enter your product or service details below.</p>
+          </div>
+
+          <!-- Product Name -->
+          <div>
+            <label for="product-name" class="block text-xs font-mono uppercase text-mute mb-2">Product / Service Name</label>
+            <input
+              type="text"
+              id="product-name"
+              value="Product A"
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Fixed Costs -->
+          <div>
+            <label for="fixed-costs" class="block text-xs font-mono uppercase text-mute mb-2">Fixed Costs</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input
+                type="number"
+                id="fixed-costs"
+                value="50000"
+                min="0"
+                step="1000"
+                class="w-full h-11 pl-7 pr-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+            <p class="text-[10px] font-mono text-mute mt-1.5">Rent, salaries, insurance, equipment — costs that don't change with volume.</p>
+          </div>
+
+          <!-- Variable Cost Per Unit -->
+          <div>
+            <label for="var-cost" class="block text-xs font-mono uppercase text-mute mb-2">Variable Cost Per Unit</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input
+                type="number"
+                id="var-cost"
+                value="30"
+                min="0"
+                step="5"
+                class="w-full h-11 pl-7 pr-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+            <p class="text-[10px] font-mono text-mute mt-1.5">Materials, labor, shipping — costs per unit produced.</p>
+          </div>
+
+          <!-- Price Per Unit -->
+          <div>
+            <label for="price-unit" class="block text-xs font-mono uppercase text-mute mb-2">Price Per Unit</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input
+                type="number"
+                id="price-unit"
+                value="80"
+                min="0"
+                step="5"
+                class="w-full h-11 pl-7 pr-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Sales Volume Projection -->
+          <div>
+            <label for="sales-volume" class="block text-xs font-mono uppercase text-mute mb-2">Sales Volume Projection (units)</label>
+            <input
+              type="number"
+              id="sales-volume"
+              value="5000"
+              min="0"
+              step="100"
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              autocomplete="off"
+            />
+            <p class="text-[10px] font-mono text-mute mt-1.5">The number of units you expect to sell for profit analysis.</p>
+          </div>
+
+          <!-- Calculate Button -->
+          <button
+            type="button"
+            id="calculate-btn"
+            class="w-full h-11 bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg hover:bg-primary/90 active:scale-[0.98] transition-all shadow-lvl2 cursor-pointer"
+          >
+            Calculate Break-Even →
+          </button>
+        </div>
+
+        <!-- Key formula card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-3">
+          <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Key Formula</h3>
+          <div class="text-xs font-sans text-body leading-relaxed space-y-2">
+            <p class="font-mono text-ink bg-canvas-soft px-3 py-2 rounded-md text-center text-sm font-semibold">
+              BEP (units) = Fixed Costs ÷ (Price − Variable Cost)
+            </p>
+            <p class="text-[11px] text-mute mt-2">
+              Contribution Margin = Price − Variable Cost. The break-even point is where total contribution margin equals total fixed costs.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div class="lg:col-span-7 space-y-6" id="results-section">
+
+        <!-- Results Panel -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-0">
+
+          <!-- Header row -->
+          <div class="flex items-start justify-between border-b border-hairline pb-5 mb-6">
+            <div>
+              <p class="text-xs font-mono uppercase text-mute mb-1.5">Break-Even Point</p>
+              <div id="result-be-units" class="text-4xl md:text-5xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans tabular-nums">
+                1,000 units
+              </div>
+            </div>
+            <button
+              type="button"
+              id="download-csv-btn"
+              class="h-9 px-4 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs rounded-lg shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export CSV
+            </button>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <p class="text-[10px] font-mono text-mute uppercase mb-1">Break-Even Revenue</p>
+              <p class="text-lg md:text-xl font-bold text-ink font-sans tabular-nums" id="result-be-revenue">$80,000</p>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <p class="text-[10px] font-mono text-mute uppercase mb-1">Contribution Margin / Unit</p>
+              <p class="text-lg md:text-xl font-bold text-ink font-sans tabular-nums" id="result-cont-margin">$50.00</p>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1">
+              <p class="text-[10px] font-mono text-mute uppercase mb-1">Contribution Margin Ratio</p>
+              <p class="text-lg md:text-xl font-bold text-ink font-sans tabular-nums" id="result-cont-ratio">62.50%</p>
+            </div>
+          </div>
+
+          <!-- Profit Analysis at Projected Volume -->
+          <div class="border-t border-hairline pt-6">
+            <p class="text-xs font-mono uppercase text-mute mb-4">Profit Analysis at Projected Volume</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+                <p class="text-[10px] font-mono text-mute uppercase mb-1">Total Revenue</p>
+                <p class="text-base font-bold text-ink font-sans tabular-nums" id="result-total-revenue">$400,000</p>
+              </div>
+              <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+                <p class="text-[10px] font-mono text-mute uppercase mb-1">Total Costs</p>
+                <p class="text-base font-bold text-ink font-sans tabular-nums" id="result-total-costs">$200,000</p>
+              </div>
+              <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+                <p class="text-[10px] font-mono text-mute uppercase mb-1">Profit / Loss</p>
+                <p class="text-base font-bold font-sans tabular-nums" id="result-profit">$200,000</p>
+              </div>
+            </div>
+
+            <!-- Volume indicator bar -->
+            <div class="mt-4 bg-canvas-soft-2 border border-hairline rounded-lg p-4 shadow-lvl1">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono text-mute uppercase">Volume vs Break-Even</span>
+                <span class="text-[10px] font-mono text-mute tabular-nums" id="volume-indicator-label">5,000 units (400% of BEP)</span>
+              </div>
+              <div class="w-full bg-hairline rounded-full h-2.5 overflow-hidden">
+                <div id="volume-bar" class="h-full rounded-full bg-emerald-500 transition-all duration-300" style="width: 100%"></div>
+              </div>
+              <div class="flex justify-between text-[9px] font-mono text-mute mt-1">
+                <span>0</span>
+                <span id="bep-marker-label" class="font-semibold text-ink">BEP: 1,000</span>
+                <span id="vol-max-label">5,000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Break-Even Chart Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4 mb-6">
+            <div>
+              <h3 class="text-sm font-bold text-ink font-sans">Break-Even Chart</h3>
+              <p class="text-xs text-mute font-sans mt-0.5">Revenue and total cost lines intersect at the break-even point.</p>
+            </div>
+          </div>
+
+          <div class="w-full relative">
+            <svg id="be-chart" viewBox="0 0 600 220" class="w-full h-auto max-h-[300px]">
+              <!-- Grid lines (set dynamically) -->
+              <g id="chart-grid-lines"></g>
+              <!-- Y labels (set dynamically) -->
+              <g id="chart-y-labels"></g>
+              <!-- Revenue line -->
+              <path id="chart-revenue-line" class="stroke-cyan-600 dark:stroke-cyan-400 fill-none" stroke-width="2.5" />
+              <!-- Cost line -->
+              <path id="chart-cost-line" class="stroke-rose-500 dark:stroke-rose-400 fill-none" stroke-width="2.5" />
+              <!-- Fill between lines -->
+              <path id="chart-fill-profit" class="fill-emerald-500/15 dark:fill-emerald-500/10" />
+              <path id="chart-fill-loss" class="fill-rose-500/15 dark:fill-rose-500/10" />
+              <!-- BEP vertical dashed line -->
+              <line id="chart-bep-line" class="stroke-neutral-400 dark:stroke-neutral-500" stroke-width="1.5" stroke-dasharray="5 4" />
+              <!-- BEP label -->
+              <text id="chart-bep-label" class="fill-neutral-500 dark:fill-neutral-400 font-mono text-[8px]" text-anchor="middle" />
+              <!-- X labels -->
+              <g id="chart-x-labels"></g>
+            </svg>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap gap-x-5 gap-y-2 justify-center items-center text-[10px] font-mono text-mute mt-4 border-t border-hairline pt-3">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-1.5 bg-cyan-600 dark:bg-cyan-400 inline-block rounded-xs"></span>
+                <span>Revenue</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-1.5 bg-rose-500 dark:bg-rose-400 inline-block rounded-xs"></span>
+                <span>Total Cost</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-0.5 border-t border-dashed border-neutral-400 inline-block"></span>
+                <span>Break-Even</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-2.5 bg-emerald-500/30 inline-block rounded-xs"></span>
+                <span>Profit</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-2.5 bg-rose-500/30 inline-block rounded-xs"></span>
+                <span>Loss</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full disclaimer -->
+        <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1">
+          <div class="flex items-start gap-3">
+            <svg class="w-4 h-4 text-mute shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="text-[11px] font-sans text-mute leading-relaxed">
+              <strong class="text-body">Important Disclaimer:</strong> This break-even analysis calculator provides general estimates for informational and educational purposes and is <strong>NOT financial or business advice</strong>. Real-world cost structures are more complex — variable costs may change with volume (economies of scale), fixed costs can step up at certain thresholds, and external factors like market demand and competition affect pricing power. Always consult a qualified accountant or business advisor before making strategic decisions based on these projections.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Break-Even Analysis for Your Business</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-5">
+        <p>
+          Every business owner, entrepreneur, and product manager faces the same fundamental question: <strong>how many units do I need to sell to cover my costs?</strong> A break-even analysis calculator answers that question instantly. Whether you're launching a new product, setting prices for a service, or evaluating the viability of a business idea, knowing your break-even point is one of the most important financial metrics you can calculate.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">What Is Break-Even Analysis?</h3>
+        <p>
+          Break-even analysis is a financial modeling technique that determines the sales volume at which total revenue equals total costs — meaning the business generates neither profit nor loss. Below this volume, the business operates at a loss; above it, every additional unit sold generates profit. This <strong>break-even point calculator</strong> applies the standard formula: Fixed Costs ÷ (Price − Variable Cost Per Unit), giving you a clear, numeric answer in seconds.
+        </p>
+        <p>
+          The core concept is the <strong>contribution margin</strong> — the amount each sale contributes toward covering fixed costs after variable costs are paid. If your product sells for $80 and costs $30 to make, each sale contributes $50 toward fixed costs. With $50,000 in fixed costs, you need 1,000 units to break even. Our <strong>break-even analysis tool</strong> automates this math and visualizes the relationship between revenue, costs, and volume.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Break-Even Matters for Business Planning</h3>
+        <p>
+          Understanding your break-even point is critical for several strategic decisions:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Pricing strategy:</strong> If your break-even volume is too high relative to market demand, you may need to raise prices or reduce costs. A break-even calculator helps you model different price scenarios instantly.</li>
+          <li><strong>Cost management:</strong> By seeing how fixed and variable costs affect the break-even point, you can prioritize cost-reduction efforts that have the biggest impact on profitability.</li>
+          <li><strong>Investment decisions:</strong> Before launching a new product or expanding capacity, use a break-even analysis to determine if the projected sales volume justifies the upfront investment.</li>
+          <li><strong>Sales targeting:</strong> Break-even analysis establishes the minimum sales target your team must hit. Once you know the floor, you can set realistic goals and track progress against them.</li>
+        </ul>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Interpreting Your Break-Even Calculator Results</h3>
+        <p>
+          Our <strong>break-even point calculator</strong> displays several key metrics. The <strong>break-even units</strong> figure tells you the exact number of products you must sell to cover all costs. The <strong>break-even revenue</strong> converts that into a dollar target. The <strong>contribution margin per unit</strong> shows the profitability of each sale, while the <strong>contribution margin ratio</strong> expresses this as a percentage — useful for comparing profitability across different products or services.
+        </p>
+        <p>
+          The <strong>profit analysis at projected volume</strong> section helps you see the financial outcome at your expected sales level. If your projected volume is significantly above break-even, you can assess the potential profit margin. If it's close to or below the break-even point, you may need to revisit your pricing, reduce costs, or increase your sales targets. The visual chart plots revenue and total cost lines, clearly showing the break-even intersection and the profit/loss regions.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Limitations and Real-World Considerations</h3>
+        <p>
+          While a <strong>break-even analysis calculator</strong> is an essential planning tool, it makes simplifying assumptions. It assumes that fixed costs remain constant across all volume levels — in reality, costs may step up when you need to expand facilities or hire more staff. It also assumes a constant variable cost per unit, but you may achieve economies of scale at higher volumes. Market demand, competition, and pricing elasticity are additional factors that a simple break-even model cannot capture.
+        </p>
+        <p>
+          Use this calculator as a starting point for your financial modeling. Combine it with sensitivity analysis, market research, and professional advice to build a robust business plan. Our <strong>break-even analysis tool</strong> is designed for entrepreneurs, students, small business owners, and anyone who wants to understand the financial dynamics of a product or service offering.
+        </p>
+        <p class="text-xs text-mute border-t border-hairline pt-4 mt-6">
+          <strong>Disclaimer:</strong> This calculator is for general informational and educational purposes only. Results are estimates and should not replace professional financial or business advice. Always consult a qualified accountant or business advisor for decisions affecting your business. Tax laws, market conditions, and cost structures vary by industry and jurisdiction.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 max-w-4xl" aria-label="Frequently Asked Questions">
+      <h2 class="text-xl font-bold text-ink font-sans mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-3" id="faq-accordion">
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a break-even point?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The break-even point (BEP) is the sales level where total revenue exactly equals total costs — no profit, no loss. It's the minimum output you need to keep your business viable. Every unit sold beyond that point contributes directly to profit.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do you calculate the break-even point?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost Per Unit). For example, if fixed costs are $50,000, the price is $80, and the variable cost is $30, your contribution margin is $50, and you need 1,000 units to break even. Break-even revenue is simply units × price.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is contribution margin?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Contribution margin is the difference between the selling price and the variable cost per unit. It represents how much each sale contributes toward covering fixed costs and generating profit. The contribution margin ratio (contribution margin ÷ price) tells you what percentage of each dollar of revenue goes toward fixed costs and profit.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is break-even revenue?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Break-even revenue is the total dollar amount you need to earn from sales to cover all costs. It's calculated by multiplying break-even units by the selling price, or by dividing fixed costs by the contribution margin ratio. It gives you a clear revenue target for your sales and marketing efforts.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is this break-even calculator financial advice?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. This is an educational tool that provides simplified mathematical estimates. Real-world cost structures are more complex — variable costs may decrease at scale, fixed costs can step up, and external factors like competition and demand affect pricing. Always consult a qualified accountant or business advisor for strategic financial decisions.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="mt-20 pt-12 border-t border-hairline max-w-5xl">
+      <h2 class="text-sm font-mono uppercase text-mute tracking-wider mb-6">Related Tools</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/finance/roi-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            ROI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate investment return on investment and CAGR over time.</p>
+        </a>
+        <a href="/finance/loan-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Loan Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate monthly payments for personal, auto, or student loans.</p>
+        </a>
+        <a href="/finance/mortgage-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Mortgage Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate monthly mortgage payments with amortization details.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM References
+  // ============================================================
+  const productNameInput = document.getElementById('product-name') as HTMLInputElement;
+  const fixedCostsInput = document.getElementById('fixed-costs') as HTMLInputElement;
+  const varCostInput = document.getElementById('var-cost') as HTMLInputElement;
+  const priceUnitInput = document.getElementById('price-unit') as HTMLInputElement;
+  const salesVolumeInput = document.getElementById('sales-volume') as HTMLInputElement;
+  const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
+  const downloadCsvBtn = document.getElementById('download-csv-btn') as HTMLButtonElement;
+
+  const resultBeUnits = document.getElementById('result-be-units') as HTMLElement;
+  const resultBeRevenue = document.getElementById('result-be-revenue') as HTMLElement;
+  const resultContMargin = document.getElementById('result-cont-margin') as HTMLElement;
+  const resultContRatio = document.getElementById('result-cont-ratio') as HTMLElement;
+  const resultTotalRevenue = document.getElementById('result-total-revenue') as HTMLElement;
+  const resultTotalCosts = document.getElementById('result-total-costs') as HTMLElement;
+  const resultProfit = document.getElementById('result-profit') as HTMLElement;
+  const volumeBar = document.getElementById('volume-bar') as HTMLDivElement;
+  const volumeIndicatorLabel = document.getElementById('volume-indicator-label') as HTMLElement;
+  const bepMarkerLabel = document.getElementById('bep-marker-label') as HTMLElement;
+  const volMaxLabel = document.getElementById('vol-max-label') as HTMLElement;
+
+  // Chart elements
+  const chartGridLines = document.getElementById('chart-grid-lines') as SVGGElement;
+  const chartYLabels = document.getElementById('chart-y-labels') as SVGGElement;
+  const chartXLabels = document.getElementById('chart-x-labels') as SVGGElement;
+  const chartRevenueLine = document.getElementById('chart-revenue-line') as SVGPathElement;
+  const chartCostLine = document.getElementById('chart-cost-line') as SVGPathElement;
+  const chartFillProfit = document.getElementById('chart-fill-profit') as SVGPathElement;
+  const chartFillLoss = document.getElementById('chart-fill-loss') as SVGPathElement;
+  const chartBepLine = document.getElementById('chart-bep-line') as SVGLineElement;
+  const chartBepLabel = document.getElementById('chart-bep-label') as SVGTextElement;
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  const fmtCurrency = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+  const fmtUnits = (n: number) => Math.round(n).toLocaleString('en-US') + ' units';
+  const fmtUnitCount = (n: number) => Math.round(n).toLocaleString('en-US');
+
+  let lastResults: any = null;
+
+  // ============================================================
+  // Core Calculation Engine
+  // ============================================================
+  const calculate = () => {
+    const fixedCosts = Math.max(0, parseFloat(fixedCostsInput.value) || 0);
+    const varCost = Math.max(0, parseFloat(varCostInput.value) || 0);
+    const price = Math.max(0.01, parseFloat(priceUnitInput.value) || 0.01);
+    const volume = Math.max(0, parseFloat(salesVolumeInput.value) || 0);
+
+    const contributionMargin = price - varCost;
+    const contributionMarginRatio = contributionMargin / price;
+    const breakEvenUnits = contributionMargin > 0 ? fixedCosts / contributionMargin : Infinity;
+    const breakEvenRevenue = breakEvenUnits * price;
+
+    const totalRevenue = volume * price;
+    const totalCosts = fixedCosts + (volume * varCost);
+    const profit = totalRevenue - totalCosts;
+
+    const isProfitable = profit >= 0;
+    const volumePct = breakEvenUnits > 0 && breakEvenUnits !== Infinity ? Math.min(100, (volume / breakEvenUnits) * 100) : 0;
+
+    // Cache for CSV
+    lastResults = {
+      productName: productNameInput.value || 'Product A',
+      fixedCosts, varCost, price, volume,
+      contributionMargin, contributionMarginRatio,
+      breakEvenUnits, breakEvenRevenue,
+      totalRevenue, totalCosts, profit,
+    };
+
+    // ============================================================
+    // Update DOM
+    // ============================================================
+    resultBeUnits.textContent = breakEvenUnits === Infinity ? 'N/A' : fmtUnits(breakEvenUnits);
+    resultBeUnits.className = breakEvenUnits === Infinity
+      ? 'text-4xl md:text-5xl font-bold tracking-tight text-rose-600 dark:text-rose-400 font-sans tabular-nums'
+      : 'text-4xl md:text-5xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans tabular-nums';
+
+    resultBeRevenue.textContent = breakEvenRevenue === Infinity ? 'N/A' : fmtCurrency(breakEvenRevenue);
+    resultContMargin.textContent = '$' + contributionMargin.toFixed(2);
+    resultContRatio.textContent = (contributionMarginRatio * 100).toFixed(2) + '%';
+    resultTotalRevenue.textContent = fmtCurrency(totalRevenue);
+    resultTotalCosts.textContent = fmtCurrency(totalCosts);
+
+    resultProfit.textContent = isProfitable ? fmtCurrency(profit) : '-' + fmtCurrency(Math.abs(profit));
+    resultProfit.className = isProfitable
+      ? 'text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans tabular-nums'
+      : 'text-base font-bold text-rose-600 dark:text-rose-400 font-sans tabular-nums';
+
+    // Volume indicator bar
+    const barWidth = Math.min(100, volumePct);
+    volumeBar.style.width = barWidth + '%';
+    volumeBar.className = isProfitable
+      ? 'h-full rounded-full bg-emerald-500 transition-all duration-300'
+      : 'h-full rounded-full bg-rose-500 transition-all duration-300';
+
+    volumeIndicatorLabel.textContent = breakEvenUnits === Infinity
+      ? 'Cannot break even'
+      : fmtUnitCount(volume) + ' units (' + Math.round(volumePct) + '% of BEP)';
+
+    bepMarkerLabel.textContent = 'BEP: ' + fmtUnitCount(breakEvenUnits);
+    volMaxLabel.textContent = fmtUnitCount(volume);
+
+    // Draw chart
+    drawChart(fixedCosts, varCost, price, volume, breakEvenUnits, breakEvenRevenue, contributionMargin);
+  };
+
+  // ============================================================
+  // Draw SVG Break-Even Chart
+  // ============================================================
+  const drawChart = (
+    fixedCosts: number,
+    varCost: number,
+    price: number,
+    volume: number,
+    breakEvenUnits: number,
+    breakEvenRevenue: number,
+    contributionMargin: number
+  ) => {
+    const paddingLeft = 50;
+    const paddingRight = 25;
+    const paddingTop = 15;
+    const paddingBottom = 25;
+    const chartW = 600 - paddingLeft - paddingRight;
+    const chartH = 220 - paddingTop - paddingBottom;
+
+    // Determine max value for Y-axis
+    const maxUnits = Math.max(volume, breakEvenUnits * 1.3, 10);
+    const maxRevenue = maxUnits * price;
+    const maxCost = fixedCosts + (maxUnits * varCost);
+    const maxVal = Math.max(maxRevenue, maxCost, 1);
+
+    // Y-axis ticks (5 grid lines)
+    const numYTicks = 5;
+    let yTicksHtml = '';
+    let yLabelsHtml = '';
+    for (let i = 0; i <= numYTicks; i++) {
+      const val = (maxVal / numYTicks) * i;
+      const y = paddingTop + chartH - (val / maxVal) * chartH;
+      const isDashed = i > 0 && i < numYTicks;
+      yTicksHtml += `<line x1="${paddingLeft}" y1="${y}" x2="${600 - paddingRight}" y2="${y}" class="stroke-hairline dark:stroke-neutral-800" stroke-width="1"${isDashed ? ' stroke-dasharray="3 3"' : ''} />`;
+      yLabelsHtml += `<text x="${paddingLeft - 6}" y="${y + 3}" class="fill-mute font-mono text-[8px]" text-anchor="end">${fmtCurrency(val)}</text>`;
+    }
+    chartGridLines.innerHTML = yTicksHtml;
+    chartYLabels.innerHTML = yLabelsHtml;
+
+    // X-axis: 5 ticks
+    const numXTicks = 4;
+    let xLabelsHtml = '';
+    for (let i = 0; i <= numXTicks; i++) {
+      const unitVal = (maxUnits / numXTicks) * i;
+      const x = paddingLeft + (unitVal / maxUnits) * chartW;
+      const label = i === 0 ? '0' : fmtUnitCount(unitVal);
+      xLabelsHtml += `<text x="${x}" y="${220 - paddingBottom + 16}" class="fill-mute font-mono text-[8px]" text-anchor="middle">${label}</text>`;
+    }
+    chartXLabels.innerHTML = xLabelsHtml;
+
+    // Revenue line: from (paddingLeft, costAtZeroRevenue) to (paddingLeft + chartW, costAtMaxRevenue)
+    // Revenue at 0 units = 0
+    const revY0 = paddingTop + chartH; // bottom (y=0)
+    const revYMax = paddingTop + chartH - ((maxUnits * price) / maxVal) * chartH;
+    const revLineD = `M ${paddingLeft},${revY0} L ${paddingLeft + chartW},${revYMax}`;
+    chartRevenueLine.setAttribute('d', revLineD);
+
+    // Cost line: from (paddingLeft, costAtZero) to (paddingLeft + chartW, costAtMax)
+    const costAtZero = fixedCosts;
+    const costY0 = paddingTop + chartH - (costAtZero / maxVal) * chartH;
+    const costAtMax = fixedCosts + (maxUnits * varCost);
+    const costYMax = paddingTop + chartH - (costAtMax / maxVal) * chartH;
+    const costLineD = `M ${paddingLeft},${costY0} L ${paddingLeft + chartW},${costYMax}`;
+    chartCostLine.setAttribute('d', costLineD);
+
+    // Break-even point
+    if (breakEvenUnits > 0 && breakEvenUnits <= maxUnits && contributionMargin > 0) {
+      const beX = paddingLeft + (breakEvenUnits / maxUnits) * chartW;
+      const beY = paddingTop + chartH - (breakEvenRevenue / maxVal) * chartH;
+
+      chartBepLine.setAttribute('x1', String(beX));
+      chartBepLine.setAttribute('y1', String(beY));
+      chartBepLine.setAttribute('x2', String(beX));
+      chartBepLine.setAttribute('y2', String(paddingTop + chartH));
+      chartBepLine.classList.remove('hidden');
+
+      chartBepLabel.setAttribute('x', String(beX));
+      chartBepLabel.setAttribute('y', String(beY - 6));
+      chartBepLabel.textContent = 'BEP';
+      chartBepLabel.classList.remove('hidden');
+    } else {
+      chartBepLine.classList.add('hidden');
+      chartBepLabel.classList.add('hidden');
+    }
+
+    // Fill regions: profit (revenue > cost) and loss (cost > revenue)
+    // We need to compute the fill polygon for profit and loss regions
+    // Profit region: from BEP to max volume, between revenue and cost lines
+    // Loss region: from 0 to BEP, between cost and revenue lines
+
+    if (contributionMargin > 0 && breakEvenUnits > 0 && breakEvenUnits <= maxUnits) {
+      const beX = paddingLeft + (breakEvenUnits / maxUnits) * chartW;
+      const beY = paddingTop + chartH - (breakEvenRevenue / maxVal) * chartH;
+
+      // Profit fill (right of BEP): revenue above cost
+      // Starting from BEP going right to max, revenue line, then back along cost line
+      let profitFillD = `M ${beX},${beY}`;
+      // Revenue points from BEP to max
+      const revEndX = paddingLeft + chartW;
+      const revEndY = paddingTop + chartH - ((maxUnits * price) / maxVal) * chartH;
+      profitFillD += ` L ${revEndX},${revEndY}`;
+      // Cost points from max back to BEP
+      const costEndY = paddingTop + chartH - ((fixedCosts + (maxUnits * varCost)) / maxVal) * chartH;
+      profitFillD += ` L ${revEndX},${costEndY}`;
+      profitFillD += ` Z`;
+      chartFillProfit.setAttribute('d', profitFillD);
+      chartFillProfit.classList.remove('hidden');
+
+      // Loss fill (left of BEP): cost above revenue
+      const revY0 = paddingTop + chartH;
+      const costY0 = paddingTop + chartH - (fixedCosts / maxVal) * chartH;
+      let lossFillD = `M ${paddingLeft},${costY0}`;
+      // Cost line from 0 to BEP
+      lossFillD += ` L ${beX},${beY}`;
+      // Revenue line from BEP back to 0
+      lossFillD += ` L ${beX},${beY}`;
+      lossFillD += ` L ${paddingLeft},${revY0}`;
+      lossFillD += ` Z`;
+      chartFillLoss.setAttribute('d', lossFillD);
+      chartFillLoss.classList.remove('hidden');
+    } else {
+      chartFillProfit.classList.add('hidden');
+      chartFillLoss.classList.add('hidden');
+    }
+  };
+
+  // ============================================================
+  // CSV Export
+  // ============================================================
+  const exportCsv = () => {
+    if (!lastResults) return;
+    const r = lastResults;
+
+    const rows = [
+      ['Break-Even Analysis — ToolzTotal.com', ''],
+      ['', ''],
+      ['Input', 'Value'],
+      ['Product / Service Name', r.productName],
+      ['Fixed Costs ($)', r.fixedCosts.toFixed(2)],
+      ['Variable Cost Per Unit ($)', r.varCost.toFixed(2)],
+      ['Price Per Unit ($)', r.price.toFixed(2)],
+      ['Sales Volume Projection', r.volume.toString()],
+      ['', ''],
+      ['Key Metrics', 'Value'],
+      ['Contribution Margin Per Unit ($)', r.contributionMargin.toFixed(2)],
+      ['Contribution Margin Ratio (%)', (r.contributionMarginRatio * 100).toFixed(2)],
+      ['Break-Even Units', Math.ceil(r.breakEvenUnits).toLocaleString('en-US')],
+      ['Break-Even Revenue ($)', r.breakEvenRevenue.toFixed(2)],
+      ['', ''],
+      ['Profit Analysis at Projected Volume', ''],
+      ['Total Revenue ($)', r.totalRevenue.toFixed(2)],
+      ['Total Costs ($)', r.totalCosts.toFixed(2)],
+      ['Profit / Loss ($)', r.profit.toFixed(2)],
+      ['', ''],
+      ['Volume Scenarios', 'Units', 'Revenue ($)', 'Cost ($)', 'Profit ($)'],
+    ];
+
+    // Add scenarios at various volumes
+    const scenarios = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+    for (const mult of scenarios) {
+      const u = Math.round(r.breakEvenUnits * mult);
+      const rev = u * r.price;
+      const cost = r.fixedCosts + (u * r.varCost);
+      const p = rev - cost;
+      rows.push([
+        `${Math.round(mult * 100)}% of BEP`,
+        u.toString(),
+        rev.toFixed(2),
+        cost.toFixed(2),
+        p.toFixed(2),
+      ]);
+    }
+
+    rows.push(['', '', '', '', '']);
+    rows.push(['DISCLAIMER', 'Estimates only. Not financial advice. Consult a professional.']);
+
+    const csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'break-even-analysis-toolztotal.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  calculateBtn.addEventListener('click', calculate);
+
+  downloadCsvBtn.addEventListener('click', exportCsv);
+
+  // Live recalc on input change
+  const inputs = [fixedCostsInput, varCostInput, priceUnitInput, salesVolumeInput, productNameInput];
+  inputs.forEach(el => {
+    el.addEventListener('input', calculate);
+    el.addEventListener('change', calculate);
+  });
+
+  // ============================================================
+  // Initial calculation on page load
+  // ============================================================
+  calculate();
+</script>

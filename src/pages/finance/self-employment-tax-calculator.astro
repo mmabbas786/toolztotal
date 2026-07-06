@@ -1,0 +1,828 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// NOTE: All SE tax rate constants are isolated in seTaxConfig.ts
+// Update that file annually — do NOT change rates here.
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is self-employment tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Self-employment tax (SE tax) is the Social Security and Medicare tax paid by people who work for themselves — freelancers, independent contractors, sole proprietors, and partners. It is equivalent to the combined employer and employee FICA contributions. The combined SE tax rate is 15.3% (12.4% Social Security + 2.9% Medicare), applied to 92.35% of your net self-employment earnings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who has to pay self-employment tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You generally must pay self-employment tax if your net self-employment earnings are $400 or more for the year. This includes sole proprietors, freelancers, 1099 contractors, gig workers, and partners in a partnership. Even if self-employment is a side business alongside a regular W-2 job, the SE income is still subject to SE tax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is self-employment tax different from income tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Self-employment tax covers Social Security and Medicare (FICA taxes). Income tax is a separate federal (and often state) tax on your taxable income after deductions. You owe both. One important note: you can deduct half of your SE tax from your gross income when calculating your federal income tax, which partially offsets the burden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if I don't pay quarterly estimated taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you expect to owe at least $1,000 in federal taxes for the year and your withholding doesn't cover enough of your liability, the IRS generally requires quarterly estimated tax payments. Failing to pay enough by each quarterly deadline can result in an underpayment penalty, calculated based on the amount underpaid and the IRS underpayment rate. The IRS provides Form 2210 to calculate this penalty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this calculator a substitute for a tax professional?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This self-employment tax calculator is a general estimation tool for informational purposes only. It does not constitute tax advice and cannot account for your full financial situation, state taxes, deductions, credits, or specific IRS rules that may apply. Always consult a licensed tax professional or CPA before making filing decisions, and verify current rates at irs.gov."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+
+const ogMeta = {
+  title: "Self-Employment Tax Calculator - Free SE Tax & Quarterly Payment Estimator | ToolzTotal",
+  description: "Free self employment tax calculator — estimate SE tax, Social Security & Medicare portions, and quarterly estimated payments. No signup required.",
+  url: "https://toolztotal.com/finance/self-employment-tax-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+---
+
+<Layout
+  title="Self-Employment Tax Calculator - Free SE Tax & Quarterly Payment Estimator | ToolzTotal"
+  description="Free self employment tax calculator — estimate SE tax, Social Security & Medicare portions, and quarterly estimated payments. No signup required."
+  faqJsonLd={faqJsonLd}
+>
+  <!-- OG / Twitter Card -->
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+  <meta slot="head" name="twitter:title" content={ogMeta.title} />
+  <meta slot="head" name="twitter:description" content={ogMeta.description} />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">SE Tax Calculator</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Self-Employment Tax Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate your SE tax (Social Security + Medicare), rough income tax, and quarterly estimated payments. Built for freelancers, 1099 contractors, and sole proprietors.
+      </p>
+    </div>
+
+    <!-- Compliance alert bar -->
+    <div class="max-w-5xl mb-10 flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl px-5 py-4">
+      <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+      </svg>
+      <p class="text-xs font-sans text-amber-700 dark:text-amber-300 leading-relaxed">
+        <strong>Not tax advice.</strong> This calculator provides general estimates for informational purposes only. Tax rates, wage bases, and thresholds change annually and depend on your full financial situation. Verify current figures at <a href="https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes" target="_blank" rel="noopener noreferrer" class="underline font-semibold hover:text-amber-900 dark:hover:text-amber-100 transition-colors">IRS.gov ↗</a> and consult a licensed tax professional before filing.
+      </p>
+    </div>
+
+    <!-- Main Calculator Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl">
+
+      <!-- LEFT: Inputs -->
+      <div class="lg:col-span-5 space-y-6">
+
+        <!-- Input Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h2 class="text-base font-bold text-ink font-sans">Your Income Details</h2>
+            <p class="text-xs text-mute font-sans mt-1">Enter your self-employment figures below.</p>
+          </div>
+
+          <!-- Net SE Income -->
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <label for="se-income" class="text-xs font-mono uppercase text-mute">Net Self-Employment Income</label>
+              <div class="relative group">
+                <button type="button" class="w-4 h-4 rounded-full bg-canvas-soft-2 border border-hairline text-mute text-[9px] font-bold flex items-center justify-center cursor-default" aria-label="What is net income?">?</button>
+                <div class="absolute left-6 top-0 z-10 w-64 hidden group-hover:block bg-canvas border border-hairline rounded-lg p-3 text-xs font-sans text-body shadow-lvl2">
+                  Net income = business revenue minus deductible business expenses. Do <strong>not</strong> subtract SE tax here — the calculator handles that.
+                </div>
+              </div>
+            </div>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input
+                type="number"
+                id="se-income"
+                value="60000"
+                min="0"
+                step="1000"
+                class="w-full h-11 pl-7 pr-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+            <p class="text-[10px] font-mono text-mute mt-1.5">Revenue minus deductible business expenses.</p>
+          </div>
+
+          <!-- Filing Status -->
+          <div>
+            <label for="filing-status" class="block text-xs font-mono uppercase text-mute mb-2">Filing Status</label>
+            <select
+              id="filing-status"
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+            >
+              <option value="single">Single</option>
+              <option value="mfj">Married Filing Jointly</option>
+            </select>
+            <p class="text-[10px] font-mono text-mute mt-1.5">Affects the Additional Medicare Tax threshold only.</p>
+          </div>
+
+          <!-- Income Tax Estimate Toggle -->
+          <div class="border-t border-hairline pt-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs font-mono uppercase text-mute">Income Tax Estimate</p>
+                <p class="text-[10px] font-mono text-mute mt-0.5 leading-tight">Rough estimate — not a substitute for real tax software</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="income-tax-toggle" class="sr-only peer" checked />
+                <div class="w-9 h-5 bg-canvas-soft-2 border border-hairline peer-focus:outline-none rounded-full peer peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
+                <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-all peer-checked:translate-x-4"></div>
+              </label>
+            </div>
+
+            <div id="income-tax-bracket-container" class="space-y-3">
+              <div>
+                <label for="tax-bracket" class="block text-xs font-mono uppercase text-mute mb-2">Your Estimated Federal Bracket</label>
+                <select
+                  id="tax-bracket"
+                  class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+                >
+                  <option value="auto">Auto-estimate (use standard brackets)</option>
+                  <option value="10">10% bracket</option>
+                  <option value="12">12% bracket</option>
+                  <option value="22">22% bracket</option>
+                  <option value="24">24% bracket</option>
+                  <option value="32">32% bracket</option>
+                  <option value="35">35% bracket</option>
+                  <option value="37">37% bracket</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculate Button -->
+          <button
+            type="button"
+            id="calculate-btn"
+            class="w-full h-11 bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg hover:bg-primary/90 active:scale-[0.98] transition-all shadow-lvl2 cursor-pointer"
+          >
+            Calculate SE Tax →
+          </button>
+        </div>
+
+        <!-- Rate info card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-3">
+          <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Rates Used (2024)</h3>
+          <div class="space-y-2 text-xs font-sans">
+            <div class="flex justify-between items-center py-1.5 border-b border-hairline">
+              <span class="text-body">Net Earnings Multiplier</span>
+              <span class="font-mono font-semibold text-ink">92.35%</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-hairline">
+              <span class="text-body">Social Security Rate</span>
+              <span class="font-mono font-semibold text-ink">12.4% (up to wage base)</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-hairline">
+              <span class="text-body">Medicare Rate</span>
+              <span class="font-mono font-semibold text-ink">2.9% (no cap)</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5 border-b border-hairline">
+              <span class="text-body">Additional Medicare</span>
+              <span class="font-mono font-semibold text-ink">0.9% above threshold</span>
+            </div>
+            <div class="flex justify-between items-center py-1.5">
+              <span class="text-body">SS Wage Base</span>
+              <span class="font-mono font-semibold text-ink">$168,600</span>
+            </div>
+          </div>
+          <p class="text-[9px] font-mono text-mute leading-relaxed pt-1 border-t border-hairline">
+            Tax rates and thresholds shown are illustrative; verify current figures at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="underline">irs.gov</a> before filing.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div class="lg:col-span-7 space-y-6" id="results-section">
+
+        <!-- Results Panel -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-0">
+
+          <!-- Header row -->
+          <div class="flex items-start justify-between border-b border-hairline pb-5 mb-6">
+            <div>
+              <p class="text-xs font-mono uppercase text-mute mb-1.5">Total SE Tax Owed</p>
+              <div id="result-se-tax-total" class="text-4xl md:text-5xl font-bold tracking-tight text-violet-600 dark:text-violet-400 font-sans tabular-nums">
+                $8,477
+              </div>
+            </div>
+            <button
+              type="button"
+              id="download-csv-btn"
+              class="h-9 px-4 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs rounded-lg shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export CSV
+            </button>
+          </div>
+
+          <!-- Step-by-step breakdown -->
+          <div class="space-y-0">
+
+            <!-- Step 1 -->
+            <div class="flex items-start gap-4 pb-5 border-b border-hairline">
+              <div class="w-7 h-7 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 text-xs font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">1</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-mono uppercase text-mute mb-1">Net Earnings Subject to SE Tax</p>
+                <p class="text-xl font-bold font-sans text-ink tabular-nums" id="result-net-earnings">$55,410</p>
+                <p class="text-[11px] text-mute font-sans mt-1">Net income × 92.35% = taxable SE base</p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex items-start gap-4 py-5 border-b border-hairline">
+              <div class="w-7 h-7 rounded-full bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300 text-xs font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">2</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-mono uppercase text-mute mb-3">SE Tax Breakdown</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3">
+                    <p class="text-[10px] font-mono text-mute uppercase mb-1">Social Security</p>
+                    <p class="text-base font-bold text-ink font-sans tabular-nums" id="result-ss-tax">$6,871</p>
+                    <p class="text-[10px] text-mute font-mono mt-0.5">12.4%</p>
+                  </div>
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3">
+                    <p class="text-[10px] font-mono text-mute uppercase mb-1">Medicare</p>
+                    <p class="text-base font-bold text-ink font-sans tabular-nums" id="result-medicare-tax">$1,607</p>
+                    <p class="text-[10px] text-mute font-mono mt-0.5">2.9%</p>
+                  </div>
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3" id="result-addl-medicare-card">
+                    <p class="text-[10px] font-mono text-mute uppercase mb-1">Addl. Medicare</p>
+                    <p class="text-base font-bold text-ink font-sans tabular-nums" id="result-addl-medicare-tax">$0</p>
+                    <p class="text-[10px] text-mute font-mono mt-0.5">0.9% (if applicable)</p>
+                  </div>
+                </div>
+
+                <!-- Donut chart -->
+                <div class="relative w-full" aria-hidden="true">
+                  <svg id="se-donut-chart" viewBox="0 0 200 110" class="w-full max-w-[280px] mx-auto h-auto">
+                    <!-- Background track -->
+                    <path id="donut-bg" d="M 20,100 A 80,80 0 0,1 180,100" fill="none" stroke-width="18" class="stroke-canvas-soft-2"/>
+                    <!-- SS segment -->
+                    <path id="donut-ss" d="M 20,100 A 80,80 0 0,1 180,100" fill="none" stroke-width="18" stroke-linecap="round" class="stroke-violet-500 transition-all duration-500"/>
+                    <!-- Medicare segment -->
+                    <path id="donut-medicare" d="M 20,100 A 80,80 0 0,1 180,100" fill="none" stroke-width="18" stroke-linecap="round" class="stroke-emerald-500 transition-all duration-500"/>
+                    <!-- Addl Medicare -->
+                    <path id="donut-addl" d="M 20,100 A 80,80 0 0,1 180,100" fill="none" stroke-width="18" stroke-linecap="round" class="stroke-amber-500 transition-all duration-500 hidden"/>
+                    <!-- Center label -->
+                    <text x="100" y="88" text-anchor="middle" class="fill-ink font-sans text-[10px] font-bold" id="donut-label">15.3%</text>
+                    <text x="100" y="100" text-anchor="middle" class="fill-mute font-mono text-[8px]">SE Tax Rate</text>
+                  </svg>
+                  <!-- Legend -->
+                  <div class="flex flex-wrap gap-4 justify-center mt-2 text-[10px] font-mono text-mute">
+                    <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-violet-500 inline-block"></span>Social Security</div>
+                    <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-emerald-500 inline-block"></span>Medicare</div>
+                    <div id="donut-addl-legend" class="flex items-center gap-1.5 hidden"><span class="w-3 h-3 rounded-sm bg-amber-500 inline-block"></span>Addl. Medicare</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex items-start gap-4 py-5 border-b border-hairline" id="income-tax-step">
+              <div class="w-7 h-7 rounded-full bg-canvas-soft-2 text-mute text-xs font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">3</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <p class="text-xs font-mono uppercase text-mute">Estimated Income Tax</p>
+                  <span class="text-[9px] font-mono bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded-full uppercase tracking-wider">Rough Estimate</span>
+                </div>
+                <p class="text-xl font-bold font-sans text-ink tabular-nums" id="result-income-tax">$6,617</p>
+                <p class="text-[11px] text-mute font-sans mt-1">Based on standard deduction + bracket. Not a substitute for real tax software.</p>
+                <p class="text-[10px] text-mute font-mono mt-1" id="result-deduction-note">Half of SE tax ($4,239) deducted from income before bracket calculation.</p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex items-start gap-4 py-5 border-b border-hairline">
+              <div class="w-7 h-7 rounded-full bg-canvas-soft-2 text-mute text-xs font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">4</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-mono uppercase text-mute mb-1">Total Estimated Tax Liability</p>
+                <p class="text-2xl font-bold font-sans text-ink tabular-nums" id="result-total-liability">$15,094</p>
+                <p class="text-[11px] text-mute font-sans mt-1">SE Tax + Estimated Income Tax</p>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="flex items-start gap-4 pt-5">
+              <div class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold font-mono flex items-center justify-center shrink-0 mt-0.5">5</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-mono uppercase text-mute mb-1">Quarterly Estimated Payment</p>
+                <p class="text-2xl font-bold font-sans text-emerald-600 dark:text-emerald-400 tabular-nums" id="result-quarterly">$3,774</p>
+                <p class="text-[11px] text-mute font-sans mt-1 mb-4">Total liability ÷ 4 payments per year</p>
+
+                <!-- Quarterly due dates -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3 text-center">
+                    <p class="text-[9px] font-mono text-mute uppercase mb-1">Q1</p>
+                    <p class="text-[11px] font-semibold font-sans text-ink">Mid-April</p>
+                    <p class="text-[9px] font-mono text-mute mt-0.5">Jan 1–Mar 31</p>
+                  </div>
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3 text-center">
+                    <p class="text-[9px] font-mono text-mute uppercase mb-1">Q2</p>
+                    <p class="text-[11px] font-semibold font-sans text-ink">Mid-June</p>
+                    <p class="text-[9px] font-mono text-mute mt-0.5">Apr 1–May 31</p>
+                  </div>
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3 text-center">
+                    <p class="text-[9px] font-mono text-mute uppercase mb-1">Q3</p>
+                    <p class="text-[11px] font-semibold font-sans text-ink">Mid-September</p>
+                    <p class="text-[9px] font-mono text-mute mt-0.5">Jun 1–Aug 31</p>
+                  </div>
+                  <div class="bg-canvas-soft border border-hairline rounded-lg p-3 text-center">
+                    <p class="text-[9px] font-mono text-mute uppercase mb-1">Q4</p>
+                    <p class="text-[11px] font-semibold font-sans text-ink">Mid-January</p>
+                    <p class="text-[9px] font-mono text-mute mt-0.5">Sep 1–Dec 31</p>
+                  </div>
+                </div>
+                <p class="text-[10px] font-mono text-mute mt-2">Exact due dates shift slightly by year. Use IRS Form 1040-ES to confirm. <a href="https://www.irs.gov/businesses/small-businesses-self-employed/estimated-taxes" target="_blank" rel="noopener noreferrer" class="underline">IRS Estimated Tax guide ↗</a></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Full disclaimer -->
+        <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1">
+          <div class="flex items-start gap-3">
+            <svg class="w-4 h-4 text-mute shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="text-[11px] font-sans text-mute leading-relaxed">
+              <strong class="text-body">Important Disclaimer:</strong> This calculator provides a general estimate for informational purposes only and is <strong>NOT tax advice</strong>. Self-employment tax rules, rates, and thresholds change and depend on your full financial situation. For accurate figures and filing guidance, consult a licensed tax professional or visit the official IRS website:
+              <a href="https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes" target="_blank" rel="noopener noreferrer" class="text-primary underline hover:text-primary/80 break-all">
+                irs.gov/self-employment-tax ↗
+              </a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Related Tools -->
+    <section class="mt-20 pt-12 border-t border-hairline max-w-5xl">
+      <h2 class="text-sm font-mono uppercase text-mute tracking-wider mb-6">Related Tools</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a href="/finance/roi-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            ROI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate investment return on investment and CAGR over time.</p>
+        </a>
+        <a href="/finance/payroll-tax-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Payroll Tax Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate take-home pay after federal taxes and deductions.</p>
+        </a>
+        <a href="/finance/loan-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Loan Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate monthly payments for personal, auto, or student loans.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Your Self-Employment Tax Obligation</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-5">
+        <p>
+          If you earn income as a freelancer, independent contractor, sole proprietor, or gig worker, you're responsible for a tax that traditional employees rarely think about: <strong>self-employment tax</strong>. A free <strong>self employment tax calculator</strong> like this one helps you estimate what you'll owe before quarterly deadlines arrive — and avoid costly underpayment penalties from the IRS.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">What Is Self-Employment Tax?</h3>
+        <p>
+          When you work as an employee, your employer withholds half of your Social Security and Medicare contributions (FICA taxes) and matches the other half themselves. Self-employed individuals pay <em>both</em> sides — a combined 15.3% rate covering 12.4% for Social Security and 2.9% for Medicare. This <strong>SE tax rate calculator</strong> applies those rates automatically once you enter your net earnings.
+        </p>
+        <p>
+          The IRS does offer a small concession: you don't pay SE tax on 100% of your net income. Instead, you multiply net earnings by <strong>92.35%</strong> first — this adjustment reflects the fact that employees get to exclude their employer's matching share from gross income, and you receive a similar benefit. So on $60,000 of net SE income, the taxable base is $55,410, and SE tax is $55,410 × 15.3% = <strong>$8,477.73</strong>.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Who Must Pay Self-Employment Tax?</h3>
+        <p>
+          Generally, anyone with <strong>net self-employment earnings of $400 or more</strong> must file Schedule SE and pay SE tax. This threshold has remained stable for decades, but as with all tax figures, verify annually at irs.gov. This includes consultants, content creators, rideshare drivers, real estate agents, and anyone receiving 1099 income — making this a vital <strong>1099 tax calculator</strong> for the modern gig economy.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Quarterly Estimated Tax Payments Matter</h3>
+        <p>
+          Because no employer withholds taxes on your behalf, the IRS expects self-employed individuals to pay taxes as income is earned — typically in four quarterly installments. This <strong>quarterly estimated tax calculator</strong> divides your projected annual liability into four equal payments and shows approximate IRS due dates (typically mid-April, mid-June, mid-September, and mid-January for Q4 of the prior year).
+        </p>
+        <p>
+          Failing to pay enough by each deadline can trigger an IRS underpayment penalty, even if you pay the full amount at year-end. A safe-harbor rule generally protects you if you pay at least 100% of the prior year's tax liability (or 110% if your prior-year adjusted gross income exceeded $150,000), but the specifics depend on your situation — consult a tax professional or the IRS's Form 2210 instructions.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How This SE Tax Calculator Works</h3>
+        <p>
+          This <strong>freelancer tax calculator</strong> applies the current Social Security and Medicare rates to your adjusted net earnings, automatically caps Social Security at the annual wage base, and adds the Additional Medicare Tax (0.9%) if your earnings exceed $200,000 (single) or $250,000 (married filing jointly). It also provides a <em>rough</em> income tax estimate using standard deduction assumptions and progressive brackets — clearly labeled as an approximation, not a substitute for professional tax software.
+        </p>
+        <p class="text-xs text-mute border-t border-hairline pt-4 mt-6">
+          <strong>Disclaimer:</strong> This calculator is for general informational purposes only and does not constitute tax advice. All figures are estimates. Tax law is complex and changes annually. Consult a licensed CPA or tax attorney for guidance specific to your situation. Verify all rates, limits, and thresholds at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="underline">irs.gov</a> before filing.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-16 max-w-4xl" aria-label="Frequently Asked Questions">
+      <h2 class="text-xl font-bold text-ink font-sans mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-3" id="faq-accordion">
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is self-employment tax?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Self-employment tax is the Social Security and Medicare tax paid by self-employed individuals. Employees split this cost with their employer — self-employed people pay both sides, totaling 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net SE earnings.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Who has to pay self-employment tax?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Anyone with net self-employment earnings of $400 or more must file Schedule SE. This covers freelancers, 1099 contractors, sole proprietors, gig workers, and partners. Even if SE income is a side hustle alongside a W-2 job, the SE income is still taxed separately.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is self-employment tax different from income tax?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            SE tax covers Social Security and Medicare. Income tax is a separate federal tax on your taxable income after deductions. You owe both. You can deduct half of your SE tax from gross income when calculating federal income tax, which reduces your income tax burden slightly.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What happens if I don't pay quarterly estimated taxes?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            If you owe $1,000+ and underpay by each quarterly deadline, the IRS can charge an underpayment penalty — calculated using the current federal short-term interest rate plus 3 percentage points. Paying quarterly keeps you current and avoids this penalty.
+          </div>
+        </details>
+
+        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is this calculator a substitute for a tax professional?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. This tool provides general estimates for informational use only — it is not tax advice. Tax law is complex, changes annually, and depends on your complete financial picture, state taxes, credits, and deductions. Always consult a licensed CPA or tax attorney and verify figures at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="text-primary underline">irs.gov</a> before filing.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // SE Tax Config (mirrored from seTaxConfig.ts — keep in sync)
+  // NOTE: Update these constants annually. Do NOT change UI code.
+  // ============================================================
+  const CFG = {
+    NET_EARNINGS_MULTIPLIER: 0.9235,
+    SS_RATE: 0.124,
+    SS_WAGE_BASE: 168_600,
+    MEDICARE_RATE: 0.029,
+    ADDITIONAL_MEDICARE_RATE: 0.009,
+    ADDITIONAL_MEDICARE_THRESHOLD_SINGLE: 200_000,
+    ADDITIONAL_MEDICARE_THRESHOLD_MFJ: 250_000,
+    STANDARD_DEDUCTION_SINGLE: 14_600,
+    STANDARD_DEDUCTION_MFJ: 29_200,
+    BRACKETS_SINGLE: [
+      { rate: 0.10, upTo: 11_600 },
+      { rate: 0.12, upTo: 47_150 },
+      { rate: 0.22, upTo: 100_525 },
+      { rate: 0.24, upTo: 191_950 },
+      { rate: 0.32, upTo: 243_725 },
+      { rate: 0.35, upTo: 609_350 },
+      { rate: 0.37, upTo: Infinity },
+    ],
+    BRACKETS_MFJ: [
+      { rate: 0.10, upTo: 23_200 },
+      { rate: 0.12, upTo: 94_300 },
+      { rate: 0.22, upTo: 201_050 },
+      { rate: 0.24, upTo: 383_900 },
+      { rate: 0.32, upTo: 487_450 },
+      { rate: 0.35, upTo: 731_200 },
+      { rate: 0.37, upTo: Infinity },
+    ],
+  };
+
+  // ============================================================
+  // DOM References
+  // ============================================================
+  const seIncomeInput = document.getElementById('se-income') as HTMLInputElement;
+  const filingStatusSelect = document.getElementById('filing-status') as HTMLSelectElement;
+  const incomeTaxToggle = document.getElementById('income-tax-toggle') as HTMLInputElement;
+  const taxBracketSelect = document.getElementById('tax-bracket') as HTMLSelectElement;
+  const incomeTaxBracketContainer = document.getElementById('income-tax-bracket-container') as HTMLDivElement;
+  const incomeTaxStep = document.getElementById('income-tax-step') as HTMLDivElement;
+  const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
+  const downloadCsvBtn = document.getElementById('download-csv-btn') as HTMLButtonElement;
+
+  // Result display elements
+  const resultSeTaxTotal = document.getElementById('result-se-tax-total') as HTMLElement;
+  const resultNetEarnings = document.getElementById('result-net-earnings') as HTMLElement;
+  const resultSsTax = document.getElementById('result-ss-tax') as HTMLElement;
+  const resultMedicareTax = document.getElementById('result-medicare-tax') as HTMLElement;
+  const resultAddlMedicareTax = document.getElementById('result-addl-medicare-tax') as HTMLElement;
+  const resultAddlMedicareCard = document.getElementById('result-addl-medicare-card') as HTMLElement;
+  const resultIncomeTax = document.getElementById('result-income-tax') as HTMLElement;
+  const resultDeductionNote = document.getElementById('result-deduction-note') as HTMLElement;
+  const resultTotalLiability = document.getElementById('result-total-liability') as HTMLElement;
+  const resultQuarterly = document.getElementById('result-quarterly') as HTMLElement;
+
+  // Donut chart paths
+  const donutBg = document.getElementById('donut-bg') as SVGPathElement;
+  const donutSs = document.getElementById('donut-ss') as SVGPathElement;
+  const donutMedicare = document.getElementById('donut-medicare') as SVGPathElement;
+  const donutAddl = document.getElementById('donut-addl') as SVGPathElement;
+  const donutLabel = document.getElementById('donut-label') as SVGTextElement;
+  const donutAddlLegend = document.getElementById('donut-addl-legend') as HTMLElement;
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  const fmt = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+  const fmt2 = (n: number) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const calcBracketTax = (taxableIncome: number, brackets: typeof CFG.BRACKETS_SINGLE) => {
+    let tax = 0;
+    let prev = 0;
+    for (const b of brackets) {
+      if (taxableIncome <= prev) break;
+      const slice = Math.min(taxableIncome, b.upTo) - prev;
+      tax += slice * b.rate;
+      prev = b.upTo;
+    }
+    return tax;
+  };
+
+  let lastResults: any = null;
+
+  // ============================================================
+  // Core Calculation Engine
+  // ============================================================
+  const calculate = () => {
+    const netIncome = Math.max(0, parseFloat(seIncomeInput.value) || 0);
+    const filingStatus = filingStatusSelect.value; // 'single' | 'mfj'
+    const showIncomeTax = incomeTaxToggle.checked;
+    const bracketMode = taxBracketSelect.value; // 'auto' | number string
+
+    // Step 1: Net earnings subject to SE tax
+    const netEarnings = netIncome * CFG.NET_EARNINGS_MULTIPLIER;
+
+    // Step 2: SE Tax breakdown
+    // Social Security — capped at SS_WAGE_BASE
+    const ssBase = Math.min(netEarnings, CFG.SS_WAGE_BASE);
+    const ssTax = ssBase * CFG.SS_RATE;
+
+    // Medicare — no cap
+    const medicareTax = netEarnings * CFG.MEDICARE_RATE;
+
+    // Additional Medicare Tax
+    const addlMedicareThreshold = filingStatus === 'mfj'
+      ? CFG.ADDITIONAL_MEDICARE_THRESHOLD_MFJ
+      : CFG.ADDITIONAL_MEDICARE_THRESHOLD_SINGLE;
+    const addlMedicareBase = Math.max(0, netEarnings - addlMedicareThreshold);
+    const addlMedicareTax = addlMedicareBase * CFG.ADDITIONAL_MEDICARE_RATE;
+
+    const seTaxTotal = ssTax + medicareTax + addlMedicareTax;
+
+    // Step 3: Rough income tax estimate
+    // IRS allows deducting half of SE tax from gross income
+    const halfSeTax = seTaxTotal / 2;
+    const standardDeduction = filingStatus === 'mfj'
+      ? CFG.STANDARD_DEDUCTION_MFJ
+      : CFG.STANDARD_DEDUCTION_SINGLE;
+    const taxableIncome = Math.max(0, netIncome - halfSeTax - standardDeduction);
+
+    let incomeTaxEstimate = 0;
+    if (showIncomeTax) {
+      if (bracketMode === 'auto') {
+        const brackets = filingStatus === 'mfj' ? CFG.BRACKETS_MFJ : CFG.BRACKETS_SINGLE;
+        incomeTaxEstimate = calcBracketTax(taxableIncome, brackets);
+      } else {
+        incomeTaxEstimate = taxableIncome * (parseFloat(bracketMode) / 100);
+      }
+    }
+
+    // Step 4: Total liability
+    const totalLiability = seTaxTotal + incomeTaxEstimate;
+
+    // Step 5: Quarterly payment
+    const quarterlyPayment = totalLiability / 4;
+
+    // Effective rate for donut label
+    const effectiveRate = netIncome > 0 ? ((seTaxTotal / netIncome) * 100).toFixed(1) : '0.0';
+
+    // Cache for CSV
+    lastResults = {
+      netIncome, netEarnings, ssTax, medicareTax, addlMedicareTax,
+      seTaxTotal, incomeTaxEstimate, totalLiability, quarterlyPayment,
+      halfSeTax, standardDeduction, taxableIncome, filingStatus,
+    };
+
+    // ============================================================
+    // Update DOM
+    // ============================================================
+    resultSeTaxTotal.textContent = fmt(seTaxTotal);
+    resultNetEarnings.textContent = fmt(netEarnings);
+    resultSsTax.textContent = fmt(ssTax);
+    resultMedicareTax.textContent = fmt(medicareTax);
+    resultAddlMedicareTax.textContent = fmt(addlMedicareTax);
+
+    // Color the SE tax total
+    resultSeTaxTotal.className = seTaxTotal > 0
+      ? 'text-4xl md:text-5xl font-bold tracking-tight text-violet-600 dark:text-violet-400 font-sans tabular-nums'
+      : 'text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans tabular-nums';
+
+    // Show/hide Addl Medicare card highlight
+    if (addlMedicareTax > 0) {
+      resultAddlMedicareCard.className = resultAddlMedicareCard.className.replace('bg-canvas-soft', 'bg-amber-500/10 border-amber-500/40');
+      donutAddl.classList.remove('hidden');
+      donutAddlLegend.classList.remove('hidden');
+    } else {
+      donutAddl.classList.add('hidden');
+      donutAddlLegend.classList.add('hidden');
+    }
+
+    // Income tax step visibility
+    if (showIncomeTax) {
+      incomeTaxStep.classList.remove('opacity-40');
+      resultIncomeTax.textContent = fmt(incomeTaxEstimate);
+      resultDeductionNote.textContent = `Half of SE tax (${fmt(halfSeTax)}) + standard deduction (${fmt(standardDeduction)}) deducted from income before tax calculation.`;
+      resultTotalLiability.textContent = fmt(totalLiability);
+      resultQuarterly.textContent = fmt(quarterlyPayment);
+    } else {
+      incomeTaxStep.classList.add('opacity-40');
+      resultIncomeTax.textContent = '—';
+      resultDeductionNote.textContent = 'Enable income tax estimate to see this figure.';
+      resultTotalLiability.textContent = fmt(seTaxTotal) + ' (SE tax only)';
+      resultQuarterly.textContent = fmt(seTaxTotal / 4) + ' (SE tax only)';
+    }
+
+    // ============================================================
+    // Draw Donut Chart (semicircle)
+    // ============================================================
+    drawDonut(ssTax, medicareTax, addlMedicareTax, effectiveRate);
+  };
+
+  // ============================================================
+  // Donut Chart — semicircle SVG from (20,100) to (180,100)
+  // Arc radius 80, total arc length ≈ 251.3px (half of full circle)
+  // ============================================================
+  const drawDonut = (ssTax: number, medicareTax: number, addlMedicareTax: number, effectiveRate: string) => {
+    const total = ssTax + medicareTax + addlMedicareTax;
+    if (total <= 0) return;
+
+    // SVG half-circle arc: center (100,100), radius 80
+    const cx = 100, cy = 100, r = 80;
+    const arcLen = Math.PI * r; // half-circle arc length ≈ 251.3
+
+    const ssLen = (ssTax / total) * arcLen;
+    const medLen = (medicareTax / total) * arcLen;
+    const addlLen = (addlMedicareTax / total) * arcLen;
+
+    // Stroke dash: segment length, then gap = rest of arc
+    // We use stroke-dashoffset to position segments
+    // Arc drawn left-to-right starting at M20,100
+
+    // SS: starts at offset 0
+    donutSs.style.strokeDasharray = `${ssLen} ${arcLen}`;
+    donutSs.style.strokeDashoffset = '0';
+
+    // Medicare: starts after SS
+    donutMedicare.style.strokeDasharray = `${medLen} ${arcLen}`;
+    donutMedicare.style.strokeDashoffset = `${-ssLen}`;
+
+    // Additional Medicare: starts after SS + Medicare
+    donutAddl.style.strokeDasharray = `${addlLen} ${arcLen}`;
+    donutAddl.style.strokeDashoffset = `${-(ssLen + medLen)}`;
+
+    // Background: full arc
+    donutBg.style.strokeDasharray = `${arcLen} ${arcLen}`;
+    donutBg.style.strokeDashoffset = '0';
+
+    donutLabel.textContent = effectiveRate + '%';
+  };
+
+  // ============================================================
+  // CSV Export
+  // ============================================================
+  const exportCsv = () => {
+    if (!lastResults) return;
+    const r = lastResults;
+    const rows = [
+      ['Self-Employment Tax Calculator — ToolzTotal.com', ''],
+      ['', ''],
+      ['Input', 'Value'],
+      ['Net Self-Employment Income', r.netIncome.toFixed(2)],
+      ['Filing Status', r.filingStatus === 'mfj' ? 'Married Filing Jointly' : 'Single'],
+      ['', ''],
+      ['Results', 'Amount ($)'],
+      ['Net Earnings (×92.35%)', r.netEarnings.toFixed(2)],
+      ['Social Security Tax (12.4%)', r.ssTax.toFixed(2)],
+      ['Medicare Tax (2.9%)', r.medicareTax.toFixed(2)],
+      ['Additional Medicare Tax (0.9%)', r.addlMedicareTax.toFixed(2)],
+      ['Total SE Tax', r.seTaxTotal.toFixed(2)],
+      ['Half SE Tax Deduction', r.halfSeTax.toFixed(2)],
+      ['Standard Deduction Applied', r.standardDeduction.toFixed(2)],
+      ['Taxable Income (for income tax)', r.taxableIncome.toFixed(2)],
+      ['Estimated Income Tax (rough)', r.incomeTaxEstimate.toFixed(2)],
+      ['Total Estimated Tax Liability', r.totalLiability.toFixed(2)],
+      ['Quarterly Estimated Payment', (r.totalLiability / 4).toFixed(2)],
+      ['', ''],
+      ['DISCLAIMER', 'Estimates only. Not tax advice. Verify at irs.gov.'],
+    ];
+    const csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'se-tax-estimate-toolztotal.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  calculateBtn.addEventListener('click', calculate);
+  downloadCsvBtn.addEventListener('click', exportCsv);
+
+  incomeTaxToggle.addEventListener('change', () => {
+    if (incomeTaxToggle.checked) {
+      incomeTaxBracketContainer.classList.remove('hidden');
+    } else {
+      incomeTaxBracketContainer.classList.add('hidden');
+    }
+    calculate();
+  });
+
+  // Live recalc on input change
+  [seIncomeInput, filingStatusSelect, taxBracketSelect].forEach(el => {
+    el.addEventListener('change', calculate);
+    if (el.tagName === 'INPUT') el.addEventListener('input', calculate);
+  });
+
+  // ============================================================
+  // Initial calculation on page load
+  // ============================================================
+  calculate();
+</script>

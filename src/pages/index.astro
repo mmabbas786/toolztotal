@@ -1,11 +1,480 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { toolCatalog } from '../data/tools';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Generate FAQ JSON-LD schema
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are ToolzTotal's calculators really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, all calculators and tools on ToolzTotal are 100% free. There are no paywalls, no premium tiers, and no hidden subscriptions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to create an account to use the tools?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, you do not need to create an account or sign up. Every tool is available instantly without email or registration walls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data safe when I use these calculators?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. ToolzTotal is built using a privacy-first, client-side architecture. All calculation formulas and values run locally in your web browser. None of your data is ever uploaded or stored on our servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are the mortgage and loan calculators?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our mortgage and loan calculators use industry-standard mathematical interest rate formulas. However, please consult a financial advisor for formal legal or mortgage advice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use ToolzTotal on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, our website is optimized for mobile-first responsiveness. It is designed to look and function perfectly on any smartphone, tablet, or desktop browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often are new tools added?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We update ToolzTotal regularly. New categories and tools are designed, coded, and deployed on a weekly basis, always keeping it lightweight and fast."
+      }
+    }
+  ]
+});
+
+const trustPillars = [
+  {
+    title: "100% Client-Side",
+    desc: "Calculations run completely in your browser. None of your data is ever uploaded or stored.",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+  },
+  {
+    title: "No Signup, Ever",
+    desc: "Every calculator works instantly. No log in, no email forms, no barrier gates.",
+    icon: "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+  },
+  {
+    title: "Built for Speed",
+    desc: "Static site construction loads under 100ms. Mobile optimized layouts.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z"
+  },
+  {
+    title: "Always Free",
+    desc: "No premium accounts, paywalls, or hidden charges. Simply free tools.",
+    icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+  }
+];
+
+const faqs = [
+  {
+    q: "Are ToolzTotal's calculators really free?",
+    a: "Yes, all calculators and tools on ToolzTotal are 100% free. There are no paywalls, premium tiers, email captures, or hidden subscriptions. We build this as a clean resource for everyone."
+  },
+  {
+    q: "Do I need to create an account to use the tools?",
+    a: "No. Every tool works instantly upon loading the page. We do not require usernames, passwords, or emails, ensuring a completely friction-free experience."
+  },
+  {
+    q: "Is my data safe when I use these calculators?",
+    a: "Absolutely. Our tools are designed with a client-side architecture. Everything you type is processed in your browser. No input values or calculation results are ever transmitted or saved on our servers."
+  },
+  {
+    q: "How accurate are the mortgage and loan calculators?",
+    a: "Our calculators use industry-standard mathematical formulas to calculate compound interest, amortization, and tax percentages. However, they are for informational purposes only. Please verify your loan calculations with a certified professional."
+  },
+  {
+    q: "Can I use ToolzTotal on my phone?",
+    a: "Yes. ToolzTotal is coded mobile-first. The layout and navigation controls adjust fluidly to look and work perfectly on smartphones, tablets, and desktops."
+  },
+  {
+    q: "How often are new tools added?",
+    a: "We add new tools and calculators regularly. Our roadmap covers developer formatting, advanced finance metrics, text utilities, and legal tools, prioritizing speed and client-side privacy."
+  }
+];
+// Compute total live tool count dynamically from catalog
+const totalToolCount = toolCatalog.reduce((sum, cat) => sum + cat.tools.filter(t => t.status === 'live').length, 0);
 ---
 
-<Layout>
-	<Welcome />
+<Layout faqJsonLd={faqSchema}>
+  <!-- Hero Section -->
+  <section class="relative pt-24 pb-16 md:pt-32 md:pb-24 border-b border-hairline overflow-hidden transition-colors duration-200">
+    <!-- Atmospheric Mesh Gradient Backdrop -->
+    <div class="absolute inset-0 top-0 h-[600px] -z-10 overflow-hidden pointer-events-none">
+      <div class="absolute top-[-20%] left-[20%] w-[60%] h-[60%] rounded-full bg-[radial-gradient(circle,rgba(80,227,194,0.10)_0%,rgba(0,124,240,0)_70%)] blur-[90px] dark:bg-[radial-gradient(circle,rgba(80,227,194,0.06)_0%,rgba(0,124,240,0)_70%)]"></div>
+      <div class="absolute top-[-10%] right-[10%] w-[50%] h-[50%] rounded-full bg-[radial-gradient(circle,rgba(121,40,202,0.08)_0%,rgba(255,0,128,0)_70%)] blur-[90px] dark:bg-[radial-gradient(circle,rgba(121,40,202,0.04)_0%,rgba(255,0,128,0)_70%)]"></div>
+      <div class="absolute top-[-20%] left-[40%] w-[50%] h-[50%] rounded-full bg-[radial-gradient(circle,rgba(255,77,77,0.07)_0%,rgba(249,203,40,0)_70%)] blur-[90px] dark:bg-[radial-gradient(circle,rgba(255,77,77,0.03)_0%,rgba(249,203,40,0)_70%)]"></div>
+    </div>
+
+    <div class="max-w-[1400px] mx-auto px-4 md:px-6 text-center">
+      <!-- FREE Value Badge -->
+      <div class="inline-flex items-center gap-2 bg-canvas border border-hairline rounded-full px-4 py-1.5 mb-8 shadow-lvl1">
+        <span class="text-[11px] font-mono font-bold text-ink uppercase tracking-widest">100% FREE &nbsp;&middot;&nbsp; No Signup &nbsp;&middot;&nbsp; No Paywalls &nbsp;&middot;&nbsp; Always</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-ink font-sans leading-[1.05] max-w-4xl mx-auto mb-6 geist-heading">
+        FREE online calculators and tools.
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="text-body text-lg md:text-xl font-sans max-w-2xl mx-auto leading-relaxed mb-12">
+        No signups, no paywalls, instant results, mobile-friendly. Every utility runs 100% client-side — your data never leaves your browser.
+      </p>
+
+      <!-- CTA and Search Input -->
+      <div id="search-section" class="max-w-2xl mx-auto">
+        <!-- Interactive Search Bar -->
+        <div class="relative flex items-center mb-6">
+          <svg class="absolute left-4 w-5 h-5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input 
+            type="text" 
+            id="tool-search" 
+            placeholder="Search free calculators & tools..." 
+            class="w-full h-14 pl-12 pr-12 bg-canvas border border-hairline rounded-full text-base font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl3 hover:border-hairline-strong"
+          />
+          <kbd class="absolute right-4 hidden sm:inline-block bg-canvas-soft-2 border border-hairline px-2 py-0.5 rounded text-xs text-mute font-mono">⌘K</kbd>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-2">
+          <span class="text-xs text-mute font-mono uppercase mr-2">Quick links:</span>
+          <a href="#finance" class="text-xs bg-canvas border border-hairline text-body px-3 py-1 rounded-full hover:border-hairline-strong hover:text-ink transition-colors shadow-lvl1 font-sans">Finance</a>
+          <a href="#real-estate" class="text-xs bg-canvas border border-hairline text-body px-3 py-1 rounded-full hover:border-hairline-strong hover:text-ink transition-colors shadow-lvl1 font-sans">Real Estate</a>
+          <a href="#utility" class="text-xs bg-canvas border border-hairline text-body px-3 py-1 rounded-full hover:border-hairline-strong hover:text-ink transition-colors shadow-lvl1 font-sans">Everyday</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Pillars Section -->
+  <section class="w-full py-16 bg-canvas border-b border-hairline transition-colors duration-200">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {trustPillars.map(pillar => (
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-canvas-soft-2 border border-hairline flex items-center justify-center text-primary shadow-lvl1">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d={pillar.icon} />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-ink font-sans mb-1">{pillar.title}</h3>
+            <p class="text-body text-xs leading-relaxed font-sans">{pillar.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Categories Grid Navigation -->
+  <section id="categories" class="w-full py-20 bg-canvas-soft transition-colors duration-200">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-3">Category Directory</h2>
+        <p class="text-3xl font-bold tracking-tight text-ink font-sans">Select a category to view specialized tools.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {toolCatalog.map(cat => {
+          const totalTools = cat.tools.length;
+          return (
+            <a 
+              href={`#${cat.slug}`}
+              class="group bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-300 rounded-lg p-6 hover:shadow-lvl3 shadow-lvl2 relative flex flex-col justify-between"
+            >
+              <div>
+                <div class="w-10 h-10 rounded-lg bg-canvas-soft bg-canvas-soft-2/50 border border-hairline flex items-center justify-center mb-5 text-mute group-hover:text-primary transition-colors">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d={cat.icon} />
+                  </svg>
+                </div>
+                <h3 class="text-base font-bold text-ink font-sans mb-2 group-hover:text-primary transition-colors">{cat.name}</h3>
+                <p class="text-body text-xs font-sans leading-relaxed mb-6">{cat.description}</p>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-canvas-soft-2 text-mute border border-hairline uppercase tracking-wider">
+                  {totalTools} {totalTools === 1 ? 'Tool' : 'Tools'}
+                </span>
+                <span class="text-xs text-mute group-hover:text-primary font-sans flex items-center gap-1 transition-colors">
+                  Browse
+                  <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Tools Directory (Dynamic Filter list) -->
+  <section class="w-full py-24 bg-canvas border-t border-hairline transition-colors duration-200">
+    <div class="max-w-[1400px] mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div>
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-3">Featured Tools</h2>
+          <p class="text-3xl font-bold tracking-tight text-ink font-sans">Browse the tool directory.</p>
+        </div>
+        <div class="text-xs text-mute font-mono border border-hairline bg-canvas-soft-2 px-3 py-1.5 rounded-lg shadow-lvl1">
+          Showing <span id="visible-tools-count">{totalToolCount}</span> / <span id="total-tools-count">{totalToolCount}</span> tools
+        </div>
+      </div>
+
+      <!-- No Search Results State -->
+      <div id="no-results" class="hidden text-center py-16 border border-hairline border-dashed rounded-lg bg-canvas-soft-2 max-w-md mx-auto">
+        <svg class="w-8 h-8 text-mute mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="text-base font-bold text-ink font-sans mb-1">No tools match your search</h3>
+        <p class="text-body text-xs font-sans">Try searching for keywords like "mortgage," "interest," or "tax".</p>
+      </div>
+
+      <!-- Catalog List -->
+      <div class="space-y-16" id="tools-catalog">
+        {toolCatalog.map(category => {
+          if (category.tools.length === 0) return null;
+          return (
+            <div class="category-block border-t border-hairline pt-12 first:border-none first:pt-0 transition-all duration-300" id={category.slug} data-slug={category.slug}>
+              <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+                <!-- Category Sidebar -->
+                <div class="lg:w-1/4">
+                  <div class="sticky top-24">
+                    <div class="w-8 h-8 rounded-lg bg-canvas-soft bg-canvas-soft-2 border border-hairline flex items-center justify-center mb-4 text-mute">
+                      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d={category.icon} />
+                      </svg>
+                    </div>
+                    <a href={`/${category.slug}`} class="text-lg font-bold text-ink hover:text-primary transition-colors font-sans block mb-2">{category.name}</a>
+                    <p class="text-body text-xs font-sans leading-relaxed mb-4">{category.description}</p>
+                    <a href={`/${category.slug}`} class="text-xs text-mute hover:text-ink font-sans transition-colors inline-flex items-center gap-1">
+                      View category page
+                      <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Tools Cards List -->
+                <div class="lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {category.tools.map(tool => (
+                    <div 
+                      class="tool-card group bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-300 rounded-lg p-5 hover:shadow-lvl3 shadow-lvl2 relative flex flex-col justify-between"
+                      data-name={tool.name.toLowerCase()}
+                      data-description={tool.description.toLowerCase()}
+                      data-keywords={tool.keywords.join(" ")}
+                      data-category={category.name.toLowerCase()}
+                    >
+                      <div>
+                        <div class="flex items-center gap-2 mb-3">
+                          <span class="relative flex h-1.5 w-1.5 flex-shrink-0">
+                            <span class="live-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="live-glow-dot relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 dark:bg-emerald-400"></span>
+                          </span>
+                          <span class="text-[9px] font-mono text-emerald-700 dark:text-emerald-400 uppercase tracking-wider font-bold">Live</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-ink font-sans mb-1 group-hover:text-primary transition-colors">{tool.name}</h4>
+                        <p class="text-body text-xs font-sans leading-relaxed mb-4">{tool.description}</p>
+                      </div>
+                      <div class="pt-4 border-t border-hairline/60 flex items-center justify-between">
+                        <span class="text-[10px] text-mute font-mono font-sans">/{category.slug}/{tool.slug}</span>
+                        <a 
+                          href={`/${category.slug}/${tool.slug}`}
+                          class="text-xs font-sans font-medium text-mute group-hover:text-primary transition-colors flex items-center gap-0.5"
+                        >
+                          Open tool
+                          <svg class="w-3 h-3 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO Content Section (Below the fold) -->
+  <section class="w-full py-20 bg-canvas-soft border-t border-hairline transition-colors duration-200">
+    <div class="max-w-[800px] mx-auto px-4 md:px-6">
+      <div class="prose max-w-none text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <h2 class="text-xl font-bold text-ink font-sans mb-4">Why we built ToolzTotal: a clean alternative to online tools.</h2>
+        <p>
+          Finding **free online calculators and tools** on the modern internet has become an exercise in digital frustration. If you've recently searched for a simple <a href="/finance/mortgage-calculator" class="text-link hover:underline">mortgage calculator</a>, <a href="/finance/loan-calculator" class="text-link hover:underline">loan calculator</a>, or <a href="/finance/roi-calculator" class="text-link hover:underline">roi calculator</a>, you were likely greeted by a slow loading screen, a barrage of pop-up cookie consent forms, flashing display advertisements, and complex lead-generation fields. To make matters worse, many websites run computations on external databases, requiring your email address or account creation before showing you the result.
+        </p>
+        <p>
+          We designed **ToolzTotal** to be a clean, privacy-first alternative. We believe that utility tools should load instantly, run local calculations, and require no subscription forms. By building our platform using lightweight static site architecture, every calculator runs 100% client-side directly within your browser. 
+        </p>
+        
+        <h3 class="text-lg font-bold text-ink font-sans pt-4">Calculators that prioritize your privacy.</h3>
+        <p>
+          Our code executes completely on the frontend. When you type figures into our loan payment or self-employment calculators, that data stays on your machine. We do not gather personal inputs, store data files, or record inputs in hidden cloud servers. This makes our site ideal for professionals and individuals seeking privacy-first calculations.
+        </p>
+        <p>
+          Additionally, you will never see paywalls or "premium" features here. Every daily utility—such as our <a href="/utility/age-calculator" class="text-link hover:underline">age calculator</a>, secure <a href="/utility/password-generator" class="text-link hover:underline">password generator</a>, and dynamic <a href="/utility/qr-code-generator" class="text-link hover:underline">qr code generator</a>—is fully functional, accessible from any location, and always free.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans pt-4">Designed for the mobile web.</h3>
+        <p>
+          Many old calculator directories are bogged down by layout shifts and unresponsive tables. We build ToolzTotal with responsive breakpoints, testing every calculator across smartphones, tablets, and wide screens. The result is a clean, developer-style dark and light mode interface optimized for speed and readability.
+        </p>
+        <p>
+          Our tool library is continually expanding. Over the coming weeks, we will launch specialized categories for Developer Tools, Text & Content formatting, SEO optimization audits, Health metrics, and Employment math. No email newsletters, no cookie banners—just standard mathematical logic when you need it.
+        </p>
+        <p class="pt-4 text-xs font-mono text-mute">
+          ToolzTotal.com — No signup calculator tools built for the fast web.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section (Accordions) -->
+  <section class="w-full py-20 bg-canvas border-t border-hairline transition-colors duration-200">
+    <div class="max-w-[800px] mx-auto px-4 md:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-3">Frequently Asked Questions</h2>
+        <p class="text-3xl font-bold tracking-tight text-ink font-sans">Common questions about ToolzTotal.</p>
+      </div>
+
+      <div class="space-y-4">
+        {faqs.map((faq, index) => (
+          <div class="border border-hairline rounded-lg bg-canvas shadow-lvl2 hover:border-hairline-strong transition-colors duration-200">
+            <button 
+              class="w-full px-6 py-5 flex items-center justify-between text-left font-sans font-bold text-sm md:text-base text-ink focus:outline-none cursor-pointer faq-trigger"
+              aria-expanded="false"
+              aria-controls={`faq-answer-${index}`}
+            >
+              <span>{faq.q}</span>
+              <svg class="w-4 h-4 text-mute transform transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div 
+              id={`faq-answer-${index}`}
+              class="hidden px-6 pb-5 pt-0 text-body text-xs md:text-sm leading-relaxed font-sans border-t border-hairline/60 bg-canvas-soft-2/20"
+            >
+              {faq.a}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Client-side Interactive Search & FAQ Toggle Script -->
+  <script>
+    // Search filtering implementation
+    const searchInput = document.getElementById('tool-search') as HTMLInputElement | null;
+    const cards = document.querySelectorAll('.tool-card');
+    const categoryBlocks = document.querySelectorAll('.category-block');
+    const noResults = document.getElementById('no-results');
+    const countSpan = document.getElementById('visible-tools-count');
+    const totalSpan = document.getElementById('total-tools-count');
+    const totalCount = parseInt(totalSpan?.textContent || '0', 10);
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        if (!query) {
+          // Reset all to visible
+          cards.forEach(c => ((c as HTMLElement).style.display = ''));
+          categoryBlocks.forEach(b => ((b as HTMLElement).style.display = ''));
+          noResults?.classList.add('hidden');
+          if (countSpan) countSpan.textContent = totalCount.toString();
+          return;
+        }
+
+        categoryBlocks.forEach(block => {
+          let hasVisibleCards = false;
+          const blockCards = block.querySelectorAll('.tool-card');
+          
+          blockCards.forEach(card => {
+            const name = card.getAttribute('data-name') || '';
+            const desc = card.getAttribute('data-description') || '';
+            const kws = card.getAttribute('data-keywords') || '';
+            const catName = card.getAttribute('data-category') || '';
+
+            if (
+              name.includes(query) || 
+              desc.includes(query) || 
+              kws.includes(query) ||
+              catName.includes(query)
+            ) {
+              (card as HTMLElement).style.display = 'flex';
+              hasVisibleCards = true;
+              visibleCount++;
+            } else {
+              (card as HTMLElement).style.display = 'none';
+            }
+          });
+
+          if (hasVisibleCards) {
+            (block as HTMLElement).style.display = 'block';
+          } else {
+            (block as HTMLElement).style.display = 'none';
+          }
+        });
+
+        // Toggle no-results block
+        if (visibleCount === 0) {
+          noResults?.classList.remove('hidden');
+        } else {
+          noResults?.classList.add('hidden');
+        }
+
+        // Update count tag
+        if (countSpan) {
+          countSpan.textContent = visibleCount.toString();
+        }
+      });
+    }
+
+    // FAQ Accordion Toggle script
+    const faqTriggers = document.querySelectorAll('.faq-trigger');
+    faqTriggers.forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        const controlId = trigger.getAttribute('aria-controls');
+        const answer = document.getElementById(controlId || '');
+        const icon = trigger.querySelector('svg');
+
+        // Toggle state
+        trigger.setAttribute('aria-expanded', (!expanded).toString());
+        if (answer) {
+          if (expanded) {
+            answer.classList.add('hidden');
+            icon?.classList.remove('rotate-180');
+          } else {
+            answer.classList.remove('hidden');
+            icon?.classList.add('rotate-180');
+          }
+        }
+      });
+    });
+  </script>
 </Layout>

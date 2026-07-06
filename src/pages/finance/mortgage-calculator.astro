@@ -1,0 +1,1345 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is my monthly mortgage payment calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your monthly mortgage payment is primarily calculated using the standard amortization formula for Principal and Interest (P&I): M = P * [r(1+r)^n] / [(1+r)^n - 1]. In this formula, P is your loan principal amount (home price minus down payment), r is the monthly interest rate (annual interest rate divided by 12 months), and n is the total number of monthly payments (loan term in years multiplied by 12). If you choose to include them, other recurring costs like property taxes, home insurance, homeowners association (HOA) fees, and private mortgage insurance (PMI) are added to this baseline amount to calculate your total monthly payment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's included in a mortgage payment besides principal and interest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Beyond principal and interest (which go toward paying off the loan balance and lender fees), a full monthly mortgage payment can include: 1. Property Taxes (usually calculated annually and paid monthly into an escrow account); 2. Homeowners Insurance (protects the property from damage); 3. Private Mortgage Insurance or PMI (typically required if your down payment is less than 20% of the home purchase price); and 4. HOA Fees (homeowners association dues, which may be paid separately or bundled into your monthly calculation)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much difference does my down payment make?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your down payment makes a massive difference in three key ways: 1. It directly reduces the principal loan amount, meaning you borrow less and pay less interest overall. 2. A larger down payment can help you secure a lower interest rate from lenders. 3. If your down payment is 20% or more, you avoid paying Private Mortgage Insurance (PMI), which instantly shaves hundreds of dollars off your monthly payment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does paying extra each month really save money?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, paying extra monthly has a powerful compounding effect. Because every extra dollar goes directly toward reducing your principal balance, it decreases the amount on which interest is calculated in all subsequent months. This accelerates your payoff timeline and saves you thousands of dollars in cumulative interest over the life of the loan. For example, adding just $200 a month to a standard 30-year $320,000 mortgage at 6.5% interest can shave over 5 years off your term and save you more than $60,000 in interest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this mortgage calculator accurate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this calculator uses the industry-standard amortization formula to calculate principal, interest, and payoff schedules. However, taxes, home insurance rates, and private mortgage insurance values vary significantly depending on your credit profile, state, county, and insurer. This tool is designed for quick, ad-free estimation and planning. You should always consult with a licensed mortgage broker or financial advisor for a binding quote."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Mortgage Calculator - Free & Accurate Monthly Payment Estimator | ToolzTotal"
+  description="Calculate your monthly mortgage payments with our free, ad-free mortgage calculator. View interactive amortization schedules and extra payment interest savings."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">Mortgage Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Mortgage Payment Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate your total monthly mortgage payment including principal, interest, property taxes, insurance, PMI, and HOA fees. Estimate payoff timelines and see the impact of adding extra monthly payments instantly.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Loan Details</h2>
+        
+        <!-- Home Price -->
+        <div>
+          <label for="home-price" class="block text-xs font-mono uppercase text-mute mb-2">Home Price</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input 
+              type="number" 
+              id="home-price" 
+              value="400000" 
+              step="5000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 400,000…"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Down Payment -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-xs font-mono uppercase text-mute">Down Payment</label>
+            <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+              <button 
+                type="button" 
+                id="dp-toggle-pct" 
+                class="px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer"
+                aria-label="Toggle down payment to percentage"
+              >
+                %
+              </button>
+              <button 
+                type="button" 
+                id="dp-toggle-val" 
+                class="px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer"
+                aria-label="Toggle down payment to dollar value"
+              >
+                $
+              </button>
+            </div>
+          </div>
+          
+          <!-- Percentage Input -->
+          <div id="dp-pct-container" class="relative">
+            <input 
+              type="number" 
+              id="dp-pct" 
+              value="20" 
+              step="0.5"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 20…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+          
+          <!-- Dollar Input (hidden initially) -->
+          <div id="dp-val-container" class="relative hidden">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input 
+              type="number" 
+              id="dp-val" 
+              value="80000" 
+              step="1000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 80,000…"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Loan Term Presets -->
+        <div>
+          <label class="block text-xs font-mono uppercase text-mute mb-2">Loan Term</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button 
+              type="button" 
+              id="term-15" 
+              data-years="15"
+              class="h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer"
+            >
+              15 Years
+            </button>
+            <button 
+              type="button" 
+              id="term-20" 
+              data-years="20"
+              class="h-10 border border-hairline bg-canvas hover:bg-canvas-soft-2 text-body rounded-md font-sans text-xs font-medium transition-all cursor-pointer"
+            >
+              20 Years
+            </button>
+            <button 
+              type="button" 
+              id="term-30" 
+              data-years="30"
+              class="h-10 border border-hairline-strong bg-primary text-on-primary rounded-md font-sans text-xs font-medium transition-all shadow-lvl2 cursor-pointer"
+            >
+              30 Years
+            </button>
+          </div>
+          <input type="hidden" id="loan-term" value="30" />
+        </div>
+
+        <!-- Interest Rate -->
+        <div>
+          <label for="interest-rate" class="block text-xs font-mono uppercase text-mute mb-2">Interest Rate</label>
+          <div class="relative">
+            <input 
+              type="number" 
+              id="interest-rate" 
+              value="6.5" 
+              step="0.05"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 6.5…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5 leading-normal">Enter your quoted rate for an accurate estimate.</p>
+        </div>
+
+        <!-- Additional Monthly Costs (Optional) Accordion -->
+        <div class="border-t border-hairline pt-5">
+          <button 
+            type="button" 
+            id="toggle-optional-costs" 
+            class="flex items-center justify-between w-full text-xs font-mono uppercase text-mute hover:text-ink transition-colors group cursor-pointer"
+            aria-expanded="false"
+            aria-controls="optional-costs-container"
+          >
+            <span>Additional Costs (Optional)</span>
+            <svg id="costs-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          <div id="optional-costs-container" class="space-y-4 pt-4 hidden">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="property-tax" class="block text-xs font-mono uppercase text-mute mb-2">Property Tax</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-xs font-sans">$</span>
+                  <input 
+                    type="number" 
+                    id="property-tax" 
+                    value="0" 
+                    step="100"
+                    min="0"
+                    class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                    placeholder="e.g., 2,400…"
+                    autocomplete="off"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/yr</span>
+                </div>
+              </div>
+              <div>
+                <label for="home-insurance" class="block text-xs font-mono uppercase text-mute mb-2">Home Insurance</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-xs font-sans">$</span>
+                  <input 
+                    type="number" 
+                    id="home-insurance" 
+                    value="0" 
+                    step="100"
+                    min="0"
+                    class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                    placeholder="e.g., 1,200…"
+                    autocomplete="off"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/yr</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div id="pmi-container" class="hidden">
+                <label for="pmi" class="block text-xs font-mono uppercase text-mute mb-2 flex items-center justify-between">
+                  <span>PMI</span>
+                  <span class="text-[9px] text-warning-deep bg-warning-soft px-1 py-0.5 rounded font-sans uppercase">Required</span>
+                </label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-xs font-sans">$</span>
+                  <input 
+                    type="number" 
+                    id="pmi" 
+                    value="150" 
+                    step="10"
+                    min="0"
+                    class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                    placeholder="e.g., 150…"
+                    autocomplete="off"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+                </div>
+              </div>
+              <div>
+                <label for="hoa" class="block text-xs font-mono uppercase text-mute mb-2">HOA Fees</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-xs font-sans">$</span>
+                  <input 
+                    type="number" 
+                    id="hoa" 
+                    value="0" 
+                    step="10"
+                    min="0"
+                    class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                    placeholder="e.g., 100…"
+                    autocomplete="off"
+                  />
+                  <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Extra Monthly Payment -->
+        <div class="border-t border-hairline pt-5">
+          <label for="extra-payment" class="block text-xs font-mono uppercase text-mute mb-2 flex items-center justify-between">
+            <span>Extra Monthly Payment</span>
+            <span class="text-[10px] text-emerald-500 font-mono">accelerate payoff</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input 
+              type="number" 
+              id="extra-payment" 
+              value="0" 
+              step="50"
+              min="0"
+              class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 200…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5 leading-normal">Shave years off your loan and save thousands of dollars on interest instantly.</p>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Results Dashboard & Charts (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Estimated Payment Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 relative">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Estimated Monthly Payment</h2>
+          <div id="monthly-payment-total" class="text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-6 tabular-nums">
+            $0.00
+          </div>
+          
+          <!-- Donut Breakdown Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-t border-hairline pt-6">
+            
+            <!-- SVG Donut Chart (4 cols) -->
+            <div class="md:col-span-4 flex justify-center">
+              <div class="relative w-36 h-36">
+                <!-- SVG base -->
+                <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+                  <!-- Background Track Circle -->
+                  <circle 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    class="stroke-canvas-soft-2 fill-none" 
+                  />
+                  <!-- Principal & Interest segment -->
+                  <circle 
+                    id="donut-pi" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-neutral-900 dark:stroke-neutral-100 fill-none transition-all duration-300" 
+                  />
+                  <!-- Tax segment -->
+                  <circle 
+                    id="donut-tax" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-blue-500 dark:stroke-blue-400 fill-none transition-all duration-300" 
+                  />
+                  <!-- Insurance segment -->
+                  <circle 
+                    id="donut-insurance" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-amber-500 dark:stroke-amber-400 fill-none transition-all duration-300" 
+                  />
+                  <!-- PMI segment -->
+                  <circle 
+                    id="donut-pmi" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-purple-500 dark:stroke-purple-400 fill-none transition-all duration-300" 
+                  />
+                  <!-- HOA segment -->
+                  <circle 
+                    id="donut-hoa" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-pink-500 dark:stroke-pink-400 fill-none transition-all duration-300" 
+                  />
+                </svg>
+                
+                <!-- Inner Total Text label -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span id="donut-center-total" class="text-sm font-bold text-ink tabular-nums">$0</span>
+                  <span class="text-[9px] font-mono text-mute uppercase">Total</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Breakdown Numbers list (8 cols) -->
+            <div class="md:col-span-8 space-y-2.5">
+              <!-- P&I -->
+              <div class="flex items-center justify-between text-xs font-sans">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-neutral-950 dark:bg-neutral-100 inline-block"></span>
+                  <span class="text-body font-medium">Principal & Interest</span>
+                </div>
+                <span id="breakdown-pi-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+              <!-- Property Tax -->
+              <div class="flex items-center justify-between text-xs font-sans">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-500 dark:bg-blue-400 inline-block"></span>
+                  <span class="text-body font-medium">Property Tax</span>
+                </div>
+                <span id="breakdown-tax-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+              <!-- Home Insurance -->
+              <div class="flex items-center justify-between text-xs font-sans">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500 dark:bg-amber-400 inline-block"></span>
+                  <span class="text-body font-medium">Home Insurance</span>
+                </div>
+                <span id="breakdown-insurance-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+              <!-- PMI -->
+              <div id="breakdown-pmi-row" class="flex items-center justify-between text-xs font-sans hidden">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-purple-500 dark:bg-purple-400 inline-block"></span>
+                  <span class="text-body font-medium">PMI</span>
+                </div>
+                <span id="breakdown-pmi-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+              <!-- HOA -->
+              <div class="flex items-center justify-between text-xs font-sans">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-pink-500 dark:bg-pink-400 inline-block"></span>
+                  <span class="text-body font-medium">HOA Fees</span>
+                </div>
+                <span id="breakdown-hoa-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Disclaimer inline -->
+          <div class="mt-6 pt-4 border-t border-hairline text-[10px] text-mute leading-normal font-sans">
+            <strong>Disclaimer:</strong> This calculator provides estimates for informational purposes only and is not a loan offer or financial advice. Actual rates and payments may vary. Consult a licensed lender for a formal quote.
+          </div>
+        </div>
+
+        <!-- Payoff Summary Grid (Original vs. Extra details) -->
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Total Loan Principal</span>
+            <span id="summary-principal" class="text-lg font-bold text-ink font-sans tabular-nums">$0</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Total Interest Paid</span>
+            <span id="summary-interest" class="text-lg font-bold text-ink font-sans tabular-nums">$0</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Estimated Payoff Date</span>
+            <span id="summary-payoff" class="text-lg font-bold text-ink font-sans tabular-nums">--</span>
+          </div>
+        </div>
+
+        <!-- Extra Payment Accelerator Impact showcase (Hidden by default unless extra payment is added) -->
+        <div id="accel-impact-card" class="bg-canvas border border-emerald-500/20 dark:border-emerald-500/30 rounded-xl p-6 shadow-lvl3 relative hidden overflow-hidden">
+          <div class="absolute right-0 top-0 bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-500 font-mono text-[9px] uppercase px-3 py-1 rounded-bl">
+            Acceleration Benefit
+          </div>
+          
+          <h3 class="text-sm font-bold text-ink font-sans mb-4 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Extra Payment Impact
+          </h3>
+
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Interest Saved</span>
+              <span id="accel-saved-interest" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Time Saved</span>
+              <span id="accel-saved-time" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans">0 years</span>
+            </div>
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">New Payoff Date</span>
+              <span id="accel-new-date" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans whitespace-nowrap">--</span>
+            </div>
+          </div>
+
+          <!-- Payoff Timeline Bars -->
+          <div class="space-y-4">
+            <!-- Timeline 1: Original Payoff -->
+            <div>
+              <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+                <span>Baseline Payoff Timeline</span>
+                <span id="timeline-orig-term" class="font-bold text-ink">30 Years</span>
+              </div>
+              <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full overflow-hidden">
+                <div class="h-full bg-neutral-300 dark:bg-neutral-700 w-full"></div>
+              </div>
+            </div>
+            <!-- Timeline 2: Accelerated Payoff -->
+            <div>
+              <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+                <span>Accelerated Payoff Timeline</span>
+                <span id="timeline-accel-term" class="font-bold text-emerald-500">24.5 Years</span>
+              </div>
+              <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full flex overflow-hidden">
+                <div id="timeline-accel-bar" class="h-full bg-emerald-500 dark:bg-emerald-600" style="width: 80%;"></div>
+                <div id="timeline-saved-bar" class="h-full bg-emerald-500/25 border-l border-dashed border-emerald-500/50" style="width: 20%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Amortization Visualization Section -->
+    <div class="mt-16 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4 mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-ink font-sans">Amortization Schedule</h2>
+          <p class="text-xs text-mute font-sans mt-0.5">Visualize remaining balance and interest totals over the life of the loan.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Granularity Toggle -->
+          <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+            <button 
+              type="button" 
+              id="chart-toggle-yearly" 
+              class="px-3 py-1 text-xs font-mono rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer"
+            >
+              Yearly
+            </button>
+            <button 
+              type="button" 
+              id="chart-toggle-monthly" 
+              class="px-3 py-1 text-xs font-mono rounded-md text-mute hover:text-ink cursor-pointer"
+            >
+              Monthly
+            </button>
+          </div>
+          <!-- Download CSV -->
+          <button 
+            type="button" 
+            id="download-csv" 
+            class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive SVG Chart -->
+      <div class="w-full relative">
+        <svg id="amortization-chart" viewBox="0 0 600 220" class="w-full h-auto max-h-[300px]">
+          <!-- Grid lines -->
+          <line x1="50" y1="15" x2="590" y2="15" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="60" x2="590" y2="60" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="105" x2="590" y2="105" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" stroke-dasharray="2 2" />
+          <line x1="50" y1="150" x2="590" y2="150" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="195" x2="590" y2="195" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+
+          <!-- Y-axis labels -->
+          <text x="42" y="20" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px] text-right" text-anchor="end" id="chart-y-max">$400k</text>
+          <text x="42" y="110" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-mid">$200k</text>
+          <text x="42" y="198" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end">0</text>
+
+          <!-- SVG Paths for Baseline Area -->
+          <path id="chart-baseline-fill" class="fill-neutral-200/50 dark:fill-neutral-800/40" d="M 50,195 L 590,195 Z" />
+          <path id="chart-baseline-line" class="stroke-neutral-400 dark:stroke-neutral-600 fill-none" stroke-width="2" d="M 50,195 L 590,195 Z" />
+
+          <!-- SVG Paths for Accelerated Area (PMI or extra payments) -->
+          <path id="chart-accel-fill" class="fill-emerald-500/10 dark:fill-emerald-500/5 hidden" d="M 50,195 L 590,195 Z" />
+          <path id="chart-accel-line" class="stroke-emerald-500 dark:stroke-emerald-400 fill-none hidden" stroke-width="2" d="M 50,195 L 590,195 Z" />
+
+          <!-- X-axis Labels (Dynamic based on years) -->
+          <g id="chart-x-labels">
+            <text x="50" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Year 0</text>
+            <text x="230" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Year 10</text>
+            <text x="410" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Year 20</text>
+            <text x="590" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Year 30</text>
+          </g>
+        </svg>
+        
+        <!-- Legend overlays -->
+        <div class="flex gap-4 justify-center items-center text-[10px] font-mono text-mute mt-3">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3.5 h-1.5 bg-neutral-400 dark:bg-neutral-600 inline-block rounded-xs"></span>
+            <span>Standard Payoff Balance</span>
+          </div>
+          <div id="chart-legend-accel" class="flex items-center gap-1.5 hidden">
+            <span class="w-3.5 h-1.5 bg-emerald-500 dark:bg-emerald-400 inline-block rounded-xs"></span>
+            <span>Accelerated Payoff Balance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsible Table -->
+      <div class="mt-8 border-t border-hairline pt-6">
+        <button 
+          type="button" 
+          id="toggle-schedule-table" 
+          class="flex items-center justify-between w-full text-xs font-mono uppercase text-mute hover:text-ink transition-colors cursor-pointer group"
+          aria-expanded="false"
+          aria-controls="schedule-table-container"
+        >
+          <span>Show Full Schedule Table</span>
+          <svg id="table-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div id="schedule-table-container" class="hidden mt-6 overflow-x-auto border border-hairline rounded-lg bg-canvas shadow-lvl1">
+          <table class="w-full text-left border-collapse text-xs font-sans">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline font-mono text-mute uppercase tracking-wider text-[10px]">
+                <th class="py-3 px-4" id="table-hdr-period">Year</th>
+                <th class="py-3 px-4 text-right">Beginning Balance</th>
+                <th class="py-3 px-4 text-right">Principal Paid</th>
+                <th class="py-3 px-4 text-right">Interest Paid</th>
+                <th class="py-3 px-4 text-right">Ending Balance</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body" class="divide-y divide-hairline text-body tabular-nums">
+              <!-- Dynamic Rows inserted via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SEO text section (Below the fold) -->
+    <article class="mt-24 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Your Home Loan and Payments</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Purchasing a home is one of the most significant financial steps you will take. Deciding on the purchase price is only the first step; understanding the underlying math of a <strong>monthly mortgage calculator</strong> allows you to forecast long-term commitments, allocate budgets, and strategize savings. A reliable <strong>home loan calculator</strong> helps bridge the gap between simple home pricing and actual monthly cash-flow allocations, showing exactly how payments divide between structural equity and financing costs.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">What Factors Shape Your Monthly Mortgage Payment?</h3>
+        <p>
+          Many home buyers focus solely on the list price of the property, but mortgage lenders construct monthly obligations out of several disparate elements. A comprehensive <strong>mortgage calculator with taxes and insurance</strong> details these components so there are no surprises when you close:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Principal:</strong> The actual base balance of money you borrow to buy the home, which decreases over time as payments are made.</li>
+          <li><strong>Interest:</strong> The cost charged by the lender to service the loan, computed as a percentage rate. In the initial years of an amortization schedule, interest forms the largest share of the monthly payment.</li>
+          <li><strong>Property Taxes:</strong> Assessed annually by state or local county governments, usually calculated as a percentage of the home's value, and held in an escrow account by your servicer to pay bills when they are due.</li>
+          <li><strong>Homeowners Insurance:</strong> Protects your property against fire, storms, and other damages, typically mandated by lenders to safeguard their collateral.</li>
+          <li><strong>Private Mortgage Insurance (PMI):</strong> An insurance policy that protects the lender in case you default on the loan. PMI is usually required if your down payment is less than 20% of the home value.</li>
+          <li><strong>HOA Fees:</strong> Homeowners Association dues for building maintenance, amenities, or community upkeeps. While HOA fees may be paid independently, adding them to your calculator ensures a realistic total expense representation.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Does a Mortgage Amortization Calculator Work?</h3>
+        <p>
+          Mortgages use a structural mathematical process called amortization, where payments are spread in equal installments over the loan term. While the total monthly payment remains constant, the proportions allocated to interest and principal change dynamically.
+        </p>
+        <p>
+          At the start of the loan, interest is calculated on a high remaining principal, leaving less of the payment to pay down the balance. As the balance decreases, subsequent interest computations yield smaller sums, directing a larger percentage of your monthly fee to the principal. Utilizing a <strong>mortgage amortization calculator</strong> makes this shifting dynamic visible. By monitoring the table or visual balance curve, you can watch exactly how the balance decreases over 15, 20, or 30 years.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Accelerating Payoffs with the Extra Payment Strategy</h3>
+        <p>
+          Because standard amortization heavily loads interest costs in the initial half of the loan, making extra principal payments is one of the most effective strategies for saving money.
+        </p>
+        <p>
+          When you add an extra monthly payment directly to your principal, that amount lowers your loan balance immediately rather than waiting for standard monthly allocations. Since interest is recalculated every month based on the remaining balance, a smaller balance means less interest accumulates in all subsequent months. This creates a compounding savings curve. By paying just $100 or $200 extra each month, you can shave multiple years off your term and keep thousands of dollars in your pocket instead of paying it in interest fees to a bank.
+        </p>
+
+        <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+          <strong>Important Note:</strong> The numbers calculated by this tool are high-fidelity estimates built on standard financial formulas and are intended for research, planning, and comparison. They do not constitute formal lending offers, official disclosures, or qualified investment advice. Property taxes, insurance, and lender fees fluctuate based on geography, credit rating, and local regulations. Consult a licensed financial professional or mortgage lender before making binding property purchases.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <!-- Q1 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How is my monthly mortgage payment calculated?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Your monthly principal and interest payment is calculated using the standard amortization formula: <strong>M = P * [r(1+r)^n] / [(1+r)^n - 1]</strong>, where P is the loan principal (home price minus down payment), r is the monthly interest rate (annual rate divided by 12), and n is the total number of payments (loan term in years multiplied by 12). Property taxes, home insurance, homeowners association (HOA) fees, and private mortgage insurance (PMI) are then added to this baseline amount to determine your total monthly payment.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What's included in a mortgage payment besides principal and interest?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Beyond principal and interest, a full monthly housing payment can include: 1. Property Taxes (annual fees paid to local county or municipality, divided by 12); 2. Homeowners Insurance (annual home protection plan, divided by 12); 3. Private Mortgage Insurance or PMI (lender protection plan required if down payment is under 20%); and 4. HOA Fees (dues assessed by community association for communal maintenance).
+            </p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How much difference does my down payment make?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Your down payment fundamentally reduces the principal loan amount you need to borrow, which lowers the base payment and saves you substantial cumulative interest over the term. Additionally, putting down 20% or more allows you to entirely avoid Private Mortgage Insurance (PMI), which can save you $100 to $300 per month on average.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Does paying extra each month really save money?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes, making extra monthly payments goes directly toward paying down your loan's principal balance. Since interest is calculated as a percentage of your remaining balance, reducing the principal faster reduces the compound interest billed in future periods. This accelerates your timeline, shaving years off your mortgage and saving you thousands of dollars in financing costs.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Is this mortgage calculator accurate?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              This calculator uses precise, industry-standard amortization formulas to model loan balances and payments. However, actual taxes, insurance policies, PMI rates, and lender underwriting parameters depend on local rates, property specifications, credit ratings, and closing requirements. Use this tool as a high-fidelity guide and consult with a licensed broker for exact quotes.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Real Estate & Loan Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <a 
+          href="/finance/loan-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Loan Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate payments for personal, auto, or student loans with preset options.</p>
+        </a>
+
+        <a 
+          href="/real-estate/mortgage-affordability-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Affordability Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Determine the maximum home purchase price you can afford based on income and debts.</p>
+        </a>
+
+        <a 
+          href="/real-estate/mortgage-refinance-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Refinance Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">See if refinancing your home mortgage will save you money on interest and payments.</p>
+        </a>
+
+        <a 
+          href="/real-estate/rent-vs-buy-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Rent vs Buy Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare the long-term financial costs of renting versus buying a home.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Calculator Logic Script -->
+  <script>
+    import { calculateAmortization, getYearlySchedule, generateCsv, getSvgChartPaths } from '../../utils/amortization';
+
+    // 1. DOM Element Cache
+    const homePriceInput = document.getElementById('home-price') as HTMLInputElement;
+    
+    const dpTogglePct = document.getElementById('dp-toggle-pct') as HTMLButtonElement;
+    const dpToggleVal = document.getElementById('dp-toggle-val') as HTMLButtonElement;
+    const dpPctContainer = document.getElementById('dp-pct-container') as HTMLDivElement;
+    const dpValContainer = document.getElementById('dp-val-container') as HTMLDivElement;
+    const dpPctInput = document.getElementById('dp-pct') as HTMLInputElement;
+    const dpValInput = document.getElementById('dp-val') as HTMLInputElement;
+
+    const term15Btn = document.getElementById('term-15') as HTMLButtonElement;
+    const term20Btn = document.getElementById('term-20') as HTMLButtonElement;
+    const term30Btn = document.getElementById('term-30') as HTMLButtonElement;
+    const termInput = document.getElementById('loan-term') as HTMLInputElement;
+
+    const interestRateInput = document.getElementById('interest-rate') as HTMLInputElement;
+    const optionalCostsToggle = document.getElementById('toggle-optional-costs') as HTMLButtonElement;
+    const costsChevron = document.getElementById('costs-chevron') as unknown as SVGElement;
+    const optionalCostsContainer = document.getElementById('optional-costs-container') as HTMLDivElement;
+
+    const propertyTaxInput = document.getElementById('property-tax') as HTMLInputElement;
+    const homeInsuranceInput = document.getElementById('home-insurance') as HTMLInputElement;
+    const pmiContainer = document.getElementById('pmi-container') as HTMLDivElement;
+    const pmiInput = document.getElementById('pmi') as HTMLInputElement;
+    const hoaInput = document.getElementById('hoa') as HTMLInputElement;
+    const extraPaymentInput = document.getElementById('extra-payment') as HTMLInputElement;
+
+    // Results DOM Elements
+    const monthlyPaymentTotal = document.getElementById('monthly-payment-total') as HTMLDivElement;
+    const donutCenterTotal = document.getElementById('donut-center-total') as HTMLSpanElement;
+    const breakdownPiVal = document.getElementById('breakdown-pi-val') as HTMLSpanElement;
+    const breakdownTaxVal = document.getElementById('breakdown-tax-val') as HTMLSpanElement;
+    const breakdownInsuranceVal = document.getElementById('breakdown-insurance-val') as HTMLSpanElement;
+    const breakdownPmiRow = document.getElementById('breakdown-pmi-row') as HTMLDivElement;
+    const breakdownPmiVal = document.getElementById('breakdown-pmi-val') as HTMLSpanElement;
+    const breakdownHoaVal = document.getElementById('breakdown-hoa-val') as HTMLSpanElement;
+
+    const summaryPrincipal = document.getElementById('summary-principal') as HTMLSpanElement;
+    const summaryInterest = document.getElementById('summary-interest') as HTMLSpanElement;
+    const summaryPayoff = document.getElementById('summary-payoff') as HTMLSpanElement;
+
+    // Accel Benefit DOM Elements
+    const accelImpactCard = document.getElementById('accel-impact-card') as HTMLDivElement;
+    const accelSavedInterest = document.getElementById('accel-saved-interest') as HTMLSpanElement;
+    const accelSavedTime = document.getElementById('accel-saved-time') as HTMLSpanElement;
+    const accelNewDate = document.getElementById('accel-new-date') as HTMLSpanElement;
+    const timelineOrigTerm = document.getElementById('timeline-orig-term') as HTMLSpanElement;
+    const timelineAccelTerm = document.getElementById('timeline-accel-term') as HTMLSpanElement;
+    const timelineAccelBar = document.getElementById('timeline-accel-bar') as HTMLDivElement;
+    const timelineSavedBar = document.getElementById('timeline-saved-bar') as HTMLDivElement;
+
+    // Chart Elements
+    const chartToggleYearly = document.getElementById('chart-toggle-yearly') as HTMLButtonElement;
+    const chartToggleMonthly = document.getElementById('chart-toggle-monthly') as HTMLButtonElement;
+    const chartYMax = document.getElementById('chart-y-max') as SVGTextElement;
+    const chartYMid = document.getElementById('chart-y-mid') as SVGTextElement;
+    const chartBaselineFill = document.getElementById('chart-baseline-fill') as SVGPathElement;
+    const chartBaselineLine = document.getElementById('chart-baseline-line') as SVGPathElement;
+    const chartAccelFill = document.getElementById('chart-accel-fill') as SVGPathElement;
+    const chartAccelLine = document.getElementById('chart-accel-line') as SVGPathElement;
+    const chartXLabels = document.getElementById('chart-x-labels') as SVGGraphicsElement;
+    const chartLegendAccel = document.getElementById('chart-legend-accel') as HTMLDivElement;
+
+    // Donut Segments Elements
+    const donutPi = document.getElementById('donut-pi') as SVGCircleElement;
+    const donutTax = document.getElementById('donut-tax') as SVGCircleElement;
+    const donutInsurance = document.getElementById('donut-insurance') as SVGCircleElement;
+    const donutPmi = document.getElementById('donut-pmi') as SVGCircleElement;
+    const donutHoa = document.getElementById('donut-hoa') as SVGCircleElement;
+
+    // Table & CSV Elements
+    const toggleScheduleTable = document.getElementById('toggle-schedule-table') as HTMLButtonElement;
+    const tableChevron = document.getElementById('table-chevron') as unknown as SVGElement;
+    const scheduleTableContainer = document.getElementById('schedule-table-container') as HTMLDivElement;
+    const scheduleTableBody = document.getElementById('schedule-table-body') as HTMLTableSectionElement;
+    const tableHdrPeriod = document.getElementById('table-hdr-period') as HTMLTableCellElement;
+    const downloadCsvBtn = document.getElementById('download-csv') as HTMLButtonElement;
+
+    // 2. Global State Variables
+    let downPaymentMode = 'pct';
+    let currentTermYears = 30;
+    let chartGranularity = 'yearly';
+    let csvContent = '';
+    let activeBaselineSchedule: any[] = [];
+    let activeAcceleratedSchedule: any[] = [];
+
+    // 3. Helper Functions
+    const formatCurrency = (val: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+      }).format(val);
+    };
+
+    const formatCurrencyWithCents = (val: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(val);
+    };
+
+    const getPayoffDate = (monthsToAdd: number) => {
+      const date = new Date();
+      date.setMonth(date.getMonth() + monthsToAdd);
+      return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+
+    // 4. Primary Calculation Function
+    const runCalculations = () => {
+      const homePrice = Math.max(0, parseFloat(homePriceInput.value) || 0);
+      let downPaymentPercent = parseFloat(dpPctInput.value) || 0;
+      let downPaymentValue = parseFloat(dpValInput.value) || 0;
+
+      // Synchronize down payment fields
+      if (downPaymentMode === 'pct') {
+        downPaymentPercent = Math.min(100, Math.max(0, downPaymentPercent));
+        downPaymentValue = homePrice * (downPaymentPercent / 100);
+        dpValInput.value = Math.round(downPaymentValue).toString();
+      } else {
+        downPaymentValue = Math.min(homePrice, Math.max(0, downPaymentValue));
+        downPaymentPercent = homePrice > 0 ? (downPaymentValue / homePrice) * 100 : 0;
+        dpPctInput.value = (Math.round(downPaymentPercent * 100) / 100).toFixed(2);
+      }
+
+      const loanPrincipal = Math.max(0, homePrice - downPaymentValue);
+      const annualRate = Math.max(0, parseFloat(interestRateInput.value) || 0);
+      const termYears = currentTermYears;
+
+      // Toggle PMI display
+      const isPmiRequired = downPaymentPercent < 20;
+      pmiContainer.classList.toggle('hidden', !isPmiRequired);
+      breakdownPmiRow.classList.toggle('hidden', !isPmiRequired);
+
+      // Retrieve costs
+      const propertyTaxAnnual = Math.max(0, parseFloat(propertyTaxInput.value) || 0);
+      const homeInsuranceAnnual = Math.max(0, parseFloat(homeInsuranceInput.value) || 0);
+      const monthlyPmi = isPmiRequired ? Math.max(0, parseFloat(pmiInput.value) || 0) : 0;
+      const monthlyHoa = Math.max(0, parseFloat(hoaInput.value) || 0);
+      const monthlyExtra = Math.max(0, parseFloat(extraPaymentInput.value) || 0);
+
+      const totalMonths = termYears * 12;
+
+      // Call shared calculation utility
+      const result = calculateAmortization(loanPrincipal, annualRate, totalMonths, monthlyExtra);
+      const monthlyPI = result.monthlyPI;
+      activeBaselineSchedule = result.baseline.schedule;
+      activeAcceleratedSchedule = result.accelerated.schedule;
+
+      const monthlyTax = propertyTaxAnnual / 12;
+      const monthlyInsurance = homeInsuranceAnnual / 12;
+      const estimatedMonthlyTotal = monthlyPI + monthlyTax + monthlyInsurance + monthlyPmi + monthlyHoa;
+
+      // Update main dashboard values
+      monthlyPaymentTotal.textContent = formatCurrencyWithCents(estimatedMonthlyTotal);
+      donutCenterTotal.textContent = formatCurrency(estimatedMonthlyTotal);
+      breakdownPiVal.textContent = formatCurrencyWithCents(monthlyPI);
+      breakdownTaxVal.textContent = formatCurrencyWithCents(monthlyTax);
+      breakdownInsuranceVal.textContent = formatCurrencyWithCents(monthlyInsurance);
+      breakdownPmiVal.textContent = formatCurrencyWithCents(monthlyPmi);
+      breakdownHoaVal.textContent = formatCurrencyWithCents(monthlyHoa);
+
+      summaryPrincipal.textContent = formatCurrency(loanPrincipal);
+
+      // Update baseline stats
+      const totalInterestPaid = result.baseline.totalInterest;
+      summaryInterest.textContent = formatCurrency(totalInterestPaid);
+      const baselinePayoffMonths = result.baseline.payoffMonths;
+      summaryPayoff.textContent = getPayoffDate(baselinePayoffMonths);
+      timelineOrigTerm.textContent = `${(baselinePayoffMonths / 12).toFixed(1).replace('.0', '')} Years`;
+
+      // Show/Hide Accelerator Card & update stats
+      if (monthlyExtra > 0 && loanPrincipal > 0 && activeAcceleratedSchedule.length > 0) {
+        accelImpactCard.classList.remove('hidden');
+        chartLegendAccel.classList.remove('hidden');
+
+        const accelTotalInterest = result.accelerated.totalInterest;
+        const interestSavedVal = Math.max(0, totalInterestPaid - accelTotalInterest);
+        accelSavedInterest.textContent = formatCurrency(interestSavedVal);
+
+        const accelMonth = result.accelerated.payoffMonths;
+        const monthsSaved = baselinePayoffMonths - accelMonth;
+        const yearsSaved = Math.floor(monthsSaved / 12);
+        const remMonths = monthsSaved % 12;
+
+        let timeSavedStr = '';
+        if (yearsSaved > 0) timeSavedStr += `${yearsSaved} yr${yearsSaved > 1 ? 's' : ''}`;
+        if (remMonths > 0) timeSavedStr += ` ${remMonths} mo${remMonths > 1 ? 's' : ''}`;
+        if (monthsSaved <= 0) timeSavedStr = '0 months';
+        accelSavedTime.textContent = timeSavedStr;
+
+        accelNewDate.textContent = getPayoffDate(accelMonth);
+        timelineAccelTerm.textContent = `${(accelMonth / 12).toFixed(1).replace('.0', '')} Years`;
+
+        // Adjust visual timelines
+        const percentOfTerm = (accelMonth / totalMonths) * 100;
+        const percentSaved = (monthsSaved / totalMonths) * 100;
+        timelineAccelBar.style.width = `${percentOfTerm}%`;
+        timelineSavedBar.style.width = `${percentSaved}%`;
+      } else {
+        accelImpactCard.classList.add('hidden');
+        chartLegendAccel.classList.add('hidden');
+      }
+
+      // 6. Update Donut Chart Segment Stroke Attributes
+      const circumference = 2 * Math.PI * 38;
+      const donutBreakdowns = [
+        { el: donutPi, val: monthlyPI },
+        { el: donutTax, val: monthlyTax },
+        { el: donutInsurance, val: monthlyInsurance },
+        { el: donutPmi, val: monthlyPmi },
+        { el: donutHoa, val: monthlyHoa }
+      ];
+
+      let cumulativePct = 0;
+      donutBreakdowns.forEach(item => {
+        const percent = estimatedMonthlyTotal > 0 ? item.val / estimatedMonthlyTotal : 0;
+        const strokeLength = percent * circumference;
+        const strokeSpace = circumference - strokeLength;
+        item.el.setAttribute('stroke-dasharray', `${strokeLength} ${strokeSpace}`);
+        item.el.setAttribute('stroke-dashoffset', (-cumulativePct * circumference).toString());
+        cumulativePct += percent;
+      });
+
+      // 7. Render Amortization Chart & Table
+      updateAmortizationView();
+    };
+
+    // Helper: Render Area Chart and Schedule Table Based on Selected Granularity
+    const updateAmortizationView = () => {
+      const homePrice = Math.max(0, parseFloat(homePriceInput.value) || 0);
+      const downPaymentValue = parseFloat(dpValInput.value) || 0;
+      const principal = Math.max(0, homePrice - downPaymentValue);
+
+      if (principal <= 0 || activeBaselineSchedule.length === 0) {
+        chartBaselineLine.classList.add('hidden');
+        chartBaselineFill.classList.add('hidden');
+        chartAccelLine.classList.add('hidden');
+        chartAccelFill.classList.add('hidden');
+        scheduleTableBody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-mute font-mono">Enter a valid Home Price and Down Payment to calculate a schedule.</td></tr>';
+        return;
+      }
+
+      chartYMax.textContent = formatCurrency(principal);
+      chartYMid.textContent = formatCurrency(principal / 2);
+
+      const isYearly = chartGranularity === 'yearly';
+
+      // 1. Get SVG Paths from utility
+      const paths = getSvgChartPaths(activeBaselineSchedule, activeAcceleratedSchedule, principal, isYearly);
+      chartBaselineLine.setAttribute('d', paths.baseLineD);
+      chartBaselineFill.setAttribute('d', paths.baseFillD);
+      chartBaselineLine.classList.remove('hidden');
+      chartBaselineFill.classList.remove('hidden');
+
+      if (paths.hasAccel) {
+        chartAccelLine.setAttribute('d', paths.accelLineD);
+        chartAccelFill.setAttribute('d', paths.accelFillD);
+        chartAccelLine.classList.remove('hidden');
+        chartAccelFill.classList.remove('hidden');
+      } else {
+        chartAccelLine.classList.add('hidden');
+        chartAccelFill.classList.add('hidden');
+      }
+
+      // 2. Draw dynamic X-axis labels
+      const totalBaselinePeriods = activeBaselineSchedule.length;
+      const totalTermYears = currentTermYears;
+      let xLabelsHtml = '';
+
+      const paddingLeft = 50;
+      const paddingRight = 10;
+      const chartWidth = 600 - paddingLeft - paddingRight;
+
+      if (isYearly) {
+        const step = Math.ceil(totalTermYears / 3);
+        for (let i = 0; i <= 3; i++) {
+          const yearNum = Math.min(totalTermYears, i * step);
+          const xPos = paddingLeft + (yearNum / totalTermYears) * chartWidth;
+          xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr ${yearNum}</text>`;
+        }
+      } else {
+        const step = Math.ceil(totalBaselinePeriods / 3);
+        for (let i = 0; i <= 3; i++) {
+          const monthNum = Math.min(totalBaselinePeriods, i * step);
+          const xPos = paddingLeft + (monthNum / totalBaselinePeriods) * chartWidth;
+          xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo ${monthNum}</text>`;
+        }
+      }
+      chartXLabels.innerHTML = xLabelsHtml;
+
+      // 3. Render table rows
+      let tableRowsData: any[] = [];
+      if (isYearly) {
+        tableRowsData = getYearlySchedule(activeBaselineSchedule, principal);
+        tableHdrPeriod.textContent = 'Year';
+      } else {
+        activeBaselineSchedule.forEach(m => {
+          tableRowsData.push({
+            period: `Month ${m.period}`,
+            beginningBalance: m.beginningBalance,
+            principalPaid: m.principalPaid,
+            interestPaid: m.interestPaid,
+            endingBalance: m.endingBalance
+          });
+        });
+        tableHdrPeriod.textContent = 'Month';
+      }
+
+      let rowsHtml = '';
+      tableRowsData.forEach(row => {
+        rowsHtml += `
+          <tr class="hover:bg-canvas-soft-2 transition-colors border-b border-hairline">
+            <td class="py-2.5 px-4 font-mono font-medium text-ink">${row.period}</td>
+            <td class="py-2.5 px-4 text-right">${formatCurrency(row.beginningBalance)}</td>
+            <td class="py-2.5 px-4 text-right text-emerald-600 dark:text-emerald-400 font-semibold">${formatCurrency(row.principalPaid)}</td>
+            <td class="py-2.5 px-4 text-right text-red-500 dark:text-red-400">${formatCurrency(row.interestPaid)}</td>
+            <td class="py-2.5 px-4 text-right font-medium">${formatCurrency(row.endingBalance)}</td>
+          </tr>
+        `;
+      });
+      scheduleTableBody.innerHTML = rowsHtml;
+
+      // 4. Generate CSV
+      csvContent = generateCsv(tableRowsData, isYearly ? 'Year' : 'Month');
+    };
+
+    // 8. Event Listeners & Setup
+    // Down payment toggle
+    dpTogglePct.addEventListener('click', () => {
+      if (downPaymentMode === 'pct') return;
+      downPaymentMode = 'pct';
+      dpTogglePct.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+      dpTogglePct.classList.remove('text-mute');
+      dpToggleVal.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+      dpToggleVal.classList.add('text-mute');
+
+      dpPctContainer.classList.remove('hidden');
+      dpValContainer.classList.add('hidden');
+      runCalculations();
+    });
+
+    dpToggleVal.addEventListener('click', () => {
+      if (downPaymentMode === 'val') return;
+      downPaymentMode = 'val';
+      dpToggleVal.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+      dpToggleVal.classList.remove('text-mute');
+      dpTogglePct.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+      dpTogglePct.classList.add('text-mute');
+
+      dpValContainer.classList.remove('hidden');
+      dpPctContainer.classList.add('hidden');
+      runCalculations();
+    });
+
+    // Term select buttons helper
+    const updateTermState = (selectedYears: number) => {
+      currentTermYears = selectedYears;
+      termInput.value = selectedYears.toString();
+
+      const termBtns = [
+        { btn: term15Btn, yr: 15 },
+        { btn: term20Btn, yr: 20 },
+        { btn: term30Btn, yr: 30 }
+      ];
+
+      termBtns.forEach(item => {
+        if (item.yr === selectedYears) {
+          item.btn.classList.add('bg-primary', 'text-on-primary', 'border-hairline-strong', 'shadow-lvl2');
+          item.btn.classList.remove('bg-canvas', 'text-body', 'border-hairline', 'hover:bg-canvas-soft-2');
+        } else {
+          item.btn.classList.remove('bg-primary', 'text-on-primary', 'border-hairline-strong', 'shadow-lvl2');
+          item.btn.classList.add('bg-canvas', 'text-body', 'border-hairline', 'hover:bg-canvas-soft-2');
+        }
+      });
+
+      runCalculations();
+    };
+
+    term15Btn.addEventListener('click', () => updateTermState(15));
+    term20Btn.addEventListener('click', () => updateTermState(20));
+    term30Btn.addEventListener('click', () => updateTermState(30));
+
+    // Optional expenses disclosure toggler
+    optionalCostsToggle.addEventListener('click', () => {
+      const isExpanded = optionalCostsToggle.getAttribute('aria-expanded') === 'true';
+      optionalCostsToggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      costsChevron.classList.toggle('rotate-180', !isExpanded);
+      optionalCostsContainer.classList.toggle('hidden', isExpanded);
+    });
+
+    // Full table toggle drawer
+    toggleScheduleTable.addEventListener('click', () => {
+      const isExpanded = toggleScheduleTable.getAttribute('aria-expanded') === 'true';
+      toggleScheduleTable.setAttribute('aria-expanded', (!isExpanded).toString());
+      tableChevron.classList.toggle('rotate-180', !isExpanded);
+      scheduleTableContainer.classList.toggle('hidden', isExpanded);
+    });
+
+    // Granularity switches
+    chartToggleYearly.addEventListener('click', () => {
+      if (chartGranularity === 'yearly') return;
+      chartGranularity = 'yearly';
+      chartToggleYearly.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleYearly.classList.remove('text-mute');
+      chartToggleMonthly.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleMonthly.classList.add('text-mute');
+      updateAmortizationView();
+    });
+
+    chartToggleMonthly.addEventListener('click', () => {
+      if (chartGranularity === 'monthly') return;
+      chartGranularity = 'monthly';
+      chartToggleMonthly.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleMonthly.classList.remove('text-mute');
+      chartToggleYearly.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleYearly.classList.add('text-mute');
+      updateAmortizationView();
+    });
+
+    // Dynamic recalculation on form inputs
+    const formInputs = [
+      homePriceInput, dpPctInput, dpValInput, interestRateInput,
+      propertyTaxInput, homeInsuranceInput, pmiInput, hoaInput, extraPaymentInput
+    ];
+
+    formInputs.forEach(input => {
+      input.addEventListener('input', runCalculations);
+    });
+
+    // Download schedule table trigger
+    downloadCsvBtn.addEventListener('click', () => {
+      if (!csvContent) return;
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `mortgage_amortization_schedule_${chartGranularity}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // FAQs Accordion bindings
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling as HTMLDivElement;
+        const chevron = button.querySelector('svg') as unknown as SVGElement;
+        const isHidden = content.classList.toggle('hidden');
+        chevron.classList.toggle('rotate-180', !isHidden);
+        button.setAttribute('aria-expanded', (!isHidden).toString());
+      });
+    });
+
+    // 9. Initial Load Trigger
+    runCalculations();
+  </script>
+</Layout>

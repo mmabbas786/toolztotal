@@ -1,0 +1,984 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I test a regular expression online?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Type or paste your regular expression pattern in the Pattern input box at the top, select your flags (g for global, i for case-insensitive, etc.), then type your test string in the large text area below. Matches are highlighted in real time with a yellow background. The Results panel shows each match's index, the matched text, and any capture groups extracted from the pattern."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What regex engine does this tester use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This regex tester uses JavaScript's built-in RegExp engine, which runs entirely in your browser. No data is sent to a server. The tool supports all standard JavaScript regex features including capture groups, non-capturing groups, lookaheads, lookbehinds, named groups, and Unicode property escapes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I extract capture groups from a regex match?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add parentheses around the parts of your pattern you want to capture — for example, (\\d{3}) captures a three-digit number. When the pattern matches, the Results panel displays each capture group's value for every match. Named capture groups like (?<name>pattern) are also supported and shown with their group name."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do regex flags g, i, m, s, and u do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "g (global) — find all matches rather than stopping after the first match. i (case-insensitive) — ignore letter casing. m (multiline) — ^ and $ match the start and end of each line instead of the whole string. s (dotAll) — the dot matches newline characters as well. u (unicode) — enable Unicode features and proper handling of characters outside the basic multilingual plane."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are some common regex patterns for everyday use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common patterns include: Email validation — /^[\\w.-]+@[\\w.-]+\\.\\\w{2,}$/; URL matching — /https?:\\/\\/[\\w./?-]+/; US Phone — /^\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$/; Date (YYYY-MM-DD) — /^\\d{4}-\\d{2}-\\d{2}$/; IPv4 Address — /^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$/; Password strength — /^(?=.*[a-zA-Z])(?=.*\\d).{8,}$/. Click any example in the cheat sheet panel to load it instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between greedy and lazy quantifiers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Greedy quantifiers (like * or +) match as much text as possible. Adding a question mark makes them lazy (like *? or +?), instructing the engine to match the smallest amount of text needed to satisfy the pattern. For example, matching against '<a>foo</a>' with <.*> (greedy) yields the entire string, while <.*?> (lazy) matches just '<a>'."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are lookahead and lookbehind assertions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lookarounds are zero-width assertions that check if a pattern is followed or preceded by another pattern without including it in the match. Positive lookahead (?=pattern) and negative lookahead (?!pattern) look ahead, while positive lookbehind (?<=pattern) and negative lookbehind (?<!pattern) check behind."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did my regular expression cause a freeze (ReDoS)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Regular Expression Denial of Service (ReDoS) occurs when a pattern with nested quantifiers (like (a+)+) experiences 'catastrophic backtracking' on strings that almost match but fail at the end. This forces the regex engine to calculate an exponential number of permutations, hanging the thread. Ensure your patterns avoid overlapping quantifiers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I escape special characters in a regular expression?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Characters with special syntactic meaning in regex (like ., *, +, ?, ^, $, (, ), [, ], {, }, |, and \\) must be escaped with a preceding backslash (\\) if you want to match their literal characters. For example, to match a literal period, use \\. rather than ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my test data safe when checking patterns with this tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, completely safe. The regular expression execution is conducted purely within your web browser's local sandbox using JavaScript's RegExp class. None of your test text or regex patterns are ever sent over the network, ensuring complete privacy."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+
+const ogMeta = {
+  title: "Regex Tester - Test & Debug Regular Expressions Online | ToolzTotal",
+  description: "Free online regex tester with live match highlighting, capture group extraction, and plain-English pattern explanation. No signup, no server uploads — everything runs client-side.",
+  url: "https://toolztotal.com/dev/regex-tester",
+  image: "https://toolztotal.com/og-default.png",
+};
+---
+
+<Layout
+  title="Regex Tester - Test & Debug Regular Expressions Online | ToolzTotal"
+  description="Free online regex tester with live match highlighting, capture group extraction, and plain-English pattern explanation. No signup, no server uploads — everything runs client-side."
+  faqJsonLd={faqJsonLd}
+>
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+  <meta slot="head" name="twitter:title" content={ogMeta.title} />
+  <meta slot="head" name="twitter:description" content={ogMeta.description} />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
+      <span>/</span>
+      <span class="text-ink">Regex Tester</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Regex Tester
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Test and debug regular expressions with live match highlighting, capture group extraction, and a plain-English breakdown of your pattern.
+      </p>
+    </div>
+
+    <!-- Main workspace -->
+    <div class="max-w-6xl space-y-8">
+
+      <!-- Pattern Input Row -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-5">
+        <div class="flex flex-col md:flex-row md:items-end gap-4">
+          <div class="flex-1 min-w-0">
+            <label for="regex-pattern" class="block text-xs font-mono uppercase text-mute mb-2">Pattern</label>
+            <input
+              type="text"
+              id="regex-pattern"
+              value="\d{3}-\d{2}-\d{4}"
+              placeholder="Enter your pattern here..."
+              class="w-full h-11 px-4 bg-canvas border border-hairline rounded-lg text-sm font-mono focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="shrink-0">
+            <p class="text-xs font-mono uppercase text-mute mb-2">Flags</p>
+            <div class="flex gap-1.5" id="flag-toggles">
+              <button type="button" data-flag="g" class="flag-btn h-9 w-9 rounded-lg border border-hairline bg-canvas text-body font-mono text-xs font-semibold transition-all cursor-pointer hover:border-hairline-strong active" aria-pressed="true">g</button>
+              <button type="button" data-flag="i" class="flag-btn h-9 w-9 rounded-lg border border-hairline bg-canvas text-body font-mono text-xs font-semibold transition-all cursor-pointer hover:border-hairline-strong" aria-pressed="false">i</button>
+              <button type="button" data-flag="m" class="flag-btn h-9 w-9 rounded-lg border border-hairline bg-canvas text-body font-mono text-xs font-semibold transition-all cursor-pointer hover:border-hairline-strong" aria-pressed="false">m</button>
+              <button type="button" data-flag="s" class="flag-btn h-9 w-9 rounded-lg border border-hairline bg-canvas text-body font-mono text-xs font-semibold transition-all cursor-pointer hover:border-hairline-strong" aria-pressed="false">s</button>
+              <button type="button" data-flag="u" class="flag-btn h-9 w-9 rounded-lg border border-hairline bg-canvas text-body font-mono text-xs font-semibold transition-all cursor-pointer hover:border-hairline-strong" aria-pressed="false">u</button>
+            </div>
+          </div>
+        </div>
+        <!-- Error display -->
+        <div id="regex-error" class="text-xs font-mono text-error bg-error-soft/50 border border-error/20 rounded-lg px-5 py-3 hidden" role="alert"></div>
+      </div>
+
+      <!-- Test String with Highlight Overlay -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-3">
+        <div class="flex items-center justify-between">
+          <label for="test-string" class="text-xs font-mono uppercase text-mute">Test String</label>
+          <span id="match-count-badge" class="text-[10px] font-mono text-mute border border-hairline rounded-full px-2.5 py-0.5">0 matches</span>
+        </div>
+        <div class="relative" id="highlighter-container">
+          <textarea
+            id="test-string"
+            class="relative z-10 w-full min-h-[200px] md:min-h-[280px] p-4 bg-transparent text-sm font-mono leading-relaxed text-transparent caret-ink resize-y border border-hairline rounded-lg focus:outline-none focus:border-hairline-strong transition-colors shadow-lvl1"
+            placeholder="Type or paste your test string here..."
+            autocomplete="off"
+            spellcheck="false"
+            rows="10"
+          >The quick brown fox jumps over the lazy dog.
+Contact: john.doe@example.com or call 123-45-6789.
+Visit https://toolztotal.com for more tools.
+My IP is 192.168.1.1 and my zip is 90210.</textarea>
+          <div
+            id="highlight-overlay"
+            class="absolute inset-0 z-0 w-full min-h-[200px] md:min-h-[280px] p-4 text-sm font-mono leading-relaxed whitespace-pre-wrap break-all pointer-events-none border border-transparent rounded-lg"
+            aria-hidden="true"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Results & Explanation row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Results Panel -->
+        <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-5">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-sm font-bold text-ink font-sans">Matches</h2>
+            <span id="match-count" class="text-xs font-mono text-mute">0 found</span>
+          </div>
+          <div id="match-list" class="space-y-3 max-h-[500px] overflow-y-auto">
+            <div class="text-sm text-mute font-sans italic">Enter a pattern and test string to see matches.</div>
+          </div>
+          <template id="match-item-template">
+            <div class="match-item bg-canvas-soft ring-1 ring-inset ring-hairline rounded-xl p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="match-index text-[10px] font-mono text-mute uppercase"></span>
+                <span class="match-position text-[10px] font-mono text-mute"></span>
+              </div>
+              <div class="match-value text-sm font-mono text-ink bg-canvas-soft-2 border border-hairline rounded px-2.5 py-1.5 break-all"></div>
+              <div class="match-groups space-y-1 hidden"></div>
+            </div>
+          </template>
+          <template id="match-group-template">
+            <div class="group-row text-xs font-mono flex items-start gap-2">
+              <span class="group-name text-mute shrink-0"></span>
+              <span class="group-value text-body break-all"></span>
+            </div>
+          </template>
+        </div>
+
+        <!-- Explanation Panel -->
+        <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-5">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-sm font-bold text-ink font-sans">Pattern Explanation</h2>
+          </div>
+          <div id="explanation-list" class="space-y-1.5 max-h-[500px] overflow-y-auto">
+            <div class="text-sm text-mute font-sans italic">Enter a pattern to see its token-by-token breakdown.</div>
+          </div>
+          <template id="explanation-token-template">
+            <div class="flex items-start gap-3 py-1.5 border-b border-hairline/50">
+              <code class="token-symbol text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1.5 py-0.5 text-ink shrink-0"></code>
+              <span class="token-desc text-xs font-sans text-body"></span>
+            </div>
+          </template>
+        </div>
+
+      </div>
+
+      <!-- Collapsible Cheat Sheet -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <details class="group">
+          <summary class="px-6 md:px-8 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Common Regex Patterns
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 md:px-8 pb-6 border-t border-hairline pt-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="common-patterns"></div>
+          </div>
+        </details>
+      </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Mastering Regular Expressions: Testing, Debugging, and Structure</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>regex tester</strong> is a critical sandbox tool for developers writing regular expressions. Writing a pattern to validate email formats, extract values from strings, or parse web pages is notorious for subtle bugs. This <strong>online regex tool</strong> lets you write regular expressions and test them against sample strings in real time, featuring interactive token-by-token pattern explanation and syntax-highlighted capture groups.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Structure of Regular Expressions</h3>
+        <p>
+          Regular expressions (often shortened to regex or regexp) are sequences of characters that define a search pattern. While they can look like random letters and symbols at first glance, they follow a logical syntax. A regex pattern consists of literal characters and metacharacters (special operators like <code>*</code>, <code>+</code>, <code>?</code>, <code>^</code>, and <code>$</code>).
+        </p>
+        <p>
+          When you write a pattern, the browser's regex engine steps through your test text character by character. For complex patterns, we have built a **Pattern Explanation** panel that breaks down your pattern into human-readable steps. For instance, it explains that <code>\d{3}</code> matches exactly 3 digits, while <code>(?&lt;name&gt;...)</code> defines a named capture group. This is extremely helpful for understanding, learning, and debugging complicated patterns.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Regular Expression Flags and Global Processing</h3>
+        <p>
+          Flags alter how a regular expression matches against a target text string:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>g (Global):</strong> Instructs the regex engine to search for all matches in the text rather than stopping after finding the first one.</li>
+          <li><strong>i (Case-Insensitive):</strong> Disables case matching, so <code>[A-Z]</code> also matches lowercase letters.</li>
+          <li><strong>m (Multiline):</strong> Changes anchors <code>^</code> and <code>$</code> to match the beginning and end of lines, rather than the entire input string.</li>
+          <li><strong>s (dotAll):</strong> Modifies the wildcard period (<code>.</code>) to match newline characters as well.</li>
+          <li><strong>u (Unicode):</strong> Handles characters outside the basic multilingual plane correctly.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do I test a regular expression online?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Type or paste your regular expression pattern in the Pattern input box at the top, select your flags (g for global, i for case-insensitive, etc.), then type your test string in the large text area below. Matches are highlighted in real time with a yellow background. The Results panel shows each match's index, the matched text, and any capture groups extracted from the pattern.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What regex engine does this tester use?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            This regex tester uses JavaScript's built-in RegExp engine, which runs entirely in your browser. No data is sent to a server. The tool supports all standard JavaScript regex features including capture groups, non-capturing groups, lookaheads, lookbehinds, named groups, and Unicode property escapes.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do I extract capture groups from a regex match?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Add parentheses around the parts of your pattern you want to capture — for example, <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">(\d{3})</code> captures a three-digit number. When the pattern matches, the Results panel displays each capture group's value for every match. Named capture groups like <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">(?&lt;name&gt;pattern)</code> are also supported and shown with their group name.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What do regex flags g, i, m, s, and u do?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">g</code> (global) — find all matches rather than stopping after the first match. <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">i</code> (case-insensitive) — ignore letter casing. <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">m</code> (multiline) — <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">^</code> and <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">$</code> match start/end of each line. <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">s</code> (dotAll) — dot matches newlines. <code class="text-xs font-mono bg-canvas-soft-2 border border-hairline rounded px-1">u</code> (unicode) — enable Unicode features and proper handling of characters outside the basic multilingual plane.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are some common regex patterns for everyday use?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Common patterns include: <strong>Email</strong>, <strong>URL</strong>, <strong>US Phone</strong>, <strong>Date</strong>, <strong>IPv4</strong>, and <strong>Password</strong> patterns. Click any example in the cheat sheet panel above to load it instantly.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between greedy and lazy quantifiers?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Greedy quantifiers (like * or +) match as much text as possible. Adding a question mark makes them lazy (like *? or +?), instructing the engine to match the smallest amount of text needed to satisfy the pattern. For example, matching against '&lt;a&gt;foo&lt;/a&gt;' with &lt;.*&gt; (greedy) yields the entire string, while &lt;.*?&gt; (lazy) matches just '&lt;a&gt;'.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What are lookahead and lookbehind assertions?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Lookarounds are zero-width assertions that check if a pattern is followed or preceded by another pattern without including it in the match. Positive lookahead (?=pattern) and negative lookahead (?!pattern) look ahead, while positive lookbehind (?&lt;=pattern) and negative lookbehind (?&lt;!pattern) check behind.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Why did my regular expression cause a freeze (ReDoS)?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Regular Expression Denial of Service (ReDoS) occurs when a pattern with nested quantifiers (like (a+)+) experiences 'catastrophic backtracking' on strings that almost match but fail at the end. This forces the regex engine to calculate an exponential number of permutations, hanging the thread. Ensure your patterns avoid overlapping quantifiers.</p>
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do I escape special characters in a regular expression?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Characters with special syntactic meaning in regex (like ., *, +, ?, ^, $, (, ), [, ], &#123;, &#125;, |, and \) must be escaped with a preceding backslash (\) if you want to match their literal characters. For example, to match a literal period, use \. rather than .</p>
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my test data safe when checking patterns with this tool?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, completely safe. The regular expression execution is conducted purely within your web browser's local sandbox using JavaScript's RegExp class. None of your test text or regex patterns are ever sent over the network, ensuring complete privacy.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+      <!-- Related Tools -->
+      <section class="pt-8 border-t border-hairline">
+        <h2 class="text-sm font-mono uppercase text-mute tracking-wider mb-6">Related Tools</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          <a href="/dev/json-formatter" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+            <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+              JSON Formatter
+              <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </h4>
+            <p class="text-mute text-xs font-sans mt-1.5">Format, validate, and minify JSON data.</p>
+          </a>
+          <a href="/dev/uuid-generator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+            <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+              UUID Generator
+              <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </h4>
+            <p class="text-mute text-xs font-sans mt-1.5">Generate UUID v4 and v7 identifiers instantly.</p>
+          </a>
+          <a href="/dev/diff-checker" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+            <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+              Diff Checker
+              <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </h4>
+            <p class="text-mute text-xs font-sans mt-1.5">Compare text differences side by side.</p>
+          </a>
+          <a href="/dev/base64-encoder-decoder" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+            <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+              Base64 Encode/Decode
+              <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </h4>
+            <p class="text-mute text-xs font-sans mt-1.5">Encode and decode Base64 data strings.</p>
+          </a>
+          <a href="/dev/color-picker" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+            <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+              Color Picker
+              <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </h4>
+            <p class="text-mute text-xs font-sans mt-1.5">Pick, convert, and save hex, RGB, and HSL.</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  mark.regex-highlight {
+    background: color-mix(in srgb, var(--color-highlight-pink) 30%, transparent);
+    color: var(--color-ink);
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+  .dark mark.regex-highlight {
+    background: color-mix(in srgb, var(--color-highlight-magenta) 30%, transparent);
+  }
+</style>
+
+<script>
+  // ============================================================
+  // DOM References
+  // ============================================================
+  const patternInput = document.getElementById('regex-pattern') as HTMLInputElement;
+  const flagBtns = document.querySelectorAll('.flag-btn') as NodeListOf<HTMLButtonElement>;
+  const testString = document.getElementById('test-string') as HTMLTextAreaElement;
+  const highlightOverlay = document.getElementById('highlight-overlay') as HTMLDivElement;
+  const matchList = document.getElementById('match-list') as HTMLDivElement;
+  const matchCount = document.getElementById('match-count') as HTMLSpanElement;
+  const matchCountBadge = document.getElementById('match-count-badge') as HTMLSpanElement;
+  const regexError = document.getElementById('regex-error') as HTMLDivElement;
+  const explanationList = document.getElementById('explanation-list') as HTMLDivElement;
+  const commonPatternsContainer = document.getElementById('common-patterns') as HTMLDivElement;
+
+  const matchItemTemplate = document.getElementById('match-item-template') as HTMLTemplateElement;
+  const matchGroupTemplate = document.getElementById('match-group-template') as HTMLTemplateElement;
+  const explanationTokenTemplate = document.getElementById('explanation-token-template') as HTMLTemplateElement;
+  const highlighterContainer = document.getElementById('highlighter-container') as HTMLDivElement;
+
+  // ============================================================
+  // State
+  // ============================================================
+  let debounceTimer: number | null = null;
+
+  const getFlags = (): string => {
+    let flags = '';
+    flagBtns.forEach(btn => {
+      if (btn.getAttribute('aria-pressed') === 'true') {
+        flags += btn.getAttribute('data-flag');
+      }
+    });
+    return flags;
+  };
+
+  // ============================================================
+  // Highlight Overlay Sync
+  // ============================================================
+  const syncOverlay = () => {
+    const taStyle = window.getComputedStyle(testString);
+    highlightOverlay.style.fontSize = taStyle.fontSize;
+    highlightOverlay.style.fontFamily = taStyle.fontFamily;
+    highlightOverlay.style.lineHeight = taStyle.lineHeight;
+    highlightOverlay.style.letterSpacing = taStyle.letterSpacing;
+    highlightOverlay.style.paddingTop = taStyle.paddingTop;
+    highlightOverlay.style.paddingRight = taStyle.paddingRight;
+    highlightOverlay.style.paddingBottom = taStyle.paddingBottom;
+    highlightOverlay.style.paddingLeft = taStyle.paddingLeft;
+    highlightOverlay.style.borderTopWidth = taStyle.borderTopWidth;
+    highlightOverlay.style.borderRightWidth = taStyle.borderRightWidth;
+    highlightOverlay.style.borderBottomWidth = taStyle.borderBottomWidth;
+    highlightOverlay.style.borderLeftWidth = taStyle.borderLeftWidth;
+  };
+
+  const syncScroll = () => {
+    highlightOverlay.scrollTop = testString.scrollTop;
+    highlightOverlay.scrollLeft = testString.scrollLeft;
+  };
+
+  testString.addEventListener('scroll', syncScroll);
+
+  // ============================================================
+  // Escape HTML
+  // ============================================================
+  const escHtml = (s: string): string => {
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  };
+
+  // ============================================================
+  // Tokenizer & Explanation Builder
+  // ============================================================
+  interface Token {
+    symbol: string;
+    desc: string;
+  }
+
+  const tokenDescriptions: Record<string, string> = {
+    '\\d': 'digit (0-9)',
+    '\\w': 'word character (a-z, A-Z, 0-9, _)',
+    '\\s': 'whitespace (space, tab, newline)',
+    '\\D': 'non-digit',
+    '\\W': 'non-word character',
+    '\\S': 'non-whitespace',
+    '\\b': 'word boundary',
+    '\\B': 'non-word boundary',
+    '\\t': 'tab character',
+    '\\n': 'newline character',
+    '\\r': 'carriage return',
+    '\\0': 'null character',
+    '\\f': 'form feed',
+    '\\v': 'vertical tab',
+  };
+
+  const tokenizePattern = (pattern: string): Token[] => {
+    const tokens: Token[] = [];
+    let i = 0;
+
+    while (i < pattern.length) {
+      const ch = pattern[i];
+      let matched = false;
+
+      // Check multi-char escape sequences first
+      if (ch === '\\' && i + 1 < pattern.length) {
+        const esc = pattern.slice(i, i + 2);
+        if (tokenDescriptions[esc]) {
+          tokens.push({ symbol: esc, desc: tokenDescriptions[esc] });
+          i += 2;
+          continue;
+        }
+        // Check for \u, \x, \c, \p, \k etc.
+        if (pattern[i + 1] === 'u' && pattern[i + 2] === '{') {
+          const end = pattern.indexOf('}', i + 3);
+          if (end > i) {
+            tokens.push({ symbol: pattern.slice(i, end + 1), desc: `Unicode character` });
+            i = end + 1;
+            continue;
+          }
+        }
+        if (/[a-zA-Z]/.test(pattern[i + 1])) {
+          tokens.push({ symbol: esc, desc: `escaped character '${pattern[i + 1]}'` });
+          i += 2;
+          continue;
+        }
+        tokens.push({ symbol: esc, desc: `escaped '${pattern[i + 1]}'` });
+        i += 2;
+        continue;
+      }
+
+      // Character classes [...]
+      if (ch === '[') {
+        const end = pattern.indexOf(']', i);
+        if (end > i) {
+          const cls = pattern.slice(i, end + 1);
+          const negated = cls.startsWith('[^');
+          const content = cls.slice(negated ? 2 : 1, -1);
+          tokens.push({
+            symbol: cls,
+            desc: negated
+              ? `negated character class: any character except [${content}]`
+              : `character class: matches one of [${content}]`,
+          });
+          i = end + 1;
+          continue;
+        }
+      }
+
+      // Groups (...), (?:...), (?=...), (?!...), (?<=...), (?<!...), (?<name>...)
+      if (ch === '(') {
+        const end = findGroupEnd(pattern, i);
+        if (end > i) {
+          const group = pattern.slice(i, end + 1);
+          if (group.startsWith('(?:')) {
+            tokens.push({ symbol: group, desc: 'non-capturing group' });
+          } else if (group.startsWith('(?=')) {
+            tokens.push({ symbol: group, desc: 'lookahead (positive)' });
+          } else if (group.startsWith('(?!')) {
+            tokens.push({ symbol: group, desc: 'lookahead (negative)' });
+          } else if (group.startsWith('(?<=')) {
+            tokens.push({ symbol: group, desc: 'lookbehind (positive)' });
+          } else if (group.startsWith('(?<!')) {
+            tokens.push({ symbol: group, desc: 'lookbehind (negative)' });
+          } else if (/^\(\?<\w+>/.test(group)) {
+            tokens.push({ symbol: group, desc: 'named capture group' });
+          } else if (group.startsWith('(?')) {
+            tokens.push({ symbol: group, desc: 'special group construct' });
+          } else {
+            tokens.push({ symbol: group, desc: 'capture group' });
+          }
+          i = end + 1;
+          continue;
+        }
+      }
+
+      // Alternation
+      if (ch === '|') {
+        tokens.push({ symbol: '|', desc: 'alternation (OR)' });
+        i++;
+        continue;
+      }
+
+      // Quantifiers
+      if (ch === '+') {
+        const next = pattern[i + 1];
+        tokens.push({ symbol: next === '?' ? '+?' : '+', desc: next === '?' ? 'one or more (lazy)' : 'one or more of the preceding token' });
+        i += next === '?' ? 2 : 1;
+        continue;
+      }
+      if (ch === '*') {
+        const next = pattern[i + 1];
+        tokens.push({ symbol: next === '?' ? '*?' : '*', desc: next === '?' ? 'zero or more (lazy)' : 'zero or more of the preceding token' });
+        i += next === '?' ? 2 : 1;
+        continue;
+      }
+      if (ch === '?') {
+        const next = pattern[i + 1];
+        if (next === '?') {
+          tokens.push({ symbol: '??', desc: 'optional (lazy)' });
+          i += 2;
+        } else if (next === '=') {
+          // Already handled above, but just in case
+          i++;
+        } else {
+          tokens.push({ symbol: '?', desc: 'optional (zero or one of the preceding token)' });
+          i++;
+        }
+        continue;
+      }
+
+      // Quantifiers {n,m}
+      if (ch === '{') {
+        const end = pattern.indexOf('}', i);
+        if (end > i) {
+          const q = pattern.slice(i, end + 1);
+          tokens.push({ symbol: q, desc: describeQuantifier(q) });
+          i = end + 1;
+          continue;
+        }
+      }
+
+      // Anchors
+      if (ch === '^') {
+        tokens.push({ symbol: '^', desc: 'start of string (or line with /m flag)' });
+        i++;
+        continue;
+      }
+      if (ch === '$') {
+        tokens.push({ symbol: '$', desc: 'end of string (or line with /m flag)' });
+        i++;
+        continue;
+      }
+
+      // Dot
+      if (ch === '.') {
+        tokens.push({ symbol: '.', desc: 'any character (except newline; including newline with /s flag)' });
+        i++;
+        continue;
+      }
+
+      // Regular character
+      tokens.push({ symbol: ch, desc: `matches literal '${ch}'` });
+      i++;
+    }
+
+    return tokens;
+  };
+
+  const findGroupEnd = (str: string, start: number): number => {
+    let depth = 1;
+    let i = start + 1;
+    let inClass = false;
+    while (i < str.length) {
+      if (str[i] === '\\') { i += 2; continue; }
+      if (str[i] === '[') inClass = true;
+      if (str[i] === ']') inClass = false;
+      if (!inClass) {
+        if (str[i] === '(') depth++;
+        if (str[i] === ')') {
+          depth--;
+          if (depth === 0) return i;
+        }
+      }
+      i++;
+    }
+    return -1;
+  };
+
+  const describeQuantifier = (q: string): string => {
+    const inner = q.slice(1, -1);
+    if (inner === ',') return 'zero or more';
+    if (inner.startsWith(',')) return `up to ${inner.slice(1)} times`;
+    if (inner.endsWith(',')) return `${inner.slice(0, -1)} or more times`;
+    if (inner.includes(',')) {
+      const [min, max] = inner.split(',');
+      return `between ${min} and ${max} times`;
+    }
+    return `exactly ${inner} times`;
+  };
+
+  // ============================================================
+  // Explanation Renderer
+  // ============================================================
+  const renderExplanation = (pattern: string) => {
+    explanationList.innerHTML = '';
+    if (!pattern) {
+      explanationList.innerHTML = '<div class="text-sm text-mute font-sans italic">Enter a pattern to see its token-by-token breakdown.</div>';
+      return;
+    }
+    const tokens = tokenizePattern(pattern);
+    if (tokens.length === 0) {
+      explanationList.innerHTML = '<div class="text-sm text-mute font-sans italic">Enter a pattern to see its token-by-token breakdown.</div>';
+      return;
+    }
+    tokens.forEach(t => {
+      const clone = explanationTokenTemplate.content.cloneNode(true) as DocumentFragment;
+      (clone.querySelector('.token-symbol') as HTMLElement).textContent = t.symbol;
+      (clone.querySelector('.token-desc') as HTMLElement).textContent = t.desc;
+      explanationList.appendChild(clone);
+    });
+  };
+
+  // ============================================================
+  // Core Match Engine
+  // ============================================================
+  const updateMatches = () => {
+    const pattern = patternInput.value;
+    const text = testString.value;
+    const flags = getFlags();
+
+    regexError.classList.add('hidden');
+
+    if (!pattern) {
+      matchList.innerHTML = '<div class="text-sm text-mute font-sans italic">Enter a pattern and test string to see matches.</div>';
+      matchCount.textContent = '0 found';
+      matchCountBadge.textContent = '0 matches';
+      highlightOverlay.innerHTML = escHtml(text);
+      renderExplanation(pattern);
+      return;
+    }
+
+    let regex: RegExp;
+    try {
+      regex = new RegExp(pattern, flags);
+    } catch (e: any) {
+      regexError.textContent = e.message || 'Invalid regular expression';
+      regexError.classList.remove('hidden');
+      matchList.innerHTML = '<div class="text-sm text-mute font-sans italic">Fix the pattern error above.</div>';
+      matchCount.textContent = '0 found';
+      matchCountBadge.textContent = '0 matches';
+      highlightOverlay.innerHTML = escHtml(text);
+      renderExplanation(pattern);
+      return;
+    }
+
+    // Find matches
+    const matches: RegExpExecArray[] = [];
+    // Use global flag to get all matches if possible; if no g flag, just exec once
+    if (regex.global || regex.sticky) {
+      let m: RegExpExecArray | null;
+      while ((m = regex.exec(text)) !== null) {
+        matches.push(m);
+        if (!regex.global && !regex.sticky) break;
+        if (m.index === regex.lastIndex) regex.lastIndex++;
+      }
+    } else {
+      const m = regex.exec(text);
+      if (m) matches.push(m);
+    }
+
+    // Update match count
+    const count = matches.length;
+    matchCount.textContent = count === 0 ? 'No matches found' : `${count} match${count === 1 ? '' : 'es'} found`;
+    matchCountBadge.textContent = count === 0 ? '0 matches' : `${count} match${count === 1 ? '' : 'es'}`;
+
+    // Build highlight overlay
+    const hasMatches = count > 0;
+    if (!hasMatches) {
+      highlightOverlay.innerHTML = escHtml(text);
+    } else {
+      let lastIdx = 0;
+      let html = '';
+      matches.forEach(m => {
+        // Text before match
+        if (m.index > lastIdx) {
+          html += escHtml(text.slice(lastIdx, m.index));
+        }
+        // Match text
+        html += `<mark class="regex-highlight">${escHtml(m[0])}</mark>`;
+        lastIdx = m.index + m[0].length;
+      });
+      // Remaining text
+      if (lastIdx < text.length) {
+        html += escHtml(text.slice(lastIdx));
+      }
+      highlightOverlay.innerHTML = html || escHtml(text);
+    }
+
+    // Render match list
+    if (!hasMatches) {
+      matchList.innerHTML = '<div class="text-sm text-mute font-sans italic">No matches found.</div>';
+      renderExplanation(pattern);
+      return;
+    }
+
+    matchList.innerHTML = '';
+    matches.forEach((m, idx) => {
+      const clone = matchItemTemplate.content.cloneNode(true) as DocumentFragment;
+      const item = clone.querySelector('.match-item') as HTMLElement;
+      (item.querySelector('.match-index') as HTMLElement).textContent = `#${idx}`;
+      (item.querySelector('.match-position') as HTMLElement).textContent = `pos ${m.index}`;
+      (item.querySelector('.match-value') as HTMLElement).textContent = m[0];
+
+      // Groups
+      const groupsContainer = item.querySelector('.match-groups') as HTMLDivElement;
+      const hasGroups = m.length > 1 || (m.groups && Object.keys(m.groups).length > 0);
+
+      if (hasGroups) {
+        groupsContainer.classList.remove('hidden');
+        // Named groups first
+        if (m.groups) {
+          Object.entries(m.groups).forEach(([name, val]) => {
+            const gClone = matchGroupTemplate.content.cloneNode(true) as DocumentFragment;
+            (gClone.querySelector('.group-name') as HTMLElement).textContent = name + ':';
+            (gClone.querySelector('.group-value') as HTMLElement).textContent = val ?? '(undefined)';
+            groupsContainer.appendChild(gClone);
+          });
+        }
+        // Numbered groups (skip index 0 = full match)
+        for (let gi = 1; gi < m.length; gi++) {
+          const gClone = matchGroupTemplate.content.cloneNode(true) as DocumentFragment;
+          (gClone.querySelector('.group-name') as HTMLElement).textContent = `Group ${gi}:`;
+          (gClone.querySelector('.group-value') as HTMLElement).textContent = m[gi] ?? '(undefined)';
+          groupsContainer.appendChild(gClone);
+        }
+      }
+
+      matchList.appendChild(clone);
+    });
+
+    renderExplanation(pattern);
+  };
+
+  // ============================================================
+  // Debounced Update
+  // ============================================================
+  const debouncedUpdate = () => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    debounceTimer = window.setTimeout(updateMatches, 150);
+  };
+
+  const immediateUpdate = () => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    updateMatches();
+  };
+
+  // ============================================================
+  // Flag Toggle
+  // ============================================================
+  flagBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const pressed = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+      btn.classList.toggle('active', !pressed);
+      btn.classList.toggle('bg-primary', !pressed);
+      btn.classList.toggle('text-on-primary', !pressed);
+      btn.classList.toggle('border-primary', !pressed);
+      btn.classList.toggle('bg-canvas', pressed);
+      btn.classList.toggle('text-body', pressed);
+      btn.classList.toggle('border-hairline', pressed);
+      debouncedUpdate();
+    });
+  });
+
+  // Set initial flag state for 'g'
+  const gBtn = document.querySelector('[data-flag="g"]') as HTMLButtonElement;
+  if (gBtn) {
+    gBtn.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+    gBtn.classList.remove('bg-canvas', 'text-body', 'border-hairline');
+  }
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  patternInput.addEventListener('input', debouncedUpdate);
+  testString.addEventListener('input', () => {
+    debouncedUpdate();
+    syncOverlay();
+  });
+
+  // Sync overlay dimensions on resize
+  const ro = new ResizeObserver(() => syncOverlay());
+  ro.observe(testString);
+
+  // ============================================================
+  // Build Cheat Sheet Buttons
+  // ============================================================
+  const cheatPatterns = [
+    { label: 'Email', pattern: '^[\\w.-]+@[\\w.-]+\\.\\w{2,}$', flags: '' },
+    { label: 'URL', pattern: 'https?://[\\w./?-]+', flags: 'g' },
+    { label: 'Phone (US)', pattern: '^\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$', flags: '' },
+    { label: 'Date (YYYY-MM-DD)', pattern: '^\\d{4}-\\d{2}-\\d{2}$', flags: '' },
+    { label: 'IP Address', pattern: '^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$', flags: '' },
+    { label: 'Password (min 8, letter + digit)', pattern: '^(?=.*[a-zA-Z])(?=.*\\d).{8,}$', flags: '' },
+    { label: 'SSN', pattern: '\\b\\d{3}-\\d{2}-\\d{4}\\b', flags: 'g' },
+    { label: 'Hex Color', pattern: '#[0-9a-fA-F]{3,6}\\b', flags: 'g' },
+    { label: 'US ZIP Code', pattern: '^\\d{5}(-\\d{4})?$', flags: '' },
+  ];
+
+  const handleCheatClick = (pattern: string, flags: string) => {
+    patternInput.value = pattern;
+    flagBtns.forEach(fb => {
+      fb.setAttribute('aria-pressed', 'false');
+      fb.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+      fb.classList.add('bg-canvas', 'text-body', 'border-hairline');
+    });
+    for (const f of flags) {
+      const fb = document.querySelector(`[data-flag="${f}"]`) as HTMLButtonElement;
+      if (fb) {
+        fb.setAttribute('aria-pressed', 'true');
+        fb.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+        fb.classList.remove('bg-canvas', 'text-body', 'border-hairline');
+      }
+    }
+    immediateUpdate();
+  };
+
+  const buildCheatButtons = () => {
+    cheatPatterns.forEach(cp => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'text-left bg-canvas-soft border border-hairline rounded-lg p-3 hover:border-hairline-strong hover:shadow-lvl2 transition-all cursor-pointer';
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'text-xs font-bold text-ink font-sans';
+      nameSpan.textContent = cp.label;
+      const codeSpan = document.createElement('code');
+      codeSpan.className = 'block text-[10px] font-mono text-body mt-0.5 break-all';
+      codeSpan.textContent = cp.pattern;
+      btn.appendChild(nameSpan);
+      btn.appendChild(codeSpan);
+      btn.addEventListener('click', () => handleCheatClick(cp.pattern, cp.flags));
+      commonPatternsContainer.appendChild(btn);
+    });
+  };
+
+  // ============================================================
+  // Initial render
+  // ============================================================
+  buildCheatButtons();
+  syncOverlay();
+  updateMatches();
+</script>

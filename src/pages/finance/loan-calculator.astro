@@ -1,0 +1,1132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is my loan payment calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your monthly loan payment is calculated using the standard amortization formula: M = P * [r(1+r)^n] / [(1+r)^n - 1], where P is the loan principal (borrowed amount), r is the monthly interest rate (annual rate divided by 12), and n is the total number of payments (loan term in months). Interest is calculated on the remaining balance each month, so the ratio of interest to principal decreases with each payment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's a typical interest rate for an auto/personal/student loan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Interest rates vary widely depending on market conditions, the loan type, and your credit profile. Typically, auto loans average between 5% and 9% for good credit, personal loans (which are unsecured) range from 8% to 15% or higher, and federal student loans are fixed around 5% to 8% depending on the academic level. Secured loans like auto loans generally carry lower rates than unsecured personal loans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does my credit score affect my rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, your credit score is one of the most critical factors lenders use to determine your interest rate. Borrowers with excellent credit scores (740 and above) qualify for the lowest advertised interest rates. Lower scores indicate higher risk to lenders, resulting in higher interest rates, more expensive monthly payments, and a higher total cost of borrowing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much can extra payments save me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Paying extra monthly cuts down the remaining principal directly. Because interest is computed on the active balance, lowering the principal faster reduces the subsequent interest charged each month. Over time, this compounding benefit shaves months or years off your term and saves thousands of dollars in cumulative interest costs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this loan calculator accurate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, this calculator uses the exact standard amortization mathematical equations to determine payments and principal reduction. However, actual lender terms, loan origination fees, compounding frequencies, and credit verification guidelines differ by institution. Use this calculator for planning purposes, and request a binding Truth in Lending disclosure from your lender for exact terms."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Loan Calculator - Free Auto, Personal & Student Loan Payment Estimator | ToolzTotal"
+  description="Calculate monthly payments for auto, personal, or student loans with our free, ad-free loan calculator. Compare presets and extra payment savings."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">Loan Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Loan Payment Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate monthly loan repayments, interest totals, and payoff timelines. Select from preset loan profiles or configure a custom term with optional monthly extra payments.
+      </p>
+    </div>
+
+    <!-- Loan Type Presets Tabs -->
+    <div class="mb-8 border-b border-hairline flex flex-wrap gap-1">
+      <button 
+        type="button" 
+        id="preset-auto" 
+        data-preset="auto"
+        class="px-5 py-3 text-sm font-sans font-medium border-b-2 border-primary text-ink transition-all cursor-pointer"
+      >
+        🚗 Auto Loan
+      </button>
+      <button 
+        type="button" 
+        id="preset-personal" 
+        data-preset="personal"
+        class="px-5 py-3 text-sm font-sans font-medium border-b-2 border-transparent text-mute hover:text-ink transition-all cursor-pointer"
+      >
+        💼 Personal Loan
+      </button>
+      <button 
+        type="button" 
+        id="preset-student" 
+        data-preset="student"
+        class="px-5 py-3 text-sm font-sans font-medium border-b-2 border-transparent text-mute hover:text-ink transition-all cursor-pointer"
+      >
+        🎓 Student Loan
+      </button>
+      <button 
+        type="button" 
+        id="preset-custom" 
+        data-preset="custom"
+        class="px-5 py-3 text-sm font-sans font-medium border-b-2 border-transparent text-mute hover:text-ink transition-all cursor-pointer"
+      >
+        ⚙️ Custom
+      </button>
+      <input type="hidden" id="active-preset" value="auto" />
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Loan Details</h2>
+        
+        <!-- Loan Amount -->
+        <div>
+          <label for="loan-amount" class="block text-xs font-mono uppercase text-mute mb-2">Loan Amount</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input 
+              type="number" 
+              id="loan-amount" 
+              value="25000" 
+              step="1000"
+              min="0"
+              class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 25,000…"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Interest Rate -->
+        <div>
+          <label for="interest-rate" class="block text-xs font-mono uppercase text-mute mb-2">Interest Rate</label>
+          <div class="relative">
+            <input 
+              type="number" 
+              id="interest-rate" 
+              value="7.0" 
+              step="0.05"
+              min="0"
+              max="100"
+              class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 7.0…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5 leading-normal" id="rate-tip">Interest rates default to auto loan standard. Adjust as needed.</p>
+        </div>
+
+        <!-- Loan Term -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label for="loan-term" class="block text-xs font-mono uppercase text-mute">Loan Term</label>
+            <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+              <button 
+                type="button" 
+                id="term-toggle-months" 
+                class="px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer"
+                aria-label="Toggle loan term to months"
+              >
+                Months
+              </button>
+              <button 
+                type="button" 
+                id="term-toggle-years" 
+                class="px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer"
+                aria-label="Toggle loan term to years"
+              >
+                Years
+              </button>
+            </div>
+            <input type="hidden" id="term-mode" value="months" />
+          </div>
+          
+          <div class="relative">
+            <input 
+              type="number" 
+              id="loan-term" 
+              value="60" 
+              step="1"
+              min="1"
+              class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 60…"
+              autocomplete="off"
+            />
+            <span id="term-suffix" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">months</span>
+          </div>
+        </div>
+
+        <!-- Extra Monthly Payment -->
+        <div class="border-t border-hairline pt-5">
+          <label for="extra-payment" class="block text-xs font-mono uppercase text-mute mb-2 flex items-center justify-between">
+            <span>Extra Monthly Payment</span>
+            <span class="text-[10px] text-emerald-500 font-mono">payoff faster</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+            <input 
+              type="number" 
+              id="extra-payment" 
+              value="0" 
+              step="25"
+              min="0"
+              class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+              placeholder="e.g., 100…"
+              autocomplete="off"
+            />
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+          </div>
+          <p class="text-[11px] text-mute font-sans mt-1.5 leading-normal">Reduce interest costs and accelerate your payoff timeline.</p>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Results Dashboard & Charts (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Estimated Monthly Payment Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 relative">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Monthly Payment</h2>
+          <div id="monthly-payment-total" class="text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-6 tabular-nums">
+            $0.00
+          </div>
+          
+          <!-- Donut Breakdown Grid (Principal vs Interest proportion over total loan cost) -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-t border-hairline pt-6">
+            
+            <!-- SVG Donut Chart (4 cols) -->
+            <div class="md:col-span-4 flex justify-center">
+              <div class="relative w-36 h-36">
+                <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90">
+                  <circle cx="50" cy="50" r="38" stroke-width="10" class="stroke-canvas-soft-2 fill-none" />
+                  <!-- Principal segment -->
+                  <circle 
+                    id="donut-principal" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-neutral-900 dark:stroke-neutral-100 fill-none transition-all duration-300" 
+                  />
+                  <!-- Interest segment -->
+                  <circle 
+                    id="donut-interest" 
+                    cx="50" 
+                    cy="50" 
+                    r="38" 
+                    stroke-width="10" 
+                    stroke-dasharray="0 238.76" 
+                    stroke-dashoffset="0"
+                    class="stroke-purple-500 dark:stroke-purple-400 fill-none transition-all duration-300" 
+                  />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span id="donut-center-total" class="text-xs font-bold text-ink tabular-nums">$0</span>
+                  <span class="text-[8px] font-mono text-mute uppercase">Total Cost</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Breakdown Numbers list (8 cols) -->
+            <div class="md:col-span-8 space-y-2.5">
+              <div class="text-xs font-mono uppercase text-mute border-b border-hairline pb-1 mb-2">Total Repayment Breakdown</div>
+              <!-- Principal -->
+              <div class="flex items-center justify-between text-xs font-sans">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-neutral-950 dark:bg-neutral-100 inline-block"></span>
+                  <span class="text-body font-medium">Principal Amount</span>
+                </div>
+                <span id="breakdown-principal-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+              <!-- Interest -->
+              <div class="flex items-center justify-between text-xs font-sans">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-purple-500 dark:bg-purple-400 inline-block"></span>
+                  <span class="text-body font-medium">Total Interest</span>
+                </div>
+                <span id="breakdown-interest-val" class="font-bold text-ink tabular-nums">$0.00</span>
+              </div>
+            </div>
+            
+          </div>
+
+          <!-- Disclaimer inline -->
+          <div class="mt-6 pt-4 border-t border-hairline text-[10px] text-mute leading-normal font-sans">
+            <strong>Disclaimer:</strong> This calculator provides estimates for informational purposes only and is not a loan offer or financial advice. Actual rates depend on your credit profile and lender terms.
+          </div>
+        </div>
+
+        <!-- Payoff Summary Grid -->
+        <div class="grid grid-cols-3 gap-4">
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Repayment Total</span>
+            <span id="summary-repayment-total" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Interest Cost</span>
+            <span id="summary-interest" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+          </div>
+          <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+            <span class="block text-[10px] font-mono uppercase text-mute mb-1">Payoff Date</span>
+            <span id="summary-payoff" class="text-base font-bold text-ink font-sans tabular-nums">--</span>
+          </div>
+        </div>
+
+        <!-- Extra Payment Accelerator Impact showcase (Hidden by default unless extra payment is added) -->
+        <div id="accel-impact-card" class="bg-canvas border border-emerald-500/20 dark:border-emerald-500/30 rounded-xl p-6 shadow-lvl3 relative hidden overflow-hidden">
+          <div class="absolute right-0 top-0 bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-500 font-mono text-[9px] uppercase px-3 py-1 rounded-bl">
+            Acceleration Benefit
+          </div>
+          
+          <h3 class="text-sm font-bold text-ink font-sans mb-4 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Extra Payment Impact
+          </h3>
+
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Interest Saved</span>
+              <span id="accel-saved-interest" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">Time Saved</span>
+              <span id="accel-saved-time" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans">0 months</span>
+            </div>
+            <div class="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-lg border border-emerald-500/10">
+              <span class="block text-[9px] font-mono uppercase text-mute mb-0.5">New Payoff Date</span>
+              <span id="accel-new-date" class="text-base font-bold text-emerald-600 dark:text-emerald-400 font-sans whitespace-nowrap">--</span>
+            </div>
+          </div>
+
+          <!-- Payoff Timeline Bars -->
+          <div class="space-y-4">
+            <!-- Timeline 1: Original Payoff -->
+            <div>
+              <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+                <span>Baseline Payoff Timeline</span>
+                <span id="timeline-orig-term" class="font-bold text-ink">60 Months</span>
+              </div>
+              <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full overflow-hidden">
+                <div class="h-full bg-neutral-300 dark:bg-neutral-700 w-full"></div>
+              </div>
+            </div>
+            <!-- Timeline 2: Accelerated Payoff -->
+            <div>
+              <div class="flex items-center justify-between text-[10px] font-mono text-mute mb-1">
+                <span>Accelerated Payoff Timeline</span>
+                <span id="timeline-accel-term" class="font-bold text-emerald-500">48 Months</span>
+              </div>
+              <div class="w-full h-3 bg-canvas-soft-2 border border-hairline rounded-full flex overflow-hidden">
+                <div id="timeline-accel-bar" class="h-full bg-emerald-500 dark:bg-emerald-600" style="width: 80%;"></div>
+                <div id="timeline-saved-bar" class="h-full bg-emerald-500/25 border-l border-dashed border-emerald-500/50" style="width: 20%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Amortization Visualization Section -->
+    <div class="mt-16 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4 mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-ink font-sans">Amortization Schedule</h2>
+          <p class="text-xs text-mute font-sans mt-0.5">Visualize remaining balance over the duration of the loan.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Granularity Toggle -->
+          <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+            <button 
+              type="button" 
+              id="chart-toggle-yearly" 
+              class="px-3 py-1 text-xs font-mono rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer"
+            >
+              Yearly
+            </button>
+            <button 
+              type="button" 
+              id="chart-toggle-monthly" 
+              class="px-3 py-1 text-xs font-mono rounded-md text-mute hover:text-ink cursor-pointer"
+            >
+              Monthly
+            </button>
+          </div>
+          <!-- Download CSV -->
+          <button 
+            type="button" 
+            id="download-csv" 
+            class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive SVG Chart -->
+      <div class="w-full relative">
+        <svg id="amortization-chart" viewBox="0 0 600 220" class="w-full h-auto max-h-[300px]">
+          <!-- Grid lines -->
+          <line x1="50" y1="15" x2="590" y2="15" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="60" x2="590" y2="60" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="105" x2="590" y2="105" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" stroke-dasharray="2 2" />
+          <line x1="50" y1="150" x2="590" y2="150" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+          <line x1="50" y1="195" x2="590" y2="195" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+
+          <!-- Y-axis labels -->
+          <text x="42" y="20" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px] text-right" text-anchor="end" id="chart-y-max">$25k</text>
+          <text x="42" y="110" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-mid">$12.5k</text>
+          <text x="42" y="198" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end">0</text>
+
+          <!-- SVG Paths for Baseline Area -->
+          <path id="chart-baseline-fill" class="fill-neutral-200/50 dark:fill-neutral-800/40" d="M 50,195 L 590,195 Z" />
+          <path id="chart-baseline-line" class="stroke-neutral-400 dark:stroke-neutral-600 fill-none" stroke-width="2" d="M 50,195 L 590,195 Z" />
+
+          <!-- SVG Paths for Accelerated Area -->
+          <path id="chart-accel-fill" class="fill-emerald-500/10 dark:fill-emerald-500/5 hidden" d="M 50,195 L 590,195 Z" />
+          <path id="chart-accel-line" class="stroke-emerald-500 dark:stroke-emerald-400 fill-none hidden" stroke-width="2" d="M 50,195 L 590,195 Z" />
+
+          <!-- X-axis Labels (Dynamic based on term) -->
+          <g id="chart-x-labels">
+            <text x="50" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo 0</text>
+            <text x="230" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo 20</text>
+            <text x="410" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo 40</text>
+            <text x="590" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo 60</text>
+          </g>
+        </svg>
+        
+        <!-- Legend overlays -->
+        <div class="flex gap-4 justify-center items-center text-[10px] font-mono text-mute mt-3">
+          <div class="flex items-center gap-1.5">
+            <span class="w-3.5 h-1.5 bg-neutral-400 dark:bg-neutral-600 inline-block rounded-xs"></span>
+            <span>Standard Payoff Balance</span>
+          </div>
+          <div id="chart-legend-accel" class="flex items-center gap-1.5 hidden">
+            <span class="w-3.5 h-1.5 bg-emerald-500 dark:bg-emerald-400 inline-block rounded-xs"></span>
+            <span>Accelerated Payoff Balance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collapsible Table -->
+      <div class="mt-8 border-t border-hairline pt-6">
+        <button 
+          type="button" 
+          id="toggle-schedule-table" 
+          class="flex items-center justify-between w-full text-xs font-mono uppercase text-mute hover:text-ink transition-colors cursor-pointer group"
+          aria-expanded="false"
+          aria-controls="schedule-table-container"
+        >
+          <span>Show Full Schedule Table</span>
+          <svg id="table-chevron" class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div id="schedule-table-container" class="hidden mt-6 overflow-x-auto border border-hairline rounded-lg bg-canvas shadow-lvl1">
+          <table class="w-full text-left border-collapse text-xs font-sans">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline font-mono text-mute uppercase tracking-wider text-[10px]">
+                <th class="py-3 px-4" id="table-hdr-period">Year</th>
+                <th class="py-3 px-4 text-right">Beginning Balance</th>
+                <th class="py-3 px-4 text-right">Principal Paid</th>
+                <th class="py-3 px-4 text-right">Interest Paid</th>
+                <th class="py-3 px-4 text-right">Ending Balance</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body" class="divide-y divide-hairline text-body tabular-nums">
+              <!-- Dynamic Rows inserted via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SEO text section (Below the fold) -->
+    <article class="mt-24 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Determining and Managing Your Loan Payments</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Whether funding a vehicle, consolidating personal debt, or financing higher education, borrowing money involves commitments that affect your monthly budget. Utilizing a <strong>loan calculator</strong> allows you to forecast financial obligations, verify lender estimates, and make informed choices. This <strong>loan payment calculator</strong> runs entirely inside your browser, showing you exactly how principal size, interest rates, and loan durations compound over the life of your credit.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Comparing Auto, Personal, and Student Loan Structures</h3>
+        <p>
+          Not all debt products are created equal. Lenders adapt rates, collateral specifications, and payment durations based on the loan purpose and risk factors:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Auto Loans:</strong> Car financing is usually secured by the vehicle itself, making it lower-risk for banks. As a result, an <strong>auto loan calculator</strong> typically uses lower interest rates and shorter terms, commonly ranging from 36 to 84 months.</li>
+          <li><strong>Personal Loans:</strong> Often unsecured (no collateral required), personal loans present a higher default risk to lenders. A <strong>personal loan calculator</strong> generally pre-fills with higher interest rates (8% to 20%+) and compact terms (12 to 60 months) to minimize lender exposure.</li>
+          <li><strong>Student Loans:</strong> Education financing typically relies on federal or private long-term credit. A <strong>student loan calculator</strong> features longer payoff horizons, traditionally defaulted to 10 years (120 months) or more, with fixed interest rates.</li>
+        </ul>
+        <p>
+          Using our interactive presets above, you can toggle between these debt types to instantly see how their structures affect your <strong>monthly loan payment calculator</strong> results.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Compounding Power of Extra Principal Payments</h3>
+        <p>
+          Unsecured and secured loans alike calculate interest charges based on your remaining principal balance every month. This means any extra payment you add directly targets the principal, diminishing the base balance and lowering subsequent interest accumulations.
+        </p>
+        <p>
+          Adding a minor extra payment—such as $50 or $100 per month—reduces your borrowing time and cuts down cumulative interest charges. Over the life of a $25,000 auto or student loan, accelerating principal paydowns can save you hundreds or thousands of dollars, freeing up cash flow years ahead of schedule.
+        </p>
+
+        <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+          <strong>Important Note:</strong> The numbers calculated by this tool are high-fidelity estimates built on standard financial formulas and are intended for research, planning, and comparison. They do not constitute formal lending offers, official disclosures, or qualified investment advice. Property taxes, insurance, and lender fees fluctuate based on geography, credit rating, and local regulations. Consult a licensed financial professional or mortgage lender before making binding property purchases.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <!-- Q1 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How is my loan payment calculated?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Your monthly loan payment is calculated using standard amortization formulas: <strong>M = P * [r(1+r)^n] / [(1+r)^n - 1]</strong>. Here, P represents the principal amount you borrow, r is the monthly interest rate (annual rate divided by 12), and n is the total number of payments (duration in months).
+            </p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What's a typical interest rate for an auto/personal/student loan?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Average rates fluctuate but generally, auto loans range between 5% and 9% depending on prime conditions and credit scores. Personal loans are unsecured and range higher, usually between 8% and 25%. Federal student loan rates are set by Congress and generally range between 5% and 8% depending on the loan disbursement date and degree status.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Does my credit score affect my rate?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes, credit scores are the primary risk metric lenders use. Higher credit scores indicate a solid track record of repayment, qualifying you for lowest rate bands. Lower scores increase your default risk profile, meaning lenders charge higher interest rates to compensate, increasing your monthly and overall debt expense.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How much can extra payments save me?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Extra payments lower the principal amount immediately. Since interest is calculated monthly as a percentage of your outstanding balance, reducing the base amount reduces future interest accruals. This speeds up your schedule, shaves months off your term, and saves hundreds or thousands of dollars in cumulative financing charges.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Is this loan calculator accurate?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes, our calculations use standard mathematical amortization algorithms. However, lenders may use slightly different day count conventions, add loan origination or administration fees, or compound interest differently. Always crosscheck these calculations against a official Truth in Lending disclosure statement before signing contract details.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Finance Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <a 
+          href="/finance/mortgage-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Mortgage Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Estimate monthly mortgage payments, including property tax, insurance, PMI, and HOA fees.</p>
+        </a>
+
+        <a 
+          href="/finance/compound-interest-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Compound Interest Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Visualize the growth of savings and investments through compounding interest over time.</p>
+        </a>
+
+        <a 
+          href="/finance/break-even-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Break-Even Analysis Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Determine the sales volume or revenue needed to cover fixed and variable costs.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Calculator Logic Script -->
+  <script>
+    import { calculateAmortization, getYearlySchedule, generateCsv, getSvgChartPaths } from '../../utils/amortization';
+
+    // 1. DOM Element Cache
+    const loanAmountInput = document.getElementById('loan-amount') as HTMLInputElement;
+    const interestRateInput = document.getElementById('interest-rate') as HTMLInputElement;
+    const termInput = document.getElementById('loan-term') as HTMLInputElement;
+    const termSuffix = document.getElementById('term-suffix') as HTMLSpanElement;
+    const termModeInput = document.getElementById('term-mode') as HTMLInputElement;
+    const extraPaymentInput = document.getElementById('extra-payment') as HTMLInputElement;
+    const rateTip = document.getElementById('rate-tip') as HTMLParagraphElement;
+
+    const termToggleMonths = document.getElementById('term-toggle-months') as HTMLButtonElement;
+    const termToggleYears = document.getElementById('term-toggle-years') as HTMLButtonElement;
+
+    // Presets Buttons
+    const presetAuto = document.getElementById('preset-auto') as HTMLButtonElement;
+    const presetPersonal = document.getElementById('preset-personal') as HTMLButtonElement;
+    const presetStudent = document.getElementById('preset-student') as HTMLButtonElement;
+    const presetCustom = document.getElementById('preset-custom') as HTMLButtonElement;
+    const activePresetInput = document.getElementById('active-preset') as HTMLInputElement;
+
+    // Results Dashboard
+    const monthlyPaymentTotal = document.getElementById('monthly-payment-total') as HTMLDivElement;
+    const summaryRepaymentTotal = document.getElementById('summary-repayment-total') as HTMLSpanElement;
+    const summaryInterest = document.getElementById('summary-interest') as HTMLSpanElement;
+    const summaryPayoff = document.getElementById('summary-payoff') as HTMLSpanElement;
+
+    // Donut Segments
+    const donutPrincipal = document.getElementById('donut-principal') as SVGCircleElement;
+    const donutInterest = document.getElementById('donut-interest') as SVGCircleElement;
+    const donutCenterTotal = document.getElementById('donut-center-total') as HTMLSpanElement;
+    const breakdownPrincipalVal = document.getElementById('breakdown-principal-val') as HTMLSpanElement;
+    const breakdownInterestVal = document.getElementById('breakdown-interest-val') as HTMLSpanElement;
+
+    // Accel Dashboard
+    const accelImpactCard = document.getElementById('accel-impact-card') as HTMLDivElement;
+    const accelSavedInterest = document.getElementById('accel-saved-interest') as HTMLSpanElement;
+    const accelSavedTime = document.getElementById('accel-saved-time') as HTMLSpanElement;
+    const accelNewDate = document.getElementById('accel-new-date') as HTMLSpanElement;
+    const timelineOrigTerm = document.getElementById('timeline-orig-term') as HTMLSpanElement;
+    const timelineAccelTerm = document.getElementById('timeline-accel-term') as HTMLSpanElement;
+    const timelineAccelBar = document.getElementById('timeline-accel-bar') as HTMLDivElement;
+    const timelineSavedBar = document.getElementById('timeline-saved-bar') as HTMLDivElement;
+
+    // Amortization Chart
+    const chartToggleYearly = document.getElementById('chart-toggle-yearly') as HTMLButtonElement;
+    const chartToggleMonthly = document.getElementById('chart-toggle-monthly') as HTMLButtonElement;
+    const chartYMax = document.getElementById('chart-y-max') as SVGTextElement;
+    const chartYMid = document.getElementById('chart-y-mid') as SVGTextElement;
+    const chartBaselineFill = document.getElementById('chart-baseline-fill') as SVGPathElement;
+    const chartBaselineLine = document.getElementById('chart-baseline-line') as SVGPathElement;
+    const chartAccelFill = document.getElementById('chart-accel-fill') as SVGPathElement;
+    const chartAccelLine = document.getElementById('chart-accel-line') as SVGPathElement;
+    const chartXLabels = document.getElementById('chart-x-labels') as SVGGraphicsElement;
+    const chartLegendAccel = document.getElementById('chart-legend-accel') as HTMLDivElement;
+
+    // Table
+    const toggleScheduleTable = document.getElementById('toggle-schedule-table') as HTMLButtonElement;
+    const tableChevron = document.getElementById('table-chevron') as unknown as SVGElement;
+    const scheduleTableContainer = document.getElementById('schedule-table-container') as HTMLDivElement;
+    const scheduleTableBody = document.getElementById('schedule-table-body') as HTMLTableSectionElement;
+    const tableHdrPeriod = document.getElementById('table-hdr-period') as HTMLTableCellElement;
+    const downloadCsvBtn = document.getElementById('download-csv') as HTMLButtonElement;
+
+    // Global State
+    let currentTermMode = 'months'; // 'months' or 'years'
+    let chartGranularity = 'yearly';
+    let csvContent = '';
+    let activeBaselineSchedule: any[] = [];
+    let activeAcceleratedSchedule: any[] = [];
+
+    // Helper formatting
+    const formatCurrency = (val: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+      }).format(val);
+    };
+
+    const formatCurrencyWithCents = (val: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(val);
+    };
+
+    const getPayoffDate = (monthsToAdd: number) => {
+      const date = new Date();
+      date.setMonth(date.getMonth() + monthsToAdd);
+      return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+
+    // Primary Calculation
+    const runCalculations = () => {
+      const principal = Math.max(0, parseFloat(loanAmountInput.value) || 0);
+      const annualRate = Math.max(0, parseFloat(interestRateInput.value) || 0);
+      const rawTerm = Math.max(1, parseFloat(termInput.value) || 1);
+      const extraPayment = Math.max(0, parseFloat(extraPaymentInput.value) || 0);
+
+      // Determine term in months
+      const termMonths = currentTermMode === 'months' ? Math.round(rawTerm) : Math.round(rawTerm * 12);
+
+      // Call Amortization Utility
+      const result = calculateAmortization(principal, annualRate, termMonths, extraPayment);
+      const monthlyPI = result.monthlyPI;
+      activeBaselineSchedule = result.baseline.schedule;
+      activeAcceleratedSchedule = result.accelerated.schedule;
+
+      const baselineInterest = result.baseline.totalInterest;
+      const totalCostOfLoan = principal + baselineInterest;
+      const baselinePayoffMonths = result.baseline.payoffMonths;
+
+      // Update Results DOM
+      monthlyPaymentTotal.textContent = formatCurrencyWithCents(monthlyPI + (extraPayment > 0 ? extraPayment : 0));
+      summaryRepaymentTotal.textContent = formatCurrency(totalCostOfLoan);
+      summaryInterest.textContent = formatCurrency(baselineInterest);
+      summaryPayoff.textContent = getPayoffDate(baselinePayoffMonths);
+
+      // Update Donut Chart
+      breakdownPrincipalVal.textContent = formatCurrencyWithCents(principal);
+      breakdownInterestVal.textContent = formatCurrencyWithCents(baselineInterest);
+      donutCenterTotal.textContent = formatCurrency(totalCostOfLoan);
+
+      const circumference = 2 * Math.PI * 38; // 238.761
+      const totalAmount = principal + baselineInterest;
+      
+      const segments = [
+        { el: donutPrincipal, val: principal },
+        { el: donutInterest, val: baselineInterest }
+      ];
+
+      let cumulativePct = 0;
+      segments.forEach(item => {
+        const percent = totalAmount > 0 ? item.val / totalAmount : 0;
+        const strokeLength = percent * circumference;
+        const strokeSpace = circumference - strokeLength;
+        item.el.setAttribute('stroke-dasharray', `${strokeLength} ${strokeSpace}`);
+        item.el.setAttribute('stroke-dashoffset', (-cumulativePct * circumference).toString());
+        cumulativePct += percent;
+      });
+
+      // Update timelines orig term
+      timelineOrigTerm.textContent = `${termMonths} Months`;
+
+      // Update Accelerated Statistics
+      if (extraPayment > 0 && principal > 0 && activeAcceleratedSchedule.length > 0) {
+        accelImpactCard.classList.remove('hidden');
+        chartLegendAccel.classList.remove('hidden');
+
+        const accelInterest = result.accelerated.totalInterest;
+        const interestSavedVal = Math.max(0, baselineInterest - accelInterest);
+        accelSavedInterest.textContent = formatCurrency(interestSavedVal);
+
+        const accelMonths = result.accelerated.payoffMonths;
+        const monthsSaved = baselinePayoffMonths - accelMonths;
+        const yearsSaved = Math.floor(monthsSaved / 12);
+        const remMonths = monthsSaved % 12;
+
+        let timeSavedStr = '';
+        if (yearsSaved > 0) timeSavedStr += `${yearsSaved} yr${yearsSaved > 1 ? 's' : ''}`;
+        if (remMonths > 0) timeSavedStr += ` ${remMonths} mo${remMonths > 1 ? 's' : ''}`;
+        if (monthsSaved <= 0) timeSavedStr = '0 months';
+        accelSavedTime.textContent = timeSavedStr;
+
+        accelNewDate.textContent = getPayoffDate(accelMonths);
+        timelineAccelTerm.textContent = `${accelMonths} Months`;
+
+        const percentOfTerm = (accelMonths / termMonths) * 100;
+        const percentSaved = (monthsSaved / termMonths) * 100;
+        timelineAccelBar.style.width = `${percentOfTerm}%`;
+        timelineSavedBar.style.width = `${percentSaved}%`;
+      } else {
+        accelImpactCard.classList.add('hidden');
+        chartLegendAccel.classList.add('hidden');
+      }
+
+      // Update Chart & Table representation
+      updateAmortizationView();
+    };
+
+    // Render Amortization chart and table
+    const updateAmortizationView = () => {
+      const principal = Math.max(0, parseFloat(loanAmountInput.value) || 0);
+      if (principal <= 0 || activeBaselineSchedule.length === 0) {
+        chartBaselineLine.classList.add('hidden');
+        chartBaselineFill.classList.add('hidden');
+        chartAccelLine.classList.add('hidden');
+        chartAccelFill.classList.add('hidden');
+        scheduleTableBody.innerHTML = '<tr><td colspan="5" class="py-6 text-center text-mute font-mono">Enter a valid Loan Amount to view the schedule.</td></tr>';
+        return;
+      }
+
+      chartYMax.textContent = formatCurrency(principal);
+      chartYMid.textContent = formatCurrency(principal / 2);
+
+      const isYearly = chartGranularity === 'yearly';
+
+      // Draw SVG Curve paths
+      const paths = getSvgChartPaths(activeBaselineSchedule, activeAcceleratedSchedule, principal, isYearly);
+      chartBaselineLine.setAttribute('d', paths.baseLineD);
+      chartBaselineFill.setAttribute('d', paths.baseFillD);
+      chartBaselineLine.classList.remove('hidden');
+      chartBaselineFill.classList.remove('hidden');
+
+      if (paths.hasAccel) {
+        chartAccelLine.setAttribute('d', paths.accelLineD);
+        chartAccelFill.setAttribute('d', paths.accelFillD);
+        chartAccelLine.classList.remove('hidden');
+        chartAccelFill.classList.remove('hidden');
+      } else {
+        chartAccelLine.classList.add('hidden');
+        chartAccelFill.classList.add('hidden');
+      }
+
+      // Draw dynamic X axis labels
+      const totalBaselinePeriods = activeBaselineSchedule.length;
+      let xLabelsHtml = '';
+
+      const paddingLeft = 50;
+      const paddingRight = 10;
+      const chartWidth = 600 - paddingLeft - paddingRight;
+
+      if (isYearly) {
+        const totalTermYears = Math.ceil(totalBaselinePeriods / 12);
+        const step = Math.ceil(totalTermYears / 3);
+        for (let i = 0; i <= 3; i++) {
+          const yearNum = Math.min(totalTermYears, i * step);
+          const xPos = paddingLeft + (yearNum / totalTermYears) * chartWidth;
+          xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr ${yearNum}</text>`;
+        }
+      } else {
+        const step = Math.ceil(totalBaselinePeriods / 3);
+        for (let i = 0; i <= 3; i++) {
+          const monthNum = Math.min(totalBaselinePeriods, i * step);
+          const xPos = paddingLeft + (monthNum / totalBaselinePeriods) * chartWidth;
+          xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Mo ${monthNum}</text>`;
+        }
+      }
+      chartXLabels.innerHTML = xLabelsHtml;
+
+      // Group table rows
+      let tableRowsData: any[] = [];
+      if (isYearly) {
+        tableRowsData = getYearlySchedule(activeBaselineSchedule, principal);
+        tableHdrPeriod.textContent = 'Year';
+      } else {
+        activeBaselineSchedule.forEach(m => {
+          tableRowsData.push({
+            period: `Month ${m.period}`,
+            beginningBalance: m.beginningBalance,
+            principalPaid: m.principalPaid,
+            interestPaid: m.interestPaid,
+            endingBalance: m.endingBalance
+          });
+        });
+        tableHdrPeriod.textContent = 'Month';
+      }
+
+      let rowsHtml = '';
+      tableRowsData.forEach(row => {
+        rowsHtml += `
+          <tr class="hover:bg-canvas-soft-2 transition-colors border-b border-hairline">
+            <td class="py-2.5 px-4 font-mono font-medium text-ink">${row.period}</td>
+            <td class="py-2.5 px-4 text-right">${formatCurrency(row.beginningBalance)}</td>
+            <td class="py-2.5 px-4 text-right text-emerald-600 dark:text-emerald-400 font-semibold">${formatCurrency(row.principalPaid)}</td>
+            <td class="py-2.5 px-4 text-right text-red-500 dark:text-red-400">${formatCurrency(row.interestPaid)}</td>
+            <td class="py-2.5 px-4 text-right font-medium">${formatCurrency(row.endingBalance)}</td>
+          </tr>
+        `;
+      });
+      scheduleTableBody.innerHTML = rowsHtml;
+
+      csvContent = generateCsv(tableRowsData, isYearly ? 'Year' : 'Month');
+    };
+
+    // 5. Presets Handling
+    const presets: Record<string, { term: number; rate: number; mode: string; label: string }> = {
+      auto: { term: 60, rate: 7.0, mode: 'months', label: 'Interest rates default to auto loan standard. Adjust as needed.' },
+      personal: { term: 36, rate: 11.0, mode: 'months', label: 'Interest rates default to personal loan standard. Adjust as needed.' },
+      student: { term: 120, rate: 6.0, mode: 'months', label: 'Interest rates default to student loan standard. Adjust as needed.' },
+      custom: { term: 60, rate: 7.0, mode: 'months', label: 'Custom configuration mode. Enter parameters manually.' }
+    };
+
+    const selectPreset = (presetName: string) => {
+      const config = presets[presetName];
+      if (!config) return;
+
+      activePresetInput.value = presetName;
+
+      // Update button styles
+      const btns = [
+        { el: presetAuto, name: 'auto' },
+        { el: presetPersonal, name: 'personal' },
+        { el: presetStudent, name: 'student' },
+        { el: presetCustom, name: 'custom' }
+      ];
+
+      btns.forEach(item => {
+        if (item.name === presetName) {
+          item.el.classList.add('border-primary', 'text-ink');
+          item.el.classList.remove('border-transparent', 'text-mute');
+        } else {
+          item.el.classList.remove('border-primary', 'text-ink');
+          item.el.classList.add('border-transparent', 'text-mute');
+        }
+      });
+
+      if (presetName !== 'custom') {
+        interestRateInput.value = config.rate.toFixed(2);
+        termInput.value = config.term.toString();
+        rateTip.textContent = config.label;
+        updateTermMode(config.mode);
+      } else {
+        rateTip.textContent = config.label;
+      }
+
+      runCalculations();
+    };
+
+    presetAuto.addEventListener('click', () => selectPreset('auto'));
+    presetPersonal.addEventListener('click', () => selectPreset('personal'));
+    presetStudent.addEventListener('click', () => selectPreset('student'));
+    presetCustom.addEventListener('click', () => selectPreset('custom'));
+
+    // Handle shift to custom if values edited
+    const triggerCustomMode = () => {
+      if (activePresetInput.value !== 'custom') {
+        selectPreset('custom');
+      }
+    };
+
+    interestRateInput.addEventListener('input', triggerCustomMode);
+    termInput.addEventListener('input', triggerCustomMode);
+
+    // 6. Term Toggle handler
+    const updateTermMode = (mode: string) => {
+      if (currentTermMode === mode) return;
+      currentTermMode = mode;
+      termModeInput.value = mode;
+
+      const rawVal = parseFloat(termInput.value) || 0;
+
+      if (mode === 'months') {
+        termToggleMonths.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        termToggleMonths.classList.remove('text-mute');
+        termToggleYears.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        termToggleYears.classList.add('text-mute');
+        termSuffix.textContent = 'months';
+        
+        // Convert years to months
+        termInput.value = Math.round(rawVal * 12).toString();
+      } else {
+        termToggleYears.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        termToggleYears.classList.remove('text-mute');
+        termToggleMonths.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl2');
+        termToggleMonths.classList.add('text-mute');
+        termSuffix.textContent = 'years';
+
+        // Convert months to years
+        termInput.value = (Math.round((rawVal / 12) * 100) / 100).toFixed(2).replace('.00', '');
+      }
+
+      runCalculations();
+    };
+
+    termToggleMonths.addEventListener('click', () => {
+      triggerCustomMode();
+      updateTermMode('months');
+    });
+
+    termToggleYears.addEventListener('click', () => {
+      triggerCustomMode();
+      updateTermMode('years');
+    });
+
+    // Amortization Granularity Switches
+    chartToggleYearly.addEventListener('click', () => {
+      if (chartGranularity === 'yearly') return;
+      chartGranularity = 'yearly';
+      chartToggleYearly.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleYearly.classList.remove('text-mute');
+      chartToggleMonthly.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleMonthly.classList.add('text-mute');
+      updateAmortizationView();
+    });
+
+    chartToggleMonthly.addEventListener('click', () => {
+      if (chartGranularity === 'monthly') return;
+      chartGranularity = 'monthly';
+      chartToggleMonthly.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleMonthly.classList.remove('text-mute');
+      chartToggleYearly.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      chartToggleYearly.classList.add('text-mute');
+      updateAmortizationView();
+    });
+
+    // Amortization Table toggle drawer
+    toggleScheduleTable.addEventListener('click', () => {
+      const isExpanded = toggleScheduleTable.getAttribute('aria-expanded') === 'true';
+      toggleScheduleTable.setAttribute('aria-expanded', (!isExpanded).toString());
+      tableChevron.classList.toggle('rotate-180', !isExpanded);
+      scheduleTableContainer.classList.toggle('hidden', isExpanded);
+    });
+
+    // CSV Trigger download
+    downloadCsvBtn.addEventListener('click', () => {
+      if (!csvContent) return;
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `loan_amortization_schedule_${chartGranularity}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // FAQs Accordion bindings
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling as HTMLDivElement;
+        const chevron = button.querySelector('svg') as unknown as SVGElement;
+        const isHidden = content.classList.toggle('hidden');
+        chevron.classList.toggle('rotate-180', !isHidden);
+        button.setAttribute('aria-expanded', (!isHidden).toString());
+      });
+    });
+
+    // Dynamic Recalculation on form inputs
+    const inputsList = [loanAmountInput, interestRateInput, termInput, extraPaymentInput];
+    inputsList.forEach(input => {
+      input.addEventListener('input', runCalculations);
+    });
+
+    // Initial Trigger
+    runCalculations();
+
+  </script>
+</Layout>

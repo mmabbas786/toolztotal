@@ -1,0 +1,1822 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good ROI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A 'good' ROI depends entirely on the risk profile and asset class. Historically, the S&P 500 averages a return of about 8% to 10% per year before adjusting for inflation. High-yield savings accounts might return 4-5%, while real estate syndicates or individual stocks aim for 12% to 15%+. Higher returns always entail higher risk and lower liquidity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between ROI and annualized ROI (CAGR)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simple ROI measures the raw gain relative to cost over the entire holding period, regardless of duration. Annualized ROI (CAGR) measures the rate of return per year, compounded. For example, a 50% ROI over 1 year is exceptional, but a 50% ROI over 10 years is only about 4.14% annualized."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate ROI with additional contributions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When you add funds during the holding period, calculating CAGR requires finding the Internal Rate of Return (IRR) or Money-Weighted Rate of Return. This time-weights each cash addition to measure how hard your capital worked based on the specific month it was deployed. Our calculator solves this iteratively via a numerical bisection algorithm."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for real estate or stock investments?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can use it for stocks (initial buy, monthly contributions, and current market value), real estate (purchase down payment, monthly cash flows or renovation costs, and sales valuation), or business ventures to calculate total returns and annualized rates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this ROI calculator financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, this calculator is a pure mathematical modeling tool. It does not account for taxes, inflation, brokerage fees, or individual risk metrics. Consult a certified financial planner or tax advisor before making binding investment commitments."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="ROI Calculator - Free Return on Investment Calculator | ToolzTotal"
+  description="Calculate your Return on Investment (ROI), annualized ROI (CAGR), and net profits. Side-by-side comparison mode and shareable links included."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
+      <span>/</span>
+      <span class="text-ink">ROI Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Return on Investment (ROI) Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate raw ROI percentages, annualized returns (CAGR), and cash accumulation timelines. Analyze a single portfolio or compare two different scenarios side-by-side.
+      </p>
+    </div>
+
+    <!-- Mode Selector Tabs -->
+    <div class="mb-8 border-b border-hairline flex flex-wrap gap-1">
+      <button 
+        type="button" 
+        id="mode-single" 
+        class="px-5 py-3 text-sm font-sans font-medium border-b-2 border-primary text-ink transition-all cursor-pointer"
+      >
+        📊 Single Investment
+      </button>
+      <button 
+        type="button" 
+        id="mode-compare" 
+        class="px-5 py-3 text-sm font-sans font-medium border-b-2 border-transparent text-mute hover:text-ink transition-all cursor-pointer"
+      >
+        ⚔️ Compare Investments
+      </button>
+      <input type="hidden" id="active-mode" value="single" />
+    </div>
+
+    <!-- Layout styles driven by data-mode attribute so ALL classes are statically present for Tailwind -->
+    <style is:global>
+      /* Single mode: inputs left (5/12), results right (7/12) */
+      #main-workspace[data-mode="single"] #inputs-wrapper {
+        grid-column: span 5 / span 5;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      #main-workspace[data-mode="single"] #results-wrapper {
+        grid-column: span 7 / span 7;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      /* Compare mode: both full-width and stacked */
+      #main-workspace[data-mode="compare"] #inputs-wrapper {
+        grid-column: span 12 / span 12;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+      }
+      #main-workspace[data-mode="compare"] #results-wrapper {
+        grid-column: span 12 / span 12;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      /* Mobile: always full width single column */
+      @media (max-width: 1023px) {
+        #main-workspace[data-mode="single"] #inputs-wrapper,
+        #main-workspace[data-mode="single"] #results-wrapper,
+        #main-workspace[data-mode="compare"] #inputs-wrapper,
+        #main-workspace[data-mode="compare"] #results-wrapper {
+          grid-column: span 1 / span 1;
+        }
+        #main-workspace[data-mode="compare"] #inputs-wrapper {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <!-- Main Workspace Grid -->
+    <div id="main-workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start" data-mode="single">
+      
+      <!-- Input Section Column -->
+      <div id="inputs-wrapper" class="">
+        
+        <!-- Scenario A Input Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-5">
+          <div class="flex items-center justify-between border-b border-hairline pb-3">
+            <h2 class="text-lg font-bold text-ink font-sans flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-violet-600 inline-block"></span>
+              Investment A
+            </h2>
+            <span class="text-[10px] font-mono text-mute uppercase" id="card-label-a">Primary Option</span>
+          </div>
+
+          <!-- Initial Capital -->
+          <div>
+            <label for="init-a" class="block text-xs font-mono uppercase text-mute mb-2">Initial Investment</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input 
+                type="number" 
+                id="init-a" 
+                value="10000" 
+                step="1000"
+                min="1"
+                class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Valuation Mode Switcher -->
+          <div>
+            <label class="block text-xs font-mono uppercase text-mute mb-2">Valuation Mode</label>
+            <div class="flex rounded-lg bg-canvas-soft-2 p-1 border border-hairline shadow-lvl1 w-full gap-1">
+              <button 
+                type="button" 
+                id="val-toggle-simple-a" 
+                class="flex-1 text-center py-2 px-3 text-xs font-sans font-semibold whitespace-nowrap rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all"
+              >
+                Final Value
+              </button>
+              <button 
+                type="button" 
+                id="val-toggle-project-a" 
+                class="flex-1 text-center py-2 px-3 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all"
+              >
+                Project Rate
+              </button>
+            </div>
+            <input type="hidden" id="val-mode-a" value="simple" />
+          </div>
+
+          <!-- Final Value Input (Simple Mode) -->
+          <div id="container-final-a">
+            <label for="final-a" class="block text-xs font-mono uppercase text-mute mb-2">Final Value / Current Value</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input 
+                type="number" 
+                id="final-a" 
+                value="13000" 
+                step="1000"
+                min="0"
+                class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Projected Rate Input (Projected Mode) -->
+          <div id="container-rate-a" class="hidden">
+            <label for="rate-a" class="block text-xs font-mono uppercase text-mute mb-2">Expected Annual Return</label>
+            <div class="relative">
+              <input 
+                type="number" 
+                id="rate-a" 
+                value="8.0" 
+                step="0.1"
+                min="-100"
+                max="1000"
+                class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+            </div>
+          </div>
+
+          <!-- Duration Period -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="term-a" class="block text-xs font-mono uppercase text-mute">Holding Period</label>
+              <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+                <button 
+                  type="button" 
+                  id="term-toggle-years-a" 
+                  class="px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer"
+                >
+                  Years
+                </button>
+                <button 
+                  type="button" 
+                  id="term-toggle-months-a" 
+                  class="px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer"
+                >
+                  Months
+                </button>
+              </div>
+              <input type="hidden" id="term-unit-a" value="years" />
+            </div>
+            
+            <div class="relative">
+              <input 
+                type="number" 
+                id="term-a" 
+                value="3" 
+                step="1"
+                min="1"
+                class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+              <span id="term-suffix-a" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">years</span>
+            </div>
+          </div>
+
+          <!-- Cash flows add-ons -->
+          <div class="border-t border-hairline pt-5 space-y-4">
+            <div>
+              <label for="contrib-type-a" class="block text-xs font-mono uppercase text-mute mb-2">Additional Contributions</label>
+              <select 
+                id="contrib-type-a" 
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+              >
+                <option value="none">None</option>
+                <option value="monthly">Monthly Recurring</option>
+                <option value="onetime">One-Time Contribution</option>
+              </select>
+            </div>
+
+            <!-- Contribution size -->
+            <div id="container-contrib-amt-a" class="hidden">
+              <label for="contrib-amt-a" id="label-contrib-amt-a" class="block text-xs font-mono uppercase text-mute mb-2">Contribution Amount</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="number" 
+                  id="contrib-amt-a" 
+                  value="0" 
+                  step="50"
+                  min="0"
+                  class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  autocomplete="off"
+                />
+                <span id="contrib-period-suffix-a" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+              </div>
+            </div>
+
+            <!-- One-time timing -->
+            <div id="container-contrib-time-a" class="hidden">
+              <label for="contrib-time-a" class="block text-xs font-mono uppercase text-mute mb-2">Contribution Date (Occurrence)</label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="contrib-time-a" 
+                  value="1" 
+                  step="0.5"
+                  min="0"
+                  class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  autocomplete="off"
+                />
+                <span id="contrib-time-suffix-a" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">year</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scenario B Input Card (Hidden unless in comparison mode) -->
+        <div id="inputs-b-card" class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-5 hidden">
+          <div class="flex items-center justify-between border-b border-hairline pb-3">
+            <h2 class="text-lg font-bold text-ink font-sans flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+              Investment B
+            </h2>
+            <span class="text-[10px] font-mono text-mute uppercase">Secondary Option</span>
+          </div>
+
+          <!-- Initial Capital B -->
+          <div>
+            <label for="init-b" class="block text-xs font-mono uppercase text-mute mb-2">Initial Investment</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input 
+                type="number" 
+                id="init-b" 
+                value="10000" 
+                step="1000"
+                min="1"
+                class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Valuation Mode Switcher B -->
+          <div>
+            <label class="block text-xs font-mono uppercase text-mute mb-2">Valuation Mode</label>
+            <div class="flex rounded-lg bg-canvas-soft-2 p-1 border border-hairline shadow-lvl1 w-full gap-1">
+              <button 
+                type="button" 
+                id="val-toggle-simple-b" 
+                class="flex-1 text-center py-2 px-3 text-xs font-sans font-semibold whitespace-nowrap rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all"
+              >
+                Final Value
+              </button>
+              <button 
+                type="button" 
+                id="val-toggle-project-b" 
+                class="flex-1 text-center py-2 px-3 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all"
+              >
+                Project Rate
+              </button>
+            </div>
+            <input type="hidden" id="val-mode-b" value="simple" />
+          </div>
+
+          <!-- Final Value Input B (Simple Mode) -->
+          <div id="container-final-b">
+            <label for="final-b" class="block text-xs font-mono uppercase text-mute mb-2">Final Value / Current Value</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+              <input 
+                type="number" 
+                id="final-b" 
+                value="15000" 
+                step="1000"
+                min="0"
+                class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- Projected Rate Input B (Projected Mode) -->
+          <div id="container-rate-b" class="hidden">
+            <label for="rate-b" class="block text-xs font-mono uppercase text-mute mb-2">Expected Annual Return</label>
+            <div class="relative">
+              <input 
+                type="number" 
+                id="rate-b" 
+                value="10.0" 
+                step="0.1"
+                min="-100"
+                max="1000"
+                class="w-full h-10 pl-3 pr-7 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+            </div>
+          </div>
+
+          <!-- Duration Period B -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="term-b" class="block text-xs font-mono uppercase text-mute">Holding Period</label>
+              <div class="inline-flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+                <button 
+                  type="button" 
+                  id="term-toggle-years-b" 
+                  class="px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer"
+                >
+                  Years
+                </button>
+                <button 
+                  type="button" 
+                  id="term-toggle-months-b" 
+                  class="px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer"
+                >
+                  Months
+                </button>
+              </div>
+              <input type="hidden" id="term-unit-b" value="years" />
+            </div>
+            
+            <div class="relative">
+              <input 
+                type="number" 
+                id="term-b" 
+                value="3" 
+                step="1"
+                min="1"
+                class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                autocomplete="off"
+              />
+              <span id="term-suffix-b" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">years</span>
+            </div>
+          </div>
+
+          <!-- Cash flows add-ons B -->
+          <div class="border-t border-hairline pt-5 space-y-4">
+            <div>
+              <label for="contrib-type-b" class="block text-xs font-mono uppercase text-mute mb-2">Additional Contributions</label>
+              <select 
+                id="contrib-type-b" 
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+              >
+                <option value="none">None</option>
+                <option value="monthly">Monthly Recurring</option>
+                <option value="onetime">One-Time Contribution</option>
+              </select>
+            </div>
+
+            <!-- Contribution size B -->
+            <div id="container-contrib-amt-b" class="hidden">
+              <label for="contrib-amt-b" id="label-contrib-amt-b" class="block text-xs font-mono uppercase text-mute mb-2">Contribution Amount</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="number" 
+                  id="contrib-amt-b" 
+                  value="0" 
+                  step="50"
+                  min="0"
+                  class="w-full h-10 pl-7 pr-10 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  autocomplete="off"
+                />
+                <span id="contrib-period-suffix-b" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-[10px] font-mono">/mo</span>
+              </div>
+            </div>
+
+            <!-- One-time timing B -->
+            <div id="container-contrib-time-b" class="hidden">
+              <label for="contrib-time-b" class="block text-xs font-mono uppercase text-mute mb-2">Contribution Date (Occurrence)</label>
+              <div class="relative">
+                <input 
+                  type="number" 
+                  id="contrib-time-b" 
+                  value="1" 
+                  step="0.5"
+                  min="0"
+                  class="w-full h-10 pl-3 pr-16 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  autocomplete="off"
+                />
+                <span id="contrib-time-suffix-b" class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-xs font-mono">year</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Results & Chart Column -->
+      <div id="results-wrapper" class="">
+        
+        <!-- Single Mode Results Display -->
+        <div id="results-single-panel" class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 relative">
+          
+          <div class="flex items-center justify-between mb-8">
+            <div>
+              <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Total ROI</h2>
+              <div id="roi-main-display" class="text-4xl md:text-5xl font-bold tracking-tight text-ink font-sans tabular-nums">
+                0.00%
+              </div>
+            </div>
+            <button 
+              type="button" 
+              id="copy-link-btn" 
+              class="h-9 px-4 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 10.742a3 3 0 000 4.516l5.904 4.428a3 3 0 004.532-2.258V6.572a3 3 0 00-4.532-2.258l-5.904 4.428zm0 0L5 12" />
+              </svg>
+              Copy Shareable Link
+            </button>
+          </div>
+
+          <!-- Single Mode Stats Row -->
+          <div class="grid grid-cols-3 gap-4 border-t border-hairline pt-6">
+            <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Annualized Return</span>
+              <span id="stat-annualized" class="text-base font-bold text-ink font-sans tabular-nums">0.00%</span>
+            </div>
+            <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Net Gain/Loss</span>
+              <span id="stat-netprofit" class="text-base font-bold text-ink font-sans tabular-nums">$0</span>
+            </div>
+            <div class="bg-canvas border border-hairline rounded-lg p-4 shadow-lvl1">
+              <span class="block text-[10px] font-mono uppercase text-mute mb-1">Break-Even Point</span>
+              <span id="stat-breakeven" class="text-base font-bold text-ink font-sans tabular-nums">--</span>
+            </div>
+          </div>
+
+          <!-- Inline Disclaimer -->
+          <div class="mt-6 pt-4 border-t border-hairline text-[10px] text-mute leading-normal font-sans">
+            <strong>Disclaimer:</strong> This calculator is for general informational purposes only and does not constitute investment advice. Past performance and projected returns are not guarantees of future results. Consult a licensed financial advisor before making investment decisions.
+          </div>
+        </div>
+
+        <!-- Comparison Table Display (Shown in Compare mode) -->
+        <div id="results-compare-panel" class="hidden space-y-6">
+          <!-- Compare mode: table + chart side-by-side at lg -->
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+            <!-- Comparison table -->
+            <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2">
+              <div class="flex items-center justify-between border-b border-hairline pb-4 mb-4">
+                <h3 class="text-base font-bold text-ink font-sans">Investment Comparison</h3>
+                <button 
+                  type="button" 
+                  id="copy-link-btn-compare" 
+                  class="h-8 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 10.742a3 3 0 000 4.516l5.904 4.428a3 3 0 004.532-2.258V6.572a3 3 0 00-4.532-2.258l-5.904 4.428zm0 0L5 12" />
+                  </svg>
+                  Share
+                </button>
+              </div>
+
+              <div class="overflow-x-auto border border-hairline rounded-lg">
+                <table class="w-full text-left border-collapse text-xs font-sans">
+                  <thead>
+                    <tr class="bg-canvas-soft border-b border-hairline font-mono text-mute uppercase tracking-wider text-[10px]">
+                      <th class="py-3 px-4">Metric</th>
+                      <th class="py-3 px-4 text-right">Option A</th>
+                      <th class="py-3 px-4 text-right">Option B</th>
+                      <th class="py-3 px-4 text-right">Delta</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-hairline text-body tabular-nums">
+                    <tr>
+                      <td class="py-2.5 px-4 font-medium">Initial Principal</td>
+                      <td id="td-init-a" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-init-b" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-init-delta" class="py-2.5 px-4 text-right font-mono text-mute">--</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2.5 px-4 font-medium">Additional Added</td>
+                      <td id="td-add-a" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-add-b" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-add-delta" class="py-2.5 px-4 text-right font-mono text-mute">--</td>
+                    </tr>
+                    <tr class="bg-canvas-soft-2 font-medium">
+                      <td class="py-2.5 px-4">Total Value</td>
+                      <td id="td-final-a" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-final-b" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-final-delta" class="py-2.5 px-4 text-right font-mono font-semibold">--</td>
+                    </tr>
+                    <tr class="font-bold text-ink">
+                      <td class="py-2.5 px-4">Net Profit</td>
+                      <td id="td-profit-a" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-profit-b" class="py-2.5 px-4 text-right font-mono">$0</td>
+                      <td id="td-profit-delta" class="py-2.5 px-4 text-right font-mono">--</td>
+                    </tr>
+                    <tr class="font-bold text-ink bg-canvas-soft-2/50">
+                      <td class="py-2.5 px-4">Total ROI (%)</td>
+                      <td id="td-roi-a" class="py-2.5 px-4 text-right font-mono">0.0%</td>
+                      <td id="td-roi-b" class="py-2.5 px-4 text-right font-mono">0.0%</td>
+                      <td id="td-roi-delta" class="py-2.5 px-4 text-right font-mono">--</td>
+                    </tr>
+                    <tr class="font-bold text-ink">
+                      <td class="py-2.5 px-4">CAGR</td>
+                      <td id="td-cagr-a" class="py-2.5 px-4 text-right font-mono">0.0%</td>
+                      <td id="td-cagr-b" class="py-2.5 px-4 text-right font-mono">0.0%</td>
+                      <td id="td-cagr-delta" class="py-2.5 px-4 text-right font-mono">--</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2.5 px-4 font-medium">Break-Even</td>
+                      <td id="td-be-a" class="py-2.5 px-4 text-right font-mono">--</td>
+                      <td id="td-be-b" class="py-2.5 px-4 text-right font-mono">--</td>
+                      <td id="td-be-delta" class="py-2.5 px-4 text-right font-mono text-mute">--</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="pt-4 text-[10px] text-mute leading-normal font-sans">
+                <strong>Disclaimer:</strong> For informational purposes only. Not investment advice. Consult a licensed financial advisor.
+              </div>
+            </div>
+
+            <!-- Chart container clone slot for compare mode (chart is duplicated here via CSS show/hide) -->
+            <div id="chart-container-compare-slot" class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2">
+              <div class="border-b border-hairline pb-4 mb-6">
+                <h3 class="text-sm font-bold text-ink font-sans">Growth Timeline Comparison</h3>
+                <p class="text-xs text-mute font-sans mt-0.5">A vs B investment value over time.</p>
+              </div>
+              <div class="w-full relative">
+                <svg id="roi-chart-compare" viewBox="0 0 600 220" class="w-full h-auto max-h-[280px]">
+                  <!-- Grid lines -->
+                  <line x1="50" y1="15" x2="590" y2="15" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+                  <line x1="50" y1="60" x2="590" y2="60" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+                  <line x1="50" y1="105" x2="590" y2="105" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" stroke-dasharray="2 2" />
+                  <line x1="50" y1="150" x2="590" y2="150" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+                  <line x1="50" y1="195" x2="590" y2="195" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+                  <!-- Y labels -->
+                  <text x="42" y="20" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart2-y-max">$20k</text>
+                  <text x="42" y="110" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart2-y-mid">$10k</text>
+                  <text x="42" y="198" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end">0</text>
+                  <!-- Option A curves -->
+                  <path id="chart2-line-a-fill" class="fill-violet-500/10 dark:fill-violet-500/5" d="M 50,195 L 590,195 Z" />
+                  <path id="chart2-line-a" class="stroke-violet-600 dark:stroke-violet-400 fill-none" stroke-width="2.5" d="M 50,195 L 590,195 Z" />
+                  <path id="chart2-invested-a" class="stroke-neutral-400 dark:stroke-neutral-600 fill-none" stroke-dasharray="3 3" stroke-width="1.5" d="M 50,195 L 590,195 Z" />
+                  <!-- Option B curves -->
+                  <path id="chart2-line-b-fill" class="fill-emerald-500/10 dark:fill-emerald-500/5" d="M 50,195 L 590,195 Z" />
+                  <path id="chart2-line-b" class="stroke-emerald-500 dark:stroke-emerald-400 fill-none" stroke-width="2.5" d="M 50,195 L 590,195 Z" />
+                  <path id="chart2-invested-b" class="stroke-emerald-300 dark:stroke-emerald-700/80 fill-none" stroke-dasharray="3 3" stroke-width="1.5" d="M 50,195 L 590,195 Z" />
+                  <!-- X labels -->
+                  <g id="chart2-x-labels">
+                    <text x="50" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Start</text>
+                    <text x="320" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Half</text>
+                    <text x="590" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">End</text>
+                  </g>
+                </svg>
+                <!-- Chart Legends -->
+                <div class="flex flex-wrap gap-x-4 gap-y-2 justify-center items-center text-[10px] font-mono text-mute mt-4 border-t border-hairline pt-3">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-3.5 h-1.5 bg-violet-600 inline-block rounded-xs"></span>
+                    <span>Investment A</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-3.5 h-1.5 bg-emerald-500 inline-block rounded-xs"></span>
+                    <span>Investment B</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-3.5 h-0.5 border-t border-dashed border-neutral-400 inline-block"></span>
+                    <span>Money Invested</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Visualization Chart Card -->
+        <div id="chart-container" class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-hairline pb-4 mb-6">
+            <div>
+              <h3 class="text-sm font-bold text-ink font-sans">Investment Growth Timeline</h3>
+              <p class="text-xs text-mute font-sans mt-0.5">Visualize investment value trajectory over the holding period.</p>
+            </div>
+            <button 
+              type="button" 
+              id="download-csv" 
+              class="h-8 border border-hairline bg-canvas hover:border-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-md transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download CSV
+            </button>
+          </div>
+
+          <!-- SVG Visual Elements -->
+          <div class="w-full relative">
+            <svg id="roi-chart" viewBox="0 0 600 220" class="w-full h-auto max-h-[300px]">
+              <!-- Grid lines -->
+              <line x1="50" y1="15" x2="590" y2="15" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+              <line x1="50" y1="60" x2="590" y2="60" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+              <line x1="50" y1="105" x2="590" y2="105" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" stroke-dasharray="2 2" />
+              <line x1="50" y1="150" x2="590" y2="150" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+              <line x1="50" y1="195" x2="590" y2="195" class="stroke-neutral-200 dark:stroke-neutral-800" stroke-width="1" />
+
+              <!-- Y-axis labels -->
+              <text x="42" y="20" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-max">$20k</text>
+              <text x="42" y="110" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end" id="chart-y-mid">$10k</text>
+              <text x="42" y="198" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="end">0</text>
+
+              <!-- Option A Growth Curve -->
+              <path id="chart-line-a-fill" class="fill-violet-500/10 dark:fill-violet-500/5" d="M 50,195 L 590,195 Z" />
+              <path id="chart-line-a" class="stroke-violet-600 dark:stroke-violet-400 fill-none" stroke-width="2".5 d="M 50,195 L 590,195 Z" />
+
+              <!-- Option A Invested Curve (Muted dashed helper) -->
+              <path id="chart-invested-a" class="stroke-neutral-400 dark:stroke-neutral-600 fill-none" stroke-dasharray="3 3" stroke-width="1.5" d="M 50,195 L 590,195 Z" />
+
+              <!-- Option B Curves (Visible in compare mode) -->
+              <path id="chart-line-b-fill" class="fill-emerald-500/10 dark:fill-emerald-500/5 hidden" d="M 50,195 L 590,195 Z" />
+              <path id="chart-line-b" class="stroke-emerald-500 dark:stroke-emerald-400 fill-none hidden" stroke-width="2.5" d="M 50,195 L 590,195 Z" />
+              <path id="chart-invested-b" class="stroke-emerald-300 dark:stroke-emerald-700/80 fill-none hidden" stroke-dasharray="3 3" stroke-width="1.5" d="M 50,195 L 590,195 Z" />
+
+              <!-- Break-Even Reference Marker (Only in single mode if needed or dynamic) -->
+              <!-- X axis Labels -->
+              <g id="chart-x-labels">
+                <text x="50" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Start</text>
+                <text x="320" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Half</text>
+                <text x="590" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">End</text>
+              </g>
+            </svg>
+
+            <!-- Chart Legends -->
+            <div class="flex flex-wrap gap-x-5 gap-y-2 justify-center items-center text-[10px] font-mono text-mute mt-4 border-t border-hairline pt-3">
+              <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-1.5 bg-violet-600 inline-block rounded-xs"></span>
+                <span>Investment A Value</span>
+              </div>
+              <div id="lgnd-invested-a" class="flex items-center gap-1.5">
+                <span class="w-3.5 h-0.5 border-t border-dashed border-neutral-400 inline-block"></span>
+                <span>Money Invested A</span>
+              </div>
+              <div id="lgnd-value-b" class="flex items-center gap-1.5 hidden">
+                <span class="w-3.5 h-1.5 bg-emerald-500 inline-block rounded-xs"></span>
+                <span>Investment B Value</span>
+              </div>
+              <div id="lgnd-invested-b" class="flex items-center gap-1.5 hidden">
+                <span class="w-3.5 h-0.5 border-t border-dashed border-emerald-400 inline-block"></span>
+                <span>Money Invested B</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SEO Copy Block -->
+    <article class="mt-24 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Evaluating Returns with the Return on Investment (ROI) Calculator</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Determining the viability of various allocation choices is critical for any individual investor or business planner. A standard <strong>return on investment calculator</strong> helps translate basic inflows and outflows into transparent metrics, highlighting the absolute efficiency of your capital. By analyzing profits, gains, and timelines, this <strong>investment return calculator</strong> enables you to compare opportunities on a normalized playing field.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Return on Investment (ROI) Formula</h3>
+        <p>
+          At its core, the return on investment represents the ratio of profit gained relative to the original capital cost. The basic calculation is simple:
+        </p>
+        <p class="font-mono text-center text-ink py-4 bg-canvas-soft border border-hairline rounded-md text-sm">
+          Simple ROI = ((Final Value - Total Invested) / Total Invested) * 100
+        </p>
+        <p>
+          While the simple <strong>roi percentage calculator</strong> formula works well for static transactions (like buying an asset and selling it later), it does not account for the timeline. A 50% ROI generated over 2 years represents a far more active capital velocity than a 50% ROI accrued over 10 years.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Annualized ROI (CAGR) Matters</h3>
+        <p>
+          To standardize investments across varying time horizons, you must calculate the Compound Annual Growth Rate (CAGR). An <strong>annualized return calculator</strong> determines the geometric progression of return, showing what constant interest rate would be required to grow the initial balance to the final valuation over the term:
+        </p>
+        <p class="font-mono text-center text-ink py-4 bg-canvas-soft border border-hairline rounded-md text-sm">
+          CAGR = (Final Value / Initial Investment) ^ (1 / Years) - 1
+        </p>
+        <p>
+          CAGR represents a normalized metric that allows you to compare real estate yields directly with historical stock market gains (~8% to 10% annualized) or high-yield deposit accounts. When additional cash flows (like monthly retirement contributions or property upgrades) occur, standard CAGR math fails. This tool solves the issue by executing an iterative bisection algorithm to determine the Money-Weighted Rate of Return (IRR), guaranteeing high-fidelity mathematical accuracy.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How to Compare Options and Model Future Growth</h3>
+        <p>
+          This calculator features a dual-mode visual workspace:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Single Option Analysis:</strong> Assess an active or past asset holding. Model initial buys, recurring monthly contributions, and current market valuations. Alternatively, toggle projection mode to calculate how a specific return rate builds wealth forward.</li>
+          <li><strong>Side-by-Side Comparison:</strong> Activate the comparison module to analyze two distinct scenarios. You can compare Option A (e.g., a stock market index targeting 9% annual growth with recurring monthly contributions) directly against Option B (e.g., a real estate deal requiring a larger initial down payment but no recurring additions). The timelines plot together to visualize when break-even occurs and where the growth paths diverge.</li>
+        </ul>
+
+        <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
+          <strong>Important Note:</strong> This calculator provides general mathematical estimations for research and planning. It is not investment, tax, legal, or advisory counsel. Calculations do not account for inflation, trading commissions, or capital gains taxation. Past yields do not promise future performance. Consult with a qualified certified financial planner (CFP) or tax advisor before executing binding transactions.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ accordion -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <!-- Q1 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What is a good ROI?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Standard equity portfolios average an 8% to 10% annual return before inflation adjustments. What constitutes a "good" return depends on risk levels and liquidity requirements. Higher risk projects demand higher premium targets (e.g., venture investments or individual startups seeking 25%+), whereas lower risk savings rates typically yield 3% to 5%.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What's the difference between ROI and annualized ROI (CAGR)?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Simple ROI yields the raw ratio of gains relative to cumulative invested capital over the total time period. Annualized ROI (CAGR) normalizes that gain to a yearly rate, compounding it geometrically. This enables direct comparison of a 5-year investment with a 1-year investment.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How do I calculate ROI with additional contributions?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              If you add funds over time, calculating annualized returns requires finding the Internal Rate of Return (IRR). Because a contribution added in Month 30 has less compounding time than the initial balance, IRR discounts each flow according to the exact month it was invested. Our calculator resolves this using a numerical bisection root-finder.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Can I use this for real estate or stock investments?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes, it is highly applicable for both. For stocks, enter the initial buy, monthly recurring additions, and current portfolio value. For real estate, input your down payment, monthly cash flows or mortgage amortization, and expected sale price to determine real returns.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Is this ROI calculator financial advice?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No. Standard compounding calculations do not include asset liquidation fees, taxes, or inflation. Use the calculator for initial planning and scenario testing, and seek guidance from a qualified financial planner or tax advisor for professional advisory quotes.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Finance Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <a 
+          href="/finance/compound-interest-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Compound Interest Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Visualize the growth of savings and investments through compounding interest over time.</p>
+        </a>
+
+        <a 
+          href="/finance/net-worth-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Net Worth Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate your personal net worth by balancing your total assets against outstanding debts.</p>
+        </a>
+
+        <a 
+          href="/finance/loan-calculator" 
+          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Loan Payment Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate payments for personal, auto, or student loans with preset options.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Client-Side Calculator Logic Script -->
+  <script>
+    // 1. DOM Element Cache
+    const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
+    const modeSingleBtn = document.getElementById('mode-single') as HTMLButtonElement;
+    const modeCompareBtn = document.getElementById('mode-compare') as HTMLButtonElement;
+
+    // A Elements
+    const initAInput = document.getElementById('init-a') as HTMLInputElement;
+    const valModeAInput = document.getElementById('val-mode-a') as HTMLInputElement;
+    const valToggleSimpleABtn = document.getElementById('val-toggle-simple-a') as HTMLButtonElement;
+    const valToggleProjectABtn = document.getElementById('val-toggle-project-a') as HTMLButtonElement;
+    const finalAInput = document.getElementById('final-a') as HTMLInputElement;
+    const rateAInput = document.getElementById('rate-a') as HTMLInputElement;
+    const termAInput = document.getElementById('term-a') as HTMLInputElement;
+    const termUnitAInput = document.getElementById('term-unit-a') as HTMLInputElement;
+    const termToggleYearsABtn = document.getElementById('term-toggle-years-a') as HTMLButtonElement;
+    const termToggleMonthsABtn = document.getElementById('term-toggle-months-a') as HTMLButtonElement;
+    const termSuffixA = document.getElementById('term-suffix-a') as HTMLSpanElement;
+
+    const containerFinalA = document.getElementById('container-final-a') as HTMLDivElement;
+    const containerRateA = document.getElementById('container-rate-a') as HTMLDivElement;
+
+    const contribTypeAInput = document.getElementById('contrib-type-a') as HTMLSelectElement;
+    const containerContribAmtA = document.getElementById('container-contrib-amt-a') as HTMLDivElement;
+    const containerContribTimeA = document.getElementById('container-contrib-time-a') as HTMLDivElement;
+    const contribAmtAInput = document.getElementById('contrib-amt-a') as HTMLInputElement;
+    const contribTimeAInput = document.getElementById('contrib-time-a') as HTMLInputElement;
+    const contribTimeSuffixA = document.getElementById('contrib-time-suffix-a') as HTMLSpanElement;
+    const contribPeriodSuffixA = document.getElementById('contrib-period-suffix-a') as HTMLSpanElement;
+
+    // B Elements (Compare Mode Card)
+    const inputsBCard = document.getElementById('inputs-b-card') as HTMLDivElement;
+    const initBInput = document.getElementById('init-b') as HTMLInputElement;
+    const valModeBInput = document.getElementById('val-mode-b') as HTMLInputElement;
+    const valToggleSimpleBBtn = document.getElementById('val-toggle-simple-b') as HTMLButtonElement;
+    const valToggleProjectBBtn = document.getElementById('val-toggle-project-b') as HTMLButtonElement;
+    const finalBInput = document.getElementById('final-b') as HTMLInputElement;
+    const rateBInput = document.getElementById('rate-b') as HTMLInputElement;
+    const termBInput = document.getElementById('term-b') as HTMLInputElement;
+    const termUnitBInput = document.getElementById('term-unit-b') as HTMLInputElement;
+    const termToggleYearsBBtn = document.getElementById('term-toggle-years-b') as HTMLButtonElement;
+    const termToggleMonthsBBtn = document.getElementById('term-toggle-months-b') as HTMLButtonElement;
+    const termSuffixB = document.getElementById('term-suffix-b') as HTMLSpanElement;
+
+    const containerFinalB = document.getElementById('container-final-b') as HTMLDivElement;
+    const containerRateB = document.getElementById('container-rate-b') as HTMLDivElement;
+
+    const contribTypeBInput = document.getElementById('contrib-type-b') as HTMLSelectElement;
+    const containerContribAmtB = document.getElementById('container-contrib-amt-b') as HTMLDivElement;
+    const containerContribTimeB = document.getElementById('container-contrib-time-b') as HTMLDivElement;
+    const contribAmtBInput = document.getElementById('contrib-amt-b') as HTMLInputElement;
+    const contribTimeBInput = document.getElementById('contrib-time-b') as HTMLInputElement;
+    const contribTimeSuffixB = document.getElementById('contrib-time-suffix-b') as HTMLSpanElement;
+    const contribPeriodSuffixB = document.getElementById('contrib-period-suffix-b') as HTMLSpanElement;
+
+    // Results panel switching
+    const resultsSinglePanel = document.getElementById('results-single-panel') as HTMLDivElement;
+    const resultsComparePanel = document.getElementById('results-compare-panel') as HTMLDivElement;
+
+    // Single Panel Displays
+    const roiMainDisplay = document.getElementById('roi-main-display') as HTMLDivElement;
+    const statAnnualized = document.getElementById('stat-annualized') as HTMLSpanElement;
+    const statNetProfit = document.getElementById('stat-netprofit') as HTMLSpanElement;
+    const statBreakEven = document.getElementById('stat-breakeven') as HTMLSpanElement;
+
+    // Comparison Table Display Cells
+    const tdInitA = document.getElementById('td-init-a') as HTMLTableCellElement;
+    const tdInitB = document.getElementById('td-init-b') as HTMLTableCellElement;
+    const tdInitDelta = document.getElementById('td-init-delta') as HTMLTableCellElement;
+    const tdAddA = document.getElementById('td-add-a') as HTMLTableCellElement;
+    const tdAddB = document.getElementById('td-add-b') as HTMLTableCellElement;
+    const tdAddDelta = document.getElementById('td-add-delta') as HTMLTableCellElement;
+    const tdFinalA = document.getElementById('td-final-a') as HTMLTableCellElement;
+    const tdFinalB = document.getElementById('td-final-b') as HTMLTableCellElement;
+    const tdFinalDelta = document.getElementById('td-final-delta') as HTMLTableCellElement;
+    const tdProfitA = document.getElementById('td-profit-a') as HTMLTableCellElement;
+    const tdProfitB = document.getElementById('td-profit-b') as HTMLTableCellElement;
+    const tdProfitDelta = document.getElementById('td-profit-delta') as HTMLTableCellElement;
+    const tdRoiA = document.getElementById('td-roi-a') as HTMLTableCellElement;
+    const tdRoiB = document.getElementById('td-roi-b') as HTMLTableCellElement;
+    const tdRoiDelta = document.getElementById('td-roi-delta') as HTMLTableCellElement;
+    const tdCagrA = document.getElementById('td-cagr-a') as HTMLTableCellElement;
+    const tdCagrB = document.getElementById('td-cagr-b') as HTMLTableCellElement;
+    const tdCagrDelta = document.getElementById('td-cagr-delta') as HTMLTableCellElement;
+    const tdBeA = document.getElementById('td-be-a') as HTMLTableCellElement;
+    const tdBeB = document.getElementById('td-be-b') as HTMLTableCellElement;
+    const tdBeDelta = document.getElementById('td-be-delta') as HTMLTableCellElement;
+
+    // SVG Chart Elements
+    const chartYMax = document.getElementById('chart-y-max') as SVGTextElement;
+    const chartYMid = document.getElementById('chart-y-mid') as SVGTextElement;
+    const chartLineA = document.getElementById('chart-line-a') as SVGPathElement;
+    const chartLineAFill = document.getElementById('chart-line-a-fill') as SVGPathElement;
+    const chartInvestedA = document.getElementById('chart-invested-a') as SVGPathElement;
+    const chartLineB = document.getElementById('chart-line-b') as SVGPathElement;
+    const chartLineBFill = document.getElementById('chart-line-b-fill') as SVGPathElement;
+    const chartInvestedB = document.getElementById('chart-invested-b') as SVGPathElement;
+    const chartXLabels = document.getElementById('chart-x-labels') as SVGGraphicsElement;
+
+    // Compare-mode chart SVG elements (second chart inside results-compare-panel)
+    const chart2YMax = document.getElementById('chart2-y-max') as SVGTextElement;
+    const chart2YMid = document.getElementById('chart2-y-mid') as SVGTextElement;
+    const chart2LineA = document.getElementById('chart2-line-a') as SVGPathElement;
+    const chart2LineAFill = document.getElementById('chart2-line-a-fill') as SVGPathElement;
+    const chart2InvestedA = document.getElementById('chart2-invested-a') as SVGPathElement;
+    const chart2LineB = document.getElementById('chart2-line-b') as SVGPathElement;
+    const chart2LineBFill = document.getElementById('chart2-line-b-fill') as SVGPathElement;
+    const chart2InvestedB = document.getElementById('chart2-invested-b') as SVGPathElement;
+    const chart2XLabels = document.getElementById('chart2-x-labels') as SVGGraphicsElement;
+
+    // Legends toggling
+    const lgndInvestedA = document.getElementById('lgnd-invested-a') as HTMLDivElement;
+    const lgndValueB = document.getElementById('lgnd-value-b') as HTMLDivElement;
+    const lgndInvestedB = document.getElementById('lgnd-invested-b') as HTMLDivElement;
+
+    const copyLinkBtn = document.getElementById('copy-link-btn') as HTMLButtonElement;
+    const copyLinkBtnCompare = document.getElementById('copy-link-btn-compare') as HTMLButtonElement;
+    const downloadCsvBtn = document.getElementById('download-csv') as HTMLButtonElement;
+
+    // State Globals
+    let csvDataContent = '';
+    let globalValueTimelineA: any[] = [];
+    let globalValueTimelineB: any[] = [];
+
+    // Helper functions
+    const formatCurrency = (val: number) => {
+      const isNegative = val < 0;
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 0
+      }).format(Math.abs(val));
+      return isNegative ? `-${formatted}` : formatted;
+    };
+
+    const formatPercent = (val: number) => {
+      return (val * 100).toFixed(2) + '%';
+    };
+
+    // NPV/IRR bisection solver
+    // Finds rate 'r' such that NPV = 0. We discount monthly.
+    const solveIRR = (
+      init: number,
+      finalValue: number,
+      termMonths: number,
+      contribType: string,
+      contribAmt: number,
+      contribTimeMonths: number
+    ): number => {
+      if (finalValue <= 0) return -1.0; // Math constraint -100%
+
+      let low = -0.999;
+      let high = 100.0;
+      let rate = 0;
+
+      // NPV Function
+      const calcNPV = (r: number) => {
+        let npv = -init;
+        for (let m = 1; m <= termMonths; m++) {
+          let cf = 0;
+          if (contribType === 'monthly') cf += contribAmt;
+          if (contribType === 'onetime' && m === contribTimeMonths) cf += contribAmt;
+          npv -= cf / Math.pow(1 + r, m / 12);
+        }
+        npv += finalValue / Math.pow(1 + r, termMonths / 12);
+        return npv;
+      };
+
+      const fLow = calcNPV(low);
+      const fHigh = calcNPV(high);
+      if (fLow * fHigh > 0) {
+        // Root not enclosed, fallback to simple CAGR on total invested
+        const totalInvested = init + (contribType === 'monthly' ? contribAmt * termMonths : (contribType === 'onetime' ? contribAmt : 0));
+        if (totalInvested <= 0) return 0;
+        return Math.pow(finalValue / totalInvested, 12 / termMonths) - 1;
+      }
+
+      for (let i = 0; i < 80; i++) {
+        rate = (low + high) / 2;
+        const npv = calcNPV(rate);
+        if (Math.abs(npv) < 0.0001) break;
+        if (calcNPV(low) * npv < 0) {
+          high = rate;
+        } else {
+          low = rate;
+        }
+      }
+      return rate;
+    };
+
+    // Calculate Investment Scenario
+    const runScenario = (
+      init: number,
+      isProjected: boolean,
+      finalOrRate: number,
+      termVal: number,
+      termUnit: string,
+      contribType: string,
+      contribAmt: number,
+      contribTimeVal: number
+    ) => {
+      const termMonths = termUnit === 'years' ? Math.round(termVal * 12) : Math.round(termVal);
+      const termYears = termMonths / 12;
+
+      let contribTimeMonths = 0;
+      if (contribType === 'onetime') {
+        contribTimeMonths = termUnit === 'years' ? Math.round(contribTimeVal * 12) : Math.round(contribTimeVal);
+        contribTimeMonths = Math.min(termMonths, Math.max(1, contribTimeMonths));
+      }
+
+      let finalValue = 0;
+      let cagr = 0;
+      let totalContributions = 0;
+
+      // Calculate total cash flows
+      if (contribType === 'monthly') {
+        totalContributions = contribAmt * termMonths;
+      } else if (contribType === 'onetime') {
+        totalContributions = contribAmt;
+      }
+
+      const totalInvested = init + totalContributions;
+
+      if (isProjected) {
+        // Compounding forwards
+        cagr = finalOrRate / 100;
+        const monthlyRate = Math.pow(1 + cagr, 1 / 12) - 1;
+
+        let currentVal = init;
+        const timeline: any[] = [{ month: 0, val: init, invested: init }];
+
+        for (let m = 1; m <= termMonths; m++) {
+          currentVal = currentVal * (1 + monthlyRate);
+          let cf = 0;
+          if (contribType === 'monthly') cf = contribAmt;
+          if (contribType === 'onetime' && m === contribTimeMonths) cf = contribAmt;
+          
+          currentVal += cf;
+          
+          let cumInvested = init;
+          if (contribType === 'monthly') {
+            cumInvested += contribAmt * m;
+          } else if (contribType === 'onetime' && m >= contribTimeMonths) {
+            cumInvested += contribAmt;
+          }
+
+          timeline.push({ month: m, val: currentVal, invested: cumInvested });
+        }
+
+        finalValue = currentVal;
+        globalValueTimelineA = timeline; // cached
+      } else {
+        // Knowing Final Value
+        finalValue = finalOrRate;
+        
+        // Solve CAGR (MWRR) rate
+        cagr = solveIRR(init, finalValue, termMonths, contribType, contribAmt, contribTimeMonths);
+
+        // Build simulated growth curve matching CAGR
+        const monthlyRate = Math.pow(1 + cagr, 1 / 12) - 1;
+        let currentVal = init;
+        const timeline: any[] = [{ month: 0, val: init, invested: init }];
+
+        for (let m = 1; m <= termMonths; m++) {
+          currentVal = currentVal * (1 + monthlyRate);
+          let cf = 0;
+          if (contribType === 'monthly') cf = contribAmt;
+          if (contribType === 'onetime' && m === contribTimeMonths) cf = contribAmt;
+          
+          currentVal += cf;
+
+          let cumInvested = init;
+          if (contribType === 'monthly') {
+            cumInvested += contribAmt * m;
+          } else if (contribType === 'onetime' && m >= contribTimeMonths) {
+            cumInvested += contribAmt;
+          }
+
+          timeline.push({ month: m, val: currentVal, invested: cumInvested });
+        }
+
+        // Adjust final rounding slightly to lock final coordinate value
+        if (timeline.length > 0) {
+          timeline[timeline.length - 1].val = finalValue;
+        }
+        globalValueTimelineA = timeline;
+      }
+
+      const netProfit = finalValue - totalInvested;
+      const totalRoi = totalInvested > 0 ? (netProfit / totalInvested) : 0;
+
+      // Solve Break-Even month
+      let breakEvenMonthIndex = -1;
+      let timeline = globalValueTimelineA;
+      for (let m = 0; m < timeline.length; m++) {
+        // Has the value overtaken or equaled the cumulative cash invested?
+        if (timeline[m].val >= timeline[m].invested) {
+          // It must stay positive/above or just cross. We find the first month
+          if (breakEvenMonthIndex === -1 && m > 0) {
+            breakEvenMonthIndex = m;
+          }
+        } else {
+          // If it falls below (due to additions), reset
+          breakEvenMonthIndex = -1;
+        }
+      }
+
+      // If it starts broken even at Month 0
+      if (init > 0 && timeline[0].val >= timeline[0].invested) {
+        breakEvenMonthIndex = 0;
+      }
+
+      let breakEvenStr = 'Not achieved';
+      if (breakEvenMonthIndex === 0) {
+        breakEvenStr = 'Instant';
+      } else if (breakEvenMonthIndex > 0) {
+        const y = Math.floor(breakEvenMonthIndex / 12);
+        const remMonths = breakEvenMonthIndex % 12;
+        let str = '';
+        if (y > 0) str += `${y} yr${y > 1 ? 's' : ''}`;
+        if (remMonths > 0) str += ` ${remMonths} mo${remMonths > 1 ? 's' : ''}`;
+        breakEvenStr = str.trim();
+      }
+
+      return {
+        totalRoi,
+        cagr,
+        netProfit,
+        finalValue,
+        totalContributions,
+        totalInvested,
+        breakEvenStr,
+        timeline
+      };
+    };
+
+    // Core execution loop
+    const recalculate = () => {
+      const mode = activeModeInput.value;
+
+      // 1. Gather A inputs
+      const initA = Math.max(0, parseFloat(initAInput.value) || 0);
+      const isProjectedA = valModeAInput.value === 'project';
+      const finalOrRateA = Math.max(-100, parseFloat(isProjectedA ? rateAInput.value : finalAInput.value) || 0);
+      const termA = Math.max(1, parseFloat(termAInput.value) || 1);
+      const termUnitA = termUnitAInput.value;
+      const contribTypeA = contribTypeAInput.value;
+      const contribAmtA = Math.max(0, parseFloat(contribAmtAInput.value) || 0);
+      const contribTimeA = Math.max(0, parseFloat(contribTimeAInput.value) || 0);
+
+      // Solve A
+      const resA = runScenario(initA, isProjectedA, finalOrRateA, termA, termUnitA, contribTypeA, contribAmtA, contribTimeA);
+      globalValueTimelineA = resA.timeline;
+
+      // 2. Gather B inputs if compare
+      let resB: any = null;
+      if (mode === 'compare') {
+        const initB = Math.max(0, parseFloat(initBInput.value) || 0);
+        const isProjectedB = valModeBInput.value === 'project';
+        const finalOrRateB = Math.max(-100, parseFloat(isProjectedB ? rateBInput.value : finalBInput.value) || 0);
+        const termB = Math.max(1, parseFloat(termBInput.value) || 1);
+        const termUnitB = termUnitBInput.value;
+        const contribTypeB = contribTypeBInput.value;
+        const contribAmtB = Math.max(0, parseFloat(contribAmtBInput.value) || 0);
+        const contribTimeB = Math.max(0, parseFloat(contribTimeBInput.value) || 0);
+
+        // Solve B
+        resB = runScenario(initB, isProjectedB, finalOrRateB, termB, termUnitB, contribTypeB, contribAmtB, contribTimeB);
+        globalValueTimelineB = resB.timeline;
+      }
+
+      // Update URL search parameters silently
+      updateUrlParams(initA, isProjectedA, finalOrRateA, termA, termUnitA, contribTypeA, contribAmtA, contribTimeA, resB);
+
+      // Render Results Dashboards
+      if (mode === 'single') {
+        roiMainDisplay.textContent = (resA.totalRoi * 100).toFixed(2) + '%';
+        statAnnualized.textContent = (resA.cagr * 100).toFixed(2) + '%';
+        statNetProfit.textContent = formatCurrency(resA.netProfit);
+        statBreakEven.textContent = resA.breakEvenStr;
+        
+        // Colors
+        if (resA.netProfit < 0) {
+          roiMainDisplay.className = "text-4xl md:text-5xl font-bold tracking-tight text-red-500 dark:text-red-400 font-sans tabular-nums";
+        } else {
+          roiMainDisplay.className = "text-4xl md:text-5xl font-bold tracking-tight text-violet-600 dark:text-violet-400 font-sans tabular-nums";
+        }
+      } else {
+        // Compare values
+        tdInitA.textContent = formatCurrency(initA);
+        tdInitB.textContent = formatCurrency(resB.init || parseFloat(initBInput.value) || 0);
+        tdInitDelta.textContent = formatCurrency(initA - (parseFloat(initBInput.value) || 0));
+
+        tdAddA.textContent = formatCurrency(resA.totalContributions);
+        tdAddB.textContent = formatCurrency(resB.totalContributions);
+        tdAddDelta.textContent = formatCurrency(resA.totalContributions - resB.totalContributions);
+
+        tdFinalA.textContent = formatCurrency(resA.finalValue);
+        tdFinalB.textContent = formatCurrency(resB.finalValue);
+        tdFinalDelta.textContent = formatCurrency(resA.finalValue - resB.finalValue);
+
+        tdProfitA.textContent = formatCurrency(resA.netProfit);
+        tdProfitB.textContent = formatCurrency(resB.netProfit);
+        tdProfitDelta.textContent = formatCurrency(resA.netProfit - resB.netProfit);
+
+        tdRoiA.textContent = (resA.totalRoi * 100).toFixed(2) + '%';
+        tdRoiB.textContent = (resB.totalRoi * 100).toFixed(2) + '%';
+        tdRoiDelta.textContent = ((resA.totalRoi - resB.totalRoi) * 100).toFixed(2) + '%';
+
+        tdCagrA.textContent = (resA.cagr * 100).toFixed(2) + '%';
+        tdCagrB.textContent = (resB.cagr * 100).toFixed(2) + '%';
+        tdCagrDelta.textContent = ((resA.cagr - resB.cagr) * 100).toFixed(2) + '%';
+
+        tdBeA.textContent = resA.breakEvenStr;
+        tdBeB.textContent = resB.breakEvenStr;
+      }
+
+      // Render Visual Chart
+      drawChart(resA, resB, mode);
+
+      // Build CSV Data structure
+      buildCsvContent(resA, resB, mode);
+    };
+
+    // Draw SVG Chart
+    const drawChart = (resA: any, resB: any, mode: string) => {
+      const paddingLeft = 50;
+      const paddingRight = 10;
+      const chartWidth = 600 - paddingLeft - paddingRight;
+      const paddingTop = 15;
+      const paddingBottom = 25;
+      const chartHeight = 220 - paddingTop - paddingBottom;
+
+      // Find global viewport bounds
+      let maxVal = Math.max(resA.finalValue, resA.totalInvested);
+      let minVal = 0; // standard floor
+
+      resA.timeline.forEach((pt: any) => {
+        if (pt.val > maxVal) maxVal = pt.val;
+      });
+
+      if (mode === 'compare' && resB) {
+        resB.timeline.forEach((pt: any) => {
+          if (pt.val > maxVal) maxVal = pt.val;
+        });
+        maxVal = Math.max(maxVal, resB.finalValue, resB.totalInvested);
+      }
+
+      // Scale Y label references - update both charts
+      const yMaxStr = formatCurrency(maxVal);
+      const yMidStr = formatCurrency(maxVal / 2);
+      chartYMax.textContent = yMaxStr;
+      chartYMid.textContent = yMidStr;
+      if (chart2YMax) { chart2YMax.textContent = yMaxStr; }
+      if (chart2YMid) { chart2YMid.textContent = yMidStr; }
+
+      const getPoints = (timeline: any[]) => {
+        const totalPeriods = timeline.length - 1;
+        return timeline.map(pt => {
+          const x = paddingLeft + (pt.month / totalPeriods) * chartWidth;
+          const y = paddingTop + (1 - (pt.val - minVal) / (maxVal - minVal)) * chartHeight;
+          const yInvested = paddingTop + (1 - (pt.invested - minVal) / (maxVal - minVal)) * chartHeight;
+          return { x, y, yInvested };
+        });
+      };
+
+      const ptsA = getPoints(resA.timeline);
+
+      // Curve Path A
+      let baseLineD = `M ${ptsA[0].x},${ptsA[0].y}`;
+      let baseFillD = `M ${ptsA[0].x},195 L ${ptsA[0].x},${ptsA[0].y}`;
+      let investedLineD = `M ${ptsA[0].x},${ptsA[0].yInvested}`;
+
+      for (let i = 1; i < ptsA.length; i++) {
+        baseLineD += ` L ${ptsA[i].x},${ptsA[i].y}`;
+        baseFillD += ` L ${ptsA[i].x},${ptsA[i].y}`;
+        investedLineD += ` L ${ptsA[i].x},${ptsA[i].yInvested}`;
+      }
+      baseFillD += ` L ${ptsA[ptsA.length - 1].x},195 Z`;
+
+      // Write to single-mode chart
+      chartLineA.setAttribute('d', baseLineD);
+      chartLineAFill.setAttribute('d', baseFillD);
+      chartInvestedA.setAttribute('d', investedLineD);
+      // Write to compare-mode chart
+      if (chart2LineA) { chart2LineA.setAttribute('d', baseLineD); }
+      if (chart2LineAFill) { chart2LineAFill.setAttribute('d', baseFillD); }
+      if (chart2InvestedA) { chart2InvestedA.setAttribute('d', investedLineD); }
+
+      // Handles B comparison lines
+      if (mode === 'compare' && resB) {
+        const ptsB = getPoints(resB.timeline);
+
+        let compareLineD = `M ${ptsB[0].x},${ptsB[0].y}`;
+        let compareFillD = `M ${ptsB[0].x},195 L ${ptsB[0].x},${ptsB[0].y}`;
+        let compareInvestedLineD = `M ${ptsB[0].x},${ptsB[0].yInvested}`;
+
+        for (let i = 1; i < ptsB.length; i++) {
+          compareLineD += ` L ${ptsB[i].x},${ptsB[i].y}`;
+          compareFillD += ` L ${ptsB[i].x},${ptsB[i].y}`;
+          compareInvestedLineD += ` L ${ptsB[i].x},${ptsB[i].yInvested}`;
+        }
+        compareFillD += ` L ${ptsB[ptsB.length - 1].x},195 Z`;
+
+        chartLineB.setAttribute('d', compareLineD);
+        chartLineBFill.setAttribute('d', compareFillD);
+        chartInvestedB.setAttribute('d', compareInvestedLineD);
+
+        chartLineB.classList.remove('hidden');
+        chartLineBFill.classList.remove('hidden');
+        chartInvestedB.classList.remove('hidden');
+
+        // Write B to compare chart too
+        if (chart2LineB) { chart2LineB.setAttribute('d', compareLineD); }
+        if (chart2LineBFill) { chart2LineBFill.setAttribute('d', compareFillD); }
+        if (chart2InvestedB) { chart2InvestedB.setAttribute('d', compareInvestedLineD); }
+
+        // Toggle legend overlay identifiers
+        lgndValueB.classList.remove('hidden');
+        lgndInvestedB.classList.remove('hidden');
+      } else {
+        chartLineB.classList.add('hidden');
+        chartLineBFill.classList.add('hidden');
+        chartInvestedB.classList.add('hidden');
+
+        lgndValueB.classList.add('hidden');
+        lgndInvestedB.classList.add('hidden');
+      }
+
+      // X-Axis labels
+      const totalBaselinePeriods = resA.timeline.length - 1;
+      let xLabelsHtml = '';
+      const step = Math.ceil(totalBaselinePeriods / 2);
+      
+      for (let i = 0; i <= 2; i++) {
+        const monthNum = Math.min(totalBaselinePeriods, i * step);
+        const xPos = paddingLeft + (monthNum / totalBaselinePeriods) * chartWidth;
+        const yearVal = (monthNum / 12).toFixed(1).replace('.0', '');
+        xLabelsHtml += `<text x="${xPos}" y="212" class="fill-neutral-400 dark:fill-neutral-500 font-mono text-[9px]" text-anchor="middle">Yr ${yearVal}</text>`;
+      }
+      chartXLabels.innerHTML = xLabelsHtml;
+      if (chart2XLabels) { chart2XLabels.innerHTML = xLabelsHtml; }
+    };
+
+    // Serialize timeline logs to CSV string format
+    const buildCsvContent = (resA: any, resB: any, mode: string) => {
+      let csv = 'Month,Value A,Invested A';
+      if (mode === 'compare' && resB) {
+        csv += ',Value B,Invested B';
+      }
+      csv += '\r\n';
+
+      const maxMonths = Math.max(resA.timeline.length, mode === 'compare' ? resB.timeline.length : 0);
+
+      for (let m = 0; m < maxMonths; m++) {
+        const ptA = resA.timeline[m] || { val: '', invested: '' };
+        let line = `${m},${ptA.val},${ptA.invested}`;
+
+        if (mode === 'compare' && resB) {
+          const ptB = resB.timeline[m] || { val: '', invested: '' };
+          line += `,${ptB.val},${ptB.invested}`;
+        }
+        csv += line + '\r\n';
+      }
+
+      csvDataContent = csv;
+    };
+
+    // Sync query parameters
+    const updateUrlParams = (
+      initA: number,
+      isProjectedA: boolean,
+      finalOrRateA: number,
+      termA: number,
+      termUnitA: string,
+      contribTypeA: string,
+      contribAmtA: number,
+      contribTimeA: number,
+      resB: any
+    ) => {
+      const params = new URLSearchParams();
+      params.set('mode', activeModeInput.value);
+
+      // Scenario A
+      params.set('initA', initA.toString());
+      params.set('isProjA', isProjectedA.toString());
+      params.set('finalA', finalOrRateA.toString());
+      params.set('termA', termA.toString());
+      params.set('unitA', termUnitA);
+      params.set('contTypeA', contribTypeA);
+      params.set('contAmtA', contribAmtA.toString());
+      params.set('contTimeA', contribTimeA.toString());
+
+      // Scenario B (If compare active)
+      if (activeModeInput.value === 'compare') {
+        params.set('initB', initBInput.value);
+        params.set('isProjB', (valModeBInput.value === 'project').toString());
+        params.set('finalB', valModeBInput.value === 'project' ? rateBInput.value : finalBInput.value);
+        params.set('termB', termBInput.value);
+        params.set('unitB', termUnitBInput.value);
+        params.set('contTypeB', contribTypeBInput.value);
+        params.set('contAmtB', contribAmtBInput.value);
+        params.set('contTimeB', contribTimeBInput.value);
+      }
+
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      window.history.replaceState({ path: newUrl }, '', newUrl);
+    };
+
+    // Hydrate form inputs from URL parameters
+    const hydrateFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.has('mode')) return;
+
+      const mode = params.get('mode') || 'single';
+      activeModeInput.value = mode;
+
+      if (mode === 'single') {
+        setSingleModeLayout();
+      } else {
+        setCompareModeLayout();
+      }
+
+      // Scenario A values
+      if (params.has('initA')) initAInput.value = params.get('initA')!;
+      if (params.has('isProjA')) {
+        const isProj = params.get('isProjA') === 'true';
+        updateValuationMode('a', isProj ? 'project' : 'simple');
+      }
+      if (params.has('finalA')) {
+        const isProj = params.get('isProjA') === 'true';
+        if (isProj) {
+          rateAInput.value = params.get('finalA')!;
+        } else {
+          finalAInput.value = params.get('finalA')!;
+        }
+      }
+      if (params.has('termA')) termAInput.value = params.get('termA')!;
+      if (params.has('unitA')) updateTermUnit('a', params.get('unitA')!);
+      if (params.has('contTypeA')) {
+        contribTypeAInput.value = params.get('contTypeA')!;
+        updateContribLayout('a');
+      }
+      if (params.has('contAmtA')) contribAmtAInput.value = params.get('contAmtA')!;
+      if (params.has('contTimeA')) contribTimeAInput.value = params.get('contTimeA')!;
+
+      // Scenario B values
+      if (mode === 'compare') {
+        if (params.has('initB')) initBInput.value = params.get('initB')!;
+        if (params.has('isProjB')) {
+          const isProj = params.get('isProjB') === 'true';
+          updateValuationMode('b', isProj ? 'project' : 'simple');
+        }
+        if (params.has('finalB')) {
+          const isProj = params.get('isProjB') === 'true';
+          if (isProj) {
+            rateBInput.value = params.get('finalB')!;
+          } else {
+            finalBInput.value = params.get('finalB')!;
+          }
+        }
+        if (params.has('termB')) termBInput.value = params.get('termB')!;
+        if (params.has('unitB')) updateTermUnit('b', params.get('unitB')!);
+        if (params.has('contTypeB')) {
+          contribTypeBInput.value = params.get('contTypeB')!;
+          updateContribLayout('b');
+        }
+        if (params.has('contAmtB')) contribAmtBInput.value = params.get('contAmtB')!;
+        if (params.has('contTimeB')) contribTimeBInput.value = params.get('contTimeB')!;
+      }
+    };
+
+    // Mode Toggle — use data-mode attribute instead of dynamic className swaps
+    // All layout CSS is in the <style> block above, keyed off data-mode.
+    const mainWorkspace = document.getElementById('main-workspace') as HTMLDivElement;
+
+    const setSingleModeLayout = () => {
+      activeModeInput.value = 'single';
+      mainWorkspace.setAttribute('data-mode', 'single');
+      modeSingleBtn.className = "px-5 py-3 text-sm font-sans font-medium border-b-2 border-primary text-ink transition-all cursor-pointer";
+      modeCompareBtn.className = "px-5 py-3 text-sm font-sans font-medium border-b-2 border-transparent text-mute hover:text-ink transition-all cursor-pointer";
+
+      inputsBCard.classList.add('hidden');
+      resultsSinglePanel.classList.remove('hidden');
+      resultsComparePanel.classList.add('hidden');
+    };
+
+    const setCompareModeLayout = () => {
+      activeModeInput.value = 'compare';
+      mainWorkspace.setAttribute('data-mode', 'compare');
+      modeCompareBtn.className = "px-5 py-3 text-sm font-sans font-medium border-b-2 border-primary text-ink transition-all cursor-pointer";
+      modeSingleBtn.className = "px-5 py-3 text-sm font-sans font-medium border-b-2 border-transparent text-mute hover:text-ink transition-all cursor-pointer";
+
+      inputsBCard.classList.remove('hidden');
+      resultsSinglePanel.classList.add('hidden');
+      resultsComparePanel.classList.remove('hidden');
+    };
+
+    modeSingleBtn.addEventListener('click', () => {
+      setSingleModeLayout();
+      recalculate();
+    });
+
+    modeCompareBtn.addEventListener('click', () => {
+      setCompareModeLayout();
+      recalculate();
+    });
+
+    // Valuation mode switchers A
+    const updateValuationMode = (card: string, valMode: string) => {
+      const isCardA = card === 'a';
+      const valModeInput = isCardA ? valModeAInput : valModeBInput;
+      const simpleBtn = isCardA ? valToggleSimpleABtn : valToggleSimpleBBtn;
+      const projectBtn = isCardA ? valToggleProjectABtn : valToggleProjectBBtn;
+      const finalContainer = isCardA ? containerFinalA : containerFinalB;
+      const rateContainer = isCardA ? containerRateA : containerRateB;
+
+      valModeInput.value = valMode;
+
+      const activeClass = "flex-1 text-center py-2 px-3 text-xs font-sans font-semibold whitespace-nowrap rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all";
+      const inactiveClass = "flex-1 text-center py-2 px-3 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all";
+
+      if (valMode === 'simple') {
+        simpleBtn.className = activeClass;
+        projectBtn.className = inactiveClass;
+        finalContainer.classList.remove('hidden');
+        rateContainer.classList.add('hidden');
+      } else {
+        projectBtn.className = activeClass;
+        simpleBtn.className = inactiveClass;
+        finalContainer.classList.add('hidden');
+        rateContainer.classList.remove('hidden');
+      }
+    };
+
+    valToggleSimpleABtn.addEventListener('click', () => { updateValuationMode('a', 'simple'); recalculate(); });
+    valToggleProjectABtn.addEventListener('click', () => { updateValuationMode('a', 'project'); recalculate(); });
+    valToggleSimpleBBtn.addEventListener('click', () => { updateValuationMode('b', 'simple'); recalculate(); });
+    valToggleProjectBBtn.addEventListener('click', () => { updateValuationMode('b', 'project'); recalculate(); });
+
+    // Term toggle switcher A & B
+    const updateTermUnit = (card: string, unit: string) => {
+      const isCardA = card === 'a';
+      const termUnitInput = isCardA ? termUnitAInput : termUnitBInput;
+      const yearsBtn = isCardA ? termToggleYearsABtn : termToggleYearsBBtn;
+      const monthsBtn = isCardA ? termToggleMonthsABtn : termToggleMonthsBBtn;
+      const suffix = isCardA ? termSuffixA : termSuffixB;
+      const termInput = isCardA ? termAInput : termBInput;
+      const contribTimeSuffix = isCardA ? contribTimeSuffixA : contribTimeSuffixB;
+
+      if (termUnitInput.value === unit) return;
+      termUnitInput.value = unit;
+
+      const rawVal = parseFloat(termInput.value) || 0;
+
+      if (unit === 'years') {
+        yearsBtn.className = "px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer";
+        monthsBtn.className = "px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer";
+        suffix.textContent = 'years';
+        contribTimeSuffix.textContent = 'year';
+        termInput.value = (rawVal / 12).toFixed(1).replace('.0', '');
+      } else {
+        monthsBtn.className = "px-2.5 py-1 text-[10px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer";
+        yearsBtn.className = "px-2.5 py-1 text-[10px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer";
+        suffix.textContent = 'months';
+        contribTimeSuffix.textContent = 'month';
+        termInput.value = Math.round(rawVal * 12).toString();
+      }
+    };
+
+    termToggleYearsABtn.addEventListener('click', () => { updateTermUnit('a', 'years'); recalculate(); });
+    termToggleMonthsABtn.addEventListener('click', () => { updateTermUnit('a', 'months'); recalculate(); });
+    termToggleYearsBBtn.addEventListener('click', () => { updateTermUnit('b', 'years'); recalculate(); });
+    termToggleMonthsBBtn.addEventListener('click', () => { updateTermUnit('b', 'months'); recalculate(); });
+
+    // Contributions Type switches
+    const updateContribLayout = (card: string) => {
+      const isCardA = card === 'a';
+      const typeInput = isCardA ? contribTypeAInput : contribTypeBInput;
+      const amtContainer = isCardA ? containerContribAmtA : containerContribAmtB;
+      const timeContainer = isCardA ? containerContribTimeA : containerContribTimeB;
+      const periodSuffix = isCardA ? contribPeriodSuffixA : contribPeriodSuffixB;
+
+      const val = typeInput.value;
+
+      if (val === 'none') {
+        amtContainer.classList.add('hidden');
+        timeContainer.classList.add('hidden');
+      } else if (val === 'monthly') {
+        amtContainer.classList.remove('hidden');
+        timeContainer.classList.add('hidden');
+        periodSuffix.textContent = '/mo';
+      } else {
+        amtContainer.classList.remove('hidden');
+        timeContainer.classList.remove('hidden');
+        periodSuffix.textContent = 'one-time';
+      }
+    };
+
+    contribTypeAInput.addEventListener('change', () => { updateContribLayout('a'); recalculate(); });
+    contribTypeBInput.addEventListener('change', () => { updateContribLayout('b'); recalculate(); });
+
+    // Copy clipboard results link
+    const copyLinkAction = async (btn: HTMLButtonElement) => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `
+          <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span class="text-emerald-500">Copied!</span>
+        `;
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 1500);
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+    };
+
+    copyLinkBtn.addEventListener('click', () => copyLinkAction(copyLinkBtn));
+    copyLinkBtnCompare.addEventListener('click', () => copyLinkAction(copyLinkBtnCompare));
+
+    // CSV Downloader
+    downloadCsvBtn.addEventListener('click', () => {
+      if (!csvDataContent) return;
+      const blob = new Blob([csvDataContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `roi_growth_timeline_${activeModeInput.value}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // FAQs Accordion bindings
+    document.querySelectorAll('.faq-toggle').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling as HTMLDivElement;
+        const chevron = button.querySelector('svg') as unknown as SVGElement;
+        const isHidden = content.classList.toggle('hidden');
+        chevron.classList.toggle('rotate-180', !isHidden);
+        button.setAttribute('aria-expanded', (!isHidden).toString());
+      });
+    });
+
+    // Live event triggers
+    const triggerInputsList = [
+      initAInput, finalAInput, rateAInput, termAInput, contribAmtAInput, contribTimeAInput,
+      initBInput, finalBInput, rateBInput, termBInput, contribAmtBInput, contribTimeBInput
+    ];
+
+    triggerInputsList.forEach(input => {
+      input.addEventListener('input', recalculate);
+    });
+
+    // Run first initialization
+    hydrateFromUrl();
+    recalculate();
+
+  </script>
+</Layout>

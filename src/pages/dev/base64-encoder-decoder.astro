@@ -1,0 +1,873 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Base64 encoding and why would I use it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Base64 is an encoding scheme that converts binary data into a text-based format using 64 printable ASCII characters. It is commonly used to embed small images directly in HTML/CSS, transmit files safely through text-only JSON API payloads, and handle email attachments without file corruption."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I encode an image to Base64?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Simply click the 'Upload File' button or drag and drop any image file into the input zone. The tool will read the file and convert it into a Base64 Data URI (e.g., 'data:image/png;base64,...') which you can copy and use directly in code."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I decode a Base64 string back to a file or image?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. When you paste a Base64 string in Decode mode, the tool automatically detects the MIME type. If it is an image, a live preview will render, and you can download the original file directly to your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data safe when using this Base64 converter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, 100% safe. All conversions run entirely inside your local browser using JavaScript. No files, strings, or images are ever uploaded or transmitted to any server, preserving your data privacy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Base64 encoding and encryption?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Encoding simply translates data format so text systems can handle it safely; it requires no key to decode. Encryption scrambles data using a cryptographic key to hide its meaning from unauthorized parties and requires a key to decrypt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Base64 encoding increase the size of the data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Base64 encoding increases data size by approximately 33%. Every 3 bytes of binary data are represented as 4 characters (4 bytes) of text. This overhead should be factored in when transmitting large payloads."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the '=' symbol mean at the end of Base64 strings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The '=' symbol is a padding character. Base64 strings must always have a length that is a multiple of 4. If the input binary data is not a multiple of 3 bytes, padding is added at the end so the string length is valid."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a Base64 Data URI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Data URI allows you to embed files inline inside web pages. It starts with 'data:', followed by the MIME type (like 'image/png'), the ';base64' scheme identifier, and the Base64-encoded string itself."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Base64 case-sensitive?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Base64 uses capital letters (A-Z), lowercase letters (a-z), and numbers (0-9). Changing the case of any letter changes the underlying numerical value, which results in decoding corruption or error."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I encode non-English Unicode characters to Base64?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This tool safely encodes Unicode characters (like emojis or non-Latin text) by first converting the text to a UTF-8 byte array before applying Base64 encoding, preventing character garbling."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="Base64 Encode/Decode - Free Online Tool with Image Support | ToolzTotal"
+  description="Encode text or files to Base64 and decode Base64 strings back to readable text or images. Supports drag-and-drop, file uploads, image preview, and data URI generation — all client-side."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
+      <span>/</span>
+      <span class="text-ink">Base64 Encoder/Decoder</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-10">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Base64 Encoder / Decoder
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Encode text or files to Base64, or decode Base64 strings back to readable text, images, and files.
+        Drag-and-drop support, image preview, and data URI generation — all client-side and private.
+      </p>
+    </div>
+
+    <!-- Mode Tabs -->
+    <div class="w-full mb-6">
+      <div class="inline-flex rounded-lg bg-canvas-soft p-0.5 ring-1 ring-inset ring-hairline shadow-lvl1" role="tablist">
+        <button type="button" id="mode-encode" class="mode-btn px-5 py-2 text-xs font-sans font-semibold rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all" role="tab" aria-selected="true">Encode</button>
+        <button type="button" id="mode-decode" class="mode-btn px-5 py-2 text-xs font-sans font-semibold rounded-md text-mute hover:text-ink cursor-pointer transition-all" role="tab" aria-selected="false">Decode</button>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
+      <!-- Left Panel: Input -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-hairline">
+          <label for="input-area" id="input-label" class="text-[11px] font-mono font-medium uppercase tracking-widest text-mute">Input</label>
+          <span class="text-[11px] font-mono text-mute/60" id="input-status">waiting for input</span>
+        </div>
+        <div class="relative" id="input-container">
+          <!-- Encode file drop zone -->
+          <div id="drop-zone" class="hidden absolute inset-0 z-10 border-2 border-dashed border-primary/40 rounded-lg bg-canvas/90 backdrop-blur-sm flex items-center justify-center text-sm font-sans text-body cursor-pointer pointer-events-none">
+            <div class="text-center p-6">
+              <svg class="w-10 h-10 mx-auto mb-3 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              <p class="text-body font-sans">Drop an image or file here to encode</p>
+            </div>
+          </div>
+          <textarea
+            id="input-area"
+            class="w-full h-[320px] min-h-[200px] resize-y bg-canvas text-ink font-mono text-[13px] leading-[1.6] p-4 border-none outline-none focus:outline-none placeholder:text-mute/30"
+            placeholder="Enter text to encode, or drag &amp; drop an image/file..."
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+        </div>
+        <!-- File info bar -->
+        <div id="file-info" class="hidden px-4 py-2 border-t border-hairline bg-canvas-soft flex items-center gap-3 text-xs font-sans text-body">
+          <span id="file-name" class="font-mono text-mute"></span>
+          <span id="file-size" class="text-mute"></span>
+          <button type="button" id="file-clear" class="ml-auto text-mute hover:text-error cursor-pointer transition-colors">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Panel: Output -->
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-2 border-b border-hairline">
+          <span class="text-[11px] font-mono font-medium uppercase tracking-widest text-mute">Output</span>
+          <span class="text-[11px] font-mono text-mute/60" id="output-status">ready</span>
+        </div>
+        <div id="output-area" class="w-full h-[320px] min-h-[200px] bg-canvas text-ink font-mono text-[13px] leading-[1.6] p-4 overflow-auto whitespace-pre-wrap break-all">
+          <span class="text-mute/50 text-sm">Encoded/decoded output will appear here.</span>
+        </div>
+        <!-- Image preview container (for decoded images or encoded data URIs) -->
+        <div id="image-preview-container" class="hidden border-t border-hairline p-4 bg-canvas-soft">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-mute">Preview</span>
+          </div>
+          <img id="image-preview" class="max-w-full max-h-[300px] rounded-md border border-hairline bg-canvas-soft-2 mx-auto" alt="Preview" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="w-full mb-6 flex flex-wrap items-center gap-2 px-4 py-2.5 bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3">
+      <button type="button" id="btn-upload" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        Upload File
+      </button>
+      <button type="button" id="btn-copy" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+        Copy
+      </button>
+      <button type="button" id="btn-download" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        Download
+      </button>
+      <button type="button" id="btn-swap" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/></svg>
+        Swap
+      </button>
+      <button type="button" id="btn-clear" class="h-8 ring-1 ring-inset ring-hairline bg-canvas hover:ring-hairline-strong text-body hover:text-ink font-sans text-xs px-3 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-lvl1">
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        Clear
+      </button>
+      <span class="ml-auto text-[10px] font-mono text-mute hidden sm:block" id="char-count">0 chars</span>
+    </div>
+
+    <!-- Conversion Info Card -->
+    <div id="info-card" class="hidden w-full bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 mb-10 overflow-hidden">
+      <div class="px-4 py-2.5 border-b border-hairline">
+        <span class="text-[11px] font-mono font-medium uppercase tracking-widest text-mute">Conversion Info</span>
+      </div>
+      <div class="px-5 py-4 grid grid-cols-2 sm:grid-cols-4 gap-6 text-sm font-sans">
+        <div>
+          <span class="block text-[10px] font-mono uppercase text-mute mb-1">Input Size</span>
+          <span id="info-input-size" class="text-ink font-mono text-xs">0 bytes</span>
+        </div>
+        <div>
+          <span class="block text-[10px] font-mono uppercase text-mute mb-1">Output Size</span>
+          <span id="info-output-size" class="text-ink font-mono text-xs">0 bytes</span>
+        </div>
+        <div>
+          <span class="block text-[10px] font-mono uppercase text-mute mb-1">Size Change</span>
+          <span id="info-size-change" class="text-ink font-mono text-xs">0%</span>
+        </div>
+        <div>
+          <span class="block text-[10px] font-mono uppercase text-mute mb-1">Mode</span>
+          <span id="info-mode" class="text-ink font-mono text-xs">Encode</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Complete Guide to Base64 Encoding and Decoding</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>base64 encoder decoder</strong> is an indispensable utility for software engineering, database management, and web design. When developing applications, you frequently encounter scenarios where you must transmit raw binary data — such as images, cryptographic keys, files, or zip archives — across networks or store them in systems that natively support only plain text characters. This <strong>online base64 tool</strong> offers a fast, clean, and 100% private client-side solution to encode text to base64, decode base64 strings back to their original representation, and convert files like images into inline data URIs.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Base64 Encoding Works</h3>
+        <p>
+          Historically, networks and data transfer protocols were built to carry 7-bit ASCII characters. When raw 8-bit binary data is passed through these legacy systems, control characters or non-standard bytes can be stripped out, modified, or corrupted, breaking the integrity of the files. Base64 encoding resolves this by converting any binary sequence into a text string using a standard alphabet of 64 printable ASCII characters: the uppercase letters <code>A-Z</code>, lowercase letters <code>a-z</code>, numbers <code>0-9</code>, the symbols <code>+</code> and <code>/</code>, and the padding character <code>=</code>.
+        </p>
+        <p>
+          Mathematically, the encoding process works by gathering the binary stream into groups of 3 bytes (24 bits total). These 24 bits are then divided into 4 chunks of 6 bits each. Since a 6-bit index can represent values from 0 to 63, each chunk maps directly to one of the 64 characters in the Base64 alphabet. For data that does not end exactly on a 3-byte boundary, padding characters (<code>=</code>) are appended to the final output string to indicate how many dummy bytes were added, ensuring the output string's length is always a multiple of 4.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Primary Use Cases in Modern Development</h3>
+        <p>
+          Understanding when to use a <strong>free base64 converter</strong> can improve performance, security, and developer workflow:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Data URIs & Inline Web Assets:</strong> Small icons, SVGs, or low-resolution backgrounds can be encoded into Base64 strings and placed directly in HTML source tags (e.g., <code>&lt;img src="data:image/png;base64,..." /&gt;</code>) or CSS files. This eliminates separate HTTP connection overhead, enabling single-request document rendering for lightweight assets.</li>
+          <li><strong>API Transfer of Files:</strong> Modern APIs communicating via JSON or XML cannot carry raw binary streams natively. Converting binary assets into Base64 strings allows developers to package files directly inside standard text-based JSON key-value parameters.</li>
+          <li><strong>Email MIME Protocols:</strong> Attachments such as documents, spreadsheets, and pictures are encoded in Base64 behind the scenes by email clients to guarantee safe transit through standard text mail servers.</li>
+          <li><strong>Hash & Key Representations:</strong> Cryptographic digests, tokens (like JWTs), and public keys are often stored or printed in Base64 (or URL-safe variations) to make them readable and easy to copy.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Is Base64 Secure? Encoding vs. Encryption</h3>
+        <p>
+          It is crucial to understand that Base64 is NOT a form of encryption and does not provide any security. Anyone can easily copy a Base64 string and paste it into a <strong>base64 decoder</strong> to retrieve the original data instantly. Encoding is simply a public translation of data presentation to ensure transmission compatibility. Encryption, by contrast, relies on secret keys and mathematical algorithms (such as AES) to keep data confidential. Base64 is only useful for encoding structured binary payloads and should never be used alone to secure sensitive credentials, API keys, or user data.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is Base64 encoding and why would I use it?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Base64 is an encoding scheme that converts binary data into a text-based format using 64 printable ASCII characters. It is commonly used to embed small images directly in HTML/CSS, transmit files safely through text-only JSON API payloads, and handle email attachments without file corruption.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>How do I encode an image to Base64?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Simply click the 'Upload File' button or drag and drop any image file into the input zone. The tool will read the file and convert it into a Base64 Data URI (e.g., 'data:image/png;base64,...') which you can copy and use directly in code.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I decode a Base64 string back to a file or image?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. When you paste a Base64 string in Decode mode, the tool automatically detects the MIME type. If it is an image, a live preview will render, and you can download the original file directly to your device.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Is my data safe when using this Base64 converter?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, 100% safe. All conversions run entirely inside your local browser using JavaScript. No files, strings, or images are ever uploaded or transmitted to any server, preserving your data privacy.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is the difference between Base64 encoding and encryption?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Encoding simply translates data format so text systems can handle it safely; it requires no key to decode. Encryption scrambles data using a cryptographic key to hide its meaning from unauthorized parties and requires a key to decrypt.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Does Base64 encoding increase the size of the data?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes, Base64 encoding increases data size by approximately 33%. Every 3 bytes of binary data are represented as 4 characters (4 bytes) of text. This overhead should be factored in when transmitting large payloads.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What does the '=' symbol mean at the end of Base64 strings?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">The '=' symbol is a padding character. Base64 strings must always have a length that is a multiple of 4. If the input binary data is not a multiple of 3 bytes, padding is added at the end so the string length is valid.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>What is a Base64 Data URI?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A Data URI allows you to embed files inline inside web pages. It starts with 'data:', followed by the MIME type (like 'image/png'), the ';base64' scheme identifier, and the Base64-encoded string itself.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Is Base64 case-sensitive?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. Base64 uses capital letters (A-Z), lowercase letters (a-z), and numbers (0-9). Changing the case of any letter changes the underlying numerical value, which results in decoding corruption or error.</p>
+          </div>
+        </details>
+
+        <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+            <span>Can I encode non-English Unicode characters to Base64?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. This tool safely encodes Unicode characters (like emojis or non-Latin text) by first converting the text to a UTF-8 byte array before applying Base64 encoding, preventing character garbling.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Developer Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/dev/json-formatter" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            JSON Formatter
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Format, validate, minify, and pretty-print JSON in real-time.</p>
+        </a>
+        <a href="/dev/regex-tester" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Regex Tester
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Test regular expressions in real-time with highlighted matches and capture groups.</p>
+        </a>
+        <a href="/dev/uuid-generator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            UUID Generator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Generate v4 UUIDs in bulk with options for uppercase, lowercase, and formatting.</p>
+        </a>
+        <a href="/dev/diff-checker" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Diff Checker
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Compare two blocks of text side-by-side and see the differences highlighted inline.</p>
+        </a>
+        <a href="/dev/color-picker" class="block bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Color Picker & Converter
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Pick, convert, and preview colors across HEX, RGB, HSL, and OKLCH formats.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- Client Script -->
+  <script>
+    // ---- DOM refs ----
+    const inputArea = document.getElementById('input-area') as HTMLTextAreaElement;
+    const outputArea = document.getElementById('output-area') as HTMLDivElement;
+    const inputStatus = document.getElementById('input-status') as HTMLSpanElement;
+    const outputStatus = document.getElementById('output-status') as HTMLSpanElement;
+    const charCount = document.getElementById('char-count') as HTMLSpanElement;
+    const inputContainer = document.getElementById('input-container') as HTMLDivElement;
+
+    const modeEncode = document.getElementById('mode-encode') as HTMLButtonElement;
+    const modeDecode = document.getElementById('mode-decode') as HTMLButtonElement;
+    const modeBtns = document.querySelectorAll('.mode-btn') as NodeListOf<HTMLButtonElement>;
+
+    const dropZone = document.getElementById('drop-zone') as HTMLDivElement;
+    const fileInfo = document.getElementById('file-info') as HTMLDivElement;
+    const fileName = document.getElementById('file-name') as HTMLSpanElement;
+    const fileSize = document.getElementById('file-size') as HTMLSpanElement;
+    const fileClear = document.getElementById('file-clear') as HTMLButtonElement;
+
+    const imagePreviewContainer = document.getElementById('image-preview-container') as HTMLDivElement;
+    const imagePreview = document.getElementById('image-preview') as HTMLImageElement;
+
+    const btnUpload = document.getElementById('btn-upload') as HTMLButtonElement;
+    const btnCopy = document.getElementById('btn-copy') as HTMLButtonElement;
+    const btnDownload = document.getElementById('btn-download') as HTMLButtonElement;
+    const btnSwap = document.getElementById('btn-swap') as HTMLButtonElement;
+    const btnClear = document.getElementById('btn-clear') as HTMLButtonElement;
+
+    const infoCard = document.getElementById('info-card') as HTMLDivElement;
+    const infoInputSize = document.getElementById('info-input-size') as HTMLSpanElement;
+    const infoOutputSize = document.getElementById('info-output-size') as HTMLSpanElement;
+    const infoSizeChange = document.getElementById('info-size-change') as HTMLSpanElement;
+    const infoMode = document.getElementById('info-mode') as HTMLSpanElement;
+
+    // ---- state ----
+    let currentMode: 'encode' | 'decode' = 'encode';
+    let currentFile: File | null = null;
+    let currentDataUri: string | null = null;
+    let lastOutputText = '';
+
+    // ---- helpers ----
+    function formatBytes(bytes: number): string {
+      if (bytes === 0) return '0 bytes';
+      const k = 1024;
+      const sizes = ['bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      const val = bytes / Math.pow(k, i);
+      return val.toFixed(i > 0 ? 2 : 0) + ' ' + sizes[i];
+    }
+
+    function updateCharCount(text: string) {
+      charCount.textContent = `${text.length} char${text.length !== 1 ? 's' : ''}`;
+    }
+
+    function updateInfo(inputSize: number, outputSize: number, mode: string) {
+      infoInputSize.textContent = formatBytes(inputSize);
+      infoOutputSize.textContent = formatBytes(outputSize);
+      const change = inputSize > 0 ? ((outputSize - inputSize) / inputSize * 100).toFixed(1) : '0';
+      infoSizeChange.textContent = `${change > 0 ? '+' : ''}${change}%`;
+      infoMode.textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+      infoCard.classList.remove('hidden');
+    }
+
+    function setModePill(active: HTMLButtonElement) {
+      modeBtns.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+        b.classList.add('text-mute', 'hover:text-ink');
+        b.setAttribute('aria-selected', 'false');
+      });
+      active.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+      active.classList.remove('text-mute', 'hover:text-ink');
+      active.setAttribute('aria-selected', 'true');
+    }
+
+    // ---- escape HTML ----
+    function escapeHtml(str: string) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ---- encode logic ----
+    function encodeText(text: string): string {
+      try {
+        return btoa(unescape(encodeURIComponent(text)));
+      } catch {
+        return btoa(text);
+      }
+    }
+
+    function decodeBase64(str: string): string {
+      try {
+        const cleaned = str.replace(/^data:[^;]+;base64,/, '');
+        const binary = atob(cleaned);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return new TextDecoder().decode(bytes);
+      } catch {
+        return '';
+      }
+    }
+
+    function isDataUri(str: string): boolean {
+      return /^data:\w+\/\w+;base64,/.test(str.trim());
+    }
+
+    function getMimeFromDataUri(uri: string): string {
+      const match = uri.match(/^data:(\w+\/\w+);base64,/);
+      return match ? match[1] : '';
+    }
+
+    function isImageMime(mime: string): boolean {
+      return ['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'image/svg+xml', 'image/bmp'].includes(mime);
+    }
+
+    // ---- process ----
+    function process() {
+      const raw = inputArea.value;
+      updateCharCount(raw);
+
+      if (!raw.trim()) {
+        outputArea.innerHTML = '<span class="text-mute/50 text-sm">' + (currentMode === 'encode' ? 'Encoded output will appear here.' : 'Decoded output will appear here.') + '</span>';
+        outputStatus.textContent = 'ready';
+        imagePreviewContainer.classList.add('hidden');
+        lastOutputText = '';
+        return;
+      }
+
+      inputStatus.textContent = `${raw.length} chars`;
+
+      if (currentMode === 'encode') {
+        // Encode mode
+        const encoded = encodeText(raw);
+        outputArea.textContent = encoded;
+        outputStatus.textContent = 'encoded';
+        lastOutputText = encoded;
+
+        // Show preview for data URIs if user pasted one
+        if (isDataUri(raw)) {
+          const mime = getMimeFromDataUri(raw);
+          if (isImageMime(mime)) {
+            imagePreview.src = raw;
+            imagePreviewContainer.classList.remove('hidden');
+          } else {
+            imagePreviewContainer.classList.add('hidden');
+          }
+        } else {
+          imagePreviewContainer.classList.add('hidden');
+        }
+
+        updateInfo(raw.length, encoded.length, 'encode');
+      } else {
+        // Decode mode
+        const trimmed = raw.trim();
+        let decoded: string;
+        let isImage = false;
+        let mimeType = '';
+
+        // Check if it's a data URI
+        if (isDataUri(trimmed)) {
+          mimeType = getMimeFromDataUri(trimmed);
+          isImage = isImageMime(mimeType);
+          try {
+            const base64Part = trimmed.replace(/^data:[^;]+;base64,/, '');
+            atob(base64Part);
+            decoded = decodeBase64(trimmed);
+          } catch {
+            outputArea.innerHTML = '<span class="text-error text-sm font-mono">Invalid Base64 string</span>';
+            outputStatus.textContent = 'error';
+            imagePreviewContainer.classList.add('hidden');
+            lastOutputText = '';
+            return;
+          }
+        } else {
+          try {
+            atob(trimmed);
+            decoded = decodeBase64(trimmed);
+          } catch {
+            outputArea.innerHTML = '<span class="text-error text-sm font-mono">Invalid Base64 string</span>';
+            outputStatus.textContent = 'error';
+            imagePreviewContainer.classList.add('hidden');
+            lastOutputText = '';
+            return;
+          }
+        }
+
+        outputArea.textContent = decoded;
+        outputStatus.textContent = 'decoded';
+        lastOutputText = decoded;
+
+        if (isImage && isDataUri(trimmed)) {
+          imagePreview.src = trimmed;
+          imagePreviewContainer.classList.remove('hidden');
+        } else {
+          imagePreviewContainer.classList.add('hidden');
+        }
+
+        updateInfo(trimmed.length, decoded.length, 'decode');
+      }
+    }
+
+    // ---- mode switching ----
+    function switchMode(mode: 'encode' | 'decode') {
+      currentMode = mode;
+      setModePill(mode === 'encode' ? modeEncode : modeDecode);
+
+      inputArea.value = '';
+      outputArea.innerHTML = '<span class="text-mute/50 text-sm">' + (mode === 'encode' ? 'Encoded output will appear here.' : 'Decoded output will appear here.') + '</span>';
+      outputStatus.textContent = 'ready';
+      inputStatus.textContent = 'waiting for input';
+      charCount.textContent = '0 chars';
+      imagePreviewContainer.classList.add('hidden');
+      currentFile = null;
+      currentDataUri = null;
+      fileInfo.classList.add('hidden');
+      dropZone.classList.add('hidden');
+      lastOutputText = '';
+      infoCard.classList.add('hidden');
+
+      // Update upload button and placeholder
+      if (mode === 'encode') {
+        btnUpload.classList.remove('hidden');
+        inputArea.placeholder = 'Enter text to encode, or drag & drop an image/file...';
+      } else {
+        btnUpload.classList.add('hidden');
+        inputArea.placeholder = 'Paste Base64 string here to decode...';
+      }
+    }
+
+    modeEncode.addEventListener('click', () => switchMode('encode'));
+    modeDecode.addEventListener('click', () => switchMode('decode'));
+
+    // ---- swap ----
+    btnSwap.addEventListener('click', () => {
+      const outputText = lastOutputText;
+      const targetMode = currentMode === 'encode' ? 'decode' : 'encode';
+      switchMode(targetMode);
+      if (outputText) {
+        inputArea.value = outputText;
+        process();
+      }
+    });
+
+    // ---- input events ----
+    inputArea.addEventListener('input', () => {
+      currentFile = null;
+      currentDataUri = null;
+      fileInfo.classList.add('hidden');
+      process();
+    });
+
+    // ---- file drag-and-drop ----
+    let dragCounter = 0;
+
+    function handleFile(file: File) {
+      currentFile = file;
+      fileName.textContent = file.name;
+
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(file.size) / Math.log(1024));
+      const sz = (file.size / Math.pow(1024, i)).toFixed(i > 0 ? 1 : 0) + ' ' + sizes[i];
+      fileSize.textContent = sz;
+
+      fileInfo.classList.remove('hidden');
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUri = e.target?.result as string;
+        currentDataUri = dataUri;
+        inputArea.value = dataUri;
+        dropZone.classList.add('hidden');
+        process();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    btnUpload.addEventListener('click', () => {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '*/*';
+      fileInput.onchange = () => {
+        if (fileInput.files && fileInput.files.length > 0) {
+          handleFile(fileInput.files[0]);
+        }
+      };
+      fileInput.click();
+    });
+
+    inputContainer.addEventListener('dragenter', (e) => {
+      if (currentMode !== 'encode') return;
+      e.preventDefault();
+      dragCounter++;
+      if (dragCounter === 1) {
+        dropZone.classList.remove('hidden');
+        dropZone.classList.add('border-primary');
+      }
+    });
+
+    inputContainer.addEventListener('dragover', (e) => {
+      if (currentMode !== 'encode') return;
+      e.preventDefault();
+    });
+
+    inputContainer.addEventListener('dragleave', (e) => {
+      if (currentMode !== 'encode') return;
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        dropZone.classList.add('hidden');
+        dropZone.classList.remove('border-primary');
+      }
+    });
+
+    inputContainer.addEventListener('drop', (e) => {
+      if (currentMode !== 'encode') return;
+      e.preventDefault();
+      dragCounter = 0;
+      dropZone.classList.add('hidden');
+      dropZone.classList.remove('border-primary');
+      if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    document.addEventListener('dragover', (e) => e.preventDefault());
+    document.addEventListener('drop', (e) => e.preventDefault());
+
+    // ---- file clear ----
+    fileClear.addEventListener('click', () => {
+      currentFile = null;
+      currentDataUri = null;
+      fileInfo.classList.add('hidden');
+      inputArea.value = '';
+      outputArea.innerHTML = '<span class="text-mute/50 text-sm">Encoded output will appear here.</span>';
+      outputStatus.textContent = 'ready';
+      inputStatus.textContent = 'waiting for input';
+      charCount.textContent = '0 chars';
+      imagePreviewContainer.classList.add('hidden');
+      lastOutputText = '';
+      infoCard.classList.add('hidden');
+    });
+
+    // ---- copy ----
+    btnCopy.addEventListener('click', async () => {
+      const text = lastOutputText;
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        outputStatus.textContent = 'copied!';
+        setTimeout(() => { outputStatus.textContent = currentMode === 'encode' ? 'encoded' : 'decoded'; }, 1500);
+      } catch {
+        outputStatus.textContent = 'copy failed';
+      }
+    });
+
+    // ---- download ----
+    btnDownload.addEventListener('click', () => {
+      const content = lastOutputText;
+      if (!content) return;
+
+      let mimeType = 'text/plain';
+      let ext = 'txt';
+      let filename = currentMode === 'encode' ? 'encoded-base64' : 'decoded-output';
+
+      if (currentMode === 'encode' && currentDataUri && isDataUri(currentDataUri)) {
+        mimeType = getMimeFromDataUri(currentDataUri);
+        const mimeToExt: Record<string, string> = {
+          'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif',
+          'image/webp': 'webp', 'image/svg+xml': 'svg', 'image/bmp': 'bmp',
+          'application/pdf': 'pdf', 'application/json': 'json',
+        };
+        ext = mimeToExt[mimeType] || 'bin';
+        filename = 'base64-data-uri.' + ext;
+      } else if (currentMode === 'decode') {
+        if (isDataUri(content)) {
+          mimeType = getMimeFromDataUri(content) || 'text/plain';
+          const mimeToExt: Record<string, string> = {
+            'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif',
+            'image/webp': 'webp', 'image/svg+xml': 'svg', 'image/bmp': 'bmp',
+          };
+          ext = mimeToExt[mimeType] || 'bin';
+          filename = 'decoded-file.' + ext;
+        }
+      }
+
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // ---- clear ----
+    btnClear.addEventListener('click', () => {
+      inputArea.value = '';
+      outputArea.innerHTML = '<span class="text-mute/50 text-sm">' + (currentMode === 'encode' ? 'Encoded output will appear here.' : 'Decoded output will appear here.') + '</span>';
+      outputStatus.textContent = 'ready';
+      inputStatus.textContent = 'waiting for input';
+      charCount.textContent = '0 chars';
+      imagePreviewContainer.classList.add('hidden');
+      currentFile = null;
+      currentDataUri = null;
+      fileInfo.classList.add('hidden');
+      if (currentMode === 'encode') dropZone.classList.remove('hidden');
+      lastOutputText = '';
+      infoCard.classList.add('hidden');
+    });
+
+    // ---- FAQ accordion ----
+    document.querySelectorAll('details').forEach(detail => {
+      const summary = detail.querySelector('summary');
+      if (summary) {
+        summary.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isOpen = detail.hasAttribute('open');
+          if (isOpen) {
+            detail.removeAttribute('open');
+          } else {
+            detail.setAttribute('open', '');
+          }
+        });
+      }
+    });
+
+    // ---- resize synchronization ----
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          outputArea.style.height = `${inputArea.offsetHeight}px`;
+        }
+      });
+      ro.observe(inputArea);
+    }
+
+    // ---- init ----
+    switchMode('encode');
+  </script>
+
+  <!-- Styles -->
+  <style is:global>
+    .text-error { color: var(--color-error); }
+  </style>
+</Layout>

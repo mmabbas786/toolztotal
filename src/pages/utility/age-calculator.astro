@@ -1,0 +1,511 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is exact age calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Exact age is calculated by taking the difference between the birth date and the current or target date. It tracks years, months, and days while carefully adjusting for varying month lengths and leap years. If the target day is less than the birth day, the calculation borrows the number of days in the previous month to ensure calendar accuracy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a \"half birthday\"?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A half birthday is a milestone that occurs exactly six months after your birthday. For example, if your birthday is on January 15, your half birthday is July 15. This calculator helps determine the exact date of your next half birthday."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the Chinese zodiac animal determined?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Unlike the Gregorian calendar, the traditional Chinese zodiac is based on the lunar calendar. The boundary between zodiac years is the Chinese New Year, which changes annually between January 21 and February 20. If you were born in early January or February, this calculator references the exact lunar new year date to determine if you belong to the previous year's animal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I calculate age as of a future or past date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. By changing the 'Calculate age as of' input from today's default date to a custom past or future date, you can answer questions like 'How old will I be on the year 2050?' or 'How old was I on the day of the moon landing?'"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do the total days or weeks alive numbers look so large?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because standard human lifetimes comprise tens of thousands of days. For example, a 30-year-old has lived over 10,950 days and 1,560 weeks. Seeing the total days or weeks alive presents a unique perspective on life milestones."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are leap years handled in age calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Leap years contain 366 days, adding February 29. The calculator tracks leap days accurately. If you were born on February 29, 2000, and evaluate your age on February 28, 2001, the system computes exactly 0 years, 11 months, and 30 days, correctly showing 1 year when advancing to March 1 (or Feb 29 on leap years)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is my next birthday countdown?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the count of days remaining until your next birthday. This value ranges from 0 days (if today is your birthday) up to 365 days (or 366 days if a leap year is involved)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does birth day-of-week calculation work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The day of the week you were born on is determined by calculating the calendar day index using Zeller's congruence algorithm or browser JavaScript Date objects, returning Sunday through Saturday."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are Western zodiac sign dates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Western astrology defines 12 sun signs based on the date of birth. For example, Aries is March 21 to April 19, Taurus is April 20 to May 20, and so on. The tool automatically maps your birth date to the correct sign."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool store my birth date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, your birth date is processed entirely on your local machine using standard JavaScript. No inputs or results are uploaded to a database, ensuring absolute privacy."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout
+  title="Age Calculator - Find Your Exact Age in Years, Months & Days | ToolzTotal"
+  description="Calculate your exact age in years, months, weeks, and days. Find your next birthday countdown, day of birth, Western and Chinese zodiac signs, and life milestones."
+  faqJsonLd={faqJsonLd}
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/utility" class="hover:text-ink transition-colors">Utility</a>
+      <span>/</span>
+      <span class="text-ink">Age Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Age Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate your exact age down to the day. Uncover birth details, birthday countdowns, Western & Chinese zodiac signs, and key life milestones instantly.
+      </p>
+    </div>
+
+    <!-- Main Calculator Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl">
+      
+      <!-- LEFT: Inputs -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h2 class="text-base font-bold text-ink font-sans">Enter Dates</h2>
+            <p class="text-xs text-mute font-sans mt-1">Specify your birth date and calculation target.</p>
+          </div>
+
+          <!-- Date of Birth -->
+          <div>
+            <label for="birth-date" class="block text-xs font-mono uppercase text-mute mb-2">Date of Birth</label>
+            <input 
+              type="date" 
+              id="birth-date" 
+              value="1990-01-15"
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+
+          <!-- Age As Of -->
+          <div>
+            <label for="target-date" class="block text-xs font-mono uppercase text-mute mb-2">Calculate Age As Of</label>
+            <input 
+              type="date" 
+              id="target-date" 
+              class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+
+          <button 
+            type="button" 
+            id="calculate-btn"
+            class="w-full h-11 bg-primary text-on-primary hover:opacity-90 font-sans text-sm font-semibold rounded-lg shadow-lvl2 transition-all cursor-pointer"
+          >
+            Calculate Age
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Main Age Card -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6">
+          <div class="border-b border-hairline pb-4 flex justify-between items-center">
+            <h2 class="text-sm font-bold text-ink font-sans">Calculated Age</h2>
+            <span id="birth-weekday-label" class="text-xs font-mono text-mute">Born on Monday</span>
+          </div>
+
+          <!-- Exact Age Display -->
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div class="bg-canvas-soft border border-hairline rounded-xl p-4 shadow-lvl1">
+              <span id="result-years" class="block text-3xl md:text-4xl font-bold font-sans text-ink tracking-tight">36</span>
+              <span class="text-[10px] font-mono uppercase text-mute mt-1 block">Years</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-xl p-4 shadow-lvl1">
+              <span id="result-months" class="block text-3xl md:text-4xl font-bold font-sans text-ink tracking-tight">0</span>
+              <span class="text-[10px] font-mono uppercase text-mute mt-1 block">Months</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline rounded-xl p-4 shadow-lvl1">
+              <span id="result-days" class="block text-3xl md:text-4xl font-bold font-sans text-ink tracking-tight">26</span>
+              <span class="text-[10px] font-mono uppercase text-mute mt-1 block">Days</span>
+            </div>
+          </div>
+
+          <!-- Sub Stats List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-hairline">
+            <div class="flex items-center justify-between text-sm py-1.5 border-b border-hairline/50">
+              <span class="text-mute font-sans">Total Days Alive:</span>
+              <span id="stat-days-alive" class="font-mono text-ink font-semibold">13,175</span>
+            </div>
+            <div class="flex items-center justify-between text-sm py-1.5 border-b border-hairline/50">
+              <span class="text-mute font-sans">Total Weeks Alive:</span>
+              <span id="stat-weeks-alive" class="font-mono text-ink font-semibold">1,882</span>
+            </div>
+            <div class="flex items-center justify-between text-sm py-1.5 border-b border-hairline/50">
+              <span class="text-mute font-sans">Next Birthday in:</span>
+              <span id="stat-next-birthday" class="font-mono text-ink font-semibold">324 Days</span>
+            </div>
+            <div class="flex items-center justify-between text-sm py-1.5 border-b border-hairline/50">
+              <span class="text-mute font-sans">Next Half Birthday:</span>
+              <span id="stat-half-birthday" class="font-mono text-ink font-semibold">July 15, 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zodiac and Life Astrologies -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <!-- Western Zodiac -->
+          <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl3 space-y-4">
+            <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Western Zodiac</h3>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center font-mono text-lg font-bold text-ink">♑</div>
+              <div>
+                <h4 id="western-zodiac-name" class="font-bold text-sm text-ink font-sans">Capricorn</h4>
+                <p class="text-[11px] text-mute font-sans mt-0.5">Element: Earth | Rulership: Saturn</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chinese Zodiac -->
+          <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl3 space-y-4">
+            <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Chinese Zodiac</h3>
+            <div class="flex items-center gap-3">
+              <div id="chinese-zodiac-emoji" class="w-10 h-10 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center font-mono text-lg font-bold text-ink">🐎</div>
+              <div>
+                <h4 id="chinese-zodiac-name" class="font-bold text-sm text-ink font-sans">Horse</h4>
+                <p id="chinese-zodiac-meta" class="text-[11px] text-mute font-sans mt-0.5">Yin/Yang: Yang | Element: Fire</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestones list -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-5">
+          <h3 class="text-sm font-bold text-ink font-sans border-b border-hairline pb-3">Life-Stage Milestones</h3>
+          <div id="milestones-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-sans">
+            <!-- Dynamic Milestones go here -->
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- SEO text block -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">About the Age Calculator: Exact Date Calculations & Astrology</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Determining someone's exact age is a deceptively simple mathematical challenge. Because months differ in duration (from 28 to 31 days) and leap years inject an extra day into February every four years, simply dividing the total number of milliseconds by a generic year duration leads to off-by-one errors. This <strong>exact age calculator</strong> is built using correct calendar-date math to accurately calculate years, months, and days, ensuring precise tracking.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Zodiac and Astrological Boundary Determinations</h3>
+        <p>
+          This tool goes beyond basic years and months arithmetic by computing astrological alignments:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Western Zodiac Sun Signs:</strong> Automatically computed using standard solar cycle ranges, matching your date of birth to signs like Capricorn, Aries, or Scorpio.</li>
+          <li><strong>Chinese Lunar Zodiac:</strong> Determined using historical data mappings for Chinese New Year start times. Standard generators calculate this using January 1 as the cutoff date, leading to incorrect calculations for users born in January or early February. This birthday calculator checks your exact birth date against the Chinese Lunar New Year boundaries to return the correct animal (such as Rat, Dragon, or Horse).</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Leap Years in Date Math</h3>
+        <p>
+          A common bug in date arithmetic is the handling of leap days. The year 2000 was a leap year, containing 366 days, while 2001 was not. If a person born on February 29, 2000, measures their age on February 28, 2001, they are technically 364 days old. Since February 29 does not exist in 2001, standard systems must determine if the user turns one full year old on February 28 or March 1. This system uses calendar logic, completing the year boundary on the transition to March 1 in non-leap years.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Privacy & Execution</h3>
+        <p>
+          None of your personal birth information is ever uploaded to a database or shared. All computations execute on your local device within the client browser window. You can freely model dates for historical queries or project future ages safe in the knowledge that your data remains 100% private.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion Accordions -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {faqSchema.mainEntity.map(faq => (
+          <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+            <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+              <span>{faq.name}</span>
+              <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+              <p class="text-body text-sm font-sans leading-relaxed">{faq.acceptedAnswer.text}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Utility Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="/utility/gpa-calculator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            GPA Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Calculate your grade point average based on class weights and credits.</p>
+        </a>
+        <a href="/utility/grade-calculator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Final Grade Calculator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Determine what grade you need on your final exam to pass a class.</p>
+        </a>
+        <a href="/utility/password-generator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+            Password Generator
+            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-2">Create secure, cryptographically random passwords and passphrases locally.</p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Chinese New Year dates mapping (Month starts at 1, Date starts at 1)
+    const cnyDates = {
+      1920: [2, 20], 1921: [2, 8], 1922: [1, 28], 1923: [2, 16], 1924: [2, 5],
+      1925: [1, 25], 1926: [2, 13], 1927: [2, 2], 1928: [1, 23], 1929: [2, 10],
+      1930: [1, 30], 1931: [2, 17], 1932: [2, 6], 1933: [1, 26], 1934: [2, 14],
+      1935: [2, 4], 1936: [1, 24], 1937: [2, 11], 1938: [1, 31], 1939: [2, 19],
+      1940: [2, 8], 1941: [1, 27], 1942: [2, 15], 1943: [2, 5], 1944: [1, 25],
+      1945: [2, 13], 1946: [2, 2], 1947: [1, 22], 1948: [2, 10], 1949: [1, 29],
+      1950: [2, 17], 1951: [2, 6], 1952: [1, 27], 1953: [2, 14], 1954: [2, 3],
+      1955: [1, 24], 1956: [2, 12], 1957: [1, 31], 1958: [2, 18], 1959: [2, 8],
+      1960: [1, 28], 1961: [2, 15], 1962: [2, 5], 1963: [1, 25], 1964: [2, 13],
+      1965: [2, 2], 1966: [1, 21], 1967: [2, 9], 1968: [1, 30], 1969: [2, 17],
+      1970: [2, 6], 1971: [1, 27], 1972: [2, 15], 1973: [2, 3], 1974: [1, 23],
+      1975: [2, 11], 1976: [1, 31], 1977: [2, 18], 1978: [2, 7], 1979: [1, 28],
+      1980: [2, 16], 1981: [2, 5], 1982: [1, 25], 1983: [2, 13], 1984: [2, 2],
+      1985: [2, 20], 1986: [2, 9], 1987: [1, 29], 1988: [2, 17], 1989: [2, 6],
+      1990: [1, 27], 1991: [2, 15], 1992: [2, 4], 1993: [1, 23], 1994: [2, 10],
+      1995: [1, 31], 1996: [2, 19], 1997: [2, 7], 1998: [1, 28], 1999: [2, 16],
+      2000: [2, 5], 2001: [1, 24], 2002: [2, 12], 2003: [2, 1], 2004: [1, 22],
+      2005: [2, 9], 2006: [1, 29], 2007: [2, 18], 2008: [2, 7], 2009: [1, 26],
+      2010: [2, 14], 2011: [2, 3], 2012: [1, 23], 2013: [2, 10], 2014: [1, 31],
+      2015: [2, 19], 2016: [2, 8], 2017: [1, 28], 2018: [2, 16], 2019: [2, 5],
+      2020: [1, 25], 2021: [2, 12], 2022: [2, 1], 2023: [1, 22], 2024: [2, 10],
+      2025: [1, 29], 2026: [2, 17], 2027: [2, 6], 2028: [1, 26], 2029: [2, 13],
+      2030: [2, 3]
+    };
+
+    const wZodiacs = [
+      { name: "Capricorn", emoji: "♑", start: [12, 22], end: [1, 19] },
+      { name: "Aquarius", emoji: "♒", start: [1, 20], end: [2, 18] },
+      { name: "Pisces", emoji: "♓", start: [2, 19], end: [3, 20] },
+      { name: "Aries", emoji: "♈", start: [3, 21], end: [4, 19] },
+      { name: "Taurus", emoji: "♉", start: [4, 20], end: [5, 20] },
+      { name: "Gemini", emoji: "♊", start: [5, 21], end: [6, 20] },
+      { name: "Cancer", emoji: "♋", start: [6, 21], end: [7, 22] },
+      { name: "Leo", emoji: "♌", start: [7, 23], end: [8, 22] },
+      { name: "Virgo", emoji: "♍", start: [8, 23], end: [9, 22] },
+      { name: "Libra", emoji: "♎", start: [9, 23], end: [10, 22] },
+      { name: "Scorpio", emoji: "♏", start: [10, 23], end: [11, 21] },
+      { name: "Sagittarius", emoji: "♐", start: [11, 22], end: [12, 21] }
+    ];
+
+    const chineseAnimals = [
+      { name: "Rat", emoji: "🐀", meta: "Yin/Yang: Yang | Element: Water" },
+      { name: "Ox", emoji: "🐂", meta: "Yin/Yang: Yin | Element: Earth" },
+      { name: "Tiger", emoji: "🐅", meta: "Yin/Yang: Yang | Element: Wood" },
+      { name: "Rabbit", emoji: "🐇", meta: "Yin/Yang: Yin | Element: Wood" },
+      { name: "Dragon", emoji: "🐉", meta: "Yin/Yang: Yang | Element: Earth" },
+      { name: "Snake", emoji: "🐍", meta: "Yin/Yang: Yin | Element: Fire" },
+      { name: "Horse", emoji: "🐎", meta: "Yin/Yang: Yang | Element: Fire" },
+      { name: "Goat", emoji: "🐐", meta: "Yin/Yang: Yin | Element: Earth" },
+      { name: "Monkey", emoji: "🐒", meta: "Yin/Yang: Yang | Element: Metal" },
+      { name: "Rooster", emoji: "🐓", meta: "Yin/Yang: Yin | Element: Metal" },
+      { name: "Dog", emoji: "🐕", meta: "Yin/Yang: Yang | Element: Earth" },
+      { name: "Pig", emoji: "🐖", meta: "Yin/Yang: Yin | Element: Water" }
+    ];
+
+    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    const birthInput = document.getElementById('birth-date') as HTMLInputElement;
+    const targetInput = document.getElementById('target-date') as HTMLInputElement;
+    const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
+
+    // Default target date to today
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (targetInput) {
+      targetInput.value = todayStr;
+    }
+
+    const getWesternZodiac = (month: number, day: number) => {
+      for (const z of wZodiacs) {
+        const [sMonth, sDay] = z.start;
+        const [eMonth, eDay] = z.end;
+
+        if (sMonth === month && day >= sDay) return z;
+        if (eMonth === month && day <= eDay) return z;
+      }
+      return wZodiacs[0];
+    };
+
+    const getChineseZodiac = (year: number, month: number, day: number) => {
+      let zodiacYear = year;
+      const cny = cnyDates[year];
+      if (cny) {
+        const [cnyMonth, cnyDay] = cny;
+        if (month < cnyMonth || (month === cnyMonth && day < cnyDay)) {
+          zodiacYear = year - 1;
+        }
+      }
+      let idx = (zodiacYear - 1900) % 12;
+      if (idx < 0) idx += 12;
+      return chineseAnimals[idx];
+    };
+
+    const calculateAge = () => {
+      const birthVal = birthInput.value;
+      const targetVal = targetInput.value;
+      if (!birthVal || !targetVal) return;
+
+      const birth = new Date(birthVal + 'T00:00:00');
+      const target = new Date(targetVal + 'T00:00:00');
+
+      if (target < birth) {
+        alert("Target date cannot be earlier than your birth date.");
+        return;
+      }
+
+      let years = target.getFullYear() - birth.getFullYear();
+      let months = target.getMonth() - birth.getMonth();
+      let days = target.getDate() - birth.getDate();
+
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      document.getElementById('result-years')!.textContent = years.toString();
+      document.getElementById('result-months')!.textContent = months.toString();
+      document.getElementById('result-days')!.textContent = days.toString();
+
+      const diffMs = target.getTime() - birth.getTime();
+      const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const totalWeeks = Math.floor(totalDays / 7);
+      document.getElementById('stat-days-alive')!.textContent = totalDays.toLocaleString();
+      document.getElementById('stat-weeks-alive')!.textContent = totalWeeks.toLocaleString();
+
+      const weekday = weekdays[birth.getDay()];
+      document.getElementById('birth-weekday-label')!.textContent = `Born on ${weekday}`;
+
+      let nextBirthday = new Date(target.getFullYear(), birth.getMonth(), birth.getDate(), 0, 0, 0);
+      if (nextBirthday < target) {
+        nextBirthday.setFullYear(target.getFullYear() + 1);
+      }
+      const daysToBday = Math.ceil((nextBirthday.getTime() - target.getTime()) / (1000 * 60 * 60 * 24));
+      document.getElementById('stat-next-birthday')!.textContent = daysToBday === 0 ? "Today! 🎉" : `${daysToBday.toLocaleString()} Days`;
+
+      let nextHalfBirthday = new Date(birth.getFullYear(), birth.getMonth() + 6, birth.getDate());
+      let targetHalf = new Date(target.getFullYear(), nextHalfBirthday.getMonth(), nextHalfBirthday.getDate());
+      if (targetHalf < target) {
+        targetHalf.setFullYear(target.getFullYear() + 1);
+      }
+      const formattedHalf = targetHalf.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('stat-half-birthday')!.textContent = formattedHalf;
+
+      const wZodiac = getWesternZodiac(birth.getMonth() + 1, birth.getDate());
+      document.getElementById('western-zodiac-name')!.textContent = wZodiac.name;
+      document.querySelector('#western-zodiac-name + p')!.textContent = `Element: ${wZodiac.name === "Capricorn" || wZodiac.name === "Taurus" || wZodiac.name === "Virgo" ? "Earth" : wZodiac.name === "Aries" || wZodiac.name === "Leo" || wZodiac.name === "Sagittarius" ? "Fire" : wZodiac.name === "Cancer" || wZodiac.name === "Scorpio" || wZodiac.name === "Pisces" ? "Water" : "Air"}`;
+
+      const cZodiac = getChineseZodiac(birth.getFullYear(), birth.getMonth() + 1, birth.getDate());
+      document.getElementById('chinese-zodiac-emoji')!.textContent = cZodiac.emoji;
+      document.getElementById('chinese-zodiac-name')!.textContent = cZodiac.name;
+      document.getElementById('chinese-zodiac-meta')!.textContent = cZodiac.meta;
+
+      const milestones = [18, 21, 30, 50, 65];
+      const milestonesContainer = document.getElementById('milestones-container')!;
+      milestonesContainer.innerHTML = '';
+      milestones.forEach(age => {
+        const milestoneDate = new Date(birth.getFullYear() + age, birth.getMonth(), birth.getDate());
+        const formattedDate = milestoneDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        const hasPassed = milestoneDate < target;
+
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between py-2 border-b border-hairline/30 ${hasPassed ? 'opacity-60 line-through' : ''}`;
+        row.innerHTML = `
+          <span class="text-mute font-sans">Turning ${age}:</span>
+          <span class="font-mono text-ink font-semibold">${formattedDate}</span>
+        `;
+        milestonesContainer.appendChild(row);
+      });
+    };
+
+    if (calculateBtn) {
+      calculateBtn.addEventListener('click', calculateAge);
+      calculateAge();
+    }
+  </script>
+</Layout>
