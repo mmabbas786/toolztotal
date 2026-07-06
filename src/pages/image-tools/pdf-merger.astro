@@ -1,0 +1,438 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does client-side PDF merging work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool loads your PDF documents as array buffers into the browser memory. It utilizes the bundled pdf-lib.js library to copy pages from each source document, combine them sequentially, and serialize the final merged PDF for instant local download."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my confidential document data uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, never. Unlike other PDF sites that store your documents on their servers, ToolzTotal compiles everything completely client-side in your local browser sandbox. No bytes are sent across the network."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I reorder PDF files before merging?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. After uploading your PDFs, you can use the interactive reorder list to shift files up or down, ensuring that pages assemble in the correct sequence."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a page limit for merging PDFs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because the combining processes run entirely in your browser memory, page counts are limited only by your device's RAM capacity. It handles hundreds of pages comfortably."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool work with password-protected PDFs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. To protect document privacy, we do not decrypt password-secured PDF documents. Please decrypt protected files before attempting to combine them."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="PDF Merger - Free Client-Side PDF Combiner | ToolzTotal"
+  description="Combine multiple PDF documents into a single file securely inside your browser using pdf-lib.js. 100% private, no server uploads."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/image-tools/pdf-merger"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/image-tools" class="hover:text-ink transition-colors">Image Tools</a>
+      <span>/</span>
+      <span class="text-ink">PDF Merger</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <!-- Trust badge -->
+      <div class="inline-flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/5 px-3.5 py-1.5 rounded-full mb-6 shadow-lvl1">
+        <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-semibold">🔒 100% Client-Side Processing. No files leave your device.</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Client-Side PDF Merger
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Combine multiple PDF files sequentially. Reorder document pages, verify counts, and merge files privately in your browser without cloud uploads.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Upload & Reordering (7 cols) -->
+      <div class="lg:col-span-7 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Documents Queue</h2>
+        
+        <!-- Dropzone -->
+        <div id="dropzone" class="border-2 border-dashed border-hairline hover:border-hairline-strong rounded-xl p-8 text-center cursor-pointer transition-colors bg-canvas-soft flex flex-col items-center justify-center space-y-3">
+          <svg class="w-10 h-10 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <div class="text-sm font-sans text-ink">
+            <span class="font-semibold text-primary">Click to select files</span> or drag & drop
+          </div>
+          <span class="text-[10px] font-mono text-mute">Choose multiple PDF files</span>
+          <input type="file" id="file-input" class="hidden" accept="application/pdf" multiple />
+        </div>
+
+        <!-- Files Reorder List -->
+        <div id="pdf-list-container" class="space-y-3">
+          <!-- Dynamic queue list rows will render here -->
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-between items-center pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Clear All</button>
+          <button id="btn-merge" disabled class="h-10 px-5 bg-primary hover:bg-mute text-on-primary font-semibold text-xs rounded-lg transition-colors cursor-pointer shadow-lvl1 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+            Merge Documents
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Status Summary (5 cols) -->
+      <div class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+        <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Merge Output</h2>
+        
+        <div id="status-card" class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+          <span class="text-[10px] font-mono text-mute uppercase block mb-1">Queue Status</span>
+          <span id="status-text" class="text-lg font-bold text-mute font-mono block">No documents queued</span>
+        </div>
+
+        <!-- Meta statistics -->
+        <div class="space-y-3 text-xs font-mono text-mute pt-2">
+          <div class="flex justify-between">
+            <span>TOTAL DOCUMENTS:</span>
+            <span id="stat-count" class="font-bold text-ink">0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>COMBINED PAGE COUNT:</span>
+            <span id="stat-pages" class="font-bold text-ink">0 pages</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Securing Document Operations: The Integrity of Client-Side PDF Merging</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Portable Document Format (PDF) files are the standard configuration for business agreements, payroll receipts, academic profiles, and legal contracts. Because these assets often contain tax IDs, banking information, or medical markers, merging PDFs online poses a potential security risk.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Client-Side PDF Compilation using pdf-lib</h3>
+        <p>
+          ToolzTotal utilizes a bundled instance of `pdf-lib` executing directly in browser RAM to combine files:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li><strong>Buffer Parsing:</strong> The browser reads selected PDFs into raw binary ArrayBuffers.</li>
+          <li><strong>Page Cloning:</strong> The engine registers a target PDFDocument, programmatically clones pages from source buffers, and Appends them to the queue in your exact order.</li>
+          <li><strong>Local Serialization:</strong> Saves the compiled array back into a local Blob, triggering a direct browser file download without exposing data to external cloud storage.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does client-side PDF merging work?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            This tool loads your PDF documents as array buffers into the browser memory. It utilizes the bundled pdf-lib.js library to copy pages from each source document, combine them sequentially, and serialize the final merged PDF for instant local download.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my confidential document data uploaded to a server?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, never. Unlike other PDF sites that store your documents on their servers, ToolzTotal compiles everything completely client-side in your local browser sandbox. No bytes are sent across the network.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I reorder PDF files before merging?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. After uploading your PDFs, you can use the interactive reorder list to shift files up or down, ensuring that pages assemble in the correct sequence.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is there a page limit for merging PDFs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Because the combining processes run entirely in your browser memory, page counts are limited only by your device's RAM capacity. It handles hundreds of pages comfortably.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool work with password-protected PDFs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. To protect document privacy, we do not decrypt password-secured PDF documents. Please decrypt protected files before attempting to combine them.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const dropzone = document.getElementById('dropzone') as HTMLDivElement;
+  const fileInput = document.getElementById('file-input') as HTMLInputElement;
+
+  const pdfListContainer = document.getElementById('pdf-list-container') as HTMLDivElement;
+  
+  const statCount = document.getElementById('stat-count') as HTMLSpanElement;
+  const statPages = document.getElementById('stat-pages') as HTMLSpanElement;
+  const statusCard = document.getElementById('status-card') as HTMLDivElement;
+  const statusText = document.getElementById('status-text') as HTMLSpanElement;
+
+  const btnMerge = document.getElementById('btn-merge') as HTMLButtonElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  interface QueuedPDF {
+    id: string;
+    file: File;
+    pagesCount: number;
+    buffer: ArrayBuffer;
+  }
+
+  let pdfQueue: QueuedPDF[] = [];
+
+  // ============================================================
+  // File Picker Listeners
+  // ============================================================
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-hairline-strong');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('border-hairline-strong');
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-hairline-strong');
+    if (e.dataTransfer?.files?.length) {
+      handleFiles(e.dataTransfer.files);
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files?.length) {
+      handleFiles(fileInput.files);
+    }
+  });
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const generateId = () => Math.random().toString(36).substr(2, 9);
+
+  const formatBytes = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const handleFiles = async (files: FileList) => {
+    // Dynamic import to prevent SSR compiler errors in Astro
+    const { PDFDocument } = await import('pdf-lib');
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.type !== "application/pdf") continue;
+
+      const buffer = await file.arrayBuffer();
+      try {
+        const doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+        const pagesCount = doc.getPageCount();
+
+        pdfQueue.push({
+          id: generateId(),
+          file,
+          pagesCount,
+          buffer
+        });
+      } catch (e) {
+        console.error("Failed to parse PDF document structures.", e);
+      }
+    }
+
+    renderQueue();
+  };
+
+  const renderQueue = () => {
+    pdfListContainer.innerHTML = "";
+    
+    if (pdfQueue.length === 0) {
+      statCount.textContent = "0";
+      statPages.textContent = "0 pages";
+      statusCard.className = "p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1";
+      statusText.textContent = "No documents queued";
+      statusText.className = "text-lg font-bold text-mute font-mono block";
+      btnMerge.disabled = true;
+      return;
+    }
+
+    let totalPages = 0;
+    pdfQueue.forEach((item, index) => {
+      totalPages += item.pagesCount;
+
+      const row = document.createElement('div');
+      row.className = "p-4 border border-hairline rounded-lg bg-canvas-soft flex items-center justify-between shadow-lvl1 gap-4";
+      
+      row.innerHTML = `
+        <div class="flex flex-col min-w-0">
+          <span class="text-xs font-sans text-ink font-semibold truncate max-w-[250px] md:max-w-[400px]">${item.file.name}</span>
+          <span class="text-[10px] font-mono text-mute pt-0.5">${formatBytes(item.file.size)} &bull; ${item.pagesCount} pages</span>
+        </div>
+        
+        <div class="flex items-center gap-1 shrink-0">
+          <button class="btn-up p-1.5 border border-hairline hover:border-hairline-strong bg-canvas text-ink rounded cursor-pointer disabled:opacity-40" ${index === 0 ? 'disabled' : ''}>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+          </button>
+          <button class="btn-down p-1.5 border border-hairline hover:border-hairline-strong bg-canvas text-ink rounded cursor-pointer disabled:opacity-40" ${index === pdfQueue.length - 1 ? 'disabled' : ''}>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <button class="btn-remove p-1.5 border border-hairline hover:border-red-500 hover:text-red-500 bg-canvas text-mute rounded cursor-pointer ml-2">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      `;
+
+      // Up button listener
+      row.querySelector('.btn-up')?.addEventListener('click', () => {
+        const temp = pdfQueue[index];
+        pdfQueue[index] = pdfQueue[index - 1];
+        pdfQueue[index - 1] = temp;
+        renderQueue();
+      });
+
+      // Down button listener
+      row.querySelector('.btn-down')?.addEventListener('click', () => {
+        const temp = pdfQueue[index];
+        pdfQueue[index] = pdfQueue[index + 1];
+        pdfQueue[index + 1] = temp;
+        renderQueue();
+      });
+
+      // Remove button listener
+      row.querySelector('.btn-remove')?.addEventListener('click', () => {
+        pdfQueue = pdfQueue.filter(x => x.id !== item.id);
+        renderQueue();
+      });
+
+      pdfListContainer.appendChild(row);
+    });
+
+    statCount.textContent = pdfQueue.length.toString();
+    statPages.textContent = `${totalPages} pages`;
+
+    statusCard.className = "p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+    statusText.textContent = `${pdfQueue.length} files loaded`;
+    statusText.className = "text-lg font-bold text-emerald-500 font-sans block";
+
+    btnMerge.disabled = pdfQueue.length < 2;
+  };
+
+  // ============================================================
+  // Merge Operations
+  // ============================================================
+  const mergePDFs = async () => {
+    if (pdfQueue.length < 2) return;
+
+    statusCard.className = "p-6 bg-yellow-500/5 border border-yellow-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+    statusText.textContent = "Merging documents...";
+    statusText.className = "text-lg font-bold text-yellow-600 dark:text-yellow-500 font-sans block";
+    btnMerge.disabled = true;
+
+    try {
+      const { PDFDocument } = await import('pdf-lib');
+      const mergedDoc = await PDFDocument.create();
+
+      for (const item of pdfQueue) {
+        const doc = await PDFDocument.load(item.buffer);
+        const pages = await mergedDoc.copyPages(doc, doc.getPageIndices());
+        pages.forEach(p => mergedDoc.addPage(p));
+      }
+
+      const mergedBytes = await mergedDoc.save();
+      
+      const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.download = "merged_documents.pdf";
+      link.href = URL.createObjectURL(blob);
+      link.click();
+
+      statusCard.className = "p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+      statusText.textContent = "Merge Complete!";
+      statusText.className = "text-lg font-bold text-emerald-500 font-sans block";
+    } catch (e) {
+      console.error(e);
+      statusCard.className = "p-6 bg-red-500/5 border border-red-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+      statusText.textContent = "Error Merging Files";
+      statusText.className = "text-lg font-bold text-red-500 font-sans block";
+    } finally {
+      btnMerge.disabled = false;
+    }
+  };
+
+  btnMerge.addEventListener('click', mergePDFs);
+
+  btnReset.addEventListener('click', () => {
+    pdfQueue = [];
+    fileInput.value = "";
+    renderQueue();
+  });
+</script>

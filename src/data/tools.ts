@@ -143,5 +143,17 @@ export const toolCatalog: Category[] = [
       { name: "Grade Calculator (Weighted)", slug: "grade-calculator", description: "Calculate class grades using custom weighted categories (exams, quizzes, homework).", status: "live", keywords: ["grade calculator", "weighted grade calculator", "class grade solver"] },
       { name: "Citation Generator", slug: "citation-generator", description: "Generate accurate citations in APA 7th, MLA 9th, and Chicago 17th formats instantly.", status: "live", keywords: ["citation generator", "apa citation generator", "mla citation format"] }
     ]
+  },
+  {
+    name: "Image & PDF Tools",
+    slug: "image-tools",
+    description: "Client-side image resizers, compressors, and PDF mergers. Fully private, no server uploads.",
+    icon: "M4 16l4.586-4.586a1 1 0 011.414 0L16 17m-2-2l1.586-1.586a1 1 0 011.414 0L20 16m-7-2a1 1 0 00-1-1H3a1 1 0 00-1 1v5a1 1 0 001 1h18a1 1 0 001-1v-5a1 1 0 00-1-1h-6z",
+    tools: [
+      { name: "Image Resizer", slug: "image-resizer", description: "Resize images to custom dimensions or social media presets completely in your browser.", status: "live", keywords: ["image resizer", "resize image online", "crop image"] },
+      { name: "Image Compressor", slug: "image-compressor", description: "Compress JPEG, PNG, and WebP images client-side to reduce file size without quality loss.", status: "live", keywords: ["image compressor", "compress image", "shrink image size"] },
+      { name: "PDF Merger", slug: "pdf-merger", description: "Combine multiple PDF documents into a single file securely inside your browser.", status: "live", keywords: ["pdf merger", "merge pdf", "combine pdf files"] }
+    ]
   }
 ];
+

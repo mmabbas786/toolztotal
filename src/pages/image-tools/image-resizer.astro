@@ -1,0 +1,413 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does client-side image resizing work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our resizer reads image file buffers directly into browser memory using HTML5 File APIs, draws them onto an off-screen HTML5 Canvas node, and uses native browser downscaling interpolation to render a resized file for download."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my image uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, never. The entire image processing workflow runs locally in your device's browser memory. Your personal photos or confidential work diagrams are never uploaded, stored, or processed on external host servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What dimensions are recommended for social media?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common standard ratios include: Instagram Posts (1080x1080), Instagram Stories (1080x1920), YouTube Thumbnails (1280x720), and Twitter/X Headers (1500x500)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I lock the aspect ratio during scaling?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enabling the aspect ratio lock ensures that when you adjust width, height scales proportionally to prevent image stretching or squishing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there any file size limitations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because processing happens directly on your device rather than a shared cloud server, there are no strict file size limits. However, extremely large images (e.g. 50MB+) may briefly lag your local browser thread."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Image Resizer - Free Client-Side Photo Resizing | ToolzTotal"
+  description="Resize images to custom dimensions or social media presets completely in your browser. 100% private, no server uploads."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/image-tools/image-resizer"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/image-tools" class="hover:text-ink transition-colors">Image Tools</a>
+      <span>/</span>
+      <span class="text-ink">Image Resizer</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <!-- Privacy Trust Badge -->
+      <div class="inline-flex items-center gap-2 border border-emerald-500/20 bg-emerald-500/5 px-3.5 py-1.5 rounded-full mb-6 shadow-lvl1">
+        <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-semibold">🔒 100% Client-Side Processing. No files leave your device.</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Client-Side Image Resizer
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Adjust image dimensions securely. Resize PNG, JPEG, and WebP assets to precise dimensions or social presets without uploading files.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs & File Dropzone (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Resizer Settings</h2>
+        
+        <!-- Dropzone -->
+        <div id="dropzone" class="border-2 border-dashed border-hairline hover:border-hairline-strong rounded-xl p-8 text-center cursor-pointer transition-colors bg-canvas-soft flex flex-col items-center justify-center space-y-3">
+          <svg class="w-10 h-10 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a1 1 0 011.414 0L16 17m-2-2l1.586-1.586a1 1 0 011.414 0L20 16m-7-2a1 1 0 00-1-1H3a1 1 0 00-1 1v5a1 1 0 001 1h18a1 1 0 001-1v-5a1 1 0 00-1-1h-6z"/></svg>
+          <div class="text-sm font-sans text-ink">
+            <span class="font-semibold text-primary">Click to upload</span> or drag & drop
+          </div>
+          <span class="text-[10px] font-mono text-mute">Supports PNG, JPG, JPEG, WebP</span>
+          <input type="file" id="file-input" class="hidden" accept="image/*" />
+        </div>
+
+        <!-- Dimension Controls (disabled by default until image loads) -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="resize-width" class="block text-xs font-mono uppercase text-mute mb-2">Width (px)</label>
+            <input type="number" id="resize-width" placeholder="Width" disabled class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm text-ink focus:outline-none shadow-lvl1" />
+          </div>
+          <div>
+            <label for="resize-height" class="block text-xs font-mono uppercase text-mute mb-2">Height (px)</label>
+            <input type="number" id="resize-height" placeholder="Height" disabled class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm text-ink focus:outline-none shadow-lvl1" />
+          </div>
+        </div>
+
+        <!-- Lock Ratio checkbox -->
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="lock-ratio" checked disabled class="w-4 h-4 cursor-pointer" />
+          <label for="lock-ratio" class="text-xs font-mono text-ink cursor-pointer select-none">Lock Aspect Ratio</label>
+        </div>
+
+        <!-- Social presets list -->
+        <div class="space-y-2 pt-2">
+          <span class="text-xs font-mono text-mute uppercase block">Social Media Dimensions Shortcuts</span>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button id="preset-insta-post" disabled class="preset-btn h-9 border border-hairline hover:border-hairline-strong bg-canvas rounded text-left px-3 text-ink font-mono cursor-pointer shadow-lvl1 flex justify-between items-center">
+              <span>Instagram Post</span>
+              <span class="text-mute font-semibold">1080x1080</span>
+            </button>
+            <button id="preset-insta-story" disabled class="preset-btn h-9 border border-hairline hover:border-hairline-strong bg-canvas rounded text-left px-3 text-ink font-mono cursor-pointer shadow-lvl1 flex justify-between items-center">
+              <span>Instagram Story</span>
+              <span class="text-mute font-semibold">1080x1920</span>
+            </button>
+            <button id="preset-yt-thumb" disabled class="preset-btn h-9 border border-hairline hover:border-hairline-strong bg-canvas rounded text-left px-3 text-ink font-mono cursor-pointer shadow-lvl1 flex justify-between items-center">
+              <span>YouTube Thumb</span>
+              <span class="text-mute font-semibold">1280x720</span>
+            </button>
+            <button id="preset-x-header" disabled class="preset-btn h-9 border border-hairline hover:border-hairline-strong bg-canvas rounded text-left px-3 text-ink font-mono cursor-pointer shadow-lvl1 flex justify-between items-center">
+              <span>X Header</span>
+              <span class="text-mute font-semibold">1500x500</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reset & Download -->
+        <div class="flex justify-between items-center pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Clear</button>
+          <button id="btn-download" disabled class="h-10 px-5 bg-primary hover:bg-mute text-on-primary font-semibold text-xs rounded-lg transition-colors cursor-pointer shadow-lvl1 flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Download Image
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Preview canvas (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Resized Preview</h2>
+        
+        <div class="flex justify-center items-center bg-canvas-soft border border-hairline rounded-lg min-h-[300px] overflow-hidden p-4 relative shadow-lvl1">
+          <canvas id="preview-canvas" class="max-w-full max-h-[400px] object-contain hidden"></canvas>
+          <div id="preview-placeholder" class="text-xs font-mono text-mute uppercase text-center">
+            Upload an image file to render preview
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Privacy-First Asset Manipulation: Why Client-Side Image Resizing Matters</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Resizing images is a basic task for content creators, web design practitioners, and developer teams. However, traditional online resizing applications require uploading your source files to remote servers. This introduces real security risks for private photos or business diagrams containing proprietary specifications.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">100% Client-Side Processing Architecture</h3>
+        <p>
+          ToolzTotal processes all media formats using standard browser APIs (specifically HTML5 canvas contexts) running in local memory space:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>No Uploads:</strong> Your image binary buffer remains inside your browser memory cache. It is never transmitted across networks.</li>
+          <li><strong>Aspect Ratio Locking:</strong> Maintains precise height-to-width ratios using standard float divisions to prevent distortion:
+            <br />
+            <strong class="block my-2 text-center text-ink font-mono text-xs">Height = Width / Original Aspect Ratio</strong>
+          </li>
+          <li><strong>Bilinear Scaling:</strong> HTML5 Canvas context scaling renders crisp downscaled exports.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does client-side image resizing work?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Our resizer reads image file buffers directly into browser memory using HTML5 File APIs, draws them onto an off-screen HTML5 Canvas node, and uses native browser downscaling interpolation to render a resized file for download.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my image uploaded to a server?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, never. The entire image processing workflow runs locally in your device's browser memory. Your personal photos or confidential work diagrams are never uploaded, stored, or processed on external host servers.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What dimensions are recommended for social media?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Common standard ratios include: Instagram Posts (1080x1080), Instagram Stories (1080x1920), YouTube Thumbnails (1280x720), and Twitter/X Headers (1500x500).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I lock the aspect ratio during scaling?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Enabling the aspect ratio lock ensures that when you adjust width, height scales proportionally to prevent image stretching or squishing.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Are there any file size limitations?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Because processing happens directly on your device rather than a shared cloud server, there are no strict file size limits. However, extremely large images (e.g. 50MB+) may briefly lag your local browser thread.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const dropzone = document.getElementById('dropzone') as HTMLDivElement;
+  const fileInput = document.getElementById('file-input') as HTMLInputElement;
+
+  const resizeWidth = document.getElementById('resize-width') as HTMLInputElement;
+  const resizeHeight = document.getElementById('resize-height') as HTMLInputElement;
+  const lockRatio = document.getElementById('lock-ratio') as HTMLInputElement;
+
+  const canvas = document.getElementById('preview-canvas') as HTMLCanvasElement;
+  const placeholder = document.getElementById('preview-placeholder') as HTMLDivElement;
+
+  const btnDownload = document.getElementById('btn-download') as HTMLButtonElement;
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // Social presets
+  const presetInstaPost = document.getElementById('preset-insta-post') as HTMLButtonElement;
+  const presetInstaStory = document.getElementById('preset-insta-story') as HTMLButtonElement;
+  const presetYtThumb = document.getElementById('preset-yt-thumb') as HTMLButtonElement;
+  const presetXHeader = document.getElementById('preset-x-header') as HTMLButtonElement;
+  const presetButtons = document.querySelectorAll('.preset-btn') as NodeListOf<HTMLButtonElement>;
+
+  // State
+  let loadedImage: HTMLImageElement | null = null;
+  let originalAspect = 1.0;
+  let activeFilename = "resized_image.png";
+
+  // ============================================================
+  // Event Listeners for File Input
+  // ============================================================
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-hairline-strong');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('border-hairline-strong');
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-hairline-strong');
+    if (e.dataTransfer?.files?.length) {
+      loadImage(e.dataTransfer.files[0]);
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files?.length) {
+      loadImage(fileInput.files[0]);
+    }
+  });
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const loadImage = (file: File) => {
+    if (!file.type.startsWith('image/')) return;
+    activeFilename = "resized_" + file.name;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        loadedImage = img;
+        originalAspect = img.width / img.height;
+
+        // Populate controls
+        resizeWidth.value = img.width.toString();
+        resizeHeight.value = img.height.toString();
+
+        // Enable inputs
+        [resizeWidth, resizeHeight, lockRatio, btnDownload, ...Array.from(presetButtons)].forEach(el => {
+          (el as any).disabled = false;
+        });
+
+        // Hide placeholder and show canvas
+        placeholder.classList.add('hidden');
+        canvas.classList.remove('hidden');
+
+        // Initial render
+        renderResized();
+      };
+      img.src = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const renderResized = () => {
+    if (!loadedImage) return;
+
+    const targetW = parseInt(resizeWidth.value) || 1;
+    const targetH = parseInt(resizeHeight.value) || 1;
+
+    canvas.width = targetW;
+    canvas.height = targetH;
+
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(loadedImage, 0, 0, targetW, targetH);
+    }
+  };
+
+  const handleWidthChange = () => {
+    if (!loadedImage) return;
+    const w = parseInt(resizeWidth.value) || 0;
+    if (lockRatio.checked && w > 0) {
+      resizeHeight.value = Math.round(w / originalAspect).toString();
+    }
+    renderResized();
+  };
+
+  const handleHeightChange = () => {
+    if (!loadedImage) return;
+    const h = parseInt(resizeHeight.value) || 0;
+    if (lockRatio.checked && h > 0) {
+      resizeWidth.value = Math.round(h * originalAspect).toString();
+    }
+    renderResized();
+  };
+
+  const applyPreset = (w: number, h: number) => {
+    if (!loadedImage) return;
+    resizeWidth.value = w.toString();
+    resizeHeight.value = h.toString();
+    renderResized();
+  };
+
+  // ============================================================
+  // Actions
+  // ============================================================
+  resizeWidth.addEventListener('input', handleWidthChange);
+  resizeHeight.addEventListener('input', handleHeightChange);
+
+  presetInstaPost.addEventListener('click', () => applyPreset(1080, 1080));
+  presetInstaStory.addEventListener('click', () => applyPreset(1080, 1920));
+  presetYtThumb.addEventListener('click', () => applyPreset(1280, 720));
+  presetXHeader.addEventListener('click', () => applyPreset(1500, 500));
+
+  btnDownload.addEventListener('click', () => {
+    if (!loadedImage) return;
+    const link = document.createElement('a');
+    link.download = activeFilename;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  btnReset.addEventListener('click', () => {
+    loadedImage = null;
+    canvas.classList.add('hidden');
+    placeholder.classList.remove('hidden');
+    fileInput.value = "";
+    resizeWidth.value = "";
+    resizeHeight.value = "";
+
+    [resizeWidth, resizeHeight, lockRatio, btnDownload, ...Array.from(presetButtons)].forEach(el => {
+      (el as any).disabled = true;
+    });
+  });
+</script>
