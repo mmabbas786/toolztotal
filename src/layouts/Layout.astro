@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { toolCatalog } from '../data/tools';
 
 interface Props {
   title?: string;
@@ -112,7 +113,7 @@ const categories = [
           <svg class="w-6 h-6 text-primary transition-transform group-hover:scale-105" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
           </svg>
-          <span class="text-xl font-bold tracking-tight text-ink font-sans">Toolz<span class="text-mute font-medium">Total</span></span>
+          <span class="text-xl font-bold tracking-tight text-ink font-sans">Toolz<span class="text-mute">Total</span></span>
         </a>
 
         <!-- Desktop Navigation -->
@@ -144,11 +145,18 @@ const categories = [
 
         <!-- Right actions -->
         <div class="flex items-center gap-3">
-          <!-- Quick search trigger -->
-          <a href="/#search-section" class="hidden sm:flex items-center gap-2 text-mute font-sans text-xs border border-hairline bg-canvas hover:border-hairline-strong transition-colors rounded-lg px-3 py-2 cursor-pointer shadow-lvl1">
+          <!-- Quick search trigger (Desktop) -->
+          <button id="global-search-trigger" class="hidden sm:flex items-center gap-2 text-mute font-sans text-xs border border-hairline bg-canvas hover:border-hairline-strong transition-colors rounded-lg px-3 py-2 cursor-pointer shadow-lvl1">
             <span>Search tools...</span>
             <kbd class="bg-canvas-soft-2 border border-hairline px-1.5 py-0.5 rounded text-[10px]">⌘K</kbd>
-          </a>
+          </button>
+
+          <!-- Quick search trigger (Mobile) -->
+          <button id="global-search-trigger-mobile" class="sm:hidden p-2 border border-hairline bg-canvas text-body hover:text-ink rounded-lg cursor-pointer transition-colors hover:border-hairline-strong shadow-lvl1" aria-label="Search Tools">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
 
           <!-- Dark mode toggle -->
           <button id="theme-toggle" class="p-2 border border-hairline bg-canvas text-body hover:text-ink rounded-lg cursor-pointer transition-colors hover:border-hairline-strong shadow-lvl1" aria-label="Toggle Dark Mode">
@@ -215,7 +223,7 @@ const categories = [
             <svg class="w-6 h-6 text-primary transition-transform group-hover:scale-105" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
-            <span class="text-xl font-bold tracking-tight text-ink font-sans">Toolz<span class="text-mute font-medium">Total</span></span>
+            <span class="text-xl font-bold tracking-tight text-ink font-sans">Toolz<span class="text-mute">Total</span></span>
           </a>
           <p class="text-body text-sm font-sans max-w-sm leading-relaxed">
             Free online calculators and tools — no signup, no clutter, just answers. Every tool runs completely client-side in your browser. None of your data is ever uploaded or stored.
@@ -329,17 +337,190 @@ const categories = [
           }
         });
       }
+    </script>
 
-      // Shortcut focus trigger (Cmd+K or Ctrl+K)
+    <!-- Global Command Palette Search Modal -->
+    <div id="global-search-modal" class="fixed inset-0 bg-canvas-soft/40 backdrop-blur-md z-[100] hidden items-center justify-center p-4">
+      <div class="absolute inset-0 cursor-default" id="global-search-backdrop"></div>
+      <div class="bg-canvas border border-hairline w-full max-w-xl rounded-2xl shadow-lvl5 overflow-hidden flex flex-col max-h-[85vh] relative z-10 animate-in fade-in zoom-in-95 duration-150">
+        <div class="p-4 border-b border-hairline flex items-center gap-3">
+          <svg class="w-5 h-5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input 
+            type="text" 
+            id="global-search-input" 
+            placeholder="Search all tools (e.g. mortgage, json, password)..." 
+            class="w-full bg-transparent border-none focus:outline-none text-ink font-sans text-base placeholder:text-mute"
+            autocomplete="off"
+          />
+          <button id="global-search-close" class="text-mute hover:text-ink text-xs font-mono border border-hairline px-2.5 py-1 rounded-lg cursor-pointer hover:border-hairline-strong transition-colors">ESC</button>
+        </div>
+        <div id="global-search-results" class="overflow-y-auto p-3 space-y-4 max-h-[50vh] divide-y divide-hairline"></div>
+        <div class="p-3 bg-canvas-soft border-t border-hairline flex items-center justify-between text-[10px] text-mute font-mono">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1"><kbd class="border border-hairline px-1 rounded">↑↓</kbd> Navigate</span>
+            <span class="flex items-center gap-1"><kbd class="border border-hairline px-1 rounded">Enter</kbd> Open</span>
+          </div>
+          <span>ToolzTotal Search</span>
+        </div>
+      </div>
+    </div>
+
+    <script define:vars={{ toolCatalog }}>
+      window.TOOL_CATALOG = toolCatalog;
+    </script>
+
+    <!-- Command Palette Search Script -->
+    <script>
+
+      // Global Search Modal / Command Palette logic
+      const searchModal = document.getElementById('global-search-modal');
+      const searchInput = document.getElementById('global-search-input');
+      const searchResults = document.getElementById('global-search-results');
+      const searchClose = document.getElementById('global-search-close');
+      const searchBackdrop = document.getElementById('global-search-backdrop');
+      const searchTriggers = document.querySelectorAll('#global-search-trigger, #global-search-trigger-mobile');
+      
+      let activeIndex = -1;
+      const allTools = [];
+      const catalog = window.TOOL_CATALOG || [];
+      
+      catalog.forEach(cat => {
+        cat.tools.forEach(tool => {
+          allTools.push({
+            ...tool,
+            categoryName: cat.name,
+            categorySlug: cat.slug
+          });
+        });
+      });
+
+      const openSearch = () => {
+        searchModal?.classList.remove('hidden');
+        searchModal?.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => searchInput?.focus(), 50);
+        renderSearchResults('');
+      };
+
+      const closeSearch = () => {
+        searchModal?.classList.add('hidden');
+        searchModal?.classList.remove('flex');
+        document.body.style.overflow = '';
+        if (searchInput) searchInput.value = '';
+        activeIndex = -1;
+      };
+
+      searchTriggers.forEach(trigger => trigger.addEventListener('click', openSearch));
+      searchClose?.addEventListener('click', closeSearch);
+      searchBackdrop?.addEventListener('click', closeSearch);
+
+      const renderSearchResults = (query) => {
+        if (!searchResults) return;
+        
+        const cleanQuery = query.toLowerCase().trim();
+        const filtered = allTools.filter(tool => {
+          if (!cleanQuery) return true;
+          return tool.name.toLowerCase().includes(cleanQuery) || 
+                 tool.description.toLowerCase().includes(cleanQuery) || 
+                 (tool.keywords && tool.keywords.some(kw => kw.toLowerCase().includes(cleanQuery)));
+        });
+
+        if (filtered.length === 0) {
+          searchResults.innerHTML = `
+            <div class="text-center py-12 text-mute font-sans text-sm">
+              No tools match your search. Try searching for "mortgage", "json", etc.
+            </div>
+          `;
+          return;
+        }
+
+        const grouped = {};
+        filtered.forEach(tool => {
+          if (!grouped[tool.categoryName]) {
+            grouped[tool.categoryName] = [];
+          }
+          grouped[tool.categoryName].push(tool);
+        });
+
+        let html = '';
+        Object.keys(grouped).forEach(catName => {
+          html += `
+            <div class="pt-3 first:pt-0">
+              <div class="text-[10px] font-mono uppercase tracking-wider text-mute mb-2 px-2">${catName}</div>
+              <div class="space-y-1">
+                ${grouped[catName].map(tool => `
+                  <a 
+                    href="/${tool.categorySlug}/${tool.slug}" 
+                    class="search-item flex flex-col gap-0.5 px-3 py-2 rounded-xl hover:bg-canvas-soft-2 transition-colors cursor-pointer group"
+                    data-slug="${tool.slug}"
+                  >
+                    <div class="text-sm font-bold text-ink group-hover:text-primary transition-colors flex items-center justify-between">
+                      <span>${tool.name}</span>
+                      ${tool.status === 'live' 
+                        ? '<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)] animate-pulse"></span><span class="text-[9px] font-mono text-emerald-500 uppercase font-semibold">Live</span></span>' 
+                        : '<span class="text-[9px] font-mono text-mute uppercase">Coming Soon</span>'}
+                    </div>
+                    <div class="text-xs text-body font-sans leading-relaxed">${tool.description}</div>
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        });
+        searchResults.innerHTML = html;
+        activeIndex = -1;
+      };
+
+      searchInput?.addEventListener('input', (e) => {
+        renderSearchResults(e.target.value);
+      });
+
+      const highlightActiveItem = (items) => {
+        items.forEach((item, idx) => {
+          if (idx === activeIndex) {
+            item.classList.add('bg-canvas-soft-2');
+            item.scrollIntoView({ block: 'nearest' });
+          } else {
+            item.classList.remove('bg-canvas-soft-2');
+          }
+        });
+      };
+
       window.addEventListener('keydown', (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
           e.preventDefault();
-          const searchInput = document.getElementById('tool-search');
-          if (searchInput) {
-            searchInput.focus();
-            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (searchModal?.classList.contains('hidden')) {
+            openSearch();
           } else {
-            window.location.hash = 'search-section';
+            closeSearch();
+          }
+          return;
+        }
+
+        if (e.key === 'Escape' && !searchModal?.classList.contains('hidden')) {
+          closeSearch();
+          return;
+        }
+
+        if (searchModal && !searchModal.classList.contains('hidden')) {
+          const items = searchResults?.querySelectorAll('.search-item') || [];
+          if (items.length === 0) return;
+
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeIndex = (activeIndex + 1) % items.length;
+            highlightActiveItem(items);
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeIndex = (activeIndex - 1 + items.length) % items.length;
+            highlightActiveItem(items);
+          } else if (e.key === 'Enter') {
+            if (activeIndex >= 0 && activeIndex < items.length) {
+              e.preventDefault();
+              items[activeIndex].click();
+            }
           }
         }
       });
