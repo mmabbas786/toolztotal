@@ -28,7 +28,13 @@ export const toolCatalog: Category[] = [
       { name: "Compound Interest Calculator", slug: "compound-interest-calculator", description: "Visualize the growth of savings and investments through compounding interest over time.", status: "live", keywords: ["compound interest", "interest calculator"] },
       { name: "Payroll Tax Calculator", slug: "payroll-tax-calculator", description: "Calculate take-home pay, federal taxes, and state deductions from payroll.", status: "live", keywords: ["payroll tax", "tax calculator"] },
       { name: "Break-Even Analysis Calculator", slug: "break-even-calculator", description: "Determine the sales volume or revenue needed to cover fixed and variable costs.", status: "live", keywords: ["break-even", "roi calculator"] },
-      { name: "Amortization Schedule Calculator", slug: "amortization-calculator", description: "Generate a full payment schedule showing interest and principal breakdown over time.", status: "live", keywords: ["amortization calculator", "loan amortization"] }
+      { name: "Amortization Schedule Calculator", slug: "amortization-calculator", description: "Generate a full payment schedule showing interest and principal breakdown over time.", status: "live", keywords: ["amortization calculator", "loan amortization"] },
+      { name: "Sales Tax Calculator", slug: "sales-tax-calculator", description: "Calculate sales tax, reverse sales tax, and run multi-item receipts with state average lookups.", status: "live", keywords: ["sales tax calculator", "sales tax", "reverse sales tax"] },
+      { name: "Property Tax Calculator", slug: "property-tax-calculator", description: "Estimate annual property taxes by state with homestead exemption adjustments.", status: "live", keywords: ["property tax calculator", "property tax", "homestead exemption"] },
+      { name: "Net Worth Calculator", slug: "net-worth-calculator", description: "Track your assets and liabilities dynamically to determine your net worth. Anonymous and local.", status: "live", keywords: ["net worth calculator", "assets and liabilities", "net worth"] },
+      { name: "Inflation Calculator", slug: "inflation-calculator", description: "Calculate the purchasing power of money over time using historical CPI data.", status: "live", keywords: ["inflation calculator", "cpi inflation", "purchasing power"] },
+      { name: "Percentage Calculator", slug: "percentage-calculator", description: "Calculate percentages, percentage change, and rates with custom visual graphs.", status: "live", keywords: ["percentage calculator", "percentage change", "percent of"] },
+      { name: "SaaS CAC:LTV Calculator", slug: "cac-ltv-calculator", description: "Calculate customer acquisition cost (CAC), lifetime value (LTV), LTV:CAC ratios, and payback periods.", status: "live", keywords: ["cac ltv calculator", "ltv cac ratio", "payback period"] }
     ]
   },
   {

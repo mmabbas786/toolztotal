@@ -1,0 +1,369 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is Customer Acquisition Cost (CAC) calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Customer Acquisition Cost (CAC) is calculated by dividing total sales and marketing expenses (including payroll, ad spent, tools) by the number of new customers acquired during that specific period: CAC = (Sales Spend + Marketing Spend) / New Customers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Customer Lifetime Value (LTV) calculated in SaaS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Customer Lifetime Value (LTV) is calculated by dividing the gross margin contribution per account by the churn rate: LTV = (ARPU * Gross Margin %) / Monthly Churn Rate %, where ARPU is Average Revenue Per User."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a healthy LTV:CAC ratio for SaaS businesses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For mature software-as-a-service (SaaS) startups, an LTV:CAC ratio of 3:1 or higher is considered healthy, meaning that customers generate triple the revenue they cost to acquire. Ratios under 3:1 indicate high churn or unsustainable marketing spends."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the CAC payback period?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The CAC payback period calculates the number of months required for a customer to generate enough gross profit to cover their initial acquisition cost: Payback Period = CAC / (ARPU * Gross Margin %)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool store my startup financials?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, never. All SaaS inputs, economic indicators, and churn calculations are processed entirely client-side inside your browser sandbox. Your proprietary business metrics are 100% private."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="SaaS CAC:LTV Calculator - Free Customer Unit Economics Planner | ToolzTotal"
+  description="Calculate customer acquisition cost (CAC), customer lifetime value (LTV), payback periods, and LTV:CAC ratios. Simple client-side SaaS economics calculator."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/cac-ltv-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
+      <span>/</span>
+      <span class="text-ink">CAC:LTV Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free SaaS CAC:LTV Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Analyze your software-as-a-service unit economics. Compute customer acquisition cost (CAC), customer lifetime value (LTV), LTV:CAC ratios, and payback periods instantly.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        
+        <!-- CAC Input Section -->
+        <div class="space-y-4">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Acquisition Parameters (CAC)</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="marketing-spend" class="block text-xs font-mono uppercase text-mute mb-2">Marketing Spend ($)</label>
+              <input type="number" id="marketing-spend" placeholder="10000" value="10000" min="0" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="sales-spend" class="block text-xs font-mono uppercase text-mute mb-2">Sales Spend ($)</label>
+              <input type="number" id="sales-spend" placeholder="5000" value="5000" min="0" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div class="col-span-2">
+              <label for="new-customers" class="block text-xs font-mono uppercase text-mute mb-2">New Customers Acquired</label>
+              <input type="number" id="new-customers" placeholder="150" value="150" min="1" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- LTV Input Section -->
+        <div class="space-y-4 pt-4 border-t border-hairline">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Customer Value Parameters (LTV)</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="arpu" class="block text-xs font-mono uppercase text-mute mb-2">ARPU (Monthly Rev/Acct) ($)</label>
+              <input type="number" id="arpu" placeholder="100" value="100" min="0" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="gross-margin" class="block text-xs font-mono uppercase text-mute mb-2">Gross Margin (%)</label>
+              <input type="number" id="gross-margin" placeholder="80" value="80" min="0" max="100" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div class="col-span-2">
+              <label for="churn-rate" class="block text-xs font-mono uppercase text-mute mb-2">Monthly Churn Rate (%)</label>
+              <input type="number" id="churn-rate" placeholder="3.5" value="3.5" min="0.1" step="0.1" max="100" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Outputs & Ratio (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Unit Economics Summary</h2>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg text-center">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Customer Acquisition Cost (CAC)</span>
+              <span id="res-cac" class="text-2xl font-bold text-ink font-sans">$100.00</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-lg text-center">
+              <span class="text-[10px] font-mono text-mute uppercase block mb-1">Customer Lifetime Value (LTV)</span>
+              <span id="res-ltv" class="text-2xl font-bold text-ink font-sans">$2,285.71</span>
+            </div>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1" id="ratio-box">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">LTV : CAC Ratio</span>
+            <span id="res-ratio" class="text-4xl md:text-5xl font-black text-ink font-sans block">22.9x</span>
+            <p id="res-ratio-desc" class="text-xs text-mute font-sans leading-relaxed pt-2"></p>
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="space-y-3 text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <div class="flex justify-between">
+              <span>CAC PAYBACK PERIOD:</span>
+              <span id="res-payback" class="font-bold text-ink">1.3 months</span>
+            </div>
+            <div class="flex justify-between">
+              <span>ESTIMATED CUSTOMER LIFETIME:</span>
+              <span id="res-lifetime" class="font-bold text-ink">28.6 months</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Software Unit Economics: Deep Diving into CAC, LTV, and Payback Periods</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          For subscription-based software-as-a-service (SaaS) business models, traditional accounting metrics fail to capture the true health of customer acquisitions. Instead, investors and founders audit **unit economics** to measure sales efficiency.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Unit Economic Formulas</h3>
+        <p>
+          Four core math equations govern SaaS customer acquisition models:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>1. Customer Acquisition Cost (CAC):</strong> The total monetary cost to acquire a single customer.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">CAC = (Marketing Spend + Sales Spend) / New Customers</strong>
+          </li>
+          <li>
+            <strong>2. Customer Lifetime Value (LTV):</strong> The total gross profit a customer will generate before churning.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">LTV = (ARPU &times; Gross Margin %) / Monthly Churn Rate %</strong>
+          </li>
+          <li>
+            <strong>3. LTV:CAC Ratio:</strong> Compares the customer value to the acquisition cost. A **3:1 ratio** is the industry standard benchmark for healthy growth.
+          </li>
+          <li>
+            <strong>4. CAC Payback Period:</strong> The number of months required for a customer to break even.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">Payback Period = CAC / (ARPU &times; Gross Margin %)</strong>
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Managing SaaS Churn Rates</h3>
+        <p>
+          The single most powerful lever in SaaS LTV calculations is the **churn rate**. Even minor decreases in monthly churn yield massive increases in average customer lifetimes:
+          <br />
+          <strong class="block my-1 text-center font-mono text-xs text-ink">Customer Lifetime (months) = 1 / Churn Rate</strong>
+          For example, dropping churn from 5% to 2.5% doubles your LTV and slashes payback volatility. To test other compound interest metrics or project capital re-investment rates, explore our <a href="/finance/compound-interest-calculator" class="text-primary hover:underline font-semibold">Compound Interest Calculator</a> or check our <a href="/finance/roi-calculator" class="text-primary hover:underline font-semibold">ROI Calculator</a>.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is Customer Acquisition Cost (CAC) calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Customer Acquisition Cost (CAC) is calculated by dividing total sales and marketing expenses (including payroll, ad spent, tools) by the number of new customers acquired during that specific period: CAC = (Sales Spend + Marketing Spend) / New Customers.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is Customer Lifetime Value (LTV) calculated in SaaS?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Customer Lifetime Value (LTV) is calculated by dividing the gross margin contribution per account by the churn rate: LTV = (ARPU * Gross Margin %) / Monthly Churn Rate %, where ARPU is Average Revenue Per User.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a healthy LTV:CAC ratio for SaaS businesses?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For mature software-as-a-service (SaaS) startups, an LTV:CAC ratio of 3:1 or higher is considered healthy, meaning that customers generate triple the revenue they cost to acquire. Ratios under 3:1 indicate high churn or unsustainable marketing spends.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the CAC payback period?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The CAC payback period calculates the number of months required for a customer to generate enough gross profit to cover their initial acquisition cost: Payback Period = CAC / (ARPU * Gross Margin %).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool store my startup financials?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, never. All SaaS inputs, economic indicators, and churn calculations are processed entirely client-side inside your browser sandbox. Your proprietary business metrics are 100% private.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const marketingSpendIn = document.getElementById('marketing-spend') as HTMLInputElement;
+  const salesSpendIn = document.getElementById('sales-spend') as HTMLInputElement;
+  const newCustomersIn = document.getElementById('new-customers') as HTMLInputElement;
+
+  const arpuIn = document.getElementById('arpu') as HTMLInputElement;
+  const grossMarginIn = document.getElementById('gross-margin') as HTMLInputElement;
+  const churnIn = document.getElementById('churn-rate') as HTMLInputElement;
+
+  const resCac = document.getElementById('res-cac') as HTMLSpanElement;
+  const resLtv = document.getElementById('res-ltv') as HTMLSpanElement;
+  const resRatio = document.getElementById('res-ratio') as HTMLSpanElement;
+  const resRatioDesc = document.getElementById('res-ratio-desc') as HTMLParagraphElement;
+  const ratioBox = document.getElementById('ratio-box') as HTMLDivElement;
+
+  const resPayback = document.getElementById('res-payback') as HTMLSpanElement;
+  const resLifetime = document.getElementById('res-lifetime') as HTMLSpanElement;
+
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateSaaSMetrics = () => {
+    const marketing = parseFloat(marketingSpendIn.value) || 0;
+    const sales = parseFloat(salesSpendIn.value) || 0;
+    const customers = parseFloat(newCustomersIn.value) || 0;
+
+    const arpu = parseFloat(arpuIn.value) || 0;
+    const margin = (parseFloat(grossMarginIn.value) || 0) / 100;
+    const churn = (parseFloat(churnIn.value) || 0) / 100;
+
+    // 1. CAC calculation
+    const cac = customers > 0 ? (marketing + sales) / customers : 0;
+    resCac.textContent = "$" + cac.toFixed(2);
+
+    // 2. LTV calculation
+    const monthlyGrossProfit = arpu * margin;
+    const ltv = churn > 0 ? monthlyGrossProfit / churn : 0;
+    resLtv.textContent = "$" + ltv.toFixed(2);
+
+    // 3. Ratio calculation
+    const ratio = cac > 0 ? ltv / cac : 0;
+    resRatio.textContent = ratio.toFixed(1) + "x";
+
+    // 4. Payback period
+    const payback = monthlyGrossProfit > 0 ? cac / monthlyGrossProfit : 0;
+    resPayback.textContent = payback.toFixed(1) + " months";
+
+    // 5. Estimated customer lifetime
+    const lifetime = churn > 0 ? 1 / churn : 0;
+    resLifetime.textContent = lifetime.toFixed(1) + " months";
+
+    // Style Ratio Box and set descriptions based on SaaS benchmarks
+    if (ratio >= 3.0) {
+      ratioBox.className = "p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+      resRatio.className = "text-4xl md:text-5xl font-black text-emerald-500 font-sans block";
+      resRatioDesc.textContent = "🏆 Excellent! Your LTV:CAC ratio exceeds the healthy SaaS benchmark of 3.0x.";
+    } else if (ratio >= 1.5) {
+      ratioBox.className = "p-6 bg-yellow-500/5 border border-yellow-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+      resRatio.className = "text-4xl md:text-5xl font-black text-yellow-600 dark:text-yellow-500 font-sans block";
+      resRatioDesc.textContent = "⚠️ Fair. A ratio between 1.5x and 3.0x is average, but optimizing churn or margins is recommended.";
+    } else {
+      ratioBox.className = "p-6 bg-red-500/5 border border-red-500/20 rounded-lg text-center space-y-1 shadow-lvl1";
+      resRatio.className = "text-4xl md:text-5xl font-black text-red-500 font-sans block";
+      resRatioDesc.textContent = "🚨 Warning. Your ratio is under 1.5x, suggesting unsustainable acquisition costs relative to retention.";
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [marketingSpendIn, salesSpendIn, newCustomersIn, arpuIn, grossMarginIn, churnIn].forEach(inp => {
+    inp.addEventListener('input', calculateSaaSMetrics);
+  });
+
+  btnReset.addEventListener('click', () => {
+    marketingSpendIn.value = '10000';
+    salesSpendIn.value = '5000';
+    newCustomersIn.value = '150';
+    arpuIn.value = '100';
+    grossMarginIn.value = '80';
+    churnIn.value = '3.5';
+    calculateSaaSMetrics();
+  });
+
+  // Initial Calculation
+  calculateSaaSMetrics();
+</script>

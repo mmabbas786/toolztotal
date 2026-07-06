@@ -1,0 +1,265 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { cpiHistory } from '../../data/inflationData';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is inflation calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Inflation is calculated using the Consumer Price Index (CPI) ratio: Adjusted Value = Original Value * (End Year CPI / Start Year CPI). The difference in index points represents the overall rate of inflation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Consumer Price Index (CPI)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Consumer Price Index (CPI) is a statistical metric published by government labor agencies (like the Bureau of Labor Statistics in the US) that measures the average change over time in prices paid by urban consumers for a market basket of consumer goods and services."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does inflation decrease purchasing power?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Inflation occurs when overall price levels rise, meaning each individual unit of currency purchases a smaller percentage of goods or services. Consequently, your money has lower purchasing power over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How current is the CPI data in this tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool utilizes official historical CPI data points spanning from 1950 to 2026. The values represent annual averages for historical years, and estimated index numbers for current years."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I calculate salary inflation adjustments?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. By inputting a starting salary in a past year and selecting the target end year, this calculator computes what that salary is equivalent to in terms of current purchasing power."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Inflation Calculator - Free CPI Purchasing Power Solver | ToolzTotal"
+  description="Calculate inflation and historical purchasing power from 1950 to 2026 using official Consumer Price Index (CPI) datasets. Clean static tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/inflation-calculator"
+>
+  <!-- Pass CPI history array safely to client script -->
+  <script define:vars={{ cpiHistory }}></script>
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
+      <span>/</span>
+      <span class="text-ink">Inflation Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Inflation Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate the purchasing power of money over time using a historical Consumer Price Index (CPI) dataset spanning from 1950 to 2026.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Inflation Settings</h2>
+        
+        <!-- Starting Amount -->
+        <div>
+          <label for="start-amount" class="block text-xs font-mono uppercase text-mute mb-2">Starting Amount ($)</label>
+          <input 
+            type="number" 
+            id="start-amount" 
+            placeholder="e.g. 100"
+            value="100"
+            min="0"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Start & End Years -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="start-year" class="block text-xs font-mono uppercase text-mute mb-2">Start Year</label>
+            <select id="start-year" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none text-ink shadow-lvl1 cursor-pointer">
+              {cpiHistory.map(d => (
+                <option value={d.year} selected={d.year === 1980}>{d.year}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label for="end-year" class="block text-xs font-mono uppercase text-mute mb-2">End Year</label>
+            <select id="end-year" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none text-ink shadow-lvl1 cursor-pointer">
+              {cpiHistory.map(d => (
+                <option value={d.year} selected={d.year === 2026}>{d.year}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Outputs (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Purchasing Power Result</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">Equivalent Buying Power</span>
+            <span id="res-adjusted-amount" class="text-4xl md:text-5xl font-black text-ink font-sans block">$398.06</span>
+          </div>
+
+          <!-- Description statement -->
+          <div id="res-statement" class="p-4 bg-canvas border border-hairline rounded-lg text-body text-xs font-sans leading-relaxed">
+            A basket of goods costing $100 in 1980 would cost $398.06 in 2026.
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="space-y-3 text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <div class="flex justify-between">
+              <span>CUMULATIVE INFLATION RATE:</span>
+              <span id="res-cum-inflation" class="font-bold text-ink">298.1%</span>
+            </div>
+            <div class="flex justify-between">
+              <span>START YEAR CPI VALUE:</span>
+              <span id="res-start-cpi" class="font-bold text-ink">82.4</span>
+            </div>
+            <div class="flex justify-between">
+              <span>END YEAR CPI VALUE:</span>
+              <span id="res-end-cpi" class="font-bold text-ink">328.0</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Financial Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/finance/compound-interest-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Compound Interest Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Model compound investment growths over time.</p>
+        </a>
+        <a href="/finance/roi-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            ROI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate rate of returns for business project cycles.</p>
+        </a>
+        <a href="/finance/loan-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Loan Payment Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate monthly loan payments and amortization costs.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const startAmountIn = document.getElementById('start-amount') as HTMLInputElement;
+  const startYearSelect = document.getElementById('start-year') as HTMLSelectElement;
+  const endYearSelect = document.getElementById('end-year') as HTMLSelectElement;
+
+  const resAdjustedAmount = document.getElementById('res-adjusted-amount') as HTMLSpanElement;
+  const resStatement = document.getElementById('res-statement') as HTMLDivElement;
+  const resCumInflation = document.getElementById('res-cum-inflation') as HTMLSpanElement;
+  const resStartCpi = document.getElementById('res-start-cpi') as HTMLSpanElement;
+  const resEndCpi = document.getElementById('res-end-cpi') as HTMLSpanElement;
+
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // Retrieve CPI data defined via vars on window
+  const cpiDataset: Array<{ year: number, cpi: number }> = (window as any).cpiHistory || [];
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateInflation = () => {
+    const amount = parseFloat(startAmountIn.value) || 0;
+    const startYear = parseInt(startYearSelect.value);
+    const endYear = parseInt(endYearSelect.value);
+
+    const startData = cpiDataset.find(d => d.year === startYear);
+    const endData = cpiDataset.find(d => d.year === endYear);
+
+    if (!startData || !endData) return;
+
+    const startCpi = startData.cpi;
+    const endCpi = endData.cpi;
+
+    // Formula: Adjusted Amount = Amount * (End CPI / Start CPI)
+    const adjustedAmount = amount * (endCpi / startCpi);
+    const cumulativeRate = ((endCpi - startCpi) / startCpi) * 100;
+
+    resStartCpi.textContent = startCpi.toFixed(3);
+    resEndCpi.textContent = endCpi.toFixed(3);
+    resAdjustedAmount.textContent = "$" + adjustedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    resCumInflation.textContent = cumulativeRate.toFixed(1) + "%";
+
+    resStatement.textContent = `A basket of goods costing $${amount.toLocaleString()} in ${startYear} would cost $${adjustedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} in ${endYear} due to a cumulative inflation rate of ${cumulativeRate.toFixed(1)}%.`;
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  startAmountIn.addEventListener('input', calculateInflation);
+  startYearSelect.addEventListener('change', calculateInflation);
+  endYearSelect.addEventListener('change', calculateInflation);
+
+  btnReset.addEventListener('click', () => {
+    startAmountIn.value = '100';
+    startYearSelect.value = '1980';
+    endYearSelect.value = '2026';
+    calculateInflation();
+  });
+
+  // Initial Calculation
+  calculateInflation();
+</script>

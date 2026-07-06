@@ -1,0 +1,371 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { stateTaxRates } from '../../data/taxRates';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is property tax calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Property tax is calculated by multiplying the assessed value of a property (minus any applicable exemptions) by the local tax rate (often expressed as a millage rate): Property Tax = (Assessed Value - Exemptions) * (Property Tax Rate / 100)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a homestead exemption?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A homestead exemption reduces the taxable assessed value of a primary residence. For example, if a home is assessed at $300,000 and has a $25,000 homestead exemption, the annual property tax is computed on $275,000 instead of $300,000."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do property tax rates vary so widely by county?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Effective property tax rates combine baseline levies set by state, county, city, municipal school boards, and utility districts. High school funding needs or county budgets drastically shift local rates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between market value and assessed value?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Market value is what a property would sell for on the open market. Assessed value is a percentage of the market value determined by local tax assessors for taxation purposes. Assessed value is often lower than actual market value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ToolzTotal store my home valuation data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All inputs, homestead options, and calculated tax estimates are executed inside your browser memory client-side. No data is stored or transmitted."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Property Tax Calculator - State Property Tax Estimator | ToolzTotal"
+  description="Estimate annual property taxes by state effective rates with homestead exemption options. Clean client-side calculator."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/property-tax-calculator"
+>
+  <!-- Pass stateTaxRates safely to client script -->
+  <script define:vars={{ stateTaxRates }}></script>
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
+      <span>/</span>
+      <span class="text-ink">Property Tax Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Property Tax Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate your annual property taxes based on average effective rates per state. Toggle homestead exemptions and evaluate custom tax percentages.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Property Parameters</h2>
+        
+        <!-- Home Value -->
+        <div>
+          <label for="home-value" class="block text-xs font-mono uppercase text-mute mb-2">Assessed Property Value ($)</label>
+          <input 
+            type="number" 
+            id="home-value" 
+            placeholder="e.g. 350000"
+            value="350000"
+            min="0"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- State Selector -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="state-select" class="block text-xs font-mono uppercase text-mute mb-2">State</label>
+            <select id="state-select" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none text-ink shadow-lvl1 cursor-pointer">
+              <option value="custom">Custom Rate</option>
+              {Object.keys(stateTaxRates).map(code => (
+                <option value={code}>{stateTaxRates[code].stateName} ({stateTaxRates[code].propertyTaxRate}%)</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label for="tax-rate-input" class="block text-xs font-mono uppercase text-mute mb-2">Effective Rate (%)</label>
+            <input 
+              type="number" 
+              id="tax-rate-input" 
+              placeholder="Rate (%)" 
+              value="1.00"
+              step="0.01" 
+              class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+        </div>
+
+        <!-- Homestead Exemption Toggle -->
+        <div class="pt-4 border-t border-hairline space-y-3">
+          <label class="flex items-start gap-3 text-xs text-body font-sans select-none cursor-pointer">
+            <input type="checkbox" id="homestead-check" class="mt-0.5 rounded border-hairline text-primary focus:ring-primary shadow-lvl1 cursor-pointer" />
+            <span>Apply Homestead Exemption</span>
+          </label>
+          <div id="homestead-input-container" class="hidden">
+            <label for="homestead-value" class="block text-xs font-mono uppercase text-mute mb-2">Homestead Exemption Amount ($)</label>
+            <input 
+              type="number" 
+              id="homestead-value" 
+              placeholder="25000"
+              value="25000"
+              min="0"
+              class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Outputs (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Estimated Property Tax</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">Estimated Annual Property Tax</span>
+            <span id="res-annual-tax" class="text-4xl md:text-5xl font-black text-ink font-sans block">$3,500</span>
+          </div>
+
+          <!-- YMYL Disclaimer Box -->
+          <div class="p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-lg text-yellow-600 dark:text-yellow-500 text-xs font-sans leading-relaxed">
+            <strong>Disclaimer:</strong> This tool utilizes static average tax rate estimates. Please verify current local city and county rates with tax authorities before making final transactions.
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="space-y-3 text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <div class="flex justify-between">
+              <span>TAXABLE ASSESSED VALUE:</span>
+              <span id="res-taxable-value" class="font-bold text-ink">$350,000</span>
+            </div>
+            <div class="flex justify-between">
+              <span>ESTIMATED MONTHLY TAX PORTION:</span>
+              <span id="res-monthly-tax" class="font-bold text-ink">$291.67 / mo</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Millage Rates and Homestead Exemptions: Solving Property Tax Estimations</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Property tax is a primary source of revenue for municipal governments, school districts, and county administration in the United States. For homeowners, property tax portions represent a significant chunk of monthly escrow obligations.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Property Tax Formula</h3>
+        <p>
+          Property taxes are calculated using the assessed value of a home multiplied by the combined effective rate of local taxing jurisdictions:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Property Tax = Taxable Assessed Value &times; (Effective Rate / 100)</strong>
+          For example, a home with a taxable assessed value of $350,000 in a state with an effective property tax rate of 1.00% pays an annual property tax of $3,500.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Homestead Exemptions</h3>
+        <p>
+          A **homestead exemption** is a tax relief provision that shields a portion of a primary residence's valuation from property taxes.
+          <br />
+          If a homeowner qualifies for a $25,000 exemption, and their home's assessed value is $350,000, their taxes are calculated based on $325,000. Under a 1.00% tax rate, this homestead adjustment yields:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">($350,000 - $25,000) &times; 1.00% = $3,250</strong>
+          Saving the homeowner $250 annually.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is property tax calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Property tax is calculated by multiplying the assessed value of a property (minus any applicable exemptions) by the local tax rate (often expressed as a millage rate): Property Tax = (Assessed Value - Exemptions) * (Property Tax Rate / 100).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a homestead exemption?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A homestead exemption reduces the taxable assessed value of a primary residence. For example, if a home is assessed at $300,000 and has a $25,000 homestead exemption, the annual property tax is computed on $275,000 instead of $300,000.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Why do property tax rates vary so widely by county?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Effective property tax rates combine baseline levies set by state, county, city, municipal school boards, and utility districts. High school funding needs or county budgets drastically shift local rates.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between market value and assessed value?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Market value is what a property would sell for on the open market. Assessed value is a percentage of the market value determined by local tax assessors for taxation purposes. Assessed value is often lower than actual market value.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does ToolzTotal store my home valuation data?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. All inputs, homestead options, and calculated tax estimates are executed inside your browser memory client-side. No data is stored or transmitted.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Financial Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/finance/sales-tax-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Sales Tax Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Compute standard and reverse sales tax amounts.</p>
+        </a>
+        <a href="/finance/mortgage-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Mortgage Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate monthly mortgage payments and terms.</p>
+        </a>
+        <a href="/finance/self-employment-tax-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Self-Employment Tax Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate FICA taxes for self-employed professionals.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const homeValueIn = document.getElementById('home-value') as HTMLInputElement;
+  const stateSelect = document.getElementById('state-select') as HTMLSelectElement;
+  const taxRateIn = document.getElementById('tax-rate-input') as HTMLInputElement;
+
+  const homesteadCheck = document.getElementById('homestead-check') as HTMLInputElement;
+  const homesteadContainer = document.getElementById('homestead-input-container') as HTMLDivElement;
+  const homesteadValueIn = document.getElementById('homestead-value') as HTMLInputElement;
+
+  const resAnnualTax = document.getElementById('res-annual-tax') as HTMLSpanElement;
+  const resTaxableValue = document.getElementById('res-taxable-value') as HTMLSpanElement;
+  const resMonthlyTax = document.getElementById('res-monthly-tax') as HTMLSpanElement;
+
+  // Read stateTaxRates safely from defined vars on window
+  const ratesTable = (window as any).stateTaxRates || {};
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const handleStateChange = () => {
+    const stateVal = stateSelect.value;
+    if (stateVal === 'custom') {
+      taxRateIn.disabled = false;
+    } else {
+      const match = ratesTable[stateVal];
+      if (match) {
+        taxRateIn.value = match.propertyTaxRate.toString();
+        taxRateIn.disabled = true;
+      }
+    }
+    calculatePropertyTax();
+  };
+
+  const calculatePropertyTax = () => {
+    const value = parseFloat(homeValueIn.value) || 0;
+    const rate = parseFloat(taxRateIn.value) || 0;
+    const applyHomestead = homesteadCheck.checked;
+    const homesteadAmt = applyHomestead ? (parseFloat(homesteadValueIn.value) || 0) : 0;
+
+    // Toggle homestead inputs
+    if (applyHomestead) {
+      homesteadContainer.classList.remove('hidden');
+    } else {
+      homesteadContainer.classList.add('hidden');
+    }
+
+    const taxableValue = Math.max(0, value - homesteadAmt);
+    const annualTax = taxableValue * (rate / 100);
+    const monthlyTax = annualTax / 12;
+
+    resTaxableValue.textContent = "$" + taxableValue.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    resAnnualTax.textContent = "$" + annualTax.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    resMonthlyTax.textContent = "$" + monthlyTax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " / mo";
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  stateSelect.addEventListener('change', handleStateChange);
+  taxRateIn.addEventListener('input', calculatePropertyTax);
+  homeValueIn.addEventListener('input', calculatePropertyTax);
+  homesteadCheck.addEventListener('change', calculatePropertyTax);
+  homesteadValueIn.addEventListener('input', calculatePropertyTax);
+
+  // Initial render
+  handleStateChange();
+</script>

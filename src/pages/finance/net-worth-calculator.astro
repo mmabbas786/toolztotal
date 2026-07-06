@@ -1,0 +1,398 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is net worth calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Net worth is calculated using a straightforward accounting equation: Net Worth = Total Assets - Total Liabilities. Assets are everything of monetary value you own, while liabilities represent debts you owe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as a financial asset?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Assets include physical property (real estate, vehicles), liquid cash reserves, bank savings accounts, brokerage investments, retirement accounts (401k, IRA), business equity, and valuable personal property (jewelry, art)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as a liability?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Liabilities comprise all outstanding debt obligations, including home mortgages, automobile loans, student loans, outstanding credit card balances, personal bank loans, and medical bills."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often should I recalculate my net worth?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Financial advisors generally recommend tracking and updating your net worth quarterly or semi-annually. This timeline allows you to review overall trends without reacting to short-term market volatility."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my net worth data uploaded to ToolzTotal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, never. All inputs, assets, liabilities, and calculated net worth balances are compiled client-side in your browser memory. We have no databases, user accounts, or tracking scripts that capture this data."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Net Worth Calculator - Free Anonymous Wealth Tracker | ToolzTotal"
+  description="Track your assets and liabilities dynamically to determine your net worth. 100% anonymous, safe, and client-side. No signup required."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/net-worth-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
+      <span>/</span>
+      <span class="text-ink">Net Worth Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Net Worth Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Audit your financial balance sheet anonymously. Input your assets and liabilities to calculate your overall net worth. 100% client-side, zero signup required.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (7 cols) -->
+      <div class="lg:col-span-7 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-8">
+        
+        <!-- Assets Panel -->
+        <div class="space-y-4">
+          <h2 class="text-base font-bold text-emerald-500 font-sans border-b border-hairline pb-2 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            Assets (What You Own)
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="asset-real-estate" class="block text-xs font-mono uppercase text-mute mb-2">Real Estate ($)</label>
+              <input type="number" id="asset-real-estate" placeholder="0" class="asset-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="asset-investments" class="block text-xs font-mono uppercase text-mute mb-2">Brokerage Investments ($)</label>
+              <input type="number" id="asset-investments" placeholder="0" class="asset-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="asset-retirement" class="block text-xs font-mono uppercase text-mute mb-2">Retirement Accounts ($)</label>
+              <input type="number" id="asset-retirement" placeholder="0" class="asset-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="asset-cash" class="block text-xs font-mono uppercase text-mute mb-2">Cash & Bank Accounts ($)</label>
+              <input type="number" id="asset-cash" placeholder="0" class="asset-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div class="md:col-span-2">
+              <label for="asset-other" class="block text-xs font-mono uppercase text-mute mb-2">Other Valuable Assets ($)</label>
+              <input type="number" id="asset-other" placeholder="0" class="asset-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Liabilities Panel -->
+        <div class="space-y-4">
+          <h2 class="text-base font-bold text-red-500 font-sans border-b border-hairline pb-2 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+            Liabilities (What You Owe)
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="liab-mortgage" class="block text-xs font-mono uppercase text-mute mb-2">Mortgages ($)</label>
+              <input type="number" id="liab-mortgage" placeholder="0" class="liab-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="liab-auto" class="block text-xs font-mono uppercase text-mute mb-2">Auto Loans ($)</label>
+              <input type="number" id="liab-auto" placeholder="0" class="liab-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="liab-student" class="block text-xs font-mono uppercase text-mute mb-2">Student Loans ($)</label>
+              <input type="number" id="liab-student" placeholder="0" class="liab-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div>
+              <label for="liab-credit" class="block text-xs font-mono uppercase text-mute mb-2">Credit Card Debt ($)</label>
+              <input type="number" id="liab-credit" placeholder="0" class="liab-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+            <div class="md:col-span-2">
+              <label for="liab-other" class="block text-xs font-mono uppercase text-mute mb-2">Other Outstanding Debts ($)</label>
+              <input type="number" id="liab-other" placeholder="0" class="liab-input w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset Values</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Results & Ratio (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Net Worth Results</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">Estimated Net Worth</span>
+            <span id="res-net-worth" class="text-4xl md:text-5xl font-black text-ink font-sans block">$0</span>
+          </div>
+
+          <!-- Asset / Debt Ratio Visualizer -->
+          <div class="space-y-2">
+            <span class="text-[10px] font-mono text-mute uppercase block">Asset-to-Liability Proportion</span>
+            <div class="h-4 w-full bg-red-500 rounded-full overflow-hidden flex shadow-lvl1">
+              <div id="ratio-asset-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 100%;"></div>
+            </div>
+            <div class="flex justify-between text-[10px] font-mono text-mute pt-1">
+              <span>ASSETS: <strong id="ratio-asset-pct" class="text-emerald-500">100%</strong></span>
+              <span>DEBTS: <strong id="ratio-liab-pct" class="text-red-500">0%</strong></span>
+            </div>
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="space-y-3 text-xs font-mono text-mute pt-4 border-t border-hairline">
+            <div class="flex justify-between">
+              <span>TOTAL ASSETS:</span>
+              <span id="res-total-assets" class="font-bold text-emerald-500">$0</span>
+            </div>
+            <div class="flex justify-between">
+              <span>TOTAL LIABILITIES:</span>
+              <span id="res-total-liabs" class="font-bold text-red-500">$0</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Demystifying Net Worth: How to Track Your Personal Financial Balance Sheet</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Your net worth is the single most comprehensive metric of your personal financial health. While monthly cash flow checks track your budget, your net worth documents your accumulated wealth.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Net Worth Equation</h3>
+        <p>
+          Calculating net worth is based on a fundamental accounting formula:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Net Worth = Total Assets - Total Liabilities</strong>
+          Where:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Assets:</strong> Items of monetary value that you own. Examples include liquid cash, savings accounts, home valuations, automobiles, stock portfolios, and retirement accounts.</li>
+          <li><strong>Liabilities:</strong> Debt obligations you owe to third parties. Examples include outstanding mortgage balances, student loans, auto loans, and credit card balances.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Strategies for Building Wealth</h3>
+        <p>
+          Improving your net worth requires two primary financial actions:
+          <br />
+          1. **Debt Reduction:** Paying down outstanding liabilities (such as high-interest credit card debt or car loans) directly increases your net worth.
+          <br />
+          2. **Asset Accumulation:** Directing surplus cash flow into compound interest accounts or investments increases your asset base. Study our <a href="/finance/compound-interest-calculator" class="text-primary hover:underline font-semibold">Compound Interest Calculator</a> to model these growth projections over time.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is net worth calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Net worth is calculated using a straightforward accounting equation: Net Worth = Total Assets - Total Liabilities. Assets are everything of monetary value you own, while liabilities represent debts you owe.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What counts as a financial asset?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Assets include physical property (real estate, vehicles), liquid cash reserves, bank savings accounts, brokerage investments, retirement accounts (401k, IRA), business equity, and valuable personal property (jewelry, art).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What counts as a liability?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Liabilities comprise all outstanding debt obligations, including home mortgages, automobile loans, student loans, outstanding credit card balances, personal bank loans, and medical bills.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How often should I recalculate my net worth?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Financial advisors generally recommend tracking and updating your net worth quarterly or semi-annually. This timeline allows you to review overall trends without reacting to short-term market volatility.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my net worth data uploaded to ToolzTotal?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, never. All inputs, assets, liabilities, and calculated net worth balances are compiled client-side in your browser memory. We have no databases, user accounts, or tracking scripts that capture this data.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Financial Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/finance/compound-interest-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Compound Interest Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Model compound investment growths over time.</p>
+        </a>
+        <a href="/finance/roi-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            ROI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate rate of returns for business project cycles.</p>
+        </a>
+        <a href="/finance/loan-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Loan Payment Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate monthly loan payments and amortization costs.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const assetInputs = document.querySelectorAll('.asset-input') as NodeListOf<HTMLInputElement>;
+  const liabInputs = document.querySelectorAll('.liab-input') as NodeListOf<HTMLInputElement>;
+
+  const resNetWorth = document.getElementById('res-net-worth') as HTMLSpanElement;
+  const resTotalAssets = document.getElementById('res-total-assets') as HTMLSpanElement;
+  const resTotalLiabs = document.getElementById('res-total-liabs') as HTMLSpanElement;
+
+  const barAsset = document.getElementById('ratio-asset-bar') as HTMLDivElement;
+  const pctAsset = document.getElementById('ratio-asset-pct') as HTMLSpanElement;
+  const pctLiab = document.getElementById('ratio-liab-pct') as HTMLSpanElement;
+
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateNetWorth = () => {
+    let totalAssets = 0;
+    assetInputs.forEach(i => {
+      totalAssets += parseFloat(i.value) || 0;
+    });
+
+    let totalLiabs = 0;
+    liabInputs.forEach(i => {
+      totalLiabs += parseFloat(i.value) || 0;
+    });
+
+    const netWorth = totalAssets - totalLiabs;
+
+    // Formatting outputs
+    const formatValue = (val: number) => {
+      const isNeg = val < 0;
+      const absVal = Math.abs(val);
+      const str = "$" + absVal.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return isNeg ? "-" + str : str;
+    };
+
+    resTotalAssets.textContent = formatValue(totalAssets);
+    resTotalLiabs.textContent = formatValue(totalLiabs);
+    resNetWorth.textContent = formatValue(netWorth);
+
+    // Update styling for negative net worth
+    if (netWorth < 0) {
+      resNetWorth.className = "text-4xl md:text-5xl font-black text-red-500 font-sans block";
+    } else {
+      resNetWorth.className = "text-4xl md:text-5xl font-black text-ink font-sans block";
+    }
+
+    // Ratio calculation
+    const totalCombined = totalAssets + totalLiabs;
+    if (totalCombined > 0) {
+      const assetPct = (totalAssets / totalCombined) * 100;
+      const liabPct = (totalLiabs / totalCombined) * 100;
+
+      barAsset.style.width = assetPct.toFixed(1) + "%";
+      pctAsset.textContent = assetPct.toFixed(0) + "%";
+      pctLiab.textContent = liabPct.toFixed(0) + "%";
+    } else {
+      barAsset.style.width = "100%";
+      pctAsset.textContent = "100%";
+      pctLiab.textContent = "0%";
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [...assetInputs, ...liabInputs].forEach(inp => {
+    inp.addEventListener('input', calculateNetWorth);
+  });
+
+  btnReset.addEventListener('click', () => {
+    [...assetInputs, ...liabInputs].forEach(i => i.value = '');
+    calculateNetWorth();
+  });
+
+  // Initial Calculation
+  calculateNetWorth();
+</script>

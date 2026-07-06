@@ -1,0 +1,424 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you calculate a percentage of a number?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To find a percentage of a number, multiply the number by the percentage value and divide by 100: Result = Number * (Percentage / 100). For example, 20% of 150 is 150 * 0.20 = 30."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is percentage change calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Percentage change measures the relative difference between a starting value and a final value: Percentage Change = ((Final Value - Start Value) / Start Value) * 100. A positive result represents an increase, while a negative result is a decrease."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you calculate what percentage one number is of another?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To solve what percentage X is of Y, divide X by Y and multiply by 100: Percentage = (X / Y) * 100. For example, 30 is what percent of 150 is solved as (30 / 150) * 100 = 20%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool support tip and discount calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This calculator features dedicated shortcuts for common tipping rates (15%, 18%, 20%) to quickly split bills or check discounts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my values processed securely?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, absolutely. Like all tools on ToolzTotal, all percentage calculations run completely client-side in your local web browser session. No data is stored or uploaded."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Percentage Calculator - Free Rates & Percent Solver | ToolzTotal"
+  description="Calculate percentages, percentage changes, and fractional values with visual graphs. Quick tip shortcuts. Clean static client-side tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/percentage-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
+      <span>/</span>
+      <span class="text-ink">Percentage Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Percentage Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Execute fractional rate conversions, percentage change calculations, and find ratios with live visual charts.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Solver Modules (7 cols) -->
+      <div class="lg:col-span-7 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-8">
+        
+        <!-- Mode 1: What is X% of Y? -->
+        <div class="space-y-4">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2 flex items-center justify-between">
+            <span>1. What is X% of Y?</span>
+            <span class="text-xs font-mono text-mute font-normal">Standard Percentage</span>
+          </h2>
+          <div class="grid grid-cols-12 gap-3 items-center">
+            <div class="col-span-3">
+              <input type="number" id="m1-x" value="20" class="m1-input w-full h-10 px-2 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+            </div>
+            <span class="col-span-2 text-center text-xs font-mono text-mute">% of</span>
+            <div class="col-span-4">
+              <input type="number" id="m1-y" value="150" class="m1-input w-full h-10 px-2 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+            </div>
+            <span class="col-span-1 text-center text-xs font-mono text-mute">=</span>
+            <div class="col-span-2">
+              <span id="res-m1" class="font-bold text-ink text-sm font-sans block text-right">30.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: X is what percent of Y? -->
+        <div class="space-y-4">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2 flex items-center justify-between">
+            <span>2. X is what percent of Y?</span>
+            <span class="text-xs font-mono text-mute font-normal">Fractional Percentage</span>
+          </h2>
+          <div class="grid grid-cols-12 gap-3 items-center">
+            <div class="col-span-3">
+              <input type="number" id="m2-x" value="30" class="m2-input w-full h-10 px-2 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+            </div>
+            <span class="col-span-2 text-center text-xs font-mono text-mute">is what % of</span>
+            <div class="col-span-4">
+              <input type="number" id="m2-y" value="150" class="m2-input w-full h-10 px-2 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+            </div>
+            <span class="col-span-1 text-center text-xs font-mono text-mute">=</span>
+            <div class="col-span-2">
+              <span id="res-m2" class="font-bold text-ink text-sm font-sans block text-right">20.00%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 3: Percentage change from X to Y -->
+        <div class="space-y-4">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2 flex items-center justify-between">
+            <span>3. Percentage change from X to Y</span>
+            <span class="text-xs font-mono text-mute font-normal">Increase / Decrease</span>
+          </h2>
+          <div class="grid grid-cols-12 gap-3 items-center">
+            <div class="col-span-3">
+              <input type="number" id="m3-x" value="150" class="m3-input w-full h-10 px-2 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+            </div>
+            <span class="col-span-2 text-center text-xs font-mono text-mute">to</span>
+            <div class="col-span-4">
+              <input type="number" id="m3-y" value="180" class="m3-input w-full h-10 px-2 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+            </div>
+            <span class="col-span-1 text-center text-xs font-mono text-mute">=</span>
+            <div class="col-span-2">
+              <span id="res-m3" class="font-bold text-ink text-sm font-sans block text-right">+20.00%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Visualizer (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Visual Proportion</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-4 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">Visual Ratio (X vs Y)</span>
+            
+            <div class="flex justify-center items-center py-6">
+              <!-- Visual progress wheel / pie chart representation using SVG -->
+              <svg class="w-32 h-32 transform -rotate-90">
+                <circle cx="64" cy="64" r="50" class="stroke-canvas-soft fill-none border" stroke-width="12"></circle>
+                <circle id="svg-fill-wheel" cx="64" cy="64" r="50" class="stroke-primary fill-none transition-all duration-500" stroke-width="12" stroke-dasharray="314.16" stroke-dashoffset="251.3"></circle>
+              </svg>
+            </div>
+            
+            <span id="res-visualization-label" class="text-xs font-mono text-mute block font-semibold">20% Proportion</span>
+          </div>
+
+          <!-- Bill split shortcut tip helper -->
+          <div class="p-4 bg-canvas border border-hairline rounded-lg space-y-3">
+            <h3 class="text-xs font-mono uppercase text-ink">Bill Splitting Tips Shortcuts</h3>
+            <div class="grid grid-cols-3 gap-2">
+              <button id="tip-15" class="py-1 px-2 border border-hairline bg-canvas hover:border-hairline-strong text-[11px] font-mono text-ink rounded shadow-lvl1 cursor-pointer">15% Tip</button>
+              <button id="tip-18" class="py-1 px-2 border border-hairline bg-canvas hover:border-hairline-strong text-[11px] font-mono text-ink rounded shadow-lvl1 cursor-pointer">18% Tip</button>
+              <button id="tip-20" class="py-1 px-2 border border-hairline bg-canvas hover:border-hairline-strong text-[11px] font-mono text-ink rounded shadow-lvl1 cursor-pointer">20% Tip</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Percentage Calculations: Fractions, Ratios, and Percentage Changes</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Percentages are fractions written with a denominator of 100. Meaning "per hundred", percentages are standard mathematical tools for expressing relative ratios, growth steps, financial yields, and tax calculations.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Three Essential Percentage Modes</h3>
+        <p>
+          Our calculator solves the three primary equations used in algebra and financial management:
+        </p>
+        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+          <li>
+            <strong>Mode 1: Finding the percentage of a total (What is X% of Y?):</strong> Solves the absolute amount represented by a rate.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">Result = Y &times; (X / 100)</strong>
+            For example, a 20% tax on a $150 transaction equals $30.00.
+          </li>
+          <li>
+            <strong>Mode 2: Calculating rates from fractions (X is what percent of Y?):</strong> Solves what percentage slice a part holds of the whole.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">Percentage = (X / Y) &times; 100</strong>
+            For instance, $30 represents 20% of $150.
+          </li>
+          <li>
+            <strong>Mode 3: Percentage change (Change from X to Y):</strong> Calculates step changes, showing if values increased or decreased and by what percentage relative to the starting point.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">Change = ((Y - X) / X) &times; 100</strong>
+            For instance, a price hike from $150 to $180 is a 20% increase.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do you calculate a percentage of a number?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To find a percentage of a number, multiply the number by the percentage value and divide by 100: Result = Number * (Percentage / 100). For example, 20% of 150 is 150 * 0.20 = 30.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is percentage change calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Percentage change measures the relative difference between a starting value and a final value: Percentage Change = ((Final Value - Start Value) / Start Value) * 100. A positive result represents an increase, while a negative result is a decrease.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do you calculate what percentage one number is of another?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To solve what percentage X is of Y, divide X by Y and multiply by 100: Percentage = (X / Y) * 100. For example, 30 is what percent of 150 is solved as (30 / 150) * 100 = 20%.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool support tip and discount calculations?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. This calculator features dedicated shortcuts for common tipping rates (15%, 18%, 20%) to quickly split bills or check discounts.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Are my values processed securely?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, absolutely. Like all tools on ToolzTotal, all percentage calculations run completely client-side in your local web browser session. No data is stored or uploaded.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Financial Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/finance/roi-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            ROI Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate rate of returns for business project cycles.</p>
+        </a>
+        <a href="/finance/break-even-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Break-Even Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate sales quantities to cover general operating costs.</p>
+        </a>
+        <a href="/finance/compound-interest-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Compound Interest Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Model compound investment growths over time.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const m1X = document.getElementById('m1-x') as HTMLInputElement;
+  const m1Y = document.getElementById('m1-y') as HTMLInputElement;
+  const resM1 = document.getElementById('res-m1') as HTMLSpanElement;
+
+  const m2X = document.getElementById('m2-x') as HTMLInputElement;
+  const m2Y = document.getElementById('m2-y') as HTMLInputElement;
+  const resM2 = document.getElementById('res-m2') as HTMLSpanElement;
+
+  const m3X = document.getElementById('m3-x') as HTMLInputElement;
+  const m3Y = document.getElementById('m3-y') as HTMLInputElement;
+  const resM3 = document.getElementById('res-m3') as HTMLSpanElement;
+
+  const svgWheel = document.getElementById('svg-fill-wheel') as SVGCircleElement;
+  const visLabel = document.getElementById('res-visualization-label') as HTMLSpanElement;
+
+  const tip15 = document.getElementById('tip-15') as HTMLButtonElement;
+  const tip18 = document.getElementById('tip-18') as HTMLButtonElement;
+  const tip20 = document.getElementById('tip-20') as HTMLButtonElement;
+
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // Circumference of visual circle = 2 * Math.PI * r (r=50) = 314.159
+  const maxDash = 314.159;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateMode1 = () => {
+    const x = parseFloat(m1X.value) || 0;
+    const y = parseFloat(m1Y.value) || 0;
+    const result = y * (x / 100);
+    resM1.textContent = result.toFixed(2);
+    updateVisualization(x);
+  };
+
+  const calculateMode2 = () => {
+    const x = parseFloat(m2X.value) || 0;
+    const y = parseFloat(m2Y.value) || 0;
+    
+    if (y === 0) {
+      resM2.textContent = "0.00%";
+      return;
+    }
+    const result = (x / y) * 100;
+    resM2.textContent = result.toFixed(2) + "%";
+    updateVisualization(result);
+  };
+
+  const calculateMode3 = () => {
+    const x = parseFloat(m3X.value) || 0;
+    const y = parseFloat(m3Y.value) || 0;
+
+    if (x === 0) {
+      resM3.textContent = "0.00%";
+      return;
+    }
+
+    const change = ((y - x) / x) * 100;
+    const prefix = change >= 0 ? "+" : "";
+    resM3.textContent = prefix + change.toFixed(2) + "%";
+  };
+
+  const updateVisualization = (percentage: number) => {
+    const capped = Math.max(0, Math.min(100, percentage));
+    // Dash offset: 100% is 0 offset (full circle), 0% is maxDash offset (empty)
+    const offset = maxDash - (maxDash * (capped / 100));
+    svgWheel.setAttribute('stroke-dashoffset', offset.toFixed(2));
+    visLabel.textContent = capped.toFixed(1) + "% Proportion";
+  };
+
+  const handleTipShortcut = (pct: number) => {
+    m1X.value = pct.toString();
+    calculateMode1();
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [m1X, m1Y].forEach(i => i.addEventListener('input', calculateMode1));
+  [m2X, m2Y].forEach(i => i.addEventListener('input', calculateMode2));
+  [m3X, m3Y].forEach(i => i.addEventListener('input', calculateMode3));
+
+  tip15.addEventListener('click', () => handleTipShortcut(15));
+  tip18.addEventListener('click', () => handleTipShortcut(18));
+  tip20.addEventListener('click', () => handleTipShortcut(20));
+
+  btnReset.addEventListener('click', () => {
+    m1X.value = '20';
+    m1Y.value = '150';
+    m2X.value = '30';
+    m2Y.value = '150';
+    m3X.value = '150';
+    m3Y.value = '180';
+    calculateMode1();
+    calculateMode2();
+    calculateMode3();
+  });
+
+  // Initial Calculation
+  calculateMode1();
+  calculateMode2();
+  calculateMode3();
+</script>

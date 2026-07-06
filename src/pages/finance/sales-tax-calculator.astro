@@ -1,0 +1,403 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { stateTaxRates } from '../../data/taxRates';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is sales tax calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sales tax is calculated by multiplying the taxable purchase price by the decimal equivalent of the tax rate: Sales Tax = Price * (Tax Rate / 100). The total price is then the sum of the base price and the tax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you calculate the pre-tax price from the total cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To find the pre-tax price (reverse calculation) from the total amount paid, divide the total price by 1 plus the decimal tax rate: Pre-Tax Price = Total Price / (1 + (Tax Rate / 100))."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do sales tax rates differ by city and county?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "While state governments set a baseline sales tax rate, local jurisdictions (cities, counties, and special transit districts) frequently levy additional local taxes on top of the state rate, leading to varying combined rates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool pull live real-time tax database rates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This tool utilizes static average combined sales tax estimates per state. Because local municipal rates shift frequently, it is recommended to verify exact current rates with municipal tax portals."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my shopping list data uploaded or stored?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, never. All item entries, prices, and totals are computed entirely inside your browser's local memory. No information is transmitted to servers, ensuring complete privacy."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Sales Tax Calculator - Free Sales Tax & Reverse Solver | ToolzTotal"
+  description="Calculate sales tax, reverse sales tax (pre-tax amount from total), and compile multi-item carts using state average rates. Clean static tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/sales-tax-calculator"
+>
+  <!-- Pass stateTaxRates map to client-side script safely -->
+  <script define:vars={{ stateTaxRates }}></script>
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
+      <span>/</span>
+      <span class="text-ink">Sales Tax Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Sales Tax Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate standard sales tax, perform reverse calculations to extract pre-tax prices, and run multi-item receipts with average combined state tax rate lookups.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs & Cart (7 cols) -->
+      <div class="lg:col-span-7 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        
+        <div class="flex items-center justify-between border-b border-hairline pb-3">
+          <h2 class="text-lg font-bold text-ink font-sans">Settings & Items</h2>
+          <div class="flex gap-2">
+            <select id="state-select" class="h-8 px-2 bg-canvas border border-hairline rounded text-xs font-sans">
+              <option value="custom">Custom Rate</option>
+              {Object.keys(stateTaxRates).map(code => (
+                <option value={code}>{stateTaxRates[code].stateName} ({stateTaxRates[code].salesTaxRate}%)</option>
+              ))}
+            </select>
+            <input 
+              type="number" 
+              id="tax-rate-input" 
+              placeholder="Rate (%)" 
+              value="8.25"
+              step="0.01" 
+              class="w-20 h-8 px-2 bg-canvas border border-hairline rounded text-xs focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1"
+            />
+          </div>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="flex gap-4 p-1 bg-canvas-soft border border-hairline rounded-lg">
+          <button id="mode-forward" class="flex-1 py-1.5 text-xs font-mono font-semibold rounded bg-canvas border border-hairline text-ink cursor-pointer transition-all shadow-lvl1">Standard Sales Tax</button>
+          <button id="mode-reverse" class="flex-1 py-1.5 text-xs font-mono text-mute cursor-pointer transition-all">Reverse (Pre-Tax) Solver</button>
+        </div>
+
+        <!-- Direct Price Input -->
+        <div id="direct-input-container">
+          <label for="price-input" id="price-label" class="block text-xs font-mono uppercase text-mute mb-2">Base Price ($)</label>
+          <input 
+            type="number" 
+            id="price-input" 
+            placeholder="100.00"
+            value="100.00"
+            min="0"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Reset -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset Calculator</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Result summary (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Calculation Summary</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1" id="res-total-label">Total Price (Inc. Tax)</span>
+            <span id="res-total" class="text-4xl md:text-5xl font-black text-ink font-sans block">$108.25</span>
+          </div>
+
+          <!-- Disclaimers -->
+          <div class="p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-lg text-yellow-600 dark:text-yellow-500 text-xs font-sans leading-relaxed">
+            <strong>Disclaimer:</strong> This tool utilizes static average tax rate estimates. Please verify current local city and county rates with tax authorities before making final transactions.
+          </div>
+
+          <div class="space-y-3 text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <div class="flex justify-between">
+              <span id="lbl-breakdown-price">PRE-TAX PRICE:</span>
+              <span id="res-pretax" class="font-bold text-ink">$100.00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>SALES TAX AMOUNT:</span>
+              <span id="res-tax-amount" class="font-bold text-ink">$8.25</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Demystifying Sales Tax Math: Direct and Reverse Calculations</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Sales tax is a consumption tax imposed by governments on the sale of goods and services. While retail cash registers execute these calculations automatically, understanding the underlying formulas is essential for business accounting and consumer planning.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Calculating Direct Sales Tax</h3>
+        <p>
+          To find the sales tax and total cost of an item, you multiply the base price by the combined tax rate, then add that product to the base price:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Sales Tax = Base Price &times; (Tax Rate / 100)</strong>
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Total Cost = Base Price + Sales Tax</strong>
+          For instance, purchasing a laptop for $1,000 in a jurisdiction with an 8.25% sales tax rate results in $82.50 of tax, leading to a total cost of $1,082.50.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Reverse (Pre-Tax) Calculation formula</h3>
+        <p>
+          Frequently, individuals or businesses need to extract the original pre-tax value from a gross receipt total. A common mistake is multiplying the total cost by the tax percentage and subtracting it. Instead, you must reverse the multiplication using division:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Pre-Tax Price = Total Cost / (1 + (Tax Rate / 100))</strong>
+          Applying this correct formula to a total receipt of $1,082.50 at an 8.25% rate yields:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">$1,082.50 / 1.0825 = $1,000.00</strong>
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is sales tax calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Sales tax is calculated by multiplying the taxable purchase price by the decimal equivalent of the tax rate: Sales Tax = Price * (Tax Rate / 100). The total price is then the sum of the base price and the tax.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do you calculate the pre-tax price from the total cost?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To find the pre-tax price (reverse calculation) from the total amount paid, divide the total price by 1 plus the decimal tax rate: Pre-Tax Price = Total Price / (1 + (Tax Rate / 100)).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Why do sales tax rates differ by city and county?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            While state governments set a baseline sales tax rate, local jurisdictions (cities, counties, and special transit districts) frequently levy additional local taxes on top of the state rate, leading to varying combined rates.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool pull live real-time tax database rates?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. This tool utilizes static average combined sales tax estimates per state. Because local municipal rates shift frequently, it is recommended to verify exact current rates with municipal tax portals.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is my shopping list data uploaded or stored?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, never. All item entries, prices, and totals are computed entirely inside your browser's local memory. No information is transmitted to servers, ensuring complete privacy.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Related Tools Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Financial Tools</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <a href="/finance/property-tax-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Property Tax Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Calculate annual property taxes by state effective rates.</p>
+        </a>
+        <a href="/finance/self-employment-tax-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Self-Employment Tax Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Estimate FICA taxes for self-employed professionals.</p>
+        </a>
+        <a href="/finance/payroll-tax-calculator" class="group bg-canvas ring-1 ring-inset ring-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
+          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
+            Payroll Tax Calculator
+            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </h4>
+          <p class="text-mute text-xs font-sans mt-1.5">Check take-home paycheck earnings and withholding cuts.</p>
+        </a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const stateSelect = document.getElementById('state-select') as HTMLSelectElement;
+  const taxRateIn = document.getElementById('tax-rate-input') as HTMLInputElement;
+  
+  const modeForward = document.getElementById('mode-forward') as HTMLButtonElement;
+  const modeReverse = document.getElementById('mode-reverse') as HTMLButtonElement;
+
+  const priceLabel = document.getElementById('price-label') as HTMLLabelElement;
+  const priceIn = document.getElementById('price-input') as HTMLInputElement;
+
+  const resTotalLabel = document.getElementById('res-total-label') as HTMLSpanElement;
+  const resTotal = document.getElementById('res-total') as HTMLSpanElement;
+  const lblBreakdownPrice = document.getElementById('lbl-breakdown-price') as HTMLSpanElement;
+  const resPretax = document.getElementById('res-pretax') as HTMLSpanElement;
+  const resTaxAmount = document.getElementById('res-tax-amount') as HTMLSpanElement;
+
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // ============================================================
+  // State variables
+  // ============================================================
+  let activeMode: 'forward' | 'reverse' = 'forward';
+
+  // Read stateTaxRates safely from defined vars on window
+  const ratesTable = (window as any).stateTaxRates || {};
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const handleStateChange = () => {
+    const stateVal = stateSelect.value;
+    if (stateVal === 'custom') {
+      taxRateIn.disabled = false;
+    } else {
+      const match = ratesTable[stateVal];
+      if (match) {
+        taxRateIn.value = match.salesTaxRate.toString();
+        taxRateIn.disabled = true;
+      }
+    }
+    calculateTax();
+  };
+
+  const calculateTax = () => {
+    const rate = parseFloat(taxRateIn.value) || 0;
+    const priceVal = parseFloat(priceIn.value) || 0;
+
+    let base = 0;
+    let tax = 0;
+    let total = 0;
+
+    if (activeMode === 'forward') {
+      // Forward: Input is pre-tax price
+      base = priceVal;
+      tax = priceVal * (rate / 100);
+      total = base + tax;
+
+      resTotalLabel.textContent = "Total Price (Inc. Tax)";
+      lblBreakdownPrice.textContent = "PRE-TAX PRICE:";
+      resPretax.textContent = "$" + base.toFixed(2);
+      resTaxAmount.textContent = "$" + tax.toFixed(2);
+      resTotal.textContent = "$" + total.toFixed(2);
+    } else {
+      // Reverse: Input is total price (tax-inclusive)
+      total = priceVal;
+      base = total / (1 + (rate / 100));
+      tax = total - base;
+
+      resTotalLabel.textContent = "Original Pre-Tax Price";
+      lblBreakdownPrice.textContent = "TOTAL PRICE (INC. TAX):";
+      resPretax.textContent = "$" + total.toFixed(2);
+      resTaxAmount.textContent = "$" + tax.toFixed(2);
+      resTotal.textContent = "$" + base.toFixed(2);
+    }
+  };
+
+  const toggleMode = (mode: 'forward' | 'reverse') => {
+    activeMode = mode;
+    if (mode === 'forward') {
+      modeForward.className = "flex-1 py-1.5 text-xs font-mono font-semibold rounded bg-canvas border border-hairline text-ink cursor-pointer transition-all shadow-lvl1";
+      modeReverse.className = "flex-1 py-1.5 text-xs font-mono text-mute cursor-pointer transition-all";
+      priceLabel.textContent = "Base Price ($)";
+    } else {
+      modeReverse.className = "flex-1 py-1.5 text-xs font-mono font-semibold rounded bg-canvas border border-hairline text-ink cursor-pointer transition-all shadow-lvl1";
+      modeForward.className = "flex-1 py-1.5 text-xs font-mono text-mute cursor-pointer transition-all";
+      priceLabel.textContent = "Total Price ($) (Inc. Tax)";
+    }
+    calculateTax();
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  stateSelect.addEventListener('change', handleStateChange);
+  taxRateIn.addEventListener('input', calculateTax);
+  priceIn.addEventListener('input', calculateTax);
+
+  modeForward.addEventListener('click', () => toggleMode('forward'));
+  modeReverse.addEventListener('click', () => toggleMode('reverse'));
+
+  btnReset.addEventListener('click', () => {
+    stateSelect.value = 'custom';
+    taxRateIn.value = '8.25';
+    taxRateIn.disabled = false;
+    priceIn.value = '100.00';
+    toggleMode('forward');
+    calculateTax();
+  });
+
+  // Initial render
+  handleStateChange();
+</script>
