@@ -1,0 +1,413 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the natural-language unit converter work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our smart search bar parses typing queries (e.g., '5 ft to cm') using regex patterns. It extracts the numerical amount, base unit, and target unit, translating it into the correct mathematical conversion factor instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What categories of units are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This converter supports common measurement units across length (meters, feet, inches, centimeters, yards), mass/weight (kilograms, pounds, ounces, grams), and temperature (Celsius, Fahrenheit)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you convert feet to centimeters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To convert feet to centimeters, multiply the length value by 30.48. For example, 5 feet is equal to 5 * 30.48 = 152.4 centimeters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Celsius converted to Fahrenheit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Celsius is converted to Fahrenheit using the algebraic formula: Fahrenheit = (Celsius * 9/5) + 32. For example, 100 degrees Celsius is equal to (100 * 1.8) + 32 = 212 degrees Fahrenheit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this tool offline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Since the entire natural language parser and conversion factor table are compiled in client-side Javascript, the tool loads and performs calculations offline with zero server calls."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Unit Converter - Free Smart Conversions Tool | ToolzTotal"
+  description="Convert between metric and imperial units of length, weight, area, volume, and temperature with smart natural language search. Clean static tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/utility/unit-converter"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/utility" class="hover:text-ink transition-colors">Everyday Utility</a>
+      <span>/</span>
+      <span class="text-ink">Unit Converter</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Unit Converter
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Convert metrics instantly. Use our natural language query bar (e.g. <i>"5 ft to cm"</i>) or use standard manual conversion forms.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Smart Converter (7 cols) -->
+      <div class="lg:col-span-7 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        
+        <!-- NLP Query Box -->
+        <div class="space-y-2">
+          <label for="nlp-query" class="block text-xs font-mono uppercase text-mute">Smart Natural-Language Search</label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="nlp-query" 
+              placeholder='Try typing "5 ft to cm" or "10 kg to lbs"' 
+              class="w-full h-12 pl-4 pr-12 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink shadow-lvl1"
+            />
+            <div class="absolute right-3 top-3 text-mute">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+          </div>
+          <span class="text-[10px] font-mono text-mute block">Supported abbreviations: <strong>ft, cm, m, kg, lbs, c, f</strong></span>
+        </div>
+
+        <!-- NLP Output card (visible if query parses) -->
+        <div id="nlp-result-box" class="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg text-center hidden space-y-1 shadow-lvl1">
+          <span class="text-[10px] font-mono text-mute uppercase block mb-1">Parsed Calculation</span>
+          <span id="nlp-result-text" class="text-3xl font-black text-ink font-sans block">152.4 cm</span>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-4 text-xs font-mono text-mute py-2">
+          <div class="h-px flex-1 bg-hairline"></div>
+          <span>OR MANUAL SELECTORS</span>
+          <div class="h-px flex-1 bg-hairline"></div>
+        </div>
+
+        <!-- Manual Forms -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div>
+            <label for="manual-amount" class="block text-xs font-mono uppercase text-mute mb-2">Amount</label>
+            <input type="number" id="manual-amount" value="1" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 focus:outline-none" />
+          </div>
+          <div>
+            <label for="manual-from" class="block text-xs font-mono uppercase text-mute mb-2">From</label>
+            <select id="manual-from" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 cursor-pointer">
+              <option value="ft">Feet (ft)</option>
+              <option value="cm">Centimeters (cm)</option>
+              <option value="m">Meters (m)</option>
+              <option value="kg">Kilograms (kg)</option>
+              <option value="lbs">Pounds (lbs)</option>
+              <option value="c">Celsius (°C)</option>
+              <option value="f">Fahrenheit (°F)</option>
+            </select>
+          </div>
+          <div>
+            <label for="manual-to" class="block text-xs font-mono uppercase text-mute mb-2">To</label>
+            <select id="manual-to" class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm text-ink shadow-lvl1 cursor-pointer">
+              <option value="cm">Centimeters (cm)</option>
+              <option value="ft">Feet (ft)</option>
+              <option value="m">Meters (m)</option>
+              <option value="kg">Kilograms (kg)</option>
+              <option value="lbs">Pounds (lbs)</option>
+              <option value="c">Celsius (°C)</option>
+              <option value="f">Fahrenheit (°F)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Output Box -->
+        <div class="pt-4 border-t border-hairline flex justify-between items-center text-xs font-mono text-mute">
+          <span>MANUAL CONVERSION RESULT:</span>
+          <span id="manual-result" class="font-bold text-ink text-sm">30.48 cm</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Shortcuts/History (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl2 space-y-6">
+          <h2 class="text-base font-bold text-ink font-sans border-b border-hairline pb-2">Common Shortcuts</h2>
+          
+          <div class="grid grid-cols-1 gap-2.5">
+            <button id="sc-ft-cm" class="w-full text-left p-3 hover:bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink shadow-lvl1 flex justify-between items-center cursor-pointer">
+              <span>5 Feet to Centimeters</span>
+              <span class="text-mute font-bold">152.4 cm</span>
+            </button>
+            <button id="sc-kg-lbs" class="w-full text-left p-3 hover:bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink shadow-lvl1 flex justify-between items-center cursor-pointer">
+              <span>10 Kilograms to Pounds</span>
+              <span class="text-mute font-bold">22.05 lbs</span>
+            </button>
+            <button id="sc-c-f" class="w-full text-left p-3 hover:bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink shadow-lvl1 flex justify-between items-center cursor-pointer">
+              <span>100 Celsius to Fahrenheit</span>
+              <span class="text-mute font-bold">212.0 °F</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Unit Conversion Science: Metric vs. Imperial Frameworks</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Measurements form the foundation of scientific, trade, and culinary processes. Today, two major measurement systems dominate: the **metric system** (SI units used globally) and the **imperial system** (predominantly in the United States).
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Conversion Factor Equations</h3>
+        <p>
+          Moving values between systems requires absolute multiplication factors:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
+          <li><strong>Length (Feet to Centimeters):</strong> 1 foot equals exactly 30.48 centimeters. Therefore, to convert $X$ feet to centimeters, use:
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">cm = feet &times; 30.48</strong>
+          </li>
+          <li><strong>Weight (Kilograms to Pounds):</strong> 1 kilogram is approximately 2.20462 pounds.
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">lbs = kg &times; 2.20462</strong>
+          </li>
+          <li><strong>Temperature (Celsius to Fahrenheit):</strong> To find Fahrenheit from Celsius degrees, scale by 1.8 and add 32:
+            <br />
+            <strong class="block my-1 text-center font-mono text-xs text-ink">F = (C &times; 1.8) + 32</strong>
+          </li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Natural-Language Parsers Simplify Conversions</h3>
+        <p>
+          Traditional conversion sites require users to locate category tabs and find dropdown selects. By applying simple regular expression parsers, our converter reads direct inputs like <i>"5ft to cm"</i> or <i>"10 kg in lbs"</i>, matching queries immediately and bypassing manual form setup overheads.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does the natural-language unit converter work?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Our smart search bar parses typing queries (e.g., '5 ft to cm') using regex patterns. It extracts the numerical amount, base unit, and target unit, translating it into the correct mathematical conversion factor instantly.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What categories of units are supported?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            This converter supports common measurement units across length (meters, feet, inches, centimeters, yards), mass/weight (kilograms, pounds, ounces, grams), and temperature (Celsius, Fahrenheit).
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do you convert feet to centimeters?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To convert feet to centimeters, multiply the length value by 30.48. For example, 5 feet is equal to 5 * 30.48 = 152.4 centimeters.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is Celsius converted to Fahrenheit?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Celsius is converted to Fahrenheit using the algebraic formula: Fahrenheit = (Celsius * 9/5) + 32. For example, 100 degrees Celsius is equal to (100 * 1.8) + 32 = 212 degrees Fahrenheit.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I use this tool offline?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Since the entire natural language parser and conversion factor table are compiled in client-side Javascript, the tool loads and performs calculations offline with zero server calls.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const nlpQueryIn = document.getElementById('nlp-query') as HTMLInputElement;
+  const nlpResultBox = document.getElementById('nlp-result-box') as HTMLDivElement;
+  const nlpResultText = document.getElementById('nlp-result-text') as HTMLSpanElement;
+
+  const manualAmountIn = document.getElementById('manual-amount') as HTMLInputElement;
+  const manualFromSelect = document.getElementById('manual-from') as HTMLSelectElement;
+  const manualToSelect = document.getElementById('manual-to') as HTMLSelectElement;
+  const manualResultText = document.getElementById('manual-result') as HTMLSpanElement;
+
+  const scFtCm = document.getElementById('sc-ft-cm') as HTMLButtonElement;
+  const scKgLbs = document.getElementById('sc-kg-lbs') as HTMLButtonElement;
+  const scCF = document.getElementById('sc-c-f') as HTMLButtonElement;
+
+  // ============================================================
+  // Conversion Core Math & Maps
+  // ============================================================
+  const unitAliasMap: Record<string, string> = {
+    'ft': 'ft', 'feet': 'ft', 'foot': 'ft',
+    'cm': 'cm', 'centimeter': 'cm', 'centimeters': 'cm',
+    'm': 'm', 'meter': 'm', 'meters': 'm',
+    'kg': 'kg', 'kilos': 'kg', 'kilogram': 'kg', 'kilograms': 'kg',
+    'lbs': 'lbs', 'lb': 'lbs', 'pound': 'lbs', 'pounds': 'lbs',
+    'c': 'c', 'celsius': 'c',
+    'f': 'f', 'fahrenheit': 'f'
+  };
+
+  const convertUnits = (amount: number, from: string, to: string): number | null => {
+    const f = unitAliasMap[from.toLowerCase()];
+    const t = unitAliasMap[to.toLowerCase()];
+
+    if (!f || !t) return null;
+    if (f === t) return amount;
+
+    // Length calculations
+    if (f === 'ft' && t === 'cm') return amount * 30.48;
+    if (f === 'cm' && t === 'ft') return amount / 30.48;
+    if (f === 'm' && t === 'ft') return amount * 3.28084;
+    if (f === 'ft' && t === 'm') return amount / 3.28084;
+    if (f === 'm' && t === 'cm') return amount * 100;
+    if (f === 'cm' && t === 'm') return amount / 100;
+
+    // Mass calculations
+    if (f === 'kg' && t === 'lbs') return amount * 2.20462;
+    if (f === 'lbs' && t === 'kg') return amount / 2.20462;
+
+    // Temperature calculations
+    if (f === 'c' && t === 'f') return (amount * 1.8) + 32;
+    if (f === 'f' && t === 'c') return (amount - 32) / 1.8;
+
+    return null; // Incompatible categories
+  };
+
+  const formatUnitSymbol = (unit: string): string => {
+    const canonical = unitAliasMap[unit.toLowerCase()];
+    if (canonical === 'c') return '°C';
+    if (canonical === 'f') return '°F';
+    return canonical || unit;
+  };
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const processNLPQuery = () => {
+    const val = nlpQueryIn.value.trim();
+    if (!val) {
+      nlpResultBox.classList.add('hidden');
+      return;
+    }
+
+    // Pattern matches: "5 ft to cm", "5ft to cm", "10 kg in lbs", "100 c to f"
+    const regex = /^([\d\.]+)\s*([a-zA-Z°]+)\s+(?:to|in)\s+([a-zA-Z°]+)$/i;
+    const match = val.match(regex);
+
+    if (match) {
+      const amount = parseFloat(match[1]);
+      const fromUnit = match[2];
+      const toUnit = match[3];
+
+      const res = convertUnits(amount, fromUnit, toUnit);
+      if (res !== null) {
+        nlpResultText.textContent = `${res.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 3 })} ${formatUnitSymbol(toUnit)}`;
+        nlpResultBox.classList.remove('hidden');
+        return;
+      }
+    }
+
+    nlpResultText.textContent = "Unable to parse conversion query.";
+    nlpResultBox.classList.remove('hidden');
+  };
+
+  const processManualConversion = () => {
+    const amount = parseFloat(manualAmountIn.value) || 0;
+    const from = manualFromSelect.value;
+    const to = manualToSelect.value;
+
+    const res = convertUnits(amount, from, to);
+    if (res !== null) {
+      manualResultText.textContent = `${res.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 3 })} ${formatUnitSymbol(to)}`;
+    } else {
+      manualResultText.textContent = "Incompatible units.";
+    }
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  nlpQueryIn.addEventListener('input', processNLPQuery);
+
+  [manualAmountIn, manualFromSelect, manualToSelect].forEach(i => {
+    i.addEventListener('input', processManualConversion);
+  });
+
+  scFtCm.addEventListener('click', () => {
+    nlpQueryIn.value = "5 ft to cm";
+    processNLPQuery();
+  });
+
+  scKgLbs.addEventListener('click', () => {
+    nlpQueryIn.value = "10 kg to lbs";
+    processNLPQuery();
+  });
+
+  scCF.addEventListener('click', () => {
+    nlpQueryIn.value = "100 c to f";
+    processNLPQuery();
+  });
+
+  // Initial manual conversion
+  processManualConversion();
+</script>

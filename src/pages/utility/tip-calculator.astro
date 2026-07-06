@@ -1,0 +1,379 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ Schema JSON-LD for head insertion
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the standard tipping rate in the United States?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the US, the standard restaurant tipping rate is 15% to 20% of the pre-tax bill amount. For excellent service, 20% or higher is common, while 15% is standard for average service."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you tip in Japan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. In Japan, tipping is not practiced and can be considered insulting. Good service is expected as part of the bill, and any left cash will often be returned to you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the 'Round Up' option work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Round Up option increases the calculated grand total (bill + tip) to the nearest whole dollar. This is helpful for cash payments or clean credit card transactions, adjusting the tip percentage accordingly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is tax included when calculating tips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tipping etiquette dictates calculating the tip percentage on the pre-tax subtotal rather than the grand total. This ensures you do not tip on state sales taxes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool support splitting bills?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Input the number of people sharing the tab to calculate the exact payment allocation per person, dividing the total bill + tip evenly."
+      }
+    }
+  ]
+};
+
+const faqJsonLd = JSON.stringify(faqSchema);
+---
+
+<Layout 
+  title="Tip Calculator - Free Splits & Tipping Etiquette | ToolzTotal"
+  description="Calculate restaurant tip splits, round up totals, and review global tipping etiquette guides. Clean static utility tool."
+  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/utility/tip-calculator"
+>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-ink transition-colors">Home</a>
+      <span>/</span>
+      <a href="/utility" class="hover:text-ink transition-colors">Everyday Utility</a>
+      <span>/</span>
+      <span class="text-ink">Tip Calculator</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Free Tip Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate tips and split checks. Review international tipping standards by country and round up totals instantly.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Inputs (6 cols) -->
+      <div class="lg:col-span-6 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+        <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Bill Details</h2>
+        
+        <!-- Bill Amount -->
+        <div>
+          <label for="bill-amount" class="block text-xs font-mono uppercase text-mute mb-2">Bill Amount ($)</label>
+          <input 
+            type="number" 
+            id="bill-amount" 
+            placeholder="0.00"
+            value="100.00"
+            min="0"
+            step="0.01"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Tip % and Shortcuts -->
+        <div class="space-y-3">
+          <label for="tip-pct" class="block text-xs font-mono uppercase text-mute">Tip Percentage (%)</label>
+          <div class="grid grid-cols-4 gap-2">
+            <input type="number" id="tip-pct" value="18" min="0" max="100" class="col-span-2 h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm text-ink focus:outline-none shadow-lvl1" />
+            <button id="tip-15" class="h-10 border border-hairline hover:border-hairline-strong bg-canvas rounded text-xs font-mono text-ink cursor-pointer shadow-lvl1">15%</button>
+            <button id="tip-20" class="h-10 border border-hairline hover:border-hairline-strong bg-canvas rounded text-xs font-mono text-ink cursor-pointer shadow-lvl1">20%</button>
+          </div>
+        </div>
+
+        <!-- Number of People -->
+        <div>
+          <label for="people-count" class="block text-xs font-mono uppercase text-mute mb-2">Split Count (People)</label>
+          <input 
+            type="number" 
+            id="people-count" 
+            value="1"
+            min="1"
+            class="w-full h-10 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+          />
+        </div>
+
+        <!-- Round Up Option -->
+        <div class="flex items-center gap-2 pt-2">
+          <input type="checkbox" id="round-up" class="w-4 h-4 cursor-pointer" />
+          <label for="round-up" class="text-xs font-mono text-ink cursor-pointer select-none">Round Up Total Bill</label>
+        </div>
+
+        <!-- Reset -->
+        <div class="flex justify-end pt-4 border-t border-hairline">
+          <button id="btn-reset" class="text-xs font-mono text-mute hover:text-red-500 cursor-pointer transition-colors">Reset</button>
+        </div>
+      </div>
+
+      <!-- Right Column: Outputs & Ratios (6 cols) -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-3">Tipping Breakdown</h2>
+          
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-lg text-center space-y-1 shadow-lvl1">
+            <span class="text-[10px] font-mono text-mute uppercase block mb-1">Split Amount Per Person</span>
+            <span id="res-split-amount" class="text-4xl md:text-5xl font-black text-ink font-sans block">$118.00</span>
+          </div>
+
+          <!-- Breakdown list -->
+          <div class="space-y-3 text-xs font-mono text-mute pt-2 border-t border-hairline">
+            <div class="flex justify-between">
+              <span>TOTAL TIP AMOUNT:</span>
+              <span id="res-total-tip" class="font-bold text-ink">$18.00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>GRAND TOTAL (BILL + TIP):</span>
+              <span id="res-grand-total" class="font-bold text-ink">$118.00</span>
+            </div>
+            <div class="flex justify-between pt-2 border-t border-hairline text-ink">
+              <span>EFFECTIVE TIP RATE:</span>
+              <span id="res-effective-rate" class="font-bold">18.0%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tipping Etiquette Table -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline">
+      <h3 class="text-lg font-bold text-ink font-sans mb-4">International Tipping Etiquette Guide</h3>
+      <p class="text-body text-xs font-sans mb-6">
+        Tipping habits vary extensively across global cultures. Review standard regional standards before traveling:
+      </p>
+      
+      <div class="overflow-x-auto border border-hairline rounded-lg shadow-lvl1 bg-canvas">
+        <table class="w-full text-left border-collapse text-xs font-sans">
+          <thead>
+            <tr class="bg-canvas-soft border-b border-hairline text-mute font-mono uppercase text-[10px]">
+              <th class="p-3">Country / Region</th>
+              <th class="p-3">Standard Restaurant Tip</th>
+              <th class="p-3">Notes & Context</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-hairline text-ink">
+            <tr>
+              <td class="p-3 font-semibold">United States</td>
+              <td class="p-3">15% - 20%</td>
+              <td class="p-3">Expected. Service workers rely on tips to make base wages.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">United Kingdom</td>
+              <td class="p-3">10% - 12.5%</td>
+              <td class="p-3">Common. Check if a 'service charge' is already added to the bill.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">France / Germany</td>
+              <td class="p-3">5% - 10% (Round up)</td>
+              <td class="p-3">Often rounded up to nearest euro. Service is included in the menu price.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">Italy</td>
+              <td class="p-3">No Tip / Coperto</td>
+              <td class="p-3">Check for 'coperto' (cover charge). Tips are not required.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">Japan</td>
+              <td class="p-3">0% (None)</td>
+              <td class="p-3">Strictly avoided. Tipping is considered impolite.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Tipping Practices: Navigating Global Etiquette and Math</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Calculating tips is a regular chore after dining out. While simple multiplication is easy, deciding how much to tip can be confusing, particularly when traveling abroad.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Arithmetic</h3>
+        <p>
+          To compute the tip amount manually, multiply the pre-tax bill subtotal by the tip decimal:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Tip Amount = Bill Subtotal &times; (Tip Percentage / 100)</strong>
+          To calculate the payment share per person:
+          <br />
+          <strong class="block my-2 text-center text-ink font-mono text-xs">Per Person = (Bill Subtotal + Tip Amount) / People Count</strong>
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Guidelines</h3>
+        <p>
+          While US service sectors rely heavily on tips to supplement wages, European, Asian, and Latin American locations handle service structures differently. In countries like Japan, leaving extra money is considered rude. In France, the service charge (**service compris**) is already built into menu pricing, though rounding up the bill to the nearest whole euro is common practice.
+        </p>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the standard tipping rate in the United States?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            In the US, the standard restaurant tipping rate is 15% to 20% of the pre-tax bill amount. For excellent service, 20% or higher is common, while 15% is standard for average service.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Do you tip in Japan?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. In Japan, tipping is not practiced and can be considered insulting. Good service is expected as part of the bill, and any left cash will often be returned to you.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does the 'Round Up' option work?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The Round Up option increases the calculated grand total (bill + tip) to the nearest whole dollar. This is helpful for cash payments or clean credit card transactions, adjusting the tip percentage accordingly.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is tax included when calculating tips?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Tipping etiquette dictates calculating the tip percentage on the pre-tax subtotal rather than the grand total. This ensures you do not tip on state sales taxes.
+          </div>
+        </details>
+
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool support splitting bills?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Input the number of people sharing the tab to calculate the exact payment allocation per person, dividing the total bill + tip evenly.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<script>
+  // ============================================================
+  // DOM Elements
+  // ============================================================
+  const billAmountIn = document.getElementById('bill-amount') as HTMLInputElement;
+  const tipPctIn = document.getElementById('tip-pct') as HTMLInputElement;
+  const peopleCountIn = document.getElementById('people-count') as HTMLInputElement;
+  const roundUpCheck = document.getElementById('round-up') as HTMLInputElement;
+
+  const resSplitAmount = document.getElementById('res-split-amount') as HTMLSpanElement;
+  const resTotalTip = document.getElementById('res-total-tip') as HTMLSpanElement;
+  const resGrandTotal = document.getElementById('res-grand-total') as HTMLSpanElement;
+  const resEffectiveRate = document.getElementById('res-effective-rate') as HTMLSpanElement;
+
+  const tip15 = document.getElementById('tip-15') as HTMLButtonElement;
+  const tip20 = document.getElementById('tip-20') as HTMLButtonElement;
+
+  const btnReset = document.getElementById('btn-reset') as HTMLButtonElement;
+
+  // ============================================================
+  // Functions
+  // ============================================================
+  const calculateTip = () => {
+    const bill = parseFloat(billAmountIn.value) || 0;
+    let tipPct = parseFloat(tipPctIn.value) || 0;
+    const people = parseInt(peopleCountIn.value) || 1;
+
+    let totalTip = bill * (tipPct / 100);
+    let grandTotal = bill + totalTip;
+
+    if (roundUpCheck.checked) {
+      const roundedTotal = Math.ceil(grandTotal);
+      const addedTipDiff = roundedTotal - grandTotal;
+      totalTip += addedTipDiff;
+      grandTotal = roundedTotal;
+      
+      // Re-calculate effective tip rate
+      tipPct = bill > 0 ? (totalTip / bill) * 100 : 0;
+    }
+
+    const splitAmount = people > 0 ? grandTotal / people : 0;
+
+    resTotalTip.textContent = "$" + totalTip.toFixed(2);
+    resGrandTotal.textContent = "$" + grandTotal.toFixed(2);
+    resSplitAmount.textContent = "$" + splitAmount.toFixed(2);
+    resEffectiveRate.textContent = tipPct.toFixed(1) + "%";
+  };
+
+  // ============================================================
+  // Event Listeners
+  // ============================================================
+  [billAmountIn, tipPctIn, peopleCountIn, roundUpCheck].forEach(inp => {
+    inp.addEventListener('input', calculateTip);
+  });
+
+  tip15.addEventListener('click', () => {
+    tipPctIn.value = '15';
+    calculateTip();
+  });
+
+  tip20.addEventListener('click', () => {
+    tipPctIn.value = '20';
+    calculateTip();
+  });
+
+  btnReset.addEventListener('click', () => {
+    billAmountIn.value = '100.00';
+    tipPctIn.value = '18';
+    peopleCountIn.value = '1';
+    roundUpCheck.checked = false;
+    calculateTip();
+  });
+
+  // Initial Calculation
+  calculateTip();
+</script>

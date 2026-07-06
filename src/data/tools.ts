@@ -57,7 +57,11 @@ export const toolCatalog: Category[] = [
     tools: [
       { name: "Age Calculator", slug: "age-calculator", description: "Calculate your exact age in years, months, weeks, days, and hours.", status: "live", keywords: ["age calculator", "how old am I"] },
       { name: "Random Password Generator", slug: "password-generator", description: "Generate secure, high-entropy random passwords client-side.", status: "live", keywords: ["password generator", "secure password"] },
-      { name: "QR Code Generator", slug: "qr-code-generator", description: "Generate custom QR codes instantly from URLs, text, or contacts.", status: "live", keywords: ["qr code generator", "create qr code"] }
+      { name: "QR Code Generator", slug: "qr-code-generator", description: "Generate custom QR codes instantly from URLs, text, or contacts.", status: "live", keywords: ["qr code generator", "create qr code"] },
+      { name: "Unit Converter (All-in-One)", slug: "unit-converter", description: "Convert between metric and imperial units of length, weight, area, volume, and temperature with smart search.", status: "live", keywords: ["unit converter", "metric conversion", "inches to cm"] },
+      { name: "Split Bill Calculator", slug: "split-bill-calculator", description: "Calculate itemized bill splits, allocate tax and tip per person, and generate shareable allocation links.", status: "live", keywords: ["split bill calculator", "bill splitter", "split restaurant bill"] },
+      { name: "Tip Calculator", slug: "tip-calculator", description: "Calculate restaurant tip splits, round up totals, and review global tipping etiquette guides.", status: "live", keywords: ["tip calculator", "how much to tip", "bill tip splitter"] },
+      { name: "Random Name Generator", slug: "name-generator", description: "Generate random names for babies, fantasy characters, pets, or businesses with origin filters.", status: "live", keywords: ["random name generator", "baby name generator", "fantasy name creator"] }
     ]
   },
   {
