@@ -13,10 +13,13 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^7.0.6",
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.4",
+    "satori": "^0.26.0",
+    "satori-html": "^0.3.2",
     "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3"
   }

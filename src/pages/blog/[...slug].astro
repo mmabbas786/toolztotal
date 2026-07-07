@@ -1,0 +1,173 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+const { Content } = await post.render();
+
+// Resolve author display name
+const authorNames = {
+  'sarah-chen': 'Sarah Chen, CFP®',
+  'marcus-reyes': 'Marcus Reyes, Licensed Real Estate Broker',
+  'priya-krishnan': 'Priya Krishnan, Senior Software Engineer',
+  'jordan-blake': 'Jordan Blake, Director of Growth Marketing',
+  'dr-aisha-patel': 'Dr. Aisha Patel, MD',
+  'jennifer-walsh': 'Jennifer Walsh, Esq.',
+  'dr-robert-hayes': 'Dr. Robert Hayes, Ed.D.',
+  'editorial-team': 'ToolzTotal Editorial Team',
+};
+
+// Map related tool slugs back to tool URLs
+const toolUrlMap: Record<string, { category: string; name: string }> = {
+  'mortgage-calculator': { category: 'finance', name: 'Mortgage Calculator' },
+  'amortization-calculator': { category: 'finance', name: 'Amortization Calculator' },
+  'self-employment-tax-calculator': { category: 'finance', name: 'Self-Employment Tax Calculator' },
+  'bmi-calculator': { category: 'health', name: 'BMI Calculator' },
+  'cac-ltv-calculator': { category: 'finance', name: 'SaaS CAC:LTV Calculator' },
+  'rent-vs-buy-calculator': { category: 'real-estate', name: 'Rent vs Buy Calculator' },
+  'uuid-generator': { category: 'dev', name: 'UUID Generator' },
+  'overtime-calculator': { category: 'legal', name: 'Overtime Pay Calculator' },
+  'keyword-density-checker': { category: 'marketing', name: 'Keyword Density Checker' },
+  'mortgage-affordability-calculator': { category: 'real-estate', name: 'Mortgage Affordability Calculator' },
+  'mortgage-refinance-calculator': { category: 'real-estate', name: 'Mortgage Refinance Calculator' },
+  'loan-calculator': { category: 'finance', name: 'Loan Calculator' },
+  'percentage-calculator': { category: 'finance', name: 'Percentage Calculator' },
+  'compound-interest-calculator': { category: 'finance', name: 'Compound Interest Calculator' },
+  'inflation-calculator': { category: 'finance', name: 'Inflation Calculator' },
+  'property-tax-calculator': { category: 'finance', name: 'Property Tax Calculator' },
+  'salary-calculator': { category: 'finance', name: 'Salary Calculator' },
+  'paycheck-calculator': { category: 'finance', name: 'Paycheck Calculator' },
+  'retirement-calculator': { category: 'legal', name: 'Retirement Savings Calculator' },
+  'severance-calculator': { category: 'legal', name: 'Severance Pay Calculator' },
+  'hours-calculator': { category: 'legal', name: 'Hours Calculator' },
+  'credit-card-payoff-calculator': { category: 'finance', name: 'Credit Card Payoff Calculator' },
+  'dti-calculator': { category: 'finance', name: 'DTI Calculator' },
+};
+
+const relatedToolLinks = post.data.relatedTools
+  .map(slug => {
+    const info = toolUrlMap[slug];
+    if (!info) return null;
+    return { name: info.name, slug, categorySlug: info.category };
+  })
+  .filter(Boolean) as { name: string; slug: string; categorySlug: string }[];
+---
+
+<Layout title={`${post.data.title} | ToolzTotal Blog`} description={post.data.description}>
+  <ToolSchema
+    toolName={post.data.title}
+    toolSlug={post.slug}
+    categoryName="Blog"
+    categorySlug="blog"
+    description={post.data.description}
+    faqs={post.data.faq}
+  />
+  <Breadcrumbs
+    categorySlug="blog"
+    categoryName="Blog"
+    toolName={post.data.title}
+    toolSlug={post.slug}
+  />
+
+  <main class="max-w-[850px] mx-auto px-4 md:px-6 py-12">
+    <article class="bg-canvas border border-hairline rounded-2xl p-6 md:p-12 shadow-lvl1">
+      <header class="mb-8">
+        <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-mute mb-4">
+          <a href="/blog" class="hover:text-primary transition-colors">Blog</a>
+          <span>·</span>
+          <span class="text-ink">{post.data.category.replace('-', ' ')}</span>
+          <span>·</span>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans leading-tight mb-4">
+          {post.data.title}
+        </h1>
+        <p class="text-lg text-body font-sans leading-relaxed mb-6">
+          {post.data.description}
+        </p>
+        <div class="flex items-center gap-3 text-sm pt-4 border-t border-hairline">
+          <div class="w-10 h-10 rounded-full bg-canvas-soft-2 border border-hairline flex items-center justify-center text-ink font-mono font-bold text-xs">
+            {authorNames[post.data.author].split(' ').map(n => n[0]).join('').slice(0, 2)}
+          </div>
+          <div>
+            <div class="text-ink font-sans font-medium">{authorNames[post.data.author]}</div>
+            <div class="text-mute text-xs font-mono">
+              {post.data.updatedDate ? `Updated ${post.data.updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}` : `Published ${post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {(post.data.category === 'finance' || post.data.category === 'real-estate' || post.data.category === 'health' || post.data.category === 'legal') && (
+        <div class="mb-8">
+          <DisclaimerBanner category={post.data.category} />
+        </div>
+      )}
+
+      <!-- Main markdown parsed content wrapper -->
+      <div class="prose prose-lg max-w-none text-body font-sans leading-relaxed
+        [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-ink [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:tracking-tight
+        [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-ink [&_h3]:mt-8 [&_h3]:mb-3
+        [&_p]:mb-4 [&_p]:leading-relaxed
+        [&_a]:text-primary [&_a]:underline [&_a]:hover:text-primary/80
+        [&_ul]:list-disc [&_ul]:ml-6 [&_ul]:mb-4
+        [&_ol]:list-decimal [&_ol]:ml-6 [&_ol]:mb-4
+        [&_li]:mb-2
+        [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-6 [&_blockquote]:text-mute
+        [&_code]:font-mono [&_code]:text-sm [&_code]:bg-canvas-soft-2 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded
+        [&_strong]:text-ink [&_strong]:font-semibold">
+        <Content />
+      </div>
+
+      {/* Related Tools CTA box */}
+      {relatedToolLinks.length > 0 && (
+        <aside class="mt-12 p-6 bg-canvas-soft-2 border border-hairline rounded-xl">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-4">Try Our Calculators</h3>
+          <ul class="space-y-3">
+            {relatedToolLinks.map(t => (
+              <li>
+                <a href={`/${t.categorySlug}/${t.slug}`} class="text-base font-sans font-bold text-ink hover:text-primary transition-colors flex items-center justify-between group/link">
+                  <span>{t.name}</span>
+                  <span class="text-mute group-hover/link:text-primary transition-transform duration-200 group-hover/link:translate-x-1">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
+      {/* FAQ section */}
+      {post.data.faq.length > 0 && (
+        <section class="mt-16 border-t border-hairline pt-12">
+          <h2 class="text-2xl font-bold text-ink mb-6 tracking-tight">Frequently Asked Questions</h2>
+          <div class="space-y-6">
+            {post.data.faq.map(item => (
+              <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl1">
+                <h3 class="text-base font-bold text-ink mb-2">{item.question}</h3>
+                <p class="text-body text-sm font-sans leading-relaxed">{item.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <div class="mt-16 pt-8 border-t border-hairline">
+        <ContentFooter category={post.data.category} />
+      </div>
+    </article>
+  </main>
+</Layout>
