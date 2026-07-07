@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is an Emotional Marketing Value (EMV) score?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Emotional Marketing Value (EMV) score is a metric developed by the Advanced Marketing Institute to assess the emotional impact of a headline. It measures the ratio of emotional words to total words. A score between 30% and 50% is considered highly effective, while exceptional headlines exceed 50%."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are power words and why should I use them in headlines?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Power words are trigger words that evoke strong psychological responses (curiosity, excitement, reassurance, or urgency). Examples include 'ultimate', 'guaranteed', 'proven', and 'revealed'. Incorporating power words can improve click-through rates (CTR) by making headlines feel compelling."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does sentiment affect headline performance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Headlines with strong positive or negative sentiment generally outperform neutral headlines. Positive headlines offer solutions or benefits (e.g. 'proven way to save money'), while negative headlines address pain points or fears (e.g. 'mistakes to avoid'). Matching sentiment to your audience's intent is key."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the recommended length for blog post and YouTube headlines?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Recommended headline lengths vary by channel: Blog post headlines are ideal between 50 and 60 characters to fit search results; YouTube titles should be kept under 70 characters to display fully in search feeds; and social media headlines can range from 100 to 120 characters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are my headlines private when using this analyzer?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, completely private. This tool operates 100% client-side inside your local browser. No inputs or scores are transmitted to a server or stored."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the four types of words analyzed in headlines?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Headlines are analyzed using four word classifications: Common words (provide structure), Uncommon words (add interest), Emotional words (trigger curiosity or anticipation), and Power words (compel action, such as 'proven', 'secret', or 'instant')."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the curiosity gap work in headline writing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The curiosity gap is a copywriting technique that provides enough information to pique interest but holds back the resolution, encouraging the reader to click and read the content to find the answer (e.g., 'This Simple Habit Can Double Your Productivity')."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the optimal length for a blog post headline?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The recommended length is between 50 and 60 characters, or about 6 to 8 words. This ensures the headline is descriptive enough to encourage clicks while remaining short enough to display fully in search engine result pages."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do question headlines perform compared to statements?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Question headlines perform well when they target a specific query the reader is actively asking. They engage the reader's curiosity directly, though statements that promise a clear, immediate solution can sometimes yield higher click rates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should headlines always contain a target keyword?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, including a target keyword in your headline is essential for search engine optimization (SEO). Placing the keyword near the beginning of the headline helps search engines identify the page topic quickly and improves organic search relevance."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Headline Analyzer - Free Emotional Value & Power Words Checker | ToolzTotal"
   description="Analyze your headlines for Emotional Marketing Value (EMV) score, power words, sentiment, and length optimizations. Free client-side tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/marketing/headline-analyzer"
 >
+  <ToolSchema
+    toolName="Headline Analyzer"
+    toolSlug="headline-analyzer"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description="Analyze your headlines for Emotional Marketing Value (EMV) score, power words, sentiment, and length optimizations. Free client-side tool."
+  faqs={[
+    { question: "What is an Emotional Marketing Value (EMV) score?", answer: "The Emotional Marketing Value (EMV) score is a metric developed by the Advanced Marketing Institute to assess the emotional impact of a headline. It measures the ratio of emotional words to total words. A score between 30% and 50% is considered highly effective, while exceptional headlines exceed 50%." },
+    { question: "What are power words and why should I use them in headlines?", answer: "Power words are trigger words that evoke strong psychological responses (curiosity, excitement, reassurance, or urgency). Examples include 'ultimate', 'guaranteed', 'proven', and 'revealed'. Incorporating power words can improve click-through rates (CTR) by making headlines feel compelling." },
+    { question: "How does sentiment affect headline performance?", answer: "Headlines with strong positive or negative sentiment generally outperform neutral headlines. Positive headlines offer solutions or benefits (e.g. 'proven way to save money'), while negative headlines address pain points or fears (e.g. 'mistakes to avoid'). Matching sentiment to your audience's intent is key." },
+    { question: "What is the recommended length for blog post and YouTube headlines?", answer: "Recommended headline lengths vary by channel: Blog post headlines are ideal between 50 and 60 characters to fit search results; YouTube titles should be kept under 70 characters to display fully in search feeds; and social media headlines can range from 100 to 120 characters." },
+    { question: "Are my headlines private when using this analyzer?", answer: "Yes, completely private. This tool operates 100% client-side inside your local browser. No inputs or scores are transmitted to a server or stored." },
+    { question: "What are the four types of words analyzed in headlines?", answer: "Headlines are analyzed using four word classifications: Common words (provide structure), Uncommon words (add interest), Emotional words (trigger curiosity or anticipation), and Power words (compel action, such as 'proven', 'secret', or 'instant')." },
+    { question: "How does the curiosity gap work in headline writing?", answer: "The curiosity gap is a copywriting technique that provides enough information to pique interest but holds back the resolution, encouraging the reader to click and read the content to find the answer (e.g., 'This Simple Habit Can Double Your Productivity')." },
+    { question: "What is the optimal length for a blog post headline?", answer: "The recommended length is between 50 and 60 characters, or about 6 to 8 words. This ensures the headline is descriptive enough to encourage clicks while remaining short enough to display fully in search engine result pages." },
+    { question: "How do question headlines perform compared to statements?", answer: "Question headlines perform well when they target a specific query the reader is actively asking. They engage the reader's curiosity directly, though statements that promise a clear, immediate solution can sometimes yield higher click rates." },
+    { question: "Should headlines always contain a target keyword?", answer: "Yes, including a target keyword in your headline is essential for search engine optimization (SEO). Placing the keyword near the beginning of the headline helps search engines identify the page topic quickly and improves organic search relevance." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
-      <span>/</span>
-      <span class="text-ink">Headline Analyzer</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Marketing & SEO"
+      categorySlug="marketing"
+      toolName="Headline Analyzer"
+      toolSlug="headline-analyzer"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -443,6 +375,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="marketing"
+      toolSlug="headline-analyzer"
+    />
 </Layout>
 
 <script>

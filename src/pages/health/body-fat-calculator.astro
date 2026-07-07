@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does the U.S. Navy Body Fat Calculator work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The U.S. Navy circumference method uses height, biological sex, neck circumference, waist (abdomen) circumference, and hip circumference (for women) to estimate body fat percentage. It uses logarithmic formulas based on body density studies and is highly accurate for general populations when measured correctly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the Navy method compare to the BMI method?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Navy method measures actual body circumferences, which reflects your unique body shape and muscularity. The BMI body fat method is a statistical estimate calculated from your weight, height, age, and sex using the Deurenberg formula. Muscular individuals with low body fat may register a high BMI fat percentage, whereas the Navy method will correctly show lower fat levels because muscle does not expand waist size."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I take accurate measurements for the Navy body fat calculator?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "1. Height: Measured standing straight without shoes. 2. Neck: Measure just below the larynx, sloping slightly downward. 3. Waist: For men, measure horizontally at the navel. For women, measure at the narrowest point of the waist (above the navel). 4. Hips (women only): Measure horizontally at the widest part of the gluteal muscles. Use a flexible measuring tape pulled flat but not squeezing the skin."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a healthy body fat percentage for men and women?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ideal ranges vary by sex: For men, essential fat is 2%–5%, athletes range 6%–13%, fitness range 14%–17%, average is 18%–24%, and obese is 25% or higher. For women, essential fat is 10%–13%, athletes range 14%–20%, fitness range 21%–24%, average is 25%–31%, and obese is 32% or higher."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my data stored or sent anywhere?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. All calculation logic occurs locally in your web browser. ToolzTotal is built to run 100% client-side, requiring no registration, no paywalls, and keeping all your measurements completely private."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between essential fat and storage fat?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Essential fat is the minimum fat your body requires for vital physiological functions, such as nerve conduction and hormone synthesis (3% for men, 12% for women). Storage fat is the fat accumulated in adipose tissue as energy reserves, which accumulates under the skin and around internal organs."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does hydration level affect my body fat measurements?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Hydration levels affect tape measurements because water retention can cause minor changes in abdominal and neck circumferences. For bioelectrical impedance scales, hydration dramatically changes electrical resistance, showing higher body fat estimates when you are dehydrated."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is my body fat percentage different on a smart scale compared to calipers?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Different methods use different physiological markers. Smart scales measure electrical impedance (which is highly sensitive to hydration), skinfold calipers measure subcutaneous fat at specific sites, and tape formulas use circumferences. Each method has its own margin of error, making consistency with one method more important than cross-comparing."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a healthy body fat range for athletic performance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For athletic performance, a typical range for men is 6% to 15% body fat, and for women is 14% to 24%. Extremely low body fat levels (such as those for bodybuilding competitions) are not sustainable and can degrade strength, speed, and recovery."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long does it take to safely lose 5% body fat?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A safe, sustainable rate of fat loss is 0.5% to 1.0% of your body weight per week, which equates to roughly 0.5% to 1.0% body fat loss per month. To lose 5% body fat safely without losing muscle tissue, plan for a structured deficit lasting 3 to 6 months."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Body Fat Calculator - Free Navy Method & BMI Estimator | ToolzTotal"
   description="Estimate body fat percentage using US Navy circumference equations and BMI methods side-by-side. Free client-side tool with ideal range tracking."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/health/body-fat-calculator"
 >
+  <ToolSchema
+    toolName="Body Fat Calculator"
+    toolSlug="body-fat-calculator"
+    categoryName="Health & Fitness"
+    categorySlug="health"
+    description="Estimate body fat percentage using US Navy circumference equations and BMI methods side-by-side. Free client-side tool with ideal range tracking."
+  faqs={[
+    { question: "How does the U.S. Navy Body Fat Calculator work?", answer: "The U.S. Navy circumference method uses height, biological sex, neck circumference, waist (abdomen) circumference, and hip circumference (for women) to estimate body fat percentage. It uses logarithmic formulas based on body density studies and is highly accurate for general populations when measured correctly." },
+    { question: "How does the Navy method compare to the BMI method?", answer: "The Navy method measures actual body circumferences, which reflects your unique body shape and muscularity. The BMI body fat method is a statistical estimate calculated from your weight, height, age, and sex using the Deurenberg formula. Muscular individuals with low body fat may register a high BMI fat percentage, whereas the Navy method will correctly show lower fat levels because muscle does not expand waist size." },
+    { question: "How do I take accurate measurements for the Navy body fat calculator?", answer: "1. Height: Measured standing straight without shoes. 2. Neck: Measure just below the larynx, sloping slightly downward. 3. Waist: For men, measure horizontally at the navel. For women, measure at the narrowest point of the waist (above the navel). 4. Hips (women only): Measure horizontally at the widest part of the gluteal muscles. Use a flexible measuring tape pulled flat but not squeezing the skin." },
+    { question: "What is a healthy body fat percentage for men and women?", answer: "Ideal ranges vary by sex: For men, essential fat is 2%–5%, athletes range 6%–13%, fitness range 14%–17%, average is 18%–24%, and obese is 25% or higher. For women, essential fat is 10%–13%, athletes range 14%–20%, fitness range 21%–24%, average is 25%–31%, and obese is 32% or higher." },
+    { question: "Is my data stored or sent anywhere?", answer: "No. All calculation logic occurs locally in your web browser. ToolzTotal is built to run 100% client-side, requiring no registration, no paywalls, and keeping all your measurements completely private." },
+    { question: "What is the difference between essential fat and storage fat?", answer: "Essential fat is the minimum fat your body requires for vital physiological functions, such as nerve conduction and hormone synthesis (3% for men, 12% for women). Storage fat is the fat accumulated in adipose tissue as energy reserves, which accumulates under the skin and around internal organs." },
+    { question: "How does hydration level affect my body fat measurements?", answer: "Hydration levels affect tape measurements because water retention can cause minor changes in abdominal and neck circumferences. For bioelectrical impedance scales, hydration dramatically changes electrical resistance, showing higher body fat estimates when you are dehydrated." },
+    { question: "Why is my body fat percentage different on a smart scale compared to calipers?", answer: "Different methods use different physiological markers. Smart scales measure electrical impedance (which is highly sensitive to hydration), skinfold calipers measure subcutaneous fat at specific sites, and tape formulas use circumferences. Each method has its own margin of error, making consistency with one method more important than cross-comparing." },
+    { question: "What is a healthy body fat range for athletic performance?", answer: "For athletic performance, a typical range for men is 6% to 15% body fat, and for women is 14% to 24%. Extremely low body fat levels (such as those for bodybuilding competitions) are not sustainable and can degrade strength, speed, and recovery." },
+    { question: "How long does it take to safely lose 5% body fat?", answer: "A safe, sustainable rate of fat loss is 0.5% to 1.0% of your body weight per week, which equates to roughly 0.5% to 1.0% body fat loss per month. To lose 5% body fat safely without losing muscle tissue, plan for a structured deficit lasting 3 to 6 months." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
-      <span>/</span>
-      <span class="text-ink">Body Fat Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Health & Fitness"
+      categorySlug="health"
+      toolName="Body Fat Calculator"
+      toolSlug="body-fat-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -489,6 +421,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="health"
+      toolSlug="body-fat-calculator"
+    />
 </Layout>
 
 <script>

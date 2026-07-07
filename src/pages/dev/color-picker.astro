@@ -1,111 +1,43 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How do I convert between HEX, RGB, and HSL color formats?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "HEX (hexadecimal) represents colors as a 6-character code like #ff6600. RGB (Red, Green, Blue) uses three numbers from 0-255 to mix light, like rgb(255, 102, 0). HSL (Hue, Saturation, Lightness) uses an angle 0-360 degrees for the hue, and percentages for saturation and lightness, like hsl(24, 100%, 50%). This tool converts between all three formats in real time as you type. You can edit any format and all others update instantly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is WCAG contrast ratio and why is it important?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "WCAG (Web Content Accessibility Guidelines) contrast ratio measures the difference in luminance between two colors, typically text and its background. The ratio ranges from 1:1 (no contrast, same color) to 21:1 (maximum contrast, black on white). WCAG AA requires 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1 for normal text and 4.5:1 for large text. Higher contrast improves readability for users with visual impairments."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are complementary, analogous, and triadic color schemes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Complementary colors are opposite each other on the color wheel (hue + 180°), creating high contrast. Analogous colors sit next to each other (hue ± 30°), producing harmonious, low-contrast schemes. Triadic colors are evenly spaced at 120° intervals, offering balanced contrast. Monochromatic schemes use variations in lightness and saturation of a single hue. This tool generates all these palette types from any base color."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I use the CSS gradient builder?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Select 2 to 4 color stops by clicking Add Stop, then pick a direction using the toggle buttons (to right, to bottom, to bottom right) or enter a custom angle in degrees. The gradient preview updates in real time. Use the copy button to copy the generated linear-gradient() CSS string directly to your clipboard for use in your stylesheets."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this color picker tool free and private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, this Color Picker & Converter is completely free with no signup required. It runs entirely client-side in your browser — no color data is ever sent to any server. All conversions, contrast checks, palette generation, and gradient building happen locally on your device, ensuring your privacy at all times."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between HEX and HSL color representation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "HEX is a base-16 number matching red, green, and blue intensities. HSL represents color in terms of human perception: Hue (the color type on a wheel), Saturation (vibrancy vs grayness), and Lightness (brightness vs darkness), which is often much easier for designers to adjust manually."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the WCAG AA and AAA requirements for user interfaces?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "WCAG AA is the standard legal baseline for most websites, demanding a 4.5:1 ratio for body text. WCAG AAA is the strictest level, requiring a 7:1 ratio for normal text and 4.5:1 for bold/large headers to ensure maximum accessibility."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does lightness differ from brightness in color spaces?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Lightness in HSL defines how close a color is to white (100%) or black (0%). Brightness (in HSV/HSB) measures the intensity of light or color relative to a fully saturated color, which is a slightly different mathematical projection."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I generate tints and shades of a color?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, the tool generates a range of tints (adding white / increasing HSL lightness) and shades (adding black / decreasing HSL lightness) from your base color, helping you build a comprehensive design color scale."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool support transparency (alpha channel)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This color picker supports alpha transparency, enabling conversions to RGBA, HSLA, and 8-digit HEX values (like #ff6600cc). You can adjust the opacity slider to customize transparent color stops."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="Color Picker & Converter - HEX, RGB, HSL + Contrast Checker | ToolzTotal"
   description="Pick, convert, and analyze colors with HEX/RGB/HSL support, WCAG contrast checker, palette generation, and CSS gradient builder — all client-side and free."
-  faqJsonLd={faqJsonLd}
 >
-  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+  <ToolSchema
+    toolName="Color Picker"
+    toolSlug="color-picker"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Pick, convert, and analyze colors with HEX/RGB/HSL support, WCAG contrast checker, palette generation, and CSS gradient builder — all client-side and free."
+  faqs={[
+    { question: "How do I convert between HEX, RGB, and HSL color formats?", answer: "HEX (hexadecimal) represents colors as a 6-character code like #ff6600 . RGB (Red, Green, Blue) uses three numbers from 0-255 to mix light, like rgb(255, 102, 0) . HSL (Hue, Saturation, Lightness) uses an angle 0-360&deg; for the hue, and percentages for saturation and lightness, like hsl(24, 100%, 50%) . This tool converts between all three formats in real time as you type. You can edit any format and all others update instantly." },
+    { question: "What is WCAG contrast ratio and why is it important?", answer: "WCAG (Web Content Accessibility Guidelines) contrast ratio measures the difference in luminance between two colors, typically text and its background. The ratio ranges from 1:1 (no contrast, same color) to 21:1 (maximum contrast, black on white). WCAG AA requires 4.5:1 for normal text and 3:1 for large text. AAA requires 7:1 for normal text and 4.5:1 for large text. Higher contrast improves readability for users with visual impairments." },
+    { question: "What are complementary, analogous, and triadic color schemes?", answer: "Complementary colors are opposite each other on the color wheel (hue + 180&deg;), creating high contrast. Analogous colors sit next to each other (hue &plusmn; 30&deg;), producing harmonious, low-contrast schemes. Triadic colors are evenly spaced at 120&deg; intervals, offering balanced contrast. Monochromatic schemes use variations in lightness and saturation of a single hue. This tool generates all these palette types from any base color." },
+    { question: "How do I use the CSS gradient builder?", answer: "Select 2 to 4 color stops by clicking Add Stop, then pick a direction using the toggle buttons (to right, to bottom, to bottom right) or enter a custom angle in degrees. The gradient preview updates in real time. Use the copy button to copy the generated linear-gradient() CSS string directly to your clipboard for use in your stylesheets." },
+    { question: "Is this color picker tool free and private?", answer: "Yes, this Color Picker & Converter is completely free with no signup required. It runs entirely client-side in your browser — no color data is ever sent to any server. All conversions, contrast checks, palette generation, and gradient building happen locally on your device, ensuring your privacy at all times." },
+    { question: "What is the difference between HEX and HSL color representation?", answer: "HEX is a base-16 number matching red, green, and blue intensities. HSL represents color in terms of human perception: Hue (the color type on a wheel), Saturation (vibrancy vs grayness), and Lightness (brightness vs darkness), which is often much easier for designers to adjust manually." },
+    { question: "What are the WCAG AA and AAA requirements for user interfaces?", answer: "WCAG AA is the standard legal baseline for most websites, demanding a 4.5:1 ratio for body text. WCAG AAA is the strictest level, requiring a 7:1 ratio for normal text and 4.5:1 for bold/large headers to ensure maximum accessibility." },
+    { question: "How does lightness differ from brightness in color spaces?", answer: "Lightness in HSL defines how close a color is to white (100%) or black (0%). Brightness (in HSV/HSB) measures the intensity of light or color relative to a fully saturated color, which is a slightly different mathematical projection." },
+    { question: "Can I generate tints and shades of a color?", answer: "Yes, the tool generates a range of tints (adding white / increasing HSL lightness) and shades (adding black / decreasing HSL lightness) from your base color, helping you build a comprehensive design color scale." },
+    { question: "Does this tool support transparency (alpha channel)?", answer: "This color picker supports alpha transparency, enabling conversions to RGBA, HSLA, and 8-digit HEX values (like #ff6600cc). You can adjust the opacity slider to customize transparent color stops." }
+  ]}
+  />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">Color Picker & Converter</span>
-    </nav>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="Color Picker & Converter - HEX, RGB, HSL + Contrast Checker"
+      toolSlug="color-picker"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -1012,4 +944,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
     input[type="color"]::-webkit-color-swatch { border: none; border-radius: 8px; }
     input[type="color"]::-moz-color-swatch { border: none; border-radius: 8px; }
   </style>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="color-picker"
+    />
 </Layout>

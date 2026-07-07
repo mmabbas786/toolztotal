@@ -1,112 +1,45 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the difference between weighted and unweighted GPA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "An unweighted GPA measures academic achievement on a standard 0 to 4.0 scale regardless of class difficulty. A weighted GPA accounts for course rigor by adding extra points (typically +0.5 for Honors and +1.0 for AP or IB courses), resulting in scores that can exceed 4.0."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does course credit weight affect GPA calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "GPA is calculated as a weighted average where course credit hours act as weights. A grade earned in a 4-credit course has double the mathematical impact on your cumulative GPA compared to a grade earned in a 2-credit course."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is letter grade point mapping standardized?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard letter grade points on a 4.0 scale are mapped as: A+/A = 4.0, A- = 3.7, B+ = 3.3, B = 3.0, B- = 2.7, C+ = 2.3, C = 2.0, C- = 1.7, D+ = 1.3, D = 1.0, and F = 0.0."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a cumulative GPA planner?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A cumulative GPA planner combines your existing college or high school historical credits and GPA with your current semester estimates to project your overall final GPA trajectory."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my GPA information stored online?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. All inputs, class lists, and calculated GPA scores are processed entirely client-side inside your browser memory. ToolzTotal never stores, saves, or transmits your transcripts or grades."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between weighted and unweighted GPA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "An unweighted GPA measures academic grades on a standard 4.0 scale regardless of class difficulty. A weighted GPA awards extra points for advanced coursework (such as AP, IB, or Honors classes), often grading on a 5.0 scale."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do AP, IB, and Honors classes affect my GPA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "These advanced courses award extra weight in a weighted GPA system. An A in an AP class is worth 5.0 points instead of 4.0, which raises your overall average and reflects the difficulty of your course load."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a pass/fail grade impact my cumulative GPA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Pass/fail grades do not affect your cumulative GPA. While you receive credit hours toward graduation for a passing grade, the course is excluded from the GPA math because it does not have a grade point value."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the formula for calculating GPA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The GPA formula divides total grade points by total credit hours: GPA = Total Grade Points / Total Credit Hours. You calculate grade points by multiplying a course's grade point value by its credit hours."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I raise my GPA in my senior year?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, you can raise your GPA in your senior year, but the amount depends on how many credits you have completed. The more credits you have earned, the harder it is to change your cumulative average, which is why early planning is beneficial."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="GPA Calculator - Free Weighted & Unweighted GPA Planner | ToolzTotal"
   description="Calculate weighted and unweighted GPA across 4.0/5.0 scales. Plan cumulative targets and grade weights. Simple client-side tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/education/gpa-calculator"
 >
+  <ToolSchema
+    toolName="GPA Calculator"
+    toolSlug="gpa-calculator"
+    categoryName="Education"
+    categorySlug="education"
+    description="Calculate weighted and unweighted GPA across 4.0/5.0 scales. Plan cumulative targets and grade weights. Simple client-side tool."
+  faqs={[
+    { question: "Cumulative GPA Planner", answer: "Current Cum. GPA Prior Credits PROJECTED CUMULATIVE GPA: 0.00" },
+    { question: "What is the difference between weighted and unweighted GPA?", answer: "An unweighted GPA measures academic achievement on a standard 0 to 4.0 scale regardless of class difficulty. A weighted GPA accounts for course rigor by adding extra points (typically +0.5 for Honors and +1.0 for AP or IB courses), resulting in scores that can exceed 4.0." },
+    { question: "How does course credit weight affect GPA calculations?", answer: "GPA is calculated as a weighted average where course credit hours act as weights. A grade earned in a 4-credit course has double the mathematical impact on your cumulative GPA compared to a grade earned in a 2-credit course." },
+    { question: "How is letter grade point mapping standardized?", answer: "Standard letter grade points on a 4.0 scale are mapped as: A+/A = 4.0, A- = 3.7, B+ = 3.3, B = 3.0, B- = 2.7, C+ = 2.3, C = 2.0, C- = 1.7, D+ = 1.3, D = 1.0, and F = 0.0." },
+    { question: "What is a cumulative GPA planner?", answer: "A cumulative GPA planner combines your existing college or high school historical credits and GPA with your current semester estimates to project your overall final GPA trajectory." },
+    { question: "Is my GPA information stored online?", answer: "No. All inputs, class lists, and calculated GPA scores are processed entirely client-side inside your browser memory. ToolzTotal never stores, saves, or transmits your transcripts or grades." },
+    { question: "What is the difference between weighted and unweighted GPA?", answer: "An unweighted GPA measures academic grades on a standard 4.0 scale regardless of class difficulty. A weighted GPA awards extra points for advanced coursework (such as AP, IB, or Honors classes), often grading on a 5.0 scale." },
+    { question: "How do AP, IB, and Honors classes affect my GPA?", answer: "These advanced courses award extra weight in a weighted GPA system. An A in an AP class is worth 5.0 points instead of 4.0, which raises your overall average and reflects the difficulty of your course load." },
+    { question: "How does a pass/fail grade impact my cumulative GPA?", answer: "Pass/fail grades do not affect your cumulative GPA. While you receive credit hours toward graduation for a passing grade, the course is excluded from the GPA math because it does not have a grade point value." },
+    { question: "What is the formula for calculating GPA?", answer: "The GPA formula divides total grade points by total credit hours: GPA = Total Grade Points / Total Credit Hours. You calculate grade points by multiplying a course's grade point value by its credit hours." },
+    { question: "Can I raise my GPA in my senior year?", answer: "Yes, you can raise your GPA in your senior year, but the amount depends on how many credits you have completed. The more credits you have earned, the harder it is to change your cumulative average, which is why early planning is beneficial." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/education" class="hover:text-ink transition-colors">Education</a>
-      <span>/</span>
-      <span class="text-ink">GPA Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Education"
+      categorySlug="education"
+      toolName="GPA Calculator"
+      toolSlug="gpa-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -392,6 +325,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="education"
+      toolSlug="gpa-calculator"
+    />
 </Layout>
 
 <script>

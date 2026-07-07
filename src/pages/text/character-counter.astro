@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the character limit for Twitter (X)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For free accounts, Twitter (X) limits posts to 280 characters. Paid subscribers of X Premium have extended limits up to 25,000 characters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How many characters are allowed in Instagram captions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Instagram allows captions up to 2,200 characters. However, captions clip after roughly 125 characters in the user feed, so placing primary calls-to-action early is recommended."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the post length limit on LinkedIn?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "LinkedIn allows posts up to 3,000 characters. For personal branding articles or organic updates, keeping text within 1,500 to 2,000 characters yields optimal readable engagement."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do carriage returns count as characters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, standard carriage returns (line breaks) are parsed as whitespace characters (represented as \\n or \\\\r\\\\n) and count towards total character counts on most web forms and social networks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my text data safe and secure?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. This character counter operates 100% client-side inside your browser engine. ToolzTotal never stores, uploads, or logs your drafts."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the character limits for major social media networks?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Character limits vary: X is 280 characters, LinkedIn posts allow 3,000 characters, Instagram captions support up to 2,200 characters, and standard Facebook posts can be up to 63,206 characters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does a space character count as a character in counters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, spaces count as characters in all digital platforms and word processors. Every character, space, punctuation mark, and line break is counted as a byte in your text data."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does this tool handle line breaks and carriage returns?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Line breaks (newlines) are counted as characters because they contain invisible formatting characters (like '\\n' or '\\r\\n') that tell the browser to wrap the text to a new line."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between byte length and character length?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For standard English text, character length and byte length are equal (1 byte per character). However, special characters, emojis, and non-Latin alphabets (like Chinese or Arabic) use multi-byte encoding, meaning they take up more byte space in database records."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do SMS messages split after 160 characters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The global SMS standard limits single text messages to 160 characters due to the bandwidth limits of mobile network signaling channels. Messages longer than 160 characters are automatically split and joined by your carrier, which can increase messaging costs."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Character Counter - Free Online Char Limit Checker | ToolzTotal"
   description="Count characters (with & without spaces), words, lines, paragraphs. Live checklists for social limits (Twitter/X, Instagram, LinkedIn)."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/text/character-counter"
 >
+  <ToolSchema
+    toolName="Character Counter"
+    toolSlug="character-counter"
+    categoryName="Text & Content"
+    categorySlug="text"
+    description="Count characters (with & without spaces), words, lines, paragraphs. Live checklists for social limits (Twitter/X, Instagram, LinkedIn)."
+  faqs={[
+    { question: "What is the character limit for Twitter (X)?", answer: "For free accounts, Twitter (X) limits posts to 280 characters. Paid subscribers of X Premium have extended limits up to 25,000 characters." },
+    { question: "How many characters are allowed in Instagram captions?", answer: "Instagram allows captions up to 2,200 characters. However, captions clip after roughly 125 characters in the user feed, so placing primary calls-to-action early is recommended." },
+    { question: "What is the post length limit on LinkedIn?", answer: "LinkedIn allows posts up to 3,000 characters. For personal branding articles or organic updates, keeping text within 1,500 to 2,000 characters yields optimal readable engagement." },
+    { question: "Do carriage returns count as characters?", answer: "Yes, standard carriage returns (line breaks) are parsed as whitespace characters (represented as \n or \\r\\n) and count towards total character counts on most web forms and social networks." },
+    { question: "Is my text data safe and secure?", answer: "Yes. This character counter operates 100% client-side inside your browser engine. ToolzTotal never stores, uploads, or logs your drafts." },
+    { question: "What are the character limits for major social media networks?", answer: "Character limits vary: X is 280 characters, LinkedIn posts allow 3,000 characters, Instagram captions support up to 2,200 characters, and standard Facebook posts can be up to 63,206 characters." },
+    { question: "Does a space character count as a character in counters?", answer: "Yes, spaces count as characters in all digital platforms and word processors. Every character, space, punctuation mark, and line break is counted as a byte in your text data." },
+    { question: "How does this tool handle line breaks and carriage returns?", answer: "Line breaks (newlines) are counted as characters because they contain invisible formatting characters (like '\n' or '\r\n') that tell the browser to wrap the text to a new line." },
+    { question: "What is the difference between byte length and character length?", answer: "For standard English text, character length and byte length are equal (1 byte per character). However, special characters, emojis, and non-Latin alphabets (like Chinese or Arabic) use multi-byte encoding, meaning they take up more byte space in database records." },
+    { question: "Why do SMS messages split after 160 characters?", answer: "The global SMS standard limits single text messages to 160 characters due to the bandwidth limits of mobile network signaling channels. Messages longer than 160 characters are automatically split and joined by your carrier, which can increase messaging costs." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
-      <span>/</span>
-      <span class="text-ink">Character Counter</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Text & Content"
+      categorySlug="text"
+      toolName="Character Counter"
+      toolSlug="character-counter"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -427,6 +359,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="text"
+      toolSlug="character-counter"
+    />
 </Layout>
 
 <script>

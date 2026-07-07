@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does the time card hours calculator compute daily totals?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The calculator parses start and end times to find the gross duration, then subtracts the entered lunch break duration (in minutes) to yield the net daily hours worked: Daily Hours = (End Time - Start Time) - Lunch Break."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are lunch breaks legally required to be paid?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under federal FLSA guidelines, short rest periods (typically lasting 5 to 20 minutes) must be counted as paid hours. However, longer meal breaks (usually 30 minutes or more) are not considered work time and are unpaid, provided the employee is completely relieved from duty."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the overtime threshold highlight function?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The weekly hours tracker accumulates your daily net hours chronologically. Once the cumulative sum exceeds 40 hours for the week, the excess hours are flagged as overtime to assist in payroll verification."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I export my completed weekly time card?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Our hours calculator includes a client-side CSV Export button. Clicking it instantly compiles your daily inputs, break deductions, and totals into a standard spreadsheet-compatible file downloaded locally."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does ToolzTotal store my work hour records?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. All time card data is processed and stored locally inside your browser session. No information is transmitted to servers, ensuring complete privacy."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are lunch breaks legally required to be paid or unpaid?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Meal breaks of 30 minutes or longer are generally unpaid under federal law, provided the employee is completely relieved of duty. Short rest breaks of 5 to 20 minutes are considered paid working time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the 15-minute rounding rule work in time clocks?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under the FLSA, employers are allowed to round employee time to the nearest 15 minutes (or 5 minutes). The rounding must be fair and neutral overall, rounding both up and down rather than solely in the employer's favor."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between decimal hours and minutes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Decimal hours represent time as a fraction of a 60-minute hour (e.g., 30 minutes is 0.5 hours, 45 minutes is 0.75 hours). Timesheets use decimal hours to multiply hours worked by your hourly wage rate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate total hours worked for overnight shifts?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To calculate overnight shift hours, find the hours worked before midnight and add them to the hours worked after midnight (e.g., 10:00 PM to 6:00 AM is 2 hours before midnight plus 6 hours after, totaling 8 hours)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does federal law require rest breaks during a shift?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Federal law does not require rest or meal breaks. However, many states have laws that mandate paid rest breaks and unpaid meal breaks for shifts exceeding a set number of hours."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Hours Calculator - Free Weekly Time Card Break Solver | ToolzTotal"
   description="Track weekly work hours with automatic lunch breaks deductions and overtime alerts. Export to CSV. Free client-side tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/legal/hours-calculator"
 >
+  <ToolSchema
+    toolName="Hours Calculator"
+    toolSlug="hours-calculator"
+    categoryName="Legal & Employment"
+    categorySlug="legal"
+    description="Track weekly work hours with automatic lunch breaks deductions and overtime alerts. Export to CSV. Free client-side tool."
+  faqs={[
+    { question: "How does the time card hours calculator compute daily totals?", answer: "The calculator parses start and end times to find the gross duration, then subtracts the entered lunch break duration (in minutes) to yield the net daily hours worked: Daily Hours = (End Time - Start Time) - Lunch Break." },
+    { question: "Are lunch breaks legally required to be paid?", answer: "Under federal FLSA guidelines, short rest periods (typically lasting 5 to 20 minutes) must be counted as paid hours. However, longer meal breaks (usually 30 minutes or more) are not considered work time and are unpaid, provided the employee is completely relieved from duty." },
+    { question: "How does the overtime threshold highlight function?", answer: "The weekly hours tracker accumulates your daily net hours chronologically. Once the cumulative sum exceeds 40 hours for the week, the excess hours are flagged as overtime to assist in payroll verification." },
+    { question: "Can I export my completed weekly time card?", answer: "Yes. Our hours calculator includes a client-side CSV Export button. Clicking it instantly compiles your daily inputs, break deductions, and totals into a standard spreadsheet-compatible file downloaded locally." },
+    { question: "Does ToolzTotal store my work hour records?", answer: "No. All time card data is processed and stored locally inside your browser session. No information is transmitted to servers, ensuring complete privacy." },
+    { question: "Are lunch breaks legally required to be paid or unpaid?", answer: "Meal breaks of 30 minutes or longer are generally unpaid under federal law, provided the employee is completely relieved of duty. Short rest breaks of 5 to 20 minutes are considered paid working time." },
+    { question: "How does the 15-minute rounding rule work in time clocks?", answer: "Under the FLSA, employers are allowed to round employee time to the nearest 15 minutes (or 5 minutes). The rounding must be fair and neutral overall, rounding both up and down rather than solely in the employer's favor." },
+    { question: "What is the difference between decimal hours and minutes?", answer: "Decimal hours represent time as a fraction of a 60-minute hour (e.g., 30 minutes is 0.5 hours, 45 minutes is 0.75 hours). Timesheets use decimal hours to multiply hours worked by your hourly wage rate." },
+    { question: "How do I calculate total hours worked for overnight shifts?", answer: "To calculate overnight shift hours, find the hours worked before midnight and add them to the hours worked after midnight (e.g., 10:00 PM to 6:00 AM is 2 hours before midnight plus 6 hours after, totaling 8 hours)." },
+    { question: "Does federal law require rest breaks during a shift?", answer: "Federal law does not require rest or meal breaks. However, many states have laws that mandate paid rest breaks and unpaid meal breaks for shifts exceeding a set number of hours." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/legal" class="hover:text-ink transition-colors">Legal & Employment</a>
-      <span>/</span>
-      <span class="text-ink">Hours Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Legal & Employment"
+      categorySlug="legal"
+      toolName="Hours Calculator"
+      toolSlug="hours-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -387,6 +319,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="legal"
+      toolSlug="hours-calculator"
+    />
 </Layout>
 
 <script>

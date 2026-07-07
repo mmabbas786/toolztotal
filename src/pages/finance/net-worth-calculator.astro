@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is net worth?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Net worth is the total value of all your financial assets minus your total liabilities. It is the core metric used to assess overall financial health and progress over time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you calculate net worth?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The formula is: Net Worth = Total Assets - Total Liabilities. Assets include cash, savings, investments, home value, and vehicles. Liabilities include mortgages, auto loans, credit card debt, and student loans."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a liquid asset?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A liquid asset is cash or an asset that can be quickly converted into cash with little to no loss in value, such as checking accounts, savings accounts, and brokerage stocks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is a primary home counted in net worth?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The current market value of your home is added under assets, and the outstanding balance of your mortgage is added under liabilities."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does a negative net worth mean?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A negative net worth means your total debts exceed the value of your assets. This is common for recent graduates with student loans or young homeowners with high mortgages."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How often should I calculate my net worth?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Most financial advisors recommend calculating net worth quarterly or annually. Tracking it too frequently (like daily) can lead to anxiety over normal market fluctuations."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I include vehicles in my net worth?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can list the vehicle's current resale value under assets and the car loan balance under liabilities. Note that vehicles are depreciating assets."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the average net worth in the US?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The median net worth in the United States varies significantly by age. For households aged 35 to 44, the median is around const35,000, while for those aged 65 to 74, it is closer to $410,000."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does net worth differ from income?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Income is the money you earn over a period (cash inflow). Net worth is a snapshot of what you keep and accumulate over time (assets minus debt)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is retirement account value pre-tax or post-tax in net worth?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard practice is to list the nominal value of 401(k)s and traditional IRAs under assets, though some advanced planners discount these balances by 15-25% to account for future income tax liabilities."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Net Worth Calculator - Free Anonymous Wealth Tracker | ToolzTotal"
   description="Track your assets and liabilities dynamically to determine your net worth. 100% anonymous, safe, and client-side. No signup required."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/finance/net-worth-calculator"
 >
+  <ToolSchema
+    toolName="Net Worth Calculator"
+    toolSlug="net-worth-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Track your assets and liabilities dynamically to determine your net worth. 100% anonymous, safe, and client-side. No signup required."
+  faqs={[
+    { question: "What is net worth?", answer: "Net worth is the total value of all your financial assets minus your total liabilities. It is the core metric used to assess overall financial health and progress over time." },
+    { question: "How do you calculate net worth?", answer: "The formula is: Net Worth = Total Assets - Total Liabilities. Assets include cash, savings, investments, home value, and vehicles. Liabilities include mortgages, auto loans, credit card debt, and student loans." },
+    { question: "What is a liquid asset?", answer: "A liquid asset is cash or an asset that can be quickly converted into cash with little to no loss in value, such as checking accounts, savings accounts, and brokerage stocks." },
+    { question: "Is a primary home counted in net worth?", answer: "Yes. The current market value of your home is added under assets, and the outstanding balance of your mortgage is added under liabilities." },
+    { question: "What does a negative net worth mean?", answer: "A negative net worth means your total debts exceed the value of your assets. This is common for recent graduates with student loans or young homeowners with high mortgages." },
+    { question: "How often should I calculate my net worth?", answer: "Most financial advisors recommend calculating net worth quarterly or annually. Tracking it too frequently (like daily) can lead to anxiety over normal market fluctuations." },
+    { question: "Should I include vehicles in my net worth?", answer: "Yes. You can list the vehicle's current resale value under assets and the car loan balance under liabilities. Note that vehicles are depreciating assets." },
+    { question: "What is the average net worth in the US?", answer: "The median net worth in the United States varies significantly by age. For households aged 35 to 44, the median is around $135,000, while for those aged 65 to 74, it is closer to $410,000." },
+    { question: "How does net worth differ from income?", answer: "Income is the money you earn over a period (cash inflow). Net worth is a snapshot of what you keep and accumulate over time (assets minus debt)." },
+    { question: "Is retirement account value pre-tax or post-tax in net worth?", answer: "Standard practice is to list the nominal value of 401(k)s and traditional IRAs under assets, though some advanced planners discount these balances by 15-25% to account for future income tax liabilities." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
-      <span>/</span>
-      <span class="text-ink">Net Worth Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Net Worth Calculator"
+      toolSlug="net-worth-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -554,6 +486,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="net-worth-calculator"
+    />
 </Layout>
 
 <script>

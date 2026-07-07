@@ -1,112 +1,45 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the difference between APA, MLA, and Chicago citation styles?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "APA (American Psychological Association) is used in the social sciences and education. MLA (Modern Language Association) is standard in the humanities and literature. Chicago style is widely preferred in history and fine arts, offering both footnotes and author-date reference options."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this generator support automatic ISBN or DOI lookups?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. To remain a lightweight, privacy-first, 100% static site, this citation generator supports manual metadata entry only, bypassing external API network calls."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is an APA 7th edition book citation formatted?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In APA 7, a book is formatted as: Lastname, F. M. (Year). Title. Publisher. URL (if electronic). The title is italicized and formatted in sentence case."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is an MLA 9th edition book citation formatted?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In MLA 9, a book is formatted as: Lastname, Firstname. Title. Publisher, Year. The title is italicized and formatted in title case."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my research data stored on ToolzTotal?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Like all tools on our site, this citation builder operates completely client-side in your browser. None of your entry fields, research titles, or generated references are uploaded to a server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Which citation style should I use for my research paper?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Choose the style specified by your instructor or publication guidelines. Generally, use MLA for humanities, APA for social sciences and education, and Chicago for history and business papers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a DOI and why is it important in digital citations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A Digital Object Identifier (DOI) is a unique, permanent alphanumeric string assigned to digital academic publications. Unlike standard URLs, DOIs remain unchanged even if the publisher moves the document to a new website, ensuring reliable links."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I cite a source with multiple authors?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For sources with multiple authors, style guidelines dictate how to list them. For example, MLA lists the first author followed by 'et al.' if there are three or more, while APA lists up to 20 authors in the reference entry."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What should I do if a source has no publication date?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If a source has no publication date, use the abbreviation 'n.d.' (meaning 'no date') in place of the year in both your in-text citations and reference list entries."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is a URL required in a citation for an online article?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A URL is generally required for online articles if a DOI is not available. It helps readers locate the source, though some instructors may suggest omitting URLs to keep bibliography entries clean."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Citation Generator - Free APA, MLA & Chicago Formatter | ToolzTotal"
   description="Generate accurate citations in APA 7th, MLA 9th, and Chicago 17th formats instantly. Manual entry only with instant copy."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/education/citation-generator"
 >
+  <ToolSchema
+    toolName="Citation Generator"
+    toolSlug="citation-generator"
+    categoryName="Education"
+    categorySlug="education"
+    description="Generate accurate citations in APA 7th, MLA 9th, and Chicago 17th formats instantly. Manual entry only with instant copy."
+  faqs={[
+    { question: "Optional Info (City & URL)", answer: "Publication City (Chicago Style) Source URL" },
+    { question: "What is the difference between APA, MLA, and Chicago citation styles?", answer: "APA (American Psychological Association) is used in the social sciences and education. MLA (Modern Language Association) is standard in the humanities and literature. Chicago style is widely preferred in history and fine arts, offering both footnotes and author-date reference options." },
+    { question: "Does this generator support automatic ISBN or DOI lookups?", answer: "No. To remain a lightweight, privacy-first, 100% static site, this citation generator supports manual metadata entry only, bypassing external API network calls." },
+    { question: "How is an APA 7th edition book citation formatted?", answer: "In APA 7, a book is formatted as: Lastname, F. M. (Year). Title. Publisher. URL (if electronic). The title is italicized and formatted in sentence case." },
+    { question: "How is an MLA 9th edition book citation formatted?", answer: "In MLA 9, a book is formatted as: Lastname, Firstname. Title. Publisher, Year. The title is italicized and formatted in title case." },
+    { question: "Is my research data stored on ToolzTotal?", answer: "No. Like all tools on our site, this citation builder operates completely client-side in your browser. None of your entry fields, research titles, or generated references are uploaded to a server." },
+    { question: "Which citation style should I use for my research paper?", answer: "Choose the style specified by your instructor or publication guidelines. Generally, use MLA for humanities, APA for social sciences and education, and Chicago for history and business papers." },
+    { question: "What is a DOI and why is it important in digital citations?", answer: "A Digital Object Identifier (DOI) is a unique, permanent alphanumeric string assigned to digital academic publications. Unlike standard URLs, DOIs remain unchanged even if the publisher moves the document to a new website, ensuring reliable links." },
+    { question: "How do I cite a source with multiple authors?", answer: "For sources with multiple authors, style guidelines dictate how to list them. For example, MLA lists the first author followed by 'et al.' if there are three or more, while APA lists up to 20 authors in the reference entry." },
+    { question: "What should I do if a source has no publication date?", answer: "If a source has no publication date, use the abbreviation 'n.d.' (meaning 'no date') in place of the year in both your in-text citations and reference list entries." },
+    { question: "Is a URL required in a citation for an online article?", answer: "A URL is generally required for online articles if a DOI is not available. It helps readers locate the source, though some instructors may suggest omitting URLs to keep bibliography entries clean." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/education" class="hover:text-ink transition-colors">Education</a>
-      <span>/</span>
-      <span class="text-ink">Citation Generator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Education"
+      categorySlug="education"
+      toolName="Citation Generator"
+      toolSlug="citation-generator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -450,6 +383,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="education"
+      toolSlug="citation-generator"
+    />
 </Layout>
 
 <script>

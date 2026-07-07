@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is CSS minification?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "CSS minification is the process of removing unnecessary characters from a stylesheet—such as white spaces, line breaks, indentation, and comments—to reduce file size without changing how the CSS renders."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why should I minify CSS?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Minifying CSS reduces page payload sizes, decreasing download times for website visitors. This improves page load speed metrics like Largest Contentful Paint (LCP) and enhances SEO rankings."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does minifying CSS alter page designs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Minification only strips formatting whitespace and comments. The browser interprets the code identically, so your design remains unchanged."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between minification and compression?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Minification strips characters from the source code. Compression (like Gzip or Brotli) uses server algorithms to encode the file during network transit."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this CSS minifier support SCSS or LESS?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. It handles basic nesting and strips standard CSS/SCSS comments (/* */ and //), though it does not compile SCSS variables into standard CSS."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my source CSS uploaded to a server?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. This tool operates 100% client-side in your web browser. Your stylesheets are minified locally and never transmitted over the internet."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the average file size reduction from minification?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Typical stylesheets see a 20% to 50% file size reduction, depending on how much spacing, indentation, and documentation comments the original file contained."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I undo minification?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, you can use the 'Beautifier' mode in this tool or a CSS formatter to restore line breaks and indentation, though deleted comments cannot be recovered."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a source map?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A source map is a file that maps minified code back to the original source code, allowing developers to debug their stylesheets inside browser dev tools."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I minify CSS in development?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "It is best to keep CSS formatted in development for readability, and automate minification as part of your build pipeline before deploying to production."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="CSS Minifier & Beautifier - Compress & Format Stylesheets | ToolzTotal"
   description="Minify or beautify your CSS stylesheet, strip comments, and visualize code compression metrics. Clean static developer tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/dev/css-minifier"
 >
+  <ToolSchema
+    toolName="CSS Minifier & Beautifier"
+    toolSlug="css-minifier"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Minify or beautify your CSS stylesheet, strip comments, and visualize code compression metrics. Clean static developer tool."
+  faqs={[
+    { question: "What is CSS minification?", answer: "CSS minification is the process of removing unnecessary characters from a stylesheet—such as white spaces, line breaks, indentation, and comments—to reduce file size without changing how the CSS renders." },
+    { question: "Why should I minify CSS?", answer: "Minifying CSS reduces page payload sizes, decreasing download times for website visitors. This improves page load speed metrics like Largest Contentful Paint (LCP) and enhances SEO rankings." },
+    { question: "Does minifying CSS alter page designs?", answer: "No. Minification only strips formatting whitespace and comments. The browser interprets the code identically, so your design remains unchanged." },
+    { question: "What is the difference between minification and compression?", answer: "Minification strips characters from the source code. Compression (like Gzip or Brotli) uses server algorithms to encode the file during network transit." },
+    { question: "Does this CSS minifier support SCSS or LESS?", answer: "Yes. It handles basic nesting and strips standard CSS/SCSS comments (/* */ and //), though it does not compile SCSS variables into standard CSS." },
+    { question: "Is my source CSS uploaded to a server?", answer: "No. This tool operates 100% client-side in your web browser. Your stylesheets are minified locally and never transmitted over the internet." },
+    { question: "What is the average file size reduction from minification?", answer: "Typical stylesheets see a 20% to 50% file size reduction, depending on how much spacing, indentation, and documentation comments the original file contained." },
+    { question: "Can I undo minification?", answer: "Yes, you can use the 'Beautifier' mode in this tool or a CSS formatter to restore line breaks and indentation, though deleted comments cannot be recovered." },
+    { question: "What is a source map?", answer: "A source map is a file that maps minified code back to the original source code, allowing developers to debug their stylesheets inside browser dev tools." },
+    { question: "Should I minify CSS in development?", answer: "It is best to keep CSS formatted in development for readability, and automate minification as part of your build pipeline before deploying to production." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">CSS Minifier</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="CSS Minifier & Beautifier - Compress & Format Stylesheets"
+      toolSlug="css-minifier"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -494,6 +426,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="css-minifier"
+    />
 </Layout>
 
 <script>

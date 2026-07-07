@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is severance pay typically calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Severance pay is usually structured based on your length of employment, commonly offering 1 or 2 weeks of regular weekly salary for every year of service at the organization."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the WARN Act 60-day notice requirement?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The federal Worker Adjustment and Retraining Notification (WARN) Act protects employees by requiring employers with 100 or more full-time workers to provide at least 60 days of advance notice before a plant closing or mass layoff."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are companies legally required to offer severance pay?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under federal law (specifically the Fair Labor Standards Act), employers are not required to provide severance pay unless it is stipulated in an employment agreement, union contract, or the company's internal employee handbook."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is severance pay subject to income taxes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Severance payouts are treated as taxable income by the IRS and state tax agencies. Social Security, Medicare, and standard federal/state income taxes are withheld from these packages."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I negotiate my severance package?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, severance packages are frequently open to negotiation. Employees can request extensions of health coverage (COBRA assistance), prorated bonuses, outplacement support, or additional weeks of pay in exchange for signing standard releases."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is severance pay legally required under federal law?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under the Fair Labor Standards Act (FLSA), employers are not legally required to offer severance pay. Severance pay is a matter of agreement between an employer and employee, typically detailed in an employment contract or company handbook."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the WARN Act and how does it relate to severance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Worker Adjustment and Retraining Notification (WARN) Act requires employers with 100+ workers to provide 60 days of notice before mass layoffs. Employers who fail to provide notice must pay workers back pay and benefits for the violation period, which function similarly to severance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are severance package payouts taxable?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, severance payments are considered taxable income by the IRS and state tax agencies. They are subject to federal and state income tax, Social Security, and Medicare withholdings, and are reported on your Form W-2."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I negotiate my severance package offer?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, you can negotiate your severance offer, especially if you have senior tenure or are asked to sign a release of claims. You can request additional weeks of pay, extended health coverage, or professional outplacement services."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does signing a severance agreement waive my right to unemployment benefits?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Signing a severance agreement generally does not waive your right to unemployment benefits. However, some states delay the start of your unemployment payments until the period covered by your severance payout has ended."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Severance Pay Calculator - Employment Layoff Payout Planner | ToolzTotal"
   description="Estimate severance payouts based on service duration, salary parameters, and WARN Act checkmarks. Clean client-side calculator."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/legal/severance-calculator"
 >
+  <ToolSchema
+    toolName="Severance Pay Calculator"
+    toolSlug="severance-calculator"
+    categoryName="Legal & Employment"
+    categorySlug="legal"
+    description="Estimate severance payouts based on service duration, salary parameters, and WARN Act checkmarks. Clean client-side calculator."
+  faqs={[
+    { question: "How is severance pay typically calculated?", answer: "Severance pay is usually structured based on your length of employment, commonly offering 1 or 2 weeks of regular weekly salary for every year of service at the organization." },
+    { question: "What is the WARN Act 60-day notice requirement?", answer: "The federal Worker Adjustment and Retraining Notification (WARN) Act protects employees by requiring employers with 100 or more full-time workers to provide at least 60 days of advance notice before a plant closing or mass layoff." },
+    { question: "Are companies legally required to offer severance pay?", answer: "Under federal law (specifically the Fair Labor Standards Act), employers are not required to provide severance pay unless it is stipulated in an employment agreement, union contract, or the company's internal employee handbook." },
+    { question: "Is severance pay subject to income taxes?", answer: "Yes. Severance payouts are treated as taxable income by the IRS and state tax agencies. Social Security, Medicare, and standard federal/state income taxes are withheld from these packages." },
+    { question: "Can I negotiate my severance package?", answer: "Yes, severance packages are frequently open to negotiation. Employees can request extensions of health coverage (COBRA assistance), prorated bonuses, outplacement support, or additional weeks of pay in exchange for signing standard releases." },
+    { question: "Is severance pay legally required under federal law?", answer: "Under the Fair Labor Standards Act (FLSA), employers are not legally required to offer severance pay. Severance pay is a matter of agreement between an employer and employee, typically detailed in an employment contract or company handbook." },
+    { question: "What is the WARN Act and how does it relate to severance?", answer: "The Worker Adjustment and Retraining Notification (WARN) Act requires employers with 100+ workers to provide 60 days of notice before mass layoffs. Employers who fail to provide notice must pay workers back pay and benefits for the violation period, which function similarly to severance." },
+    { question: "Are severance package payouts taxable?", answer: "Yes, severance payments are considered taxable income by the IRS and state tax agencies. They are subject to federal and state income tax, Social Security, and Medicare withholdings, and are reported on your Form W-2." },
+    { question: "Can I negotiate my severance package offer?", answer: "Yes, you can negotiate your severance offer, especially if you have senior tenure or are asked to sign a release of claims. You can request additional weeks of pay, extended health coverage, or professional outplacement services." },
+    { question: "Does signing a severance agreement waive my right to unemployment benefits?", answer: "Signing a severance agreement generally does not waive your right to unemployment benefits. However, some states delay the start of your unemployment payments until the period covered by your severance payout has ended." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/legal" class="hover:text-ink transition-colors">Legal & Employment</a>
-      <span>/</span>
-      <span class="text-ink">Severance Pay Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Legal & Employment"
+      categorySlug="legal"
+      toolName="Severance Pay Calculator - Employment Layoff Payout Planner"
+      toolSlug="severance-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -444,6 +376,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="legal"
+      toolSlug="severance-calculator"
+    />
 </Layout>
 
 <script>

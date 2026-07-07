@@ -1,116 +1,48 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { cpiHistory } from '../../data/inflationData';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is inflation calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Inflation is calculated using the Consumer Price Index (CPI). The formula to compare buying power between two years is: Value in Target Year = Value in Base Year * (CPI of Target Year / CPI of Base Year)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the Consumer Price Index (CPI)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Consumer Price Index (CPI) is a measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services, compiled by the Bureau of Labor Statistics (BLS)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What causes inflation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Inflation is driven by three main factors: demand-pull inflation (demand for goods increases faster than supply), cost-push inflation (production costs increase, raising prices), and built-in inflation (wages rise to match cost of living)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does inflation affect my savings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Inflation decreases the purchasing power of cash. If you keep savings in an account earning 1% interest while inflation is 3%, your savings are effectively losing 2% of their buying power each year."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is purchasing power?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Purchasing power is the value of a currency expressed in the amount of goods or services that one unit of money can buy. Inflation directly erodes purchasing power over time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is hyperinflation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Hyperinflation is extremely rapid, out-of-control inflation, typically exceeding 50% per month, which quickly devalues the local currency."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is deflation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Deflation is a general decrease in the price level of goods and services, occurring when the inflation rate falls below 0%. It can lead to economic stagnation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is CPI data updated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For US calculations, the Bureau of Labor Statistics publishes updated CPI indexes monthly, reflecting consumer retail price shifts across cities."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is core inflation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Core inflation is the CPI index excluding food and energy prices, which are highly volatile. It provides a clearer picture of long-term inflation trends."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How can I protect my money from inflation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To hedge against inflation, investors place capital in assets that tend to grow faster than inflation, such as equities, real estate, commodities, and inflation-indexed bonds like US Treasury I-Bonds."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Inflation Calculator - Free CPI Purchasing Power Solver | ToolzTotal"
   description="Calculate inflation and historical purchasing power from 1950 to 2026 using official Consumer Price Index (CPI) datasets. Clean static tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/finance/inflation-calculator"
 >
+  <ToolSchema
+    toolName="Inflation Calculator"
+    toolSlug="inflation-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate inflation and historical purchasing power from 1950 to 2026 using official Consumer Price Index (CPI) datasets. Clean static tool."
+  faqs={[
+    { question: "How is inflation calculated?", answer: "Inflation is calculated using the Consumer Price Index (CPI). The formula to compare buying power between two years is: Value in Target Year = Value in Base Year * (CPI of Target Year / CPI of Base Year)." },
+    { question: "What is the Consumer Price Index (CPI)?", answer: "The Consumer Price Index (CPI) is a measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services, compiled by the Bureau of Labor Statistics (BLS)." },
+    { question: "What causes inflation?", answer: "Inflation is driven by three main factors: demand-pull inflation (demand for goods increases faster than supply), cost-push inflation (production costs increase, raising prices), and built-in inflation (wages rise to match cost of living)." },
+    { question: "How does inflation affect my savings?", answer: "Inflation decreases the purchasing power of cash. If you keep savings in an account earning 1% interest while inflation is 3%, your savings are effectively losing 2% of their buying power each year." },
+    { question: "What is purchasing power?", answer: "Purchasing power is the value of a currency expressed in the amount of goods or services that one unit of money can buy. Inflation directly erodes purchasing power over time." },
+    { question: "What is hyperinflation?", answer: "Hyperinflation is extremely rapid, out-of-control inflation, typically exceeding 50% per month, which quickly devalues the local currency." },
+    { question: "What is deflation?", answer: "Deflation is a general decrease in the price level of goods and services, occurring when the inflation rate falls below 0%. It can lead to economic stagnation." },
+    { question: "How is CPI data updated?", answer: "For US calculations, the Bureau of Labor Statistics publishes updated CPI indexes monthly, reflecting consumer retail price shifts across cities." },
+    { question: "What is core inflation?", answer: "Core inflation is the CPI index excluding food and energy prices, which are highly volatile. It provides a clearer picture of long-term inflation trends." },
+    { question: "How can I protect my money from inflation?", answer: "To hedge against inflation, investors place capital in assets that tend to grow faster than inflation, such as equities, real estate, commodities, and inflation-indexed bonds like US Treasury I-Bonds." }
+  ]}
+  />
+
   <!-- Pass CPI history array safely to client script -->
   <script define:vars={{ cpiHistory }}></script>
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
-      <span>/</span>
-      <span class="text-ink">Inflation Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Inflation Calculator"
+      toolSlug="inflation-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -510,6 +442,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="inflation-calculator"
+    />
 </Layout>
 
 <script>

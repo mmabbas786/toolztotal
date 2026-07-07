@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How do you calculate a split bill?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To split a bill, sum all base items, calculate the combined tax and tip percentage, apply that percentage to each person's items, and calculate individual totals."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is itemized bill splitting?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Itemized splitting assigns specific menu items to the individuals who ordered them, rather than dividing the total bill equally. This ensures everyone pays only for what they consumed."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How are shared items handled when splitting a bill?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Shared items (like appetizers) are divided equally among the participants, with the cost added to each person's individual subtotal."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How should tax and tips be distributed?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Tax and tips should be distributed proportionally based on each person's subtotal, rather than divided equally. This ensures that someone who ordered a small salad doesn't pay tax on someone else's steak."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I share the split bill results?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. This tool encodes the item assignments and totals into the URL parameters, allowing you to copy and share the link with group members via messaging apps."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool save my guest list or receipt details?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. All calculation data is stored in the URL parameters and processed locally. Your receipt details are never saved on a server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is tip calculated before or after tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard etiquette is to calculate the tip percentage on the pre-tax food and beverage subtotal, though some consumers calculate it on the post-tax total for simplicity."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I allocate a flat discount to a split bill?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Discounts should be applied proportionally. Reduce each person's subtotal by their percentage share of the discount before calculating tax and tip."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool support rounding?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The calculator rounds final individual shares to the nearest cent using standard mathematical rounding rules."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can this tool handle tax and tip values together?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can input the tax rate and tip percentage separately, and the engine will calculate and add both to the individual subtotals."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Split Bill Calculator - Itemized Restaurant Bill Splitter | ToolzTotal"
   description="Calculate itemized bill splits, allocate tax and tip per person, and generate shareable allocation links. Clean static utility tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/utility/split-bill-calculator"
 >
+  <ToolSchema
+    toolName="Split Bill Calculator"
+    toolSlug="split-bill-calculator"
+    categoryName="Everyday / Life Utility"
+    categorySlug="utility"
+    description="Calculate itemized bill splits, allocate tax and tip per person, and generate shareable allocation links. Clean static utility tool."
+  faqs={[
+    { question: "How do you calculate a split bill?", answer: "To split a bill, sum all base items, calculate the combined tax and tip percentage, apply that percentage to each person's items, and calculate individual totals." },
+    { question: "What is itemized bill splitting?", answer: "Itemized splitting assigns specific menu items to the individuals who ordered them, rather than dividing the total bill equally. This ensures everyone pays only for what they consumed." },
+    { question: "How are shared items handled when splitting a bill?", answer: "Shared items (like appetizers) are divided equally among the participants, with the cost added to each person's individual subtotal." },
+    { question: "How should tax and tips be distributed?", answer: "Tax and tips should be distributed proportionally based on each person's subtotal, rather than divided equally. This ensures that someone who ordered a small salad doesn't pay tax on someone else's steak." },
+    { question: "Can I share the split bill results?", answer: "Yes. This tool encodes the item assignments and totals into the URL parameters, allowing you to copy and share the link with group members via messaging apps." },
+    { question: "Does this tool save my guest list or receipt details?", answer: "No. All calculation data is stored in the URL parameters and processed locally. Your receipt details are never saved on a server." },
+    { question: "Is tip calculated before or after tax?", answer: "Standard etiquette is to calculate the tip percentage on the pre-tax food and beverage subtotal, though some consumers calculate it on the post-tax total for simplicity." },
+    { question: "How do I allocate a flat discount to a split bill?", answer: "Discounts should be applied proportionally. Reduce each person's subtotal by their percentage share of the discount before calculating tax and tip." },
+    { question: "Does this tool support rounding?", answer: "Yes. The calculator rounds final individual shares to the nearest cent using standard mathematical rounding rules." },
+    { question: "Can this tool handle tax and tip values together?", answer: "Yes. You can input the tax rate and tip percentage separately, and the engine will calculate and add both to the individual subtotals." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/utility" class="hover:text-ink transition-colors">Everyday Utility</a>
-      <span>/</span>
-      <span class="text-ink">Split Bill Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Everyday / Life Utility"
+      categorySlug="utility"
+      toolName="Split Bill Calculator - Itemized Restaurant Bill Splitter"
+      toolSlug="split-bill-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -503,6 +435,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="utility"
+      toolSlug="split-bill-calculator"
+    />
 </Layout>
 
 <script>

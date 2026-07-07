@@ -1,94 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How do I test a regular expression online?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Type or paste your regular expression pattern in the Pattern input box at the top, select your flags (g for global, i for case-insensitive, etc.), then type your test string in the large text area below. Matches are highlighted in real time with a yellow background. The Results panel shows each match's index, the matched text, and any capture groups extracted from the pattern."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What regex engine does this tester use?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This regex tester uses JavaScript's built-in RegExp engine, which runs entirely in your browser. No data is sent to a server. The tool supports all standard JavaScript regex features including capture groups, non-capturing groups, lookaheads, lookbehinds, named groups, and Unicode property escapes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I extract capture groups from a regex match?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Add parentheses around the parts of your pattern you want to capture — for example, (\\d{3}) captures a three-digit number. When the pattern matches, the Results panel displays each capture group's value for every match. Named capture groups like (?<name>pattern) are also supported and shown with their group name."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What do regex flags g, i, m, s, and u do?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "g (global) — find all matches rather than stopping after the first match. i (case-insensitive) — ignore letter casing. m (multiline) — ^ and $ match the start and end of each line instead of the whole string. s (dotAll) — the dot matches newline characters as well. u (unicode) — enable Unicode features and proper handling of characters outside the basic multilingual plane."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are some common regex patterns for everyday use?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Common patterns include: Email validation — /^[\\w.-]+@[\\w.-]+\\.\\\w{2,}$/; URL matching — /https?:\\/\\/[\\w./?-]+/; US Phone — /^\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$/; Date (YYYY-MM-DD) — /^\\d{4}-\\d{2}-\\d{2}$/; IPv4 Address — /^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$/; Password strength — /^(?=.*[a-zA-Z])(?=.*\\d).{8,}$/. Click any example in the cheat sheet panel to load it instantly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between greedy and lazy quantifiers?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Greedy quantifiers (like * or +) match as much text as possible. Adding a question mark makes them lazy (like *? or +?), instructing the engine to match the smallest amount of text needed to satisfy the pattern. For example, matching against '<a>foo</a>' with <.*> (greedy) yields the entire string, while <.*?> (lazy) matches just '<a>'."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are lookahead and lookbehind assertions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Lookarounds are zero-width assertions that check if a pattern is followed or preceded by another pattern without including it in the match. Positive lookahead (?=pattern) and negative lookahead (?!pattern) look ahead, while positive lookbehind (?<=pattern) and negative lookbehind (?<!pattern) check behind."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why did my regular expression cause a freeze (ReDoS)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Regular Expression Denial of Service (ReDoS) occurs when a pattern with nested quantifiers (like (a+)+) experiences 'catastrophic backtracking' on strings that almost match but fail at the end. This forces the regex engine to calculate an exponential number of permutations, hanging the thread. Ensure your patterns avoid overlapping quantifiers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I escape special characters in a regular expression?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Characters with special syntactic meaning in regex (like ., *, +, ?, ^, $, (, ), [, ], {, }, |, and \\) must be escaped with a preceding backslash (\\) if you want to match their literal characters. For example, to match a literal period, use \\. rather than ."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my test data safe when checking patterns with this tool?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, completely safe. The regular expression execution is conducted purely within your web browser's local sandbox using JavaScript's RegExp class. None of your test text or regex patterns are ever sent over the network, ensuring complete privacy."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Regex Tester - Test & Debug Regular Expressions Online | ToolzTotal",
@@ -101,8 +15,27 @@ const ogMeta = {
 <Layout
   title="Regex Tester - Test & Debug Regular Expressions Online | ToolzTotal"
   description="Free online regex tester with live match highlighting, capture group extraction, and plain-English pattern explanation. No signup, no server uploads — everything runs client-side."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Regex Tester"
+    toolSlug="regex-tester"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Free online regex tester with live match highlighting, capture group extraction, and plain-English pattern explanation. No signup, no server uploads — everything runs client-side."
+  faqs={[
+    { question: "How do I test a regular expression online?", answer: "Type or paste your regular expression pattern in the Pattern input box at the top, select your flags (g for global, i for case-insensitive, etc.), then type your test string in the large text area below. Matches are highlighted in real time with a yellow background. The Results panel shows each match's index, the matched text, and any capture groups extracted from the pattern." },
+    { question: "What regex engine does this tester use?", answer: "This regex tester uses JavaScript's built-in RegExp engine, which runs entirely in your browser. No data is sent to a server. The tool supports all standard JavaScript regex features including capture groups, non-capturing groups, lookaheads, lookbehinds, named groups, and Unicode property escapes." },
+    { question: "How do I extract capture groups from a regex match?", answer: "Add parentheses around the parts of your pattern you want to capture — for example, (\d{3}) captures a three-digit number. When the pattern matches, the Results panel displays each capture group's value for every match. Named capture groups like (?&lt;name&gt;pattern) are also supported and shown with their group name." },
+    { question: "What do regex flags g, i, m, s, and u do?", answer: "g (global) — find all matches rather than stopping after the first match. i (case-insensitive) — ignore letter casing. m (multiline) — ^ and $ match start/end of each line. s (dotAll) — dot matches newlines. u (unicode) — enable Unicode features and proper handling of characters outside the basic multilingual plane." },
+    { question: "What are some common regex patterns for everyday use?", answer: "Common patterns include: Email , URL , US Phone , Date , IPv4 , and Password patterns. Click any example in the cheat sheet panel above to load it instantly." },
+    { question: "What is the difference between greedy and lazy quantifiers?", answer: "Greedy quantifiers (like * or +) match as much text as possible. Adding a question mark makes them lazy (like *? or +?), instructing the engine to match the smallest amount of text needed to satisfy the pattern. For example, matching against '&lt;a&gt;foo&lt;/a&gt;' with &lt;.*&gt; (greedy) yields the entire string, while &lt;.*?&gt; (lazy) matches just '&lt;a&gt;'." },
+    { question: "What are lookahead and lookbehind assertions?", answer: "Lookarounds are zero-width assertions that check if a pattern is followed or preceded by another pattern without including it in the match. Positive lookahead (?=pattern) and negative lookahead (?!pattern) look ahead, while positive lookbehind (?&lt;=pattern) and negative lookbehind (?&lt;!pattern) check behind." },
+    { question: "Why did my regular expression cause a freeze (ReDoS)?", answer: "Regular Expression Denial of Service (ReDoS) occurs when a pattern with nested quantifiers (like (a+)+) experiences 'catastrophic backtracking' on strings that almost match but fail at the end. This forces the regex engine to calculate an exponential number of permutations, hanging the thread. Ensure your patterns avoid overlapping quantifiers." },
+    { question: "How do I escape special characters in a regular expression?", answer: "Characters with special syntactic meaning in regex (like ., *, +, ?, ^, $, (, ), [, ], &#123;, &#125;, |, and \) must be escaped with a preceding backslash (\) if you want to match their literal characters. For example, to match a literal period, use \. rather than ." },
+    { question: "Is my test data safe when checking patterns with this tool?", answer: "Yes, completely safe. The regular expression execution is conducted purely within your web browser's local sandbox using JavaScript's RegExp class. None of your test text or regex patterns are ever sent over the network, ensuring complete privacy." }
+  ]}
+  />
+
   <meta slot="head" property="og:title" content={ogMeta.title} />
   <meta slot="head" property="og:description" content={ogMeta.description} />
   <meta slot="head" property="og:url" content={ogMeta.url} />
@@ -112,15 +45,13 @@ const ogMeta = {
   <meta slot="head" name="twitter:description" content={ogMeta.description} />
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="Regex Tester - Test & Debug Regular Expressions Online"
+      toolSlug="regex-tester"
+    />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">Regex Tester</span>
-    </nav>
 
     <!-- Header -->
     <div class="max-w-4xl mb-12">
@@ -453,6 +384,11 @@ My IP is 192.168.1.1 and my zip is 90210.</textarea>
 
     </div>
   </div>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="regex-tester"
+    />
 </Layout>
 
 <style is:global>

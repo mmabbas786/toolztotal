@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What are meta tags and why are they important for SEO?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Meta tags are brief code snippets in the head of an HTML document that provide metadata about a webpage to search engines and browser clients. They describe page content, specify the canonical URL, and instruct bots on indexing rules (e.g. index/noindex). Correct meta tags are vital for displaying search snippets and boosting CTR."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between Open Graph and Twitter Cards?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Open Graph is a protocol created by Facebook that standardizes metadata usage on social networks like Facebook, LinkedIn, Pinterest, and WhatsApp. Twitter (X) Cards are specific tags created by Twitter to display interactive media rich cards. While Twitter falls back to Open Graph tags if Twitter-specific tags are missing, declaring both ensures perfect social card previews across all networks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the character limit for page titles and descriptions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For optimal display in Google SERPs without truncation, page titles should be kept under 50–60 characters (or 600 pixels wide), and meta descriptions should be kept under 150–160 characters (or 960 pixels wide). Keeping text within these limits prevents Google from clipping the snippet with ellipses."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is JSON-LD and how is it used in search indexing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "JSON-LD (JavaScript Object Notation for Linked Data) is the recommended structured data format used to annotate page elements for search engines. It creates rich snippets (FAQ accordions, product reviews, articles) in search results, helping crawlers understand the contextual meaning of page content."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my website metadata privately processed?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, absolutely. This meta tag generator operates completely client-side in your local browser sandbox. None of your titles, URLs, descriptions, or generated code blocks are uploaded to a server or saved, ensuring total privacy."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long should a page title and meta description be in pixels?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Search engines measure title and description lengths in pixels rather than characters. The desktop limit is 600 pixels for titles (about 50 to 60 characters) and 960 pixels for descriptions (about 150 to 160 characters). Mobile limits are slightly shorter."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What happens if my meta description is too long?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If your meta description exceeds the pixel limit, search engines will truncate it, cutting off the end of your sentence with an ellipsis (...). While this does not harm SEO rankings, it can make your search result snippet look incomplete and reduce click-through rates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why does Google sometimes display a different title than what I wrote?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Google will rewrite search titles if it determines the original tag is too long, keyword-stuffed, repetitive, or doesn't match the user's specific search query. Ensuring your title is highly relevant to the page content prevents Google from replacing it."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do social media crawlers detect Open Graph meta tags?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "When a link is shared, social platform bots (like the Facebook Link Preview Crawler) fetch the page's HTML. They scan the head section for tags starting with 'og:' (e.g., og:title, og:image) and use that data to generate the card preview."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do meta keywords still help with search engine rankings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, search engines like Google, Bing, and Yahoo ignored the 'meta keywords' tag years ago because it was heavily abused by spammers. Declaring meta keywords is no longer useful for modern SEO."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Meta Tag Generator - Free Google SERP & Social Card Preview | ToolzTotal"
   description="Generate meta tags, Open Graph tags, and Twitter Cards with real-time Google, Facebook, and Twitter snippet previews. Copy generated HTML & JSON-LD."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/marketing/meta-tag-generator"
 >
+  <ToolSchema
+    toolName="Meta Tag Generator"
+    toolSlug="meta-tag-generator"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description="Generate meta tags, Open Graph tags, and Twitter Cards with real-time Google, Facebook, and Twitter snippet previews. Copy generated HTML & JSON-LD."
+  faqs={[
+    { question: "What are meta tags and why are they important for SEO?", answer: "Meta tags are brief code snippets in the head of an HTML document that provide metadata about a webpage to search engines and browser clients. They describe page content, specify the canonical URL, and instruct bots on indexing rules (e.g. index/noindex). Correct meta tags are vital for displaying search snippets and boosting CTR." },
+    { question: "What is the difference between Open Graph and Twitter Cards?", answer: "Open Graph is a protocol created by Facebook that standardizes metadata usage on social networks like Facebook, LinkedIn, Pinterest, and WhatsApp. Twitter (X) Cards are specific tags created by Twitter to display interactive media rich cards. While Twitter falls back to Open Graph tags if Twitter-specific tags are missing, declaring both ensures perfect social card previews across all networks." },
+    { question: "What is the character limit for page titles and descriptions?", answer: "For optimal display in Google SERPs without truncation, page titles should be kept under 50–60 characters (or 600 pixels wide), and meta descriptions should be kept under 150–160 characters (or 960 pixels wide). Keeping text within these limits prevents Google from clipping the snippet with ellipses." },
+    { question: "What is JSON-LD and how is it used in search indexing?", answer: "JSON-LD (JavaScript Object Notation for Linked Data) is the recommended structured data format used to annotate page elements for search engines. It creates rich snippets (FAQ accordions, product reviews, articles) in search results, helping crawlers understand the contextual meaning of page content." },
+    { question: "Is my website metadata privately processed?", answer: "Yes, absolutely. This meta tag generator operates completely client-side in your local browser sandbox. None of your titles, URLs, descriptions, or generated code blocks are uploaded to a server or saved, ensuring total privacy." },
+    { question: "How long should a page title and meta description be in pixels?", answer: "Search engines measure title and description lengths in pixels rather than characters. The desktop limit is 600 pixels for titles (about 50 to 60 characters) and 960 pixels for descriptions (about 150 to 160 characters). Mobile limits are slightly shorter." },
+    { question: "What happens if my meta description is too long?", answer: "If your meta description exceeds the pixel limit, search engines will truncate it, cutting off the end of your sentence with an ellipsis (...). While this does not harm SEO rankings, it can make your search result snippet look incomplete and reduce click-through rates." },
+    { question: "Why does Google sometimes display a different title than what I wrote?", answer: "Google will rewrite search titles if it determines the original tag is too long, keyword-stuffed, repetitive, or doesn't match the user's specific search query. Ensuring your title is highly relevant to the page content prevents Google from replacing it." },
+    { question: "How do social media crawlers detect Open Graph meta tags?", answer: "When a link is shared, social platform bots (like the Facebook Link Preview Crawler) fetch the page's HTML. They scan the head section for tags starting with 'og:' (e.g., og:title, og:image) and use that data to generate the card preview." },
+    { question: "Do meta keywords still help with search engine rankings?", answer: "No, search engines like Google, Bing, and Yahoo ignored the 'meta keywords' tag years ago because it was heavily abused by spammers. Declaring meta keywords is no longer useful for modern SEO." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
-      <span>/</span>
-      <span class="text-ink">Meta Tag Generator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Marketing & SEO"
+      categorySlug="marketing"
+      toolName="Meta Tag Generator"
+      toolSlug="meta-tag-generator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -478,6 +410,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="marketing"
+      toolSlug="meta-tag-generator"
+    />
 </Layout>
 
 <script>

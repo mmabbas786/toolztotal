@@ -1,112 +1,45 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is FLSA overtime pay calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under the federal Fair Labor Standards Act (FLSA), overtime pay is calculated as 1.5 times the regular hourly rate for all hours worked past 40 hours in a single workweek."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the double-time pay rule?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Double-time pay is twice the regular hourly rate. Under federal guidelines, it is not required. However, some states like California mandate double-time for hours worked past 12 in a single workday, or past 8 hours on the 7th consecutive workday in a workweek."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between exempt and non-exempt status?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Non-exempt employees are legally protected under the FLSA and must receive overtime pay. Exempt employees are excluded from FLSA overtime protections, typically falling under administrative, professional, executive, or computer job definitions and meeting minimum salary thresholds."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I negotiate my overtime hours?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Private-sector employees covered under non-exempt provisions cannot waive their overtime rights. Working overtime requires pay at standard FLSA overtime rate scales."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool share my pay information?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Like all tools on ToolzTotal, our overtime calculator runs completely client-side in your local browser sandbox. None of your rates or hours are uploaded to a server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between exempt and non-exempt employees?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Non-exempt employees are covered by FLSA overtime rules and must receive overtime pay for hours worked over 40 in a week. Exempt employees are salaried workers who meet specific duty criteria and are excluded from overtime pay."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is overtime calculated for workers with fluctuating schedules?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Overtime is calculated on a workweek basis. Regardless of schedule variations, non-exempt employees must receive time-and-a-half pay for all hours worked over 40 in any single, fixed 7-day period."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does federal law require daily overtime pay after 8 hours?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Federal law does not require daily overtime pay. Overtime is calculated weekly for hours over 40. However, states like California and Alaska require overtime pay after 8 hours of work in a single day, regardless of weekly totals."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do salivary/hourly bonuses count toward my regular rate for overtime calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, non-discretionary bonuses, performance incentives, and commissions must be included in your regular rate of pay before calculating overtime, which raises your overtime hourly rate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can an employer offer comp time instead of cash overtime?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Private-sector employers must pay overtime in cash. Offering compensatory time off ('comp time') in place of overtime pay is generally illegal for private companies, though public sector agencies are sometimes permitted to offer it."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Overtime Pay Calculator - FLSA 1.5x Overtime Solver | ToolzTotal"
   description="Calculate overtime pay under Fair Labor Standards Act (FLSA) regulations. Toggles standard 1.5x and double-time. Simple client-side tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/legal/overtime-calculator"
 >
+  <ToolSchema
+    toolName="Overtime Pay Calculator"
+    toolSlug="overtime-calculator"
+    categoryName="Legal & Employment"
+    categorySlug="legal"
+    description="Calculate overtime pay under Fair Labor Standards Act (FLSA) regulations. Toggles standard 1.5x and double-time. Simple client-side tool."
+  faqs={[
+    { question: "Double-Time Hours (2.0x)", answer: "Double-Time Hours Worked" },
+    { question: "How is FLSA overtime pay calculated?", answer: "Under the federal Fair Labor Standards Act (FLSA), overtime pay is calculated as 1.5 times the regular hourly rate for all hours worked past 40 hours in a single workweek." },
+    { question: "What is the double-time pay rule?", answer: "Double-time pay is twice the regular hourly rate. Under federal guidelines, it is not required. However, some states like California mandate double-time for hours worked past 12 in a single workday, or past 8 hours on the 7th consecutive workday in a workweek." },
+    { question: "What is the difference between exempt and non-exempt status?", answer: "Non-exempt employees are legally protected under the FLSA and must receive overtime pay. Exempt employees are excluded from FLSA overtime protections, typically falling under administrative, professional, executive, or computer job definitions and meeting minimum salary thresholds." },
+    { question: "Can I negotiate my overtime hours?", answer: "Private-sector employees covered under non-exempt provisions cannot waive their overtime rights. Working overtime requires pay at standard FLSA overtime rate scales." },
+    { question: "Does this tool share my pay information?", answer: "No. Like all tools on ToolzTotal, our overtime calculator runs completely client-side in your local browser sandbox. None of your rates or hours are uploaded to a server." },
+    { question: "What is the difference between exempt and non-exempt employees?", answer: "Non-exempt employees are covered by FLSA overtime rules and must receive overtime pay for hours worked over 40 in a week. Exempt employees are salaried workers who meet specific duty criteria and are excluded from overtime pay." },
+    { question: "How is overtime calculated for workers with fluctuating schedules?", answer: "Overtime is calculated on a workweek basis. Regardless of schedule variations, non-exempt employees must receive time-and-a-half pay for all hours worked over 40 in any single, fixed 7-day period." },
+    { question: "Does federal law require daily overtime pay after 8 hours?", answer: "Federal law does not require daily overtime pay. Overtime is calculated weekly for hours over 40. However, states like California and Alaska require overtime pay after 8 hours of work in a single day, regardless of weekly totals." },
+    { question: "Do salivary/hourly bonuses count toward my regular rate for overtime calculations?", answer: "Yes, non-discretionary bonuses, performance incentives, and commissions must be included in your regular rate of pay before calculating overtime, which raises your overtime hourly rate." },
+    { question: "Can an employer offer comp time instead of cash overtime?", answer: "Private-sector employers must pay overtime in cash. Offering compensatory time off ('comp time') in place of overtime pay is generally illegal for private companies, though public sector agencies are sometimes permitted to offer it." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/legal" class="hover:text-ink transition-colors">Legal & Employment</a>
-      <span>/</span>
-      <span class="text-ink">Overtime Pay Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Legal & Employment"
+      categorySlug="legal"
+      toolName="Overtime Pay Calculator - FLSA 1.5x Overtime Solver"
+      toolSlug="overtime-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -440,6 +373,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="legal"
+      toolSlug="overtime-calculator"
+    />
 </Layout>
 
 <script>

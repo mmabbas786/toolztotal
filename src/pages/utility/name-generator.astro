@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does the random name generator work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The generator uses lists of pre-selected names and prefix/suffix components, picking combinations randomly based on your category and origin filters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I generate business names?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The tool features a dedicated 'Business' category that combines tech, creative, and classic name structures for companies."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How many name categories are available?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "It offers baby names, fantasy names, pet names, business/startup names, and origin-specific options."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I filter baby names by gender?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can filter baby names by Male, Female, or Gender-Neutral options."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What origins are supported for names?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The generator includes Anglo-Saxon, Norse, Celtic, Roman, and modern English name lists."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I save names I like?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can star names to save them to a local favorites list, which persists in your browser's localStorage for future reference."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the name generation truly random?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. It uses the browser's cryptographic Math.random() function to select and combine names randomly from our database."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I export my list of favorite names?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The favorites list allows you to copy all starred names to your clipboard in a clean list format with a single click."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are the generated names trademarked?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The generator outputs random word combinations. For business names, we recommend performing a trademark check before registering a name."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool require an internet connection?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The name database is bundled within the client-side JavaScript file, allowing you to generate names offline."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Random Name Generator - Free Names Planner | ToolzTotal"
   description="Generate random names for babies, fantasy characters, pets, or businesses with origin filters. Save favorites list. Clean static utility tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/utility/name-generator"
 >
+  <ToolSchema
+    toolName="Random Name Generator"
+    toolSlug="name-generator"
+    categoryName="Everyday / Life Utility"
+    categorySlug="utility"
+    description="Generate random names for babies, fantasy characters, pets, or businesses with origin filters. Save favorites list. Clean static utility tool."
+  faqs={[
+    { question: "How does the random name generator work?", answer: "The generator uses lists of pre-selected names and prefix/suffix components, picking combinations randomly based on your category and origin filters." },
+    { question: "Can I generate business names?", answer: "Yes. The tool features a dedicated 'Business' category that combines tech, creative, and classic name structures for companies." },
+    { question: "How many name categories are available?", answer: "It offers baby names, fantasy names, pet names, business/startup names, and origin-specific options." },
+    { question: "Can I filter baby names by gender?", answer: "Yes. You can filter baby names by Male, Female, or Gender-Neutral options." },
+    { question: "What origins are supported for names?", answer: "The generator includes Anglo-Saxon, Norse, Celtic, Roman, and modern English name lists." },
+    { question: "Can I save names I like?", answer: "Yes. You can star names to save them to a local favorites list, which persists in your browser's localStorage for future reference." },
+    { question: "Is the name generation truly random?", answer: "Yes. It uses the browser's cryptographic Math.random() function to select and combine names randomly from our database." },
+    { question: "Can I export my list of favorite names?", answer: "Yes. The favorites list allows you to copy all starred names to your clipboard in a clean list format with a single click." },
+    { question: "Are the generated names trademarked?", answer: "The generator outputs random word combinations. For business names, we recommend performing a trademark check before registering a name." },
+    { question: "Does this tool require an internet connection?", answer: "No. The name database is bundled within the client-side JavaScript file, allowing you to generate names offline." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/utility" class="hover:text-ink transition-colors">Everyday Utility</a>
-      <span>/</span>
-      <span class="text-ink">Random Name Generator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Everyday / Life Utility"
+      categorySlug="utility"
+      toolName="Random Name Generator"
+      toolSlug="name-generator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -472,6 +404,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="utility"
+      toolSlug="name-generator"
+    />
 </Layout>
 
 <script>

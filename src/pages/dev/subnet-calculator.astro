@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is IP subnetting?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Subnetting is the practice of dividing a single large physical network into multiple smaller, logically segmented sub-networks (subnets) to improve routing efficiency and security."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is CIDR notation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "CIDR (Classless Inter-Domain Routing) notation represents an IP address and its routing prefix length in bits. It is written as the IP followed by a slash and prefix length (e.g. 192.168.1.0/24)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How many usable hosts are in a /24 subnet?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A /24 subnet has 256 total IP addresses. However, two addresses are reserved (the network address at the start and the broadcast address at the end), leaving 254 usable host IP addresses."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a subnet mask?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A subnet mask is a 32-bit number that masks an IP address, dividing the address into network bits and host bits. For example, a /24 prefix has a subnet mask of 255.255.255.0."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a wildcard mask?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A wildcard mask is the bitwise inverse of a subnet mask. It is used in routers to define address ranges in access control lists (ACLs). A subnet mask of 255.255.255.0 has a wildcard mask of 0.0.0.255."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is the network address determined?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The network address is calculated by performing a bitwise AND operation between the IP address and the subnet mask, setting all host bits to 0."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is the broadcast address determined?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The broadcast address is calculated by performing a bitwise OR operation between the network address and the wildcard mask, setting all host bits to 1."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between IPv4 and IPv6 subnetting?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "IPv4 subnets use 32-bit addresses and subnet masks. IPv6 subnets use 128-bit addresses and prefix lengths, and do not use traditional broadcast addresses (replacing them with multicast)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I use the first and last IP of a subnet?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In standard network routing, the first IP (network ID) and last IP (broadcast ID) are reserved and cannot be assigned to individual network cards (NICs)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool support subnetting divisions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Our tool calculates address ranges, host availability, and subnet structures for any standard CIDR prefix value instantly."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Subnet Calculator - Free IPv4 & IPv6 CIDR Solver | ToolzTotal"
   description="Calculate network address, broadcast, subnet mask, usable host ranges, and wildcard masks for IPv4/IPv6 CIDR blocks. Clean static developer tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/dev/subnet-calculator"
 >
+  <ToolSchema
+    toolName="Subnet Calculator"
+    toolSlug="subnet-calculator"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Calculate network address, broadcast, subnet mask, usable host ranges, and wildcard masks for IPv4/IPv6 CIDR blocks. Clean static developer tool."
+  faqs={[
+    { question: "What is IP subnetting?", answer: "Subnetting is the practice of dividing a single large physical network into multiple smaller, logically segmented sub-networks (subnets) to improve routing efficiency and security." },
+    { question: "What is CIDR notation?", answer: "CIDR (Classless Inter-Domain Routing) notation represents an IP address and its routing prefix length in bits. It is written as the IP followed by a slash and prefix length (e.g. 192.168.1.0/24)." },
+    { question: "How many usable hosts are in a /24 subnet?", answer: "A /24 subnet has 256 total IP addresses. However, two addresses are reserved (the network address at the start and the broadcast address at the end), leaving 254 usable host IP addresses." },
+    { question: "What is a subnet mask?", answer: "A subnet mask is a 32-bit number that masks an IP address, dividing the address into network bits and host bits. For example, a /24 prefix has a subnet mask of 255.255.255.0." },
+    { question: "What is a wildcard mask?", answer: "A wildcard mask is the bitwise inverse of a subnet mask. It is used in routers to define address ranges in access control lists (ACLs). A subnet mask of 255.255.255.0 has a wildcard mask of 0.0.0.255." },
+    { question: "How is the network address determined?", answer: "The network address is calculated by performing a bitwise AND operation between the IP address and the subnet mask, setting all host bits to 0." },
+    { question: "How is the broadcast address determined?", answer: "The broadcast address is calculated by performing a bitwise OR operation between the network address and the wildcard mask, setting all host bits to 1." },
+    { question: "What is the difference between IPv4 and IPv6 subnetting?", answer: "IPv4 subnets use 32-bit addresses and subnet masks. IPv6 subnets use 128-bit addresses and prefix lengths, and do not use traditional broadcast addresses (replacing them with multicast)." },
+    { question: "Can I use the first and last IP of a subnet?", answer: "In standard network routing, the first IP (network ID) and last IP (broadcast ID) are reserved and cannot be assigned to individual network cards (NICs)." },
+    { question: "Does this tool support subnetting divisions?", answer: "Yes. Our tool calculates address ranges, host availability, and subnet structures for any standard CIDR prefix value instantly." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">Subnet Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="Subnet Calculator"
+      toolSlug="subnet-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -516,6 +448,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="subnet-calculator"
+    />
 </Layout>
 
 <script>

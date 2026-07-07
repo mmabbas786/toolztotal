@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is ideal body weight calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ideal body weight is estimated using several historical clinical formulas, including the Devine, Robinson, Miller, and Hamwi equations. These formulas use your height (specifically inches over 5 feet) and biological sex as primary inputs. They were originally designed for adjusting drug dosages in pharmacology but have become standard reference estimates for general fitness."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between the Devine, Robinson, Miller, and Hamwi formulas?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Hamwi formula (1964) is the oldest and generally yields the highest weight targets. The Devine formula (1974) is the most widely used in medical settings. The Robinson (1983) and Miller (1983) formulas were developed later to resolve statistical offsets in the older equations, with Miller yielding slightly higher weights for shorter individuals and Robinson yielding slightly lower weights overall."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does frame size affect ideal weight calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Bone structure and frame size significantly impact weight distribution. Standard formulas assume a medium frame size. A small frame adjustment subtracts 10% from the formula baseline, while a large frame adjustment adds 10% to account for denser skeletal structure and muscle potential."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is the BMI healthy weight range different from clinical formulas?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Clinical formulas estimate a single point value representing average ideal weight. The BMI healthy weight range provides a broad span (representing BMIs from 18.5 to 24.9) that accommodates natural variations in muscle mass, bone density, and individual body structure."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my physical data kept private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, absolutely. ToolzTotal operates 100% client-side. Your gender, height, and calculations remain fully local inside your browser. No data is ever transmitted, tracked, or saved on any server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do different ideal weight formulas give different results?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Different formulas (Devine, Robinson, Miller, Hamwi) were developed at different times using slightly different base weights and scaling factors. For example, the Devine formula is the medical standard for drug dosing, while the Miller formula scales down values slightly to account for smaller average frame sizes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I determine my body frame size?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You can determine your frame size by wrapping your thumb and index finger around your wrist at the bony point. If they overlap, you have a small frame; if they touch tip-to-tip, you have a medium frame; if there is a gap, you have a large frame. You can also measure wrist circumference with a tape measure."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is ideal body weight the same as healthy body weight?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, ideal body weight is a mathematical estimate based on statistical averages. A healthy body weight depends on your body composition (muscle-to-fat ratio), physical fitness, blood pressure, and cardiovascular health, meaning a person can be highly healthy while weighing more than their calculated ideal weight."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is ideal body weight used for medical prescriptions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Many medications distribute primarily into lean muscle and body water rather than adipose fat tissue. Dosing these medications based on total body weight in obese patients can lead to dangerous overdoses, making ideal body weight the standard clinical safety index."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can muscular people rely on ideal body weight formulas?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, ideal body weight formulas do not account for muscle mass. Because muscle is dense and heavy, active individuals and weightlifters will naturally weigh more than their calculated mathematical ideal, even while maintaining excellent physical fitness and low body fat."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Ideal Weight Calculator - Free Clinical Weight Formula Estimator | ToolzTotal"
   description="Calculate your ideal body weight range using Devine, Robinson, Miller, and Hamwi clinical formulas side-by-side. Free client-side tool with frame size."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/health/ideal-weight-calculator"
 >
+  <ToolSchema
+    toolName="Ideal Weight Calculator"
+    toolSlug="ideal-weight-calculator"
+    categoryName="Health & Fitness"
+    categorySlug="health"
+    description="Calculate your ideal body weight range using Devine, Robinson, Miller, and Hamwi clinical formulas side-by-side. Free client-side tool with frame size."
+  faqs={[
+    { question: "How is ideal body weight calculated?", answer: "Ideal body weight is estimated using several historical clinical formulas, including the Devine, Robinson, Miller, and Hamwi equations. These formulas use your height (specifically inches over 5 feet) and biological sex as primary inputs. They were originally designed for adjusting drug dosages in pharmacology but have become standard reference estimates for general fitness." },
+    { question: "What is the difference between the Devine, Robinson, Miller, and Hamwi formulas?", answer: "The Hamwi formula (1964) is the oldest and generally yields the highest weight targets. The Devine formula (1974) is the most widely used in medical settings. The Robinson (1983) and Miller (1983) formulas were developed later to resolve statistical offsets in the older equations, with Miller yielding slightly higher weights for shorter individuals and Robinson yielding slightly lower weights overall." },
+    { question: "How does frame size affect ideal weight calculations?", answer: "Bone structure and frame size significantly impact weight distribution. Standard formulas assume a medium frame size. A small frame adjustment subtracts 10% from the formula baseline, while a large frame adjustment adds 10% to account for denser skeletal structure and muscle potential." },
+    { question: "Why is the BMI healthy weight range different from clinical formulas?", answer: "Clinical formulas estimate a single point value representing average ideal weight. The BMI healthy weight range provides a broad span (representing BMIs from 18.5 to 24.9) that accommodates natural variations in muscle mass, bone density, and individual body structure." },
+    { question: "Is my physical data kept private?", answer: "Yes, absolutely. ToolzTotal operates 100% client-side. Your gender, height, and calculations remain fully local inside your browser. No data is ever transmitted, tracked, or saved on any server." },
+    { question: "Why do different ideal weight formulas give different results?", answer: "Different formulas (Devine, Robinson, Miller, Hamwi) were developed at different times using slightly different base weights and scaling factors. For example, the Devine formula is the medical standard for drug dosing, while the Miller formula scales down values slightly to account for smaller average frame sizes." },
+    { question: "How do I determine my body frame size?", answer: "You can determine your frame size by wrapping your thumb and index finger around your wrist at the bony point. If they overlap, you have a small frame; if they touch tip-to-tip, you have a medium frame; if there is a gap, you have a large frame. You can also measure wrist circumference with a tape measure." },
+    { question: "Is ideal body weight the same as healthy body weight?", answer: "No, ideal body weight is a mathematical estimate based on statistical averages. A healthy body weight depends on your body composition (muscle-to-fat ratio), physical fitness, blood pressure, and cardiovascular health, meaning a person can be highly healthy while weighing more than their calculated ideal weight." },
+    { question: "Why is ideal body weight used for medical prescriptions?", answer: "Many medications distribute primarily into lean muscle and body water rather than adipose fat tissue. Dosing these medications based on total body weight in obese patients can lead to dangerous overdoses, making ideal body weight the standard clinical safety index." },
+    { question: "Can muscular people rely on ideal body weight formulas?", answer: "No, ideal body weight formulas do not account for muscle mass. Because muscle is dense and heavy, active individuals and weightlifters will naturally weigh more than their calculated mathematical ideal, even while maintaining excellent physical fitness and low body fat." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
-      <span>/</span>
-      <span class="text-ink">Ideal Weight Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Health & Fitness"
+      categorySlug="health"
+      toolName="Ideal Weight Calculator"
+      toolSlug="ideal-weight-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -452,6 +384,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="health"
+      toolSlug="ideal-weight-calculator"
+    />
 </Layout>
 
 <script>

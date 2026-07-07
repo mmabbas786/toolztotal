@@ -1,92 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is cap rate and what's considered good?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cap rate (capitalization rate) measures a property's return based on its Net Operating Income (NOI) relative to its purchase price, excluding any mortgage financing. It is calculated as NOI divided by the property's purchase price. A good cap rate depends on the market, property type, and risk profile. In general, 4% to 6% is considered low-risk in strong markets, 6% to 8% is average, and 8% to 12% or higher is considered good but may come with higher risk, older properties, or less desirable locations. Cap rate is best used to compare similar properties in the same market."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's cash-on-cash return?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cash-on-cash return measures the annual return on the actual cash you invested in the property — your down payment plus closing costs. It is calculated by dividing the annual pre-tax cash flow (NOI minus annual mortgage payments) by the total cash invested. For example, if you invest $50,000 as a down payment and closing costs and generate $6,000 in annual cash flow, your cash-on-cash return is 12%. This metric is particularly useful for investors who finance their properties because it shows how efficiently their cash is working relative to the leverage provided by the mortgage."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is DSCR and why do lenders care about it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "DSCR stands for Debt Service Coverage Ratio. It measures a property's ability to cover its annual mortgage payments using its Net Operating Income (NOI). It is calculated as NOI divided by the total annual mortgage payment (principal and interest). A DSCR of 1.0 means the property generates just enough income to cover the mortgage. Most lenders require a DSCR of at least 1.2 to 1.25, meaning the property generates 20% to 25% more income than the debt payment. A DSCR below 1.0 indicates negative cash flow, which most lenders will not approve for investment property loans."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's a reasonable vacancy rate to assume?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A reasonable vacancy rate assumption for rental property analysis typically ranges from 5% to 10% of gross rental income. The appropriate rate depends on the property type, location, and market conditions. For single-family homes in desirable suburban areas with strong rental demand, 5% to 7% is common. For multi-family properties in urban areas or markets with higher turnover, 8% to 10% may be more realistic. Markets with seasonal fluctuations or economic volatility may require 10% or higher. Using a conservative vacancy rate (8% or higher) is advisable when underwriting a potential investment to avoid overestimating income."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What expenses do new landlords often forget?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "New landlords commonly overlook several expenses when evaluating a rental property. These include vacancy costs (lost rent between tenants), property management fees (typically 8% to 12% of monthly rent), capital expenditures or CapEx (roof replacement, HVAC, appliances, flooring — long-term repairs that are more expensive than routine maintenance), landscaping and snow removal, HOA fees, professional cleaning between tenants, pest control, eviction costs and legal fees, landlord insurance (which costs more than standard homeowners insurance), and property tax increases over time. Budgeting 10% to 15% of rental income for maintenance and another 5% to 10% for vacancy helps create a realistic cash flow projection."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the 1% rule in rental property investing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The 1% Rule states that a rental property should generate monthly gross rent equal to at least 1% of the total purchase price (including repairs) to be a viable investment."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate Cap Rate (Capitalization Rate)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cap Rate is calculated by dividing Net Operating Income (NOI) by the property purchase price. It estimates the return on investment before financing costs are considered."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is Cash-on-Cash (CoC) Return?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cash-on-Cash return is calculated by dividing annual pre-tax cash flow by the total actual cash invested (down payment, closing costs, and repairs), measuring the performance of down payment capital."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What expenses should be included in rental property cash flow projections?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Project should include mortgage principal and interest, property taxes, landlord insurance, property management fees, vacancy reserves (5-10%), maintenance reserves (5-10%), and capital expenditure (CapEx) reserves."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between cash flow and equity appreciation?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Cash flow is the monthly net profit generated from rental income after expenses are paid. Appreciation is the increase in the property's market value over time, which represents a long-term capital gain."
-      }
-    }
-  ]
-};
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Rental Property Calculator - Free Real Estate Investment Analysis | ToolzTotal",
@@ -96,23 +12,40 @@ const ogMeta = {
 
 const canonicalUrl = "https://toolztotal.com/real-estate/rental-property-calculator";
 
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title={ogMeta.title}
   description={ogMeta.description}
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Rental Property Cash Flow Calculator"
+    toolSlug="rental-property-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description=""
+  faqs={[
+    { question: "What is cap rate and what's considered good?", answer: "Cap rate (capitalization rate) measures a property's return based on its Net Operating Income (NOI) relative to its purchase price, excluding any mortgage financing. It is calculated as NOI divided by the property's purchase price. A good cap rate depends on the market, property type, and risk profile. In general, 4% to 6% is considered low-risk in strong markets, 6% to 8% is average, and 8% to 12% or higher is considered good but may come with higher risk, older properties, or less desirable locations. Cap rate is best used to compare similar properties in the same market." },
+    { question: "What's cash-on-cash return?", answer: "Cash-on-cash return measures the annual return on the actual cash you invested in the property — your down payment plus closing costs. It is calculated by dividing the annual pre-tax cash flow (NOI minus annual mortgage payments) by the total cash invested. For example, if you invest $50,000 as a down payment and closing costs and generate $6,000 in annual cash flow, your cash-on-cash return is 12%. This metric is particularly useful for investors who finance their properties because it shows how efficiently their cash is working relative to the leverage provided by the mortgage." },
+    { question: "What is DSCR and why do lenders care about it?", answer: "DSCR stands for Debt Service Coverage Ratio. It measures a property's ability to cover its annual mortgage payments using its Net Operating Income (NOI). It is calculated as NOI divided by the total annual mortgage payment (principal and interest). A DSCR of 1.0 means the property generates just enough income to cover the mortgage. Most lenders require a DSCR of at least 1.2 to 1.25, meaning the property generates 20% to 25% more income than the debt payment. A DSCR below 1.0 indicates negative cash flow, which most lenders will not approve for investment property loans." },
+    { question: "What's a reasonable vacancy rate to assume?", answer: "A reasonable vacancy rate assumption for rental property analysis typically ranges from 5% to 10% of gross rental income. The appropriate rate depends on the property type, location, and market conditions. For single-family homes in desirable suburban areas with strong rental demand, 5% to 7% is common. For multi-family properties in urban areas or markets with higher turnover, 8% to 10% may be more realistic. Markets with seasonal fluctuations or economic volatility may require 10% or higher. Using a conservative vacancy rate (8% or higher) is advisable when underwriting a potential investment to avoid overestimating income." },
+    { question: "What expenses do new landlords often forget?", answer: "New landlords commonly overlook several expenses when evaluating a rental property. These include vacancy costs (lost rent between tenants), property management fees (typically 8% to 12% of monthly rent), capital expenditures or CapEx (roof replacement, HVAC, appliances, flooring — long-term repairs that are more expensive than routine maintenance), landscaping and snow removal, HOA fees, professional cleaning between tenants, pest control, eviction costs and legal fees, landlord insurance (which costs more than standard homeowners insurance), and property tax increases over time. Budgeting 10% to 15% of rental income for maintenance and another 5% to 10% for vacancy helps create a realistic cash flow projection." },
+    { question: "What is the 1% rule in rental property investing?", answer: "The 1% Rule states that a rental property should generate monthly gross rent equal to at least 1% of the total purchase price (including repairs) to be a viable investment." },
+    { question: "How do I calculate Cap Rate (Capitalization Rate)?", answer: "Cap Rate is calculated by dividing Net Operating Income (NOI) by the property purchase price. It estimates the return on investment before financing costs are considered." },
+    { question: "What is Cash-on-Cash (CoC) Return?", answer: "Cash-on-Cash return is calculated by dividing annual pre-tax cash flow by the total actual cash invested (down payment, closing costs, and repairs), measuring the performance of down payment capital." },
+    { question: "What expenses should be included in rental property cash flow projections?", answer: "Project should include mortgage principal and interest, property taxes, landlord insurance, property management fees, vacancy reserves (5-10%), maintenance reserves (5-10%), and capital expenditure (CapEx) reserves." },
+    { question: "What is the difference between cash flow and equity appreciation?", answer: "Cash flow is the monthly net profit generated from rental income after expenses are paid. Appreciation is the increase in the property's market value over time, which represents a long-term capital gain." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/real-estate" class="hover:text-ink transition-colors">Real Estate & Mortgage</a>
-      <span>/</span>
-      <span class="text-ink">Rental Property Cash Flow Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Real Estate & Mortgage"
+      categorySlug="real-estate"
+      toolName="Rental Property Calculator"
+      toolSlug="rental-property-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -1083,4 +1016,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
       calculate();
     })();
   </script>
+
+    <RelatedTools
+      categorySlug="real-estate"
+      toolSlug="rental-property-calculator"
+    />
 </Layout>

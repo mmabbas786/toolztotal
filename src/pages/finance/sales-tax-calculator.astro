@@ -1,116 +1,48 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { stateTaxRates } from '../../data/taxRates';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is sales tax calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sales tax is calculated by multiplying the taxable purchase price by the decimal equivalent of the tax rate: Sales Tax = Price * (Tax Rate / 100). The total price is then the sum of the base price and the tax."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you calculate the pre-tax price from the total cost?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To find the pre-tax price (reverse calculation) from the total amount paid, divide the total price by 1 plus the decimal tax rate: Pre-Tax Price = Total Price / (1 + (Tax Rate / 100))."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do sales tax rates differ by city and county?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "While state governments set a baseline sales tax rate, local jurisdictions (cities, counties, and special transit districts) frequently levy additional local taxes on top of the state rate, leading to varying combined rates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool pull live real-time tax database rates?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. This tool utilizes static average combined sales tax estimates per state. Because local municipal rates shift frequently, it is recommended to verify exact current rates with municipal tax portals."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my shopping list data uploaded or stored?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, never. All item entries, prices, and totals are computed entirely inside your browser's local memory. No information is transmitted to servers, ensuring complete privacy."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a sales tax nexus?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A sales tax nexus is a connection between a seller and a state that requires the seller to collect and remit sales tax. This can be established through physical presence (offices, inventory) or economic presence (sales volume)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between sales tax and use tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sales tax is collected by the seller at the point of sale. Use tax is self-assessed and paid directly to the state by the buyer when sales tax was not collected on taxable items, such as out-of-state purchases."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are services subject to sales tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Whether services are taxable depends entirely on state laws. Many states tax tangible personal property while leaving standard services untaxed, but others tax utilities, digital products, and services."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a sales tax exemption certificate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A sales tax exemption certificate allows a buyer to purchase goods tax-free, usually for resale, raw manufacturing materials, or when purchasing on behalf of tax-exempt organizations."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the reverse sales tax solver handle rounding?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The calculator divides the total cost by the gross tax factor and rounds the resulting base price and tax amount to the nearest cent using standard mathematical half-up rounding rules."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Sales Tax Calculator - Free Sales Tax & Reverse Solver | ToolzTotal"
   description="Calculate sales tax, reverse sales tax (pre-tax amount from total), and compile multi-item carts using state average rates. Clean static tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/finance/sales-tax-calculator"
 >
+  <ToolSchema
+    toolName="Sales Tax Calculator"
+    toolSlug="sales-tax-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate sales tax, reverse sales tax (pre-tax amount from total), and compile multi-item carts using state average rates. Clean static tool."
+  faqs={[
+    { question: "How is sales tax calculated?", answer: "Sales tax is calculated by multiplying the taxable purchase price by the decimal equivalent of the tax rate: Sales Tax = Price * (Tax Rate / 100). The total price is then the sum of the base price and the tax." },
+    { question: "How do you calculate the pre-tax price from the total cost?", answer: "To find the pre-tax price (reverse calculation) from the total amount paid, divide the total price by 1 plus the decimal tax rate: Pre-Tax Price = Total Price / (1 + (Tax Rate / 100))." },
+    { question: "Why do sales tax rates differ by city and county?", answer: "While state governments set a baseline sales tax rate, local jurisdictions (cities, counties, and special transit districts) frequently levy additional local taxes on top of the state rate, leading to varying combined rates." },
+    { question: "Does this tool pull live real-time tax database rates?", answer: "No. This tool utilizes static average combined sales tax estimates per state. Because local municipal rates shift frequently, it is recommended to verify exact current rates with municipal tax portals." },
+    { question: "Is my shopping list data uploaded or stored?", answer: "No, never. All item entries, prices, and totals are computed entirely inside your browser's local memory. No information is transmitted to servers, ensuring complete privacy." },
+    { question: "What is a sales tax nexus?", answer: "A sales tax nexus is a connection between a seller and a state that requires the seller to collect and remit sales tax. This can be established through physical presence (offices, inventory) or economic presence (sales volume)." },
+    { question: "What is the difference between sales tax and use tax?", answer: "Sales tax is collected by the seller at the point of sale. Use tax is self-assessed and paid directly to the state by the buyer when sales tax was not collected on taxable items, such as out-of-state purchases." },
+    { question: "Are services subject to sales tax?", answer: "Whether services are taxable depends entirely on state laws. Many states tax tangible personal property while leaving standard services untaxed, but others tax utilities, digital products, and services." },
+    { question: "What is a sales tax exemption certificate?", answer: "A sales tax exemption certificate allows a buyer to purchase goods tax-free, usually for resale, raw manufacturing materials, or when purchasing on behalf of tax-exempt organizations." },
+    { question: "How does the reverse sales tax solver handle rounding?", answer: "The calculator divides the total cost by the gross tax factor and rounds the resulting base price and tax amount to the nearest cent using standard mathematical half-up rounding rules." }
+  ]}
+  />
+
   <!-- Pass stateTaxRates map to client-side script safely -->
   <script define:vars={{ stateTaxRates }}></script>
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
-      <span>/</span>
-      <span class="text-ink">Sales Tax Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Sales Tax Calculator"
+      toolSlug="sales-tax-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -532,6 +464,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="sales-tax-calculator"
+    />
 </Layout>
 
 <script>

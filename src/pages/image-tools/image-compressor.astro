@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does browser-side image compression work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The compressor draws the uploaded image onto a canvas. By calling canvas.toDataURL(mime, quality), we configure the browser's native encoder to compress JPEGs/WebPs at the specified quality factor (e.g. 0.75 for 75%)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Will compressing my image reduce quality?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For JPEG and WebP formats, compression is lossy, meaning it removes subtle details to reduce size. A quality setting between 70% and 85% usually yields a 50%+ file size reduction without visible quality loss."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool support WebP conversion?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can select WebP as the export format. WebP offers superior compression ratios compared to traditional JPEGs and PNGs."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my data uploaded to TinyPNG-like servers?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Unlike other compression utilities, all optimization steps occur locally on your machine. Your images are never transmitted over the internet."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is PNG compression handled?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard HTML5 canvases do not support lossy PNG compression natively. For PNGs, the quality slider adjusts the export compression level when supported, or you can convert PNGs to JPEGs or WebPs for major size savings."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between lossy and lossless compression?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Lossless compression reduces file size without losing any pixel data. Lossy compression removes less noticeable pixel data to achieve much smaller file sizes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the best format for web images?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "WebP is generally the best format for web use, as it offers smaller file sizes than JPEG and PNG while supporting transparency."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much file size savings can I expect?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Most JPEGs can be compressed by 50% to 75% at a quality setting of 75% without visible loss in quality."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I compress images on my smartphone?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. This tool is fully responsive and runs on mobile browsers, allowing you to compress images directly on your phone."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does the tool support batch compression?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This version is optimized for single-image processing to ensure stability and performance in your browser."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Image Compressor - Free Client-Side Photo Compression | ToolzTotal"
   description="Compress JPEG, PNG, and WebP images client-side to reduce file size without quality loss. 100% private, no server uploads."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/image-tools/image-compressor"
 >
+  <ToolSchema
+    toolName="Image Compressor"
+    toolSlug="image-compressor"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description="Compress JPEG, PNG, and WebP images client-side to reduce file size without quality loss. 100% private, no server uploads."
+  faqs={[
+    { question: "How does browser-side image compression work?", answer: "The compressor draws the uploaded image onto a canvas. By calling canvas.toDataURL(mime, quality), we configure the browser's native encoder to compress JPEGs/WebPs at the specified quality factor (e.g. 0.75 for 75%)." },
+    { question: "Will compressing my image reduce quality?", answer: "For JPEG and WebP formats, compression is lossy, meaning it removes subtle details to reduce size. A quality setting between 70% and 85% usually yields a 50%+ file size reduction without visible quality loss." },
+    { question: "Does this tool support WebP conversion?", answer: "Yes. You can select WebP as the export format. WebP offers superior compression ratios compared to traditional JPEGs and PNGs." },
+    { question: "Is my data uploaded to TinyPNG-like servers?", answer: "No. Unlike other compression utilities, all optimization steps occur locally on your machine. Your images are never transmitted over the internet." },
+    { question: "How is PNG compression handled?", answer: "Standard HTML5 canvases do not support lossy PNG compression natively. For PNGs, the quality slider adjusts the export compression level when supported, or you can convert PNGs to JPEGs or WebPs for major size savings." },
+    { question: "What is the difference between lossy and lossless compression?", answer: "Lossless compression reduces file size without losing any pixel data. Lossy compression removes less noticeable pixel data to achieve much smaller file sizes." },
+    { question: "What is the best format for web images?", answer: "WebP is generally the best format for web use, as it offers smaller file sizes than JPEG and PNG while supporting transparency." },
+    { question: "How much file size savings can I expect?", answer: "Most JPEGs can be compressed by 50% to 75% at a quality setting of 75% without visible loss in quality." },
+    { question: "Can I compress images on my smartphone?", answer: "Yes. This tool is fully responsive and runs on mobile browsers, allowing you to compress images directly on your phone." },
+    { question: "Does the tool support batch compression?", answer: "This version is optimized for single-image processing to ensure stability and performance in your browser." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/image-tools" class="hover:text-ink transition-colors">Image Tools</a>
-      <span>/</span>
-      <span class="text-ink">Image Compressor</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Image & PDF Tools"
+      categorySlug="image-tools"
+      toolName="Image Compressor"
+      toolSlug="image-compressor"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -486,6 +418,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="image-tools"
+      toolSlug="image-compressor"
+    />
 </Layout>
 
 <script>

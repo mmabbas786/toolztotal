@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is my pregnancy due date calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The standard way to calculate a pregnancy due date is by adding 280 days (40 weeks) to the first day of your Last Menstrual Period (LMP), assuming a standard 28-day menstrual cycle. If you calculate from your Conception Date, the due date is estimated as 266 days (38 weeks) from conception. This tool also adjusts for custom menstrual cycle lengths if you calculate by LMP."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is Naegele's Rule?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Naegele's Rule is a simple clinical formula used to estimate due dates. To calculate: 1. Identify the first day of your LMP; 2. Add 7 days; 3. Subtract 3 months; 4. Add 1 year. This rule assumes a standard 28-day cycle with ovulation occurring on day 14."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between Gestational Age and Fetal Age?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Gestational age measures the pregnancy starting from the first day of your Last Menstrual Period (LMP). Fetal age (or conception age) measures the actual developmental age of the fetus starting from conception. Fetal age is exactly 2 weeks shorter than gestational age because ovulation and conception typically occur about 14 days after the LMP."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How accurate are pregnancy due dates?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Only about 4% of babies are born on their exact estimated due date. Most babies arrive between 37 and 42 weeks of pregnancy. The due date serves as a helpful reference point, but variations are normal and expected."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my input data private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, entirely private. No calculations, dates, or cycle lengths are uploaded or stored. Everything runs strictly inside your local browser sandbox using client-side JavaScript."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between gestational age and conceptional age?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Gestational age measures pregnancy from the first day of your last menstrual period (LMP), including about two weeks before conception. Conceptional (or fetal) age measures the actual age of the fetus from the date of conception, making it approximately two weeks shorter than gestational age."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do doctors calculate pregnancy from the last menstrual period?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Doctors use the first day of the last menstrual period (LMP) because it is a clear, memorable date for most women. Pinpointing the exact day of ovulation or conception is highly difficult in natural pregnancies, making the LMP a reliable standard starting point."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is a due date calculated for an IVF pregnancy?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For In Vitro Fertilization (IVF) pregnancies, the due date is calculated using the exact date of the embryo transfer. The formula adds 266 days to the transfer date for a day-3 embryo, or 263 days for a day-5 blastocyst, matching the precise developmental stage of the embryo."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is Naegele's Rule and how does it work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Naegele's Rule is a simple method used to calculate a pregnancy due date based on the Last Menstrual Period. The rule involves taking the first day of the LMP, subtracting three calendar months, adding seven days, and adding one year (e.g., LMP of May 10 results in a due date of February 17)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is a baby born on their exact due date?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Only about 4% of babies are born on their exact due date. A normal, full-term pregnancy can deliver anywhere between 37 and 42 weeks of gestation, with the majority of babies arriving within a two-week window surrounding the calculated date."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Pregnancy Due Date Calculator - Free Baby Due Date & Milestones | ToolzTotal"
   description="Estimate your baby's due date, track pregnancy trimesters, and view weekly developmental milestones based on LMP or conception date."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/health/pregnancy-calculator"
 >
+  <ToolSchema
+    toolName="Pregnancy Due Date Calculator"
+    toolSlug="pregnancy-calculator"
+    categoryName="Health & Fitness"
+    categorySlug="health"
+    description="Estimate your baby's due date, track pregnancy trimesters, and view weekly developmental milestones based on LMP or conception date."
+  faqs={[
+    { question: "How is my pregnancy due date calculated?", answer: "The standard way to calculate a pregnancy due date is by adding 280 days (40 weeks) to the first day of your Last Menstrual Period (LMP), assuming a standard 28-day menstrual cycle. If you calculate from your Conception Date, the due date is estimated as 266 days (38 weeks) from conception. This tool also adjusts for custom menstrual cycle lengths if you calculate by LMP." },
+    { question: "What is Naegele's Rule?", answer: "Naegele's Rule is a simple clinical formula used to estimate due dates. To calculate: 1. Identify the first day of your LMP; 2. Add 7 days; 3. Subtract 3 months; 4. Add 1 year. This rule assumes a standard 28-day cycle with ovulation occurring on day 14." },
+    { question: "What is the difference between Gestational Age and Fetal Age?", answer: "Gestational age measures the pregnancy starting from the first day of your Last Menstrual Period (LMP). Fetal age (or conception age) measures the actual developmental age of the fetus starting from conception. Fetal age is exactly 2 weeks shorter than gestational age because ovulation and conception typically occur about 14 days after the LMP." },
+    { question: "How accurate are pregnancy due dates?", answer: "Only about 4% of babies are born on their exact estimated due date. Most babies arrive between 37 and 42 weeks of pregnancy. The due date serves as a helpful reference point, but variations are normal and expected." },
+    { question: "Is my input data private?", answer: "Yes, entirely private. No calculations, dates, or cycle lengths are uploaded or stored. Everything runs strictly inside your local browser sandbox using client-side JavaScript." },
+    { question: "What is the difference between gestational age and conceptional age?", answer: "Gestational age measures pregnancy from the first day of your last menstrual period (LMP), including about two weeks before conception. Conceptional (or fetal) age measures the actual age of the fetus from the date of conception, making it approximately two weeks shorter than gestational age." },
+    { question: "Why do doctors calculate pregnancy from the last menstrual period?", answer: "Doctors use the first day of the last menstrual period (LMP) because it is a clear, memorable date for most women. Pinpointing the exact day of ovulation or conception is highly difficult in natural pregnancies, making the LMP a reliable standard starting point." },
+    { question: "How is a due date calculated for an IVF pregnancy?", answer: "For In Vitro Fertilization (IVF) pregnancies, the due date is calculated using the exact date of the embryo transfer. The formula adds 266 days to the transfer date for a day-3 embryo, or 263 days for a day-5 blastocyst, matching the precise developmental stage of the embryo." },
+    { question: "What is Naegele's Rule and how does it work?", answer: "Naegele's Rule is a simple method used to calculate a pregnancy due date based on the Last Menstrual Period. The rule involves taking the first day of the LMP, subtracting three calendar months, adding seven days, and adding one year (e.g., LMP of May 10 results in a due date of February 17)." },
+    { question: "Is a baby born on their exact due date?", answer: "Only about 4% of babies are born on their exact due date. A normal, full-term pregnancy can deliver anywhere between 37 and 42 weeks of gestation, with the majority of babies arriving within a two-week window surrounding the calculated date." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
-      <span>/</span>
-      <span class="text-ink">Pregnancy Due Date Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Health & Fitness"
+      categorySlug="health"
+      toolName="Pregnancy Due Date Calculator"
+      toolSlug="pregnancy-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -430,6 +362,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="health"
+      toolSlug="pregnancy-calculator"
+    />
 </Layout>
 
 <script>

@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is the final exam grade requirement calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The final grade requirement is solved using basic algebra: Required Grade = [Target - Current * (1 - Weight)] / Weight. All weights and grade values are parsed as percentages."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does a required final exam grade over 100% mean?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If the solver outputs a required grade exceeding 100%, it means it is mathematically impossible to reach your target grade with standard scores. You would need extra credit assignments or a curve on the final exam."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does final exam weight affect grade stability?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The higher the weight of the final exam, the more volatile your final grade will be. An exam weighted 30% has triple the impact on your final score compared to an exam weighted 10%, meaning that small drops in your final score can significantly shift your class grade."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I calculate my class grade without a final exam?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. If your course does not have a final exam, you can set the final exam weight to 0%. This will make your current grade equal to your final grade."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my academic information private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, completely. Like all tools on ToolzTotal, our final grade calculator operates entirely in your local browser sandbox. None of your coursework, current grades, or targets are uploaded to a server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the formula for final grade calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The final grade formula is: Required Exam Score = [Target Grade - (Current Grade &times; (1 - Exam Weight))] / Exam Weight, where weights are represented as decimals (e.g., 20% becomes 0.20)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate my final grade if my syllabus uses points instead of weights?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For points-based systems, add the points you have earned to your estimated exam points, and divide by the total points possible in the course: Final Grade = (Points Earned + Exam Points) / Total Possible Points."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What exam score do I need if I have a borderline grade?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If you have a borderline grade (e.g., 89.5% aiming for an A), use this calculator to find the exact exam score required. A small change in your final exam performance can push you over the threshold."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a zero on a homework assignment affect my overall grade?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A zero affects your grade based on the category's weight. If homework is weighted at 10% of your grade and you miss one assignment out of ten, it will lower your overall course grade by roughly 1%, which is minor but cumulative."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between weighted grades and straight points?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Weighted grades calculate your average by grouping assignments into categories that contribute a set percentage to your final grade. Straight points systems sum all points earned and divide by total points possible, treating all points equally."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Final Grade Calculator - Solve Final Exam Grade Needed | ToolzTotal"
   description="Calculate the final exam grade you need to get your target class grade. Multi-class semester planner and GPA impact previews."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/education/final-grade-calculator"
 >
+  <ToolSchema
+    toolName="Final Grade Calculator"
+    toolSlug="final-grade-calculator"
+    categoryName="Education"
+    categorySlug="education"
+    description="Calculate the final exam grade you need to get your target class grade. Multi-class semester planner and GPA impact previews."
+  faqs={[
+    { question: "How is the final exam grade requirement calculated?", answer: "The final grade requirement is solved using basic algebra: Required Grade = [Target - Current * (1 - Weight)] / Weight. All weights and grade values are parsed as percentages." },
+    { question: "What does a required final exam grade over 100% mean?", answer: "If the solver outputs a required grade exceeding 100%, it means it is mathematically impossible to reach your target grade with standard scores. You would need extra credit assignments or a curve on the final exam." },
+    { question: "How does final exam weight affect grade stability?", answer: "The higher the weight of the final exam, the more volatile your final grade will be. An exam weighted 30% has triple the impact on your final score compared to an exam weighted 10%, meaning that small drops in your final score can significantly shift your class grade." },
+    { question: "Can I calculate my class grade without a final exam?", answer: "Yes. If your course does not have a final exam, you can set the final exam weight to 0%. This will make your current grade equal to your final grade." },
+    { question: "Is my academic information private?", answer: "Yes, completely. Like all tools on ToolzTotal, our final grade calculator operates entirely in your local browser sandbox. None of your coursework, current grades, or targets are uploaded to a server." },
+    { question: "What is the formula for final grade calculations?", answer: "The final grade formula is: Required Exam Score = [Target Grade - (Current Grade &times; (1 - Exam Weight))] / Exam Weight, where weights are represented as decimals (e.g., 20% becomes 0.20)." },
+    { question: "How do I calculate my final grade if my syllabus uses points instead of weights?", answer: "For points-based systems, add the points you have earned to your estimated exam points, and divide by the total points possible in the course: Final Grade = (Points Earned + Exam Points) / Total Possible Points." },
+    { question: "What exam score do I need if I have a borderline grade?", answer: "If you have a borderline grade (e.g., 89.5% aiming for an A), use this calculator to find the exact exam score required. A small change in your final exam performance can push you over the threshold." },
+    { question: "How does a zero on a homework assignment affect my overall grade?", answer: "A zero affects your grade based on the category's weight. If homework is weighted at 10% of your grade and you miss one assignment out of ten, it will lower your overall course grade by roughly 1%, which is minor but cumulative." },
+    { question: "What is the difference between weighted grades and straight points?", answer: "Weighted grades calculate your average by grouping assignments into categories that contribute a set percentage to your final grade. Straight points systems sum all points earned and divide by total points possible, treating all points equally." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/education" class="hover:text-ink transition-colors">Education</a>
-      <span>/</span>
-      <span class="text-ink">Final Grade Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Education"
+      categorySlug="education"
+      toolName="Final Grade Calculator - Solve Final Exam Grade Needed"
+      toolSlug="final-grade-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -385,6 +317,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="education"
+      toolSlug="final-grade-calculator"
+    />
 </Layout>
 
 <script>

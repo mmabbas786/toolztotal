@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What are macronutrients and why do they matter?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Macronutrients, or macros, are the primary nutrients your body needs in large quantities to function: protein, carbohydrates, and fats. They provide the energy (measured in calories) your body needs for daily activities and structural repair. Each macro has a specific role: protein repairs tissues and supports muscle growth; carbohydrates supply quick energy for physical and cognitive tasks; and fats support hormone production, vitamin absorption, and cell health."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How many calories are in a gram of protein, carbs, and fat?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The calorie values per gram of macronutrient are: Protein contains 4 calories per gram; Carbohydrates contain 4 calories per gram; and Fats contain 9 calories per gram. Because fat is more than twice as calorie-dense as protein and carbs, even small portions of dietary fat can quickly increase total daily calorie intake."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a good macro ratio for weight loss?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For weight loss (cutting), a typical high-protein, moderate-carb macro ratio is recommended, such as 40% Protein, 30% Carbohydrates, and 30% Fats. Higher protein levels help preserve lean muscle tissue while in a caloric deficit, and also increase satiety (feeling full), which makes sticking to a calorie goal easier."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between a high-protein and a keto macro split?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A standard high-protein athletic split typically allocates 35%–40% of calories to protein, 30%–35% to carbs, and 30% to fat. A ketogenic (Keto) split, however, focuses on putting the body into a state of ketosis by restricting carbohydrates severely: allocating roughly 70%–75% of calories to fat, 20%–25% to protein, and only 5% to carbohydrates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I need to track macros to achieve my fitness goals?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "While tracking calories is the primary driver of weight loss or weight gain, tracking macros is essential for optimizing body composition (the ratio of fat to muscle). Eating enough protein is critical for preserving muscle mass during weight loss or building it during weight gain, while carbohydrates and fats are adjusted based on your performance, training intensity, and dietary preferences."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I track my macros raw or cooked?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You should track your food raw whenever possible. Cooking alters the water weight of food—grains absorb water and expand, while meats lose water and shrink. Weighing ingredients raw provides the most accurate and consistent database match."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is eating too little fat dangerous for hormonal health?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Dietary fats are the building blocks for hormone synthesis, including testosterone, estrogen, and progesterone. Restricting fat intake below 15-20% of your daily calories can disrupt hormone production, leading to reproductive issues, mood swings, fatigue, and poor recovery."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate macros for restaurant meals?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For restaurant meals without published nutrition facts, look up the individual components of the meal (e.g., grilled steak, baked potato, cooked vegetables) in a database. Add a buffer of 1 to 2 tablespoons of oil or butter, as professional kitchens use fats generously for cooking and flavor."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I build muscle if I don't hit my exact protein goal?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, you can still build muscle as long as your overall daily protein intake is consistently high enough (around 1.6 to 2.2 grams per kilogram of body weight) and you are in a caloric surplus with progressive resistance training. Missing your exact protein target by a few grams will not ruin your progress."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are 'net carbs' and how do they differ from total carbs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Net carbohydrates are the digestible carbohydrates that your body absorbs and converts into energy. You calculate net carbs by subtracting dietary fiber and sugar alcohols (which do not raise blood sugar significantly) from total carbohydrates: Net Carbs = Total Carbs - Fiber - Sugar Alcohols."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Macro Calculator - Free Protein, Carb & Fat Split Target Estimator | ToolzTotal"
   description="Calculate your custom daily macronutrient (protein, carbs, fats) targets in grams and calories based on your daily energy goals. Free and ad-free."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/health/macro-calculator"
 >
+  <ToolSchema
+    toolName="Macro Calculator"
+    toolSlug="macro-calculator"
+    categoryName="Health & Fitness"
+    categorySlug="health"
+    description="Calculate your custom daily macronutrient (protein, carbs, fats) targets in grams and calories based on your daily energy goals. Free and ad-free."
+  faqs={[
+    { question: "What are macronutrients and why do they matter?", answer: "Macronutrients, or macros, are the primary nutrients your body needs in large quantities to function: protein, carbohydrates, and fats. They provide the energy (measured in calories) your body needs for daily activities and structural repair. Each macro has a specific role: protein repairs tissues and supports muscle growth; carbohydrates supply quick energy for physical and cognitive tasks; and fats support hormone production, vitamin absorption, and cell health." },
+    { question: "How many calories are in a gram of protein, carbs, and fat?", answer: "The calorie values per gram of macronutrient are: Protein contains 4 calories per gram; Carbohydrates contain 4 calories per gram; and Fats contain 9 calories per gram. Because fat is more than twice as calorie-dense as protein and carbs, even small portions of dietary fat can quickly increase total daily calorie intake." },
+    { question: "What is a good macro ratio for weight loss?", answer: "For weight loss (cutting), a typical high-protein, moderate-carb macro ratio is recommended, such as 40% Protein, 30% Carbohydrates, and 30% Fats. Higher protein levels help preserve lean muscle tissue while in a caloric deficit, and also increase satiety (feeling full), which makes sticking to a calorie goal easier." },
+    { question: "What is the difference between a high-protein and a keto macro split?", answer: "A standard high-protein athletic split typically allocates 35%–40% of calories to protein, 30%–35% to carbs, and 30% to fat. A ketogenic (Keto) split, however, focuses on putting the body into a state of ketosis by restricting carbohydrates severely: allocating roughly 70%–75% of calories to fat, 20%–25% to protein, and only 5% to carbohydrates." },
+    { question: "Do I need to track macros to achieve my fitness goals?", answer: "While tracking calories is the primary driver of weight loss or weight gain, tracking macros is essential for optimizing body composition (the ratio of fat to muscle). Eating enough protein is critical for preserving muscle mass during weight loss or building it during weight gain, while carbohydrates and fats are adjusted based on your performance, training intensity, and dietary preferences." },
+    { question: "Should I track my macros raw or cooked?", answer: "You should track your food raw whenever possible. Cooking alters the water weight of food—grains absorb water and expand, while meats lose water and shrink. Weighing ingredients raw provides the most accurate and consistent database match." },
+    { question: "Why is eating too little fat dangerous for hormonal health?", answer: "Dietary fats are the building blocks for hormone synthesis, including testosterone, estrogen, and progesterone. Restricting fat intake below 15-20% of your daily calories can disrupt hormone production, leading to reproductive issues, mood swings, fatigue, and poor recovery." },
+    { question: "How do I calculate macros for restaurant meals?", answer: "For restaurant meals without published nutrition facts, look up the individual components of the meal (e.g., grilled steak, baked potato, cooked vegetables) in a database. Add a buffer of 1 to 2 tablespoons of oil or butter, as professional kitchens use fats generously for cooking and flavor." },
+    { question: "Can I build muscle if I don't hit my exact protein goal?", answer: "Yes, you can still build muscle as long as your overall daily protein intake is consistently high enough (around 1.6 to 2.2 grams per kilogram of body weight) and you are in a caloric surplus with progressive resistance training. Missing your exact protein target by a few grams will not ruin your progress." },
+    { question: "What are 'net carbs' and how do they differ from total carbs?", answer: "Net carbohydrates are the digestible carbohydrates that your body absorbs and converts into energy. You calculate net carbs by subtracting dietary fiber and sugar alcohols (which do not raise blood sugar significantly) from total carbohydrates: Net Carbs = Total Carbs - Fiber - Sugar Alcohols." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
-      <span>/</span>
-      <span class="text-ink">Macro Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Health & Fitness"
+      categorySlug="health"
+      toolName="Macro Calculator"
+      toolSlug="macro-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -475,6 +407,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="health"
+      toolSlug="macro-calculator"
+    />
 </Layout>
 
 <script>

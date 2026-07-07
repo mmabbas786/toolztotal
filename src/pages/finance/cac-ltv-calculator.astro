@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is Customer Acquisition Cost (CAC)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Customer Acquisition Cost (CAC) is the total expense incurred to acquire a new customer, calculated by dividing total sales and marketing costs by the number of new customers acquired during a set period."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is Customer Lifetime Value (LTV)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Customer Lifetime Value (LTV) is the total projected revenue or gross profit a business expects to earn from a single customer account over the duration of their relationship."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is the LTV:CAC ratio important?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The LTV:CAC ratio measures marketing efficiency and SaaS viability. A ratio of 3:1 is widely considered the industry benchmark for healthy, sustainable growth."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is LTV calculated for subscription companies?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For SaaS companies, LTV = Average Revenue Per User (ARPU) * Gross Margin / User Churn Rate. Churn rate is the percentage of customers canceling their subscription each period."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the payback period?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The payback period is the number of months required for a customer to generate enough gross profit to cover their acquisition cost: Payback Period = CAC / (Monthly ARPU * Gross Margin)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is churn rate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Churn rate is the percentage of subscribers who cancel their service during a given timeframe. Lowering churn is the most effective way to increase customer lifetime value."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a healthy payback period?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For early-stage SaaS startups, a payback period under 12 months is considered healthy. High-performing enterprise SaaS businesses can sustain longer payback periods if capital is cheap."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool store my SaaS financials?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, never. All calculations are executed locally within your browser tab. Your startup metrics are kept completely private and are never uploaded to our servers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What costs should be included in CAC?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "CAC should include all marketing ad spend, sales commissions, salaries of sales and marketing employees, software subscriptions, and overhead costs allocated to customer acquisition."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you calculate customer lifespan?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Average customer lifespan is calculated by dividing 1 by the churn rate: Lifespan = 1 / Churn Rate. A monthly churn of 2% implies a average lifespan of 50 months."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="SaaS CAC:LTV Calculator - Free Customer Unit Economics Planner | ToolzTotal"
   description="Calculate customer acquisition cost (CAC), customer lifetime value (LTV), payback periods, and LTV:CAC ratios. Simple client-side SaaS economics calculator."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/finance/cac-ltv-calculator"
 >
+  <ToolSchema
+    toolName="SaaS CAC:LTV Calculator"
+    toolSlug="cac-ltv-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate customer acquisition cost (CAC), customer lifetime value (LTV), payback periods, and LTV:CAC ratios. Simple client-side SaaS economics calculator."
+  faqs={[
+    { question: "What is Customer Acquisition Cost (CAC)?", answer: "Customer Acquisition Cost (CAC) is the total expense incurred to acquire a new customer, calculated by dividing total sales and marketing costs by the number of new customers acquired during a set period." },
+    { question: "What is Customer Lifetime Value (LTV)?", answer: "Customer Lifetime Value (LTV) is the total projected revenue or gross profit a business expects to earn from a single customer account over the duration of their relationship." },
+    { question: "Why is the LTV:CAC ratio important?", answer: "The LTV:CAC ratio measures marketing efficiency and SaaS viability. A ratio of 3:1 is widely considered the industry benchmark for healthy, sustainable growth." },
+    { question: "How is LTV calculated for subscription companies?", answer: "For SaaS companies, LTV = Average Revenue Per User (ARPU) * Gross Margin / User Churn Rate. Churn rate is the percentage of customers canceling their subscription each period." },
+    { question: "What is the payback period?", answer: "The payback period is the number of months required for a customer to generate enough gross profit to cover their acquisition cost: Payback Period = CAC / (Monthly ARPU * Gross Margin)." },
+    { question: "What is churn rate?", answer: "Churn rate is the percentage of subscribers who cancel their service during a given timeframe. Lowering churn is the most effective way to increase customer lifetime value." },
+    { question: "What is a healthy payback period?", answer: "For early-stage SaaS startups, a payback period under 12 months is considered healthy. High-performing enterprise SaaS businesses can sustain longer payback periods if capital is cheap." },
+    { question: "Does this tool store my SaaS financials?", answer: "No, never. All calculations are executed locally within your browser tab. Your startup metrics are kept completely private and are never uploaded to our servers." },
+    { question: "What costs should be included in CAC?", answer: "CAC should include all marketing ad spend, sales commissions, salaries of sales and marketing employees, software subscriptions, and overhead costs allocated to customer acquisition." },
+    { question: "How do you calculate customer lifespan?", answer: "Average customer lifespan is calculated by dividing 1 by the churn rate: Lifespan = 1 / Churn Rate. A monthly churn of 2% implies a average lifespan of 50 months." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
-      <span>/</span>
-      <span class="text-ink">CAC:LTV Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="SaaS CAC:LTV Calculator"
+      toolSlug="cac-ltv-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -519,6 +451,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="cac-ltv-calculator"
+    />
 </Layout>
 
 <script>

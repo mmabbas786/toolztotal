@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is camelCase and where is it used?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "camelCase is a casing convention where words are joined without spaces, and each word starts with a capital letter except for the first word (e.g. 'myVariableName'). It is widely used in languages like JavaScript, Java, and C++ for variable and function names."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is snake_case and where is it preferred?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "snake_case joins words together using underscores instead of spaces, with all letters in lowercase (e.g. 'my_variable_name'). It is the standard naming convention for variables, functions, and files in Python and Rust, as well as database keys."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does kebab-case differ from snake_case?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "kebab-case replaces spaces with hyphens instead of underscores (e.g. 'my-style-class'). It is commonly used in CSS class naming, HTML tags, and URL slugs because search engines parse hyphens as word delimiters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is PascalCase and when should I use it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "PascalCase is similar to camelCase, but the first letter of the first word is capitalized (e.g. 'MyClassName'). It is the standard naming convention for class names and component identifiers in modern programming frameworks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is my text conversion privacy maintained?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "All case conversions are processed instantly client-side using JavaScript in your browser. None of your text, code snippets, or configuration structures are uploaded to a server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the capitalization rules for title case?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Title case capitalizes the first letter of nouns, pronouns, verbs, adjectives, and adverbs. Conjunctions, prepositions under four letters, and articles (e.g., 'a', 'an', 'the', 'in', 'of') remain in lowercase unless they are the first or last word."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "When should I use camelCase versus snake_case in development?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "camelCase (e.g., 'myVariableName') is the standard style for naming variables and functions in languages like JavaScript and Java. snake_case (e.g., 'my_database_field') is commonly used for database columns and python scripts."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does sentence case handle proper nouns and acronyms?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Our sentence case converter capitalizes the first letter of each sentence. It preserves the casing of existing proper nouns and acronyms (like 'Google' or 'NASA') to keep your text grammatically correct."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is kebab-case and why is it preferred for website URLs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "kebab-case (e.g., 'free-online-calculators') replaces spaces with hyphens. It is preferred for website URLs because hyphens are easy to read and search engines treat them as word separators, which is beneficial for SEO."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does case conversion impact how screen readers read text?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Screen readers read text in uppercase letter-by-letter as acronyms (e.g., 'U-S-A'). Capitalizing whole paragraphs unnecessarily can cause screen readers to read the text phonetically or spell out each word, which degrades accessibility."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Case Converter - Convert camelCase, snake_case & kebab-case | ToolzTotal"
   description="Convert text casing between Sentence case, UPPERCASE, lowercase, camelCase, PascalCase, snake_case, kebab-case, and SCREAMING_SNAKE_CASE."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/text/case-converter"
 >
+  <ToolSchema
+    toolName="Case Converter"
+    toolSlug="case-converter"
+    categoryName="Text & Content"
+    categorySlug="text"
+    description="Convert text casing between Sentence case, UPPERCASE, lowercase, camelCase, PascalCase, snake_case, kebab-case, and SCREAMING_SNAKE_CASE."
+  faqs={[
+    { question: "What is camelCase and where is it used?", answer: "camelCase is a casing convention where words are joined without spaces, and each word starts with a capital letter except for the first word (e.g. 'myVariableName'). It is widely used in languages like JavaScript, Java, and C++ for variable and function names." },
+    { question: "What is snake_case and where is it preferred?", answer: "snake_case joins words together using underscores instead of spaces, with all letters in lowercase (e.g. 'my_variable_name'). It is the standard naming convention for variables, functions, and files in Python and Rust, as well as database keys." },
+    { question: "How does kebab-case differ from snake_case?", answer: "kebab-case replaces spaces with hyphens instead of underscores (e.g. 'my-style-class'). It is commonly used in CSS class naming, HTML tags, and URL slugs because search engines parse hyphens as word delimiters." },
+    { question: "What is PascalCase and when should I use it?", answer: "PascalCase is similar to camelCase, but the first letter of the first word is capitalized (e.g. 'MyClassName'). It is the standard naming convention for class names and component identifiers in modern programming frameworks." },
+    { question: "How is my text conversion privacy maintained?", answer: "All case conversions are processed instantly client-side using JavaScript in your browser. None of your text, code snippets, or configuration structures are uploaded to a server." },
+    { question: "What are the capitalization rules for title case?", answer: "Title case capitalizes the first letter of nouns, pronouns, verbs, adjectives, and adverbs. Conjunctions, prepositions under four letters, and articles (e.g., 'a', 'an', 'the', 'in', 'of') remain in lowercase unless they are the first or last word." },
+    { question: "When should I use camelCase versus snake_case in development?", answer: "camelCase (e.g., 'myVariableName') is the standard style for naming variables and functions in languages like JavaScript and Java. snake_case (e.g., 'my_database_field') is commonly used for database columns and python scripts." },
+    { question: "How does sentence case handle proper nouns and acronyms?", answer: "Our sentence case converter capitalizes the first letter of each sentence. It preserves the casing of existing proper nouns and acronyms (like 'Google' or 'NASA') to keep your text grammatically correct." },
+    { question: "What is kebab-case and why is it preferred for website URLs?", answer: "kebab-case (e.g., 'free-online-calculators') replaces spaces with hyphens. It is preferred for website URLs because hyphens are easy to read and search engines treat them as word separators, which is beneficial for SEO." },
+    { question: "Does case conversion impact how screen readers read text?", answer: "Yes. Screen readers read text in uppercase letter-by-letter as acronyms (e.g., 'U-S-A'). Capitalizing whole paragraphs unnecessarily can cause screen readers to read the text phonetically or spell out each word, which degrades accessibility." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
-      <span>/</span>
-      <span class="text-ink">Case Converter</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Text & Content"
+      categorySlug="text"
+      toolName="Case Converter - Convert camelCase, snake_case & kebab-case"
+      toolSlug="case-converter"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -384,6 +316,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="text"
+      toolSlug="case-converter"
+    />
 </Layout>
 
 <script>

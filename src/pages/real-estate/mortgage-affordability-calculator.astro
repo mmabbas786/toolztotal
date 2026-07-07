@@ -1,97 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const DTI_LIMITS = {
   Conventional: { frontend: 0.36, backend: 0.43 },
   FHA: { frontend: 0.47, backend: 0.50 },
   VA: { frontend: 0.48, backend: 0.41 },
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is DTI and why does it matter?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "DTI stands for Debt-to-Income ratio, a key metric lenders use to evaluate your ability to manage monthly payments and repay borrowed money. It compares your total monthly debt payments to your gross monthly income. A lower DTI signals to lenders that you have a good balance between debt and income. Most lenders prefer a back-end DTI of 43% or lower, though government-backed loans like FHA and VA allow higher ratios."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's the difference between front-end and back-end DTI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Front-end DTI (also called the housing ratio) measures only your housing-related expenses — mortgage principal, interest, property taxes, and insurance — against your gross monthly income. Back-end DTI includes all your monthly debt obligations, including the housing payment plus other debts like car loans, student loans, credit card payments, and personal loans. Lenders use both ratios to determine loan eligibility, with back-end DTI typically being the more restrictive constraint."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do FHA, VA, and Conventional affordability limits differ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Conventional loans typically require a front-end DTI of 28-36% and a back-end DTI of 36-43%. FHA loans are more flexible with a front-end DTI up to 47% and back-end up to 50% in many cases, making them popular for first-time homebuyers. VA loans have no strict DTI limit but generally require a front-end ratio of 48% or lower and a back-end of 41% or lower. VA loans also offer 0% down payment options and no PMI, significantly improving affordability for eligible veterans."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this guarantee I'll be approved for this amount?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, this calculator provides an estimate based on standard DTI guidelines and the information you input. Actual loan approval depends on many additional factors including your credit score, employment history, assets, reserves, the specific property's appraisal value, and the lender's underwriting criteria. Different lenders may also have overlays stricter than standard Fannie Mae, Freddie Mac, FHA, or VA guidelines. Use this tool as a starting point and consult with a licensed mortgage professional for a personalized assessment."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much should I budget beyond the mortgage payment?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Beyond your monthly mortgage payment (PITI), homeowners should budget for ongoing costs including maintenance and repairs (typically 1-2% of the home value annually), utilities, homeowners association fees if applicable, home upgrades and furnishings, and a cash emergency fund for unexpected repairs. Closing costs, which range from 2-5% of the purchase price, should also be factored into your upfront budget. A comprehensive affordability plan accounts for all these additional expenses to ensure long-term homeownership success."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the debt-to-income (DTI) ratio limit for home loans?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Most lenders prefer a maximum front-end DTI (housing costs only) of 28% and a back-end DTI (all monthly debt payments) of 36% to 43%, though some government-backed loans allow ratios up to 50% or higher."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the down payment amount influence overall affordability?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A larger down payment reduces the principal loan amount, lowers your monthly payment, helps you avoid private mortgage insurance (PMI), and can qualify you for a lower interest rate from lenders."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between pre-qualification and pre-approval?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Pre-qualification is an informal estimate of what you can borrow based on self-reported income. Pre-approval is a formal commitment from a lender after verifying your financial documentation, such as tax returns and credit history."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do local property taxes and home insurance affect home buying budget?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Property taxes and home insurance rates vary significantly by ZIP code. Because these costs are added to your monthly escrow payment, high-tax areas reduce the maximum loan size you can afford."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I include home maintenance costs in my affordability budget?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Homeowners should budget 1% to 2% of the home's purchase price annually for maintenance and repairs, ensuring they do not become house-poor after closing."
-      }
-    }
-  ]
 };
 
 const ogMeta = {
@@ -102,23 +18,40 @@ const ogMeta = {
 
 const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-affordability-calculator";
 
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="Mortgage Affordability Calculator - Free Home Affordability Estimator | ToolzTotal"
   description="Find out how much house you can afford. Use our free mortgage affordability calculator based on income, debt, down payment, interest rate, and loan type with DTI analysis."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Mortgage Affordability Calculator"
+    toolSlug="mortgage-affordability-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description="Find out how much house you can afford. Use our free mortgage affordability calculator based on income, debt, down payment, interest rate, and loan type with DTI analysis."
+  faqs={[
+    { question: "What is DTI and why does it matter?", answer: "DTI stands for Debt-to-Income ratio, a key metric lenders use to evaluate your ability to manage monthly payments and repay borrowed money. It compares your total monthly debt payments to your gross monthly income. A lower DTI signals to lenders that you have a good balance between debt and income. Most lenders prefer a back-end DTI of 43% or lower, though government-backed loans like FHA and VA allow higher ratios." },
+    { question: "What's the difference between front-end and back-end DTI?", answer: "Front-end DTI (also called the housing ratio) measures only your housing-related expenses — mortgage principal, interest, property taxes, and insurance — against your gross monthly income. Back-end DTI includes all your monthly debt obligations, including the housing payment plus other debts like car loans, student loans, credit card payments, and personal loans. Lenders use both ratios to determine loan eligibility, with back-end DTI typically being the more restrictive constraint." },
+    { question: "How do FHA, VA, and Conventional affordability limits differ?", answer: "Conventional loans typically require a front-end DTI of 28-36% and a back-end DTI of 36-43%. FHA loans are more flexible with a front-end DTI up to 47% and back-end up to 50% in many cases, making them popular for first-time homebuyers. VA loans have no strict DTI limit but generally require a front-end ratio of 48% or lower and a back-end of 41% or lower. VA loans also offer 0% down payment options and no PMI, significantly improving affordability for eligible veterans." },
+    { question: "Does this guarantee I'll be approved for this amount?", answer: "No, this calculator provides an estimate based on standard DTI guidelines and the information you input. Actual loan approval depends on many additional factors including your credit score, employment history, assets, reserves, the specific property's appraisal value, and the lender's underwriting criteria. Different lenders may also have overlays stricter than standard Fannie Mae, Freddie Mac, FHA, or VA guidelines. Use this tool as a starting point and consult with a licensed mortgage professional for a personalized assessment." },
+    { question: "How much should I budget beyond the mortgage payment?", answer: "Beyond your monthly mortgage payment (PITI), homeowners should budget for ongoing costs including maintenance and repairs (typically 1-2% of the home value annually), utilities, homeowners association fees if applicable, home upgrades and furnishings, and a cash emergency fund for unexpected repairs. Closing costs, which range from 2-5% of the purchase price, should also be factored into your upfront budget. A comprehensive affordability plan accounts for all these additional expenses to ensure long-term homeownership success." },
+    { question: "What is the debt-to-income (DTI) ratio limit for home loans?", answer: "Most lenders prefer a maximum front-end DTI (housing costs only) of 28% and a back-end DTI (all monthly debt payments) of 36% to 43%, though some government-backed loans allow ratios up to 50% or higher." },
+    { question: "How does the down payment amount influence overall affordability?", answer: "A larger down payment reduces the principal loan amount, lowers your monthly payment, helps you avoid private mortgage insurance (PMI), and can qualify you for a lower interest rate from lenders." },
+    { question: "What is the difference between pre-qualification and pre-approval?", answer: "Pre-qualification is an informal estimate of what you can borrow based on self-reported income. Pre-approval is a formal commitment from a lender after verifying your financial documentation, such as tax returns and credit history." },
+    { question: "How do local property taxes and home insurance affect home buying budget?", answer: "Property taxes and home insurance rates vary significantly by ZIP code. Because these costs are added to your monthly escrow payment, high-tax areas reduce the maximum loan size you can afford." },
+    { question: "Should I include home maintenance costs in my affordability budget?", answer: "Yes. Homeowners should budget 1% to 2% of the home's purchase price annually for maintenance and repairs, ensuring they do not become house-poor after closing." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/real-estate" class="hover:text-ink transition-colors">Real Estate & Mortgage</a>
-      <span>/</span>
-      <span class="text-ink">Mortgage Affordability Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Real Estate & Mortgage"
+      categorySlug="real-estate"
+      toolName="Mortgage Affordability Calculator"
+      toolSlug="mortgage-affordability-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -1028,4 +961,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
     })();
   </script>
 
+
+    <RelatedTools
+      categorySlug="real-estate"
+      toolSlug="mortgage-affordability-calculator"
+    />
 </Layout>

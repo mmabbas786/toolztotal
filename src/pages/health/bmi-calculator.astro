@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is BMI and how is it calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "BMI (Body Mass Index) is a simple numerical measure of a person's weight relative to their height. The standard formula is: BMI = weight (kg) / height^2 (m^2). For imperial units, the formula is: BMI = [weight (lbs) * 703] / height^2 (inches^2). BMI is widely used in medical settings to categorize individuals into weight classifications like underweight, normal weight, overweight, or obese."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between BMI, BMI Prime, and Ponderal Index?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard BMI is weight divided by height squared. BMI Prime is the ratio of a person's actual BMI to the upper limit of normal BMI (25), where a BMI Prime value between 0.74 and 1.00 is normal. Ponderal Index (PI, or Rohrer's Index) is weight divided by height cubed (weight/height^3). Ponderal Index is often considered more reliable for exceptionally tall or short individuals, as height is cubed to reflect three-dimensional body volume."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the weight classifications for BMI ranges?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The World Health Organization (WHO) categories for adult BMI are: Underweight is below 18.5; Normal weight is 18.5 to 24.9; Overweight is 25.0 to 29.9; Obese Class I is 30.0 to 34.9; Obese Class II is 35.0 to 39.9; and Obese Class III (Extreme Obesity) is 40.0 or higher."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can BMI be misleading for muscular individuals or athletes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, BMI does not differentiate between weight from body fat and weight from lean skeletal muscle tissue. Because muscle tissue is much denser than fat tissue, highly muscular individuals, bodybuilders, and athletes may have a high BMI that classifies them as overweight or obese, despite having a very low body fat percentage."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is this BMI calculator private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Like all tools on ToolzTotal, this calculator operates completely client-side in your local browser sandbox. No details about your weight, height, age, or calculations are ever uploaded, sent to a server, or shared. No account signup is required."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do bodybuilders often have an 'obese' BMI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "BMI is calculated using only weight and height, without taking body composition into account. Because muscle is denser and heavier than fat, bodybuilders carry extra weight in the form of muscle, causing their BMI score to fall into the overweight or obese category despite having low body fat."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the Waist-to-Height Ratio (WHtR) and how is it used?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Waist-to-Height Ratio (WHtR) is a health metric calculated by dividing your waist circumference by your height. A ratio of 0.50 or less is considered healthy, as it indicates that your waist circumference is less than half your height, which correlates with low abdominal and visceral fat levels."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is BMI accurate for senior citizens or older adults?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "BMI can be less accurate for older adults due to age-related muscle loss (sarcopenia) and bone density loss. A senior citizen may have a 'normal' BMI but carry a high proportion of fat relative to muscle, meaning a slightly higher BMI (25-27) is often associated with better health outcomes in older populations."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is visceral fat and why does it matter?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Visceral fat is body fat that is stored inside the abdominal cavity, surrounding internal organs like the liver and pancreas. Unlike subcutaneous fat under the skin, visceral fat is metabolically active and releases inflammatory markers that increase the risk of heart disease, diabetes, and stroke."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can BMI be used to diagnose health issues?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, BMI is a screening tool, not a diagnostic instrument. A high or low BMI indicates a potential risk category, but a healthcare provider must perform additional tests—such as measuring blood pressure, assessing diet, evaluating physical activity, and conducting blood tests—to diagnose a person's actual health status."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="BMI Calculator - Free Body Mass Index & Weight Zone Estimator | ToolzTotal"
   description="Calculate your Body Mass Index (BMI), BMI Prime, and Ponderal Index. Free client-side tool with imperial/metric toggle and color-coded zones."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/health/bmi-calculator"
 >
+  <ToolSchema
+    toolName="BMI Calculator"
+    toolSlug="bmi-calculator"
+    categoryName="Health & Fitness"
+    categorySlug="health"
+    description="Calculate your Body Mass Index (BMI), BMI Prime, and Ponderal Index. Free client-side tool with imperial/metric toggle and color-coded zones."
+  faqs={[
+    { question: "What is BMI and how is it calculated?", answer: "BMI (Body Mass Index) is a simple numerical measure of a person's weight relative to their height. The standard formula is: BMI = weight (kg) / height^2 (m^2). For imperial units, the formula is: BMI = [weight (lbs) * 703] / height^2 (inches^2). BMI is widely used in medical settings to categorize individuals into weight classifications like underweight, normal weight, overweight, or obese." },
+    { question: "What is the difference between BMI, BMI Prime, and Ponderal Index?", answer: "Standard BMI is weight divided by height squared. BMI Prime is the ratio of a person's actual BMI to the upper limit of normal BMI (25), where a BMI Prime value between 0.74 and 1.00 is normal. Ponderal Index (PI, or Rohrer's Index) is weight divided by height cubed (weight/height^3). Ponderal Index is often considered more reliable for exceptionally tall or short individuals, as height is cubed to reflect three-dimensional body volume." },
+    { question: "What are the weight classifications for BMI ranges?", answer: "The World Health Organization (WHO) categories for adult BMI are: Underweight is below 18.5; Normal weight is 18.5 to 24.9; Overweight is 25.0 to 29.9; Obese Class I is 30.0 to 34.9; Obese Class II is 35.0 to 39.9; and Obese Class III (Extreme Obesity) is 40.0 or higher." },
+    { question: "Can BMI be misleading for muscular individuals or athletes?", answer: "Yes, BMI does not differentiate between weight from body fat and weight from lean skeletal muscle tissue. Because muscle tissue is much denser than fat tissue, highly muscular individuals, bodybuilders, and athletes may have a high BMI that classifies them as overweight or obese, despite having a very low body fat percentage." },
+    { question: "How is this BMI calculator private?", answer: "Like all tools on ToolzTotal, this calculator operates completely client-side in your local browser sandbox. No details about your weight, height, age, or calculations are ever uploaded, sent to a server, or shared. No account signup is required." },
+    { question: "Why do bodybuilders often have an 'obese' BMI?", answer: "BMI is calculated using only weight and height, without taking body composition into account. Because muscle is denser and heavier than fat, bodybuilders carry extra weight in the form of muscle, causing their BMI score to fall into the overweight or obese category despite having low body fat." },
+    { question: "What is the Waist-to-Height Ratio (WHtR) and how is it used?", answer: "The Waist-to-Height Ratio (WHtR) is a health metric calculated by dividing your waist circumference by your height. A ratio of 0.50 or less is considered healthy, as it indicates that your waist circumference is less than half your height, which correlates with low abdominal and visceral fat levels." },
+    { question: "Is BMI accurate for senior citizens or older adults?", answer: "BMI can be less accurate for older adults due to age-related muscle loss (sarcopenia) and bone density loss. A senior citizen may have a 'normal' BMI but carry a high proportion of fat relative to muscle, meaning a slightly higher BMI (25-27) is often associated with better health outcomes in older populations." },
+    { question: "What is visceral fat and why does it matter?", answer: "Visceral fat is body fat that is stored inside the abdominal cavity, surrounding internal organs like the liver and pancreas. Unlike subcutaneous fat under the skin, visceral fat is metabolically active and releases inflammatory markers that increase the risk of heart disease, diabetes, and stroke." },
+    { question: "Can BMI be used to diagnose health issues?", answer: "No, BMI is a screening tool, not a diagnostic instrument. A high or low BMI indicates a potential risk category, but a healthcare provider must perform additional tests—such as measuring blood pressure, assessing diet, evaluating physical activity, and conducting blood tests—to diagnose a person's actual health status." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
-      <span>/</span>
-      <span class="text-ink">BMI Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Health & Fitness"
+      categorySlug="health"
+      toolName="BMI Calculator"
+      toolSlug="bmi-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -451,6 +383,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="health"
+      toolSlug="bmi-calculator"
+    />
 </Layout>
 
 <script>

@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is keyword density and why is it important for SEO?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Keyword density is the percentage frequency of a specific word or phrase relative to the total number of words on a page. While target keywords help search bots understand content topics, repeating keywords too often can trigger over-optimization penalties."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the recommended keyword density percentage?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The recommended keyword density for SEO copywriting is between 1% and 2.5%. Exceeding 3% density can trigger keyword stuffing algorithms, causing page rankings to drop."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are 2-word and 3-word phrase density checks?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Checking 2-word (bigram) and 3-word (trigram) phrases allows writers to trace search queries (e.g. 'mortgage payment calculator' or 'interest rate tables') to ensure key search intent triggers are mapped."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does TF-IDF factor into keyword density?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "TF-IDF (Term Frequency-Inverse Document Frequency) measures how unique a word is to a page compared to a large text corpus. Search engines use TF-IDF rather than raw density to identify semantic significance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my text data stored or shared?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Like all tools on ToolzTotal, our keyword density checker processes text data locally in your browser sandbox using client-side JavaScript."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the ideal keyword density percentage for SEO?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The recommended keyword density for organic SEO is between 1% and 2%. Keeping your primary keyword within this range ensures search engines can identify the page topic without triggering keyword-stuffing flags."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How can I check for keyword density without stuffing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Focus on writing informative, high-quality content first. Use this tool to verify your keyword frequencies after drafting, and replace excessive repetitions with natural synonyms or related terms."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are stop words and are they excluded from density calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Stop words are common connecting words like 'the', 'is', 'and', or 'of'. This tool filters out stop words from keyphrase analysis to focus on the actual descriptive terms that drive SEO relevance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does Google view semantic keywords vs exact-match keywords?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Modern search engines prioritize semantic relevance over exact-match keywords. Google uses natural language processing to understand synonyms and related terms, meaning writing naturally around a topic is more effective than repeating a single phrase."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between single-word density and keyphrase density?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Single-word density measures the frequency of individual words in your text. Keyphrase density measures the frequency of multi-word combinations (e.g., 'free loan calculator'), which is highly relevant for tracking long-tail keywords."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Keyword Density Checker - Free SEO Over-Optimization Scanner | ToolzTotal"
   description="Analyze keyword frequency density on your copy. Check 1-word, 2-word, and 3-word phrase frequencies and prevent keyword stuffing."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/text/keyword-density-checker"
 >
+  <ToolSchema
+    toolName="Keyword Density Checker"
+    toolSlug="keyword-density-checker"
+    categoryName="Text & Content"
+    categorySlug="text"
+    description="Analyze keyword frequency density on your copy. Check 1-word, 2-word, and 3-word phrase frequencies and prevent keyword stuffing."
+  faqs={[
+    { question: "What is keyword density and why is it important for SEO?", answer: "Keyword density is the percentage frequency of a specific word or phrase relative to the total number of words on a page. While target keywords help search bots understand content topics, repeating keywords too often can trigger over-optimization penalties." },
+    { question: "What is the recommended keyword density percentage?", answer: "The recommended keyword density for SEO copywriting is between 1% and 2.5%. Exceeding 3% density can trigger keyword stuffing algorithms, causing page rankings to drop." },
+    { question: "What are 2-word and 3-word phrase density checks?", answer: "Checking 2-word (bigram) and 3-word (trigram) phrases allows writers to trace search queries (e.g. 'mortgage payment calculator' or 'interest rate tables') to ensure key search intent triggers are mapped." },
+    { question: "How does TF-IDF factor into keyword density?", answer: "TF-IDF (Term Frequency-Inverse Document Frequency) measures how unique a word is to a page compared to a large text corpus. Search engines use TF-IDF rather than raw density to identify semantic significance." },
+    { question: "Is my text data stored or shared?", answer: "No. Like all tools on ToolzTotal, our keyword density checker processes text data locally in your browser sandbox using client-side JavaScript." },
+    { question: "What is the ideal keyword density percentage for SEO?", answer: "The recommended keyword density for organic SEO is between 1% and 2%. Keeping your primary keyword within this range ensures search engines can identify the page topic without triggering keyword-stuffing flags." },
+    { question: "How can I check for keyword density without stuffing?", answer: "Focus on writing informative, high-quality content first. Use this tool to verify your keyword frequencies after drafting, and replace excessive repetitions with natural synonyms or related terms." },
+    { question: "What are stop words and are they excluded from density calculations?", answer: "Stop words are common connecting words like 'the', 'is', 'and', or 'of'. This tool filters out stop words from keyphrase analysis to focus on the actual descriptive terms that drive SEO relevance." },
+    { question: "How does Google view semantic keywords vs exact-match keywords?", answer: "Modern search engines prioritize semantic relevance over exact-match keywords. Google uses natural language processing to understand synonyms and related terms, meaning writing naturally around a topic is more effective than repeating a single phrase." },
+    { question: "What is the difference between single-word density and keyphrase density?", answer: "Single-word density measures the frequency of individual words in your text. Keyphrase density measures the frequency of multi-word combinations (e.g., 'free loan calculator'), which is highly relevant for tracking long-tail keywords." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
-      <span>/</span>
-      <span class="text-ink">Keyword Density Checker</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Text & Content"
+      categorySlug="text"
+      toolName="Keyword Density Checker"
+      toolSlug="keyword-density-checker"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -383,6 +315,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="text"
+      toolSlug="keyword-density-checker"
+    />
 </Layout>
 
 <script>

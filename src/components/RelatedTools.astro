@@ -1,0 +1,143 @@
+---
+import { toolCatalog } from "../data/tools";
+
+interface Props {
+    categorySlug: string;
+    toolSlug: string;
+}
+
+const { categorySlug, toolSlug } = Astro.props;
+
+const currentCategory = toolCatalog.find((c) => c.slug === categorySlug);
+
+const allOtherTools = toolCatalog
+    .flatMap((cat) =>
+        cat.tools.map((t) => ({
+            ...t,
+            categorySlug: cat.slug,
+            categoryName: cat.name,
+        })),
+    )
+    .filter((t) => !(t.categorySlug === categorySlug && t.slug === toolSlug));
+
+const sameCategoryTools = currentCategory
+    ? currentCategory.tools
+          .filter((t) => t.slug !== toolSlug)
+          .map((t) => ({
+              ...t,
+              categorySlug: currentCategory.slug,
+              categoryName: currentCategory.name,
+          }))
+    : [];
+
+const crossCategoryCandidates = allOtherTools.filter(
+    (t) => t.categorySlug !== categorySlug,
+);
+
+// Simple intent-based heuristic by known slugs
+const intentMap: Record<string, string[]> = {
+    "mortgage-calculator": [
+        "mortgage-affordability-calculator",
+        "property-tax-calculator",
+        "amortization-calculator",
+        "cac-ltv-calculator",
+        "debt-to-income-calculator",
+    ],
+    "mortgage-affordability-calculator": [
+        "mortgage-calculator",
+        "property-tax-calculator",
+        "amortization-calculator",
+        "dti-calculator",
+    ],
+    "amortization-calculator": [
+        "mortgage-calculator",
+        "mortgage-affordability-calculator",
+    ],
+    "bmi-calculator": [
+        "body-fat-calculator",
+        "ideal-weight-calculator",
+        "calorie-calculator",
+        "macro-calculator",
+    ],
+    "uuid-generator": [
+        "base64-encoder-decoder",
+        "json-formatter",
+        "diff-checker",
+    ],
+    "keyword-density-checker": [
+        "meta-tag-generator",
+        "serp-preview",
+        "headline-analyzer",
+    ],
+    "rent-vs-buy-calculator": [
+        "mortgage-affordability-calculator",
+        "mortgage-calculator",
+        "property-tax-calculator",
+    ],
+};
+
+const preferredCrossSlugs = intentMap[toolSlug] ?? [];
+
+// Pick 1 cross-category tool (if possible)
+const pickedCross = (() => {
+    for (const s of preferredCrossSlugs) {
+        const match = crossCategoryCandidates.find((t) => t.slug === s);
+        if (match) return match;
+    }
+    return crossCategoryCandidates[0];
+})();
+
+// Pick same-category tools: 2–4 depending on availability
+const targetSameCount = 2; // rule: "Same-category tools get 2 of the 3 links when available." We'll do 2 of 5max; below chooses 3-5 total.
+const pickedSame = sameCategoryTools.slice(0, targetSameCount);
+
+// Assemble with 3–5 total links
+const picked: typeof pickedSame = [...pickedSame] as any;
+
+if (pickedCross) picked.push(pickedCross as any);
+
+// Fill remaining to 5 (or at least 3)
+const remaining = allOtherTools.filter(
+    (t) =>
+        !picked.some(
+            (p) => p.slug === t.slug && p.categorySlug === t.categorySlug,
+        ),
+);
+
+for (const t of remaining) {
+    if (picked.length >= 5) break;
+    if (
+        picked.some(
+            (p) => p.slug === t.slug && p.categorySlug === t.categorySlug,
+        )
+    )
+        continue;
+    picked.push(t as any);
+}
+
+const finalPicked = picked.slice(0, Math.max(3, picked.length));
+---
+
+<section class="mt-12">
+    <h2 class="text-base font-bold text-ink mb-4 font-sans">Related Tools</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {
+            finalPicked.map((t) => (
+                <a
+                    href={`/${t.categorySlug}/${t.slug}`}
+                    class="p-3 rounded-lg border border-hairline bg-canvas-soft-2/30 hover:bg-canvas-soft-2 transition-colors"
+                >
+                    <div class="text-sm font-bold text-ink group-hover:text-primary transition-colors flex items-center justify-between gap-2">
+                        <span class="truncate">{t.name}</span>
+                        <span class="text-[10px] font-mono text-mute">
+                            {t.categoryName}
+                        </span>
+                    </div>
+                    <div class="text-xs text-body font-sans leading-relaxed mt-1">
+                        {t.description}
+                    </div>
+                </a>
+            ))
+        }
+    </div>
+</section>

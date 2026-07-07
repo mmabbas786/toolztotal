@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is retirement compound growth calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Retirement growth is calculated using the future value compound growth formula combining your initial savings and recurring monthly contributions: FV = PV * (1 + r)^n + PMT * [((1 + r)^n - 1) / r], where r is the monthly rate of return and n is the total months."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between nominal and inflation-adjusted retirement savings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Nominal savings are the raw dollars you will mathematically accumulate in the future. Inflation-adjusted savings deduct the expected annual inflation rate (commonly 2.5%) to show the actual purchasing power of your future savings in today's currency."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What expected annual return rate should I select?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For long-term stock market indices, a conservative nominal rate of return of 7% to 8% (or 5% to 6% inflation-adjusted) is standard. Bond portfolios or cash reserves utilize lower average returns."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is retirement monthly withdrawal estimated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Our calculator utilizes the standard 4% Rule of thumb. This guideline suggests that you can safely withdraw 4% of your total retirement nest egg in the first year, and adjust that amount for inflation annually, without risking depletion over a 30-year retirement."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this retirement tool share my bank parameters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. All values are calculated inside your web browser memory dynamically using client-side JavaScript calculations. We do not store, save, or share any personal net worth parameters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the 4% rule in retirement planning?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The 4% rule is a guideline that suggests you can safely withdraw 4% of your initial retirement portfolio balance in the first year of retirement, and adjust that amount for inflation in following years, with a low risk of outliving your money over a 30-year period."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much should I save in my employer 401(k) to get the full match?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You should contribute at least enough to reach your employer's maximum match percentage (e.g., if they match up to 5%, contribute 5%). This match is effectively free money that boosts your savings rate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between a traditional 401(k) and a Roth 401(k)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Traditional 401(k) contributions are made with pre-tax income, which lowers your current taxable income, but withdrawals in retirement are taxed. Roth 401(k) contributions are made with after-tax money, allowing you to make tax-free withdrawals in retirement."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does inflation impact my retirement savings target?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Inflation lowers the purchasing power of money over time. A retirement budget that seems sufficient today will cost significantly more in the future, making it important to use inflation-adjusted return rates (like 6-7%) when projecting future savings."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "When can I start taking penalty-free withdrawals from my retirement accounts?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For most traditional 401(k) and IRA accounts, you can begin making penalty-free withdrawals at age 59½. Early withdrawals are generally subject to a 10% IRS tax penalty plus ordinary income tax, with some exceptions."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Retirement Savings Calculator - Compound Growth Projections | ToolzTotal"
   description="Estimate retirement growth based on monthly contributions and expected rate of return. Simple compound growth planner. Cross-links compound interest."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/legal/retirement-calculator"
 >
+  <ToolSchema
+    toolName="Retirement Savings Calculator"
+    toolSlug="retirement-calculator"
+    categoryName="Legal & Employment"
+    categorySlug="legal"
+    description="Estimate retirement growth based on monthly contributions and expected rate of return. Simple compound growth planner. Cross-links compound interest."
+  faqs={[
+    { question: "How is retirement compound growth calculated?", answer: "Retirement growth is calculated using the future value compound growth formula combining your initial savings and recurring monthly contributions: FV = PV * (1 + r)^n + PMT * [((1 + r)^n - 1) / r], where r is the monthly rate of return and n is the total months." },
+    { question: "What is the difference between nominal and inflation-adjusted retirement savings?", answer: "Nominal savings are the raw dollars you will mathematically accumulate in the future. Inflation-adjusted savings deduct the expected annual inflation rate (commonly 2.5%) to show the actual purchasing power of your future savings in today's currency." },
+    { question: "What expected annual return rate should I select?", answer: "For long-term stock market indices, a conservative nominal rate of return of 7% to 8% (or 5% to 6% inflation-adjusted) is standard. Bond portfolios or cash reserves utilize lower average returns." },
+    { question: "How is retirement monthly withdrawal estimated?", answer: "Our calculator utilizes the standard 4% Rule of thumb. This guideline suggests that you can safely withdraw 4% of your total retirement nest egg in the first year, and adjust that amount for inflation annually, without risking depletion over a 30-year retirement." },
+    { question: "Does this retirement tool share my bank parameters?", answer: "No. All values are calculated inside your web browser memory dynamically using client-side JavaScript calculations. We do not store, save, or share any personal net worth parameters." },
+    { question: "What is the 4% rule in retirement planning?", answer: "The 4% rule is a guideline that suggests you can safely withdraw 4% of your initial retirement portfolio balance in the first year of retirement, and adjust that amount for inflation in following years, with a low risk of outliving your money over a 30-year period." },
+    { question: "How much should I save in my employer 401(k) to get the full match?", answer: "You should contribute at least enough to reach your employer's maximum match percentage (e.g., if they match up to 5%, contribute 5%). This match is effectively free money that boosts your savings rate." },
+    { question: "What is the difference between a traditional 401(k) and a Roth 401(k)?", answer: "Traditional 401(k) contributions are made with pre-tax income, which lowers your current taxable income, but withdrawals in retirement are taxed. Roth 401(k) contributions are made with after-tax money, allowing you to make tax-free withdrawals in retirement." },
+    { question: "How does inflation impact my retirement savings target?", answer: "Inflation lowers the purchasing power of money over time. A retirement budget that seems sufficient today will cost significantly more in the future, making it important to use inflation-adjusted return rates (like 6-7%) when projecting future savings." },
+    { question: "When can I start taking penalty-free withdrawals from my retirement accounts?", answer: "For most traditional 401(k) and IRA accounts, you can begin making penalty-free withdrawals at age 59½. Early withdrawals are generally subject to a 10% IRS tax penalty plus ordinary income tax, with some exceptions." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/legal" class="hover:text-ink transition-colors">Legal & Employment</a>
-      <span>/</span>
-      <span class="text-ink">Retirement Savings Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Legal & Employment"
+      categorySlug="legal"
+      toolName="Retirement Savings Calculator - Compound Growth Projections"
+      toolSlug="retirement-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -448,6 +380,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="legal"
+      toolSlug="retirement-calculator"
+    />
 </Layout>
 
 <script>

@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is tip calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Tip is calculated by multiplying the pre-tax bill subtotal by the tip percentage: Tip = Bill Subtotal * (Tip Percentage / 100)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the standard tipping rate in the United States?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In the US, the standard tipping rate for sit-down restaurant service is 15% to 20% of the pre-tax subtotal, depending on the quality of service."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I calculate the tip before or after sales tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard dining etiquette is to calculate the tip on the pre-tax bill subtotal, so you do not pay a tip on top of government taxes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does splitting a tip work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To split a tip and bill, calculate the total bill (including tax and tip), then divide that final total by the number of people sharing the cost."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does rounding up a bill mean?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Rounding up a bill adjusts the total amount to the next nearest dollar, adding the difference to the tip for convenience, which is helpful when paying cash."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is tipping common in Europe?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In many European countries, service is included in the bill (labeled as 'Service Compris'). However, leaving a small tip of 5% to 10% is appreciated for good service."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much do you tip in Japan?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In Japan, tipping is not part of the culture and can be considered impolite. Exceptional service is rewarded with appreciation rather than cash tips."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I tip at self-service buffet restaurants?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Tipping at buffets is typically lower than table service, with 10% considered standard for staff who clear plates and refill drinks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What should I tip a delivery driver?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For food delivery, a tip of 10% to 15% of the order total is standard, with a minimum tip of $3 to $5 depending on travel distance and weather."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tip calculator save my inputs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The calculator processes all inputs locally in your browser. No details are transmitted or saved on our servers."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Tip Calculator - Free Splits & Tipping Etiquette | ToolzTotal"
   description="Calculate restaurant tip splits, round up totals, and review global tipping etiquette guides. Clean static utility tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/utility/tip-calculator"
 >
+  <ToolSchema
+    toolName="Tip Calculator"
+    toolSlug="tip-calculator"
+    categoryName="Everyday / Life Utility"
+    categorySlug="utility"
+    description="Calculate restaurant tip splits, round up totals, and review global tipping etiquette guides. Clean static utility tool."
+  faqs={[
+    { question: "How is tip calculated?", answer: "Tip is calculated by multiplying the pre-tax bill subtotal by the tip percentage: Tip = Bill Subtotal * (Tip Percentage / 100)." },
+    { question: "What is the standard tipping rate in the United States?", answer: "In the US, the standard tipping rate for sit-down restaurant service is 15% to 20% of the pre-tax subtotal, depending on the quality of service." },
+    { question: "Should I calculate the tip before or after sales tax?", answer: "Standard dining etiquette is to calculate the tip on the pre-tax bill subtotal, so you do not pay a tip on top of government taxes." },
+    { question: "How does splitting a tip work?", answer: "To split a tip and bill, calculate the total bill (including tax and tip), then divide that final total by the number of people sharing the cost." },
+    { question: "What does rounding up a bill mean?", answer: "Rounding up a bill adjusts the total amount to the next nearest dollar, adding the difference to the tip for convenience, which is helpful when paying cash." },
+    { question: "Is tipping common in Europe?", answer: "In many European countries, service is included in the bill (labeled as 'Service Compris'). However, leaving a small tip of 5% to 10% is appreciated for good service." },
+    { question: "How much do you tip in Japan?", answer: "In Japan, tipping is not part of the culture and can be considered impolite. Exceptional service is rewarded with appreciation rather than cash tips." },
+    { question: "Do I tip at self-service buffet restaurants?", answer: "Tipping at buffets is typically lower than table service, with 10% considered standard for staff who clear plates and refill drinks." },
+    { question: "What should I tip a delivery driver?", answer: "For food delivery, a tip of 10% to 15% of the order total is standard, with a minimum tip of $3 to $5 depending on travel distance and weather." },
+    { question: "Does this tip calculator save my inputs?", answer: "No. The calculator processes all inputs locally in your browser. No details are transmitted or saved on our servers." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/utility" class="hover:text-ink transition-colors">Everyday Utility</a>
-      <span>/</span>
-      <span class="text-ink">Tip Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Everyday / Life Utility"
+      categorySlug="utility"
+      toolName="Tip Calculator"
+      toolSlug="tip-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -541,6 +473,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="utility"
+      toolSlug="tip-calculator"
+    />
 </Layout>
 
 <script>

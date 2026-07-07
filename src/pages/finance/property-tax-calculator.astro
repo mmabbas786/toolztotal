@@ -1,116 +1,48 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { stateTaxRates } from '../../data/taxRates';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is property tax calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Property tax is calculated by multiplying the assessed value of the property by the local tax rate (often expressed as a millage rate): Property Tax = Assessed Value * (Millage Rate / 1000)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is an assessed value vs. market value?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Market value is the estimated price a property would sell for on the open market. Assessed value is the valuation placed on the property by local tax authorities to calculate property taxes. It is often a percentage of market value."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a millage rate (mills)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A millage rate is the tax rate expressed in mills, where one mill represents const of tax for every const,000 of assessed property value: Millage Rate = Tax Rate per Thousand."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a homestead exemption affect property taxes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A homestead exemption reduces the taxable assessed value of a primary residence. For example, if a home is assessed at $300,000 and has a $50,000 exemption, taxes are calculated on $250,000."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do property tax rates differ by county?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Property taxes are levied by local governments (counties, cities, school districts) to fund local services. Areas with high school budgets or extensive county infrastructure typically have higher millage rates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How often are property taxes assessed?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Assessment frequencies vary by state. Some counties reassess properties annually, while others reassess every two to three years or only when a property is sold."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I appeal my property tax assessment?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Homeowners who believe their county's assessed value is higher than the true market value can file an appeal with the local board of equalization within a set window after receiving their assessment notice."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are property tax assessment limits?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Some states limit how much assessed values can increase each year for owner-occupied properties. For example, Florida's Save Our Homes act caps annual assessment increases at 3% or the inflation rate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do renters pay property taxes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Renters do not pay property taxes directly to the county, but landlords typically factor property tax costs into the rental pricing."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are property taxes tax-deductible?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Under current U.S. federal tax law, state and local taxes (SALT)—including property taxes—are deductible up to a combined cap of const0,000 on itemized deductions."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Property Tax Calculator - State Property Tax Estimator | ToolzTotal"
   description="Estimate annual property taxes by state effective rates with homestead exemption options. Clean client-side calculator."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/finance/property-tax-calculator"
 >
+  <ToolSchema
+    toolName="Property Tax Calculator"
+    toolSlug="property-tax-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Estimate annual property taxes by state effective rates with homestead exemption options. Clean client-side calculator."
+  faqs={[
+    { question: "How is property tax calculated?", answer: "Property tax is calculated by multiplying the assessed value of the property by the local tax rate (often expressed as a millage rate): Property Tax = Assessed Value * (Millage Rate / 1000)." },
+    { question: "What is an assessed value vs. market value?", answer: "Market value is the estimated price a property would sell for on the open market. Assessed value is the valuation placed on the property by local tax authorities to calculate property taxes. It is often a percentage of market value." },
+    { question: "What is a millage rate (mills)?", answer: "A millage rate is the tax rate expressed in mills, where one mill represents $1 of tax for every $1,000 of assessed property value: Millage Rate = Tax Rate per Thousand." },
+    { question: "How does a homestead exemption affect property taxes?", answer: "A homestead exemption reduces the taxable assessed value of a primary residence. For example, if a home is assessed at $300,000 and has a $50,000 exemption, taxes are calculated on $250,000." },
+    { question: "Why do property tax rates differ by county?", answer: "Property taxes are levied by local governments (counties, cities, school districts) to fund local services. Areas with high school budgets or extensive county infrastructure typically have higher millage rates." },
+    { question: "How often are property taxes assessed?", answer: "Assessment frequencies vary by state. Some counties reassess properties annually, while others reassess every two to three years or only when a property is sold." },
+    { question: "Can I appeal my property tax assessment?", answer: "Yes. Homeowners who believe their county's assessed value is higher than the true market value can file an appeal with the local board of equalization within a set window after receiving their assessment notice." },
+    { question: "What are property tax assessment limits?", answer: "Some states limit how much assessed values can increase each year for owner-occupied properties. For example, Florida's Save Our Homes act caps annual assessment increases at 3% or the inflation rate." },
+    { question: "Do renters pay property taxes?", answer: "Renters do not pay property taxes directly to the county, but landlords typically factor property tax costs into the rental pricing." },
+    { question: "Are property taxes tax-deductible?", answer: "Under current U.S. federal tax law, state and local taxes (SALT)—including property taxes—are deductible up to a combined cap of $10,000 on itemized deductions." }
+  ]}
+  />
+
   <!-- Pass stateTaxRates safely to client script -->
   <script define:vars={{ stateTaxRates }}></script>
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
-      <span>/</span>
-      <span class="text-ink">Property Tax Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Property Tax Calculator - State Property Tax Estimator"
+      toolSlug="property-tax-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -543,6 +475,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="property-tax-calculator"
+    />
 </Layout>
 
 <script>

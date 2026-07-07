@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is BMR and how does it differ from TDEE?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "BMR (Basal Metabolic Rate) is the minimum number of calories your body needs to perform essential life-sustaining functions—such as breathing, circulation, cell production, and nutrient processing—at rest in a neutral temperature environment. TDEE (Total Daily Energy Expenditure) is the total number of calories you burn per day, calculated by multiplying your BMR by an activity factor that accounts for physical movement, exercise, and the thermic effect of food."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Which formula is used for calculating calorie needs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This calculator uses the Mifflin-St Jeor equation, which is widely recognized as the most accurate formula for estimating BMR in modern clinical settings. The formula calculates BMR for men as: 10 * weight (kg) + 6.25 * height (cm) - 5 * age (y) + 5. For women, it is calculated as: 10 * weight (kg) + 6.25 * height (cm) - 5 * age (y) - 161."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is the activity level multiplier determined?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Your activity level multiplier represents physical exertion. We use standard physical activity level (PAL) factors: Sedentary (1.2) for little to no exercise; Lightly Active (1.375) for light exercise 1–3 days/week; Moderately Active (1.55) for moderate exercise 3–5 days/week; Very Active (1.725) for hard exercise 6–7 days/week; and Extra Active (1.9) for very heavy labor, professional sports, or double training sessions."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How many calories should I cut or add to change my weight?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To lose weight safely (cutting), a daily caloric deficit of 500 calories is generally recommended, which targets roughly 1 pound of fat loss per week. To gain muscle weight (bulking), a surplus of 300 to 500 calories above maintenance is typical to minimize fat gain while supporting protein synthesis. Always monitor your health and energy levels, and make adjustments gradually."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my data private when using this calorie calculator?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, entirely private. ToolzTotal operates client-side inside your browser sandbox. None of your physical statistics, age, gender, or target goals are ever sent to a server or stored. You do not need to create an account or sign up to use this tool."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does metabolic adaptation affect my calorie needs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Metabolic adaptation is the body's natural response to prolonged calorie restriction, where it lowers its metabolic rate to conserve energy. As you lose weight, you require fewer calories because you have less mass to move, and your hormones shift to make you more efficient at storing energy. This makes periodic adjustments to your calorie targets necessary as your weight changes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a refeed day and when should I use it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A refeed day involves temporarily increasing your calorie intake—primarily from carbohydrates—to your calculated maintenance level. Refeed days help boost metabolic rate, replenish depleted muscle glycogen stores, and temporarily increase thyroid and leptin hormones, which can help break weight loss plateaus and improve workout energy."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why does my weight spike after eating high-sodium foods?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sodium causes your body to retain extra water in its cells to maintain proper fluid balance. This water retention can cause a temporary weight increase of 1 to 3 pounds on the scale, but it does not represent an increase in body fat. The extra water weight typically flushes out within 24 to 48 hours as you return to normal sodium and hydration levels."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I estimate calories for home-cooked meals?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To accurately calculate the calories in a home-cooked meal, weigh each raw ingredient using a digital food scale before cooking. Look up the calorie and macronutrient values for each ingredient, sum them up to find the total values for the entire recipe, and then divide by the number of individual servings you create."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is it safe to eat fewer calories than my calculated BMR?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Eating below your Basal Metabolic Rate (BMR) is generally not recommended for extended periods unless under direct medical supervision. Your BMR represents the energy your body needs to maintain basic life-sustaining functions like breathing and pumping blood. Restricting calories below this level can lead to muscle loss, nutrient deficiencies, chronic fatigue, and hormonal issues."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Calorie Calculator - Free Daily Caloric & TDEE Target Estimator | ToolzTotal"
   description="Calculate your daily calorie needs (TDEE) and BMR using the Mifflin-St Jeor equation. Free client-side tool with activity multiplier and macro breakdown."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/health/calorie-calculator"
 >
+  <ToolSchema
+    toolName="Calorie & TDEE Calculator"
+    toolSlug="calorie-calculator"
+    categoryName="Health & Fitness"
+    categorySlug="health"
+    description="Calculate your daily calorie needs (TDEE) and BMR using the Mifflin-St Jeor equation. Free client-side tool with activity multiplier and macro breakdown."
+  faqs={[
+    { question: "What is BMR and how does it differ from TDEE?", answer: "BMR (Basal Metabolic Rate) is the minimum number of calories your body needs to perform essential life-sustaining functions—such as breathing, circulation, cell production, and nutrient processing—at rest in a neutral temperature environment. TDEE (Total Daily Energy Expenditure) is the total number of calories you burn per day, calculated by multiplying your BMR by an activity factor that accounts for physical movement, exercise, and the thermic effect of food." },
+    { question: "Which formula is used for calculating calorie needs?", answer: "This calculator uses the Mifflin-St Jeor equation, which is widely recognized as the most accurate formula for estimating BMR in modern clinical settings. The formula calculates BMR for men as: 10 * weight (kg) + 6.25 * height (cm) - 5 * age (y) + 5. For women, it is calculated as: 10 * weight (kg) + 6.25 * height (cm) - 5 * age (y) - 161." },
+    { question: "How is the activity level multiplier determined?", answer: "Your activity level multiplier represents physical exertion. We use standard physical activity level (PAL) factors: Sedentary (1.2) for little to no exercise; Lightly Active (1.375) for light exercise 1–3 days/week; Moderately Active (1.55) for moderate exercise 3–5 days/week; Very Active (1.725) for hard exercise 6–7 days/week; and Extra Active (1.9) for very heavy labor, professional sports, or double training sessions." },
+    { question: "How many calories should I cut or add to change my weight?", answer: "To lose weight safely (cutting), a daily caloric deficit of 500 calories is generally recommended, which targets roughly 1 pound of fat loss per week. To gain muscle weight (bulking), a surplus of 300 to 500 calories above maintenance is typical to minimize fat gain while supporting protein synthesis. Always monitor your health and energy levels, and make adjustments gradually." },
+    { question: "Is my data private when using this calorie calculator?", answer: "Yes, entirely private. ToolzTotal operates client-side inside your browser sandbox. None of your physical statistics, age, gender, or target goals are ever sent to a server or stored. You do not need to create an account or sign up to use this tool." },
+    { question: "How does metabolic adaptation affect my calorie needs?", answer: "Metabolic adaptation is the body's natural response to prolonged calorie restriction, where it lowers its metabolic rate to conserve energy. As you lose weight, you require fewer calories because you have less mass to move, and your hormones shift to make you more efficient at storing energy. This makes periodic adjustments to your calorie targets necessary as your weight changes." },
+    { question: "What is a refeed day and when should I use it?", answer: "A refeed day involves temporarily increasing your calorie intake—primarily from carbohydrates—to your calculated maintenance level. Refeed days help boost metabolic rate, replenish depleted muscle glycogen stores, and temporarily increase thyroid and leptin hormones, which can help break weight loss plateaus and improve workout energy." },
+    { question: "Why does my weight spike after eating high-sodium foods?", answer: "Sodium causes your body to retain extra water in its cells to maintain proper fluid balance. This water retention can cause a temporary weight increase of 1 to 3 pounds on the scale, but it does not represent an increase in body fat. The extra water weight typically flushes out within 24 to 48 hours as you return to normal sodium and hydration levels." },
+    { question: "How do I estimate calories for home-cooked meals?", answer: "To accurately calculate the calories in a home-cooked meal, weigh each raw ingredient using a digital food scale before cooking. Look up the calorie and macronutrient values for each ingredient, sum them up to find the total values for the entire recipe, and then divide by the number of individual servings you create." },
+    { question: "Is it safe to eat fewer calories than my calculated BMR?", answer: "Eating below your Basal Metabolic Rate (BMR) is generally not recommended for extended periods unless under direct medical supervision. Your BMR represents the energy your body needs to maintain basic life-sustaining functions like breathing and pumping blood. Restricting calories below this level can lead to muscle loss, nutrient deficiencies, chronic fatigue, and hormonal issues." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/health" class="hover:text-ink transition-colors">Health & Fitness</a>
-      <span>/</span>
-      <span class="text-ink">Calorie Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Health & Fitness"
+      categorySlug="health"
+      toolName="Calorie Calculator"
+      toolSlug="calorie-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -489,6 +421,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="health"
+      toolSlug="calorie-calculator"
+    />
 </Layout>
 
 <script>

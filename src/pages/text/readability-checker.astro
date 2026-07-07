@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is the Flesch Reading Ease score interpreted?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Flesch Reading Ease scale ranges from 0 to 100: 90-100 means very easy (fifth-grade reading level); 60-70 means standard/plain English (eighth to ninth-grade level); and 0-30 means highly complicated academic or legal text (college graduate level)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between Flesch Reading Ease and Flesch-Kincaid Grade Level?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "While both use total sentences, words, and syllables, Flesch Reading Ease outputs a score from 0 to 100 representing reading comfort, whereas Flesch-Kincaid Grade Level outputs a numeric value matching U.S. school grade levels (e.g. 8.0 matches eighth grade)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the Coleman-Liau readability index work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Unlike Flesch-based formulas which count syllables, the Coleman-Liau Index relies on letter and sentence counts per 100 words. Since character length is easier to extract than syllables, it offers consistent, formula-driven grade level estimates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the SMOG readability formula?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "SMOG (Simple Measure of Gobbledygook) is a readability metric that estimates the years of education needed to comprehend a text. It calculates scores based on the count of complex words (words with 3+ syllables) found within a sample of sentences."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How can I improve my text's readability score?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You can improve your readability score by breaking long sentences into shorter, standalone sentences and substituting complex words with simpler, shorter synonyms (e.g., use 'help' instead of 'facilitate')."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the target readability grade level for web content?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For general web content, target an 8th to 9th-grade reading level (a Flesch Reading Ease score of 60 to 70). This reading level is highly accessible to the general public, resulting in better user engagement and lower bounce rates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How can I improve my text's Flesch Reading Ease score?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You can improve your score by shortening your sentences, using active voice, and replacing complex, multi-syllable words with simpler, shorter synonyms (e.g., replace 'utilize' with 'use', 'terminate' with 'end')."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the tool calculate syllable counts in English words?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This tool uses a regular expression algorithm that estimates syllable counts based on vowel patterns, silent 'e' rules, and common word endings in English, providing a fast and reliable estimate for readability scoring."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between Flesch-Kincaid and Gunning Fog?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Flesch-Kincaid evaluates grade levels based on average sentence length and average syllable count per word. The Gunning Fog index calculates grade level using sentence length and the percentage of 'complex' words (words with three or more syllables)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can high readability scores improve my site's search rankings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, clear writing improves user metrics such as time-on-page and decreases bounce rates, signaling to search engines that your content is valuable. This can lead to better organic rankings over time."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Readability Score Checker - Free Multi-Metric Checker | ToolzTotal"
   description="Analyze text readability using Flesch Reading Ease, Flesch-Kincaid Grade, Gunning Fog, SMOG, and Coleman-Liau readability index scales."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/text/readability-checker"
 >
+  <ToolSchema
+    toolName="Readability Score Checker"
+    toolSlug="readability-checker"
+    categoryName="Text & Content"
+    categorySlug="text"
+    description="Analyze text readability using Flesch Reading Ease, Flesch-Kincaid Grade, Gunning Fog, SMOG, and Coleman-Liau readability index scales."
+  faqs={[
+    { question: "How is the Flesch Reading Ease score interpreted?", answer: "The Flesch Reading Ease scale ranges from 0 to 100: 90-100 means very easy (fifth-grade reading level); 60-70 means standard/plain English (eighth to ninth-grade level); and 0-30 means highly complicated academic or legal text (college graduate level)." },
+    { question: "What is the difference between Flesch Reading Ease and Flesch-Kincaid Grade Level?", answer: "While both use total sentences, words, and syllables, Flesch Reading Ease outputs a score from 0 to 100 representing reading comfort, whereas Flesch-Kincaid Grade Level outputs a numeric value matching U.S. school grade levels (e.g. 8.0 matches eighth grade)." },
+    { question: "How does the Coleman-Liau readability index work?", answer: "Unlike Flesch-based formulas which count syllables, the Coleman-Liau Index relies on letter and sentence counts per 100 words. Since character length is easier to extract than syllables, it offers consistent, formula-driven grade level estimates." },
+    { question: "What is the SMOG readability formula?", answer: "SMOG (Simple Measure of Gobbledygook) is a readability metric that estimates the years of education needed to comprehend a text. It calculates scores based on the count of complex words (words with 3+ syllables) found within a sample of sentences." },
+    { question: "How can I improve my text's readability score?", answer: "You can improve your readability score by breaking long sentences into shorter, standalone sentences and substituting complex words with simpler, shorter synonyms (e.g., use 'help' instead of 'facilitate')." },
+    { question: "What is the target readability grade level for web content?", answer: "For general web content, target an 8th to 9th-grade reading level (a Flesch Reading Ease score of 60 to 70). This reading level is highly accessible to the general public, resulting in better user engagement and lower bounce rates." },
+    { question: "How can I improve my text's Flesch Reading Ease score?", answer: "You can improve your score by shortening your sentences, using active voice, and replacing complex, multi-syllable words with simpler, shorter synonyms (e.g., replace 'utilize' with 'use', 'terminate' with 'end')." },
+    { question: "How does the tool calculate syllable counts in English words?", answer: "This tool uses a regular expression algorithm that estimates syllable counts based on vowel patterns, silent 'e' rules, and common word endings in English, providing a fast and reliable estimate for readability scoring." },
+    { question: "What is the difference between Flesch-Kincaid and Gunning Fog?", answer: "Flesch-Kincaid evaluates grade levels based on average sentence length and average syllable count per word. The Gunning Fog index calculates grade level using sentence length and the percentage of 'complex' words (words with three or more syllables)." },
+    { question: "Can high readability scores improve my site's search rankings?", answer: "Yes, clear writing improves user metrics such as time-on-page and decreases bounce rates, signaling to search engines that your content is valuable. This can lead to better organic rankings over time." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
-      <span>/</span>
-      <span class="text-ink">Readability Score Checker</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Text & Content"
+      categorySlug="text"
+      toolName="Readability Score Checker"
+      toolSlug="readability-checker"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -418,6 +350,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="text"
+      toolSlug="readability-checker"
+    />
 </Layout>
 
 <script>

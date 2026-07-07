@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does the word counter calculate reading time?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The word counter estimates reading time by dividing the total word count by an average reading speed of 225 words per minute (WPM). This is the standard speed benchmark for adult silent readers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is speaking time and how is it calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Speaking time estimates how long it takes to read a text aloud, calculated by dividing the total word count by an average speaking speed of 130 words per minute (WPM). This benchmark is ideal for speechwriters and video script creators."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this word counter include spaces in the character count?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, our tool provides two separate character counts: one that counts every single keystroke including spaces, tabs, and line breaks, and another that counts characters excluding spaces to measure pure textual letters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is keyword density and why does it matter?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Keyword density measures the percentage frequency of a specific word or phrase relative to the total word count. Monitoring keyword density is vital for SEO to ensure target keywords are present without triggering search engine spam filters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my text data stored or shared?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, never. Like all tools on ToolzTotal, our word counter runs 100% client-side inside your local browser. None of your text, drafts, or scripts are uploaded to a server or stored."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the recommended word count for SEO blog articles?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For search engine optimization, the recommended length is between 1,500 and 2,500 words. Long-form articles provide a more comprehensive answer to search queries, which search engines favor, and naturally contain more relevant keywords."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does this tool handle hyphenated words and contractions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This tool counts hyphenated words (e.g., 'state-of-the-art') as a single word, as they are joined by a hyphen. Contractions (e.g., 'don't', 'it's') are also counted as single words, matching standard word processor conventions."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do word counts vary between Google Docs, Word, and online tools?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Different programs use slightly different parsing rules. For example, some tools count hyphenated words, symbols, or numbers as individual words, while others exclude them. This client-side counter uses clean regular expressions to provide consistent results."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the optimal word length for a standard college essay?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard college essays typically range from 1,000 to 2,500 words, depending on the assignment requirements. A 1,000-word essay translates to roughly 4 pages when double-spaced using a standard font."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How many pages is 1,000 words?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A 1,000-word document is approximately 2 pages when single-spaced, or 4 pages when double-spaced, using standard formatting (1-inch margins, 12pt Times New Roman font)."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Word Counter - Free Character Count & Density Tool | ToolzTotal"
   description="Count words, characters, sentences, paragraphs in real-time. Calculate estimated reading and speaking times, and keyword density."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/text/word-counter"
 >
+  <ToolSchema
+    toolName="Word Counter"
+    toolSlug="word-counter"
+    categoryName="Text & Content"
+    categorySlug="text"
+    description="Count words, characters, sentences, paragraphs in real-time. Calculate estimated reading and speaking times, and keyword density."
+  faqs={[
+    { question: "How does the word counter calculate reading time?", answer: "The word counter estimates reading time by dividing the total word count by an average reading speed of 225 words per minute (WPM). This is the standard speed benchmark for adult silent readers." },
+    { question: "What is speaking time and how is it calculated?", answer: "Speaking time estimates how long it takes to read a text aloud, calculated by dividing the total word count by an average speaking speed of 130 words per minute (WPM). This benchmark is ideal for speechwriters and video script creators." },
+    { question: "Does this word counter include spaces in the character count?", answer: "Yes, our tool provides two separate character counts: one that counts every single keystroke including spaces, tabs, and line breaks, and another that counts characters excluding spaces to measure pure textual letters." },
+    { question: "What is keyword density and why does it matter?", answer: "Keyword density measures the percentage frequency of a specific word or phrase relative to the total word count. Monitoring keyword density is vital for SEO to ensure target keywords are present without triggering search engine spam filters." },
+    { question: "Is my text data stored or shared?", answer: "No, never. Like all tools on ToolzTotal, our word counter runs 100% client-side inside your local browser. None of your text, drafts, or scripts are uploaded to a server or stored." },
+    { question: "What is the recommended word count for SEO blog articles?", answer: "For search engine optimization, the recommended length is between 1,500 and 2,500 words. Long-form articles provide a more comprehensive answer to search queries, which search engines favor, and naturally contain more relevant keywords." },
+    { question: "How does this tool handle hyphenated words and contractions?", answer: "This tool counts hyphenated words (e.g., 'state-of-the-art') as a single word, as they are joined by a hyphen. Contractions (e.g., 'don't', 'it's') are also counted as single words, matching standard word processor conventions." },
+    { question: "Why do word counts vary between Google Docs, Word, and online tools?", answer: "Different programs use slightly different parsing rules. For example, some tools count hyphenated words, symbols, or numbers as individual words, while others exclude them. This client-side counter uses clean regular expressions to provide consistent results." },
+    { question: "What is the optimal word length for a standard college essay?", answer: "Standard college essays typically range from 1,000 to 2,500 words, depending on the assignment requirements. A 1,000-word essay translates to roughly 4 pages when double-spaced using a standard font." },
+    { question: "How many pages is 1,000 words?", answer: "A 1,000-word document is approximately 2 pages when single-spaced, or 4 pages when double-spaced, using standard formatting (1-inch margins, 12pt Times New Roman font)." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/text" class="hover:text-ink transition-colors">Text & Content</a>
-      <span>/</span>
-      <span class="text-ink">Word Counter</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Text & Content"
+      categorySlug="text"
+      toolName="Word Counter"
+      toolSlug="word-counter"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -395,6 +327,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="text"
+      toolSlug="word-counter"
+    />
 </Layout>
 
 <script>

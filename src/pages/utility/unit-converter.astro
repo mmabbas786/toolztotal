@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does the smart search unit converter work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The converter parses natural language inputs (like '5 ft to cm' or '100 c to f') to identify the value, source unit, and target unit, performing the conversion instantly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I convert between metric and imperial units?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The tool supports conversions between the US Imperial system and the International Metric system across all categories."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What categories of units are supported?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "It supports conversions for length, mass/weight, area, volume, temperature, speed, time, and common cooking measurements."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is temperature conversion linear?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Unlike length or weight conversions that use a simple multiplier, temperature conversion requires offset math (e.g. Fahrenheit to Celsius: C = (F - 32) * 5/9)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How accurate are the conversion ratios?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Conversions use high-precision floating-point constants based on standard international conversion benchmarks, rounded to 6 decimal places."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I use this tool offline?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. All conversion logic and dictionary definitions are compiled locally in the page bundle. The tool requires no internet connection to operate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the metric prefix system?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The metric system uses base-10 prefixes (kilo-, hecto-, deca-, deci-, centi-, milli-) to scale base units (meters, grams) up or down by powers of 10."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I convert cups to milliliters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "One US cup is equivalent to approximately 236.588 milliliters. The converter performs this cooking calculation instantly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does the search parser ignore case?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The natural language engine is case-insensitive, allowing inputs like '5FT TO CM' or '5ft to cm' to resolve identically."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my conversion query history stored?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Your query history is stored only in your browser's local sessionStorage to provide quick navigation during your session. No data is saved on our servers."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Unit Converter - Free Smart Conversions Tool | ToolzTotal"
   description="Convert between metric and imperial units of length, weight, area, volume, and temperature with smart natural language search. Clean static tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/utility/unit-converter"
 >
+  <ToolSchema
+    toolName="Unit Converter"
+    toolSlug="unit-converter"
+    categoryName="Everyday / Life Utility"
+    categorySlug="utility"
+    description="Convert between metric and imperial units of length, weight, area, volume, and temperature with smart natural language search. Clean static tool."
+  faqs={[
+    { question: "How does the smart search unit converter work?", answer: "The converter parses natural language inputs (like '5 ft to cm' or '100 c to f') to identify the value, source unit, and target unit, performing the conversion instantly." },
+    { question: "Can I convert between metric and imperial units?", answer: "Yes. The tool supports conversions between the US Imperial system and the International Metric system across all categories." },
+    { question: "What categories of units are supported?", answer: "It supports conversions for length, mass/weight, area, volume, temperature, speed, time, and common cooking measurements." },
+    { question: "Is temperature conversion linear?", answer: "No. Unlike length or weight conversions that use a simple multiplier, temperature conversion requires offset math (e.g. Fahrenheit to Celsius: C = (F - 32) * 5/9)." },
+    { question: "How accurate are the conversion ratios?", answer: "Conversions use high-precision floating-point constants based on standard international conversion benchmarks, rounded to 6 decimal places." },
+    { question: "Can I use this tool offline?", answer: "Yes. All conversion logic and dictionary definitions are compiled locally in the page bundle. The tool requires no internet connection to operate." },
+    { question: "What is the metric prefix system?", answer: "The metric system uses base-10 prefixes (kilo-, hecto-, deca-, deci-, centi-, milli-) to scale base units (meters, grams) up or down by powers of 10." },
+    { question: "How do I convert cups to milliliters?", answer: "One US cup is equivalent to approximately 236.588 milliliters. The converter performs this cooking calculation instantly." },
+    { question: "Does the search parser ignore case?", answer: "Yes. The natural language engine is case-insensitive, allowing inputs like '5FT TO CM' or '5ft to cm' to resolve identically." },
+    { question: "Is my conversion query history stored?", answer: "No. Your query history is stored only in your browser's local sessionStorage to provide quick navigation during your session. No data is saved on our servers." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/utility" class="hover:text-ink transition-colors">Everyday Utility</a>
-      <span>/</span>
-      <span class="text-ink">Unit Converter</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Everyday / Life Utility"
+      categorySlug="utility"
+      toolName="Unit Converter"
+      toolSlug="unit-converter"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -507,6 +439,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="utility"
+      toolSlug="unit-converter"
+    />
 </Layout>
 
 <script>

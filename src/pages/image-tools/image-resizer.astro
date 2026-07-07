@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does client-side image resizing work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The tool draws your image file onto an HTML5 canvas element at your target dimensions, then exports the resized canvas as a new file in your chosen format."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my uploaded image sent to a server?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The entire resizing process happens locally inside your browser. No files are uploaded to our servers, keeping your data private."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What formats can I export my resized image to?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You can download your resized image in original format, JPEG, PNG, or WebP."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does aspect ratio lock mean?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Locking the aspect ratio ensures that when you adjust the width, the height updates proportionally (and vice versa) to prevent the image from stretching or distorting."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are social media size presets available?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The tool includes size presets for popular platforms like Instagram, Facebook, X (Twitter), and LinkedIn."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does resizing reduce image file size?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Reducing the pixel dimensions of an image decreases its file size, which helps optimize images for website performance."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I resize multiple images at once?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This version is optimized for processing one image at a time to ensure maximum quality and performance in the browser."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Will resizing affect image quality?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Downscaling an image reduces its resolution but usually keeps it looking sharp. Upscaling an image past its original size can make it look pixelated or blurry."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the browser handle PNG transparency when resizing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If you export to PNG or WebP, image transparency is preserved. If you export to JPEG, transparent areas will render as white."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool work on mobile devices?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The interface is responsive and runs on mobile browsers, allowing you to resize photos on your phone."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Image Resizer - Free Client-Side Photo Resizing | ToolzTotal"
   description="Resize images to custom dimensions or social media presets completely in your browser. 100% private, no server uploads."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/image-tools/image-resizer"
 >
+  <ToolSchema
+    toolName="Image Resizer"
+    toolSlug="image-resizer"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description="Resize images to custom dimensions or social media presets completely in your browser. 100% private, no server uploads."
+  faqs={[
+    { question: "How does client-side image resizing work?", answer: "The tool draws your image file onto an HTML5 canvas element at your target dimensions, then exports the resized canvas as a new file in your chosen format." },
+    { question: "Is my uploaded image sent to a server?", answer: "No. The entire resizing process happens locally inside your browser. No files are uploaded to our servers, keeping your data private." },
+    { question: "What formats can I export my resized image to?", answer: "You can download your resized image in original format, JPEG, PNG, or WebP." },
+    { question: "What does aspect ratio lock mean?", answer: "Locking the aspect ratio ensures that when you adjust the width, the height updates proportionally (and vice versa) to prevent the image from stretching or distorting." },
+    { question: "Are social media size presets available?", answer: "Yes. The tool includes size presets for popular platforms like Instagram, Facebook, X (Twitter), and LinkedIn." },
+    { question: "Does resizing reduce image file size?", answer: "Yes. Reducing the pixel dimensions of an image decreases its file size, which helps optimize images for website performance." },
+    { question: "Can I resize multiple images at once?", answer: "This version is optimized for processing one image at a time to ensure maximum quality and performance in the browser." },
+    { question: "Will resizing affect image quality?", answer: "Downscaling an image reduces its resolution but usually keeps it looking sharp. Upscaling an image past its original size can make it look pixelated or blurry." },
+    { question: "How does the browser handle PNG transparency when resizing?", answer: "If you export to PNG or WebP, image transparency is preserved. If you export to JPEG, transparent areas will render as white." },
+    { question: "Does this tool work on mobile devices?", answer: "Yes. The interface is responsive and runs on mobile browsers, allowing you to resize photos on your phone." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/image-tools" class="hover:text-ink transition-colors">Image Tools</a>
-      <span>/</span>
-      <span class="text-ink">Image Resizer</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Image & PDF Tools"
+      categorySlug="image-tools"
+      toolName="Image Resizer"
+      toolSlug="image-resizer"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -479,6 +411,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="image-tools"
+      toolSlug="image-resizer"
+    />
 </Layout>
 
 <script>
