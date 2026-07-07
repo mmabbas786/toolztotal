@@ -27,6 +27,20 @@ const categories = [
   { name: "Health & Fitness", slug: "health" },
   { name: "Legal & Employment", slug: "legal" }
 ];
+
+// Resolve dynamic OG Image based on pathname
+const pathname = Astro.url.pathname.replace(/^\/|\/$/g, ''); // strip leading/trailing slashes
+const pathParts = pathname.split('/');
+
+let ogImageUrl = 'https://toolztotal.com/og-image.png';
+
+if (pathParts.length === 2) {
+  const [category, slug] = pathParts;
+  const isValidCategory = toolCatalog.some(c => c.slug === category) || category === 'blog';
+  if (isValidCategory) {
+    ogImageUrl = `https://toolztotal.com/og/${category}/${slug}.png`;
+  }
+}
 ---
 
 <!doctype html>
@@ -51,14 +65,17 @@ const categories = [
     <meta property="og:url" content={canonicalUrl || "https://toolztotal.com/"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://toolztotal.com/og-image.png" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="ToolzTotal" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalUrl || "https://toolztotal.com/"} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content="https://toolztotal.com/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl || "https://toolztotal.com/"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Google Fonts Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
