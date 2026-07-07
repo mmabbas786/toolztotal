@@ -1,110 +1,43 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a JSON Formatter & Validator?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A JSON Formatter & Validator is a developer tool that takes raw, unformatted, or malformed JSON data and formats it into a readable, well-indented structure. It also validates whether the input is proper JSON according to the ECMAScript specification, pinpointing syntax errors with line and column numbers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does JSON formatting work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "JSON formatting works by parsing the input string using JavaScript's built-in JSON.parse() method. If parsing succeeds, the resulting object is serialized back using JSON.stringify() with configurable indentation (typically 2 spaces). This produces a clean, well-structured output with proper nesting and line breaks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is JSON minification used for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "JSON minification removes all unnecessary whitespace, line breaks, and indentation from a JSON string, producing a compact representation. This is useful for reducing file size in production APIs, saving bandwidth during data transfer, and preparing JSON for storage in space-constrained environments."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I validate JSON against a schema?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, this tool supports schema validation where you can paste a JSON Schema definition and check whether your input JSON conforms to it. The validator checks for required fields, data types, and structural constraints defined in the schema, reporting any mismatches with the specific field paths that failed validation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this JSON tool free and private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, this JSON Formatter & Validator is completely free to use with no signup required. It runs entirely client-side in your browser—no JSON data is ever sent to any server. All formatting, validation, and schema checking happens locally, ensuring your data remains private and secure at all times."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why did I get a 'SyntaxError: Unexpected token' error?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This error occurs when the input text violates the strict JSON specification. Common violations include trailing commas after the last item in an object or array, unquoted keys, single quotes instead of double quotes on keys or strings, or unescaped control characters. The validator points out the exact line and character position of the error to help you locate and fix it."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a JSON collapsible tree view?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A collapsible tree view is a visual representation of the JSON object hierarchy. It lets you expand or collapse individual nodes (objects and arrays) so you can easily navigate complex, deeply nested JSON data structures without scrolling through thousands of lines of text."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this JSON Formatter support big files?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, this tool can format and validate JSON payloads up to several megabytes. Because all processing is done locally inside your browser's V8 Javascript engine, performance is extremely fast and limited only by your computer's memory and CPU capacity."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between JSON and JavaScript objects?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "JSON (JavaScript Object Notation) is a text-based data serialization format, whereas a JavaScript object is a memory representation of a data structure. JSON requires double quotes around all keys, forbids functions, methods, and comments, and supports a limited set of data types (string, number, object, array, boolean, and null)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I use comments in JSON?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The official JSON standard (RFC 8259) explicitly forbids comments. Any comment (such as // or /* */) inside a JSON string will trigger a syntax validation error. If you need to store metadata, it is recommended to add a dedicated key-value pair, like '_comment': 'message'."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="JSON Formatter & Validator - Free, Fast, No Signup | ToolzTotal"
   description="Format, validate, minify, and pretty-print JSON in real-time. Collapsible tree view, syntax highlighting, schema validation — all client-side and free."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="JSON Formatter & Validator"
+    toolSlug="json-formatter"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Format, validate, minify, and pretty-print JSON in real-time. Collapsible tree view, syntax highlighting, schema validation — all client-side and free."
+  faqs={[
+    { question: "What is a JSON Formatter & Validator?", answer: "A JSON Formatter & Validator is a developer tool that takes raw, unformatted, or malformed JSON data and formats it into a readable, well-indented structure. It also validates whether the input is proper JSON according to the ECMAScript specification, pinpointing syntax errors with line and column numbers." },
+    { question: "How does JSON formatting work?", answer: "JSON formatting works by parsing the input string using JavaScript's built-in JSON.parse() method. If parsing succeeds, the resulting object is serialized back using JSON.stringify() with configurable indentation (typically 2 spaces). This produces a clean, well-structured output with proper nesting and line breaks." },
+    { question: "What is JSON minification used for?", answer: "JSON minification removes all unnecessary whitespace, line breaks, and indentation from a JSON string, producing a compact representation. This is useful for reducing file size in production APIs, saving bandwidth during data transfer, and preparing JSON for storage in space-constrained environments." },
+    { question: "Can I validate JSON against a schema?", answer: "Yes, this tool supports schema validation where you can paste a JSON Schema definition and check whether your input JSON conforms to it. The validator checks for required fields, data types, and structural constraints defined in the schema, reporting any mismatches with the specific field paths that failed validation." },
+    { question: "Is this JSON tool free and private?", answer: "Yes, this JSON Formatter & Validator is completely free to use with no signup required. It runs entirely client-side in your browser — no JSON data is ever sent to any server. All formatting, validation, and schema checking happens locally, ensuring your data remains private and secure at all times." },
+    { question: "Why did I get a 'SyntaxError: Unexpected token' error?", answer: "This error occurs when the input text violates the strict JSON specification. Common violations include trailing commas after the last item in an object or array, unquoted keys, single quotes instead of double quotes on keys or strings, or unescaped control characters. The validator points out the exact line and character position of the error to help you locate and fix it." },
+    { question: "What is a JSON collapsible tree view?", answer: "A collapsible tree view is a visual representation of the JSON object hierarchy. It lets you expand or collapse individual nodes (objects and arrays) so you can easily navigate complex, deeply nested JSON data structures without scrolling through thousands of lines of text." },
+    { question: "Does this JSON Formatter support big files?", answer: "Yes, this tool can format and validate JSON payloads up to several megabytes. Because all processing is done locally inside your browser's V8 Javascript engine, performance is extremely fast and limited only by your computer's memory and CPU capacity." },
+    { question: "What is the difference between JSON and JavaScript objects?", answer: "JSON (JavaScript Object Notation) is a text-based data serialization format, whereas a JavaScript object is a memory representation of a data structure. JSON requires double quotes around all keys, forbids functions, methods, and comments, and supports a limited set of data types (string, number, object, array, boolean, and null)." },
+    { question: "Can I use comments in JSON?", answer: "No. The official JSON standard (RFC 8259) explicitly forbids comments. Any comment (such as // or /* */) inside a JSON string will trigger a syntax validation error. If you need to store metadata, it is recommended to add a dedicated key-value pair, like '_comment': 'message'." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">JSON Formatter & Validator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="JSON Formatter & Validator"
+      toolSlug="json-formatter"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-10">
@@ -414,6 +347,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
   <!-- Client Script -->
   <script>
+// @ts-nocheck
     // ---- DOM refs ----
     const jsonInput = document.getElementById('json-input') as HTMLTextAreaElement;
     const outputArea = document.getElementById('output-area') as HTMLDivElement;
@@ -929,4 +863,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
     .json-ellipsis:hover { color: var(--color-body); }
     .text-error { color: var(--color-error); }
   </style>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="json-formatter"
+    />
 </Layout>

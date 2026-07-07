@@ -1,94 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a Diff Checker?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A Diff Checker is a developer tool that compares two blocks of text or code and highlights the differences between them. It shows which lines were added, removed, or modified, helping developers quickly understand what changed between two versions of a file, configuration, or any textual content."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the diff algorithm work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This tool uses an LCS (Longest Common Subsequence) based diff algorithm. It splits both inputs into lines, finds the longest sequence of lines common to both texts, then identifies insertions, deletions, and modifications. For modified lines, it performs a secondary word-level comparison to highlight exactly which words changed within the same line."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between side-by-side and inline diff views?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Side-by-side view displays the original and changed texts in two parallel columns, making it easy to scan the overall differences at a glance. Inline (unified) view merges both versions into a single scrolling view with color-coded lines, where added lines are shown in green and removed lines in red. Both views support line numbers and word-level highlighting for modified lines."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I ignore whitespace or case when comparing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, the tool provides two options: Ignore Whitespace trims leading/trailing whitespace and normalizes internal whitespace before comparing lines. Ignore Case converts all text to lowercase before comparison. These options help focus on semantic differences rather than formatting or casing issues, which is particularly useful when comparing code or configuration files."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this diff checker free and private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, this Diff Checker is completely free to use with no signup required. All comparison logic runs entirely client-side in your browser — no text or code is ever sent to any server. Your data remains private and secure at all times, making it safe to compare sensitive code, configuration files, or confidential documents."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between line-level and character-level comparisons?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Line-level comparison evaluates entire lines to mark them as added or deleted. Character or word-level comparison runs inside modified lines to pinpoint the exact difference (such as changing a variable name or typo), giving you highly precise visual feedback instead of highlighting the entire line blindly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does the Ignore Whitespace option affect the diff output display?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The options only control how the diff engine evaluates equality. The final diff view will still show the original formatting and spaces of your input text, but it won't highlight those lines as different if the only change was indentation or empty lines."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I copy the diff results directly?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. While you cannot download raw HTML diff logs directly, you can copy the original or modified text inputs using the Copy buttons, or use your browser's selection tool to highlight and copy formatted inline diff blocks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool support comparing files directly?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Currently, the tool supports copying and pasting text directly into the Original and Changed text areas. If you have files (like .txt, .js, .json, or .css), you can open them in any text editor, select all, and copy-paste them into the tool to run the diff comparison instantly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the Longest Common Subsequence (LCS) algorithm?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The LCS algorithm is a classic computer science method used to find the longest subsequence common to two sequences. It is the mathematical backbone of version control systems like Git and diffing utilities, helping determine the minimal number of insertions and deletions needed to transform one text into another."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Diff Checker - Compare Text & Code Online, Free | ToolzTotal",
@@ -101,8 +15,27 @@ const ogMeta = {
 <Layout
   title="Diff Checker - Compare Text & Code Online, Free | ToolzTotal"
   description="Compare two blocks of text or code side-by-side or inline. Word-level diff highlighting, ignore whitespace/case options — all client-side and free."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Diff Checker"
+    toolSlug="diff-checker"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Compare two blocks of text or code side-by-side or inline. Word-level diff highlighting, ignore whitespace/case options — all client-side and free."
+  faqs={[
+    { question: "What is a Diff Checker?", answer: "A Diff Checker is a developer tool that compares two blocks of text or code and highlights the differences between them. It shows which lines were added, removed, or modified, helping developers quickly understand what changed between two versions of a file, configuration, or any textual content." },
+    { question: "How does the diff algorithm work?", answer: "This tool uses an LCS (Longest Common Subsequence) based diff algorithm. It splits both inputs into lines, finds the longest sequence of lines common to both texts, then identifies insertions, deletions, and modifications. For modified lines, it performs a secondary word-level comparison to highlight exactly which words changed within the same line." },
+    { question: "What is the difference between side-by-side and inline diff views?", answer: "Side-by-side view displays the original and changed texts in two parallel columns, making it easy to scan the overall differences at a glance. Inline (unified) view merges both versions into a single scrolling view with color-coded lines, where added lines are shown in green and removed lines in red. Both views support line numbers and word-level highlighting for modified lines." },
+    { question: "Can I ignore whitespace or case when comparing?", answer: "Yes, the tool provides two options: Ignore Whitespace trims leading/trailing whitespace and normalizes internal whitespace before comparing lines. Ignore Case converts all text to lowercase before comparison. These options help focus on semantic differences rather than formatting or casing issues, which is particularly useful when comparing code or configuration files." },
+    { question: "Is this diff checker free and private?", answer: "Yes, this Diff Checker is completely free to use with no signup required. All comparison logic runs entirely client-side in your browser — no text or code is ever sent to any server. Your data remains private and secure at all times, making it safe to compare sensitive code, configuration files, or confidential documents." },
+    { question: "What is the difference between line-level and character-level comparisons?", answer: "Line-level comparison evaluates entire lines to mark them as added or deleted. Character or word-level comparison runs inside modified lines to pinpoint the exact difference (such as changing a variable name or typo), giving you highly precise visual feedback instead of highlighting the entire line blindly." },
+    { question: "Does the Ignore Whitespace option affect the diff output display?", answer: "No. The options only control how the diff engine evaluates equality. The final diff view will still show the original formatting and spaces of your input text, but it won't highlight those lines as different if the only change was indentation or empty lines." },
+    { question: "Can I copy the diff results directly?", answer: "Yes. While you cannot download raw HTML diff logs directly, you can copy the original or modified text inputs using the Copy buttons, or use your browser's selection tool to highlight and copy formatted inline diff blocks." },
+    { question: "Does this tool support comparing files directly?", answer: "Currently, the tool supports copying and pasting text directly into the Original and Changed text areas. If you have files (like .txt, .js, .json, or .css), you can open them in any text editor, select all, and copy-paste them into the tool to run the diff comparison instantly." },
+    { question: "What is the Longest Common Subsequence (LCS) algorithm?", answer: "The LCS algorithm is a classic computer science method used to find the longest subsequence common to two sequences. It is the mathematical backbone of version control systems like Git and diffing utilities, helping determine the minimal number of insertions and deletions needed to transform one text into another." }
+  ]}
+  />
+
   <meta slot="head" property="og:title" content={ogMeta.title} />
   <meta slot="head" property="og:description" content={ogMeta.description} />
   <meta slot="head" property="og:url" content={ogMeta.url} />
@@ -112,15 +45,13 @@ const ogMeta = {
   <meta slot="head" name="twitter:description" content={ogMeta.description} />
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="Diff Checker - Compare Text & Code Online, Free"
+      toolSlug="diff-checker"
+    />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">Diff Checker</span>
-    </nav>
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-10">
@@ -464,6 +395,7 @@ const ogMeta = {
   </style>
 
   <script>
+// @ts-nocheck
     // ---- DOM refs ----
     const textOriginal = document.getElementById('text-original') as HTMLTextAreaElement;
     const textChanged = document.getElementById('text-changed') as HTMLTextAreaElement;
@@ -893,4 +825,9 @@ if (counter > 5) {
 
     runDiff();
   </script>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="diff-checker"
+    />
 </Layout>

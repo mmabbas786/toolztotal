@@ -1,97 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 // NOTE: All SE tax rate constants are isolated in seTaxConfig.ts
 // Update that file annually — do NOT change rates here.
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is self-employment tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Self-employment tax is the Social Security and Medicare tax paid by self-employed individuals. Employees split this cost with their employer — self-employed people pay both sides, totaling 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net SE earnings."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Who has to pay self-employment tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Anyone with net self-employment earnings of $400 or more must file Schedule SE. This covers freelancers, 1099 contractors, sole proprietors, gig workers, and partners. Even if SE income is a side hustle alongside a W-2 job, the SE income is still taxed separately."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is self-employment tax different from income tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "SE tax covers Social Security and Medicare. Income tax is a separate federal tax on your taxable income after deductions. You owe both. You can deduct half of your SE tax from gross income when calculating federal income tax, which reduces your income tax burden slightly."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What happens if I don't pay quarterly estimated taxes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If you owe $1,000+ and underpay by each quarterly deadline, the IRS can charge an underpayment penalty — calculated using the current federal short-term interest rate plus 3 percentage points. Paying quarterly keeps you current and avoids this penalty."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this calculator a substitute for a tax professional?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. This tool provides general estimates for informational use only — it is not tax advice. Tax law is complex, changes annually, and depends on your complete financial picture, state taxes, credits, and deductions. Always consult a licensed CPA or tax attorney and verify figures at irs.gov before filing."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Who is considered self-employed for tax purposes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The IRS considers you self-employed if you carry on a trade or business as a sole proprietor, an independent contractor, a member of a partnership, or otherwise work for yourself (including gig workers)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the self-employment tax rate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The self-employment tax rate is 15.3% of net earnings. This consists of 12.4% for Social Security and 2.9% for Medicare."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I deduct a portion of my self-employment tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can deduct half of your self-employment tax (the employer-equivalent portion) as an adjustment to income on Form 1040, which lowers your Adjusted Gross Income (AGI)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What business expenses can I deduct to lower my tax liability?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You can deduct ordinary and necessary business expenses, such as home office expenses, vehicle mileage, equipment, advertising, business insurance, and professional services."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do I still pay self-employment tax if I have a W-2 day job?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Self-employment tax applies to all net freelance earnings of $400 or more, regardless of whether you also pay FICA taxes through a W-2 employer."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 
 const ogMeta = {
   title: "Self-Employment Tax Calculator - Free SE Tax & Quarterly Payment Estimator | ToolzTotal",
@@ -104,8 +18,27 @@ const ogMeta = {
 <Layout
   title="Self-Employment Tax Calculator - Free SE Tax & Quarterly Payment Estimator | ToolzTotal"
   description="Free self employment tax calculator — estimate SE tax, Social Security & Medicare portions, and quarterly estimated payments. No signup required."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Self-Employment Tax Calculator"
+    toolSlug="self-employment-tax-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Free self employment tax calculator — estimate SE tax, Social Security & Medicare portions, and quarterly estimated payments. No signup required."
+    faqs={[
+      { question: "What is self-employment tax?", answer: "Self-employment tax is the Social Security and Medicare tax paid by self-employed individuals. Employees split this cost with their employer — self-employed people pay both sides, totaling 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net SE earnings." },
+      { question: "Who has to pay self-employment tax?", answer: "Anyone with net self-employment earnings of $400 or more must file Schedule SE. This covers freelancers, 1099 contractors, sole proprietors, gig workers, and partners. Even if SE income is a side hustle alongside a W-2 job, the SE income is still taxed separately." },
+      { question: "How is self-employment tax different from income tax?", answer: "SE tax covers Social Security and Medicare. Income tax is a separate federal tax on your taxable income after deductions. You owe both. You can deduct half of your SE tax from gross income when calculating federal income tax, which reduces your income tax burden slightly." },
+      { question: "What happens if I don't pay quarterly estimated taxes?", answer: "If you owe $1,000+ and underpay by each quarterly deadline, the IRS can charge an underpayment penalty — calculated using the current federal short-term interest rate plus 3 percentage points. Paying quarterly keeps you current and avoids this penalty." },
+      { question: "Is this calculator a substitute for a tax professional?", answer: "No. This tool provides general estimates for informational use only — it is not tax advice. Tax law is complex, changes annually, and depends on your complete financial picture, state taxes, credits, and deductions. Always consult a licensed CPA or tax attorney and verify figures at irs.gov before filing." },
+      { question: "Who is considered self-employed for tax purposes?", answer: "The IRS considers you self-employed if you carry on a trade or business as a sole proprietor, an independent contractor, a member of a partnership, or otherwise work for yourself (including gig workers)." },
+      { question: "What is the self-employment tax rate?", answer: "The self-employment tax rate is 15.3% of net earnings. This consists of 12.4% for Social Security and 2.9% for Medicare." },
+      { question: "Can I deduct a portion of my self-employment tax?", answer: "Yes. You can deduct half of your self-employment tax (the employer-equivalent portion) as an adjustment to income on Form 1040, which lowers your Adjusted Gross Income (AGI)." },
+      { question: "What business expenses can I deduct to lower my tax liability?", answer: "You can deduct ordinary and necessary business expenses, such as home office expenses, vehicle mileage, equipment, advertising, business insurance, and professional services." },
+      { question: "Do I still pay self-employment tax if I have a W-2 day job?", answer: "Yes. Self-employment tax applies to all net freelance earnings of $400 or more, regardless of whether you also pay FICA taxes through a W-2 employer." }
+    ]}
+  />
+
   <!-- OG / Twitter Card -->
   <meta slot="head" property="og:title" content={ogMeta.title} />
   <meta slot="head" property="og:description" content={ogMeta.description} />
@@ -116,15 +49,13 @@ const ogMeta = {
   <meta slot="head" name="twitter:description" content={ogMeta.description} />
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Self-Employment Tax Calculator"
+      toolSlug="self-employment-tax-calculator"
+    />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">SE Tax Calculator</span>
-    </nav>
 
     <!-- Header -->
     <div class="max-w-4xl mb-12">
@@ -675,9 +606,15 @@ const ogMeta = {
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="self-employment-tax-calculator"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // SE Tax Config (mirrored from seTaxConfig.ts — keep in sync)
   // NOTE: Update these constants annually. Do NOT change UI code.

@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the ideal length for an email subject line?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For general email campaigns, the ideal subject line length is between 30 and 50 characters. Subject lines in this range prevent layout clipping on mobile screens while providing enough context to encourage the recipient to open the email."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do spam trigger words affect email deliverability?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Spam filters run automated scoring algorithms on email subject lines and body content. Using aggressive sales jargon or spam trigger phrases (like '100% free', 'make money', or 'guaranteed winner') increases your spam score, making it likely your email lands in the spam or promotions folder instead of the primary inbox."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Where do major email clients cut off subject lines?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Clipping limits vary by platform: Gmail desktop displays up to 70 characters; Outlook desktop displays up to 54 characters; and mobile devices (like iPhone Mail or Gmail App) typically cut off subject lines between 35 and 41 characters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why is A/B testing email subject lines recommended?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A/B testing involves sending two different subject line variants to small segments of your subscriber list to compare performance. The variant that achieves the higher open rate is then sent to the remainder of the list, helping you maximize overall campaign engagement."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are my campaign subject lines private?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. This email subject line testing tool runs entirely client-side. None of your campaigns, headings, or subjects are uploaded, logged, or sent to a server."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the ideal character length for an email subject line?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The recommended length is between 40 and 60 characters. This ensures the subject line is long enough to explain the email's value while remaining short enough to display fully on most mobile and desktop email clients."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do spam filters analyze subject lines for trigger words?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Spam filters scan subject lines for aggressive sales language, excessive capitalization (e.g., 'FREE NOW'), and trigger words like 'guaranteed', 'risk-free', or 'earn money'. Using these terms excessively can direct your email to the spam folder."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I use personalization tokens in my subject lines?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, using personalization tokens like a recipient's first name can increase open rates. However, ensure you have a clean fallback option (like 'there') in case the database field is blank, to avoid displaying broken code like 'Hi [First_Name]'."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do emojis in subject lines affect email open rates?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Emojis can increase open rates by adding visual interest in a crowded inbox. However, they should be used sparingly (limit to 1 or 2) and make sense for the topic to prevent the email from looking like spam or rendering incorrectly on older devices."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is preheader text and how does it relate to the subject line?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Preheader text is the brief summary text that displays next to or below the subject line in an inbox. It acts as secondary preview copy, allowing you to build on the hook in your subject line and encourage users to open the email."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Email Subject Line Tester - Free Spam Scanner & Suggestions | ToolzTotal"
   description="Test your email subject lines. Scans for spam trigger phrases, evaluates character length thresholds for major ESPs, and suggests A/B variants."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/marketing/email-subject-tester"
 >
+  <ToolSchema
+    toolName="Email Subject Line Tester"
+    toolSlug="email-subject-tester"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description="Test your email subject lines. Scans for spam trigger phrases, evaluates character length thresholds for major ESPs, and suggests A/B variants."
+  faqs={[
+    { question: "What is the ideal length for an email subject line?", answer: "For general email campaigns, the ideal subject line length is between 30 and 50 characters. Subject lines in this range prevent layout clipping on mobile screens while providing enough context to encourage the recipient to open the email." },
+    { question: "How do spam trigger words affect email deliverability?", answer: "Spam filters run automated scoring algorithms on email subject lines and body content. Using aggressive sales jargon or spam trigger phrases (like '100% free', 'make money', or 'guaranteed winner') increases your spam score, making it likely your email lands in the spam or promotions folder instead of the primary inbox." },
+    { question: "Where do major email clients cut off subject lines?", answer: "Clipping limits vary by platform: Gmail desktop displays up to 70 characters; Outlook desktop displays up to 54 characters; and mobile devices (like iPhone Mail or Gmail App) typically cut off subject lines between 35 and 41 characters." },
+    { question: "Why is A/B testing email subject lines recommended?", answer: "A/B testing involves sending two different subject line variants to small segments of your subscriber list to compare performance. The variant that achieves the higher open rate is then sent to the remainder of the list, helping you maximize overall campaign engagement." },
+    { question: "Are my campaign subject lines private?", answer: "Yes. This email subject line testing tool runs entirely client-side. None of your campaigns, headings, or subjects are uploaded, logged, or sent to a server." },
+    { question: "What is the ideal character length for an email subject line?", answer: "The recommended length is between 40 and 60 characters. This ensures the subject line is long enough to explain the email's value while remaining short enough to display fully on most mobile and desktop email clients." },
+    { question: "How do spam filters analyze subject lines for trigger words?", answer: "Spam filters scan subject lines for aggressive sales language, excessive capitalization (e.g., 'FREE NOW'), and trigger words like 'guaranteed', 'risk-free', or 'earn money'. Using these terms excessively can direct your email to the spam folder." },
+    { question: "Should I use personalization tokens in my subject lines?", answer: "Yes, using personalization tokens like a recipient's first name can increase open rates. However, ensure you have a clean fallback option (like 'there') in case the database field is blank, to avoid displaying broken code like 'Hi [First_Name]'." },
+    { question: "How do emojis in subject lines affect email open rates?", answer: "Emojis can increase open rates by adding visual interest in a crowded inbox. However, they should be used sparingly (limit to 1 or 2) and make sense for the topic to prevent the email from looking like spam or rendering incorrectly on older devices." },
+    { question: "What is preheader text and how does it relate to the subject line?", answer: "Preheader text is the brief summary text that displays next to or below the subject line in an inbox. It acts as secondary preview copy, allowing you to build on the hook in your subject line and encourage users to open the email." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
-      <span>/</span>
-      <span class="text-ink">Email Subject Line Tester</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Marketing & SEO"
+      categorySlug="marketing"
+      toolName="Email Subject Line Tester"
+      toolSlug="email-subject-tester"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -408,9 +340,15 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="marketing"
+      toolSlug="email-subject-tester"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // DOM Elements
   // ============================================================

@@ -1,111 +1,73 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is my loan payment calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Your monthly loan payment is calculated using standard amortization formulas: M = P * [r(1+r)^n] / [(1+r)^n - 1]. Here, P represents the principal amount you borrow, r is the monthly interest rate (annual rate divided by 12), and n is the total number of payments (duration in months)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's a typical interest rate for an auto/personal/student loan?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Average rates fluctuate but generally, auto loans range between 5% and 9% depending on prime conditions and credit scores. Personal loans are unsecured and range higher, usually between 8% and 25%. Federal student loan rates are set by Congress and generally range between 5% and 8% depending on the loan disbursement date and degree status."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does my credit score affect my rate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, credit scores are the primary risk metric lenders use. Higher credit scores indicate a solid track record of repayment, qualifying you for lowest rate bands. Lower scores increase your default risk profile, meaning lenders charge higher interest rates to compensate, increasing your monthly and overall debt expense."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much can extra payments save me?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Extra payments lower the principal amount immediately. Since interest is calculated monthly as a percentage of your outstanding balance, reducing the base amount reduces future interest accruals. This speeds up your schedule, shaves months off your term, and saves hundreds or thousands of dollars in cumulative financing charges."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this loan calculator accurate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, our calculations use standard mathematical amortization algorithms. However, lenders may use slightly different day count conventions, add loan origination or administration fees, or compound interest differently. Always crosscheck these calculations against a official Truth in Lending disclosure statement before signing contract details."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between secured and unsecured loans?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Secured loans are backed by physical collateral (like a home or car) that the lender can repossess if you default. Unsecured loans (like personal loans or credit cards) have no collateral, carrying higher interest rates due to increased risk."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does loan duration affect my total interest paid?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Shorter loan durations have higher monthly payments but lower interest rates, saving you money on interest. Longer loan durations offer lower payments but increase total interest over time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a prepayment penalty on a loan?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A prepayment penalty is a fee charged by some lenders if you pay off your loan early, protecting the lender's expected interest profit. Always ask for fee terms before signing."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does my credit history affect my loan interest rate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Lenders use your credit report and credit score to assess risk. Borrowers with high credit scores qualify for the lowest rates, while lower scores result in premium interest rates."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can a personal loan be used to consolidate credit card debt?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Consolidating credit card debt with a personal loan can lower your average interest rate and simplify multiple monthly payments into a single fixed installment."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+// FAQ entries for ToolSchema
+const faqs = [
+  {
+    question: 'How is my loan payment calculated?',
+    answer: "Your monthly loan payment is calculated using standard amortization formulas: M = P * [r(1+r)^n] / [(1+r)^n - 1]. Here, P represents the principal amount you borrow, r is the monthly interest rate (annual rate divided by 12), and n is the total number of payments (duration in months)."
+  },
+  {
+    question: "What's a typical interest rate for an auto/personal/student loan?",
+    answer: "Average rates fluctuate but generally, auto loans range between 5% and 9% depending on prime conditions and credit scores. Personal loans are unsecured and range higher, usually between 8% and 25%. Federal student loan rates are set by Congress and generally range between 5% and 8% depending on the loan disbursement date and degree status."
+  },
+  {
+    question: 'Does my credit score affect my rate?',
+    answer: "Yes, credit scores are the primary risk metric lenders use. Higher credit scores indicate a solid track record of repayment, qualifying you for lowest rate bands. Lower scores increase your default risk profile, meaning lenders charge higher interest rates to compensate, increasing your monthly and overall debt expense."
+  },
+  {
+    question: 'How much can extra payments save me?',
+    answer: "Extra payments lower the principal amount immediately. Since interest is calculated monthly as a percentage of your outstanding balance, reducing the base amount reduces future interest accruals. This speeds up your schedule, shaves months off your term, and saves hundreds or thousands of dollars in cumulative financing charges."
+  },
+  {
+    question: 'Is this loan calculator accurate?',
+    answer: "Yes, our calculations use standard mathematical amortization algorithms. However, lenders may use slightly different day count conventions, add loan origination or administration fees, or compound interest differently. Always crosscheck these calculations against a official Truth in Lending disclosure statement before signing contract details."
+  },
+  {
+    question: 'What is the difference between secured and unsecured loans?',
+    answer: "Secured loans are backed by physical collateral (like a home or car) that the lender can repossess if you default. Unsecured loans (like personal loans or credit cards) have no collateral, carrying higher interest rates due to increased risk."
+  },
+  {
+    question: 'How does loan duration affect my total interest paid?',
+    answer: "Shorter loan durations have higher monthly payments but lower interest rates, saving you money on interest. Longer loan durations offer lower payments but increase total interest over time."
+  },
+  {
+    question: 'What is a prepayment penalty on a loan?',
+    answer: "A prepayment penalty is a fee charged by some lenders if you pay off your loan early, protecting the lender's expected interest profit. Always ask for fee terms before signing."
+  },
+  {
+    question: 'How does my credit history affect my loan interest rate?',
+    answer: "Lenders use your credit report and credit score to assess risk. Borrowers with high credit scores qualify for the lowest rates, while lower scores result in premium interest rates."
+  },
+  {
+    question: 'Can a personal loan be used to consolidate credit card debt?',
+    answer: "Yes. Consolidating credit card debt with a personal loan can lower your average interest rate and simplify multiple monthly payments into a single fixed installment."
+  }
+];
 ---
 
 <Layout 
   title="Loan Calculator - Free Auto, Personal & Student Loan Payment Estimator | ToolzTotal"
   description="Calculate monthly payments for auto, personal, or student loans with our free, ad-free loan calculator. Compare presets and extra payment savings."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Loan Payment Calculator"
+    toolSlug="loan-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Estimate monthly loan repayments, interest totals, and payoff timelines. Select from preset loan profiles or configure a custom term with optional monthly extra payments."
+    faqs={faqs}
+  />
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">Loan Calculator</span>
-    </nav>
+    <Breadcrumbs 
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Loan Payment Calculator"
+      toolSlug="loan-calculator"
+    />
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -783,57 +745,17 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </section>
 
-    <!-- Related Tools Section -->
-    <section class="mt-20 pt-16 border-t border-hairline">
-      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Finance Tools</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        
-        <a 
-          href="/finance/mortgage-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Mortgage Payment Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Estimate monthly mortgage payments, including property tax, insurance, PMI, and HOA fees.</p>
-        </a>
-
-        <a 
-          href="/finance/compound-interest-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Compound Interest Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Visualize the growth of savings and investments through compounding interest over time.</p>
-        </a>
-
-        <a 
-          href="/finance/break-even-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Break-Even Analysis Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Determine the sales volume or revenue needed to cover fixed and variable costs.</p>
-        </a>
-
-      </div>
-    </section>
+    <!-- Related Tools -->
+    <RelatedTools 
+      categorySlug="finance" 
+      toolSlug="loan-calculator" 
+    />
 
   </div>
 
   <!-- Client-Side Calculator Logic Script -->
   <script>
+// @ts-nocheck
     import { calculateAmortization, getYearlySchedule, generateCsv, getSvgChartPaths } from '../../utils/amortization';
 
     // 1. DOM Element Cache

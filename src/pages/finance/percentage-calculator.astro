@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How do you calculate a basic percentage?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To find a percentage of a number, convert the percentage to a decimal (divide by 100) and multiply: Value = Total * (Percentage / 100)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you calculate percentage change?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To find the percentage increase or decrease between two values: Percentage Change = ((New Value - Old Value) / Old Value) * 100."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is percentage points vs. percent?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Percent measures the rate of change relative to an original value. Percentage points measure the simple arithmetic difference between two percentages (e.g., an increase from 10% to 15% is a 5 percentage point increase, but a 50% relative increase)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you find the whole if you have the part and percent?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To find the total value from a partial value and its percentage: Total = Part / (Percentage / 100)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is percentage increase calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To increase a number by a percentage: New Value = Original * (1 + (Percentage / 100))."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is percentage decrease calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "To decrease a number by a percentage: New Value = Original * (1 - (Percentage / 100))."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a percentage multiplier?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A percentage multiplier is the factor used to adjust a value directly. An 8% tax has a multiplier of 1.08, while a 20% discount has a multiplier of 0.80."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you calculate fraction to percentage?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Divide the numerator by the denominator, then multiply by 100: Percentage = (Numerator / Denominator) * 100."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why are percentages important in business?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Percentages are used to compare financial performance across different company sizes, showing profit margins, tax rates, growth rates, and market share."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this calculator support decimals?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can input fractional percentages and decimal values, and the engine will compute exact figures rounded to standard decimal places."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="Percentage Calculator - Free Rates & Percent Solver | ToolzTotal"
   description="Calculate percentages, percentage changes, and fractional values with visual graphs. Quick tip shortcuts. Clean static client-side tool."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/finance/percentage-calculator"
 >
+  <ToolSchema
+    toolName="Percentage Calculator"
+    toolSlug="percentage-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate percentages, percentage changes, and fractional values with visual graphs. Quick tip shortcuts. Clean static client-side tool."
+  faqs={[
+    { question: "How do you calculate a basic percentage?", answer: "To find a percentage of a number, convert the percentage to a decimal (divide by 100) and multiply: Value = Total * (Percentage / 100)." },
+    { question: "How do you calculate percentage change?", answer: "To find the percentage increase or decrease between two values: Percentage Change = ((New Value - Old Value) / Old Value) * 100." },
+    { question: "What is percentage points vs. percent?", answer: "Percent measures the rate of change relative to an original value. Percentage points measure the simple arithmetic difference between two percentages (e.g., an increase from 10% to 15% is a 5 percentage point increase, but a 50% relative increase)." },
+    { question: "How do you find the whole if you have the part and percent?", answer: "To find the total value from a partial value and its percentage: Total = Part / (Percentage / 100)." },
+    { question: "How is percentage increase calculated?", answer: "To increase a number by a percentage: New Value = Original * (1 + (Percentage / 100))." },
+    { question: "How is percentage decrease calculated?", answer: "To decrease a number by a percentage: New Value = Original * (1 - (Percentage / 100))." },
+    { question: "What is a percentage multiplier?", answer: "A percentage multiplier is the factor used to adjust a value directly. An 8% tax has a multiplier of 1.08, while a 20% discount has a multiplier of 0.80." },
+    { question: "How do you calculate fraction to percentage?", answer: "Divide the numerator by the denominator, then multiply by 100: Percentage = (Numerator / Denominator) * 100." },
+    { question: "Why are percentages important in business?", answer: "Percentages are used to compare financial performance across different company sizes, showing profit margins, tax rates, growth rates, and market share." },
+    { question: "Does this calculator support decimals?", answer: "Yes. You can input fractional percentages and decimal values, and the engine will compute exact figures rounded to standard decimal places." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance</a>
-      <span>/</span>
-      <span class="text-ink">Percentage Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Percentage Calculator"
+      toolSlug="percentage-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -561,9 +493,15 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="percentage-calculator"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // DOM Elements
   // ============================================================

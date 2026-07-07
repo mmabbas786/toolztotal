@@ -1,137 +1,84 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import Layout from "../../layouts/Layout.astro";
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Do these QR codes expire?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. These are static QR codes. They embed the data directly within the visual matrix. Since there is no redirect server or intermediary link involved, the QR codes will remain active indefinitely and will never expire."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the QR error correction level?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Error correction (L, M, Q, H) allows a QR code to be scanned even if part of it is dirty, damaged, or covered by a logo. Level L recovers up to 7% damage, M up to 15%, Q up to 25%, and H up to 30%. Using a higher level makes the code more dense but allows for larger logo overlays in the center."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I add a logo to the center of the QR code?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, you can upload a PNG or JPEG logo. The generator uses client-side HTML5 canvas to place your image in the center. We recommend using Error Correction Level H to ensure the QR code remains scannable when covered by your logo."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's the difference between URL, WiFi, and vCard QR codes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "URL codes open a website in a browser. WiFi codes contain credentials (SSID and password) to automatically connect mobile devices to a network. vCard codes contain contact details (name, email, phone, company) which smartphones can import directly into address books."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my data private when generating QR codes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, 100% private. This generator runs entirely client-side. Your inputs, contact details, WiFi passwords, or logos never leave your computer and are never uploaded to our servers, keeping them secure."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are there watermarks on downloaded QR codes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, never. Unlike other QR generators that charge fees or watermark their downloads, ToolzTotal generates high-resolution, completely watermark-free QR codes for both personal and commercial use."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I download my QR code in vector format?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The tool supports downloading your QR code as a standard high-res PNG image or as a vector SVG file. SVG files are resolution-independent and perfect for printing on business cards, brochures, or billboards."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What happens if I change the colors of the QR code?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "You can change the foreground (pattern) and background colors. However, ensure there is high contrast between the two. Light patterns on dark backgrounds (inverted) can fail to scan on some readers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I generate QR codes in bulk?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Our bulk panel allows you to enter multiple URLs (one per line). The tool generates them in a grid, letting you inspect and download each high-res PNG individually without ads."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is a WiFi QR code formatted?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "WiFi QR codes follow a standard syntax: WIFI:S:NetworkName;T:WPA;P:Password;;. Most smartphones parse this syntax automatically when scanned, prompting the user to join the network."
-      }
-    }
-  ]
-};
+const faqs = [
+  { question: "What is a QR code?", answer: "A QR (Quick Response) code is a two-dimensional barcode that stores data such as a URL, contact card, or WiFi credentials. This generator renders it locally in your browser, so no data leaves your device." },
+  { question: "Which content types are supported?", answer: "You can encode URLs, plain text, email messages, phone numbers, SMS, WiFi network credentials, and vCard contact cards. Each type uses the standardized encoding schema scanners expect." },
+  { question: "What are error correction levels?", answer: "Error correction (L, M, Q, H) lets a QR code stay scannable when partially damaged or covered. Level H recovers up to 30% of the data and is required if you overlay a central logo." },
+  { question: "Can I add a logo to my QR code?", answer: "Yes. Upload a logo image and use error correction level H so the code remains scannable. The logo is drawn on top of the generated matrix entirely in your browser." },
+  { question: "Is this QR code generator free and private?", answer: "Yes. All generation runs client-side on your device. No requests are made to our servers, keeping URLs, WiFi passwords, and contact details completely private." },
+  { question: "What file formats can I download?", answer: "You can download your QR code as a PNG raster image or as a scalable SVG vector file, both free and without any watermark." },
+];
 
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="QR Code Generator - Free, Custom & No Watermark | ToolzTotal"
   description="Generate custom, high-resolution QR codes for free with no watermark. Supports WiFi, vCards, URLs, bulk generation, logo overlays, and SVG/PNG downloads."
-  faqJsonLd={faqJsonLd}
 >
-
+  <ToolSchema
+    toolName="QR Code Generator"
+    toolSlug="qr-code-generator"
+    categoryName="Everyday / Life Utility"
+    categorySlug="utility"
+    description="Generate custom, high-resolution QR codes for free with no watermark. Supports WiFi, vCards, URLs, bulk generation, logo overlays, and SVG/PNG downloads."
+    faqs={faqs}
+  />
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/utility" class="hover:text-ink transition-colors">Utility</a>
-      <span>/</span>
-      <span class="text-ink">QR Code Generator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Everyday / Life Utility"
+      categorySlug="utility"
+      toolName="QR Code Generator"
+      toolSlug="qr-code-generator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
-      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+      <div
+        class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1"
+      >
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider"
+          >Free Tool</span
+        >
       </div>
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+      <h1
+        class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty"
+      >
         QR Code Generator
       </h1>
-      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
-        Create custom, high-res static QR codes for free. Supports logos, colors, multiple types, bulk URLs, and SVG downloads. 100% watermark-free.
+      <p
+        class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
+      >
+        Create custom, high-res static QR codes for free. Supports logos,
+        colors, multiple types, bulk URLs, and SVG downloads. 100%
+        watermark-free.
       </p>
     </div>
 
     <!-- Main Calculator Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl">
-      
       <!-- LEFT: Inputs & Configurations (6 cols) -->
       <div class="lg:col-span-6 space-y-6">
-        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
-          <div class="border-b border-hairline pb-4 flex justify-between items-center">
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6"
+        >
+          <div
+            class="border-b border-hairline pb-4 flex justify-between items-center"
+          >
             <h2 class="text-base font-bold text-ink font-sans">Settings</h2>
             <!-- Bulk mode switch -->
-            <button type="button" id="toggle-bulk-mode" class="text-xs font-mono text-primary hover:underline cursor-pointer">Switch to Bulk URLs</button>
+            <button
+              type="button"
+              id="toggle-bulk-mode"
+              class="text-xs font-mono text-primary hover:underline cursor-pointer"
+              >Switch to Bulk URLs</button
+            >
           </div>
 
           <!-- Active configuration context indicators -->
@@ -141,8 +88,15 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <div id="single-inputs-panel" class="space-y-5">
             <!-- Content Type -->
             <div>
-              <label for="content-type" class="block text-xs font-mono uppercase text-mute mb-2">Content Type</label>
-              <select id="content-type" class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1">
+              <label
+                for="content-type"
+                class="block text-xs font-mono uppercase text-mute mb-2"
+                >Content Type</label
+              >
+              <select
+                id="content-type"
+                class="w-full h-11 px-3 bg-canvas border border-hairline rounded-lg text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1"
+              >
                 <option value="url">URL (Website Link)</option>
                 <option value="text">Plain Text</option>
                 <option value="email">Email Message</option>
@@ -157,63 +111,151 @@ const faqJsonLd = JSON.stringify(faqSchema);
             <div id="dynamic-fields" class="space-y-4">
               <!-- Default URL field -->
               <div data-type="url" class="type-group">
-                <label for="field-url" class="block text-xs font-mono uppercase text-mute mb-2">Target URL</label>
-                <input type="url" id="field-url" value="https://toolztotal.com" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" />
+                <label
+                  for="field-url"
+                  class="block text-xs font-mono uppercase text-mute mb-2"
+                  >Target URL</label
+                >
+                <input
+                  type="url"
+                  id="field-url"
+                  value="https://toolztotal.com"
+                  class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                />
               </div>
 
               <!-- Text field -->
               <div data-type="text" class="type-group hidden">
-                <label for="field-text" class="block text-xs font-mono uppercase text-mute mb-2">Plain Text</label>
-                <textarea id="field-text" class="w-full h-24 p-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" placeholder="Type your text content here..."></textarea>
+                <label
+                  for="field-text"
+                  class="block text-xs font-mono uppercase text-mute mb-2"
+                  >Plain Text</label
+                >
+                <textarea
+                  id="field-text"
+                  class="w-full h-24 p-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  placeholder="Type your text content here..."></textarea>
               </div>
 
               <!-- Email field -->
               <div data-type="email" class="type-group hidden space-y-3">
                 <div>
-                  <label for="field-email-to" class="block text-xs font-mono uppercase text-mute mb-1.5">Recipient Email</label>
-                  <input type="email" id="field-email-to" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" placeholder="name@example.com" />
+                  <label
+                    for="field-email-to"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Recipient Email</label
+                  >
+                  <input
+                    type="email"
+                    id="field-email-to"
+                    class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                    placeholder="name@example.com"
+                  />
                 </div>
                 <div>
-                  <label for="field-email-sub" class="block text-xs font-mono uppercase text-mute mb-1.5">Subject</label>
-                  <input type="text" id="field-email-sub" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" />
+                  <label
+                    for="field-email-sub"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Subject</label
+                  >
+                  <input
+                    type="text"
+                    id="field-email-sub"
+                    class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  />
                 </div>
                 <div>
-                  <label for="field-email-body" class="block text-xs font-mono uppercase text-mute mb-1.5">Body</label>
-                  <textarea id="field-email-body" class="w-full h-20 p-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"></textarea>
+                  <label
+                    for="field-email-body"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Body</label
+                  >
+                  <textarea
+                    id="field-email-body"
+                    class="w-full h-20 p-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  ></textarea>
                 </div>
               </div>
 
               <!-- Phone field -->
               <div data-type="phone" class="type-group hidden">
-                <label for="field-phone" class="block text-xs font-mono uppercase text-mute mb-2">Phone Number</label>
-                <input type="tel" id="field-phone" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" placeholder="+1234567890" />
+                <label
+                  for="field-phone"
+                  class="block text-xs font-mono uppercase text-mute mb-2"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="field-phone"
+                  class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  placeholder="+1234567890"
+                />
               </div>
 
               <!-- SMS field -->
               <div data-type="sms" class="type-group hidden space-y-3">
                 <div>
-                  <label for="field-sms-phone" class="block text-xs font-mono uppercase text-mute mb-1.5">Phone Number</label>
-                  <input type="tel" id="field-sms-phone" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" placeholder="+1234567890" />
+                  <label
+                    for="field-sms-phone"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="tel"
+                    id="field-sms-phone"
+                    class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                    placeholder="+1234567890"
+                  />
                 </div>
                 <div>
-                  <label for="field-sms-msg" class="block text-xs font-mono uppercase text-mute mb-1.5">Message</label>
-                  <textarea id="field-sms-msg" class="w-full h-20 p-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"></textarea>
+                  <label
+                    for="field-sms-msg"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Message</label
+                  >
+                  <textarea
+                    id="field-sms-msg"
+                    class="w-full h-20 p-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  ></textarea>
                 </div>
               </div>
 
               <!-- WiFi fields -->
               <div data-type="wifi" class="type-group hidden space-y-3">
                 <div>
-                  <label for="field-wifi-ssid" class="block text-xs font-mono uppercase text-mute mb-1.5">SSID (Network Name)</label>
-                  <input type="text" id="field-wifi-ssid" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" />
+                  <label
+                    for="field-wifi-ssid"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >SSID (Network Name)</label
+                  >
+                  <input
+                    type="text"
+                    id="field-wifi-ssid"
+                    class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  />
                 </div>
                 <div>
-                  <label for="field-wifi-pass" class="block text-xs font-mono uppercase text-mute mb-1.5">Password</label>
-                  <input type="password" id="field-wifi-pass" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong" />
+                  <label
+                    for="field-wifi-pass"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Password</label
+                  >
+                  <input
+                    type="password"
+                    id="field-wifi-pass"
+                    class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none focus:border-hairline-strong"
+                  />
                 </div>
                 <div>
-                  <label for="field-wifi-type" class="block text-xs font-mono uppercase text-mute mb-1.5">Network Security</label>
-                  <select id="field-wifi-type" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none">
+                  <label
+                    for="field-wifi-type"
+                    class="block text-xs font-mono uppercase text-mute mb-1.5"
+                    >Network Security</label
+                  >
+                  <select
+                    id="field-wifi-type"
+                    class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-sm font-sans text-ink focus:outline-none"
+                  >
                     <option value="WPA">WPA/WPA2</option>
                     <option value="WEP">WEP</option>
                     <option value="nopass">Unsecured (Open)</option>
@@ -225,84 +267,185 @@ const faqJsonLd = JSON.stringify(faqSchema);
               <div data-type="vcard" class="type-group hidden space-y-3">
                 <div class="grid grid-cols-2 gap-3">
                   <div>
-                    <label for="field-vc-first" class="block text-xs font-mono uppercase text-mute mb-1">First Name</label>
-                    <input type="text" id="field-vc-first" class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink" />
+                    <label
+                      for="field-vc-first"
+                      class="block text-xs font-mono uppercase text-mute mb-1"
+                      >First Name</label
+                    >
+                    <input
+                      type="text"
+                      id="field-vc-first"
+                      class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink"
+                    />
                   </div>
                   <div>
-                    <label for="field-vc-last" class="block text-xs font-mono uppercase text-mute mb-1">Last Name</label>
-                    <input type="text" id="field-vc-last" class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink" />
+                    <label
+                      for="field-vc-last"
+                      class="block text-xs font-mono uppercase text-mute mb-1"
+                      >Last Name</label
+                    >
+                    <input
+                      type="text"
+                      id="field-vc-last"
+                      class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink"
+                    />
                   </div>
                 </div>
                 <div>
-                  <label for="field-vc-phone" class="block text-xs font-mono uppercase text-mute mb-1">Phone</label>
-                  <input type="tel" id="field-vc-phone" class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink" />
+                  <label
+                    for="field-vc-phone"
+                    class="block text-xs font-mono uppercase text-mute mb-1"
+                    >Phone</label
+                  >
+                  <input
+                    type="tel"
+                    id="field-vc-phone"
+                    class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink"
+                  />
                 </div>
                 <div>
-                  <label for="field-vc-email" class="block text-xs font-mono uppercase text-mute mb-1">Email</label>
-                  <input type="email" id="field-vc-email" class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink" />
+                  <label
+                    for="field-vc-email"
+                    class="block text-xs font-mono uppercase text-mute mb-1"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="field-vc-email"
+                    class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink"
+                  />
                 </div>
                 <div>
-                  <label for="field-vc-org" class="block text-xs font-mono uppercase text-mute mb-1">Company</label>
-                  <input type="text" id="field-vc-org" class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink" />
+                  <label
+                    for="field-vc-org"
+                    class="block text-xs font-mono uppercase text-mute mb-1"
+                    >Company</label
+                  >
+                  <input
+                    type="text"
+                    id="field-vc-org"
+                    class="w-full h-9 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-sans text-ink"
+                  />
                 </div>
               </div>
             </div>
 
             <!-- Customization Settings -->
             <div class="space-y-4 pt-4 border-t border-hairline">
-              <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Customization</h3>
-              
+              <h3 class="text-xs font-mono uppercase text-mute tracking-wider">
+                Customization
+              </h3>
+
               <!-- Color controls -->
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label for="color-foreground" class="block text-xs font-mono uppercase text-mute mb-2">Foreground</label>
+                  <label
+                    for="color-foreground"
+                    class="block text-xs font-mono uppercase text-mute mb-2"
+                    >Foreground</label
+                  >
                   <div class="flex items-center gap-2">
-                    <input type="color" id="color-foreground" class="w-10 h-10 border border-hairline cursor-pointer p-0.5 rounded-lg bg-canvas-soft shrink-0" value="#000000" />
-                    <input type="text" id="color-foreground-hex" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink text-center" value="#000000" maxlength="7" />
+                    <input
+                      type="color"
+                      id="color-foreground"
+                      class="w-10 h-10 border border-hairline cursor-pointer p-0.5 rounded-lg bg-canvas-soft shrink-0"
+                      value="#000000"
+                    />
+                    <input
+                      type="text"
+                      id="color-foreground-hex"
+                      class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink text-center"
+                      value="#000000"
+                      maxlength="7"
+                    />
                   </div>
                 </div>
                 <div>
-                  <label for="color-background" class="block text-xs font-mono uppercase text-mute mb-2">Background</label>
+                  <label
+                    for="color-background"
+                    class="block text-xs font-mono uppercase text-mute mb-2"
+                    >Background</label
+                  >
                   <div class="flex items-center gap-2">
-                    <input type="color" id="color-background" class="w-10 h-10 border border-hairline cursor-pointer p-0.5 rounded-lg bg-canvas-soft shrink-0" value="#ffffff" />
-                    <input type="text" id="color-background-hex" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink text-center" value="#ffffff" maxlength="7" />
+                    <input
+                      type="color"
+                      id="color-background"
+                      class="w-10 h-10 border border-hairline cursor-pointer p-0.5 rounded-lg bg-canvas-soft shrink-0"
+                      value="#ffffff"
+                    />
+                    <input
+                      type="text"
+                      id="color-background-hex"
+                      class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono text-ink text-center"
+                      value="#ffffff"
+                      maxlength="7"
+                    />
                   </div>
                 </div>
               </div>
 
               <!-- Error correction level -->
               <div>
-                <label for="error-level" class="block text-xs font-mono uppercase text-mute mb-2">Error Correction Level</label>
-                <select id="error-level" class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs focus:outline-none">
+                <label
+                  for="error-level"
+                  class="block text-xs font-mono uppercase text-mute mb-2"
+                  >Error Correction Level</label
+                >
+                <select
+                  id="error-level"
+                  class="w-full h-10 px-3 bg-canvas-soft border border-hairline rounded-lg text-xs focus:outline-none"
+                >
                   <option value="L">L (7% Recovery)</option>
                   <option value="M">M (15% Recovery)</option>
                   <option value="Q">Q (25% Recovery)</option>
-                  <option value="H" selected>H (30% Recovery - Recommended with Logo)</option>
+                  <option value="H" selected
+                    >H (30% Recovery - Recommended with Logo)</option
+                  >
                 </select>
               </div>
 
               <!-- Logo overlay upload -->
               <div>
-                <label for="logo-upload" class="block text-xs font-mono uppercase text-mute mb-2">Central Logo Overlay</label>
-                <input type="file" id="logo-upload" accept="image/*" class="w-full text-xs font-sans text-body border border-hairline border-dashed rounded-lg p-3 bg-canvas hover:bg-canvas-soft cursor-pointer" />
-                <button type="button" id="remove-logo" class="hidden mt-2 text-[10px] font-mono text-error hover:underline cursor-pointer">Remove Uploaded Logo</button>
+                <label
+                  for="logo-upload"
+                  class="block text-xs font-mono uppercase text-mute mb-2"
+                  >Central Logo Overlay</label
+                >
+                <input
+                  type="file"
+                  id="logo-upload"
+                  accept="image/*"
+                  class="w-full text-xs font-sans text-body border border-hairline border-dashed rounded-lg p-3 bg-canvas hover:bg-canvas-soft cursor-pointer"
+                />
+                <button
+                  type="button"
+                  id="remove-logo"
+                  class="hidden mt-2 text-[10px] font-mono text-error hover:underline cursor-pointer"
+                  >Remove Uploaded Logo</button
+                >
               </div>
             </div>
           </div>
 
           <!-- BULK URL MODE INPUTS -->
           <div id="bulk-inputs-panel" class="hidden space-y-4">
-            <label for="bulk-urls" class="block text-xs font-mono uppercase text-mute mb-2">Paste URLs (one per line)</label>
+            <label
+              for="bulk-urls"
+              class="block text-xs font-mono uppercase text-mute mb-2"
+              >Paste URLs (one per line)</label
+            >
             <textarea
               id="bulk-urls"
               class="w-full h-[280px] bg-canvas-soft-2 text-ink font-mono text-[13px] leading-relaxed p-4 border border-hairline rounded-lg focus:outline-none resize-none shadow-lvl1"
-              placeholder="https://example.com/page1&#10;https://example.com/page2&#10;https://example.com/page3"
+              placeholder="https://example.com/page1
+https://example.com/page2
+https://example.com/page3"
             ></textarea>
           </div>
 
           <!-- Action execution triggers -->
-          <button 
-            type="button" 
+          <button
+            type="button"
             id="generate-qr-btn"
             class="w-full h-11 bg-primary text-on-primary hover:opacity-90 font-sans text-sm font-semibold rounded-lg shadow-lvl2 transition-all cursor-pointer"
           >
@@ -313,36 +456,58 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
       <!-- RIGHT: Outputs (6 cols) -->
       <div class="lg:col-span-6 space-y-6">
-        
         <!-- SINGLE MODE OUTPUT -->
-        <div id="single-output-card" class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6 flex flex-col items-center">
+        <div
+          id="single-output-card"
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6 flex flex-col items-center"
+        >
           <div class="border-b border-hairline pb-4 w-full">
-            <h2 class="text-sm font-bold text-ink font-sans text-left">Live Preview</h2>
+            <h2 class="text-sm font-bold text-ink font-sans text-left">
+              Live Preview
+            </h2>
           </div>
 
           <!-- Canvas container -->
-          <div class="bg-canvas border border-hairline rounded-xl p-4 shadow-lvl1 flex items-center justify-center relative w-[290px] h-[290px]">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-4 shadow-lvl1 flex items-center justify-center relative w-[290px] h-[290px]"
+          >
             <canvas id="qr-canvas" class="max-w-full max-h-full"></canvas>
           </div>
 
           <!-- Downloads -->
           <div class="grid grid-cols-2 gap-4 w-full">
-            <button type="button" id="download-png-btn" class="h-10 bg-primary text-on-primary hover:opacity-90 font-sans text-sm font-semibold rounded-lg shadow-lvl2 transition-all cursor-pointer flex items-center justify-center gap-1">
+            <button
+              type="button"
+              id="download-png-btn"
+              class="h-10 bg-primary text-on-primary hover:opacity-90 font-sans text-sm font-semibold rounded-lg shadow-lvl2 transition-all cursor-pointer flex items-center justify-center gap-1"
+            >
               Download PNG
             </button>
-            <button type="button" id="download-svg-btn" class="h-10 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-sm font-semibold rounded-lg shadow-lvl2 transition-colors flex items-center justify-center gap-1">
+            <button
+              type="button"
+              id="download-svg-btn"
+              class="h-10 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-sm font-semibold rounded-lg shadow-lvl2 transition-colors flex items-center justify-center gap-1"
+            >
               Download SVG
             </button>
           </div>
         </div>
 
         <!-- BULK MODE OUTPUT -->
-        <div id="bulk-output-card" class="hidden bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6">
+        <div
+          id="bulk-output-card"
+          class="hidden bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6"
+        >
           <div class="border-b border-hairline pb-4 w-full">
-            <h2 class="text-sm font-bold text-ink font-sans">Bulk Generated Results</h2>
+            <h2 class="text-sm font-bold text-ink font-sans">
+              Bulk Generated Results
+            </h2>
           </div>
-          
-          <div id="bulk-results-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto pr-1">
+
+          <div
+            id="bulk-results-grid"
+            class="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto pr-1"
+          >
             <!-- Dynamic Bulk QR cards go here -->
           </div>
         </div>
@@ -350,167 +515,357 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </div>
 
     <!-- SEO text block -->
-    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">About the QR Code Generator: Standard Layouts, Formats, and Customization</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+    <article
+      class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16"
+    >
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6"
+      >
+        About the QR Code Generator: Standard Layouts, Formats, and
+        Customization
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          A <strong>QR code generator</strong> converts textual or binary data into a two-dimensional barcode matrix. While QR codes were originally invented for parts tracking in manufacturing, they have become ubiquitous in daily life, enabling rapid connection to URLs, WiFi networks, and digital contact files. This <strong>free QR code tool</strong> provides dynamic matrix generation purely inside your web browser.
+          A <strong>QR code generator</strong> converts textual or binary data into
+          a two-dimensional barcode matrix. While QR codes were originally invented
+          for parts tracking in manufacturing, they have become ubiquitous in daily
+          life, enabling rapid connection to URLs, WiFi networks, and digital contact
+          files. This <strong>free QR code tool</strong> provides dynamic matrix generation
+          purely inside your web browser.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding QR Code Content Types</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Understanding QR Code Content Types
+        </h3>
         <p>
           QR codes can encode various structures using standardized schemas:
         </p>
         <ul class="list-disc pl-5 space-y-2">
-          <li><strong>URLs & Plain Text:</strong> Encodes standard web addresses or text. Scanning prompts the smartphone browser to load the link.</li>
-          <li><strong>WiFi Credentials:</strong> Utilizes the <code>WIFI:</code> syntax protocol, allowing users to scan the barcode to join WPA/WEP networks without typing security passwords manually.</li>
-          <li><strong>vCard Contacts:</strong> Encodes a standardized contact details string (vCard format), letting users import business cards directly into mobile contact books.</li>
+          <li>
+            <strong>URLs & Plain Text:</strong> Encodes standard web addresses or
+            text. Scanning prompts the smartphone browser to load the link.
+          </li>
+          <li>
+            <strong>WiFi Credentials:</strong> Utilizes the <code>WIFI:</code> syntax
+            protocol, allowing users to scan the barcode to join WPA/WEP networks
+            without typing security passwords manually.
+          </li>
+          <li>
+            <strong>vCard Contacts:</strong> Encodes a standardized contact details
+            string (vCard format), letting users import business cards directly into
+            mobile contact books.
+          </li>
         </ul>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Error Correction Levels & Central Logos</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Error Correction Levels & Central Logos
+        </h3>
         <p>
-          QR codes utilize Reed-Solomon error correction to maintain scans when partially dirty, damaged, or covered. There are four error correction levels: L (7%), M (15%), Q (25%), and H (30%). If you intend to add a custom logo overlay in the center of the QR matrix, you must select level H. This reserves 30% of the visual space for cover overlays while letting mobile cameras restore the missing block calculation easily.
+          QR codes utilize Reed-Solomon error correction to maintain scans when
+          partially dirty, damaged, or covered. There are four error correction
+          levels: L (7%), M (15%), Q (25%), and H (30%). If you intend to add a
+          custom logo overlay in the center of the QR matrix, you must select
+          level H. This reserves 30% of the visual space for cover overlays
+          while letting mobile cameras restore the missing block calculation
+          easily.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Watermark-Free, Privacy-First Execution</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Watermark-Free, Privacy-First Execution
+        </h3>
         <p>
-          Many online tools generate QR codes with custom redirects to track analytics, imposing expiration dates or watermarks on free accounts. This generator produces static, native QR codes. All rendering runs locally on the browser canvas. No network requests are made, keeping sensitive WiFi keys and personal details completely secure.
+          Many online tools generate QR codes with custom redirects to track
+          analytics, imposing expiration dates or watermarks on free accounts.
+          This generator produces static, native QR codes. All rendering runs
+          locally on the browser canvas. No network requests are made, keeping
+          sensitive WiFi keys and personal details completely secure.
         </p>
-      
-<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding QR Code Error Correction Levels</h3>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Understanding QR Code Error Correction Levels
+        </h3>
         <p>
-          QR (Quick Response) codes contain built-in Reed-Solomon error correction, allowing the code to be read successfully even if a portion is damaged, dirty, or covered by a custom logo. The standard defines four error correction levels: Level L (recovers up to 7% of data), Level M (recovers up to 15%), Level Q (recovers up to 25%), and Level H (recovers up to 30%). Higher error correction levels require larger grids (modules) and increase density, but they ensure high reliability in outdoor environments or when branding elements are added to the center of the barcode.
+          QR (Quick Response) codes contain built-in Reed-Solomon error
+          correction, allowing the code to be read successfully even if a
+          portion is damaged, dirty, or covered by a custom logo. The standard
+          defines four error correction levels: Level L (recovers up to 7% of
+          data), Level M (recovers up to 15%), Level Q (recovers up to 25%), and
+          Level H (recovers up to 30%). Higher error correction levels require
+          larger grids (modules) and increase density, but they ensure high
+          reliability in outdoor environments or when branding elements are
+          added to the center of the barcode.
         </p>
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Dynamic vs. Static QR Codes: What's the Difference?</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Dynamic vs. Static QR Codes: What's the Difference?
+        </h3>
         <p>
-          Static QR codes embed the destination URL or text directly into the barcode grid. Once generated, static QR codes cannot be edited, and their scans cannot be tracked. Dynamic QR codes, in contrast, embed a short redirection URL pointing to a database server. This allows you to edit the destination URL at any time without changing the physical QR barcode, and enables detailed analytics tracking (such as number of scans, location, and device types). Static QR codes are ideal for personal use, whereas dynamic QR codes are standard for corporate marketing campaigns.
+          Static QR codes embed the destination URL or text directly into the
+          barcode grid. Once generated, static QR codes cannot be edited, and
+          their scans cannot be tracked. Dynamic QR codes, in contrast, embed a
+          short redirection URL pointing to a database server. This allows you
+          to edit the destination URL at any time without changing the physical
+          QR barcode, and enables detailed analytics tracking (such as number of
+          scans, location, and device types). Static QR codes are ideal for
+          personal use, whereas dynamic QR codes are standard for corporate
+          marketing campaigns.
         </p>
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Best Practices for Designing and Printing QR Codes</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Best Practices for Designing and Printing QR Codes
+        </h3>
         <p>
-          To ensure optimal scan performance, developers and designers must follow standard principles: 1. Maintain a high color contrast (dark modules on a light background is standard; inverted QR codes can fail on older scanner models); 2. Leave a sufficient "quiet zone" (clear blank margin) around the border of the QR code; 3. Avoid scaling the QR code to extremely small print sizes (minimum recommended print size is 2cm x 2cm for simple URLs); 4. Always test the generated image with multiple smartphone cameras and scanning apps before publishing.
+          To ensure optimal scan performance, developers and designers must
+          follow standard principles: 1. Maintain a high color contrast (dark
+          modules on a light background is standard; inverted QR codes can fail
+          on older scanner models); 2. Leave a sufficient "quiet zone" (clear
+          blank margin) around the border of the QR code; 3. Avoid scaling the
+          QR code to extremely small print sizes (minimum recommended print size
+          is 2cm x 2cm for simple URLs); 4. Always test the generated image with
+          multiple smartphone cameras and scanning apps before publishing.
         </p>
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Common Business Applications of QR Barcodes</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">
+          Common Business Applications of QR Barcodes
+        </h3>
         <p>
-          QR codes are widely utilized across industries to simplify user interactions. In restaurants, they link to digital menu boards to reduce printing costs and support direct table ordering. In warehouses, QR codes streamline asset tracking and inventory logistics. In marketing, they are placed on billboards, business cards, and product packaging to drive traffic to promotional landing pages and social media accounts. Utilizing a free client-side generator ensures you can create these codes instantly without security risks.
+          QR codes are widely utilized across industries to simplify user
+          interactions. In restaurants, they link to digital menu boards to
+          reduce printing costs and support direct table ordering. In
+          warehouses, QR codes streamline asset tracking and inventory
+          logistics. In marketing, they are placed on billboards, business
+          cards, and product packaging to drive traffic to promotional landing
+          pages and social media accounts. Utilizing a free client-side
+          generator ensures you can create these codes instantly without
+          security risks.
         </p>
       </div>
     </article>
 
-    <!-- FAQ Accordions -->
+    <!-- FAQ accordions (rendered from the `faqs` const passed to ToolSchema) -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty"
+      >
+        Frequently Asked Questions
+      </h2>
       <div class="space-y-4">
-        {faqSchema.mainEntity.map(faq => (
-          <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
-            <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
-              <span>{faq.name}</span>
-              <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </summary>
-            <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
-              <p class="text-body text-sm font-sans leading-relaxed">{faq.acceptedAnswer.text}</p>
-            </div>
-          </details>
-        ))}
+        {
+          faqs.map((faq) => (
+            <details class="group ring-1 ring-inset ring-hairline rounded-xl bg-canvas overflow-hidden shadow-lvl2">
+              <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink cursor-pointer list-none marker:hidden hover:bg-canvas-soft-2 transition-colors">
+                <span>{faq.question}</span>
+                <svg
+                  class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+                <p class="text-body text-sm font-sans leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </details>
+          ))
+        }
       </div>
     </section>
 
     <!-- Related Tools -->
     <section class="mt-20 pt-16 border-t border-hairline">
-      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Utility Tools</h3>
+      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">
+        Related Utility Tools
+      </h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <a href="/utility/password-generator" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+        <a
+          href="/utility/password-generator"
+          class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4
+            class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between"
+          >
             Password Generator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <svg
+              class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"></path></svg
+            >
           </h4>
-          <p class="text-mute text-xs font-sans mt-2">Generate cryptographically secure random passwords or Diceware-style passphrases locally.</p>
+          <p class="text-mute text-xs font-sans mt-2">
+            Generate cryptographically secure random passwords or Diceware-style
+            passphrases locally.
+          </p>
         </a>
-        <a href="/marketing/utm-builder" class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group">
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
+        <a
+          href="/marketing/utm-builder"
+          class="block bg-canvas ring-1 ring-inset ring-hairline hover:ring-hairline-strong transition-all duration-200 rounded-xl p-5 hover:shadow-lvl2 shadow-lvl1 group"
+        >
+          <h4
+            class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between"
+          >
             UTM Link Builder
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <svg
+              class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"></path></svg
+            >
           </h4>
-          <p class="text-mute text-xs font-sans mt-2">Add campaign UTM parameters to links to track marketing campaigns in analytics.</p>
+          <p class="text-mute text-xs font-sans mt-2">
+            Add campaign UTM parameters to links to track marketing campaigns in
+            analytics.
+          </p>
         </a>
       </div>
     </section>
   </div>
 
   <script>
-    import QRCode from 'qrcode';
+    import QRCode from "qrcode";
 
-    const selectType = document.getElementById('content-type') as HTMLSelectElement;
-    const typeGroups = document.querySelectorAll('.type-group');
-    
-    const inputColorFore = document.getElementById('color-foreground') as HTMLInputElement;
-    const inputColorForeHex = document.getElementById('color-foreground-hex') as HTMLInputElement;
-    const inputColorBack = document.getElementById('color-background') as HTMLInputElement;
-    const inputColorBackHex = document.getElementById('color-background-hex') as HTMLInputElement;
-    
-    const selectError = document.getElementById('error-level') as HTMLSelectElement;
-    const logoUpload = document.getElementById('logo-upload') as HTMLInputElement;
-    const removeLogoBtn = document.getElementById('remove-logo') as HTMLButtonElement;
-    
-    const toggleBulkBtn = document.getElementById('toggle-bulk-mode') as HTMLButtonElement;
-    const isBulkInput = document.getElementById('is-bulk-active') as HTMLInputElement;
-    
-    const singleInputsPanel = document.getElementById('single-inputs-panel') as HTMLDivElement;
-    const bulkInputsPanel = document.getElementById('bulk-inputs-panel') as HTMLDivElement;
-    const singleOutputCard = document.getElementById('single-output-card') as HTMLDivElement;
-    const bulkOutputCard = document.getElementById('bulk-output-card') as HTMLDivElement;
-    
-    const generateQrBtn = document.getElementById('generate-qr-btn') as HTMLButtonElement;
-    const qrCanvas = document.getElementById('qr-canvas') as HTMLCanvasElement;
-    const downloadPngBtn = document.getElementById('download-png-btn') as HTMLButtonElement;
-    const downloadSvgBtn = document.getElementById('download-svg-btn') as HTMLButtonElement;
-    
-    const bulkUrlsTextarea = document.getElementById('bulk-urls') as HTMLTextAreaElement;
-    const bulkResultsGrid = document.getElementById('bulk-results-grid') as HTMLDivElement;
+    const selectType = document.getElementById(
+      "content-type",
+    ) as HTMLSelectElement;
+    const typeGroups = document.querySelectorAll(".type-group");
+
+    const inputColorFore = document.getElementById(
+      "color-foreground",
+    ) as HTMLInputElement;
+    const inputColorForeHex = document.getElementById(
+      "color-foreground-hex",
+    ) as HTMLInputElement;
+    const inputColorBack = document.getElementById(
+      "color-background",
+    ) as HTMLInputElement;
+    const inputColorBackHex = document.getElementById(
+      "color-background-hex",
+    ) as HTMLInputElement;
+
+    const selectError = document.getElementById(
+      "error-level",
+    ) as HTMLSelectElement;
+    const logoUpload = document.getElementById(
+      "logo-upload",
+    ) as HTMLInputElement;
+    const removeLogoBtn = document.getElementById(
+      "remove-logo",
+    ) as HTMLButtonElement;
+
+    const toggleBulkBtn = document.getElementById(
+      "toggle-bulk-mode",
+    ) as HTMLButtonElement;
+    const isBulkInput = document.getElementById(
+      "is-bulk-active",
+    ) as HTMLInputElement;
+
+    const singleInputsPanel = document.getElementById(
+      "single-inputs-panel",
+    ) as HTMLDivElement;
+    const bulkInputsPanel = document.getElementById(
+      "bulk-inputs-panel",
+    ) as HTMLDivElement;
+    const singleOutputCard = document.getElementById(
+      "single-output-card",
+    ) as HTMLDivElement;
+    const bulkOutputCard = document.getElementById(
+      "bulk-output-card",
+    ) as HTMLDivElement;
+
+    const generateQrBtn = document.getElementById(
+      "generate-qr-btn",
+    ) as HTMLButtonElement;
+    const qrCanvas = document.getElementById("qr-canvas") as HTMLCanvasElement;
+    const downloadPngBtn = document.getElementById(
+      "download-png-btn",
+    ) as HTMLButtonElement;
+    const downloadSvgBtn = document.getElementById(
+      "download-svg-btn",
+    ) as HTMLButtonElement;
+
+    const bulkUrlsTextarea = document.getElementById(
+      "bulk-urls",
+    ) as HTMLTextAreaElement;
+    const bulkResultsGrid = document.getElementById(
+      "bulk-results-grid",
+    ) as HTMLDivElement;
 
     let loadedLogoImg: HTMLImageElement | null = null;
 
     // Toggle bulk mode
-    toggleBulkBtn.addEventListener('click', () => {
-      const isBulk = isBulkInput.value === 'true';
+    toggleBulkBtn.addEventListener("click", () => {
+      const isBulk = isBulkInput.value === "true";
       if (isBulk) {
-        isBulkInput.value = 'false';
-        toggleBulkBtn.textContent = 'Switch to Bulk URLs';
-        singleInputsPanel.classList.remove('hidden');
-        singleOutputCard.classList.remove('hidden');
-        bulkInputsPanel.classList.add('hidden');
-        bulkOutputCard.classList.add('hidden');
+        isBulkInput.value = "false";
+        toggleBulkBtn.textContent = "Switch to Bulk URLs";
+        singleInputsPanel.classList.remove("hidden");
+        singleOutputCard.classList.remove("hidden");
+        bulkInputsPanel.classList.add("hidden");
+        bulkOutputCard.classList.add("hidden");
       } else {
-        isBulkInput.value = 'true';
-        toggleBulkBtn.textContent = 'Switch to Single Code';
-        singleInputsPanel.classList.add('hidden');
-        singleOutputCard.classList.add('hidden');
-        bulkInputsPanel.classList.remove('hidden');
-        bulkOutputCard.classList.remove('hidden');
+        isBulkInput.value = "true";
+        toggleBulkBtn.textContent = "Switch to Single Code";
+        singleInputsPanel.classList.add("hidden");
+        singleOutputCard.classList.add("hidden");
+        bulkInputsPanel.classList.remove("hidden");
+        bulkOutputCard.classList.remove("hidden");
       }
     });
 
     // Content type visibility change
-    selectType.addEventListener('change', () => {
+    selectType.addEventListener("change", () => {
       const activeType = selectType.value;
-      typeGroups.forEach(g => {
-        if (g.getAttribute('data-type') === activeType) {
-          g.classList.remove('hidden');
+      typeGroups.forEach((g) => {
+        if (g.getAttribute("data-type") === activeType) {
+          g.classList.remove("hidden");
         } else {
-          g.classList.add('hidden');
+          g.classList.add("hidden");
         }
       });
     });
 
     // Color synchronization
-    inputColorFore.addEventListener('input', () => { inputColorForeHex.value = inputColorFore.value; });
-    inputColorForeHex.addEventListener('input', () => { if (inputColorForeHex.value.startsWith('#') && inputColorForeHex.value.length === 7) inputColorFore.value = inputColorForeHex.value; });
-    inputColorBack.addEventListener('input', () => { inputColorBackHex.value = inputColorBack.value; });
-    inputColorBackHex.addEventListener('input', () => { if (inputColorBackHex.value.startsWith('#') && inputColorBackHex.value.length === 7) inputColorBack.value = inputColorBackHex.value; });
+    inputColorFore.addEventListener("input", () => {
+      inputColorForeHex.value = inputColorFore.value;
+    });
+    inputColorForeHex.addEventListener("input", () => {
+      if (
+        inputColorForeHex.value.startsWith("#") &&
+        inputColorForeHex.value.length === 7
+      )
+        inputColorFore.value = inputColorForeHex.value;
+    });
+    inputColorBack.addEventListener("input", () => {
+      inputColorBackHex.value = inputColorBack.value;
+    });
+    inputColorBackHex.addEventListener("input", () => {
+      if (
+        inputColorBackHex.value.startsWith("#") &&
+        inputColorBackHex.value.length === 7
+      )
+        inputColorBack.value = inputColorBackHex.value;
+    });
 
     // Logo image file upload loader
-    logoUpload.addEventListener('change', (e) => {
+    logoUpload.addEventListener("change", (e) => {
       const file = logoUpload.files?.[0];
       if (file) {
         const reader = new FileReader();
@@ -518,7 +873,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
           const img = new Image();
           img.onload = () => {
             loadedLogoImg = img;
-            removeLogoBtn.classList.remove('hidden');
+            removeLogoBtn.classList.remove("hidden");
             generateSingleQR();
           };
           img.src = event.target?.result as string;
@@ -527,44 +882,78 @@ const faqJsonLd = JSON.stringify(faqSchema);
       }
     });
 
-    removeLogoBtn.addEventListener('click', () => {
+    removeLogoBtn.addEventListener("click", () => {
       loadedLogoImg = null;
-      logoUpload.value = '';
-      removeLogoBtn.classList.add('hidden');
+      logoUpload.value = "";
+      removeLogoBtn.classList.add("hidden");
       generateSingleQR();
     });
 
     // Construct format strings
     const getPayload = () => {
       const type = selectType.value;
-      if (type === 'url') {
-        return (document.getElementById('field-url') as HTMLInputElement).value || "https://toolztotal.com";
-      } else if (type === 'text') {
-        return (document.getElementById('field-text') as HTMLTextAreaElement).value || "";
-      } else if (type === 'phone') {
-        const tel = (document.getElementById('field-phone') as HTMLInputElement).value || "";
+      if (type === "url") {
+        return (
+          (document.getElementById("field-url") as HTMLInputElement).value ||
+          "https://toolztotal.com"
+        );
+      } else if (type === "text") {
+        return (
+          (document.getElementById("field-text") as HTMLTextAreaElement)
+            .value || ""
+        );
+      } else if (type === "phone") {
+        const tel =
+          (document.getElementById("field-phone") as HTMLInputElement).value ||
+          "";
         return `tel:${tel}`;
-      } else if (type === 'email') {
-        const to = (document.getElementById('field-email-to') as HTMLInputElement).value || "";
-        const sub = (document.getElementById('field-email-sub') as HTMLInputElement).value || "";
-        const body = (document.getElementById('field-email-body') as HTMLTextAreaElement).value || "";
+      } else if (type === "email") {
+        const to =
+          (document.getElementById("field-email-to") as HTMLInputElement)
+            .value || "";
+        const sub =
+          (document.getElementById("field-email-sub") as HTMLInputElement)
+            .value || "";
+        const body =
+          (document.getElementById("field-email-body") as HTMLTextAreaElement)
+            .value || "";
         return `mailto:${to}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
-      } else if (type === 'sms') {
-        const phone = (document.getElementById('field-sms-phone') as HTMLInputElement).value || "";
-        const msg = (document.getElementById('field-sms-msg') as HTMLTextAreaElement).value || "";
+      } else if (type === "sms") {
+        const phone =
+          (document.getElementById("field-sms-phone") as HTMLInputElement)
+            .value || "";
+        const msg =
+          (document.getElementById("field-sms-msg") as HTMLTextAreaElement)
+            .value || "";
         return `sms:${phone}:${encodeURIComponent(msg)}`;
-      } else if (type === 'wifi') {
-        const ssid = (document.getElementById('field-wifi-ssid') as HTMLInputElement).value || "";
-        const pass = (document.getElementById('field-wifi-pass') as HTMLInputElement).value || "";
-        const sec = (document.getElementById('field-wifi-type') as HTMLSelectElement).value;
+      } else if (type === "wifi") {
+        const ssid =
+          (document.getElementById("field-wifi-ssid") as HTMLInputElement)
+            .value || "";
+        const pass =
+          (document.getElementById("field-wifi-pass") as HTMLInputElement)
+            .value || "";
+        const sec = (
+          document.getElementById("field-wifi-type") as HTMLSelectElement
+        ).value;
         return `WIFI:S:${ssid};T:${sec};P:${pass};;`;
-      } else if (type === 'vcard') {
-        const first = (document.getElementById('field-vc-first') as HTMLInputElement).value || "";
-        const last = (document.getElementById('field-vc-last') as HTMLInputElement).value || "";
-        const tel = (document.getElementById('field-vc-phone') as HTMLInputElement).value || "";
-        const mail = (document.getElementById('field-vc-email') as HTMLInputElement).value || "";
-        const org = (document.getElementById('field-vc-org') as HTMLInputElement).value || "";
-        
+      } else if (type === "vcard") {
+        const first =
+          (document.getElementById("field-vc-first") as HTMLInputElement)
+            .value || "";
+        const last =
+          (document.getElementById("field-vc-last") as HTMLInputElement)
+            .value || "";
+        const tel =
+          (document.getElementById("field-vc-phone") as HTMLInputElement)
+            .value || "";
+        const mail =
+          (document.getElementById("field-vc-email") as HTMLInputElement)
+            .value || "";
+        const org =
+          (document.getElementById("field-vc-org") as HTMLInputElement).value ||
+          "";
+
         return [
           "BEGIN:VCARD",
           "VERSION:3.0",
@@ -573,8 +962,8 @@ const faqJsonLd = JSON.stringify(faqSchema);
           `ORG:${org}`,
           `TEL;TYPE=CELL:${tel}`,
           `EMAIL;TYPE=PREF,INTERNET:${mail}`,
-          "END:VCARD"
-        ].join('\n');
+          "END:VCARD",
+        ].join("\n");
       }
       return "";
     };
@@ -582,11 +971,16 @@ const faqJsonLd = JSON.stringify(faqSchema);
     // Level resolver
     const getCorrectionLevelNumber = (l: string) => {
       switch (l) {
-        case 'L': return 1; // Low
-        case 'M': return 0; // Medium
-        case 'Q': return 3; // Quartile
-        case 'H': return 2; // High
-        default: return 2;
+        case "L":
+          return 1; // Low
+        case "M":
+          return 0; // Medium
+        case "Q":
+          return 3; // Quartile
+        case "H":
+          return 2; // High
+        default:
+          return 2;
       }
     };
 
@@ -600,7 +994,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
       const errorLevelStr = selectError.value;
 
       // Clear existing canvas
-      const ctx = qrCanvas.getContext('2d');
+      const ctx = qrCanvas.getContext("2d");
       if (ctx) {
         ctx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
       }
@@ -613,9 +1007,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
           margin: 1.5,
           color: {
             dark: foreColor,
-            light: backColor
+            light: backColor,
           },
-          errorCorrectionLevel: errorLevelStr
+          errorCorrectionLevel: errorLevelStr,
         },
         (error: any) => {
           if (error) {
@@ -629,7 +1023,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             const logoHeight = qrCanvas.width * 0.22;
             const x = (qrCanvas.width - logoWidth) / 2;
             const y = (qrCanvas.height - logoHeight) / 2;
-            
+
             // Draw clean background block for logo contrast
             ctx.fillStyle = backColor;
             ctx.fillRect(x - 3, y - 3, logoWidth + 6, logoHeight + 6);
@@ -640,7 +1034,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             // Draw image
             ctx.drawImage(loadedLogoImg, x, y, logoWidth, logoHeight);
           }
-        }
+        },
       );
     };
 
@@ -652,23 +1046,30 @@ const faqJsonLd = JSON.stringify(faqSchema);
         return;
       }
 
-      const urls = listVal.split('\n').map(u => u.trim()).filter(u => u.length > 0);
-      bulkResultsGrid.innerHTML = '';
+      const urls = listVal
+        .split("\n")
+        .map((u) => u.trim())
+        .filter((u) => u.length > 0);
+      bulkResultsGrid.innerHTML = "";
 
       urls.forEach((url, i) => {
-        const itemCard = document.createElement('div');
-        itemCard.className = "bg-canvas border border-hairline rounded-lg p-3 flex flex-col items-center gap-2 shadow-lvl1";
-        
-        const canvas = document.createElement('canvas');
-        canvas.className = "w-full aspect-square bg-canvas-soft border border-hairline rounded";
-        
-        const titleSpan = document.createElement('span');
-        titleSpan.className = "text-[10px] font-mono text-mute truncate w-full text-center";
+        const itemCard = document.createElement("div");
+        itemCard.className =
+          "bg-canvas border border-hairline rounded-lg p-3 flex flex-col items-center gap-2 shadow-lvl1";
+
+        const canvas = document.createElement("canvas");
+        canvas.className =
+          "w-full aspect-square bg-canvas-soft border border-hairline rounded";
+
+        const titleSpan = document.createElement("span");
+        titleSpan.className =
+          "text-[10px] font-mono text-mute truncate w-full text-center";
         titleSpan.textContent = url;
 
-        const downloadBtn = document.createElement('button');
+        const downloadBtn = document.createElement("button");
         downloadBtn.type = "button";
-        downloadBtn.className = "w-full py-1 text-[10px] font-sans font-bold bg-primary text-on-primary rounded hover:opacity-90 cursor-pointer";
+        downloadBtn.className =
+          "w-full py-1 text-[10px] font-sans font-bold bg-primary text-on-primary rounded hover:opacity-90 cursor-pointer";
         downloadBtn.textContent = "Download PNG";
 
         itemCard.appendChild(canvas);
@@ -683,65 +1084,65 @@ const faqJsonLd = JSON.stringify(faqSchema);
           {
             width: 200,
             margin: 1.5,
-            errorCorrectionLevel: 'M'
+            errorCorrectionLevel: "M",
           },
           (err: any) => {
             if (err) console.error(err);
 
-            downloadBtn.addEventListener('click', () => {
-              const link = document.createElement('a');
-              link.href = canvas.toDataURL('image/png');
+            downloadBtn.addEventListener("click", () => {
+              const link = document.createElement("a");
+              link.href = canvas.toDataURL("image/png");
               link.download = `qr_${i + 1}.png`;
               link.click();
             });
-          }
+          },
         );
       });
     };
 
     // PNG download handler
-    downloadPngBtn.addEventListener('click', () => {
-      const dataUrl = qrCanvas.toDataURL('image/png');
-      const a = document.createElement('a');
+    downloadPngBtn.addEventListener("click", () => {
+      const dataUrl = qrCanvas.toDataURL("image/png");
+      const a = document.createElement("a");
       a.href = dataUrl;
       a.download = `qrcode_${Date.now()}.png`;
       a.click();
     });
 
     // SVG generation helper (using simple standard SVG renderer path)
-    downloadSvgBtn.addEventListener('click', () => {
+    downloadSvgBtn.addEventListener("click", () => {
       const payload = getPayload();
       if (!payload) return;
 
       QRCode.toString(
         payload,
         {
-          type: 'svg',
+          type: "svg",
           color: {
             dark: inputColorFore.value,
-            light: inputColorBack.value
+            light: inputColorBack.value,
           },
-          errorCorrectionLevel: selectError.value
+          errorCorrectionLevel: selectError.value,
         },
         (err: any, svgString: string) => {
           if (err) {
             console.error(err);
             return;
           }
-          const blob = new Blob([svgString], { type: 'image/svg+xml' });
+          const blob = new Blob([svgString], { type: "image/svg+xml" });
           const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
+          const a = document.createElement("a");
           a.href = url;
           a.download = `qrcode_${Date.now()}.svg`;
           a.click();
           URL.revokeObjectURL(url);
-        }
+        },
       );
     });
 
     // Bind action button
-    generateQrBtn.addEventListener('click', () => {
-      const isBulk = isBulkInput.value === 'true';
+    generateQrBtn.addEventListener("click", () => {
+      const isBulk = isBulkInput.value === "true";
       if (isBulk) {
         generateBulkQR();
       } else {
@@ -751,20 +1152,39 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
     // Live-preview: regenerate on any input change
     const liveInputIds = [
-      'field-url', 'field-text', 'field-phone',
-      'field-email-to', 'field-email-sub', 'field-email-body',
-      'field-sms-phone', 'field-sms-msg',
-      'field-wifi-ssid', 'field-wifi-pass', 'field-wifi-type',
-      'field-vc-first', 'field-vc-last', 'field-vc-phone', 'field-vc-email', 'field-vc-org',
-      'color-foreground', 'color-foreground-hex', 'color-background', 'color-background-hex',
-      'error-level'
+      "field-url",
+      "field-text",
+      "field-phone",
+      "field-email-to",
+      "field-email-sub",
+      "field-email-body",
+      "field-sms-phone",
+      "field-sms-msg",
+      "field-wifi-ssid",
+      "field-wifi-pass",
+      "field-wifi-type",
+      "field-vc-first",
+      "field-vc-last",
+      "field-vc-phone",
+      "field-vc-email",
+      "field-vc-org",
+      "color-foreground",
+      "color-foreground-hex",
+      "color-background",
+      "color-background-hex",
+      "error-level",
     ];
-    liveInputIds.forEach(id => {
+    liveInputIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (el) el.addEventListener('input', () => generateSingleQR());
+      if (el) el.addEventListener("input", () => generateSingleQR());
     });
 
     // Initial generation on page load
     generateSingleQR();
   </script>
+
+    <RelatedTools
+      categorySlug="utility"
+      toolSlug="qr-code-generator"
+    />
 </Layout>

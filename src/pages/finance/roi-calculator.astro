@@ -1,111 +1,73 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a good ROI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Standard equity portfolios average an 8% to 10% annual return before inflation adjustments. What constitutes a \"good\" return depends on risk levels and liquidity requirements. Higher risk projects demand higher premium targets (e.g., venture investments or individual startups seeking 25%+), whereas lower risk savings rates typically yield 3% to 5%."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's the difference between ROI and annualized ROI (CAGR)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Simple ROI yields the raw ratio of gains relative to cumulative invested capital over the total time period. Annualized ROI (CAGR) normalizes that gain to a yearly rate, compounding it geometrically. This enables direct comparison of a 5-year investment with a 1-year investment."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate ROI with additional contributions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If you add funds over time, calculating annualized returns requires finding the Internal Rate of Return (IRR). Because a contribution added in Month 30 has less compounding time than the initial balance, IRR discounts each flow according to the exact month it was invested. Our calculator resolves this using a numerical bisection root-finder."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I use this for real estate or stock investments?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, it is highly applicable for both. For stocks, enter the initial buy, monthly recurring additions, and current portfolio value. For real estate, input your down payment, monthly cash flows or mortgage amortization, and expected sale price to determine real returns."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this ROI calculator financial advice?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Standard compounding calculations do not include asset liquidation fees, taxes, or inflation. Use the calculator for initial planning and scenario testing, and seek guidance from a qualified financial planner or tax advisor for professional advisory quotes."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a good return on investment (ROI)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A good ROI varies by asset class. Historically, the S&P 500 yields an average annual ROI of 8% to 10% (nominal). Real estate typically averages 6% to 8%, while riskier assets expect higher returns to offset the volatility."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does ROI compare to Return on Equity (ROE)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "ROI measures the overall efficiency of an investment using total assets. ROE measures profitability relative to shareholder equity, showing how effectively a company utilizes owner capital."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does ROI account for time value of money?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Simple ROI calculates the total return over the entire investment holding period, regardless of whether it took 1 year or 10 years. To account for time, use annualized ROI or CAGR (Compound Annual Growth Rate)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can ROI be negative?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. If the final value of your investment is less than your initial investment cost, the ROI will be negative, representing a capital loss."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do taxes impact my net ROI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Capital gains taxes, income taxes, and transaction fees reduce your final investment return. Net ROI calculates returns after subtracting all taxes, transaction costs, and management fees."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+// FAQ entries for ToolSchema
+const faqs = [
+  {
+    question: "What is a good ROI?",
+    answer: "Standard equity portfolios average an 8% to 10% annual return before inflation adjustments. What constitutes a \"good\" return depends on risk levels and liquidity requirements. Higher risk projects demand higher premium targets (e.g., venture investments or individual startups seeking 25%+), whereas lower risk savings rates typically yield 3% to 5%."
+  },
+  {
+    question: "What's the difference between ROI and annualized ROI (CAGR)?",
+    answer: "Simple ROI yields the raw ratio of gains relative to cumulative invested capital over the total time period. Annualized ROI (CAGR) normalizes that gain to a yearly rate, compounding it geometrically. This enables direct comparison of a 5-year investment with a 1-year investment."
+  },
+  {
+    question: "How do I calculate ROI with additional contributions?",
+    answer: "If you add funds over time, calculating annualized returns requires finding the Internal Rate of Return (IRR). Because a contribution added in Month 30 has less compounding time than the initial balance, IRR discounts each flow according to the exact month it was invested. Our calculator resolves this using a numerical bisection root-finder."
+  },
+  {
+    question: "Can I use this for real estate or stock investments?",
+    answer: "Yes, it is highly applicable for both. For stocks, enter the initial buy, monthly recurring additions, and current portfolio value. For real estate, input your down payment, monthly cash flows or mortgage amortization, and expected sale price to determine real returns."
+  },
+  {
+    question: "Is this ROI calculator financial advice?",
+    answer: "No. Standard compounding calculations do not include asset liquidation fees, taxes, or inflation. Use the calculator for initial planning and scenario testing, and seek guidance from a qualified financial planner or tax advisor for professional advisory quotes."
+  },
+  {
+    question: "What is a good return on investment (ROI)?",
+    answer: "A good ROI varies by asset class. Historically, the S&P 500 yields an average annual ROI of 8% to 10% (nominal). Real estate typically averages 6% to 8%, while riskier assets expect higher returns to offset the volatility."
+  },
+  {
+    question: "How does ROI compare to Return on Equity (ROE)?",
+    answer: "ROI measures the overall efficiency of an investment using total assets. ROE measures profitability relative to shareholder equity, showing how effectively a company utilizes owner capital."
+  },
+  {
+    question: "Does ROI account for time value of money?",
+    answer: "No. Simple ROI calculates the total return over the entire investment holding period, regardless of whether it took 1 year or 10 years. To account for time, use annualized ROI or CAGR (Compound Annual Growth Rate)."
+  },
+  {
+    question: "Can ROI be negative?",
+    answer: "Yes. If the final value of your investment is less than your initial investment cost, the ROI will be negative, representing a capital loss."
+  },
+  {
+    question: "How do taxes impact my net ROI?",
+    answer: "Capital gains taxes, income taxes, and transaction fees reduce your final investment return. Net ROI calculates returns after subtracting all taxes, transaction costs, and management fees."
+  }
+];
 ---
 
 <Layout 
   title="ROI Calculator - Free Return on Investment Calculator | ToolzTotal"
   description="Calculate your Return on Investment (ROI), annualized ROI (CAGR), and net profits. Side-by-side comparison mode and shareable links included."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="ROI Calculator"
+    toolSlug="roi-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Estimate raw ROI percentages, annualized returns (CAGR), and cash accumulation timelines. Analyze a single portfolio or compare two different scenarios side-by-side."
+    faqs={faqs}
+  />
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">ROI Calculator</span>
-    </nav>
+    <Breadcrumbs 
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Return on Investment (ROI) Calculator"
+      toolSlug="roi-calculator"
+    />
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -1053,57 +1015,17 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </section>
 
-    <!-- Related Tools Section -->
-    <section class="mt-20 pt-16 border-t border-hairline">
-      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Finance Tools</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        
-        <a 
-          href="/finance/compound-interest-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Compound Interest Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Visualize the growth of savings and investments through compounding interest over time.</p>
-        </a>
-
-        <a 
-          href="/finance/net-worth-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Net Worth Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Calculate your personal net worth by balancing your total assets against outstanding debts.</p>
-        </a>
-
-        <a 
-          href="/finance/loan-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Loan Payment Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Calculate payments for personal, auto, or student loans with preset options.</p>
-        </a>
-
-      </div>
-    </section>
+    <!-- Related Tools -->
+    <RelatedTools 
+      categorySlug="finance" 
+      toolSlug="roi-calculator" 
+    />
 
   </div>
 
   <!-- Client-Side Calculator Logic Script -->
   <script>
+// @ts-nocheck
     // 1. DOM Element Cache
     const activeModeInput = document.getElementById('active-mode') as HTMLInputElement;
     const modeSingleBtn = document.getElementById('mode-single') as HTMLButtonElement;

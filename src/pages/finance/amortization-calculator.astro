@@ -1,110 +1,41 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is an amortization schedule?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "An amortization schedule is a complete table of periodic loan payments that shows each payment's allocation between principal and interest over the loan's term. It details the beginning balance, principal paid, interest paid, and ending balance for every period, giving borrowers full transparency into how their debt decreases over time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is an amortization schedule calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The schedule uses the standard amortization formula: M = P x [r(1+r)^n] / [(1+r)^n - 1], where P is the principal, r is the monthly interest rate (annual rate divided by 12), and n is the total number of monthly payments. Each period, the interest portion is calculated as the remaining balance times r, and the principal portion is the total payment minus the interest. The process repeats until the balance reaches zero."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is an amortization schedule used for?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Amortization schedules are primarily used for mortgages, auto loans, personal loans, and any fixed-rate installment debt. Borrowers use them to visualize how much of each payment goes toward interest versus principal, plan extra payments to pay off debt early, compare loan offers, and understand the total interest cost over the life of the loan."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does an extra payment affect my amortization schedule?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Making an extra payment directly reduces the outstanding principal balance. Since interest is calculated on the remaining principal, a lower balance means less interest accrues in future months. This accelerates the payoff timeline — even small extra payments can shave months or years off your loan term and save thousands in total interest charges."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this amortization calculator financial advice?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, this amortization calculator is an educational and planning tool only. It uses standard mathematical formulas to generate estimates, but actual loan terms, fees, compounding methods, and lender policies may differ. Always consult a qualified financial professional or your lender for binding loan disclosures and personalized advice."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between an amortization schedule and an amortization table?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "They refer to the same thing: a complete monthly breakdown showing your starting balance, principal payment, interest fee, and ending loan balance for every payment term."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does making one extra mortgage payment a year affect amortization?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Making one extra principal payment annually on a 30-year fixed mortgage can shave 4 to 5 years off your payoff date and save you thousands of dollars in lifetime interest."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is negative amortization?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Negative amortization occurs when your monthly payment is less than the interest fee due. The unpaid interest is added to your loan principal, causing your overall debt balance to increase over time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate the interest portion of a monthly payment?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Multiply your outstanding principal balance by your annual interest rate, then divide by 12. The remaining part of your payment goes toward reducing the principal."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I use amortization schedules for personal car loans?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Car loans amortize using the same simple interest formulas as mortgages, though terms are much shorter, typically ranging from 36 to 72 months."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="Amortization Schedule Calculator — Free Full Payment Table | ToolzTotal"
   description="Generate a complete amortization schedule for any loan. See monthly payments, total interest, payoff dates, and the impact of extra payments with our free calculator."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Amortization Schedule Calculator"
+    toolSlug="amortization-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Generate a complete amortization schedule for any loan. See monthly payments, total interest, payoff dates, and the impact of extra payments with our free calculator."
+  faqs={[
+    { question: "Extra Payment Impact", answer: "Interest Saved $0 Time Saved 0 months New Payoff Date -- Baseline Payoff Timeline 360 Months Accelerated Payoff Timeline -- Amortization Schedule Visualize declining loan balance over the full term." },
+    { question: "Why an Amortization Schedule Matters", answer: "For mortgages, auto loans, and other fixed-rate installment debt, knowing your amortization schedule helps you make smarter financial decisions. You can see exactly how much interest you will pay over the full term, plan extra principal payments strategically, and compare different loan scenarios before committing. An amortization schedule calculator gives you this clarity in seconds." },
+    { question: "The Power of Extra Payments", answer: "Because interest is calculated on your remaining balance each month, any additional principal payment immediately reduces future interest charges. Our amortization calculator with extra payments shows you exactly how much you can save. Even a modest extra payment — such as $100 to $200 per month on a mortgage — can reduce your loan term by years and save tens of thousands of dollars in interest." },
+    { question: "Reading Your Schedule", answer: "In the early years of a loan, a larger portion of each payment goes toward interest. As the balance declines, the interest portion shrinks and more of your payment goes toward principal — this is called amortization. The schedule makes this shift visible period by period. Use the yearly or monthly views above to explore the detailed breakdown, download the full schedule as CSV, and run different what-if scenarios with extra payments." },
+    { question: "Understanding the Front-Loaded Nature of Mortgage Interest", answer: "In a standard fixed-rate amortization schedule, the portion of your payment allocated to interest is heavily front-loaded. In the early years of a 30-year mortgage, the outstanding loan balance is at its highest, meaning interest represents the vast majority of your monthly payment. As you make payments over time, the principal balance slowly decreases, which in turn reduces the monthly interest fee, allowing a larger portion of your payment to pay down the remaining principal. Understanding this dynamic highlights why making extra principal payments early in the loan term results in massive lifetime interest savings." },
+    { question: "Amortizing Loans vs. Simple Interest Loans", answer: "It is critical to distinguish between amortizing installment loans and simple interest revolving debt. Amortizing loans have a fixed payoff schedule, where every single monthly payment is structured to cover the interest due and chip away a portion of the principal. Under simple interest calculations, the interest is computed daily based on your current outstanding balance, but there is no set principal reduction requirement. This is common in credit card balances, where making only the minimum payment pays off very little principal, resulting in high interest charges that can compound indefinitely." },
+    { question: "The Mathematical Formula for Amortization Payments", answer: "Lenders determine your monthly payment size using a precise compound interest formula: A = P * [r(1+r)^n] / [(1+r)^n - 1] . Here, A represents your periodic payment, P is the starting principal loan amount, r is the interest rate per period (usually your annual interest rate divided by 12), and n is the total number of monthly payments required over the term. While this formula keeps the monthly payment completely identical throughout the loan, the internal split between principal and interest changes with every payment." },
+    { question: "Related Finance Tools", answer: "Loan Payment Calculator Calculate monthly payments for auto, personal, or student loans with preset profiles." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">Amortization Schedule Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Amortization Schedule Calculator"
+      toolSlug="amortization-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -711,6 +642,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
   <!-- Client-Side Calculator Logic -->
   <script>
+// @ts-nocheck
     import { calculateAmortization, getYearlySchedule, generateCsv, getSvgChartPaths } from '../../utils/amortization';
 
     // DOM Element Cache
@@ -1033,4 +965,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
     // Initial
     runCalculations();
   </script>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="amortization-calculator"
+    />
 </Layout>

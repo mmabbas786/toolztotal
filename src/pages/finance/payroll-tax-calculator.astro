@@ -1,94 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is FICA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "FICA (Federal Insurance Contributions Act) is the U.S. payroll tax that funds Social Security and Medicare. Employees pay 6.2% for Social Security (up to the $168,600 wage base) and 1.45% for Medicare (no cap). Employers match these amounts, making the total contribution 15.3% on the first $168,600 of wages. FICA is separate from federal income tax and is required by law for all W-2 employees."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is federal income tax withheld from my paycheck?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Employers use your Form W-4 selections — filing status, dependents, and additional withholding — to determine your withholding amount. They apply the IRS progressive tax brackets to your estimated annual income and divide by your number of pay periods. The goal is to withhold approximately the right amount so that your total withholding equals your actual tax liability, avoiding a large refund or balance due at tax time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between gross and net pay?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Gross pay is your total earnings before any deductions — your salary or hourly wages for the pay period. Net pay (take-home pay) is the amount you actually receive after subtracting all deductions, including federal income tax, Social Security, Medicare, health insurance, retirement contributions, and other withholdings. The difference between the two can be substantial — typically 20-35% of gross pay depending on your income and benefits. For example, a $75,000 salary with 5% 401(k) contributions, health insurance, and standard withholding may yield around $55,000 in net annual pay — roughly 73% of gross. This calculator shows you exactly how each deduction impacts your bottom line."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does filing status affect my withholding?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Your filing status determines your standard deduction amount and which tax brackets apply to your income. Married Filing Jointly offers the largest standard deduction ($29,200 for 2024) and widest tax brackets, resulting in the lowest withholding for a given income. Head of Household falls between Single and MFJ. Using the correct status on your W-4 is essential for accurate withholding — using the wrong status can lead to significant over- or under-withholding. For example, a single filer earning $75,000 falls into the 22% marginal bracket, while a married filer with the same income stays in the 12% bracket — a meaningful difference in tax burden."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this payroll calculator a substitute for a CPA?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. This tool provides general estimates for educational and informational purposes only — it is not tax, legal, or accounting advice. Actual payroll and tax calculations depend on your complete financial picture, including state and local taxes, credits, deductions, investment income, and other factors this calculator cannot account for. Always consult a licensed CPA or tax attorney for personalized advice. Verify all current tax figures at irs.gov."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between FICA taxes and Federal Income Tax?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "FICA taxes are flat-rate payroll taxes that fund Social Security (6.2%) and Medicare (1.45%), split between employers and employees. Federal Income Tax is a progressive tax based on your tax bracket and W-4 filings."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the FICA tax cap for Social Security contributions?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Social Security taxes are subject to a wage base limit ($168,600 for the tax year 2024). Any earnings above this limit are not subject to the 6.2% Social Security tax, though Medicare tax has no wage limit."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Who is responsible for paying Federal Unemployment (FUTA) taxes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "FUTA (and state-level SUTA) taxes are paid solely by the employer to fund unemployment compensation programs. These taxes are not deducted from the employee's gross paycheck."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are pre-tax deductions and how do they affect payroll calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Pre-tax deductions are allocations (like 401(k) contributions, HSA savings, or health insurance premiums) subtracted from your gross wages before taxes are calculated, lowering your overall tax liability."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the W-4 form influence tax withholding?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Form W-4 tells your employer how much federal income tax to withhold from your pay based on factors like filing status, dependents, and multiple jobs. Filing a new W-4 adjustments helps prevent tax refund surprises."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Payroll Tax Calculator - Free Take-Home Pay Estimator | ToolzTotal",
@@ -101,8 +15,27 @@ const ogMeta = {
 <Layout
   title="Payroll Tax Calculator - Free Take-Home Pay Estimator | ToolzTotal"
   description="Free payroll tax calculator — estimate your take-home pay after federal taxes, FICA, and pre-tax deductions. No signup required."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Payroll Tax Calculator"
+    toolSlug="payroll-tax-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Free payroll tax calculator — estimate your take-home pay after federal taxes, FICA, and pre-tax deductions. No signup required."
+  faqs={[
+    { question: "What is FICA?", answer: "FICA (Federal Insurance Contributions Act) is the U.S. payroll tax that funds Social Security and Medicare. Employees pay 6.2% for Social Security (up to the $168,600 wage base) and 1.45% for Medicare (no cap). Employers match these amounts, making the total contribution 15.3% on the first $168,600 of wages. FICA is separate from federal income tax and is required by law for all W-2 employees." },
+    { question: "How is federal income tax withheld from my paycheck?", answer: "Employers use your Form W-4 selections — filing status, dependents, and additional withholding — to determine your withholding amount. They apply the IRS progressive tax brackets to your estimated annual income and divide by your number of pay periods. The goal is to withhold approximately the right amount so that your total withholding equals your actual tax liability, avoiding a large refund or balance due at tax time." },
+    { question: "What is the difference between gross and net pay?", answer: "Gross pay is your total earnings before any deductions — your salary or hourly wages for the pay period. Net pay (take-home pay) is the amount you actually receive after subtracting all deductions, including federal income tax, Social Security, Medicare, health insurance, retirement contributions, and other withholdings. The difference between the two can be substantial — typically 20-35% of gross pay depending on your income and benefits. For example, a $75,000 salary with 5% 401(k) contributions, health insurance, and standard withholding may yield around $55,000 in net annual pay — roughly 73% of gross. This calculator shows you exactly how each deduction impacts your bottom line." },
+    { question: "How does filing status affect my withholding?", answer: "Your filing status determines your standard deduction amount and which tax brackets apply to your income. Married Filing Jointly offers the largest standard deduction ($29,200 for 2024) and widest tax brackets, resulting in the lowest withholding for a given income. Head of Household falls between Single and MFJ. Using the correct status on your W-4 is essential for accurate withholding — using the wrong status can lead to significant over- or under-withholding. For example, a single filer earning $75,000 falls into the 22% marginal bracket, while a married filer with the same income stays in the 12% bracket — a meaningful difference in tax burden." },
+    { question: "Is this payroll calculator a substitute for a CPA?", answer: "No. This tool provides general estimates for educational and informational purposes only — it is not tax, legal, or accounting advice. Actual payroll and tax calculations depend on your complete financial picture, including state and local taxes, credits, deductions, investment income, and other factors this calculator cannot account for. Always consult a licensed CPA or tax attorney for personalized advice. Verify all current tax figures at irs.gov ." },
+    { question: "What is the difference between FICA taxes and Federal Income Tax?", answer: "FICA taxes are flat-rate payroll taxes that fund Social Security (6.2%) and Medicare (1.45%), split between employers and employees. Federal Income Tax is a progressive tax based on your tax bracket and W-4 filings." },
+    { question: "What is the FICA tax cap for Social Security contributions?", answer: "Social Security taxes are subject to a wage base limit ($168,600 for the tax year 2024). Any earnings above this limit are not subject to the 6.2% Social Security tax, though Medicare tax has no wage limit." },
+    { question: "Who is responsible for paying Federal Unemployment (FUTA) taxes?", answer: "FUTA (and state-level SUTA) taxes are paid solely by the employer to fund unemployment compensation programs. These taxes are not deducted from the employee's gross paycheck." },
+    { question: "What are pre-tax deductions and how do they affect payroll calculations?", answer: "Pre-tax deductions are allocations (like 401(k) contributions, HSA savings, or health insurance premiums) subtracted from your gross wages before taxes are calculated, lowering your overall tax liability." },
+    { question: "How does the W-4 form influence tax withholding?", answer: "The Form W-4 tells your employer how much federal income tax to withhold from your pay based on factors like filing status, dependents, and multiple jobs. Filing a new W-4 adjustments helps prevent tax refund surprises." }
+  ]}
+  />
+
   <meta slot="head" property="og:title" content={ogMeta.title} />
   <meta slot="head" property="og:description" content={ogMeta.description} />
   <meta slot="head" property="og:url" content={ogMeta.url} />
@@ -112,15 +45,13 @@ const ogMeta = {
   <meta slot="head" name="twitter:description" content={ogMeta.description} />
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Payroll Tax Calculator"
+      toolSlug="payroll-tax-calculator"
+    />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">Payroll Tax Calculator</span>
-    </nav>
 
     <!-- Header -->
     <div class="max-w-4xl mb-12">
@@ -785,9 +716,15 @@ const ogMeta = {
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="payroll-tax-calculator"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // Payroll Tax Calculator — Client-Side Engine
   // Uses 2024 tax year constants (update annually)

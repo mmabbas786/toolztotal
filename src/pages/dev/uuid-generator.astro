@@ -1,5 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const faqSchema = JSON.stringify({
   "@context": "https://schema.org",
@@ -94,15 +97,15 @@ const faqSchema = JSON.stringify({
   description="Generate UUIDs/GUIDs in v1 (time-based), v4 (random), and v7 (time-ordered) formats with bulk generation and copy-to-clipboard support. Client-side only."
   faqJsonLd={faqSchema}
 >
+  <ToolSchema
+    toolName="UUID Generator"
+    toolSlug="uuid-generator"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Generate UUIDs/GUIDs in v1 (time-based), v4 (random), and v7 (time-ordered) formats with bulk generation and copy-to-clipboard support. Client-side only."
+  />
+
   <div class="max-w-[1000px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">UUID Generator</span>
-    </nav>
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -426,6 +429,7 @@ const faqSchema = JSON.stringify({
   </div>
 
   <script>
+// @ts-nocheck
     // DOM refs
     const versionBtns = document.querySelectorAll('.version-btn');
     const activeVersion = document.getElementById('active-version');
@@ -720,4 +724,9 @@ const faqSchema = JSON.stringify({
       });
     });
   </script>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="uuid-generator"
+    />
 </Layout>

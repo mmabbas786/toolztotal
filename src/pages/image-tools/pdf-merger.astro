@@ -1,112 +1,44 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How does client-side PDF merging work?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This tool loads your PDF documents as array buffers into the browser memory. It utilizes the bundled pdf-lib.js library to copy pages from each source document, combine them sequentially, and serialize the final merged PDF for instant local download."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my confidential document data uploaded to a server?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, never. Unlike other PDF sites that store your documents on their servers, ToolzTotal compiles everything completely client-side in your local browser sandbox. No bytes are sent across the network."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I reorder PDF files before merging?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. After uploading your PDFs, you can use the interactive reorder list to shift files up or down, ensuring that pages assemble in the correct sequence."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is there a page limit for merging PDFs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Because the combining processes run entirely in your browser memory, page counts are limited only by your device's RAM capacity. It handles hundreds of pages comfortably."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool work with password-protected PDFs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. To protect document privacy, we do not decrypt password-secured PDF documents. Please decrypt protected files before attempting to combine them."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I merge scanned PDFs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The tool merges any standard PDF file, including scanned documents and forms, while preserving the original page layouts."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Will merging PDFs affect the file quality?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The tool copies pages from the source documents without re-compressing them, maintaining the original text and image quality."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I extract specific pages before merging?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "This tool is designed to merge entire PDF files. To extract specific pages, you can use a PDF printer or editor before merging."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does this tool run on mobile devices?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. You can select and merge PDF files directly from your phone or tablet's file storage using a mobile web browser."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What library does this tool use to merge PDFs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The tool uses the popular open-source pdf-lib library to handle PDF loading, page copying, and file generation locally in the browser."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="PDF Merger - Free Client-Side PDF Combiner | ToolzTotal"
   description="Combine multiple PDF documents into a single file securely inside your browser using pdf-lib.js. 100% private, no server uploads."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/image-tools/pdf-merger"
 >
+  <ToolSchema
+    toolName="PDF Merger"
+    toolSlug="pdf-merger"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description="Combine multiple PDF documents into a single file securely inside your browser using pdf-lib.js. 100% private, no server uploads."
+  faqs={[
+    { question: "How does client-side PDF merging work?", answer: "This tool loads your PDF documents as array buffers into the browser memory. It utilizes the bundled pdf-lib.js library to copy pages from each source document, combine them sequentially, and serialize the final merged PDF for instant local download." },
+    { question: "Is my confidential document data uploaded to a server?", answer: "No, never. Unlike other PDF sites that store your documents on their servers, ToolzTotal compiles everything completely client-side in your local browser sandbox. No bytes are sent across the network." },
+    { question: "Can I reorder PDF files before merging?", answer: "Yes. After uploading your PDFs, you can use the interactive reorder list to shift files up or down, ensuring that pages assemble in the correct sequence." },
+    { question: "Is there a page limit for merging PDFs?", answer: "Because the combining processes run entirely in your browser memory, page counts are limited only by your device's RAM capacity. It handles hundreds of pages comfortably." },
+    { question: "Does this tool work with password-protected PDFs?", answer: "No. To protect document privacy, we do not decrypt password-secured PDF documents. Please decrypt protected files before attempting to combine them." },
+    { question: "Can I merge scanned PDFs?", answer: "Yes. The tool merges any standard PDF file, including scanned documents and forms, while preserving the original page layouts." },
+    { question: "Will merging PDFs affect the file quality?", answer: "No. The tool copies pages from the source documents without re-compressing them, maintaining the original text and image quality." },
+    { question: "Can I extract specific pages before merging?", answer: "This tool is designed to merge entire PDF files. To extract specific pages, you can use a PDF printer or editor before merging." },
+    { question: "Does this tool run on mobile devices?", answer: "Yes. You can select and merge PDF files directly from your phone or tablet's file storage using a mobile web browser." },
+    { question: "What library does this tool use to merge PDFs?", answer: "The tool uses the popular open-source pdf-lib library to handle PDF loading, page copying, and file generation locally in the browser." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/image-tools" class="hover:text-ink transition-colors">Image Tools</a>
-      <span>/</span>
-      <span class="text-ink">PDF Merger</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Image & PDF Tools"
+      categorySlug="image-tools"
+      toolName="PDF Merger"
+      toolSlug="pdf-merger"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -443,9 +375,15 @@ const faqJsonLd = JSON.stringify(faqSchema);
     
 
     </div>
+
+    <RelatedTools
+      categorySlug="image-tools"
+      toolSlug="pdf-merger"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // DOM Elements
   // ============================================================

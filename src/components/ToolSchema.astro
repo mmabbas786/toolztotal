@@ -1,0 +1,100 @@
+---
+interface Props {
+  toolName: string;
+  toolSlug: string;
+  categoryName: string;
+  categorySlug: string;
+  description: string;
+  faqs?: Array<{ question: string; answer: string }>;
+}
+
+const {
+  toolName,
+  toolSlug,
+  categoryName,
+  categorySlug,
+  description,
+  faqs = [],
+} = Astro.props;
+
+const baseUrl = "https://toolztotal.com";
+const toolUrl = `${baseUrl}/${categorySlug}/${toolSlug}`;
+const categoryUrl = `${baseUrl}/${categorySlug}`;
+
+const applicationCategoryMap: Record<string, string> = {
+  "finance": "Finance",
+  "real-estate": "Real Estate",
+  "utility": "Utilities",
+  "dev": "Developer Tools",
+  "text": "Text Tools",
+  "marketing": "Marketing Tools",
+  "health": "Health & Fitness",
+  "legal": "Legal Tools",
+  "education": "Education Tools",
+  "image-tools": "Image Tools",
+};
+
+const applicationCategory = applicationCategoryMap[categorySlug] || "Application";
+
+const softwareApplication = {
+  "@type": "SoftwareApplication",
+  "name": toolName,
+  "applicationCategory": applicationCategory,
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+  },
+  "description": description,
+  "url": toolUrl,
+};
+
+const breadcrumbList = {
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": baseUrl,
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": categoryName,
+      "item": categoryUrl,
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": toolName,
+      "item": toolUrl,
+    },
+  ],
+};
+
+const graph: any[] = [softwareApplication, breadcrumbList];
+
+if (faqs.length > 0) {
+  graph.push({
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  });
+}
+
+const ldJson = {
+  "@context": "https://schema.org",
+  "@graph": graph,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(ldJson, null, 2)} />

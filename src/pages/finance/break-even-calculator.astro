@@ -1,94 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a break-even point?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The break-even point (BEP) is the sales level where total revenue exactly equals total costs — no profit, no loss. It's the minimum output you need to keep your business viable. Every unit sold beyond that point contributes directly to profit."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do you calculate the break-even point?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost Per Unit). For example, if fixed costs are $50,000, the price is $80, and the variable cost is $30, your contribution margin is $50, and you need 1,000 units to break even. Break-even revenue is simply units × price."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is contribution margin?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Contribution margin is the difference between the selling price and the variable cost per unit. It represents how much each sale contributes toward covering fixed costs and generating profit. The contribution margin ratio (contribution margin ÷ price) tells you what percentage of each dollar of revenue goes toward fixed costs and profit."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is break-even revenue?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Break-even revenue is the total dollar amount you need to earn from sales to cover all costs. It's calculated by multiplying break-even units by the selling price, or by dividing fixed costs by the contribution margin ratio. It gives you a clear revenue target for your sales and marketing efforts."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is this break-even calculator financial advice?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. This is an educational tool that provides simplified mathematical estimates. Real-world cost structures are more complex — variable costs may decrease at scale, fixed costs can step up, and external factors like competition and demand affect pricing. Always consult a qualified accountant or business advisor for strategic financial decisions."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does a change in sales mix affect the break-even point?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For businesses selling multiple products, the break-even point is based on the weighted-average contribution margin ratio. A shift in sales mix toward high-margin products lowers the overall break-even point, while a shift toward low-margin items increases it."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the margin of safety and why is it important?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The margin of safety is the difference between actual or projected sales and break-even sales. It measures how much sales can drop before the business begins to lose money, serving as a buffer against market risks."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the break-even point calculated before or after taxes?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The break-even point is calculated before taxes, as profit is $0 at break-even, meaning income tax liability is also $0."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do inflation and rising material costs impact break-even analysis?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Inflation increases variable costs (like raw materials) and fixed costs (like rent). Unless the selling price is raised, these cost increases lower the contribution margin per unit, raising the break-even volume."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can a business have a negative break-even point?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. A negative calculation typically indicates a negative contribution margin (variable costs exceed the selling price), meaning the business loses more money with every unit sold and can never break even."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Break-Even Analysis Calculator - Free BEP & Profit Planning Tool | ToolzTotal",
@@ -101,8 +15,27 @@ const ogMeta = {
 <Layout
   title="Break-Even Analysis Calculator - Free BEP & Profit Planning Tool | ToolzTotal"
   description="Free break-even analysis calculator — find your break-even point in units and revenue, contribution margin, and profit at any sales volume. No signup required."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Break-Even Analysis Calculator"
+    toolSlug="break-even-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Free break-even analysis calculator — find your break-even point in units and revenue, contribution margin, and profit at any sales volume. No signup required."
+  faqs={[
+    { question: "What is a break-even point?", answer: "The break-even point (BEP) is the sales level where total revenue exactly equals total costs — no profit, no loss. It's the minimum output you need to keep your business viable. Every unit sold beyond that point contributes directly to profit." },
+    { question: "How do you calculate the break-even point?", answer: "Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost Per Unit). For example, if fixed costs are $50,000, the price is $80, and the variable cost is $30, your contribution margin is $50, and you need 1,000 units to break even. Break-even revenue is simply units × price." },
+    { question: "What is contribution margin?", answer: "Contribution margin is the difference between the selling price and the variable cost per unit. It represents how much each sale contributes toward covering fixed costs and generating profit. The contribution margin ratio (contribution margin ÷ price) tells you what percentage of each dollar of revenue goes toward fixed costs and profit." },
+    { question: "What is break-even revenue?", answer: "Break-even revenue is the total dollar amount you need to earn from sales to cover all costs. It's calculated by multiplying break-even units by the selling price, or by dividing fixed costs by the contribution margin ratio. It gives you a clear revenue target for your sales and marketing efforts." },
+    { question: "Is this break-even calculator financial advice?", answer: "No. This is an educational tool that provides simplified mathematical estimates. Real-world cost structures are more complex — variable costs may decrease at scale, fixed costs can step up, and external factors like competition and demand affect pricing. Always consult a qualified accountant or business advisor for strategic financial decisions." },
+    { question: "How does a change in sales mix affect the break-even point?", answer: "For businesses selling multiple products, the break-even point is based on the weighted-average contribution margin ratio. A shift in sales mix toward high-margin products lowers the overall break-even point, while a shift toward low-margin items increases it." },
+    { question: "What is the margin of safety and why is it important?", answer: "The margin of safety is the difference between actual or projected sales and break-even sales. It measures how much sales can drop before the business begins to lose money, serving as a buffer against market risks." },
+    { question: "Is the break-even point calculated before or after taxes?", answer: "The break-even point is calculated before taxes, as profit is $0 at break-even, meaning income tax liability is also $0." },
+    { question: "How do inflation and rising material costs impact break-even analysis?", answer: "Inflation increases variable costs (like raw materials) and fixed costs (like rent). Unless the selling price is raised, these cost increases lower the contribution margin per unit, raising the break-even volume." },
+    { question: "Can a business have a negative break-even point?", answer: "No. A negative calculation typically indicates a negative contribution margin (variable costs exceed the selling price), meaning the business loses more money with every unit sold and can never break even." }
+  ]}
+  />
+
   <meta slot="head" property="og:title" content={ogMeta.title} />
   <meta slot="head" property="og:description" content={ogMeta.description} />
   <meta slot="head" property="og:url" content={ogMeta.url} />
@@ -112,15 +45,13 @@ const ogMeta = {
   <meta slot="head" name="twitter:description" content={ogMeta.description} />
 
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Break-Even Analysis Calculator"
+      toolSlug="break-even-calculator"
+    />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">Break-Even Analysis Calculator</span>
-    </nav>
 
     <!-- Header -->
     <div class="max-w-4xl mb-12">
@@ -644,9 +575,15 @@ const ogMeta = {
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="break-even-calculator"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // DOM References
   // ============================================================

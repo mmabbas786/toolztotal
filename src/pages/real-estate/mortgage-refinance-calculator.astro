@@ -1,92 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is refinancing worth it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Refinancing is generally worth it if the new interest rate is significantly lower than your current rate and you plan to stay in your home long enough to recoup the closing costs through monthly savings. A common benchmark is that refinancing makes sense if you can lower your rate by at least 0.75% to 1% and you plan to remain in the home beyond the break-even point — typically 2 to 3 years. This calculator helps you compare your current and proposed loan terms to determine whether refinancing will save you money over the time you expect to own the home."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's a good break-even period to refinance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A break-even period of 2 to 3 years (24 to 36 months) is generally considered favorable for refinancing. This represents the number of months it takes for your monthly savings to offset the closing costs of the new loan. If the break-even point is longer than 3 years, you should weigh whether you plan to stay in the home that long. If you expect to move before the break-even date, the savings may not justify the upfront costs. Use the break-even analysis in this calculator to see exactly how many months it will take to recover your closing costs."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What closing costs should I expect?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Typical mortgage refinance closing costs range from 2% to 5% of the loan amount and may include the origination fee (typically 0.5% to 1% of the loan), appraisal fee ($400 to $600), title search and insurance ($700 to $900), credit report fee ($30 to $50), recording fees ($100 to $250), prepaid interest and escrow deposits, and any mortgage points you choose to purchase. A no-closing-cost refinance is also an option, where the lender covers some or all upfront fees in exchange for a slightly higher interest rate."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does refinancing reset my amortization clock?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, refinancing replaces your existing mortgage with a new loan, which typically resets the amortization clock to the beginning of a new term. If you have 25 years remaining on your current 30-year mortgage and refinance into a new 30-year loan, you will restart the 30-year amortization schedule. This means you will be paying mostly interest again in the early years of the new loan, potentially increasing the total interest paid over the full ownership period — even if the monthly payment is lower. A shorter-term refinance can mitigate this effect."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I refinance to a shorter term?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Refinancing from a 30-year to a 15-year or 20-year mortgage can save tens of thousands of dollars in interest over the life of the loan, often at a lower interest rate. However, the monthly payments will be significantly higher because you are paying off the principal faster. This strategy is best for homeowners who have stable cash flow, want to build equity quickly, and plan to stay in their home for many years. Use this refinance calculator to compare total interest costs and monthly payments across different term lengths."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does it mean to refinance a mortgage?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Refinancing replaces your current home loan with a new one, typically to secure a lower interest rate, change the loan term (e.g. from 30 to 15 years), or cash out home equity."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the typical closing costs associated with refinancing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Refinance closing costs range from 2% to 5% of the loan amount. They cover loan application fees, home appraisal fees, title search, and loan origination fees."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I calculate the break-even point for a mortgage refinance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The break-even point is calculated by dividing total closing costs by your monthly payment savings (e.g., $4,000 closing costs / $200 savings = 20 months). If you plan to sell the home before the break-even point, refinancing may not make sense."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a cash-out refinance?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A cash-out refinance replaces your current mortgage with a larger loan, allowing you to take the difference in cash to fund home improvements, debt consolidation, or other expenses."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does my credit score impact refinance terms?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Lenders use your credit score to evaluate risk and assign interest rates. Higher credit scores qualify for the lowest rates, which maximize your refinance savings."
-      }
-    }
-  ]
-};
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Mortgage Refinance Calculator - Free Refinance Savings Estimator | ToolzTotal",
@@ -96,23 +12,40 @@ const ogMeta = {
 
 const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-refinance-calculator";
 
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title={ogMeta.title}
   description={ogMeta.description}
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Mortgage Refinance Calculator"
+    toolSlug="mortgage-refinance-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description=""
+  faqs={[
+    { question: "Is refinancing worth it?", answer: "Refinancing is generally worth it if the new interest rate is significantly lower than your current rate and you plan to stay in your home long enough to recoup the closing costs through monthly savings. A common benchmark is that refinancing makes sense if you can lower your rate by at least 0.75% to 1% and you plan to remain in the home beyond the break-even point — typically 2 to 3 years. This calculator helps you compare your current and proposed loan terms to determine whether refinancing will save you money over the time you expect to own the home." },
+    { question: "What's a good break-even period to refinance?", answer: "A break-even period of 2 to 3 years (24 to 36 months) is generally considered favorable for refinancing. This represents the number of months it takes for your monthly savings to offset the closing costs of the new loan. If the break-even point is longer than 3 years, you should weigh whether you plan to stay in the home that long. If you expect to move before the break-even date, the savings may not justify the upfront costs. Use the break-even analysis in this calculator to see exactly how many months it will take to recover your closing costs." },
+    { question: "What closing costs should I expect?", answer: "Typical mortgage refinance closing costs range from 2% to 5% of the loan amount and may include the origination fee (typically 0.5% to 1% of the loan), appraisal fee ($400 to $600), title search and insurance ($700 to $900), credit report fee ($30 to $50), recording fees ($100 to $250), prepaid interest and escrow deposits, and any mortgage points you choose to purchase. A no-closing-cost refinance is also an option, where the lender covers some or all upfront fees in exchange for a slightly higher interest rate." },
+    { question: "Does refinancing reset my amortization clock?", answer: "Yes, refinancing replaces your existing mortgage with a new loan, which typically resets the amortization clock to the beginning of a new term. If you have 25 years remaining on your current 30-year mortgage and refinance into a new 30-year loan, you will restart the 30-year amortization schedule. This means you will be paying mostly interest again in the early years of the new loan, potentially increasing the total interest paid over the full ownership period — even if the monthly payment is lower. A shorter-term refinance can mitigate this effect." },
+    { question: "Should I refinance to a shorter term?", answer: "Refinancing from a 30-year to a 15-year or 20-year mortgage can save tens of thousands of dollars in interest over the life of the loan, often at a lower interest rate. However, the monthly payments will be significantly higher because you are paying off the principal faster. This strategy is best for homeowners who have stable cash flow, want to build equity quickly, and plan to stay in their home for many years. Use this refinance calculator to compare total interest costs and monthly payments across different term lengths." },
+    { question: "What does it mean to refinance a mortgage?", answer: "Refinancing replaces your current home loan with a new one, typically to secure a lower interest rate, change the loan term (e.g. from 30 to 15 years), or cash out home equity." },
+    { question: "What are the typical closing costs associated with refinancing?", answer: "Refinance closing costs range from 2% to 5% of the loan amount. They cover loan application fees, home appraisal fees, title search, and loan origination fees." },
+    { question: "How do I calculate the break-even point for a mortgage refinance?", answer: "The break-even point is calculated by dividing total closing costs by your monthly payment savings (e.g., $4,000 closing costs / $200 savings = 20 months). If you plan to sell the home before the break-even point, refinancing may not make sense." },
+    { question: "What is a cash-out refinance?", answer: "A cash-out refinance replaces your current mortgage with a larger loan, allowing you to take the difference in cash to fund home improvements, debt consolidation, or other expenses." },
+    { question: "How does my credit score impact refinance terms?", answer: "Lenders use your credit score to evaluate risk and assign interest rates. Higher credit scores qualify for the lowest rates, which maximize your refinance savings." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/real-estate" class="hover:text-ink transition-colors">Real Estate & Mortgage</a>
-      <span>/</span>
-      <span class="text-ink">Mortgage Refinance Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Real Estate & Mortgage"
+      categorySlug="real-estate"
+      toolName="Mortgage Refinance Calculator"
+      toolSlug="mortgage-refinance-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -621,6 +554,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
   <!-- Client-Side Calculator Logic -->
   <script>
+// @ts-nocheck
     (() => {
       // DOM Elements - Inputs
       const currentBalanceInput = document.getElementById('current-balance');
@@ -894,4 +828,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
       calculate();
     })();
   </script>
+
+    <RelatedTools
+      categorySlug="real-estate"
+      toolSlug="mortgage-refinance-calculator"
+    />
 </Layout>

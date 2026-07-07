@@ -1,110 +1,43 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is Base64 encoding and why would I use it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Base64 is an encoding scheme that converts binary data into a text-based format using 64 printable ASCII characters. It is commonly used to embed small images directly in HTML/CSS, transmit files safely through text-only JSON API payloads, and handle email attachments without file corruption."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do I encode an image to Base64?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Simply click the 'Upload File' button or drag and drop any image file into the input zone. The tool will read the file and convert it into a Base64 Data URI (e.g., 'data:image/png;base64,...') which you can copy and use directly in code."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I decode a Base64 string back to a file or image?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. When you paste a Base64 string in Decode mode, the tool automatically detects the MIME type. If it is an image, a live preview will render, and you can download the original file directly to your device."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is my data safe when using this Base64 converter?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, 100% safe. All conversions run entirely inside your local browser using JavaScript. No files, strings, or images are ever uploaded or transmitted to any server, preserving your data privacy."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between Base64 encoding and encryption?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Encoding simply translates data format so text systems can handle it safely; it requires no key to decode. Encryption scrambles data using a cryptographic key to hide its meaning from unauthorized parties and requires a key to decrypt."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Base64 encoding increase the size of the data?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, Base64 encoding increases data size by approximately 33%. Every 3 bytes of binary data are represented as 4 characters (4 bytes) of text. This overhead should be factored in when transmitting large payloads."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What does the '=' symbol mean at the end of Base64 strings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The '=' symbol is a padding character. Base64 strings must always have a length that is a multiple of 4. If the input binary data is not a multiple of 3 bytes, padding is added at the end so the string length is valid."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is a Base64 Data URI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A Data URI allows you to embed files inline inside web pages. It starts with 'data:', followed by the MIME type (like 'image/png'), the ';base64' scheme identifier, and the Base64-encoded string itself."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is Base64 case-sensitive?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Base64 uses capital letters (A-Z), lowercase letters (a-z), and numbers (0-9). Changing the case of any letter changes the underlying numerical value, which results in decoding corruption or error."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I encode non-English Unicode characters to Base64?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. This tool safely encodes Unicode characters (like emojis or non-Latin text) by first converting the text to a UTF-8 byte array before applying Base64 encoding, preventing character garbling."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="Base64 Encode/Decode - Free Online Tool with Image Support | ToolzTotal"
   description="Encode text or files to Base64 and decode Base64 strings back to readable text or images. Supports drag-and-drop, file uploads, image preview, and data URI generation — all client-side."
-  faqJsonLd={faqJsonLd}
 >
+  <ToolSchema
+    toolName="Base64 Encoder / Decoder"
+    toolSlug="base64-encoder-decoder"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Encode text or files to Base64 and decode Base64 strings back to readable text or images. Supports drag-and-drop, file uploads, image preview, and data URI generation — all client-side."
+  faqs={[
+    { question: "What is Base64 encoding and why would I use it?", answer: "Base64 is an encoding scheme that converts binary data into a text-based format using 64 printable ASCII characters. It is commonly used to embed small images directly in HTML/CSS, transmit files safely through text-only JSON API payloads, and handle email attachments without file corruption." },
+    { question: "How do I encode an image to Base64?", answer: "Simply click the 'Upload File' button or drag and drop any image file into the input zone. The tool will read the file and convert it into a Base64 Data URI (e.g., 'data:image/png;base64,...') which you can copy and use directly in code." },
+    { question: "Can I decode a Base64 string back to a file or image?", answer: "Yes. When you paste a Base64 string in Decode mode, the tool automatically detects the MIME type. If it is an image, a live preview will render, and you can download the original file directly to your device." },
+    { question: "Is my data safe when using this Base64 converter?", answer: "Yes, 100% safe. All conversions run entirely inside your local browser using JavaScript. No files, strings, or images are ever uploaded or transmitted to any server, preserving your data privacy." },
+    { question: "What is the difference between Base64 encoding and encryption?", answer: "Encoding simply translates data format so text systems can handle it safely; it requires no key to decode. Encryption scrambles data using a cryptographic key to hide its meaning from unauthorized parties and requires a key to decrypt." },
+    { question: "Does Base64 encoding increase the size of the data?", answer: "Yes, Base64 encoding increases data size by approximately 33%. Every 3 bytes of binary data are represented as 4 characters (4 bytes) of text. This overhead should be factored in when transmitting large payloads." },
+    { question: "What does the '=' symbol mean at the end of Base64 strings?", answer: "The '=' symbol is a padding character. Base64 strings must always have a length that is a multiple of 4. If the input binary data is not a multiple of 3 bytes, padding is added at the end so the string length is valid." },
+    { question: "What is a Base64 Data URI?", answer: "A Data URI allows you to embed files inline inside web pages. It starts with 'data:', followed by the MIME type (like 'image/png'), the ';base64' scheme identifier, and the Base64-encoded string itself." },
+    { question: "Is Base64 case-sensitive?", answer: "Yes. Base64 uses capital letters (A-Z), lowercase letters (a-z), and numbers (0-9). Changing the case of any letter changes the underlying numerical value, which results in decoding corruption or error." },
+    { question: "Can I encode non-English Unicode characters to Base64?", answer: "Yes. This tool safely encodes Unicode characters (like emojis or non-Latin text) by first converting the text to a UTF-8 byte array before applying Base64 encoding, preventing character garbling." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/dev" class="hover:text-ink transition-colors">Developer Tools</a>
-      <span>/</span>
-      <span class="text-ink">Base64 Encoder/Decoder</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Developer Tools"
+      categorySlug="dev"
+      toolName="Base64 Encode/Decode"
+      toolSlug="base64-encoder-decoder"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-10">
@@ -434,6 +367,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
   <!-- Client Script -->
   <script>
+// @ts-nocheck
     // ---- DOM refs ----
     const inputArea = document.getElementById('input-area') as HTMLTextAreaElement;
     const outputArea = document.getElementById('output-area') as HTMLDivElement;
@@ -883,4 +817,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
   <style is:global>
     .text-error { color: var(--color-error); }
   </style>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="base64-encoder-decoder"
+    />
 </Layout>

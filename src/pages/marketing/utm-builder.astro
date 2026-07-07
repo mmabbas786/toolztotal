@@ -1,112 +1,45 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
-// FAQ Schema JSON-LD for head insertion
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What are UTM parameters and why are they used?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "UTM (Urchin Tracking Module) parameters are five simple text tags you add to the end of a URL. When a user clicks your link, these tags are sent back to your analytics software (like Google Analytics 4) to track the exact source, medium, and campaign name that referred the visitor, helping you measure marketing ROI."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the five main UTM parameters?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The five standard UTM parameters are: 1. utm_source (describes the platform/referrer, e.g. 'newsletter'); 2. utm_medium (describes the channel/marketing medium, e.g. 'email'); 3. utm_campaign (describes the specific campaign, e.g. 'summer_sale'); 4. utm_term (describes paid keywords); and 5. utm_content (differentiates similar links/ads within a single campaign)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do UTM parameters affect search engine SEO rankings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, UTM parameters do not directly affect SEO rankings. However, to prevent search engines from indexing duplicate versions of your pages with UTM strings, you should ensure that your site implements self-referential canonical tags, which direct crawl bots to index only the clean, parameter-free URL."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should UTM tags be lowercase or uppercase?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "UTM parameters are case-sensitive. Analytics tools like Google Analytics treat 'Email' and 'email' as two separate traffic mediums. It is highly recommended to always use lowercase letters for all UTM values to maintain consistent reporting and clean data."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How is this UTM builder privacy-first?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "All parameters, links, and QR codes are processed client-side inside your local browser. ToolzTotal never stores, logs, or uploads your URLs to a server, keeping your campaign links, product structure, and analytics strategies completely private."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why should UTM parameters always be written in lowercase?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Analytics tools like Google Analytics are case-sensitive. If you use 'email' for one link and 'Email' or 'EMAIL' for another, your analytics tool will report them as separate channels, fragmenting your campaign reports."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do spaces and special characters behave in UTM links?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Spaces and special characters are URL-encoded by web browsers (e.g., a space becomes '%20'). This makes your URLs look cluttered and can occasionally break tracking scripts. Always use hyphens or underscores instead of spaces in your UTM parameters."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between utm_term and utm_content?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "utm_term is primarily used for search campaigns to track the specific keyword that triggered an ad. utm_content is used to differentiate similar links pointing to the same URL, such as testing two different banner designs (e.g., 'blue_button' vs 'red_button') in the same email."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I use UTM tags for internal links on my own website?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, you should never use UTM tags for internal links on your own site. Clicking an internal UTM link overwrites the user's original external referral data, creating a new session and falsifying your traffic source attribution reports."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can UTM codes affect my search engine ranking (SEO)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "UTM codes do not directly affect SEO or search rankings. However, to prevent duplicate content indexing when other sites copy and paste links with UTM tags, always include a proper canonical link on your target pages pointing to the clean URL."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout 
   title="UTM Link Builder - Free Campaign URL Tracking Generator | ToolzTotal"
   description="Generate Google Analytics tracking links with custom UTM parameters. Preset campaign templates and instant QR code generator download."
-  faqJsonLd={faqJsonLd}
   canonicalUrl="https://toolztotal.com/marketing/utm-builder"
 >
+  <ToolSchema
+    toolName="UTM Link Builder"
+    toolSlug="utm-builder"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description="Generate Google Analytics tracking links with custom UTM parameters. Preset campaign templates and instant QR code generator download."
+  faqs={[
+    { question: "Optional Parameters (Term & Content)", answer: "Campaign Term (utm_term) Campaign Content (utm_content)" },
+    { question: "What are UTM parameters and why are they used?", answer: "UTM (Urchin Tracking Module) parameters are five simple text tags you add to the end of a URL. When a user clicks your link, these tags are sent back to your analytics software (like Google Analytics 4) to track the exact source, medium, and campaign name that referred the visitor, helping you measure marketing ROI." },
+    { question: "What are the five main UTM parameters?", answer: "The five standard UTM parameters are: 1. utm_source (describes the platform/referrer, e.g. 'newsletter'); 2. utm_medium (describes the channel/marketing medium, e.g. 'email'); 3. utm_campaign (describes the specific campaign, e.g. 'summer_sale'); 4. utm_term (describes paid keywords); and 5. utm_content (differentiates similar links/ads within a single campaign)." },
+    { question: "Do UTM parameters affect search engine SEO rankings?", answer: "No, UTM parameters do not directly affect SEO rankings. However, to prevent search engines from indexing duplicate versions of your pages with UTM strings, you should ensure that your site implements self-referential canonical tags, which direct crawl bots to index only the clean, parameter-free URL." },
+    { question: "Should UTM tags be lowercase or uppercase?", answer: "UTM parameters are case-sensitive. Analytics tools like Google Analytics treat 'Email' and 'email' as two separate traffic mediums. It is highly recommended to always use lowercase letters for all UTM values to maintain consistent reporting and clean data." },
+    { question: "How is this UTM builder privacy-first?", answer: "All parameters, links, and QR codes are processed client-side inside your local browser. ToolzTotal never stores, logs, or uploads your URLs to a server, keeping your campaign links, product structure, and analytics strategies completely private." },
+    { question: "Why should UTM parameters always be written in lowercase?", answer: "Analytics tools like Google Analytics are case-sensitive. If you use 'email' for one link and 'Email' or 'EMAIL' for another, your analytics tool will report them as separate channels, fragmenting your campaign reports." },
+    { question: "How do spaces and special characters behave in UTM links?", answer: "Spaces and special characters are URL-encoded by web browsers (e.g., a space becomes '%20'). This makes your URLs look cluttered and can occasionally break tracking scripts. Always use hyphens or underscores instead of spaces in your UTM parameters." },
+    { question: "What is the difference between utm_term and utm_content?", answer: "utm_term is primarily used for search campaigns to track the specific keyword that triggered an ad. utm_content is used to differentiate similar links pointing to the same URL, such as testing two different banner designs (e.g., 'blue_button' vs 'red_button') in the same email." },
+    { question: "Should I use UTM tags for internal links on my own website?", answer: "No, you should never use UTM tags for internal links on your own site. Clicking an internal UTM link overwrites the user's original external referral data, creating a new session and falsifying your traffic source attribution reports." },
+    { question: "Can UTM codes affect my search engine ranking (SEO)?", answer: "UTM codes do not directly affect SEO or search rankings. However, to prevent duplicate content indexing when other sites copy and paste links with UTM tags, always include a proper canonical link on your target pages pointing to the clean URL." }
+  ]}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/marketing" class="hover:text-ink transition-colors">Marketing & SEO</a>
-      <span>/</span>
-      <span class="text-ink">UTM Link Builder</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Marketing & SEO"
+      categorySlug="marketing"
+      toolName="UTM Link Builder"
+      toolSlug="utm-builder"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -469,9 +402,15 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
   </div>
+
+    <RelatedTools
+      categorySlug="marketing"
+      toolSlug="utm-builder"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // DOM Elements
   // ============================================================

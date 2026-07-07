@@ -1,92 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is it better to rent or buy?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "There is no universal answer — it depends on your financial situation, local market conditions, and how long you plan to stay. Renting offers flexibility, lower upfront costs, and predictable monthly expenses. Buying builds equity, offers potential appreciation, and can be cheaper over the long term if you stay in the home long enough. The break-even point is typically 3 to 7 years depending on interest rates, home prices, and rent costs. Use this rent vs buy calculator to compare your specific numbers and see which option comes out ahead for your time horizon."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the opportunity cost of a down payment?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The opportunity cost of a down payment is the potential investment return you give up by tying up that money in a home instead of investing it in the stock market or other assets. For example, if you put $80,000 (20%) down on a $400,000 home, that money could have grown to over $150,000 if invested at a 7% annual return over 10 years. This rent vs buy calculator accounts for opportunity cost by comparing the investment portfolio value of the down payment plus monthly savings against the equity built through homeownership."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does home appreciation affect the comparison?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Home appreciation is one of the biggest financial advantages of buying. If your home appreciates at 3% annually, a $400,000 home would be worth over $537,000 after 10 years. That gain in equity can significantly tilt the comparison in favor of buying. However, appreciation is not guaranteed — markets can stagnate or decline. This calculator lets you adjust the expected appreciation rate to model optimistic, moderate, or conservative scenarios so you can see how sensitive the buy vs rent decision is to home price growth."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What costs of homeownership are often overlooked?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "First-time buyers often underestimate four key costs: (1) Property taxes and homeowners insurance, which can add hundreds to your monthly payment; (2) Maintenance and repairs, which average 1-2% of the home value annually — that is $4,000 to $8,000 per year on a $400,000 home; (3) Closing costs when buying, typically 2-5% of the purchase price; (4) Selling costs, including realtor commissions of 5-6% when you sell. This comprehensive calculator includes all these costs so you can see the true picture of homeownership."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How long do I need to stay in a home for buying to make sense?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The general rule of thumb is that buying becomes more favorable than renting after 3 to 7 years, though this varies significantly based on your specific numbers. The break-even year is the point at which the cumulative cost of renting exceeds the cumulative cost of buying (including equity). Factors that extend the break-even period include high closing costs, high interest rates, low home appreciation, and high maintenance costs. Factors that shorten it include rapid appreciation, low interest rates, and high rent inflation. Enter your numbers into this calculator to find your personal break-even year."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the price-to-rent ratio and how is it calculated?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The price-to-rent ratio is calculated by dividing the median home price by the median annual rent in a market. A ratio of 15 or less indicates buying is cheaper; a ratio of 21 or more indicates renting is generally cheaper."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does home equity accumulation affect the rent vs. buy decision?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Buying allows you to build home equity through principal amortization and home value appreciation. Renting is a pure consumption cost, but it frees up capital that can be invested elsewhere."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the transaction costs of buying and selling a home?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Buying costs 2% to 5% in closing fees, while selling costs 5% to 6% in agent commissions. Because of these high entry/exit costs, buying is rarely profitable if you plan to stay in the home for less than 5 years."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the opportunity cost of a down payment affect the comparison?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A down payment represents capital tied up in home equity. The opportunity cost is the potential return you would earn if you rented instead and invested that same money in liquid assets like index funds."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is renting really 'throwing away money'?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Renting purchase shelter, flexibility, and eliminates maintenance costs and interest expenses. In high-priced markets, renting can sometimes be more financially advantageous than buying."
-      }
-    }
-  ]
-};
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 
 const ogMeta = {
   title: "Rent vs Buy Calculator - Free Rent or Buy Comparison | ToolzTotal",
@@ -96,24 +12,40 @@ const ogMeta = {
 
 const canonicalUrl = "https://toolztotal.com/real-estate/rent-vs-buy-calculator";
 
-const faqJsonLd = JSON.stringify(faqSchema);
 ---
 
 <Layout
   title="Rent vs Buy Calculator - Free Rent or Buy Comparison | ToolzTotal"
   description="Compare the total financial cost of renting versus buying a home over your chosen time horizon. Includes opportunity cost, equity, appreciation, and a net worth comparison chart."
-  faqJsonLd={faqJsonLd}
 >
-  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+  <ToolSchema
+    toolName="Rent vs Buy Calculator"
+    toolSlug="rent-vs-buy-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description="Compare the total financial cost of renting versus buying a home over your chosen time horizon. Includes opportunity cost, equity, appreciation, and a net worth comparison chart."
+  faqs={[
+    { question: "Is it better to rent or buy?", answer: "There is no universal answer — it depends on your financial situation, local market conditions, and how long you plan to stay. Renting offers flexibility, lower upfront costs, and predictable monthly expenses. Buying builds equity, offers potential appreciation, and can be cheaper over the long term if you stay in the home long enough. The break-even point is typically 3 to 7 years depending on interest rates, home prices, and rent costs. Use this rent vs buy calculator to compare your specific numbers and see which option comes out ahead for your time horizon." },
+    { question: "What is the opportunity cost of a down payment?", answer: "The opportunity cost of a down payment is the potential investment return you give up by tying up that money in a home instead of investing it in the stock market or other assets. For example, if you put $80,000 (20%) down on a $400,000 home, that money could have grown to over $150,000 if invested at a 7% annual return over 10 years. This rent vs buy calculator accounts for opportunity cost by comparing the investment portfolio value of the down payment plus monthly savings against the equity built through homeownership." },
+    { question: "How does home appreciation affect the comparison?", answer: "Home appreciation is one of the biggest financial advantages of buying. If your home appreciates at 3% annually, a $400,000 home would be worth over $537,000 after 10 years. That gain in equity can significantly tilt the comparison in favor of buying. However, appreciation is not guaranteed — markets can stagnate or decline. This calculator lets you adjust the expected appreciation rate to model optimistic, moderate, or conservative scenarios so you can see how sensitive the buy vs rent decision is to home price growth." },
+    { question: "What costs of homeownership are often overlooked?", answer: "First-time buyers often underestimate four key costs: (1) Property taxes and homeowners insurance, which can add hundreds to your monthly payment; (2) Maintenance and repairs, which average 1-2% of the home value annually — that is $4,000 to $8,000 per year on a $400,000 home; (3) Closing costs when buying, typically 2-5% of the purchase price; (4) Selling costs, including realtor commissions of 5-6% when you sell. This comprehensive calculator includes all these costs so you can see the true picture of homeownership." },
+    { question: "How long do I need to stay in a home for buying to make sense?", answer: "The general rule of thumb is that buying becomes more favorable than renting after 3 to 7 years, though this varies significantly based on your specific numbers. The break-even year is the point at which the cumulative cost of renting exceeds the cumulative cost of buying (including equity). Factors that extend the break-even period include high closing costs, high interest rates, low home appreciation, and high maintenance costs. Factors that shorten it include rapid appreciation, low interest rates, and high rent inflation. Enter your numbers into this calculator to find your personal break-even year." },
+    { question: "What is the price-to-rent ratio and how is it calculated?", answer: "The price-to-rent ratio is calculated by dividing the median home price by the median annual rent in a market. A ratio of 15 or less indicates buying is cheaper; a ratio of 21 or more indicates renting is generally cheaper." },
+    { question: "How does home equity accumulation affect the rent vs. buy decision?", answer: "Buying allows you to build home equity through principal amortization and home value appreciation. Renting is a pure consumption cost, but it frees up capital that can be invested elsewhere." },
+    { question: "What are the transaction costs of buying and selling a home?", answer: "Buying costs 2% to 5% in closing fees, while selling costs 5% to 6% in agent commissions. Because of these high entry/exit costs, buying is rarely profitable if you plan to stay in the home for less than 5 years." },
+    { question: "How does the opportunity cost of a down payment affect the comparison?", answer: "A down payment represents capital tied up in home equity. The opportunity cost is the potential return you would earn if you rented instead and invested that same money in liquid assets like index funds." },
+    { question: "Is renting really 'throwing away money'?", answer: "No. Renting purchase shelter, flexibility, and eliminates maintenance costs and interest expenses. In high-priced markets, renting can sometimes be more financially advantageous than buying." }
+  ]}
+  />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/real-estate" class="hover:text-ink transition-colors">Real Estate & Mortgage</a>
-      <span>/</span>
-      <span class="text-ink">Rent vs Buy Calculator</span>
-    </nav>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Real Estate & Mortgage"
+      categorySlug="real-estate"
+      toolName="Rent vs Buy Calculator"
+      toolSlug="rent-vs-buy-calculator"
+    />
+
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -821,6 +753,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
   <!-- Client-Side Calculator Logic -->
   <script>
+// @ts-nocheck
     (() => {
       // DOM Cache - Inputs
       const monthlyRentInput = document.getElementById('monthly-rent');
@@ -1453,4 +1386,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
       calculate();
     })();
   </script>
+
+    <RelatedTools
+      categorySlug="real-estate"
+      toolSlug="rent-vs-buy-calculator"
+    />
 </Layout>

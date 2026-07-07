@@ -1,111 +1,75 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is compound interest?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Compound interest is the interest calculated on both your initial principal and the accumulated interest from previous periods. Unlike simple interest — which only earns on the original amount — compounding creates a snowball effect where your money grows exponentially. The key insight is that each period's interest earnings increase the base that earns interest in the next period, creating accelerating growth over time. This is why long-term investors see their portfolios accelerate dramatically in later years."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does compounding frequency affect my returns?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Compounding frequency determines how often earned interest is added to your principal balance. Daily compounding gives you the highest return for a given nominal rate, followed by monthly, quarterly, semiannual, and annual. The differences are modest over short periods but compound substantially over long time horizons — especially with higher interest rates. For example, $10,000 invested at 7% over 30 years grows to about $76,123 with annual compounding, roughly $79,970 with monthly compounding, and about $81,797 with daily compounding."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the compound interest formula?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The full formula used by this calculator is A = P(1 + r/n)^(nt) + PMT × ((1 + r/n)^(nt) − 1) / (r/n). It has two parts: the first term P(1 + r/n)^(nt) grows your initial investment at the compound rate over time, and the second term handles recurring monthly contributions using the future value of an annuity formula. Each contribution earns compound interest from the month it was deposited, so earlier contributions grow more than later ones."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much should I contribute monthly to reach my goal?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The required monthly contribution depends on your target amount, time horizon, expected return, and compounding frequency. Starting early dramatically reduces the monthly amount needed because compound interest does more of the heavy lifting. Use the inputs above to experiment — try different monthly contribution levels and time periods to see how they affect your final balance. A general guideline is to aim for saving 15% to 20% of your gross income, but the ideal amount depends on your specific goals and timeline."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the Effective Annual Rate the same as the nominal rate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. The nominal rate is the stated annual interest rate before compounding is taken into account. The Effective Annual Rate (EAR) accounts for the effect of compounding frequency and represents the actual annualized yield you earn. For example, a nominal rate of 7% compounded monthly yields an EAR of about 7.23%, while daily compounding pushes it to about 7.25%. The gap between nominal and effective rates grows with higher rates and more frequent compounding — which is why comparing EARs is essential when evaluating savings accounts, CDs, or loans."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the rule of 72 in compound interest calculations?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Rule of 72 is a quick mental formula to estimate how long it will take for your investment to double. Divide 72 by your annual interest rate (e.g. 72 / 8% = 9 years)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does compounding frequency impact the Effective Annual Yield (EAY)?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Compounding frequency measures how often interest is calculated and added to the principal. More frequent compounding (e.g. daily vs. annually) increases the compounding velocity, resulting in a higher effective annual yield."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the difference between simple interest and compound interest?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Simple interest is calculated only on the initial principal amount. Compound interest is calculated on the principal plus all accumulated interest, leading to exponential growth over time."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How do taxes affect compound interest returns?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Taxes reduce compounding efficiency if gains are taxed annually (like in a standard brokerage account). Using tax-advantaged accounts like a 401(k) or Roth IRA allows your interest to compound tax-deferred or tax-free, maximizing growth."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is the impact of inflation on long-term compound interest?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "While compound interest increases the nominal value of your savings, inflation reduces purchasing power. The 'real rate of return' is calculated by subtracting the inflation rate from your nominal rate of return."
-      }
-    }
-  ]
-};
-
-const faqJsonLd = JSON.stringify(faqSchema);
+// FAQ entries for ToolSchema
+const faqs = [
+  { 
+    question: "What is compound interest?", 
+    answer: "Compound interest is the interest calculated on both your initial principal and the accumulated interest from previous periods. Unlike simple interest — which only earns on the original amount — compounding creates a snowball effect where your money grows exponentially. The key insight is that each period's interest earnings increase the base that earns interest in the next period, creating accelerating growth over time. This is why long-term investors see their portfolios accelerate dramatically in later years." 
+  },
+  { 
+    question: "How does compounding frequency affect my returns?", 
+    answer: "Compounding frequency determines how often earned interest is added to your principal balance. Daily compounding gives you the highest return for a given nominal rate, followed by monthly, quarterly, semiannual, and annual. The differences are modest over short periods but compound substantially over long time horizons — especially with higher interest rates. For example, $10,000 invested at 7% over 30 years grows to about $76,123 with annual compounding, roughly $79,970 with monthly compounding, and about $81,797 with daily compounding." 
+  },
+  { 
+    question: "What is the compound interest formula?", 
+    answer: "The full formula used by this calculator is A = P(1 + r/n)^(nt) + PMT × ((1 + r/n)^(nt) − 1) / (r/n). It has two parts: the first term P(1 + r/n)^(nt) grows your initial investment at the compound rate over time, and the second term handles recurring monthly contributions using the future value of an annuity formula. Each contribution earns compound interest from the month it was deposited, so earlier contributions grow more than later ones." 
+  },
+  { 
+    question: "How much should I contribute monthly to reach my goal?", 
+    answer: "The required monthly contribution depends on your target amount, time horizon, expected return, and compounding frequency. Starting early dramatically reduces the monthly amount needed because compound interest does more of the heavy lifting. Use the inputs above to experiment — try different monthly contribution levels and time periods to see how they affect your final balance. A general guideline is to aim for saving 15% to 20% of your gross income, but the ideal amount depends on your specific goals and timeline." 
+  },
+  { 
+    question: "Is the Effective Annual Rate the same as the nominal rate?", 
+    answer: "No. The nominal rate is the stated annual interest rate before compounding is taken into account. The Effective Annual Rate (EAR) accounts for the effect of compounding frequency and represents the actual annualized yield you earn. For example, a nominal rate of 7% compounded monthly yields an EAR of about 7.23%, while daily compounding pushes it to about 7.25%. The gap between nominal and effective rates grows with higher rates and more frequent compounding — which is why comparing EARs is essential when evaluating savings accounts, CDs, or loans." 
+  },
+  { 
+    question: "What is the rule of 72 in compound interest calculations?", 
+    answer: "The Rule of 72 is a quick mental formula to estimate how long it will take for your investment to double. Divide 72 by your annual interest rate (e.g. 72 / 8% = 9 years)." 
+  },
+  { 
+    question: "How does compounding frequency impact the Effective Annual Yield (EAY)?", 
+    answer: "Compounding frequency measures how often interest is calculated and added to the principal. More frequent compounding (e.g. daily vs. annually) increases the compounding velocity, resulting in a higher effective annual yield." 
+  },
+  { 
+    question: "What is the difference between simple interest and compound interest?", 
+    answer: "Simple interest is calculated only on the initial principal amount. Compound interest is calculated on the principal plus all accumulated interest, leading to exponential growth over time." 
+  },
+  { 
+    question: "How do taxes affect compound interest returns?", 
+    answer: "Taxes reduce compounding efficiency if gains are taxed annually (like in a standard brokerage account). Using tax-advantaged accounts like a 401(k) or Roth IRA allows your interest to compound tax-deferred or tax-free, maximizing growth." 
+  },
+  { 
+    question: "What is the impact of inflation on long-term compound interest?", 
+    answer: "While compound interest increases the nominal value of your savings, inflation reduces purchasing power. The 'real rate of return' is calculated by subtracting the inflation rate from your nominal rate of return." 
+  }
+];
 ---
 
 <Layout
   title="Compound Interest Calculator - Free Investment Growth Calculator | ToolzTotal"
   description="Free compound interest calculator — estimate your investment growth with monthly contributions, compounding frequency, and a full growth timeline chart. Plan your savings today."
-  faqJsonLd={faqJsonLd}
 >
-  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+  <ToolSchema
+    toolName="Compound Interest Calculator"
+    toolSlug="compound-interest-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Free compound interest calculator — estimate your investment growth with monthly contributions, compounding frequency, and a full growth timeline chart. Plan your savings today."
+    faqs={faqs}
+  />
 
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">Compound Interest Calculator</span>
-    </nav>
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Compound Interest Calculator"
+      toolSlug="compound-interest-calculator"
+    />
+
 
     <!-- Header -->
     <div class="max-w-4xl mb-12">
@@ -612,37 +576,21 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </section>
 
     <!-- Related Tools -->
-    <section class="mt-20 pt-12 border-t border-hairline max-w-5xl">
-      <h2 class="text-sm font-mono uppercase text-mute tracking-wider mb-6">Related Tools</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <a href="/finance/roi-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
-            ROI Calculator
-            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-1.5">Calculate return on investment and annualized CAGR over time.</p>
-        </a>
-        <a href="/finance/loan-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
-            Loan Calculator
-            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-1.5">Calculate monthly payments for personal, auto, or student loans.</p>
-        </a>
-        <a href="/finance/amortization-calculator" class="group bg-canvas border border-hairline hover:border-hairline-strong rounded-xl p-5 shadow-lvl1 hover:shadow-lvl2 transition-all">
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center gap-2">
-            Amortization Schedule Calculator
-            <svg class="w-3.5 h-3.5 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-1.5">View a full amortization table for any loan with a fixed rate.</p>
-        </a>
-      </div>
-    </section>
+    <RelatedTools 
+      categorySlug="finance" 
+      toolSlug="compound-interest-calculator" 
+    />
 
   </div>
+
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="compound-interest-calculator"
+    />
 </Layout>
 
 <script>
+// @ts-nocheck
   // ============================================================
   // DOM References
   // ============================================================
