@@ -8,42 +8,82 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How does the name generator work?",
+      "name": "How does the random name generator work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The generator combines name bases, root stems, prefixes, and suffixes from specific linguistic databases (Norse, Celtic, Latin, French, Old English) according to your selected filters (gender, category, origin) client-side."
+        "text": "The generator uses lists of pre-selected names and prefix/suffix components, picking combinations randomly based on your category and origin filters."
       }
     },
     {
       "@type": "Question",
-      "name": "What categories of names can I generate?",
+      "name": "Can I generate business names?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "You can generate Baby Names, Fantasy/RPG Character Names, Pet Names, and Startup Business Names. Each category uses specialized naming dictionaries."
+        "text": "Yes. The tool features a dedicated 'Business' category that combines tech, creative, and classic name structures for companies."
       }
     },
     {
       "@type": "Question",
-      "name": "Are the generated names saved?",
+      "name": "How many name categories are available?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. When you click the star icon beside a name, it is added to your local 'Favorites' list which is cached using your browser's localStorage. The data never leaves your browser."
+        "text": "It offers baby names, fantasy names, pet names, business/startup names, and origin-specific options."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I generate names from specific origins?",
+      "name": "Can I filter baby names by gender?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Under the filters, you can select specific linguistic categories including Celtic, Norse, Greek, French, Latin, or English to narrow name selections."
+        "text": "Yes. You can filter baby names by Male, Female, or Gender-Neutral options."
       }
     },
     {
       "@type": "Question",
-      "name": "Is this tool free and private?",
+      "name": "What origins are supported for names?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, absolutely. The generator runs completely client-side in your local browser sandbox. It is free, requires no account, and doesn't track your naming choices."
+        "text": "The generator includes Anglo-Saxon, Norse, Celtic, Roman, and modern English name lists."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I save names I like?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can star names to save them to a local favorites list, which persists in your browser's localStorage for future reference."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the name generation truly random?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It uses the browser's cryptographic Math.random() function to select and combine names randomly from our database."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I export my list of favorite names?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The favorites list allows you to copy all starred names to your clipboard in a clean list format with a single click."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are the generated names trademarked?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The generator outputs random word combinations. For business names, we recommend performing a trademark check before registering a name."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool require an internet connection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The name database is bundled within the client-side JavaScript file, allowing you to generate names offline."
       }
     }
   ]
@@ -161,90 +201,277 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </div>
 
+    
+    
+
+    
+    
+
+  
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
     <!-- Article Content -->
     <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Etymology, Naming Frameworks, and Selecting the Perfect Handle</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Art of Naming: Creative Processes and Random Generation</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
-          Naming is the first step in defining an identity. Whether choosing a baby name, creating a fantasy character for a roleplaying game, naming a new family pet, or branding a startup business, name selection is guided by linguistic origins and conventions.
+          Naming is a key part of identity, branding, and storytelling. Whether you are naming a newborn child, choosing a title for a new business, creating a fantasy character, or naming a pet, finding the right name is a creative process. A random name generator can help brainstorm ideas and spark inspiration.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Linguistic Origins and Roots</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Naming Process</h3>
         <p>
-          Names hold historical footprints of cultural and linguistic evolution:
+          Choosing a name involves several considerations:
         </p>
-        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
-          <li><strong>Celtic Roots:</strong> Soft phonetics and natural references (e.g. Maeve, Rowan, Dylan) evoking earth, water, and legends.</li>
-          <li><strong>Norse/Scandinavian Roots:</strong> Strong syllables, often referring to gods, battle, or protection (e.g. Astrid, Freya, Leif, Gunnar).</li>
-          <li><strong>Latin/Greek Roots:</strong> Formal, structured derivations often symbolizing virtues or physical descriptions (e.g. Felix, Sophia, Lucas).</li>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Sound & Phonetics:</strong> A name should be easy to pronounce, memorable, and have a pleasing cadence.</li>
+          <li><strong>Origin & Meaning:</strong> Many names carry historical meanings or cultural associations that add depth.</li>
+          <li><strong>Brand Identity:</strong> Business names should reflect the company's values, target audience, and industry.</li>
         </ul>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Fantasy and Brand Naming Algorithms</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How Random Name Generators Help</h3>
         <p>
-          Fantasy naming combines soft consonants and trailing vowels (e.g., -el, -ia) to evoke classic Tolkien-esque settings. Conversely, startup business naming prioritizes modern compound words (e.g. *ZetaCorp*, *ToolzTotal*), blending syllables to sound professional, memorable, and web-ready.
+          Writer's block can stall the creative process. Random generators introduce unexpected word and phonetic combinations, helping you see options you might not have considered. They can help jumpstart brainstorming for writers, game masters, and entrepreneurs alike.
         </p>
+        <p>
+          When naming a business, a random generator can combine words in ways that create unique, brandable names that stand out in your industry. For writers, it provides a fast way to generate names for minor characters or locations without breaking the writing flow. By storing your favorites in local storage, this tool allows you to build a shortlist that you can review and refine later.
+        </p>
+        <p>
+          Additionally, explore different filters within our name generator to fit specific contexts, such as Norse or Celtic options for creative writing, or modern startup styling for corporate projects. This local tool requires no signup or email, letting you brainstorm privately.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Developing a Naming Strategy</h3>
+        <p>
+          Whether you are choosing a baby name, character name, or business title, a structured approach yields the best results. Start by compiling a long list of possibilities without editing. Once you have a substantial list, filter names based on rhythm, pronunciation, and personal or brand values.
+        </p>
+        <p>
+          For business naming, it is critical to verify domain availability and run trademark checks before committing to a name. A unique, brandable name reduces trademark risks and makes it easier to establish a solid search engine presence. Storing your favorites list in local storage allows you to refine your selections privately over time.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Brainstorming Character and Creative Naming Paths</h3>
+        <p>
+          For writers and creative professionals, character names are a tool for reinforcing character traits or literary themes. Selecting a name with historical or mythological roots can add subtle depth to a story. For example, Norse or Celtic names can evoke specific cultural tones for fantasy characters. Our random generator allows you to browse specific origin lists on demand, helping you discover unique combinations and build a rich name database for your writing projects.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Phonetics and Rhythms in Memorable Names</h3>
+        <p>
+          The sound dynamics of a name influence how it is perceived and remembered. Linguists study how specific consonants and vowel patterns convey different emotions or characteristics. For instance, soft consonants (like L, M, and N) sound gentle and calming, whereas hard consonants (like K, T, and P) sound sharp and active. Choosing a name with standard phonetic patterns ensures it is easy to pronounce and leaves a strong impression.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How to Verify Trademark Clearance</h3>
+        <p>
+          When selecting a business or product name, conducting a thorough trademark search is essential to avoid legal issues. In the United States, you can use the Trademark Electronic Search System (TESS) provided by the USPTO to search for registered names and pending applications. Ensuring your chosen name does not conflict with existing brands protects your business investment and establishes a secure foundation for growth.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Checking Social Media and Local Registries</h3>
+        <p>
+          When planning trademark filing, it is also recommended to search state-level databases, as some businesses register locally without filing for a national trademark. Checking social media handle availability across major networks like Instagram, LinkedIn, and X is also a smart step to ensure a cohesive digital identity and clear marketing footprint.
+        </p>
+  
       </div>
     </article>
+    
 
     <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How does the name generator work?
+            How does the random name generator work?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            The generator combines name bases, root stems, prefixes, and suffixes from specific linguistic databases (Norse, Celtic, Latin, French, Old English) according to your selected filters (gender, category, origin) client-side.
+            The generator uses lists of pre-selected names and prefix/suffix components, picking combinations randomly based on your category and origin filters.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What categories of names can I generate?
+            Can I generate business names?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            You can generate Baby Names, Fantasy/RPG Character Names, Pet Names, and Startup Business Names. Each category uses specialized naming dictionaries.
+            Yes. The tool features a dedicated 'Business' category that combines tech, creative, and classic name structures for companies.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Are the generated names saved?
+            How many name categories are available?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Yes. When you click the star icon beside a name, it is added to your local 'Favorites' list which is cached using your browser's localStorage. The data never leaves your browser.
+            It offers baby names, fantasy names, pet names, business/startup names, and origin-specific options.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Can I generate names from specific origins?
+            Can I filter baby names by gender?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Yes. Under the filters, you can select specific linguistic categories including Celtic, Norse, Greek, French, Latin, or English to narrow name selections.
+            Yes. You can filter baby names by Male, Female, or Gender-Neutral options.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Is this tool free and private?
+            What origins are supported for names?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Yes, absolutely. The generator runs completely client-side in your local browser sandbox. It is free, requires no account, and doesn't track your naming choices.
+            The generator includes Anglo-Saxon, Norse, Celtic, Roman, and modern English name lists.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I save names I like?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. You can star names to save them to a local favorites list, which persists in your browser's localStorage for future reference.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is the name generation truly random?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. It uses the browser's cryptographic Math.random() function to select and combine names randomly from our database.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I export my list of favorite names?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. The favorites list allows you to copy all starred names to your clipboard in a clean list format with a single click.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Are the generated names trademarked?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The generator outputs random word combinations. For business names, we recommend performing a trademark check before registering a name.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool require an internet connection?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. The name database is bundled within the client-side JavaScript file, allowing you to generate names offline.
+          </div>
+        </details>
       </div>
     </section>
+    
 
-  </div>
+    </div>
 </Layout>
 
 <script>

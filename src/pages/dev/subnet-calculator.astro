@@ -8,18 +8,34 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is CIDR notation?",
+      "name": "What is IP subnetting?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Classless Inter-Domain Routing (CIDR) notation expresses IP subnets by appending a slash followed by the prefix bit length (e.g. /24) to the base IP address. The number indicates how many leading bits of the address represent the network routing prefix."
+        "text": "Subnetting is the practice of dividing a single large physical network into multiple smaller, logically segmented sub-networks (subnets) to improve routing efficiency and security."
       }
     },
     {
       "@type": "Question",
-      "name": "How are usable hosts in a subnet calculated?",
+      "name": "What is CIDR notation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For IPv4, the number of usable hosts is computed as 2^(32 - Prefix) - 2. We subtract 2 because the first address is reserved for the Network ID and the last address is reserved for the Broadcast Address."
+        "text": "CIDR (Classless Inter-Domain Routing) notation represents an IP address and its routing prefix length in bits. It is written as the IP followed by a slash and prefix length (e.g. 192.168.1.0/24)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many usable hosts are in a /24 subnet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A /24 subnet has 256 total IP addresses. However, two addresses are reserved (the network address at the start and the broadcast address at the end), leaving 254 usable host IP addresses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a subnet mask?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A subnet mask is a 32-bit number that masks an IP address, dividing the address into network bits and host bits. For example, a /24 prefix has a subnet mask of 255.255.255.0."
       }
     },
     {
@@ -27,23 +43,47 @@ const faqSchema = {
       "name": "What is a wildcard mask?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A wildcard mask is the bitwise inverse of a subnet mask, used in routing protocols and access control lists (ACLs). For example, a subnet mask of 255.255.255.0 has a wildcard mask of 0.0.0.255."
+        "text": "A wildcard mask is the bitwise inverse of a subnet mask. It is used in routers to define address ranges in access control lists (ACLs). A subnet mask of 255.255.255.0 has a wildcard mask of 0.0.0.255."
       }
     },
     {
       "@type": "Question",
-      "name": "How does IPv6 subnetting differ from IPv4?",
+      "name": "How is the network address determined?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "IPv6 addresses are 128-bit hex strings, compared to 32-bit IPv4 decimals. Because IPv6 networks are vast (with /64 being the standard local subnet size), they do not utilize broadcast addresses and have virtually unlimited usable hosts."
+        "text": "The network address is calculated by performing a bitwise AND operation between the IP address and the subnet mask, setting all host bits to 0."
       }
     },
     {
       "@type": "Question",
-      "name": "Is my network topology private?",
+      "name": "How is the broadcast address determined?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Like all developer utilities on ToolzTotal, our subnet calculator executes entirely client-side inside your browser sandbox. No IP addresses, subnets, or gateway details are sent to any external server."
+        "text": "The broadcast address is calculated by performing a bitwise OR operation between the network address and the wildcard mask, setting all host bits to 1."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between IPv4 and IPv6 subnetting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IPv4 subnets use 32-bit addresses and subnet masks. IPv6 subnets use 128-bit addresses and prefix lengths, and do not use traditional broadcast addresses (replacing them with multicast)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the first and last IP of a subnet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In standard network routing, the first IP (network ID) and last IP (broadcast ID) are reserved and cannot be assigned to individual network cards (NICs)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool support subnetting divisions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our tool calculates address ranges, host availability, and subnet structures for any standard CIDR prefix value instantly."
       }
     }
   ]
@@ -160,92 +200,292 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </div>
 
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
     <!-- Article Content -->
     <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">IP Subnetting and CIDR Architectures: Understanding Usable Host Math</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">IP Network Engineering: Understanding Subnetting and CIDR Address Math</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
-          Subnetting is the practice of partitioning a single physical network into multiple logical sub-networks. This improves security, isolates broadcast domains, and optimizes IP address allocation.
+          In computer networking, IP addresses are the coordinates that allow devices to route packets across local networks and the global internet. Because assigning a single flat network to an entire enterprise is inefficient, network engineers divide large blocks of IP space into smaller segments called subnets. Subnetting limits broadcast traffic, organizes departments logically, and enhances network security.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Calculating Usable Hosts (IPv4)</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Subnet Masks and IP Segmentation</h3>
         <p>
-          To find the total usable hosts in any IPv4 CIDR subnet block, you raise 2 to the power of the host bits (32 minus prefix length), and subtract 2:
-          <br />
-          <strong class="block my-2 text-center text-ink font-mono text-xs">Usable Hosts = 2<sup>(32 - CIDR Prefix)</sup> - 2</strong>
-          For a standard class C subnet (e.g. 192.168.1.0/24):
+          An IPv4 address consists of 32 binary bits divided into four 8-bit octets. A subnet mask defines which portion of those 32 bits belongs to the network routing ID and which portion belongs to individual host interfaces. The mask consists of contiguous binary 1s followed by contiguous binary 0s:
         </p>
-        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
-          <li>Host bits: $32 - 24 = 8$ bits</li>
-          <li>Total IP Addresses: $2^8 = 256$ addresses</li>
-          <li>Usable Hosts: $256 - 2 = 254$ hosts</li>
-          <li>We subtract 2 because the first address (**192.168.1.0**) defines the network ID, and the last address (**192.168.1.255**) acts as the local broadcast vector.</li>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Network Bits (1s):</strong> Define the routing address that routers use to direct traffic to the correct network segment.</li>
+          <li><strong>Host Bits (0s):</strong> Represent the addresses available for computers, servers, and printer interfaces within that subnet.</li>
         </ul>
-
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Wildcard Masks</h3>
         <p>
-          A **wildcard mask** is the bitwise inverse of a subnet mask. Where a subnet mask uses binary 1s to define network portions and 0s for host portions, a wildcard mask reverses this. For a standard `/24` network mask of **255.255.255.0**, the wildcard inverse is **0.0.0.255**, signifying that the last octet is variable.
+          For example, a subnet mask of 255.255.255.0 has 24 bits set to 1 and 8 bits set to 0. This means the first three octets identify the network, and the last octet identifies the host. If a device has an IP of 192.168.1.50, the network ID is 192.168.1.0 and the host ID is 50.
         </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">CIDR Notation and Host Calculations</h3>
+        <p>
+          Classless Inter-Domain Routing (CIDR) replaced the outdated Class A, B, and C addressing systems in 1993. Instead of rigid subnets, CIDR specifies the exact number of network bits using a slash suffix. For example:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          192.168.1.0/24 &rarr; Subnet Mask: 255.255.255.0 (24 network bits, 8 host bits)
+        </div>
+        <p>
+          To calculate the total number of IP addresses in a CIDR block, you use the formula:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Total IPs = 2^(32 - Prefix Length)
+        </div>
+        <p>
+          For a /24 subnet, the calculation is 2^(32 - 24) = 2^8 = 256. Because the first address (network ID) and the last address (broadcast ID) are reserved, the usable host capacity is:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Usable Hosts = 2^(32 - Prefix) - 2 = 256 - 2 = 254 usable hosts
+        </div>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Determining Network Boundaries</h3>
+        <p>
+          To find the network boundaries for an IP address, routers perform binary logic:
+        </p>
+        <p>
+          <strong>Network Address (Bitwise AND):</strong> Compares the IP address bits to the subnet mask. Any bit that is a 1 in both numbers remains a 1; others become 0. This yields the start of the subnet.
+        </p>
+        <p>
+          <strong>Broadcast Address (Bitwise OR):</strong> Takes the network address and combines it with the inverse of the subnet mask (wildcard mask), setting all host bits to 1. This yields the end of the subnet.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Subnet Division and IP Allocation Best Practices</h3>
+        <p>
+          Designing an IP plan requires careful planning. Network architects must forecast host requirements for each segment (such as office workstations, server pools, VoIP lines, and guest Wi-Fi). By designing subnets that align with these requirements, you can prevent IP address exhaustion and ensure efficient routing.
+        </p>
+        <p>
+          For instance, using a /24 subnet for a small department with only 10 devices wastes 244 usable IP addresses. In this scenario, a /28 subnet (which provides 14 usable IP addresses) is a much more efficient allocation. This practice of matching subnet sizes to actual requirements is known as Variable Length Subnet Masking (VLSM).
+        </p>
+        <p>
+          Proper subnetting also improves network performance. By breaking a large network into smaller broadcast domains, you limit the spread of broadcast traffic, which can consume significant bandwidth on larger networks. This segregation also makes it easier to apply firewall rules and access control lists (ACLs) to manage traffic between different departments or security zones.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Subnetting in Cloud Infrastructure</h3>
+        <p>
+          Subnetting principles remain identical in modern cloud platforms like Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP). When you create a Virtual Private Cloud (VPC), you must define its IP range using CIDR notation (e.g., 10.0.0.0/16). Within this VPC, you divide the address space into public subnets (which connect to the internet via an internet gateway) and private subnets (which host databases and backend services securely).
+        </p>
+        <p>
+          Understanding subnet boundaries is crucial for configure routing tables, security groups, and network access control lists (NACLs) in the cloud. Wasting IP space in a VPC can cause issues when peering different VPCs together, as overlapping subnets cannot communicate. Using an accurate subnet calculator helps developers allocate CIDR ranges correctly during infrastructure planning.
+        </p>
+  
       </div>
     </article>
+    
 
     <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is IP subnetting?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Subnetting is the practice of dividing a single large physical network into multiple smaller, logically segmented sub-networks (subnets) to improve routing efficiency and security.
+          </div>
+        </details>
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             What is CIDR notation?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Classless Inter-Domain Routing (CIDR) notation expresses IP subnets by appending a slash followed by the prefix bit length (e.g. /24) to the base IP address. The number indicates how many leading bits of the address represent the network routing prefix.
+            CIDR (Classless Inter-Domain Routing) notation represents an IP address and its routing prefix length in bits. It is written as the IP followed by a slash and prefix length (e.g. 192.168.1.0/24).
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How are usable hosts in a subnet calculated?
+            How many usable hosts are in a /24 subnet?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            For IPv4, the number of usable hosts is computed as 2^(32 - Prefix) - 2. We subtract 2 because the first address is reserved for the Network ID and the last address is reserved for the Broadcast Address.
+            A /24 subnet has 256 total IP addresses. However, two addresses are reserved (the network address at the start and the broadcast address at the end), leaving 254 usable host IP addresses.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a subnet mask?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A subnet mask is a 32-bit number that masks an IP address, dividing the address into network bits and host bits. For example, a /24 prefix has a subnet mask of 255.255.255.0.
+          </div>
+        </details>
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             What is a wildcard mask?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            A wildcard mask is the bitwise inverse of a subnet mask, used in routing protocols and access control lists (ACLs). For example, a subnet mask of 255.255.255.0 has a wildcard mask of 0.0.0.255.
+            A wildcard mask is the bitwise inverse of a subnet mask. It is used in routers to define address ranges in access control lists (ACLs). A subnet mask of 255.255.255.0 has a wildcard mask of 0.0.0.255.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How does IPv6 subnetting differ from IPv4?
+            How is the network address determined?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            IPv6 addresses are 128-bit hex strings, compared to 32-bit IPv4 decimals. Because IPv6 networks are vast (with /64 being the standard local subnet size), they do not utilize broadcast addresses and have virtually unlimited usable hosts.
+            The network address is calculated by performing a bitwise AND operation between the IP address and the subnet mask, setting all host bits to 0.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Is my network topology private?
+            How is the broadcast address determined?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Yes. Like all developer utilities on ToolzTotal, our subnet calculator executes entirely client-side inside your browser sandbox. No IP addresses, subnets, or gateway details are sent to any external server.
+            The broadcast address is calculated by performing a bitwise OR operation between the network address and the wildcard mask, setting all host bits to 1.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the difference between IPv4 and IPv6 subnetting?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            IPv4 subnets use 32-bit addresses and subnet masks. IPv6 subnets use 128-bit addresses and prefix lengths, and do not use traditional broadcast addresses (replacing them with multicast).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I use the first and last IP of a subnet?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            In standard network routing, the first IP (network ID) and last IP (broadcast ID) are reserved and cannot be assigned to individual network cards (NICs).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool support subnetting divisions?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Our tool calculates address ranges, host availability, and subnet structures for any standard CIDR prefix value instantly.
+          </div>
+        </details>
       </div>
     </section>
+    
 
     <!-- Related Tools Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">

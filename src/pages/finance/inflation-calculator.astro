@@ -12,7 +12,7 @@ const faqSchema = {
       "name": "How is inflation calculated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Inflation is calculated using the Consumer Price Index (CPI) ratio: Adjusted Value = Original Value * (End Year CPI / Start Year CPI). The difference in index points represents the overall rate of inflation."
+        "text": "Inflation is calculated using the Consumer Price Index (CPI). The formula to compare buying power between two years is: Value in Target Year = Value in Base Year * (CPI of Target Year / CPI of Base Year)."
       }
     },
     {
@@ -20,31 +20,71 @@ const faqSchema = {
       "name": "What is the Consumer Price Index (CPI)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The Consumer Price Index (CPI) is a statistical metric published by government labor agencies (like the Bureau of Labor Statistics in the US) that measures the average change over time in prices paid by urban consumers for a market basket of consumer goods and services."
+        "text": "The Consumer Price Index (CPI) is a measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services, compiled by the Bureau of Labor Statistics (BLS)."
       }
     },
     {
       "@type": "Question",
-      "name": "Why does inflation decrease purchasing power?",
+      "name": "What causes inflation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Inflation occurs when overall price levels rise, meaning each individual unit of currency purchases a smaller percentage of goods or services. Consequently, your money has lower purchasing power over time."
+        "text": "Inflation is driven by three main factors: demand-pull inflation (demand for goods increases faster than supply), cost-push inflation (production costs increase, raising prices), and built-in inflation (wages rise to match cost of living)."
       }
     },
     {
       "@type": "Question",
-      "name": "How current is the CPI data in this tool?",
+      "name": "How does inflation affect my savings?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "This tool utilizes official historical CPI data points spanning from 1950 to 2026. The values represent annual averages for historical years, and estimated index numbers for current years."
+        "text": "Inflation decreases the purchasing power of cash. If you keep savings in an account earning 1% interest while inflation is 3%, your savings are effectively losing 2% of their buying power each year."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I calculate salary inflation adjustments?",
+      "name": "What is purchasing power?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. By inputting a starting salary in a past year and selecting the target end year, this calculator computes what that salary is equivalent to in terms of current purchasing power."
+        "text": "Purchasing power is the value of a currency expressed in the amount of goods or services that one unit of money can buy. Inflation directly erodes purchasing power over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is hyperinflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hyperinflation is extremely rapid, out-of-control inflation, typically exceeding 50% per month, which quickly devalues the local currency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is deflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Deflation is a general decrease in the price level of goods and services, occurring when the inflation rate falls below 0%. It can lead to economic stagnation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is CPI data updated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For US calculations, the Bureau of Labor Statistics publishes updated CPI indexes monthly, reflecting consumer retail price shifts across cities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is core inflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Core inflation is the CPI index excluding food and energy prices, which are highly volatile. It provides a clearer picture of long-term inflation trends."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I protect my money from inflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To hedge against inflation, investors place capital in assets that tend to grow faster than inflation, such as equities, real estate, commodities, and inflation-indexed bonds like US Treasury I-Bonds."
       }
     }
   ]
@@ -167,6 +207,279 @@ const faqJsonLd = JSON.stringify(faqSchema);
 
       </div>
     </div>
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    <!-- Article Content -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Economics of Purchasing Power: Understanding CPI Inflation Calculations</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Inflation is the rate at which the general level of prices for goods and services rises, subsequently causing purchasing power to fall. Central banks monitor inflation to manage monetary policies, adjust interest rates, and maintain economic stability. For consumers, understanding inflation explains why everyday items grow more expensive and how historical prices compare to today's dollar values.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Inflation Calculation Formula</h3>
+        <p>
+          To adjust currency values for inflation across different years, economists use the Consumer Price Index (CPI). The CPI represents the relative cost of a standard basket of goods in a given year compared to a base period. The formula to calculate purchasing power is:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Adjusted Value = Original Value &times; (CPI of Target Year / CPI of Base Year)
+        </div>
+        <p>
+          For example, to find what $100.00 in 1980 is worth in 2026, you divide the CPI of 2026 by the CPI of 1980, and multiply the result by 100:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Adjusted Value = $100.00 &times; (315.2 / 82.4) = $100.00 &times; 3.825 = $382.50
+        </div>
+        <p>
+          This means you would need $382.50 in 2026 to purchase the same basket of goods that cost $100.00 in 1980.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Consumer Price Index (CPI)</h3>
+        <p>
+          In the United States, the Bureau of Labor Statistics (BLS) compiles the CPI monthly. Assessors survey prices for thousands of items across several categories:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Food & Beverages:</strong> Groceries, restaurant meals, cereal, and milk.</li>
+          <li><strong>Housing:</strong> Rent, primary home values, and household utilities.</li>
+          <li><strong>Apparel:</strong> Men's, women's, and children's clothing.</li>
+          <li><strong>Transportation:</strong> New and used vehicle costs, gasoline, and airline fares.</li>
+          <li><strong>Medical Care:</strong> Prescription drugs, doctor visits, and hospital services.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Deflation vs. Inflation</h3>
+        <p>
+          While inflation devalues currency, deflation increases its value. Deflation occurs when the inflation rate drops below 0%, indicating a general decline in prices. While falling prices sound beneficial for consumers, persistent deflation can be economically dangerous. It encourages consumers to delay purchases in anticipation of lower prices, which can reduce consumer spending, raise unemployment, and lead to economic recession.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Historical Inflation Trends</h3>
+        <p>
+          Inflation rates fluctuate based on global economic conditions. In the US, the 1970s and early 1980s were marked by "stagflation"—a combination of stagnant economic growth and high inflation, with rates peaking over 13% in 1980. Conversely, the 2010s saw stable inflation averaging around 1.5% annually. More recently, economic disruptions in the early 2020s pushed inflation to a 40-year high of 9.1% in 2022, prompting the Federal Reserve to raise interest rates to cool the economy.
+        </p>
+        <p>
+          This calculator provides a historical reference using actual CPI data, allowing you to see how the purchasing power of your money has changed over time. By calculating equivalent values, you can plan long-term investments, check retirement targets, and adjust budgets to ensure they match real-world cost increases.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Inflation, Wage Growth, and Cost of Living</h3>
+        <p>
+          Inflation also impacts wage negotiations and cost-of-living adjustments (COLA). If a worker's salary remains flat while inflation runs at 4% annually, they are experiencing a real wage decrease. To maintain the same standard of living, salaries must increase at a rate that matches or exceeds inflation. Many union contracts and government programs, such as Social Security, automatically adjust benefits based on the CPI to protect recipients' purchasing power.
+        </p>
+        <p>
+          For long-term financial planning, factoring in inflation is critical. A nest egg that seems substantial today will buy far less in thirty years. When projecting future expenses, financial planners typically assume a historical average inflation rate of 3% per year, helping clients build inflation-adjusted retirement goals that ensure long-term security.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Comparing Inflation Metrics: CPI vs. PCE</h3>
+        <p>
+          While the Consumer Price Index (CPI) is the most widely cited inflation metric for consumers, economists and policy makers also look at other indicators. The Federal Reserve, for instance, prefers the Personal Consumption Expenditures (PCE) price index when making decisions about interest rates. The PCE is considered a broader measure of inflation because it accounts for changes in consumer behavior—such as substituting a cheaper product when another item becomes too expensive. Understanding these different indexes provides a deeper view of inflation trends.
+        </p>
+  
+      </div>
+    </article>
+    
+
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is inflation calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Inflation is calculated using the Consumer Price Index (CPI). The formula to compare buying power between two years is: Value in Target Year = Value in Base Year * (CPI of Target Year / CPI of Base Year).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is the Consumer Price Index (CPI)?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The Consumer Price Index (CPI) is a measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services, compiled by the Bureau of Labor Statistics (BLS).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What causes inflation?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Inflation is driven by three main factors: demand-pull inflation (demand for goods increases faster than supply), cost-push inflation (production costs increase, raising prices), and built-in inflation (wages rise to match cost of living).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How does inflation affect my savings?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Inflation decreases the purchasing power of cash. If you keep savings in an account earning 1% interest while inflation is 3%, your savings are effectively losing 2% of their buying power each year.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is purchasing power?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Purchasing power is the value of a currency expressed in the amount of goods or services that one unit of money can buy. Inflation directly erodes purchasing power over time.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is hyperinflation?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Hyperinflation is extremely rapid, out-of-control inflation, typically exceeding 50% per month, which quickly devalues the local currency.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is deflation?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Deflation is a general decrease in the price level of goods and services, occurring when the inflation rate falls below 0%. It can lead to economic stagnation.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is CPI data updated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For US calculations, the Bureau of Labor Statistics publishes updated CPI indexes monthly, reflecting consumer retail price shifts across cities.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is core inflation?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Core inflation is the CPI index excluding food and energy prices, which are highly volatile. It provides a clearer picture of long-term inflation trends.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How can I protect my money from inflation?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To hedge against inflation, investors place capital in assets that tend to grow faster than inflation, such as equities, real estate, commodities, and inflation-indexed bonds like US Treasury I-Bonds.
+          </div>
+        </details>
+      </div>
+    </section>
+    
 
     <!-- Related Tools Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Related Tools">

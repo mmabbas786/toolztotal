@@ -8,42 +8,82 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "How is tip calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tip is calculated by multiplying the pre-tax bill subtotal by the tip percentage: Tip = Bill Subtotal * (Tip Percentage / 100)."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "What is the standard tipping rate in the United States?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "In the US, the standard restaurant tipping rate is 15% to 20% of the pre-tax bill amount. For excellent service, 20% or higher is common, while 15% is standard for average service."
+        "text": "In the US, the standard tipping rate for sit-down restaurant service is 15% to 20% of the pre-tax subtotal, depending on the quality of service."
       }
     },
     {
       "@type": "Question",
-      "name": "Do you tip in Japan?",
+      "name": "Should I calculate the tip before or after sales tax?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. In Japan, tipping is not practiced and can be considered insulting. Good service is expected as part of the bill, and any left cash will often be returned to you."
+        "text": "Standard dining etiquette is to calculate the tip on the pre-tax bill subtotal, so you do not pay a tip on top of government taxes."
       }
     },
     {
       "@type": "Question",
-      "name": "How does the 'Round Up' option work?",
+      "name": "How does splitting a tip work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The Round Up option increases the calculated grand total (bill + tip) to the nearest whole dollar. This is helpful for cash payments or clean credit card transactions, adjusting the tip percentage accordingly."
+        "text": "To split a tip and bill, calculate the total bill (including tax and tip), then divide that final total by the number of people sharing the cost."
       }
     },
     {
       "@type": "Question",
-      "name": "Is tax included when calculating tips?",
+      "name": "What does rounding up a bill mean?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Tipping etiquette dictates calculating the tip percentage on the pre-tax subtotal rather than the grand total. This ensures you do not tip on state sales taxes."
+        "text": "Rounding up a bill adjusts the total amount to the next nearest dollar, adding the difference to the tip for convenience, which is helpful when paying cash."
       }
     },
     {
       "@type": "Question",
-      "name": "Does this tool support splitting bills?",
+      "name": "Is tipping common in Europe?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Input the number of people sharing the tab to calculate the exact payment allocation per person, dividing the total bill + tip evenly."
+        "text": "In many European countries, service is included in the bill (labeled as 'Service Compris'). However, leaving a small tip of 5% to 10% is appreciated for good service."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much do you tip in Japan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In Japan, tipping is not part of the culture and can be considered impolite. Exceptional service is rewarded with appreciation rather than cash tips."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I tip at self-service buffet restaurants?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tipping at buffets is typically lower than table service, with 10% considered standard for staff who clear plates and refill drinks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I tip a delivery driver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For food delivery, a tip of 10% to 15% of the order total is standard, with a minimum tip of $3 to $5 depending on travel distance and weather."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tip calculator save my inputs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The calculator processes all inputs locally in your browser. No details are transmitted or saved on our servers."
       }
     }
   ]
@@ -215,90 +255,292 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </section>
 
+    
+    
+
+    
+    
+
+  
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
     <!-- Article Content -->
     <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Tipping Practices: Navigating Global Etiquette and Math</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Tipping Etiquette and Calculations: Math and Global Standards</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
-          Calculating tips is a regular chore after dining out. While simple multiplication is easy, deciding how much to tip can be confusing, particularly when traveling abroad.
+          Tipping is a common way to show appreciation for service, but standards and customs vary widely depending on the industry and the country. Knowing how to calculate tips quickly and understanding local tipping customs helps you navigate transactions with confidence.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Arithmetic</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Math Formulas</h3>
         <p>
-          To compute the tip amount manually, multiply the pre-tax bill subtotal by the tip decimal:
-          <br />
-          <strong class="block my-2 text-center text-ink font-mono text-xs">Tip Amount = Bill Subtotal &times; (Tip Percentage / 100)</strong>
-          To calculate the payment share per person:
-          <br />
-          <strong class="block my-2 text-center text-ink font-mono text-xs">Per Person = (Bill Subtotal + Tip Amount) / People Count</strong>
+          Calculating a tip is straightforward. Use the following formulas for standard calculations:
         </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Tip Amount = Pre-Tax Subtotal &times; (Tip Percentage / 100)<br/>
+          Total Bill = Bill Subtotal + Tax Amount + Tip Amount
+        </div>
+        <p>
+          For example, if a restaurant bill subtotal is $80.00, the sales tax is $6.00, and you choose to leave an 18% tip:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Tip Amount = $80.00 &times; 0.18 = $14.40<br/>
+          Total Bill = $80.00 + $6.00 + $14.40 = $100.40
+        </div>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Guidelines</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Guidelines by Industry</h3>
         <p>
-          While US service sectors rely heavily on tips to supplement wages, European, Asian, and Latin American locations handle service structures differently. In countries like Japan, leaving extra money is considered rude. In France, the service charge (**service compris**) is already built into menu pricing, though rounding up the bill to the nearest whole euro is common practice.
+          In North America, tipping is an important part of compensation for many service workers:
         </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Restaurants (Table Service):</strong> 15% to 20% of the pre-tax subtotal, depending on the quality of service.</li>
+          <li><strong>Bars & Bartenders:</strong> $1 to $2 per drink, or 15% to 20% of the tab.</li>
+          <li><strong>Taxis & Rideshares:</strong> 10% to 15% of the fare.</li>
+          <li><strong>Salons & Spas:</strong> 15% to 20% of the service cost.</li>
+        </ul>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Global Tipping Customs</h3>
+        <p>
+          Tipping customs vary around the world:
+        </p>
+        <p>
+          <strong>Europe:</strong> Service charges are often included in the bill. Small tips of 5% to 10% are common for good service, usually rounded up to the nearest euro. In countries like France or Italy, you can simply leave a few coins on the table or round up your card payment.
+        </p>
+        <p>
+          <strong>East Asia:</strong> In countries like Japan, South Korea, and Singapore, tipping is not expected and can cause confusion. Exceptional service is rewarded with polite appreciation instead of cash. If you leave money on a table, servers may run after you to return it.
+        </p>
+        <p>
+          <strong>Other Regions:</strong> In Australia and New Zealand, tipping is not traditional, though it has become more common in high-end tourist destinations. In South America and the Middle East, a tip of 10% is standard in restaurants.
+        </p>
+        <p>
+          Understanding these international guidelines is extremely useful when traveling. It helps you prepare the correct cash amounts or select appropriate tipping parameters on terminal payment screens without overpaying or offending local service workers.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Impact of Digital Payment Terminals</h3>
+        <p>
+          The rise of digital point-of-sale (POS) terminals has changed tipping habits. Many coffee shops and counter-service venues now display pre-calculated tip prompts (often 18%, 20%, or 25%) at checkout. While convenient, this has led to "tip fatigue" among consumers who feel pressured to tip for basic transactions where table service was not provided.
+        </p>
+        <p>
+          Using an independent tip calculator allows you to compute the correct tip amount privately based on the service received, avoiding pressure from preset POS screens. It also makes it easy to split costs among diners and round up bills for cash payments, helping you handle transactions with confidence.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Guidelines for Travel and Hospitality</h3>
+        <p>
+          Tipping is not limited to restaurants. When traveling, standard tipping rules apply to hotel valets, bellhops, housekeepers, and tour guides. Valets typically receive $2 to $5 when retrieving your car, while housekeepers are tipped $2 to $5 per night. Understanding these standards ensures you carry the correct amount of cash and show appropriate appreciation for the hospitality staff.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Tipping Standards for Salons and Services</h3>
+        <p>
+          For personal care services, such as haircuts, manicures, massages, or spa packages, the standard tipping rate in North America is 15% to 20% of the total service cost. Tipping salon assistants who wash hair or prepare treatment areas is also common, typically $2 to $5. Using this tool to calculate your tip amount privately keeps your personal expenses structured and ensures you support service workers fairly.
+        </p>
+  
       </div>
     </article>
+    
 
     <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How is tip calculated?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Tip is calculated by multiplying the pre-tax bill subtotal by the tip percentage: Tip = Bill Subtotal * (Tip Percentage / 100).
+          </div>
+        </details>
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             What is the standard tipping rate in the United States?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            In the US, the standard restaurant tipping rate is 15% to 20% of the pre-tax bill amount. For excellent service, 20% or higher is common, while 15% is standard for average service.
+            In the US, the standard tipping rate for sit-down restaurant service is 15% to 20% of the pre-tax subtotal, depending on the quality of service.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Do you tip in Japan?
+            Should I calculate the tip before or after sales tax?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            No. In Japan, tipping is not practiced and can be considered insulting. Good service is expected as part of the bill, and any left cash will often be returned to you.
+            Standard dining etiquette is to calculate the tip on the pre-tax bill subtotal, so you do not pay a tip on top of government taxes.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How does the 'Round Up' option work?
+            How does splitting a tip work?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            The Round Up option increases the calculated grand total (bill + tip) to the nearest whole dollar. This is helpful for cash payments or clean credit card transactions, adjusting the tip percentage accordingly.
+            To split a tip and bill, calculate the total bill (including tax and tip), then divide that final total by the number of people sharing the cost.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Is tax included when calculating tips?
+            What does rounding up a bill mean?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Tipping etiquette dictates calculating the tip percentage on the pre-tax subtotal rather than the grand total. This ensures you do not tip on state sales taxes.
+            Rounding up a bill adjusts the total amount to the next nearest dollar, adding the difference to the tip for convenience, which is helpful when paying cash.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Does this tool support splitting bills?
+            Is tipping common in Europe?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Yes. Input the number of people sharing the tab to calculate the exact payment allocation per person, dividing the total bill + tip evenly.
+            In many European countries, service is included in the bill (labeled as 'Service Compris'). However, leaving a small tip of 5% to 10% is appreciated for good service.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How much do you tip in Japan?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            In Japan, tipping is not part of the culture and can be considered impolite. Exceptional service is rewarded with appreciation rather than cash tips.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Do I tip at self-service buffet restaurants?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Tipping at buffets is typically lower than table service, with 10% considered standard for staff who clear plates and refill drinks.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What should I tip a delivery driver?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For food delivery, a tip of 10% to 15% of the order total is standard, with a minimum tip of $3 to $5 depending on travel distance and weather.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tip calculator save my inputs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. The calculator processes all inputs locally in your browser. No details are transmitted or saved on our servers.
+          </div>
+        </details>
       </div>
     </section>
+    
 
-  </div>
+    </div>
 </Layout>
 
 <script>

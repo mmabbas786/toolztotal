@@ -8,42 +8,82 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How does itemized bill splitting work?",
+      "name": "How do you calculate a split bill?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Itemized bill splitting allocates costs based on what each person actually ordered. Shared items (like appetizers) are divided equally among those who consumed them, while taxes and tips are allocated proportionally based on each person's individual subtotal."
+        "text": "To split a bill, sum all base items, calculate the combined tax and tip percentage, apply that percentage to each person's items, and calculate individual totals."
       }
     },
     {
       "@type": "Question",
-      "name": "Why is proportional tax and tip allocation fairer?",
+      "name": "What is itemized bill splitting?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If tax and tip are split equally, a person ordering a $10 salad pays the same tax and tip as someone ordering a $50 steak. Proportional splitting assigns tax and tip relative to the cost of each person's meal, which is the mathematically correct way to divide additions."
+        "text": "Itemized splitting assigns specific menu items to the individuals who ordered them, rather than dividing the total bill equally. This ensures everyone pays only for what they consumed."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I share the split bill results with friends?",
+      "name": "How are shared items handled when splitting a bill?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "This calculator features a 'Generate Share Link' button. It encodes the entire state of your bill (names, items, costs, tax, tip) into the URL query parameters. Anyone who clicks the link sees the exact itemized breakdown instantly."
+        "text": "Shared items (like appetizers) are divided equally among the participants, with the cost added to each person's individual subtotal."
       }
     },
     {
       "@type": "Question",
-      "name": "Does this tool require a login or app install?",
+      "name": "How should tax and tips be distributed?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No, never. Unlike popular mobile apps that require downloads, accounts, or email captures, this tool is 100% static, runs in the browser, and stores zero personal finance data on external servers."
+        "text": "Tax and tips should be distributed proportionally based on each person's subtotal, rather than divided equally. This ensures that someone who ordered a small salad doesn't pay tax on someone else's steak."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I split an item among only a few people?",
+      "name": "Can I share the split bill results?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Each item you add has checkbox triggers for every person in your list. You can assign the item to one person, split it between two, or split it among everyone."
+        "text": "Yes. This tool encodes the item assignments and totals into the URL parameters, allowing you to copy and share the link with group members via messaging apps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool save my guest list or receipt details?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All calculation data is stored in the URL parameters and processed locally. Your receipt details are never saved on a server."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is tip calculated before or after tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Standard etiquette is to calculate the tip percentage on the pre-tax food and beverage subtotal, though some consumers calculate it on the post-tax total for simplicity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I allocate a flat discount to a split bill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Discounts should be applied proportionally. Reduce each person's subtotal by their percentage share of the discount before calculating tax and tip."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool support rounding?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The calculator rounds final individual shares to the nearest cent using standard mathematical rounding rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this tool handle tax and tip values together?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can input the tax rate and tip percentage separately, and the engine will calculate and add both to the individual subtotals."
       }
     }
   ]
@@ -194,92 +234,275 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </div>
 
+    
+    
+
+    
+    
+
+  
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
     <!-- Article Content -->
     <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">The Mathematics of Fair Restaurant Bill Splitting</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Fair Shared Dining: The Math and Etiquette of Splitting Bills</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
-          Dining out with groups is a common social occasion. However, settling the tab at the end of the meal often causes awkwardness or calculations overhead. While simply dividing the total bill by the number of guests is convenient, it is rarely fair, as individual ordering costs vary.
+          Dining out with friends or colleagues is a common social activity, but resolving the bill at the end of the meal can be awkward. While dividing the total bill equally is simple, it can be unfair if there is a large difference in what guests ordered. Itemized bill splitting provides a fairer solution by ensuring everyone pays only for what they consumed.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Itemized Allocation and Share Math</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Problem with Equal Splits</h3>
         <p>
-          To calculate splits fairly, the calculator evaluates:
+          Dividing a bill equally is simple, but it can lead to friction when orders vary significantly. For example, if one guest orders a salad and water ($15.00) while another orders a steak and cocktails ($60.00), an equal split forces the first guest to subsidize the second. Itemized splitting solves this by calculating individual shares, ensuring everyone pays their fair share of the food and beverage cost.
         </p>
-        <ul class="list-disc pl-5 space-y-2 font-sans text-sm">
-          <li><strong>Base Cost:</strong> Each person is assigned the cost of items they ordered. If an item is shared (like an appetizer), its cost is divided evenly among the checking consumers.</li>
-          <li><strong>Proportional Tax & Tip:</strong> Tax and tips are additions. Dividing them equally is unfair to low-cost orderers. Proportional distribution calculates each guest's percentage subtotal of the overall subtotal and assigns that ratio of the tax/tip:
-            <br />
-            <strong class="block my-2 text-center text-ink font-mono text-xs">Person's Tax = Guest Subtotal &times; (Tax Percentage / 100)</strong>
-          </li>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Math of Proportional Tax and Tip Allocation</h3>
+        <p>
+          To split an itemized bill correctly, tax and tips must be allocated proportionally based on each person's subtotal. The calculation steps are:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Step 1:</strong> Sum the individual items to find each person's subtotal.</li>
+          <li><strong>Step 2:</strong> Calculate the shared items and distribute the cost evenly to the subtotals.</li>
+          <li><strong>Step 3:</strong> Determine the tax and tip ratio: Tax & Tip Ratio = Total Bill / Sum of Subtotals.</li>
+          <li><strong>Step 4:</strong> Multiply each person's subtotal by the Tax & Tip Ratio to find their final total.</li>
         </ul>
-
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Instant URLs</h3>
         <p>
-          To make coordination easy, our bill splitter encodes list states in query parameters. Click **Generate Shareable Link** to copy a URL that loads the exact configurations on your friend's phone.
+          This method ensures that tax and tips are distributed fairly relative to what each person ordered, rather than divided equally.
         </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Modern Tipping and Dining Etiquette</h3>
+        <p>
+          When using an itemized bill splitter, it is important to communicate with your group beforehand to avoid confusion. Agreeing on a tipping percentage and how to handle shared appetizers or bottles of wine ensures a smooth transaction. Our tool also supports sharing your calculations via a generated link, allowing everyone to verify their breakdown locally on their own devices.
+        </p>
+        <p>
+          Splitting bills proportionally is especially helpful in business settings where expenses need to be accurately recorded and cataloged. Proportional splitting ensures that expense reports reflect true individual spending, preventing disputes and keeping company audits clean. By keeping all calculations browser-local, this calculator guarantees complete privacy, ensuring your receipts and diner list are never saved on external servers.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Etiquette for Large Group Dinners</h3>
+        <p>
+          Group dinners can become complicated when the check arrives. To prevent awkwardness, it is best to discuss how the bill will be handled before ordering. If the group agrees to split the bill itemized, using a shared link allows everyone to input their orders and see their exact share of tax and tips.
+        </p>
+        <p>
+          Proportional splitting also helps when filing business expenses. Many companies require detailed receipt allocations for client dinners or team events. Proportional calculations ensure that individual expense reports match the actual receipts, preventing corporate audit issues. Our local browser calculator provides complete privacy, keeping your diners and items secure on your device.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Managing Discounts and Coupons in Split Bills</h3>
+        <p>
+          Handling promotional discounts or coupons is another common issue during group dinners. If the table receives a flat discount (e.g., $10 off the total bill) or a percentage discount, the savings should be distributed proportionally based on each person's spend. Deducting the discount from the subtotals before calculating the tax and tip ensures that the savings are shared fairly. Our calculator simplifies this math, helping you split bills cleanly.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Resolving Group Spending Disputes</h3>
+        <p>
+          Shared dining should be a pleasant experience, yet split bills are a frequent source of micro-disagreements. Issues often arise around shared items like mineral water, sides, or dessert platters. Proportional allocation of tax, tip, and service charges ensures that everyone's contribution corresponds to their consumption, preventing frustration and keeping group outings positive.
+        </p>
+  
       </div>
     </article>
+    
 
     <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How does itemized bill splitting work?
+            How do you calculate a split bill?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Itemized bill splitting allocates costs based on what each person actually ordered. Shared items (like appetizers) are divided equally among those who consumed them, while taxes and tips are allocated proportionally based on each person's individual subtotal.
+            To split a bill, sum all base items, calculate the combined tax and tip percentage, apply that percentage to each person's items, and calculate individual totals.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Why is proportional tax and tip allocation fairer?
+            What is itemized bill splitting?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            If tax and tip are split equally, a person ordering a $10 salad pays the same tax and tip as someone ordering a $50 steak. Proportional splitting assigns tax and tip relative to the cost of each person's meal, which is the mathematically correct way to divide additions.
+            Itemized splitting assigns specific menu items to the individuals who ordered them, rather than dividing the total bill equally. This ensures everyone pays only for what they consumed.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How do I share the split bill results with friends?
+            How are shared items handled when splitting a bill?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            This calculator features a 'Generate Share Link' button. It encodes the entire state of your bill (names, items, costs, tax, tip) into the URL query parameters. Anyone who clicks the link sees the exact itemized breakdown instantly.
+            Shared items (like appetizers) are divided equally among the participants, with the cost added to each person's individual subtotal.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Does this tool require a login or app install?
+            How should tax and tips be distributed?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            No, never. Unlike popular mobile apps that require downloads, accounts, or email captures, this tool is 100% static, runs in the browser, and stores zero personal finance data on external servers.
+            Tax and tips should be distributed proportionally based on each person's subtotal, rather than divided equally. This ensures that someone who ordered a small salad doesn't pay tax on someone else's steak.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Can I split an item among only a few people?
+            Can I share the split bill results?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Yes. Each item you add has checkbox triggers for every person in your list. You can assign the item to one person, split it between two, or split it among everyone.
+            Yes. This tool encodes the item assignments and totals into the URL parameters, allowing you to copy and share the link with group members via messaging apps.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool save my guest list or receipt details?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. All calculation data is stored in the URL parameters and processed locally. Your receipt details are never saved on a server.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Is tip calculated before or after tax?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Standard etiquette is to calculate the tip percentage on the pre-tax food and beverage subtotal, though some consumers calculate it on the post-tax total for simplicity.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do I allocate a flat discount to a split bill?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Discounts should be applied proportionally. Reduce each person's subtotal by their percentage share of the discount before calculating tax and tip.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool support rounding?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. The calculator rounds final individual shares to the nearest cent using standard mathematical rounding rules.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can this tool handle tax and tip values together?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. You can input the tax rate and tip percentage separately, and the engine will calculate and add both to the individual subtotals.
+          </div>
+        </details>
       </div>
     </section>
+    
 
-  </div>
+    </div>
 </Layout>
 
 <script>

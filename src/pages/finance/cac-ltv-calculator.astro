@@ -8,42 +8,82 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How is Customer Acquisition Cost (CAC) calculated?",
+      "name": "What is Customer Acquisition Cost (CAC)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Customer Acquisition Cost (CAC) is calculated by dividing total sales and marketing expenses (including payroll, ad spent, tools) by the number of new customers acquired during that specific period: CAC = (Sales Spend + Marketing Spend) / New Customers."
+        "text": "Customer Acquisition Cost (CAC) is the total expense incurred to acquire a new customer, calculated by dividing total sales and marketing costs by the number of new customers acquired during a set period."
       }
     },
     {
       "@type": "Question",
-      "name": "How is Customer Lifetime Value (LTV) calculated in SaaS?",
+      "name": "What is Customer Lifetime Value (LTV)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Customer Lifetime Value (LTV) is calculated by dividing the gross margin contribution per account by the churn rate: LTV = (ARPU * Gross Margin %) / Monthly Churn Rate %, where ARPU is Average Revenue Per User."
+        "text": "Customer Lifetime Value (LTV) is the total projected revenue or gross profit a business expects to earn from a single customer account over the duration of their relationship."
       }
     },
     {
       "@type": "Question",
-      "name": "What is a healthy LTV:CAC ratio for SaaS businesses?",
+      "name": "Why is the LTV:CAC ratio important?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For mature software-as-a-service (SaaS) startups, an LTV:CAC ratio of 3:1 or higher is considered healthy, meaning that customers generate triple the revenue they cost to acquire. Ratios under 3:1 indicate high churn or unsustainable marketing spends."
+        "text": "The LTV:CAC ratio measures marketing efficiency and SaaS viability. A ratio of 3:1 is widely considered the industry benchmark for healthy, sustainable growth."
       }
     },
     {
       "@type": "Question",
-      "name": "What is the CAC payback period?",
+      "name": "How is LTV calculated for subscription companies?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The CAC payback period calculates the number of months required for a customer to generate enough gross profit to cover their initial acquisition cost: Payback Period = CAC / (ARPU * Gross Margin %)."
+        "text": "For SaaS companies, LTV = Average Revenue Per User (ARPU) * Gross Margin / User Churn Rate. Churn rate is the percentage of customers canceling their subscription each period."
       }
     },
     {
       "@type": "Question",
-      "name": "Does this tool store my startup financials?",
+      "name": "What is the payback period?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No, never. All SaaS inputs, economic indicators, and churn calculations are processed entirely client-side inside your browser sandbox. Your proprietary business metrics are 100% private."
+        "text": "The payback period is the number of months required for a customer to generate enough gross profit to cover their acquisition cost: Payback Period = CAC / (Monthly ARPU * Gross Margin)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is churn rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Churn rate is the percentage of subscribers who cancel their service during a given timeframe. Lowering churn is the most effective way to increase customer lifetime value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a healthy payback period?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For early-stage SaaS startups, a payback period under 12 months is considered healthy. High-performing enterprise SaaS businesses can sustain longer payback periods if capital is cheap."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool store my SaaS financials?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, never. All calculations are executed locally within your browser tab. Your startup metrics are kept completely private and are never uploaded to our servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What costs should be included in CAC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CAC should include all marketing ad spend, sales commissions, salaries of sales and marketing employees, software subscriptions, and overhead costs allocated to customer acquisition."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you calculate customer lifespan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Average customer lifespan is calculated by dividing 1 by the churn rate: Lifespan = 1 / Churn Rate. A monthly churn of 2% implies a average lifespan of 50 months."
       }
     }
   ]
@@ -171,108 +211,314 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </div>
 
+    
+    
+
+    
+    
+
+  
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
     <!-- Article Content -->
     <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Software Unit Economics: Deep Diving into CAC, LTV, and Payback Periods</h2>
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Evaluating SaaS Unit Economics: The Mathematics of LTV and CAC</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
-          For subscription-based software-as-a-service (SaaS) business models, traditional accounting metrics fail to capture the true health of customer acquisitions. Instead, investors and founders audit **unit economics** to measure sales efficiency.
+          In subscription-based software-as-a-service (SaaS) business models, unit economics are the foundational check of corporate health. While growth in monthly recurring revenue (MRR) is a key headline metric, sustainable growth requires understanding the relationship between customer acquisition cost (CAC) and customer lifetime value (LTV). Calculating and tracking these metrics helps founders and operators make informed decisions about hiring, ad spend, pricing tiers, and expansion strategies.
+        </p>
+        <p>
+          Understanding unit economics is also critical for raising venture capital or securing debt financing. Investors analyze these metrics to determine if a business has a viable path to profitability or if it is simply burning capital to acquire unprofitable customers. By evaluating the ratio between LTV and CAC, you can determine if your current business model is sustainable.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Unit Economic Formulas</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Calculating Customer Acquisition Cost (CAC)</h3>
         <p>
-          Four core math equations govern SaaS customer acquisition models:
+          Customer Acquisition Cost represents the average price paid to secure a single customer. It includes all marketing campaigns, sales salaries, tools, and advertising costs over a period, divided by the volume of new logos signed:
         </p>
-        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
-          <li>
-            <strong>1. Customer Acquisition Cost (CAC):</strong> The total monetary cost to acquire a single customer.
-            <br />
-            <strong class="block my-1 text-center font-mono text-xs text-ink">CAC = (Marketing Spend + Sales Spend) / New Customers</strong>
-          </li>
-          <li>
-            <strong>2. Customer Lifetime Value (LTV):</strong> The total gross profit a customer will generate before churning.
-            <br />
-            <strong class="block my-1 text-center font-mono text-xs text-ink">LTV = (ARPU &times; Gross Margin %) / Monthly Churn Rate %</strong>
-          </li>
-          <li>
-            <strong>3. LTV:CAC Ratio:</strong> Compares the customer value to the acquisition cost. A **3:1 ratio** is the industry standard benchmark for healthy growth.
-          </li>
-          <li>
-            <strong>4. CAC Payback Period:</strong> The number of months required for a customer to break even.
-            <br />
-            <strong class="block my-1 text-center font-mono text-xs text-ink">Payback Period = CAC / (ARPU &times; Gross Margin %)</strong>
-          </li>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          CAC = Total Sales & Marketing Costs / New Customers Acquired
+        </div>
+        <p>
+          For example, if a SaaS startup spends $30,000 on Google Ads, sales commissions, and marketing software in Q1, and secures 150 new customers, the CAC is:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          CAC = $30,000 / 150 = $200.00 per customer
+        </div>
+        <p>
+          When calculating CAC, it is vital to include all fully loaded costs. This means you must account for the salaries of your sales representatives, marketing managers, and design teams, alongside direct ad spend. Neglecting these overhead and headcount costs leads to an artificially low CAC, which can skew financial projections and lead to poor business decisions.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Calculating Customer Lifetime Value (LTV)</h3>
+        <p>
+          Customer Lifetime Value projects the gross profit generated by an account over its expected lifespan. The standard SaaS LTV calculation incorporates Average Revenue Per User (ARPU), gross margins, and user churn:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          LTV = (ARPU &times; Gross Margin) / Churn Rate
+        </div>
+        <p>
+          If your customers pay an average of $50.00 per month, your gross cost of goods sold (hosting, support) leaves an 80% gross margin, and your monthly churn rate is 2.5%:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          LTV = ($50.00 &times; 0.80) / 0.025 = $40.00 / 0.025 = $1,600.00
+        </div>
+        <p>
+          LTV is highly sensitive to churn. If your churn rate increases from 2.5% to 5.0%, your LTV is cut in half ($800 instead of $1,600). This highlights why customer retention is often the most important factor in SaaS profitability.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Interpreting the LTV:CAC Ratio</h3>
+        <p>
+          Once LTV and CAC are computed, the relationship is expressed as a ratio:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          LTV:CAC Ratio = LTV / CAC
+        </div>
+        <p>
+          Using our example figures ($1,600 / $200), the LTV:CAC ratio is 8:1. This represents a highly efficient sales and marketing engine. General benchmarks suggest:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Less than 1:1:</strong> The company is losing money on every customer acquired. The business model is unsustainable without drastic adjustments.</li>
+          <li><strong>1:1 to 2:1:</strong> Marginal unit economics. High risk of cash depletion as overhead costs eat up the margin.</li>
+          <li><strong>3:1:</strong> The standard industry target for mature, venture-backed SaaS startups.</li>
+          <li><strong>Over 5:1:</strong> Extremely profitable unit economics, suggesting you may be under-investing in marketing and could grow faster by spending more to acquire customers.</li>
         </ul>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Managing SaaS Churn Rates</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Payback Period and Cash Flow Management</h3>
         <p>
-          The single most powerful lever in SaaS LTV calculations is the **churn rate**. Even minor decreases in monthly churn yield massive increases in average customer lifetimes:
-          <br />
-          <strong class="block my-1 text-center font-mono text-xs text-ink">Customer Lifetime (months) = 1 / Churn Rate</strong>
-          For example, dropping churn from 5% to 2.5% doubles your LTV and slashes payback volatility. To test other compound interest metrics or project capital re-investment rates, explore our <a href="/finance/compound-interest-calculator" class="text-primary hover:underline font-semibold">Compound Interest Calculator</a> or check our <a href="/finance/roi-calculator" class="text-primary hover:underline font-semibold">ROI Calculator</a>.
+          Another critical metric related to unit economics is the CAC Payback Period. This indicates how many months it takes for a customer to generate enough gross profit to cover their acquisition cost. A shorter payback period improves cash flow and reduces the amount of capital required to scale the business.
         </p>
+        <p>
+          The formula to calculate the payback period is:
+        </p>
+        <div class="p-4 bg-canvas-soft border border-hairline rounded-lg font-mono text-xs text-center text-ink my-4">
+          Payback Period (Months) = CAC / (Monthly ARPU &times; Gross Margin)
+        </div>
+        <p>
+          If your CAC is $200, ARPU is $50, and Gross Margin is 80%, the payback period is $200 / ($50 &times; 0.80) = $200 / $40 = 5 months. This means you recover your marketing investment in 5 months.
+        </p>
+        <p>
+          For venture-backed startups, recovering CAC in under 12 months is generally considered excellent. Longer payback periods require significant upfront cash reserves to support customer growth, which can increase the risk of cash shortages.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Optimizing SaaS Growth Loops and Expansion Revenue</h3>
+        <p>
+          To improve unit economics, SaaS businesses focus on two main strategies: reducing CAC and increasing LTV. Reducing CAC involves optimizing marketing channels, improving landing page conversion rates, and leveraging organic search engine optimization (SEO) to acquire customers without paying for advertising.
+        </p>
+        <p>
+          Increasing LTV is achieved by lowering churn and driving expansion revenue. Expansion revenue refers to additional revenue generated from existing customers through upselling (upgrading accounts to higher tiers) and cross-selling (selling add-on features or seats). If expansion revenue exceeds the revenue lost from churned accounts, the company achieves "net negative churn," which is the ultimate growth driver for SaaS businesses.
+        </p>
+        <p>
+          By maintaining a healthy LTV:CAC ratio and shortening the payback period, startups can reinvest their profits into customer acquisition safely, building a compounding growth engine that leads to long-term market leadership.
+        </p>
+  
       </div>
     </article>
+    
 
     <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How is Customer Acquisition Cost (CAC) calculated?
+            What is Customer Acquisition Cost (CAC)?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Customer Acquisition Cost (CAC) is calculated by dividing total sales and marketing expenses (including payroll, ad spent, tools) by the number of new customers acquired during that specific period: CAC = (Sales Spend + Marketing Spend) / New Customers.
+            Customer Acquisition Cost (CAC) is the total expense incurred to acquire a new customer, calculated by dividing total sales and marketing costs by the number of new customers acquired during a set period.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How is Customer Lifetime Value (LTV) calculated in SaaS?
+            What is Customer Lifetime Value (LTV)?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Customer Lifetime Value (LTV) is calculated by dividing the gross margin contribution per account by the churn rate: LTV = (ARPU * Gross Margin %) / Monthly Churn Rate %, where ARPU is Average Revenue Per User.
+            Customer Lifetime Value (LTV) is the total projected revenue or gross profit a business expects to earn from a single customer account over the duration of their relationship.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is a healthy LTV:CAC ratio for SaaS businesses?
+            Why is the LTV:CAC ratio important?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            For mature software-as-a-service (SaaS) startups, an LTV:CAC ratio of 3:1 or higher is considered healthy, meaning that customers generate triple the revenue they cost to acquire. Ratios under 3:1 indicate high churn or unsustainable marketing spends.
+            The LTV:CAC ratio measures marketing efficiency and SaaS viability. A ratio of 3:1 is widely considered the industry benchmark for healthy, sustainable growth.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is the CAC payback period?
+            How is LTV calculated for subscription companies?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            The CAC payback period calculates the number of months required for a customer to generate enough gross profit to cover their initial acquisition cost: Payback Period = CAC / (ARPU * Gross Margin %).
+            For SaaS companies, LTV = Average Revenue Per User (ARPU) * Gross Margin / User Churn Rate. Churn rate is the percentage of customers canceling their subscription each period.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Does this tool store my startup financials?
+            What is the payback period?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
           <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            No, never. All SaaS inputs, economic indicators, and churn calculations are processed entirely client-side inside your browser sandbox. Your proprietary business metrics are 100% private.
+            The payback period is the number of months required for a customer to generate enough gross profit to cover their acquisition cost: Payback Period = CAC / (Monthly ARPU * Gross Margin).
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is churn rate?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Churn rate is the percentage of subscribers who cancel their service during a given timeframe. Lowering churn is the most effective way to increase customer lifetime value.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What is a healthy payback period?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For early-stage SaaS startups, a payback period under 12 months is considered healthy. High-performing enterprise SaaS businesses can sustain longer payback periods if capital is cheap.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool store my SaaS financials?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, never. All calculations are executed locally within your browser tab. Your startup metrics are kept completely private and are never uploaded to our servers.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What costs should be included in CAC?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            CAC should include all marketing ad spend, sales commissions, salaries of sales and marketing employees, software subscriptions, and overhead costs allocated to customer acquisition.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            How do you calculate customer lifespan?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Average customer lifespan is calculated by dividing 1 by the churn rate: Lifespan = 1 / Churn Rate. A monthly churn of 2% implies a average lifespan of 50 months.
+          </div>
+        </details>
       </div>
     </section>
+    
 
-  </div>
+    </div>
 </Layout>
 
 <script>

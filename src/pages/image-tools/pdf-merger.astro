@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "No. To protect document privacy, we do not decrypt password-secured PDF documents. Please decrypt protected files before attempting to combine them."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I merge scanned PDFs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The tool merges any standard PDF file, including scanned documents and forms, while preserving the original page layouts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will merging PDFs affect the file quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The tool copies pages from the source documents without re-compressing them, maintaining the original text and image quality."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I extract specific pages before merging?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool is designed to merge entire PDF files. To extract specific pages, you can use a PDF printer or editor before merging."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool run on mobile devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can select and merge PDF files directly from your phone or tablet's file storage using a mobile web browser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What library does this tool use to merge PDFs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The tool uses the popular open-source pdf-lib library to handle PDF loading, page copying, and file generation locally in the browser."
+      }
     }
   ]
 };
@@ -137,31 +177,168 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </div>
 
+    
+    
+
+    
+    
+
+  
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
     <!-- Article Content -->
     <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Securing Document Operations: The Integrity of Client-Side PDF Merging</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
-          Portable Document Format (PDF) files are the standard configuration for business agreements, payroll receipts, academic profiles, and legal contracts. Because these assets often contain tax IDs, banking information, or medical markers, merging PDFs online poses a potential security risk.
+          The Portable Document Format (PDF) is the standard for sharing business agreements, financial statements, and legal contracts. Because these documents often contain sensitive information like tax IDs, bank account details, or personal signatures, uploading them to online PDF tools can pose a security risk. A client-side PDF merger offers a secure alternative.
         </p>
 
-        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Client-Side PDF Compilation using pdf-lib</h3>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Client-Side PDF Merging with pdf-lib</h3>
         <p>
-          ToolzTotal utilizes a bundled instance of `pdf-lib` executing directly in browser RAM to combine files:
+          ToolzTotal uses the pdf-lib library running directly in your browser's memory to merge files:
         </p>
-        <ul class="list-disc pl-5 space-y-3 font-sans text-sm">
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
           <li><strong>Buffer Parsing:</strong> The browser reads selected PDFs into raw binary ArrayBuffers.</li>
-          <li><strong>Page Cloning:</strong> The engine registers a target PDFDocument, programmatically clones pages from source buffers, and Appends them to the queue in your exact order.</li>
-          <li><strong>Local Serialization:</strong> Saves the compiled array back into a local Blob, triggering a direct browser file download without exposing data to external cloud storage.</li>
+          <li><strong>Page Cloning:</strong> The engine creates a new PDF document and copies the pages from your uploaded files into the new document in your chosen order.</li>
+          <li><strong>Local Saving:</strong> Saves the merged document as a local Blob, triggering a direct download without transmitting any data over the network.</li>
         </ul>
+        <p>
+          This client-side workflow ensures that your documents never leave your local environment. In contrast to online PDF services that process your files on remote servers, ToolzTotal performs all page collation, structural indexing, and file compilation inside your browser tab. This design eliminates data security risks and is ideal for legal teams, accounting professionals, and private individuals.
+        </p>
+        <p>
+          Using client-side merging also yields substantial performance advantages. Since the files do not need to be uploaded to a remote server or downloaded after compilation, the merging process takes only a few seconds, even for large documents with hundreds of pages. You can reorder pages on demand, verify file sizes locally, and download your unified document instantly.
+        </p>
+      
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Simplifying Document Workflows</h3>
+        <p>
+          Merging PDF files is a common task when compiling receipts, submitting academic applications, or organizing legal documents. Having access to a local, browser-based merger allows you to combine files quickly and securely without installing software.
+        </p>
+        <p>
+          Since all operations happen inside your browser memory, your confidential documents are never exposed to remote server leaks. Reordering pages and merging files takes only a few seconds, improving efficiency while maintaining complete data privacy.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Low-Level Document Assembly Mechanics</h3>
+        <p>
+          When merging PDF documents, libraries like pdf-lib parse the low-level object graph of the source files. A PDF file is composed of cross-reference tables (XREFs), catalog dictionaries, page index trees, and stream objects containing actual page contents. To merge files successfully, the engine must resolve any name conflicts, clone page dictionaries while keeping resources (fonts, images) intact, and build a unified page tree. Doing this client-side in browser threads requires high-performance JavaScript execution, which is handled efficiently by standard modern browser engines.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Preserving Document Security and Metadata</h3>
+        <p>
+          When merging PDFs, it is important to preserve document metadata, such as titles, authors, and creation dates. Additionally, standard security guidelines require that original document permissions are maintained. Our local PDF merger preserves the visual layout of your pages without modifying the internal text layers or image content, ensuring your documents remain complete and compliant.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Ensuring Security for Confidential PDF Collation</h3>
+        <p>
+          Combining PDF documents is a frequent workflow requirement when preparing tax documents, legal filings, or portfolio items. Since these documents frequently contain confidential information like Social Security Numbers, tax identification details, or financial accounts, processing them client-side in the browser provides a highly secure alternative to traditional cloud mergers.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Document Privacy Compliance</h3>
+        <p>
+          In corporate settings, keeping documents private is a legal and regulatory requirement. Using client-side tools ensures you comply with security audits and GDPR guidelines because the files never leave your device. The speed and convenience of local combining workflows allow you to organize files in seconds without waiting for uploads or dealing with file size restrictions, providing a secure and professional alternative for daily document collation tasks. Additionally, client-side merging is extremely convenient because it works completely offline, allowing you to combine documents securely when you do not have an active internet connection.
+        </p>
+  
       </div>
     </article>
+    
 
     <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             How does client-side PDF merging work?
@@ -171,7 +348,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             This tool loads your PDF documents as array buffers into the browser memory. It utilizes the bundled pdf-lib.js library to copy pages from each source document, combine them sequentially, and serialize the final merged PDF for instant local download.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             Is my confidential document data uploaded to a server?
@@ -181,7 +358,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No, never. Unlike other PDF sites that store your documents on their servers, ToolzTotal compiles everything completely client-side in your local browser sandbox. No bytes are sent across the network.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             Can I reorder PDF files before merging?
@@ -191,7 +368,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes. After uploading your PDFs, you can use the interactive reorder list to shift files up or down, ensuring that pages assemble in the correct sequence.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             Is there a page limit for merging PDFs?
@@ -201,7 +378,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Because the combining processes run entirely in your browser memory, page counts are limited only by your device's RAM capacity. It handles hundreds of pages comfortably.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
           <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
             Does this tool work with password-protected PDFs?
@@ -211,11 +388,61 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. To protect document privacy, we do not decrypt password-secured PDF documents. Please decrypt protected files before attempting to combine them.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I merge scanned PDFs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. The tool merges any standard PDF file, including scanned documents and forms, while preserving the original page layouts.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Will merging PDFs affect the file quality?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No. The tool copies pages from the source documents without re-compressing them, maintaining the original text and image quality.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Can I extract specific pages before merging?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            This tool is designed to merge entire PDF files. To extract specific pages, you can use a PDF printer or editor before merging.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            Does this tool run on mobile devices?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. You can select and merge PDF files directly from your phone or tablet's file storage using a mobile web browser.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+            What library does this tool use to merge PDFs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The tool uses the popular open-source pdf-lib library to handle PDF loading, page copying, and file generation locally in the browser.
+          </div>
+        </details>
       </div>
     </section>
+    
 
-  </div>
+    </div>
 </Layout>
 
 <script>
