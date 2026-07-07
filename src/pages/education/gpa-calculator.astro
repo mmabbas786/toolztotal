@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "No. All inputs, class lists, and calculated GPA scores are processed entirely client-side inside your browser memory. ToolzTotal never stores, saves, or transmits your transcripts or grades."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between weighted and unweighted GPA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An unweighted GPA measures academic grades on a standard 4.0 scale regardless of class difficulty. A weighted GPA awards extra points for advanced coursework (such as AP, IB, or Honors classes), often grading on a 5.0 scale."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do AP, IB, and Honors classes affect my GPA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "These advanced courses award extra weight in a weighted GPA system. An A in an AP class is worth 5.0 points instead of 4.0, which raises your overall average and reflects the difficulty of your course load."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a pass/fail grade impact my cumulative GPA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pass/fail grades do not affect your cumulative GPA. While you receive credit hours toward graduation for a passing grade, the course is excluded from the GPA math because it does not have a grade point value."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the formula for calculating GPA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The GPA formula divides total grade points by total credit hours: GPA = Total Grade Points / Total Credit Hours. You calculate grade points by multiplying a course's grade point value by its credit hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I raise my GPA in my senior year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can raise your GPA in your senior year, but the amount depends on how many credits you have completed. The more credits you have earned, the harder it is to change your cumulative average, which is why early planning is beneficial."
+      }
     }
   ]
 };
@@ -189,16 +229,40 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <strong class="block my-2 text-center text-ink font-mono text-xs">GPA = Sum of (Grade Points &times; Credits) / Total Credit Hours</strong>
           This means a grade earned in a 4-credit lecture class has double the numerical impact on your GPA than a grade earned in a 2-credit lab course.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Weighted vs. Unweighted GPAs Explained</h3>
+        <p>
+          When tracking your academic progress, it is important to understand the difference between weighted and unweighted GPAs. An unweighted GPA is calculated on a standard 4.0 scale, where an A is worth 4 points, a B is 3 points, a C is 2 points, and a D is 1 point, regardless of the class difficulty. A weighted GPA, however, awards extra points for advanced coursework. Advanced Placement (AP), International Baccalaureate (IB), and Honors courses are typically graded on a 5.0 scale, where an A is worth 5 points. This means a student taking a challenging course load can achieve a GPA higher than 4.0, which college admissions boards take into account.
+        </p>
+        <p>
+          Additionally, you should know if your school uses a plus/minus grading system. In these systems, grades like an A- or a B+ carry fractional point values (e.g., an A- is worth 3.7 points), which changes the final GPA calculation.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Walkthrough: Projecting a Target Cumulative GPA</h3>
+        <p>
+          Let's walk through how to project a target GPA. Suppose you are in your junior year with a cumulative GPA of 3.2 over 60 credits, and you want to raise it to a 3.4 by graduation.
+        </p>
+        <p>
+          First, open the Cumulative GPA Planner in our calculator. Input your current cumulative GPA (3.2) and current credits (60). Next, input your planned credits for the remaining semesters (e.g., 30 credits). The calculator will calculate that you need to earn a 3.8 average over your remaining classes to reach your target GPA, helping you track your progress and set academic goals.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Impact of GPAs on Financial Aid and Scholarships</h3>
+        <p>
+          Your cumulative GPA has a direct impact on your eligibility for financial aid and academic scholarships. Under the federal Satisfactory Academic Progress (SAP) guidelines, students must maintain a minimum GPA (usually 2.0 on a 4.0 scale) to keep their financial aid. Many private and institutional scholarships require much higher GPA minimums (such as 3.0 or 3.5). Monitoring your GPA using our calculator allows you to plan your academic progress and ensure you maintain funding throughout college.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">How College Admissions Boards Evaluate GPAs</h3>
+        <p>
+          College admissions offices do not look at GPA scores in isolation. They evaluate your grades in the context of your course rigor—meaning they check if you took advanced courses when they were available at your school. A student with a 3.6 weighted GPA who took multiple AP classes is often viewed more favorably than a student with a 3.9 unweighted GPA who took only basic courses. Keeping your GPA high while taking a balanced course load is key for college applications.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the difference between weighted and unweighted GPA?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -206,9 +270,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             An unweighted GPA measures academic achievement on a standard 0 to 4.0 scale regardless of class difficulty. A weighted GPA accounts for course rigor by adding extra points (typically +0.5 for Honors and +1.0 for AP or IB courses), resulting in scores that can exceed 4.0.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How does course credit weight affect GPA calculations?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -216,9 +280,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             GPA is calculated as a weighted average where course credit hours act as weights. A grade earned in a 4-credit course has double the mathematical impact on your cumulative GPA compared to a grade earned in a 2-credit course.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is letter grade point mapping standardized?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -226,9 +290,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Standard letter grade points on a 4.0 scale are mapped as: A+/A = 4.0, A- = 3.7, B+ = 3.3, B = 3.0, B- = 2.7, C+ = 2.3, C = 2.0, C- = 1.7, D+ = 1.3, D = 1.0, and F = 0.0.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is a cumulative GPA planner?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -236,9 +300,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             A cumulative GPA planner combines your existing college or high school historical credits and GPA with your current semester estimates to project your overall final GPA trajectory.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Is my GPA information stored online?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -246,7 +310,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. All inputs, class lists, and calculated GPA scores are processed entirely client-side inside your browser memory. ToolzTotal never stores, saves, or transmits your transcripts or grades.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the difference between weighted and unweighted GPA?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            An unweighted GPA measures academic grades on a standard 4.0 scale regardless of class difficulty. A weighted GPA awards extra points for advanced coursework (such as AP, IB, or Honors classes), often grading on a 5.0 scale.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do AP, IB, and Honors classes affect my GPA?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            These advanced courses award extra weight in a weighted GPA system. An A in an AP class is worth 5.0 points instead of 4.0, which raises your overall average and reflects the difficulty of your course load.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does a pass/fail grade impact my cumulative GPA?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Pass/fail grades do not affect your cumulative GPA. While you receive credit hours toward graduation for a passing grade, the course is excluded from the GPA math because it does not have a grade point value.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the formula for calculating GPA?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The GPA formula divides total grade points by total credit hours: GPA = Total Grade Points / Total Credit Hours. You calculate grade points by multiplying a course's grade point value by its credit hours.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can I raise my GPA in my senior year?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, you can raise your GPA in your senior year, but the amount depends on how many credits you have completed. The more credits you have earned, the harder it is to change your cumulative average, which is why early planning is beneficial.
+          </div>
+        </details>
       </div>
     </section>
 

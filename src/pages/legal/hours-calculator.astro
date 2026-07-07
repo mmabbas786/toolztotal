@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "No. All time card data is processed and stored locally inside your browser session. No information is transmitted to servers, ensuring complete privacy."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Are lunch breaks legally required to be paid or unpaid?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Meal breaks of 30 minutes or longer are generally unpaid under federal law, provided the employee is completely relieved of duty. Short rest breaks of 5 to 20 minutes are considered paid working time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the 15-minute rounding rule work in time clocks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under the FLSA, employers are allowed to round employee time to the nearest 15 minutes (or 5 minutes). The rounding must be fair and neutral overall, rounding both up and down rather than solely in the employer's favor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between decimal hours and minutes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Decimal hours represent time as a fraction of a 60-minute hour (e.g., 30 minutes is 0.5 hours, 45 minutes is 0.75 hours). Timesheets use decimal hours to multiply hours worked by your hourly wage rate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate total hours worked for overnight shifts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To calculate overnight shift hours, find the hours worked before midnight and add them to the hours worked after midnight (e.g., 10:00 PM to 6:00 AM is 2 hours before midnight plus 6 hours after, totaling 8 hours)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does federal law require rest breaks during a shift?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Federal law does not require rest or meal breaks. However, many states have laws that mandate paid rest breaks and unpaid meal breaks for shifts exceeding a set number of hours."
+      }
     }
   ]
 };
@@ -169,16 +209,57 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p>
           Under federal Fair Labor Standards Act guidelines, non-exempt employees must be compensated at overtime rates for work hours exceeding **40 hours per week**. A weekly time card calculator aggregates daily hours chronologically. Once the cumulative sum passes 40, excess hours are automatically allocated to the overtime bucket.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">FLSA Guidelines on Meal and Rest Breaks</h3>
+        <p>
+          Under the Fair Labor Standards Act (FLSA), employers are not legally required to provide meal or rest breaks. However, if an employer chooses to offer breaks, the FLSA regulates whether that time must be paid. Short rest periods (typically lasting 5 to 20 minutes) are considered paid hours, and employees must be compensated for that time. In contrast, meal breaks (usually lasting 30 minutes or longer) are unpaid, provided that the employee is completely relieved of duty and free to leave their workspace. If an employee is required to answer phone calls or monitor equipment during lunch, they are working and must be paid for that time.
+        </p>
+        <p>
+          Additionally, several states have laws that require employers to provide specific meal and rest breaks during a shift, making it important to review local state regulations.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Worked Scenario: Calculating Weekly Timesheets with Lunch Breaks</h3>
+        <p>
+          Let's walk through how to calculate total hours worked for a timesheet with unpaid lunch breaks. Suppose an employee logs the following hours:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Time In:</strong> 8:00 AM</li>
+          <li><strong>Lunch Out:</strong> 12:00 PM</li>
+          <li><strong>Lunch In:</strong> 12:30 PM</li>
+          <li><strong>Time Out:</strong> 5:00 PM</li>
+        </ul>
+        <p>
+          First, calculate hours worked before lunch: 8:00 AM to 12:00 PM is <code>4.0 hours</code>.
+        </p>
+        <p>
+          Next, calculate hours worked after lunch: 12:30 PM to 5:00 PM is <code>4.5 hours</code>.
+        </p>
+        <p>
+          Sum these periods to find the daily total: <code>4.0 + 4.5 = 8.5 hours</code>. Repeat this calculation for each workday to find your total weekly hours. Using our timesheet calculator simplifies this process and helps prevent errors.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the 15-Minute Time Clock Rounding Rules</h3>
+        <p>
+          Many employers round employee clock-in and clock-out times to simplify payroll. Under federal guidelines, employers can round time to the nearest 5, 10, or 15 minutes, provided the rounding is neutral and does not favor the employer. The standard 15-minute rounding rule (the 7/8 rule) dictates that if an employee clocks in within 7 minutes of the scheduled time, the time is rounded down; if they clock in 8 or more minutes late, the time is rounded up. Understanding this rounding math helps employees check their paychecks for accuracy.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Converting Minutes to Decimals for Payroll Processing</h3>
+        <p>
+          To calculate wages, payroll systems convert timesheet minutes into decimal values. For instance, working 8 hours and 15 minutes is processed as 8.25 hours, while 8 hours and 30 minutes becomes 8.50 hours. To convert minutes to decimals manually, divide the number of minutes by 60 (e.g. 45 minutes / 60 = 0.75). Our timesheet calculator automates this conversion, helping you verify that your hours are recorded accurately.
+        </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Navigating Labor Guidelines and Workplace Agreements</h3>
+        <p>
+          Understanding your legal rights and standard workplace regulations is essential for managing your career and negotiating employment agreements. While employment laws vary significantly across different states, counties, and countries, key standards such as the Fair Labor Standards Act (FLSA) provide a baseline for wage calculations and overtime eligibility. Always review your employment contract and consult with a qualified legal professional or local labor board when addressing specific workplace disputes or severance negotiations.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How does the time card hours calculator compute daily totals?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -186,9 +267,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The calculator parses start and end times to find the gross duration, then subtracts the entered lunch break duration (in minutes) to yield the net daily hours worked: Daily Hours = (End Time - Start Time) - Lunch Break.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Are lunch breaks legally required to be paid?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -196,9 +277,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Under federal FLSA guidelines, short rest periods (typically lasting 5 to 20 minutes) must be counted as paid hours. However, longer meal breaks (usually 30 minutes or more) are not considered work time and are unpaid, provided the employee is completely relieved from duty.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How does the overtime threshold highlight function?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -206,9 +287,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The weekly hours tracker accumulates your daily net hours chronologically. Once the cumulative sum exceeds 40 hours for the week, the excess hours are flagged as overtime to assist in payroll verification.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Can I export my completed weekly time card?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -216,9 +297,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes. Our hours calculator includes a client-side CSV Export button. Clicking it instantly compiles your daily inputs, break deductions, and totals into a standard spreadsheet-compatible file downloaded locally.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Does ToolzTotal store my work hour records?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -226,7 +307,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. All time card data is processed and stored locally inside your browser session. No information is transmitted to servers, ensuring complete privacy.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Are lunch breaks legally required to be paid or unpaid?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Meal breaks of 30 minutes or longer are generally unpaid under federal law, provided the employee is completely relieved of duty. Short rest breaks of 5 to 20 minutes are considered paid working time.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does the 15-minute rounding rule work in time clocks?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Under the FLSA, employers are allowed to round employee time to the nearest 15 minutes (or 5 minutes). The rounding must be fair and neutral overall, rounding both up and down rather than solely in the employer's favor.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the difference between decimal hours and minutes?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Decimal hours represent time as a fraction of a 60-minute hour (e.g., 30 minutes is 0.5 hours, 45 minutes is 0.75 hours). Timesheets use decimal hours to multiply hours worked by your hourly wage rate.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do I calculate total hours worked for overnight shifts?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To calculate overnight shift hours, find the hours worked before midnight and add them to the hours worked after midnight (e.g., 10:00 PM to 6:00 AM is 2 hours before midnight plus 6 hours after, totaling 8 hours).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Does federal law require rest breaks during a shift?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Federal law does not require rest or meal breaks. However, many states have laws that mandate paid rest breaks and unpaid meal breaks for shifts exceeding a set number of hours.
+          </div>
+        </details>
       </div>
     </section>
 

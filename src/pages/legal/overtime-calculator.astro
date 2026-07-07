@@ -32,18 +32,58 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": "Can employers offer comp time instead of overtime pay?",
+      "name": "Can I negotiate my overtime hours?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "For private-sector employers, offering compensatory time off (comp time) in lieu of overtime pay to non-exempt employees is generally illegal. Overtime must be paid out in monetary wages."
+        "text": "Private-sector employees covered under non-exempt provisions cannot waive their overtime rights. Working overtime requires pay at standard FLSA overtime rate scales."
       }
     },
     {
       "@type": "Question",
-      "name": "How is the regular rate of pay determined?",
+      "name": "Does this tool share my pay information?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The regular rate includes not just your base hourly rate, but also non-discretionary bonuses, commissions, shift differentials, and production incentives divided by the total hours worked in that week."
+        "text": "No. Like all tools on ToolzTotal, our overtime calculator runs completely client-side in your local browser sandbox. None of your rates or hours are uploaded to a server."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between exempt and non-exempt employees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non-exempt employees are covered by FLSA overtime rules and must receive overtime pay for hours worked over 40 in a week. Exempt employees are salaried workers who meet specific duty criteria and are excluded from overtime pay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is overtime calculated for workers with fluctuating schedules?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Overtime is calculated on a workweek basis. Regardless of schedule variations, non-exempt employees must receive time-and-a-half pay for all hours worked over 40 in any single, fixed 7-day period."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does federal law require daily overtime pay after 8 hours?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Federal law does not require daily overtime pay. Overtime is calculated weekly for hours over 40. However, states like California and Alaska require overtime pay after 8 hours of work in a single day, regardless of weekly totals."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do salivary/hourly bonuses count toward my regular rate for overtime calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, non-discretionary bonuses, performance incentives, and commissions must be included in your regular rate of pay before calculating overtime, which raises your overtime hourly rate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can an employer offer comp time instead of cash overtime?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Private-sector employers must pay overtime in cash. Offering compensatory time off ('comp time') in place of overtime pay is generally illegal for private companies, though public sector agencies are sometimes permitted to offer it."
       }
     }
   ]
@@ -226,16 +266,53 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <br />
           In **California**, employers must pay double-time rates for all hours worked past 12 in a single workday, or past 8 hours on the seventh consecutive day of work in a single workweek.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding FLSA Rules on Exempt vs. Non-Exempt Employees</h3>
+        <p>
+          The Fair Labor Standards Act (FLSA) regulates overtime eligibility in the United States. Employees are divided into two classifications: exempt and non-exempt. Non-exempt employees are legally entitled to receive overtime pay (1.5 times their regular hourly rate) for all hours worked over 40 in a workweek. Exempt employees, who are typically salaried professionals, executives, or administrators earning above a set weekly salary threshold, are excluded from overtime protections. Misclassifying non-exempt workers as exempt to avoid paying overtime is a common FLSA violation that can result in significant legal penalties and back-pay requirements.
+        </p>
+        <p>
+          Additionally, regular rate calculations must include non-discretionary bonuses and commissions. If a worker receives an hourly bonus, that bonus must be factored into their base rate before calculating overtime, which is a common calculation error.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Step-by-Step Scenario: Standard Weekly Overtime Math</h3>
+        <p>
+          Let's walk through how overtime is calculated for a standard workweek. Suppose an employee earns a base rate of $20 per hour and works 48 hours in a single week.
+        </p>
+        <p>
+          First, calculate regular earnings for the first 40 hours: <code>40 hours &times; $20 = $800</code>.
+        </p>
+        <p>
+          Next, identify the overtime hours worked: <code>48 total hours - 40 regular hours = 8 overtime hours</code>.
+        </p>
+        <p>
+          Calculate the overtime pay rate (time-and-a-half): <code>$20 &times; 1.5 = $30</code> per hour.
+        </p>
+        <p>
+          Multiply the overtime rate by the overtime hours: <code>8 hours &times; $30 = $240</code>.
+        </p>
+        <p>
+          Sum the regular and overtime pay to find the total gross earnings: <code>$800 + $240 = $1,040</code>. Our overtime calculator handles this math instantly, helping you verify timesheet accuracy.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">State-Level Overtime Guidelines and Daily Overtime Rules</h3>
+        <p>
+          While federal law calculates overtime solely on a weekly basis, several states have established daily overtime rules that provide additional protections. In California, for example, non-exempt employees must receive time-and-a-half pay for hours worked over 8 in a single workday, and double-time pay for hours worked over 12. Additionally, working seven consecutive days in a single workweek triggers overtime requirements for the first 8 hours on the seventh day. Always verify your state's labor laws to ensure compliance.
+        </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Navigating Labor Guidelines and Workplace Agreements</h3>
+        <p>
+          Understanding your legal rights and standard workplace regulations is essential for managing your career and negotiating employment agreements. While employment laws vary significantly across different states, counties, and countries, key standards such as the Fair Labor Standards Act (FLSA) provide a baseline for wage calculations and overtime eligibility. Always review your employment contract and consult with a qualified legal professional or local labor board when addressing specific workplace disputes or severance negotiations.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is FLSA overtime pay calculated?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -243,9 +320,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Under the federal Fair Labor Standards Act (FLSA), overtime pay is calculated as 1.5 times the regular hourly rate for all hours worked past 40 hours in a single workweek.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the double-time pay rule?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -253,9 +330,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Double-time pay is twice the regular hourly rate. Under federal guidelines, it is not required. However, some states like California mandate double-time for hours worked past 12 in a single workday, or past 8 hours on the 7th consecutive workday in a workweek.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the difference between exempt and non-exempt status?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -263,9 +340,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Non-exempt employees are legally protected under the FLSA and must receive overtime pay. Exempt employees are excluded from FLSA overtime protections, typically falling under administrative, professional, executive, or computer job definitions and meeting minimum salary thresholds.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Can I negotiate my overtime hours?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -273,9 +350,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Private-sector employees covered under non-exempt provisions cannot waive their overtime rights. Working overtime requires pay at standard FLSA overtime rate scales.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Does this tool share my pay information?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -283,7 +360,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. Like all tools on ToolzTotal, our overtime calculator runs completely client-side in your local browser sandbox. None of your rates or hours are uploaded to a server.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the difference between exempt and non-exempt employees?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Non-exempt employees are covered by FLSA overtime rules and must receive overtime pay for hours worked over 40 in a week. Exempt employees are salaried workers who meet specific duty criteria and are excluded from overtime pay.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How is overtime calculated for workers with fluctuating schedules?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Overtime is calculated on a workweek basis. Regardless of schedule variations, non-exempt employees must receive time-and-a-half pay for all hours worked over 40 in any single, fixed 7-day period.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Does federal law require daily overtime pay after 8 hours?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Federal law does not require daily overtime pay. Overtime is calculated weekly for hours over 40. However, states like California and Alaska require overtime pay after 8 hours of work in a single day, regardless of weekly totals.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Do salivary/hourly bonuses count toward my regular rate for overtime calculations?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, non-discretionary bonuses, performance incentives, and commissions must be included in your regular rate of pay before calculating overtime, which raises your overtime hourly rate.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can an employer offer comp time instead of cash overtime?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Private-sector employers must pay overtime in cash. Offering compensatory time off ('comp time') in place of overtime pay is generally illegal for private companies, though public sector agencies are sometimes permitted to offer it.
+          </div>
+        </details>
       </div>
     </section>
 

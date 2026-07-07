@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "Yes, severance packages are frequently open to negotiation. Employees can request extensions of health coverage (COBRA assistance), prorated bonuses, outplacement support, or additional weeks of pay in exchange for signing standard releases."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Is severance pay legally required under federal law?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under the Fair Labor Standards Act (FLSA), employers are not legally required to offer severance pay. Severance pay is a matter of agreement between an employer and employee, typically detailed in an employment contract or company handbook."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the WARN Act and how does it relate to severance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Worker Adjustment and Retraining Notification (WARN) Act requires employers with 100+ workers to provide 60 days of notice before mass layoffs. Employers who fail to provide notice must pay workers back pay and benefits for the violation period, which function similarly to severance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are severance package payouts taxable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, severance payments are considered taxable income by the IRS and state tax agencies. They are subject to federal and state income tax, Social Security, and Medicare withholdings, and are reported on your Form W-2."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I negotiate my severance package offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can negotiate your severance offer, especially if you have senior tenure or are asked to sign a release of claims. You can request additional weeks of pay, extended health coverage, or professional outplacement services."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does signing a severance agreement waive my right to unemployment benefits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Signing a severance agreement generally does not waive your right to unemployment benefits. However, some states delay the start of your unemployment payments until the period covered by your severance payout has ended."
+      }
     }
   ]
 };
@@ -239,16 +279,42 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p>
           The federal WARN Act shields employees from sudden job losses. Under the law, employers with **100 or more full-time workers** must provide at least **60 days of advance notice** before executing facility closures or mass layoffs (defined as laying off 50 or more employees). If employers fail to provide this required notice, they are legally liable to pay back wages and benefits for each day of violation up to the 60-day limit.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Federal WARN Act and Notice Guidelines</h3>
+        <p>
+          While severance pay is generally a matter of contract between an employer and employee, federal law can apply during mass layoffs. The Worker Adjustment and Retraining Notification (WARN) Act requires employers with 100 or more full-time employees to provide 60 days of advance written notice before a plant closing or mass layoff. If an employer fails to provide this notice, they are legally required to pay affected workers back pay and benefits for the period of the violation, up to 60 days. In practice, many companies choose to offer severance packages that match or exceed this 60-day requirement in exchange for a release of legal claims.
+        </p>
+        <p>
+          Additionally, several states (including New York, New Jersey, and California) have state-level "mini-WARN" laws that apply to smaller employers and require longer notice periods, making it important to review local guidelines.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Step-by-Step Scenario: Standard Executive Severance Formula</h3>
+        <p>
+          Let's walk through a practical scenario to see how severance packages are calculated. Suppose a senior project manager has worked at a firm for 8 years, earning a base salary of $104,000 per year ($2,000 per week). The company's policy is to offer 2 weeks of severance pay per year of service, up to a maximum of 26 weeks, along with a payout for accrued, unused Paid Time Off (PTO).
+        </p>
+        <p>
+          First, calculate the weeks of severance pay based on tenure: <code>8 years &times; 2 weeks = 16 weeks</code> of pay.
+        </p>
+        <p>
+          Multiply the weeks by weekly salary to find the base severance payout: <code>16 weeks &times; $2,000 = $32,000</code>.
+        </p>
+        <p>
+          Next, add any accrued PTO payout. If the manager has 80 hours (2 weeks) of unused PTO, they are owed an additional <code>2 weeks &times; $2,000 = $4,000</code>, resulting in a total pre-tax payout of $36,000. Our calculator simplifies these calculations, helping you evaluate severance offers.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding COBRA Health Coverage Continuation</h3>
+        <p>
+          A critical component of a severance negotiation is the continuation of health insurance benefits. Under the Consolidated Omnibus Budget Reconciliation Act (COBRA), employees who lose their jobs are entitled to continue their group health coverage for up to 18 months, though they are typically responsible for paying the full premium. When negotiating a severance package, employees can request that the employer subsidize the COBRA premiums for a set period (e.g., 3 to 6 months) to help ease the transition.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is severance pay typically calculated?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -256,9 +322,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Severance pay is usually structured based on your length of employment, commonly offering 1 or 2 weeks of regular weekly salary for every year of service at the organization.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the WARN Act 60-day notice requirement?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -266,9 +332,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The federal Worker Adjustment and Retraining Notification (WARN) Act protects employees by requiring employers with 100 or more full-time workers to provide at least 60 days of advance notice before a plant closing or mass layoff.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Are companies legally required to offer severance pay?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -276,9 +342,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Under federal law (specifically the Fair Labor Standards Act), employers are not required to provide severance pay unless it is stipulated in an employment agreement, union contract, or the company's internal employee handbook.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Is severance pay subject to income taxes?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -286,9 +352,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes. Severance payouts are treated as taxable income by the IRS and state tax agencies. Social Security, Medicare, and standard federal/state income taxes are withheld from these packages.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Can I negotiate my severance package?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -296,7 +362,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes, severance packages are frequently open to negotiation. Employees can request extensions of health coverage (COBRA assistance), prorated bonuses, outplacement support, or additional weeks of pay in exchange for signing standard releases.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Is severance pay legally required under federal law?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Under the Fair Labor Standards Act (FLSA), employers are not legally required to offer severance pay. Severance pay is a matter of agreement between an employer and employee, typically detailed in an employment contract or company handbook.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the WARN Act and how does it relate to severance?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The Worker Adjustment and Retraining Notification (WARN) Act requires employers with 100+ workers to provide 60 days of notice before mass layoffs. Employers who fail to provide notice must pay workers back pay and benefits for the violation period, which function similarly to severance.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Are severance package payouts taxable?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, severance payments are considered taxable income by the IRS and state tax agencies. They are subject to federal and state income tax, Social Security, and Medicare withholdings, and are reported on your Form W-2.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can I negotiate my severance package offer?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, you can negotiate your severance offer, especially if you have senior tenure or are asked to sign a release of claims. You can request additional weeks of pay, extended health coverage, or professional outplacement services.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Does signing a severance agreement waive my right to unemployment benefits?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Signing a severance agreement generally does not waive your right to unemployment benefits. However, some states delay the start of your unemployment payments until the period covered by your severance payout has ended.
+          </div>
+        </details>
       </div>
     </section>
 

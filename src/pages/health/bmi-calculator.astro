@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "Like all tools on ToolzTotal, this calculator operates completely client-side in your local browser sandbox. No details about your weight, height, age, or calculations are ever uploaded, sent to a server, or shared. No account signup is required."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do bodybuilders often have an 'obese' BMI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BMI is calculated using only weight and height, without taking body composition into account. Because muscle is denser and heavier than fat, bodybuilders carry extra weight in the form of muscle, causing their BMI score to fall into the overweight or obese category despite having low body fat."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Waist-to-Height Ratio (WHtR) and how is it used?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Waist-to-Height Ratio (WHtR) is a health metric calculated by dividing your waist circumference by your height. A ratio of 0.50 or less is considered healthy, as it indicates that your waist circumference is less than half your height, which correlates with low abdominal and visceral fat levels."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is BMI accurate for senior citizens or older adults?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BMI can be less accurate for older adults due to age-related muscle loss (sarcopenia) and bone density loss. A senior citizen may have a 'normal' BMI but carry a high proportion of fat relative to muscle, meaning a slightly higher BMI (25-27) is often associated with better health outcomes in older populations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is visceral fat and why does it matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Visceral fat is body fat that is stored inside the abdominal cavity, surrounding internal organs like the liver and pancreas. Unlike subcutaneous fat under the skin, visceral fat is metabolically active and releases inflammatory markers that increase the risk of heart disease, diabetes, and stroke."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can BMI be used to diagnose health issues?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, BMI is a screening tool, not a diagnostic instrument. A high or low BMI indicates a potential risk category, but a healthcare provider must perform additional tests—such as measuring blood pressure, assessing diet, evaluating physical activity, and conducting blood tests—to diagnose a person's actual health status."
+      }
     }
   ]
 };
@@ -259,16 +299,29 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p>
           <strong>Limitations of BMI:</strong> Because the formulas only account for total weight and height, BMI cannot distinguish weight from muscle mass versus body fat. A muscular athlete or weightlifter may have a high BMI that indicates they are overweight, despite having a low body fat percentage. Always pair BMI with other body composition analysis methods, such as circumference measurements, calipers, or bioelectrical impedance, to get a complete picture of your health.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Body Composition Blindspot of BMI</h3>
+        <p>
+          While the Body Mass Index (BMI) is a valuable epidemiological tool for categorizing large populations, it has a significant blindspot: it cannot distinguish between skeletal muscle mass and adipose fat tissue. Because muscle tissue is roughly 18% denser than fat tissue, a highly muscular individual, weightlifter, or professional athlete can have a high body weight relative to their height. As a result, the standard formulas will classify them as "overweight" or "obese," even if they have an extremely low body fat percentage and zero cardiovascular risk. Consequently, BMI should not be used as the sole indicator of health for active individuals.
+        </p>
+        <p>
+          Furthermore, BMI does not account for the distribution of body fat. Visceral fat (fat stored around internal organs in the abdominal area) carries a much higher risk of metabolic syndrome, type 2 diabetes, and heart disease than subcutaneous fat (fat stored directly under the skin, such as in the hips or thighs). A person can have a "normal" BMI score of 22 but still carry dangerous levels of visceral abdominal fat—a clinical condition colloquially known as "skinny fat" or metabolically obese normal weight.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Utilizing Waist-to-Height Ratio (WHtR) as an Alternative</h3>
+        <p>
+          To offset the limitations of standard BMI, clinicians frequently pair height and weight numbers with abdominal measurements, such as the Waist-to-Height Ratio (WHtR) or waist circumference. The general rule of thumb for WHtR is to keep your waist circumference below half of your height (a ratio of 0.50 or less). This measurement focuses specifically on central abdominal fat and serves as a highly reliable predictor of obesity-related health risks, regardless of muscle mass variations.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is BMI and how is it calculated?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -276,9 +329,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             BMI (Body Mass Index) is a simple numerical measure of a person's weight relative to their height. The standard formula is: BMI = weight (kg) / height^2 (m^2). For imperial units, the formula is: BMI = [weight (lbs) * 703] / height^2 (inches^2). BMI is widely used in medical settings to categorize individuals into weight classifications like underweight, normal weight, overweight, or obese.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the difference between BMI, BMI Prime, and Ponderal Index?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -286,9 +339,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Standard BMI is weight divided by height squared. BMI Prime is the ratio of a person's actual BMI to the upper limit of normal BMI (25), where a BMI Prime value between 0.74 and 1.00 is normal. Ponderal Index (PI, or Rohrer's Index) is weight divided by height cubed (weight/height^3). Ponderal Index is often considered more reliable for exceptionally tall or short individuals, as height is cubed to reflect three-dimensional body volume.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What are the weight classifications for BMI ranges?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -296,9 +349,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The World Health Organization (WHO) categories for adult BMI are: Underweight is below 18.5; Normal weight is 18.5 to 24.9; Overweight is 25.0 to 29.9; Obese Class I is 30.0 to 34.9; Obese Class II is 35.0 to 39.9; and Obese Class III (Extreme Obesity) is 40.0 or higher.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Can BMI be misleading for muscular individuals or athletes?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -306,9 +359,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes, BMI does not differentiate between weight from body fat and weight from lean skeletal muscle tissue. Because muscle tissue is much denser than fat tissue, highly muscular individuals, bodybuilders, and athletes may have a high BMI that classifies them as overweight or obese, despite having a very low body fat percentage.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is this BMI calculator private?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -316,7 +369,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Like all tools on ToolzTotal, this calculator operates completely client-side in your local browser sandbox. No details about your weight, height, age, or calculations are ever uploaded, sent to a server, or shared. No account signup is required.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Why do bodybuilders often have an 'obese' BMI?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            BMI is calculated using only weight and height, without taking body composition into account. Because muscle is denser and heavier than fat, bodybuilders carry extra weight in the form of muscle, causing their BMI score to fall into the overweight or obese category despite having low body fat.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the Waist-to-Height Ratio (WHtR) and how is it used?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The Waist-to-Height Ratio (WHtR) is a health metric calculated by dividing your waist circumference by your height. A ratio of 0.50 or less is considered healthy, as it indicates that your waist circumference is less than half your height, which correlates with low abdominal and visceral fat levels.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Is BMI accurate for senior citizens or older adults?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            BMI can be less accurate for older adults due to age-related muscle loss (sarcopenia) and bone density loss. A senior citizen may have a 'normal' BMI but carry a high proportion of fat relative to muscle, meaning a slightly higher BMI (25-27) is often associated with better health outcomes in older populations.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is visceral fat and why does it matter?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Visceral fat is body fat that is stored inside the abdominal cavity, surrounding internal organs like the liver and pancreas. Unlike subcutaneous fat under the skin, visceral fat is metabolically active and releases inflammatory markers that increase the risk of heart disease, diabetes, and stroke.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can BMI be used to diagnose health issues?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, BMI is a screening tool, not a diagnostic instrument. A high or low BMI indicates a potential risk category, but a healthcare provider must perform additional tests—such as measuring blood pressure, assessing diet, evaluating physical activity, and conducting blood tests—to diagnose a person's actual health status.
+          </div>
+        </details>
       </div>
     </section>
 

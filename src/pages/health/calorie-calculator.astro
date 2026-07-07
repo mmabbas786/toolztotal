@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "Yes, entirely private. ToolzTotal operates client-side inside your browser sandbox. None of your physical statistics, age, gender, or target goals are ever sent to a server or stored. You do not need to create an account or sign up to use this tool."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "How does metabolic adaptation affect my calorie needs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Metabolic adaptation is the body's natural response to prolonged calorie restriction, where it lowers its metabolic rate to conserve energy. As you lose weight, you require fewer calories because you have less mass to move, and your hormones shift to make you more efficient at storing energy. This makes periodic adjustments to your calorie targets necessary as your weight changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a refeed day and when should I use it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A refeed day involves temporarily increasing your calorie intake—primarily from carbohydrates—to your calculated maintenance level. Refeed days help boost metabolic rate, replenish depleted muscle glycogen stores, and temporarily increase thyroid and leptin hormones, which can help break weight loss plateaus and improve workout energy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my weight spike after eating high-sodium foods?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sodium causes your body to retain extra water in its cells to maintain proper fluid balance. This water retention can cause a temporary weight increase of 1 to 3 pounds on the scale, but it does not represent an increase in body fat. The extra water weight typically flushes out within 24 to 48 hours as you return to normal sodium and hydration levels."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I estimate calories for home-cooked meals?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To accurately calculate the calories in a home-cooked meal, weigh each raw ingredient using a digital food scale before cooking. Look up the calorie and macronutrient values for each ingredient, sum them up to find the total values for the entire recipe, and then divide by the number of individual servings you create."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to eat fewer calories than my calculated BMR?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Eating below your Basal Metabolic Rate (BMR) is generally not recommended for extended periods unless under direct medical supervision. Your BMR represents the energy your body needs to maintain basic life-sustaining functions like breathing and pumping blood. Restricting calories below this level can lead to muscle loss, nutrient deficiencies, chronic fatigue, and hormonal issues."
+      }
     }
   ]
 };
@@ -297,16 +337,29 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p>
           Macronutrient distribution is also important: <strong>Protein</strong> supports tissue recovery and muscle synthesis (4 kcal per gram); <strong>Carbohydrates</strong> provide glycogen stores for physical energy (4 kcal per gram); and <strong>Fats</strong> regulate hormone synthesis and cellular support (9 kcal per gram). Adjusting these ratios allows you to optimize your nutrition plan.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Metabolic Adaptation and Weight Plateaus</h3>
+        <p>
+          When you maintain a caloric deficit over an extended period, your body undergoes a process called metabolic adaptation (sometimes referred to as adaptive thermogenesis). This is an evolutionary survival mechanism where your basal metabolic rate (BMR) declines slightly to conserve energy. As you lose weight, you also burn fewer calories simply because you have less physical mass to move. This metabolic slowdown is the primary reason individuals encounter weight plateaus, where weight loss stalls despite adhering to a previously successful calorie target. To break through a plateau, it is often helpful to implement brief diet breaks at calorie maintenance or introduce structured refeed days to temporarily boost leptin levels and thyroid hormones.
+        </p>
+        <p>
+          Additionally, tracking your calorie intake is not a perfectly precise science. Packaged food nutrition labels are legally permitted to have up to a 20% margin of error in their reported values. Similarly, restaurant meals often contain hidden fats and oils that can add hundreds of unrecorded calories. To combat these measurement discrepancies, prioritize preparing meals at home, use a digital food scale to weigh ingredients in their raw state, and focus on long-term trends rather than daily calorie adjustments.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Why Daily Scale Weight Fluctuations Can Be Misleading</h3>
+        <p>
+          A common mistake made by individuals tracking their calorie intake is reacting emotionally to daily changes in scale weight. Your weight can fluctuate by several pounds from day to day due to factors entirely unrelated to body fat loss or gain. For instance, consuming a high-sodium meal causes your cells to retain temporary water weight. Similarly, changes in glycogen storage (each gram of glycogen holds about three grams of water) and digestion can temporarily skew the scale. To accurately assess progress, look at rolling weekly weight averages and use secondary metrics such as body measurements, how your clothing fits, and energy levels to guide your adjustments.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is BMR and how does it differ from TDEE?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -314,9 +367,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             BMR (Basal Metabolic Rate) is the minimum number of calories your body needs to perform essential life-sustaining functions—such as breathing, circulation, cell production, and nutrient processing—at rest in a neutral temperature environment. TDEE (Total Daily Energy Expenditure) is the total number of calories you burn per day, calculated by multiplying your BMR by an activity factor that accounts for physical movement, exercise, and the thermic effect of food.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Which formula is used for calculating calorie needs?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -324,9 +377,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             This calculator uses the Mifflin-St Jeor equation, which is widely recognized as the most accurate formula for estimating BMR in modern clinical settings. The formula calculates BMR for men as: 10 * weight (kg) + 6.25 * height (cm) - 5 * age (y) + 5. For women, it is calculated as: 10 * weight (kg) + 6.25 * height (cm) - 5 * age (y) - 161.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is the activity level multiplier determined?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -334,9 +387,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Your activity level multiplier represents physical exertion. We use standard physical activity level (PAL) factors: Sedentary (1.2) for little to no exercise; Lightly Active (1.375) for light exercise 1–3 days/week; Moderately Active (1.55) for moderate exercise 3–5 days/week; Very Active (1.725) for hard exercise 6–7 days/week; and Extra Active (1.9) for very heavy labor, professional sports, or double training sessions.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How many calories should I cut or add to change my weight?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -344,9 +397,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             To lose weight safely (cutting), a daily caloric deficit of 500 calories is generally recommended, which targets roughly 1 pound of fat loss per week. To gain muscle weight (bulking), a surplus of 300 to 500 calories above maintenance is typical to minimize fat gain while supporting protein synthesis. Always monitor your health and energy levels, and make adjustments gradually.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Is my data private when using this calorie calculator?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -354,7 +407,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes, entirely private. ToolzTotal operates client-side inside your browser sandbox. None of your physical statistics, age, gender, or target goals are ever sent to a server or stored. You do not need to create an account or sign up to use this tool.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does metabolic adaptation affect my calorie needs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Metabolic adaptation is the body's natural response to prolonged calorie restriction, where it lowers its metabolic rate to conserve energy. As you lose weight, you require fewer calories because you have less mass to move, and your hormones shift to make you more efficient at storing energy. This makes periodic adjustments to your calorie targets necessary as your weight changes.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is a refeed day and when should I use it?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A refeed day involves temporarily increasing your calorie intake—primarily from carbohydrates—to your calculated maintenance level. Refeed days help boost metabolic rate, replenish depleted muscle glycogen stores, and temporarily increase thyroid and leptin hormones, which can help break weight loss plateaus and improve workout energy.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Why does my weight spike after eating high-sodium foods?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Sodium causes your body to retain extra water in its cells to maintain proper fluid balance. This water retention can cause a temporary weight increase of 1 to 3 pounds on the scale, but it does not represent an increase in body fat. The extra water weight typically flushes out within 24 to 48 hours as you return to normal sodium and hydration levels.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do I estimate calories for home-cooked meals?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To accurately calculate the calories in a home-cooked meal, weigh each raw ingredient using a digital food scale before cooking. Look up the calorie and macronutrient values for each ingredient, sum them up to find the total values for the entire recipe, and then divide by the number of individual servings you create.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Is it safe to eat fewer calories than my calculated BMR?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Eating below your Basal Metabolic Rate (BMR) is generally not recommended for extended periods unless under direct medical supervision. Your BMR represents the energy your body needs to maintain basic life-sustaining functions like breathing and pumping blood. Restricting calories below this level can lead to muscle loss, nutrient deficiencies, chronic fatigue, and hormonal issues.
+          </div>
+        </details>
       </div>
     </section>
 

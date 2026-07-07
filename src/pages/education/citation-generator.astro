@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "No. Like all tools on our site, this citation builder operates completely client-side in your browser. None of your entry fields, research titles, or generated references are uploaded to a server."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Which citation style should I use for my research paper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Choose the style specified by your instructor or publication guidelines. Generally, use MLA for humanities, APA for social sciences and education, and Chicago for history and business papers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a DOI and why is it important in digital citations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Digital Object Identifier (DOI) is a unique, permanent alphanumeric string assigned to digital academic publications. Unlike standard URLs, DOIs remain unchanged even if the publisher moves the document to a new website, ensuring reliable links."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I cite a source with multiple authors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For sources with multiple authors, style guidelines dictate how to list them. For example, MLA lists the first author followed by 'et al.' if there are three or more, while APA lists up to 20 authors in the reference entry."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do if a source has no publication date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If a source has no publication date, use the abbreviation 'n.d.' (meaning 'no date') in place of the year in both your in-text citations and reference list entries."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a URL required in a citation for an online article?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A URL is generally required for online articles if a DOI is not available. It helps readers locate the source, though some instructors may suggest omitting URLs to keep bibliography entries clean."
+      }
     }
   ]
 };
@@ -239,16 +279,50 @@ const faqJsonLd = JSON.stringify(faqSchema);
             <em class="block text-mute font-mono text-xs my-2">Lastname, Firstname. Title of Book. City: Publisher, Year.</em>
           </li>
         </ul>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Comparing Academic Citation Styles: MLA, APA, and Chicago</h3>
+        <p>
+          Different academic disciplines use specific citation styles to credit sources:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>MLA Style (Modern Language Association):</strong> Commonly used in humanities, literature, and art history. MLA citation formatting emphasizes author names and page numbers (e.g., Smith 45) in the text, helping readers locate source material easily.</li>
+          <li><strong>APA Style (American Psychological Association):</strong> Standard for social sciences, psychology, and education. APA format focuses on the author and publication year (e.g., Smith, 2026) to track the currency of the research.</li>
+          <li><strong>Chicago Style (Notes and Bibliography):</strong> Preferred in history and some humanities disciplines. Chicago style uses footnotes or endnotes at the bottom of the page, keeping the main text clean and professional.</li>
+        </ul>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Walkthrough: Citing a Digital Journal Article</h3>
+        <p>
+          Let's walk through how to cite a digital journal article. Suppose you are citing a research paper by Dr. Jane Doe titled "Modern Readability Metrics," published in the *Journal of Writing* in 2026, volume 12, issue 3, pages 45–60, with a DOI link.
+        </p>
+        <p>
+          First, open this generator and select your citation style (e.g., APA). Fill in the source details: Author (Jane Doe), Publication Year (2026), Article Title (Modern Readability Metrics), Journal Title (Journal of Writing), Volume (12), Issue (3), Page Range (45-60), and the DOI.
+        </p>
+        <p>
+          The generator will format the details into a citation for your bibliography: <code>Doe, J. (2026). Modern Readability Metrics. Journal of Writing, 12(3), 45-60. https://doi.org/10.xxxx/xxxxx</code>. Copying and pasting formatted citations simplifies reference list management.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Importance of Plagiarism Prevention in Research</h3>
+        <p>
+          Citing sources accurately is a core requirement of academic integrity. Plagiarism, whether intentional or accidental, can lead to severe academic penalties, including failing grades and disciplinary action. Using a standardized citation format ensures you credit original authors properly, protects your academic standing, and allows readers to trace your research path.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Locating Citation Metadata in Research Papers</h3>
+        <p>
+          When citing academic sources, finding the required metadata can sometimes be challenging. For online journal articles and PDFs, look for the title page or the header/footer of the first page. Publishers typically display the author names, journal title, publication date, volume, issue, and DOI link in these areas. If a DOI is not visible, check the database page or search interface where you originally downloaded the document. Copy-pasting this information directly into our citation builder ensures formatting precision and simplifies reference list creation, allowing you to focus on writing.
+        </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Effective Study Habits and Academic Achievement</h3>
+        <p>
+          Achieving academic success requires structured time management, effective study habits, and continuous self-assessment. By tracking your course grades and GPA periodically, you can identify areas that need improvement and adjust your focus before final exams. Pair mathematical grade projections with active recall and spaced repetition study techniques to maximize retention, reduce exam stress, and reach your target academic goals.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the difference between APA, MLA, and Chicago citation styles?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -256,9 +330,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             APA (American Psychological Association) is used in the social sciences and education. MLA (Modern Language Association) is standard in the humanities and literature. Chicago style is widely preferred in history and fine arts, offering both footnotes and author-date reference options.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Does this generator support automatic ISBN or DOI lookups?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -266,9 +340,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. To remain a lightweight, privacy-first, 100% static site, this citation generator supports manual metadata entry only, bypassing external API network calls.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is an APA 7th edition book citation formatted?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -276,9 +350,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             In APA 7, a book is formatted as: Lastname, F. M. (Year). Title. Publisher. URL (if electronic). The title is italicized and formatted in sentence case.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is an MLA 9th edition book citation formatted?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -286,9 +360,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             In MLA 9, a book is formatted as: Lastname, Firstname. Title. Publisher, Year. The title is italicized and formatted in title case.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Is my research data stored on ToolzTotal?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -296,7 +370,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. Like all tools on our site, this citation builder operates completely client-side in your browser. None of your entry fields, research titles, or generated references are uploaded to a server.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Which citation style should I use for my research paper?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Choose the style specified by your instructor or publication guidelines. Generally, use MLA for humanities, APA for social sciences and education, and Chicago for history and business papers.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is a DOI and why is it important in digital citations?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A Digital Object Identifier (DOI) is a unique, permanent alphanumeric string assigned to digital academic publications. Unlike standard URLs, DOIs remain unchanged even if the publisher moves the document to a new website, ensuring reliable links.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do I cite a source with multiple authors?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For sources with multiple authors, style guidelines dictate how to list them. For example, MLA lists the first author followed by 'et al.' if there are three or more, while APA lists up to 20 authors in the reference entry.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What should I do if a source has no publication date?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            If a source has no publication date, use the abbreviation 'n.d.' (meaning 'no date') in place of the year in both your in-text citations and reference list entries.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Is a URL required in a citation for an online article?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A URL is generally required for online articles if a DOI is not available. It helps readers locate the source, though some instructors may suggest omitting URLs to keep bibliography entries clean.
+          </div>
+        </details>
       </div>
     </section>
 

@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "Yes, completely. Like all tools on ToolzTotal, our final grade calculator operates entirely in your local browser sandbox. None of your coursework, current grades, or targets are uploaded to a server."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the formula for final grade calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The final grade formula is: Required Exam Score = [Target Grade - (Current Grade &times; (1 - Exam Weight))] / Exam Weight, where weights are represented as decimals (e.g., 20% becomes 0.20)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate my final grade if my syllabus uses points instead of weights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For points-based systems, add the points you have earned to your estimated exam points, and divide by the total points possible in the course: Final Grade = (Points Earned + Exam Points) / Total Possible Points."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What exam score do I need if I have a borderline grade?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you have a borderline grade (e.g., 89.5% aiming for an A), use this calculator to find the exact exam score required. A small change in your final exam performance can push you over the threshold."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a zero on a homework assignment affect my overall grade?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A zero affects your grade based on the category's weight. If homework is weighted at 10% of your grade and you miss one assignment out of ten, it will lower your overall course grade by roughly 1%, which is minor but cumulative."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between weighted grades and straight points?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weighted grades calculate your average by grouping assignments into categories that contribute a set percentage to your final grade. Straight points systems sum all points earned and divide by total points possible, treating all points equally."
+      }
     }
   ]
 };
@@ -179,16 +219,43 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <li><strong>90% to 100%:</strong> Challenging. Requires focused studying, as minor mistakes on the final can prevent you from hitting your target grade.</li>
           <li><strong>Over 100%:</strong> Extra credit needed. It is mathematically impossible to reach your target grade with standard scores, meaning that a curved grading scale is required.</li>
         </ul>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Syllabus Weight Distributions</h3>
+        <p>
+          Course syllabi vary in how grades are calculated. Some instructors use a straight points system, where your final grade is simply total points earned divided by total points possible. However, many college and high school courses use a weighted categories system, where different types of assignments contribute a set percentage to your final grade. A standard syllabus weight distribution might look like this: Homework 20%, Quizzes 20%, Midterms 30%, and the Final Exam 30%. Under this system, a single low homework grade has a minor impact, while a poor grade on a heavily weighted final exam can significantly change your overall grade.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Step-by-Step Scenario: Calculating Your Final Exam Target</h3>
+        <p>
+          Let's walk through a practical scenario to find out what grade you need on a final exam. Suppose you have an 84% average in your chemistry class heading into the final exam, and you want to earn a B+ (87%) overall. The final exam is weighted at 25% of your course grade, meaning your current coursework accounts for the remaining 75%.
+        </p>
+        <p>
+          To calculate your target grade, first multiply your current average by its weight: <code>84 &times; 0.75 = 63</code> points. This means you have secured 63 points toward your final grade.
+        </p>
+        <p>
+          To reach 87 points overall, you need to earn 24 more points from the final exam: <code>87 - 63 = 24</code>. Divide these required points by the exam's weight: <code>24 / 0.25 = 96%</code>.
+        </p>
+        <p>
+          The math indicates you must score a 96% on the final exam to achieve an 87% overall in the course. Our calculator handles this math instantly, helping you set study goals and prepare for finals.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Strategies for Borderline Grades</h3>
+        <p>
+          If you are on the borderline between two letter grades (e.g., an 89.4% average and you need a 90% for an A-), calculating your required exam score can help reduce test anxiety. Knowing the exact percentage target allows you to budget your study time across different classes. Sometimes, a high score on the final can pull your grade up, while a lower score can drop it down. Use our calculator to identify which classes require the most focus.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Point-Based Grading Systems vs. Weight-Based Systems</h3>
+        <p>
+          In a point-based grading system, every point is worth the same amount. For example, if a homework assignment is worth 10 points and a midterm is worth 100 points, the midterm has ten times the impact. In a weight-based system, category weights determine the final grade, regardless of how many points are in each category. If homework is weighted at 30% and tests at 70%, the total points in each category are scaled to match those percentages, which is a common point of confusion for students.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is the final exam grade requirement calculated?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -196,9 +263,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The final grade requirement is solved using basic algebra: Required Grade = [Target - Current * (1 - Weight)] / Weight. All weights and grade values are parsed as percentages.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What does a required final exam grade over 100% mean?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -206,9 +273,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             If the solver outputs a required grade exceeding 100%, it means it is mathematically impossible to reach your target grade with standard scores. You would need extra credit assignments or a curve on the final exam.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How does final exam weight affect grade stability?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -216,9 +283,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The higher the weight of the final exam, the more volatile your final grade will be. An exam weighted 30% has triple the impact on your final score compared to an exam weighted 10%, meaning that small drops in your final score can significantly shift your class grade.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Can I calculate my class grade without a final exam?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -226,9 +293,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes. If your course does not have a final exam, you can set the final exam weight to 0%. This will make your current grade equal to your final grade.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Is my academic information private?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -236,7 +303,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes, completely. Like all tools on ToolzTotal, our final grade calculator operates entirely in your local browser sandbox. None of your coursework, current grades, or targets are uploaded to a server.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the formula for final grade calculations?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The final grade formula is: Required Exam Score = [Target Grade - (Current Grade &times; (1 - Exam Weight))] / Exam Weight, where weights are represented as decimals (e.g., 20% becomes 0.20).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do I calculate my final grade if my syllabus uses points instead of weights?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For points-based systems, add the points you have earned to your estimated exam points, and divide by the total points possible in the course: Final Grade = (Points Earned + Exam Points) / Total Possible Points.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What exam score do I need if I have a borderline grade?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            If you have a borderline grade (e.g., 89.5% aiming for an A), use this calculator to find the exact exam score required. A small change in your final exam performance can push you over the threshold.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does a zero on a homework assignment affect my overall grade?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A zero affects your grade based on the category's weight. If homework is weighted at 10% of your grade and you miss one assignment out of ten, it will lower your overall course grade by roughly 1%, which is minor but cumulative.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the difference between weighted grades and straight points?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Weighted grades calculate your average by grouping assignments into categories that contribute a set percentage to your final grade. Straight points systems sum all points earned and divide by total points possible, treating all points equally.
+          </div>
+        </details>
       </div>
     </section>
 

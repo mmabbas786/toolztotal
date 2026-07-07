@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "All case conversions are processed instantly client-side using JavaScript in your browser. None of your text, code snippets, or configuration structures are uploaded to a server."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the capitalization rules for title case?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Title case capitalizes the first letter of nouns, pronouns, verbs, adjectives, and adverbs. Conjunctions, prepositions under four letters, and articles (e.g., 'a', 'an', 'the', 'in', 'of') remain in lowercase unless they are the first or last word."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I use camelCase versus snake_case in development?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "camelCase (e.g., 'myVariableName') is the standard style for naming variables and functions in languages like JavaScript and Java. snake_case (e.g., 'my_database_field') is commonly used for database columns and python scripts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does sentence case handle proper nouns and acronyms?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our sentence case converter capitalizes the first letter of each sentence. It preserves the casing of existing proper nouns and acronyms (like 'Google' or 'NASA') to keep your text grammatically correct."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is kebab-case and why is it preferred for website URLs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "kebab-case (e.g., 'free-online-calculators') replaces spaces with hyphens. It is preferred for website URLs because hyphens are easy to read and search engines treat them as word separators, which is beneficial for SEO."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does case conversion impact how screen readers read text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Screen readers read text in uppercase letter-by-letter as acronyms (e.g., 'U-S-A'). Capitalizing whole paragraphs unnecessarily can cause screen readers to read the text phonetically or spell out each word, which degrades accessibility."
+      }
     }
   ]
 };
@@ -175,16 +215,48 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <li><strong>kebab-case (CSS classes, HTML attributes, URL paths):</strong> Uses hyphens to connect words, improving readability for search crawlers (e.g. `meta-tag-generator`).</li>
           <li><strong>SCREAMING_SNAKE_CASE (Global constants):</strong> Capitalizes all letters and joins words using underscores (e.g. `MAX_RATE_LIMIT`).</li>
         </ul>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Case Conventions in Development and Writing</h3>
+        <p>
+          Different industries and formats use specific capitalization styles to organize information:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Title Case:</strong> Capitalizes the first letter of most words. Used for article titles, book headers, and marketing campaigns.</li>
+          <li><strong>camelCase:</strong> Capitalizes the first letter of each word except the first. The standard naming convention for variables in JavaScript, Java, and C++.</li>
+          <li><strong>snake_case:</strong> Joins lowercase words with underscores. Commonly used for database column names and python variables.</li>
+          <li><strong>kebab-case:</strong> Joins lowercase words with hyphens. The standard format for website URLs and CSS class selectors.</li>
+        </ul>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Walkthrough: Formatting Title Case Headers</h3>
+        <p>
+          Let's walk through how to format a title case header correctly. Title case rules can be confusing because style guides (like AP, Chicago, or MLA) differ on which words to capitalize.
+        </p>
+        <p>
+          Suppose you want to convert the header: <code>how to write a book in a weekend</code>. Paste this text into our editor and select Title Case. The converter will capitalize the main nouns and verbs while keeping minor prepositions, coordinating conjunctions, and articles ('to', 'a', 'in') in lowercase, giving you a perfectly formatted title: <code>How to Write a Book in a Weekend</code>.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Formatting Rules for Sentence Case</h3>
+        <p>
+          Sentence case is the capitalization standard for body text, essays, and web articles. It involves capitalizing the first letter of each sentence while keeping proper nouns and acronyms (like 'London' or 'NASA') capitalized. Using sentence case makes long blocks of text easier to read compared to capitalizing every word or using block letters. Our converter preserves proper nouns while adjusting the rest of the text, helping you format text quickly.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Programming Conventions for Case Transformations</h3>
+        <p>
+          In software engineering, consistency in naming conventions is critical for codebase organization. When translating raw text or API payloads into variable names, developers convert characters into styles like camelCase or snake_case. This tool offers quick, client-side case conversion that runs locally in your browser, protecting your code assets and variable names from external server logs.
+        </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Importance of Clear Writing in Digital Communication</h3>
+        <p>
+          In today's fast-paced digital environment, clear and concise communication is essential for engaging your audience and conveying your message effectively. Whether you are drafting a blog post, a social media update, an email newsletter, or an academic essay, keeping your text clean, structured, and easy to read improves accessibility and user retention. Use formatting elements like headers and bulleted lists to break up long blocks of text, helping your readers parse key information quickly.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is camelCase and where is it used?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -192,9 +264,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             camelCase is a casing convention where words are joined without spaces, and each word starts with a capital letter except for the first word (e.g. 'myVariableName'). It is widely used in languages like JavaScript, Java, and C++ for variable and function names.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is snake_case and where is it preferred?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -202,9 +274,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             snake_case joins words together using underscores instead of spaces, with all letters in lowercase (e.g. 'my_variable_name'). It is the standard naming convention for variables, functions, and files in Python and Rust, as well as database keys.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How does kebab-case differ from snake_case?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -212,9 +284,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             kebab-case replaces spaces with hyphens instead of underscores (e.g. 'my-style-class'). It is commonly used in CSS class naming, HTML tags, and URL slugs because search engines parse hyphens as word delimiters.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is PascalCase and when should I use it?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -222,9 +294,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             PascalCase is similar to camelCase, but the first letter of the first word is capitalized (e.g. 'MyClassName'). It is the standard naming convention for class names and component identifiers in modern programming frameworks.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is my text conversion privacy maintained?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -232,7 +304,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             All case conversions are processed instantly client-side using JavaScript in your browser. None of your text, code snippets, or configuration structures are uploaded to a server.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What are the capitalization rules for title case?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Title case capitalizes the first letter of nouns, pronouns, verbs, adjectives, and adverbs. Conjunctions, prepositions under four letters, and articles (e.g., 'a', 'an', 'the', 'in', 'of') remain in lowercase unless they are the first or last word.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            When should I use camelCase versus snake_case in development?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            camelCase (e.g., 'myVariableName') is the standard style for naming variables and functions in languages like JavaScript and Java. snake_case (e.g., 'my_database_field') is commonly used for database columns and python scripts.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does sentence case handle proper nouns and acronyms?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Our sentence case converter capitalizes the first letter of each sentence. It preserves the casing of existing proper nouns and acronyms (like 'Google' or 'NASA') to keep your text grammatically correct.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is kebab-case and why is it preferred for website URLs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            kebab-case (e.g., 'free-online-calculators') replaces spaces with hyphens. It is preferred for website URLs because hyphens are easy to read and search engines treat them as word separators, which is beneficial for SEO.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Does case conversion impact how screen readers read text?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes. Screen readers read text in uppercase letter-by-letter as acronyms (e.g., 'U-S-A'). Capitalizing whole paragraphs unnecessarily can cause screen readers to read the text phonetically or spell out each word, which degrades accessibility.
+          </div>
+        </details>
       </div>
     </section>
 

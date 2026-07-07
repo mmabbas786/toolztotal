@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "No. Like all tools on ToolzTotal, our grade calculator runs entirely client-side using JavaScript in your web browser. None of your data is uploaded, saved, or shared."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate my grade if some categories are not yet graded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To calculate your grade with incomplete categories, sum the weights of the categories you have completed, multiply each average by its weight, sum the results, and divide by the total weight completed: Grade = (Sum of Weighted Grades) / (Sum of Completed Weights)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a weighted grade system and how does it function?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A weighted grade system divides your final grade into categories that contribute a set percentage to your overall average. This means a test category weighted at 40% has a larger impact on your grade than a homework category weighted at 10%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does an extra credit assignment affect my course grade?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Extra credit increases your grade based on how it is applied. If it adds points directly to your overall percentage, it raises your grade by that amount. If it adds points to a specific category, it will raise that category's average based on its weight."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some schools use a plus/minus grading scale?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Plus/minus grading scales provide a more detailed view of student performance, helping distinguish between high, average, and low scores within a letter grade range and mapping them to specific GPA values."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert my percentage grade to a 4.0 GPA scale?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, percentage grades are converted to a 4.0 scale by mapping them to their corresponding letter grade values (e.g., 93-100% is an A or 4.0; 90-92% is an A- or 3.7; 87-89% is a B+ or 3.3)."
+      }
     }
   ]
 };
@@ -139,7 +179,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
     </div>
 
     <!-- Article Content -->
-    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16 print:hidden">
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Understanding Category Weighting: How to Solve Class Grades</h2>
       <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
         <p>
@@ -169,16 +209,49 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <strong class="block my-2 text-center text-ink font-mono text-xs">Normalized Grade = Sum of (Score &times; Weight) / Sum of Weights</strong>
           This assumes that future ungraded coursework will not penalize your current class standing.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Letter Grade Scale Systems and GPA Equivalencies</h3>
+        <p>
+          When you calculate your course grades, the final percentage is typically mapped to a letter grade based on your school's grading scale. The standard scale in the United States maps a 90-100% to an A, 80-89% to a B, 70-79% to a C, 60-69% to a D, and below 60% to an F. Many schools use a plus/minus grading system (e.g., a B+ is 87-89%, a B is 83-86%, and a B- is 80-82%), which provides a more granular view of performance. These letter grades are then converted to grade points (such as 4.0 for an A, 3.0 for a B) to calculate your cumulative GPA.
+        </p>
+        <p>
+          Understanding how percentages translate to letter grades is essential when planning course selections and tracking graduation requirements.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Step-by-Step Scenario: Calculating a Weighted Course Grade</h3>
+        <p>
+          Let's walk through how to calculate a weighted course grade using a standard syllabus rubric. Suppose your class has three categories: Homework (weighted at 25%), Projects (weighted at 35%), and Exams (weighted at 40%). Your current averages in these categories are 92% in Homework, 88% in Projects, and 82% in Exams.
+        </p>
+        <p>
+          To find your overall grade, multiply each category average by its weight and sum the results:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Homework Contribution:</strong> <code>92% &times; 0.25 = 23.00%</code>.</li>
+          <li><strong>Projects Contribution:</strong> <code>88% &times; 0.35 = 30.80%</code>.</li>
+          <li><strong>Exams Contribution:</strong> <code>82% &times; 0.40 = 32.80%</code>.</li>
+        </ul>
+        <p>
+          Sum these values: <code>23.00% + 30.80% + 32.80% = 86.60%</code>. Your final weighted grade in the course is 86.60%, which corresponds to a B letter grade.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Standardizing High School vs. College Grading Scales</h3>
+        <p>
+          Grading policies can vary between high schools and universities. While most high schools use a flat 10-point scale (90% for an A, 80% for a B), colleges often give professors the freedom to set their own grading curves. A professor might determine that a 75% represents an A grade if the exam material is exceptionally difficult. Using our calculator to track your raw percentages and category averages helps you adjust to different grading curves and monitor your progress.
+        </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Effective Study Habits and Academic Achievement</h3>
+        <p>
+          Achieving academic success requires structured time management, effective study habits, and continuous self-assessment. By tracking your course grades and GPA periodically, you can identify areas that need improvement and adjust your focus before final exams. Pair mathematical grade projections with active recall and spaced repetition study techniques to maximize retention, reduce exam stress, and reach your target academic goals.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
-    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline print:hidden" aria-label="Frequently Asked Questions">
+    
+    <!-- FAQ Section -->
+    <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is a weighted class grade calculated?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -186,9 +259,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             A weighted class grade is calculated by multiplying each category score by its decimal weight (e.g., 20% weight is 0.20) and summing the results: Final Grade = Sum of (Category Average * Category Weight). If the weights do not add up to 100%, the result is normalized by dividing by the sum of the weights.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What happens if my categories do not add up to 100%?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -196,9 +269,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             If your category weights do not sum to 100% (e.g. mid-semester where some exams haven't occurred), our calculator automatically normalizes your grade by dividing the weighted sum by the sum of the weights of the categories you have entered so far.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the difference between a simple average and a weighted average grade?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -206,9 +279,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             A simple average treats every assignment identically. A weighted average assigns varying weights to different categories (e.g., a final exam might count for 40% of your grade, while homework counts for 10%), meaning that performance in heavily weighted categories has a much larger impact.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How do I calculate what I need on remaining tasks?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -216,9 +289,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             You can calculate required future grades by using our final grade planner or entering a placeholder category for 'Remaining Work' with the residual weight to see how different scores affect your final average.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Does this tool store my grades?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -226,7 +299,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No. Like all tools on ToolzTotal, our grade calculator runs entirely client-side using JavaScript in your web browser. None of your data is uploaded, saved, or shared.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do I calculate my grade if some categories are not yet graded?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            To calculate your grade with incomplete categories, sum the weights of the categories you have completed, multiply each average by its weight, sum the results, and divide by the total weight completed: Grade = (Sum of Weighted Grades) / (Sum of Completed Weights).
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is a weighted grade system and how does it function?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            A weighted grade system divides your final grade into categories that contribute a set percentage to your overall average. This means a test category weighted at 40% has a larger impact on your grade than a homework category weighted at 10%.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does an extra credit assignment affect my course grade?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Extra credit increases your grade based on how it is applied. If it adds points directly to your overall percentage, it raises your grade by that amount. If it adds points to a specific category, it will raise that category's average based on its weight.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Why do some schools use a plus/minus grading scale?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Plus/minus grading scales provide a more detailed view of student performance, helping distinguish between high, average, and low scores within a letter grade range and mapping them to specific GPA values.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can I convert my percentage grade to a 4.0 GPA scale?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, percentage grades are converted to a 4.0 scale by mapping them to their corresponding letter grade values (e.g., 93-100% is an A or 4.0; 90-92% is an A- or 3.7; 87-89% is a B+ or 3.3).
+          </div>
+        </details>
       </div>
     </section>
 

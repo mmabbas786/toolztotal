@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "While tracking calories is the primary driver of weight loss or weight gain, tracking macros is essential for optimizing body composition (the ratio of fat to muscle). Eating enough protein is critical for preserving muscle mass during weight loss or building it during weight gain, while carbohydrates and fats are adjusted based on your performance, training intensity, and dietary preferences."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I track my macros raw or cooked?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You should track your food raw whenever possible. Cooking alters the water weight of food—grains absorb water and expand, while meats lose water and shrink. Weighing ingredients raw provides the most accurate and consistent database match."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is eating too little fat dangerous for hormonal health?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dietary fats are the building blocks for hormone synthesis, including testosterone, estrogen, and progesterone. Restricting fat intake below 15-20% of your daily calories can disrupt hormone production, leading to reproductive issues, mood swings, fatigue, and poor recovery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate macros for restaurant meals?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For restaurant meals without published nutrition facts, look up the individual components of the meal (e.g., grilled steak, baked potato, cooked vegetables) in a database. Add a buffer of 1 to 2 tablespoons of oil or butter, as professional kitchens use fats generously for cooking and flavor."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I build muscle if I don't hit my exact protein goal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you can still build muscle as long as your overall daily protein intake is consistently high enough (around 1.6 to 2.2 grams per kilogram of body weight) and you are in a caloric surplus with progressive resistance training. Missing your exact protein target by a few grams will not ruin your progress."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are 'net carbs' and how do they differ from total carbs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Net carbohydrates are the digestible carbohydrates that your body absorbs and converts into energy. You calculate net carbs by subtracting dietary fiber and sugar alcohols (which do not raise blood sugar significantly) from total carbohydrates: Net Carbs = Total Carbs - Fiber - Sugar Alcohols."
+      }
     }
   ]
 };
@@ -283,16 +323,29 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p>
           Our macro calculator allows you to manually adjust ratios using sliders. When adjusting percentages, ensure the total sum equals exactly 100%. Avoid extreme low-protein or low-fat distributions (less than 15% fat) for long periods to protect hormonal health, skin integrity, and cell function. Protein targets should generally range between 1.6 to 2.2 grams per kilogram of body weight (0.8 to 1.0 grams per pound) for physically active individuals.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Danger of Extremely Low Fat Ratios</h3>
+        <p>
+          While adjusting your daily macronutrients to fit specific athletic or body composition goals, it is crucial to avoid reducing your fat intake too drastically. Dietary fats are not just a concentrated energy source; they are essential for regulating key hormones, maintaining cellular membrane structure, and facilitating the absorption of fat-soluble vitamins (A, D, E, and K). An extremely low-fat diet (consistently below 15-20% of total calories) can lead to diminished testosterone production in men, disrupted menstrual cycles in women, poor skin health, and systemic vitamin deficiencies. Always ensure you consume a baseline of healthy fats from sources like olive oil, avocados, nuts, and fish.
+        </p>
+        <p>
+          Another common pitfall in macro tracking is failing to account for dietary fiber. Fiber is a type of carbohydrate that your body cannot digest, meaning it passes through your system without contributing full caloric energy. When tracking carbs, some people focus on "total carbs" while others use "net carbs" (total carbs minus fiber). Choosing a method and remaining consistent is key to tracking accuracy, especially on low-carbohydrate or ketogenic protocols.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Importance of Tracking Raw vs. Cooked Weights</h3>
+        <p>
+          To maintain high precision in your macro tracking, always weigh your food in its raw state whenever possible. Water content changes significantly during the cooking process; for instance, grains like rice and pasta absorb water and gain weight, whereas meats lose moisture and shrink in size. A 100-gram chicken breast weighed raw has a completely different macronutrient profile than a 100-gram chicken breast weighed after grilling. If you must weigh food after it is cooked, ensure you use a database entry specifically labeled for the cooked version of that food item.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What are macronutrients and why do they matter?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -300,9 +353,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Macronutrients, or macros, are the primary nutrients your body needs in large quantities to function: protein, carbohydrates, and fats. They provide the energy (measured in calories) your body needs for daily activities and structural repair. Each macro has a specific role: protein repairs tissues and supports muscle growth; carbohydrates supply quick energy for physical and cognitive tasks; and fats support hormone production, vitamin absorption, and cell health.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How many calories are in a gram of protein, carbs, and fat?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -310,9 +363,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The calorie values per gram of macronutrient are: Protein contains 4 calories per gram; Carbohydrates contain 4 calories per gram; and Fats contain 9 calories per gram. Because fat is more than twice as calorie-dense as protein and carbs, even small portions of dietary fat can quickly increase total daily calorie intake.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is a good macro ratio for weight loss?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -320,9 +373,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             For weight loss (cutting), a typical high-protein, moderate-carb macro ratio is recommended, such as 40% Protein, 30% Carbohydrates, and 30% Fats. Higher protein levels help preserve lean muscle tissue while in a caloric deficit, and also increase satiety (feeling full), which makes sticking to a calorie goal easier.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the difference between a high-protein and a keto macro split?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -330,9 +383,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             A standard high-protein athletic split typically allocates 35%–40% of calories to protein, 30%–35% to carbs, and 30% to fat. A ketogenic (Keto) split, however, focuses on putting the body into a state of ketosis by restricting carbohydrates severely: allocating roughly 70%–75% of calories to fat, 20%–25% to protein, and only 5% to carbohydrates.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Do I need to track macros to achieve my fitness goals?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -340,7 +393,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             While tracking calories is the primary driver of weight loss or weight gain, tracking macros is essential for optimizing body composition (the ratio of fat to muscle). Eating enough protein is critical for preserving muscle mass during weight loss or building it during weight gain, while carbohydrates and fats are adjusted based on your performance, training intensity, and dietary preferences.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Should I track my macros raw or cooked?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            You should track your food raw whenever possible. Cooking alters the water weight of food—grains absorb water and expand, while meats lose water and shrink. Weighing ingredients raw provides the most accurate and consistent database match.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Why is eating too little fat dangerous for hormonal health?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Dietary fats are the building blocks for hormone synthesis, including testosterone, estrogen, and progesterone. Restricting fat intake below 15-20% of your daily calories can disrupt hormone production, leading to reproductive issues, mood swings, fatigue, and poor recovery.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do I calculate macros for restaurant meals?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            For restaurant meals without published nutrition facts, look up the individual components of the meal (e.g., grilled steak, baked potato, cooked vegetables) in a database. Add a buffer of 1 to 2 tablespoons of oil or butter, as professional kitchens use fats generously for cooking and flavor.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can I build muscle if I don't hit my exact protein goal?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, you can still build muscle as long as your overall daily protein intake is consistently high enough (around 1.6 to 2.2 grams per kilogram of body weight) and you are in a caloric surplus with progressive resistance training. Missing your exact protein target by a few grams will not ruin your progress.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What are 'net carbs' and how do they differ from total carbs?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Net carbohydrates are the digestible carbohydrates that your body absorbs and converts into energy. You calculate net carbs by subtracting dietary fiber and sugar alcohols (which do not raise blood sugar significantly) from total carbohydrates: Net Carbs = Total Carbs - Fiber - Sugar Alcohols.
+          </div>
+        </details>
       </div>
     </section>
 

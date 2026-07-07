@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "Yes, completely private. This tool operates 100% client-side inside your local browser. No inputs or scores are transmitted to a server or stored."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the four types of words analyzed in headlines?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Headlines are analyzed using four word classifications: Common words (provide structure), Uncommon words (add interest), Emotional words (trigger curiosity or anticipation), and Power words (compel action, such as 'proven', 'secret', or 'instant')."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the curiosity gap work in headline writing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The curiosity gap is a copywriting technique that provides enough information to pique interest but holds back the resolution, encouraging the reader to click and read the content to find the answer (e.g., 'This Simple Habit Can Double Your Productivity')."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the optimal length for a blog post headline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The recommended length is between 50 and 60 characters, or about 6 to 8 words. This ensures the headline is descriptive enough to encourage clicks while remaining short enough to display fully in search engine result pages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do question headlines perform compared to statements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Question headlines perform well when they target a specific query the reader is actively asking. They engage the reader's curiosity directly, though statements that promise a clear, immediate solution can sometimes yield higher click rates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should headlines always contain a target keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, including a target keyword in your headline is essential for search engine optimization (SEO). Placing the keyword near the beginning of the headline helps search engines identify the page topic quickly and improves organic search relevance."
+      }
     }
   ]
 };
@@ -244,16 +284,36 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <li><strong>YouTube Videos:</strong> Keep titles under 70 characters. Long titles are truncated in feed grids, hiding your value hook.</li>
           <li><strong>Social Media (X/Facebook):</strong> Keep titles around 100 characters to allow room for commentary.</li>
         </ul>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Psychology of Clickable Headline Writing</h3>
+        <p>
+          Crafting a great headline is about balancing search relevance and human curiosity. A headline that is written solely for search engine bots will look dry and fail to get clicks from human readers. Conversely, a headline that uses clickbait formatting might get initial clicks but will increase bounce rates if the content does not deliver on the promise. The best headlines address a specific problem, offer a clear benefit, and use a blend of word types to capture attention.
+        </p>
+        <p>
+          According to click data, list-style headlines (e.g., "10 Ways to...") and question headlines ("Why does...") consistently perform well. They set clear expectations for the reader and create a curiosity gap that encourages them to click and find the answer.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Walkthrough: Refining a Headline for Maximum Impact</h3>
+        <p>
+          Let's walk through how to refine a headline to improve its analysis score. Suppose your initial headline is: <code>How to Write Blog Posts for Your Website</code>. This headline is clear but lacks emotional appeal and sensory engagement.
+        </p>
+        <p>
+          First, add an emotional or descriptive adjective: <code>How to Write Engaging Blog Posts for Your Website</code>. Next, refine the focus to target a specific benefit or solution: <code>How to Write Engaging Blog Posts That Rank on Google</code>. Finally, add a power word or numbers: <code>10 Simple Steps to Write Engaging Blog Posts That Rank</code>. This version balances informative keywords with strong copy, resulting in a higher score on the analysis dashboard.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Power of Numbers and Specificity in Headlines</h3>
+        <p>
+          Using specific numbers in headlines (e.g. '10 tips' vs 'tips') has been shown to increase CTR by up to 36%. Numbers provide a clear promise of structured, easy-to-read content. When writing listicles, use odd numbers (like 7, 9, or 11) as they are perceived as more organic and credible than rounded numbers. Combining a clear number with a compelling adjective creates a balanced, high-performing headline.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is an Emotional Marketing Value (EMV) score?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -261,9 +321,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The Emotional Marketing Value (EMV) score is a metric developed by the Advanced Marketing Institute to assess the emotional impact of a headline. It measures the ratio of emotional words to total words. A score between 30% and 50% is considered highly effective, while exceptional headlines exceed 50%.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What are power words and why should I use them in headlines?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -271,9 +331,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Power words are trigger words that evoke strong psychological responses (curiosity, excitement, reassurance, or urgency). Examples include 'ultimate', 'guaranteed', 'proven', and 'revealed'. Incorporating power words can improve click-through rates (CTR) by making headlines feel compelling.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How does sentiment affect headline performance?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -281,9 +341,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Headlines with strong positive or negative sentiment generally outperform neutral headlines. Positive headlines offer solutions or benefits (e.g. 'proven way to save money'), while negative headlines address pain points or fears (e.g. 'mistakes to avoid'). Matching sentiment to your audience's intent is key.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What is the recommended length for blog post and YouTube headlines?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -291,9 +351,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Recommended headline lengths vary by channel: Blog post headlines are ideal between 50 and 60 characters to fit search results; YouTube titles should be kept under 70 characters to display fully in search feeds; and social media headlines can range from 100 to 120 characters.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Are my headlines private when using this analyzer?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -301,7 +361,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             Yes, completely private. This tool operates 100% client-side inside your local browser. No inputs or scores are transmitted to a server or stored.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What are the four types of words analyzed in headlines?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Headlines are analyzed using four word classifications: Common words (provide structure), Uncommon words (add interest), Emotional words (trigger curiosity or anticipation), and Power words (compel action, such as 'proven', 'secret', or 'instant').
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How does the curiosity gap work in headline writing?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The curiosity gap is a copywriting technique that provides enough information to pique interest but holds back the resolution, encouraging the reader to click and read the content to find the answer (e.g., 'This Simple Habit Can Double Your Productivity').
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the optimal length for a blog post headline?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            The recommended length is between 50 and 60 characters, or about 6 to 8 words. This ensures the headline is descriptive enough to encourage clicks while remaining short enough to display fully in search engine result pages.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do question headlines perform compared to statements?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Question headlines perform well when they target a specific query the reader is actively asking. They engage the reader's curiosity directly, though statements that promise a clear, immediate solution can sometimes yield higher click rates.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Should headlines always contain a target keyword?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Yes, including a target keyword in your headline is essential for search engine optimization (SEO). Placing the keyword near the beginning of the headline helps search engines identify the page topic quickly and improves organic search relevance.
+          </div>
+        </details>
       </div>
     </section>
 

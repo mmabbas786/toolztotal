@@ -45,6 +45,46 @@ const faqSchema = {
         "@type": "Answer",
         "text": "All parameters, links, and QR codes are processed client-side inside your local browser. ToolzTotal never stores, logs, or uploads your URLs to a server, keeping your campaign links, product structure, and analytics strategies completely private."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Why should UTM parameters always be written in lowercase?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Analytics tools like Google Analytics are case-sensitive. If you use 'email' for one link and 'Email' or 'EMAIL' for another, your analytics tool will report them as separate channels, fragmenting your campaign reports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do spaces and special characters behave in UTM links?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Spaces and special characters are URL-encoded by web browsers (e.g., a space becomes '%20'). This makes your URLs look cluttered and can occasionally break tracking scripts. Always use hyphens or underscores instead of spaces in your UTM parameters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between utm_term and utm_content?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "utm_term is primarily used for search campaigns to track the specific keyword that triggered an ad. utm_content is used to differentiate similar links pointing to the same URL, such as testing two different banner designs (e.g., 'blue_button' vs 'red_button') in the same email."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use UTM tags for internal links on my own website?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, you should never use UTM tags for internal links on your own site. Clicking an internal UTM link overwrites the user's original external referral data, creating a new session and falsifying your traffic source attribution reports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can UTM codes affect my search engine ranking (SEO)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "UTM codes do not directly affect SEO or search rankings. However, to prevent duplicate content indexing when other sites copy and paste links with UTM tags, always include a proper canonical link on your target pages pointing to the clean URL."
+      }
     }
   ]
 };
@@ -268,16 +308,38 @@ const faqJsonLd = JSON.stringify(faqSchema);
           <li><strong>Never Use UTMs for Internal Links:</strong> Only use UTM parameters for external inbound links. Appending UTM tags to internal menus or footer links reset the user session, inflating visitor counts and disrupting attribution models.</li>
           <li><strong>Ensure Canonical URL Consistency:</strong> Ensure your website implements self-referring `<link rel="canonical">` tags on target pages. This ensures that search engine crawlers ignore the parameter-heavy UTM tags and index only the clean, original page.</li>
         </ul>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Walkthrough: Mapping a Multi-Channel Marketing Campaign</h3>
+        <p>
+          To understand how UTM tracking works in practice, let's walk through a concrete scenario. Suppose your company is launching a summer sale for a new product, and you plan to promote it across three channels: an email newsletter, a sponsored LinkedIn post, and a banner ad on a partner blog. By using UTM parameters, you can generate unique URLs for each channel to identify exactly where your sales are originating:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-body font-sans">
+          <li><strong>Email Newsletter:</strong> Set source to <code>newsletter</code>, medium to <code>email</code>, and campaign to <code>summer_sale_2026</code>. Your final link will be: <code>https://yourdomain.com/product?utm_source=newsletter&utm_medium=email&utm_campaign=summer_sale_2026</code>.</li>
+          <li><strong>LinkedIn Sponsored Post:</strong> Set source to <code>linkedin</code>, medium to <code>cpc</code>, and campaign to <code>summer_sale_2026</code>.</li>
+          <li><strong>Partner Blog Banner:</strong> Set source to <code>partner_blog</code>, medium to <code>banner</code>, and campaign to <code>summer_sale_2026</code>.</li>
+        </ul>
+        <p>
+          When users click these links, your analytics tool (such as Google Analytics) will capture these tags. If you receive 100 sales from the <code>summer_sale_2026</code> campaign, you can filter by source and medium to see if email or LinkedIn generated the highest return on investment (ROI).
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Preventing Traffic Attribution Fragmentation</h3>
+        <p>
+          A common mistake that ruins marketing data is inconsistent UTM formatting. Analytics platforms are case-sensitive, meaning they treat <code>newsletter</code>, <code>Newsletter</code>, and <code>NEWSLETTER</code> as three completely separate traffic sources. If different team members use different casings, your traffic data will fragment, making it difficult to analyze overall performance. To prevent this, establish a strict UTM naming convention: always use lowercase characters, replace spaces with underscores or hyphens, and maintain a central spreadsheet log of all generated UTM links.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Best Practices for Social Sharing and Link Redirection</h3>
+        <p>
+          When sharing links on social platforms like X or LinkedIn, extremely long URLs containing UTM tags can look unappealing and discourage clicks. To solve this, pair your UTM links with a reliable link shortener (like Bitly or a branded custom shortdomain) or use the platform's native link display card. Additionally, verify that any redirect rules on your website preserve URL parameters; if a server redirects <code>http</code> to <code>https</code> but strips query parameters, your tracking data will be lost.
+        </p>
       </div>
     </article>
 
     <!-- FAQ Section -->
+    
+    <!-- FAQ Section -->
     <section class="max-w-4xl pt-16 mt-20 border-t border-hairline" aria-label="Frequently Asked Questions">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What are UTM parameters and why are they used?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -285,9 +347,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             UTM (Urchin Tracking Module) parameters are five simple text tags you add to the end of a URL. When a user clicks your link, these tags are sent back to your analytics software (like Google Analytics 4) to track the exact source, medium, and campaign name that referred the visitor, helping you measure marketing ROI.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             What are the five main UTM parameters?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -295,9 +357,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             The five standard UTM parameters are: 1. utm_source (describes the platform/referrer, e.g. 'newsletter'); 2. utm_medium (describes the channel/marketing medium, e.g. 'email'); 3. utm_campaign (describes the specific campaign, e.g. 'summer_sale'); 4. utm_term (describes paid keywords); and 5. utm_content (differentiates similar links/ads within a single campaign).
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Do UTM parameters affect search engine SEO rankings?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -305,9 +367,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             No, UTM parameters do not directly affect SEO rankings. However, to prevent search engines from indexing duplicate versions of your pages with UTM strings, you should ensure that your site implements self-referential canonical tags, which direct crawl bots to index only the clean, parameter-free URL.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             Should UTM tags be lowercase or uppercase?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -315,9 +377,9 @@ const faqJsonLd = JSON.stringify(faqSchema);
             UTM parameters are case-sensitive. Analytics tools like Google Analytics treat 'Email' and 'email' as two separate traffic mediums. It is highly recommended to always use lowercase letters for all UTM values to maintain consistent reporting and clean data.
           </div>
         </details>
-
+      
         <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
             How is this UTM builder privacy-first?
             <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
           </summary>
@@ -325,7 +387,56 @@ const faqJsonLd = JSON.stringify(faqSchema);
             All parameters, links, and QR codes are processed client-side inside your local browser. ToolzTotal never stores, logs, or uploads your URLs to a server, keeping your campaign links, product structure, and analytics strategies completely private.
           </div>
         </details>
-
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Why should UTM parameters always be written in lowercase?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Analytics tools like Google Analytics are case-sensitive. If you use 'email' for one link and 'Email' or 'EMAIL' for another, your analytics tool will report them as separate channels, fragmenting your campaign reports.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            How do spaces and special characters behave in UTM links?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            Spaces and special characters are URL-encoded by web browsers (e.g., a space becomes '%20'). This makes your URLs look cluttered and can occasionally break tracking scripts. Always use hyphens or underscores instead of spaces in your UTM parameters.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            What is the difference between utm_term and utm_content?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            utm_term is primarily used for search campaigns to track the specific keyword that triggered an ad. utm_content is used to differentiate similar links pointing to the same URL, such as testing two different banner designs (e.g., 'blue_button' vs 'red_button') in the same email.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Should I use UTM tags for internal links on my own website?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            No, you should never use UTM tags for internal links on your own site. Clicking an internal UTM link overwrites the user's original external referral data, creating a new session and falsifying your traffic source attribution reports.
+          </div>
+        </details>
+      
+        <details class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 group">
+          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors select-none">
+            Can UTM codes affect my search engine ranking (SEO)?
+            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
+            UTM codes do not directly affect SEO or search rankings. However, to prevent duplicate content indexing when other sites copy and paste links with UTM tags, always include a proper canonical link on your target pages pointing to the clean URL.
+          </div>
+        </details>
       </div>
     </section>
 
