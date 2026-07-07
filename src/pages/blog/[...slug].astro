@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -9,13 +9,13 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post },
   }));
 }
 
 const { post } = Astro.props as { post: CollectionEntry<'blog'> };
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 // Resolve author display name
 const authorNames = {
@@ -68,7 +68,7 @@ const relatedToolLinks = post.data.relatedTools
 <Layout title={`${post.data.title} | ToolzTotal Blog`} description={post.data.description}>
   <ToolSchema
     toolName={post.data.title}
-    toolSlug={post.slug}
+    toolSlug={post.id}
     categoryName="Blog"
     categorySlug="blog"
     description={post.data.description}
@@ -78,7 +78,7 @@ const relatedToolLinks = post.data.relatedTools
     categorySlug="blog"
     categoryName="Blog"
     toolName={post.data.title}
-    toolSlug={post.slug}
+    toolSlug={post.id}
   />
 
   <main class="max-w-[850px] mx-auto px-4 md:px-6 py-12">

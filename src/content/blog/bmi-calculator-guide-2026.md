@@ -1,6 +1,6 @@
 ---
 title: "BMI Calculator: What It Actually Measures (and What It Doesn't)"
-description: "BMI is the most-used health metric online, but most people misinterpret what it measures. Here's the formula, what BMI Prime and Ponderal Index add, and the real limitations."
+description: "Learn how BMI is calculated, what BMI Prime and Ponderal Index add, and standard clinical limitations of the index."
 pubDate: 2026-07-08
 author: dr-aisha-patel
 category: health

@@ -32,7 +32,7 @@ const itemListSchema = {
   "itemListElement": sortedPosts.map((post, idx) => ({
     "@type": "ListItem",
     "position": idx + 1,
-    "url": `https://toolztotal.com/blog/${post.slug}`
+    "url": `https://toolztotal.com/blog/${post.id}`
   }))
 };
 
@@ -74,7 +74,7 @@ const itemListJson = JSON.stringify(itemListSchema);
           return (
             <article class="flex flex-col bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-300 rounded-xl overflow-hidden shadow-lvl1 hover:shadow-lvl3 group">
               <!-- Image / Gradient placeholder -->
-              <a href={`/blog/${post.slug}`} class="block aspect-video w-full overflow-hidden bg-canvas-soft-2 relative border-b border-hairline">
+              <a href={`/blog/${post.id}`} class="block aspect-video w-full overflow-hidden bg-canvas-soft-2 relative border-b border-hairline">
                 {post.data.heroImage ? (
                   <img 
                     src={post.data.heroImage} 
@@ -108,7 +108,7 @@ const itemListJson = JSON.stringify(itemListSchema);
                   
                   <!-- Title -->
                   <h2 class="text-lg md:text-xl font-bold text-ink font-sans group-hover:text-primary transition-colors leading-snug mb-3">
-                    <a href={`/blog/${post.slug}`}>
+                    <a href={`/blog/${post.id}`}>
                       {post.data.title}
                     </a>
                   </h2>

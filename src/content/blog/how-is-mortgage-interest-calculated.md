@@ -1,6 +1,6 @@
 ---
 title: "How is Mortgage Interest Calculated? (2026 Formula + Examples)"
-description: "Learn exactly how lenders calculate mortgage interest, why your payments stay the same but the interest/principal split changes, and how to estimate your real cost."
+description: "Learn how lenders calculate mortgage interest, why the payment split changes over time, and how to estimate your real costs."
 pubDate: 2026-07-08
 author: sarah-chen
 category: finance

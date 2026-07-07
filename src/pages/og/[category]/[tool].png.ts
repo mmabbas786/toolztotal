@@ -28,7 +28,7 @@ export async function getStaticPaths() {
     paths.push({
       params: {
         category: 'blog',
-        tool: post.slug
+        tool: post.id
       },
       props: {
         title: post.data.title,
@@ -46,7 +46,7 @@ export const GET: APIRoute = async ({ props }) => {
   try {
     const pngBuffer = await generateOgImageBuffer(title, categoryName);
     
-    return new Response(pngBuffer, {
+    return new Response(new Uint8Array(pngBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'image/png',

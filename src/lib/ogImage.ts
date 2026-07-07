@@ -45,7 +45,7 @@ export async function generateOgImageBuffer(title: string, category: string): Pr
     fonts: [
       {
         name: 'Inter',
-        data: fontBuffer,
+        data: fontBuffer.buffer.slice(fontBuffer.byteOffset, fontBuffer.byteOffset + fontBuffer.byteLength),
         weight: 600,
         style: 'normal',
       },

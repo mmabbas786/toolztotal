@@ -103,15 +103,15 @@ export const GET: APIRoute = async () => {
   // 6. Blog Posts
   const blogPosts = await getCollection('blog');
   for (const post of blogPosts) {
-    const filePath = `src/content/blog/${post.slug}.md`;
+    const filePath = `src/content/blog/${post.id}.md`;
     
     entries.push({
-      url: `https://toolztotal.com/blog/${post.slug}`,
+      url: `https://toolztotal.com/blog/${post.id}`,
       lastmod: getLastmod(filePath),
       changefreq: 'weekly',
       priority: 0.6,
       image: {
-        loc: `https://toolztotal.com/og/blog/${post.slug}.png`,
+        loc: `https://toolztotal.com/og/blog/${post.id}.png`,
         title: post.data.title
       }
     });
