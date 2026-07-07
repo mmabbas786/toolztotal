@@ -12,7 +12,8 @@ const faqs = [
   { question: "Is this QR code generator free and private?", answer: "Yes. All generation runs client-side on your device. No requests are made to our servers, keeping URLs, WiFi passwords, and contact details completely private." },
   { question: "What file formats can I download?", answer: "You can download your QR code as a PNG raster image or as a scalable SVG vector file, both free and without any watermark." },
 ];
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout
@@ -641,6 +642,11 @@ https://example.com/page3"
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'NIST — Random Number Generation Guidelines', url: 'https://csrc.nist.gov/projects/random-bit-generation' },
+    { label: 'Have I Been Pwned — Password Security', url: 'https://haveibeenpwned.com/Passwords' }
+  ]} />
+
     <!-- FAQ accordions (rendered from the `faqs` const passed to ToolSchema) -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
       <h2
@@ -1187,4 +1193,6 @@ https://example.com/page3"
       categorySlug="utility"
       toolSlug="qr-code-generator"
     />
+
+  <ContentFooter category="utility" />
 </Layout>

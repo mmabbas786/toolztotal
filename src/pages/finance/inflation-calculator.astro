@@ -4,7 +4,9 @@ import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { cpiHistory } from '../../data/inflationData';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -42,6 +44,7 @@ import { cpiHistory } from '../../data/inflationData';
       toolName="Inflation Calculator"
       toolSlug="inflation-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header Section -->
@@ -304,6 +307,11 @@ import { cpiHistory } from '../../data/inflationData';
   
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Internal Revenue Service (IRS)', url: 'https://www.irs.gov/' },
+    { label: 'FDIC — Money Smart Resources', url: 'https://www.fdic.gov/consumer-resource-center/money-smart' }
+  ]} />
     
 
     <!-- FAQ Section -->
@@ -447,6 +455,8 @@ import { cpiHistory } from '../../data/inflationData';
       categorySlug="finance"
       toolSlug="inflation-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

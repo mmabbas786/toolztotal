@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -35,6 +37,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="Amortization Schedule Calculator"
       toolSlug="amortization-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header Section -->
@@ -393,6 +396,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Consumer Financial Protection Bureau (CFPB)', url: 'https://www.consumerfinance.gov/' },
+    { label: 'Federal Reserve — Consumer Resources', url: 'https://www.federalreserve.gov/consumerinfo/' }
+  ]} />
 
     
     <!-- FAQ Accordion section -->
@@ -970,4 +978,6 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="finance"
       toolSlug="amortization-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>

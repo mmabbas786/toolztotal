@@ -10,6 +10,9 @@ const ogMeta = {
   url: "https://toolztotal.com/finance/payroll-tax-calculator",
   image: "https://toolztotal.com/og-default.png",
 };
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -51,6 +54,7 @@ const ogMeta = {
       toolName="Payroll Tax Calculator"
       toolSlug="payroll-tax-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header -->
@@ -558,6 +562,11 @@ const ogMeta = {
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'Consumer Financial Protection Bureau (CFPB)', url: 'https://www.consumerfinance.gov/' },
+    { label: 'Internal Revenue Service (IRS)', url: 'https://www.irs.gov/' }
+  ]} />
+
     
     <!-- FAQ Accordion Section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
@@ -721,6 +730,8 @@ const ogMeta = {
       categorySlug="finance"
       toolSlug="payroll-tax-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

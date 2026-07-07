@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -38,6 +40,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="Severance Pay Calculator - Employment Layoff Payout Planner"
       toolSlug="severance-calculator"
     />
+  <DisclaimerBanner category="legal" />
 
 
     <!-- Header Section -->
@@ -239,6 +242,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'U.S. Equal Employment Opportunity Commission (EEOC)', url: 'https://www.eeoc.gov/' },
+    { label: 'Cornell Law — Legal Information Institute', url: 'https://www.law.cornell.edu/' }
+  ]} />
+
     <!-- FAQ Section -->
     
     <!-- FAQ Section -->
@@ -381,6 +389,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="legal"
       toolSlug="severance-calculator"
     />
+
+  <ContentFooter category="legal" />
 </Layout>
 
 <script>

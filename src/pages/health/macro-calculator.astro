@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -38,6 +40,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="Macro Calculator"
       toolSlug="macro-calculator"
     />
+  <DisclaimerBanner category="health" />
 
 
     <!-- Header Section -->
@@ -270,6 +273,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'National Institutes of Health (NIH)', url: 'https://www.nih.gov/' },
+    { label: 'Centers for Disease Control and Prevention (CDC)', url: 'https://www.cdc.gov/' }
+  ]} />
+
     <!-- FAQ Section -->
     
     <!-- FAQ Section -->
@@ -412,6 +420,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="health"
       toolSlug="macro-calculator"
     />
+
+  <ContentFooter category="health" />
 </Layout>
 
 <script>

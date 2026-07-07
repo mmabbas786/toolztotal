@@ -17,7 +17,9 @@ const ogMeta = {
 };
 
 const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-affordability-calculator";
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -51,6 +53,7 @@ const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-affordability-
       toolName="Mortgage Affordability Calculator"
       toolSlug="mortgage-affordability-calculator"
     />
+  <DisclaimerBanner category="real-estate" />
 
 
     <!-- Header Section -->
@@ -462,6 +465,11 @@ const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-affordability-
           </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Realtor.com — Research', url: 'https://www.realtor.com/research/' },
+    { label: 'Consumer Financial Protection Bureau — Home Buying', url: 'https://www.consumerfinance.gov/owning-a-home/' }
+  ]} />
 
     
     <!-- FAQ Accordion Section -->
@@ -966,4 +974,6 @@ const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-affordability-
       categorySlug="real-estate"
       toolSlug="mortgage-affordability-calculator"
     />
+
+  <ContentFooter category="real-estate" />
 </Layout>

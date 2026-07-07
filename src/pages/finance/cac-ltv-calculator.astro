@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -38,6 +40,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="SaaS CAC:LTV Calculator"
       toolSlug="cac-ltv-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header Section -->
@@ -341,6 +344,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Investopedia — Personal Finance', url: 'https://www.investopedia.com/personal-finance-4427760' },
+    { label: 'Internal Revenue Service (IRS)', url: 'https://www.irs.gov/' }
+  ]} />
     
 
     <!-- FAQ Section -->
@@ -456,6 +464,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="finance"
       toolSlug="cac-ltv-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

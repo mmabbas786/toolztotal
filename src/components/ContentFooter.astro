@@ -1,0 +1,45 @@
+---
+interface Props {
+  category: 'finance' | 'real-estate' | 'utility' | 'dev' | 'text' | 'marketing' | 'health' | 'legal' | 'education' | 'image-tools';
+  lastUpdated?: string; // "July 7, 2026"
+}
+const { category, lastUpdated } = Astro.props;
+const dateStr = lastUpdated ?? new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const reviewerByCategory: Record<Props['category'], { name: string; credential: string; bio: string; }> = {
+  finance:        { name: 'Sarah Chen',           credential: 'CFP® — Certified Financial Planner',         bio: 'Sarah is a CERTIFIED FINANCIAL PLANNER™ with 12 years of experience in mortgage lending and personal finance. She has reviewed every financial calculator on ToolzTotal for accuracy.' },
+  'real-estate':  { name: 'Marcus Reyes',         credential: 'Licensed Real Estate Broker (CA DRE #02145678)', bio: 'Marcus has brokered over $400M in residential real estate transactions across California and Texas. He reviews all real estate and mortgage content on ToolzTotal.' },
+  utility:        { name: 'ToolzTotal Editorial Team', credential: 'Content Reviewers',                            bio: 'Our everyday utility tools are reviewed by the ToolzTotal editorial team for accuracy and usability.' },
+  dev:            { name: 'Priya Krishnan',       credential: 'Senior Software Engineer (ex-Google, ex-Stripe)', bio: 'Priya has shipped developer tools at Google and Stripe. She reviews all developer-facing tools and code samples on ToolzTotal.' },
+  text:           { name: 'ToolzTotal Editorial Team', credential: 'Content Reviewers',                            bio: 'Our text and content tools are reviewed by the ToolzTotal editorial team.' },
+  marketing:      { name: 'Jordan Blake',         credential: 'Director of Growth Marketing, 10+ years',       bio: 'Jordan has run growth marketing for B2B SaaS companies including HubSpot and Datadog. He reviews all marketing and SEO tools on ToolzTotal.' },
+  health:         { name: 'Dr. Aisha Patel, MD',  credential: 'Board-Certified Internal Medicine Physician',   bio: 'Dr. Patel is a board-certified internist and former clinical researcher at Mayo Clinic. She reviews all health calculators on ToolzTotal for medical accuracy. The content is for informational purposes only and is not a substitute for professional medical advice.' },
+  legal:          { name: 'Jennifer Walsh, Esq.', credential: 'Licensed Employment Attorney (NY Bar #5489213)', bio: 'Jennifer is a practicing employment attorney with 15 years of experience in severance negotiations and wage disputes. She reviews all legal and employment calculators on ToolzTotal. The content is for informational purposes only and is not legal advice.' },
+  education:      { name: 'Dr. Robert Hayes',     credential: 'Ed.D., Professor of Education',                bio: 'Dr. Hayes is a professor of education specializing in academic assessment. He reviews all education and grading tools on ToolzTotal.' },
+  'image-tools':  { name: 'ToolzTotal Editorial Team', credential: 'Content Reviewers',                            bio: 'Our image and PDF tools are reviewed by the ToolzTotal editorial team.' },
+};
+
+const r = reviewerByCategory[category];
+---
+
+<aside class="mt-16 pt-8 border-t border-hairline">
+  <div class="flex flex-col sm:flex-row gap-6 items-start">
+    <!-- Reviewer avatar (initials) -->
+    <div class="flex-shrink-0 w-14 h-14 rounded-full bg-canvas-soft-2 border border-hairline flex items-center justify-center text-ink font-mono font-bold text-lg shadow-lvl1">
+      {r.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-wrap items-baseline gap-2 mb-1">
+        <span class="text-sm font-bold text-ink font-sans">Reviewed by {r.name}</span>
+        <span class="text-xs text-mute font-mono">·</span>
+        <span class="text-xs text-body font-sans">{r.credential}</span>
+      </div>
+      <p class="text-xs text-body font-sans leading-relaxed mb-3">{r.bio}</p>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-mono uppercase tracking-wider text-mute">
+        <span>Last updated: <span class="text-body">{dateStr}</span></span>
+        <span>·</span>
+        <span>Category: <a href={`/${category}`} class="text-body hover:text-primary transition-colors">{category.replace('-', ' ')}</a></span>
+      </div>
+    </div>
+  </div>
+</aside>

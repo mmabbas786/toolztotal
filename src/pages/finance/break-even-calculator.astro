@@ -10,6 +10,9 @@ const ogMeta = {
   url: "https://toolztotal.com/finance/break-even-calculator",
   image: "https://toolztotal.com/og-default.png",
 };
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -51,6 +54,7 @@ const ogMeta = {
       toolName="Break-Even Analysis Calculator"
       toolSlug="break-even-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header -->
@@ -389,6 +393,11 @@ const ogMeta = {
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'Internal Revenue Service (IRS)', url: 'https://www.irs.gov/' },
+    { label: 'Investopedia — Personal Finance', url: 'https://www.investopedia.com/personal-finance-4427760' }
+  ]} />
+
     
     <!-- FAQ Accordion Section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
@@ -580,6 +589,8 @@ const ogMeta = {
       categorySlug="finance"
       toolSlug="break-even-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

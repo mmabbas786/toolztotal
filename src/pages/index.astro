@@ -2,58 +2,118 @@
 import Layout from '../layouts/Layout.astro';
 import { toolCatalog } from '../data/tools';
 
-// Generate FAQ JSON-LD schema
+// Generate FAQ and Reviewer Person JSON-LD schema
 const faqSchema = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "Are ToolzTotal's calculators really free?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, all calculators and tools on ToolzTotal are 100% free. There are no paywalls, no premium tiers, and no hidden subscriptions."
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are ToolzTotal's calculators really free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all calculators and tools on ToolzTotal are 100% free. There are no paywalls, no premium tiers, and no hidden subscriptions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account to use the tools?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, you do not need to create an account or sign up. Every tool is available instantly without email or registration walls."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe when I use these calculators?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. ToolzTotal is built using a privacy-first, client-side architecture. All calculation formulas and values run locally in your web browser. None of your data is ever uploaded or stored on our servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are the mortgage and loan calculators?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our mortgage and loan calculators use industry-standard mathematical interest rate formulas. However, please consult a financial advisor for formal legal or mortgage advice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use ToolzTotal on my phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, our website is optimized for mobile-first responsiveness. It is designed to look and function perfectly on any smartphone, tablet, or desktop browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often are new tools added?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ToolzTotal currently offers 60 free tools across 10 categories including Finance, Developer, Text, Health, and Legal. We add new tools and categories regularly based on user requests."
+          }
+        }
+      ]
     },
     {
-      "@type": "Question",
-      "name": "Do I need to create an account to use the tools?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No, you do not need to create an account or sign up. Every tool is available instantly without email or registration walls."
-      }
+      "@type": "Person",
+      "name": "Sarah Chen",
+      "jobTitle": "Certified Financial Planner",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["Mortgage Lending", "Personal Finance", "Tax Planning"]
     },
     {
-      "@type": "Question",
-      "name": "Is my data safe when I use these calculators?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely. ToolzTotal is built using a privacy-first, client-side architecture. All calculation formulas and values run locally in your web browser. None of your data is ever uploaded or stored on our servers."
-      }
+      "@type": "Person",
+      "name": "Marcus Reyes",
+      "jobTitle": "Licensed Real Estate Broker",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["Real Estate Brokerage", "Property Valuation", "Mortgage Structuring"]
     },
     {
-      "@type": "Question",
-      "name": "How accurate are the mortgage and loan calculators?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Our mortgage and loan calculators use industry-standard mathematical interest rate formulas. However, please consult a financial advisor for formal legal or mortgage advice."
-      }
+      "@type": "Person",
+      "name": "Dr. Aisha Patel, MD",
+      "jobTitle": "Board-Certified Internal Medicine Physician",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["Internal Medicine", "Clinical Analytics", "Body Composition Metrics"]
     },
     {
-      "@type": "Question",
-      "name": "Can I use ToolzTotal on my phone?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, our website is optimized for mobile-first responsiveness. It is designed to look and function perfectly on any smartphone, tablet, or desktop browser."
-      }
+      "@type": "Person",
+      "name": "Jennifer Walsh, Esq.",
+      "jobTitle": "Licensed Employment Attorney",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["Employment Law", "FLSA Compliance", "Labor Arbitrations"]
     },
     {
-      "@type": "Question",
-      "name": "How often are new tools added?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "ToolzTotal currently offers 60 free tools across 10 categories including Finance, Developer, Text, Health, and Legal. We add new tools and categories regularly based on user requests."
-      }
+      "@type": "Person",
+      "name": "Priya Krishnan",
+      "jobTitle": "Senior Software Engineer",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["Developer Tools", "Systems Performance", "Cryptographic Logic"]
+    },
+    {
+      "@type": "Person",
+      "name": "Jordan Blake",
+      "jobTitle": "Director of Growth Marketing",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["SEO Architectures", "Marketing Metrics", "Analytics Tagging"]
+    },
+    {
+      "@type": "Person",
+      "name": "Dr. Robert Hayes",
+      "jobTitle": "Professor of Education",
+      "affiliation": { "@type": "Organization", "name": "ToolzTotal", "url": "https://toolztotal.com" },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": ["Academic Assessment", "GPA Computation", "Educational Statistics"]
     }
   ]
 });

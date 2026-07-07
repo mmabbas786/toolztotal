@@ -47,6 +47,9 @@ const faqs = [
     answer: "Yes. Consolidating credit card debt with a personal loan can lower your average interest rate and simplify multiple monthly payments into a single fixed installment."
   }
 ];
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -68,6 +71,7 @@ const faqs = [
       toolName="Loan Payment Calculator"
       toolSlug="loan-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -547,6 +551,11 @@ const faqs = [
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Consumer Financial Protection Bureau (CFPB)', url: 'https://www.consumerfinance.gov/' },
+    { label: 'FDIC — Money Smart Resources', url: 'https://www.fdic.gov/consumer-resource-center/money-smart' }
+  ]} />
 
     
     <!-- FAQ Accordion section -->
@@ -1198,4 +1207,6 @@ const faqs = [
     runCalculations();
 
   </script>
+
+  <ContentFooter category="finance" />
 </Layout>

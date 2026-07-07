@@ -90,22 +90,36 @@ const faqSchema = {
 };
 
 const faqJsonLd = JSON.stringify(faqSchema);
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
 ---
 
 <Layout 
   title="Mortgage Calculator - Free & Accurate Monthly Payment Estimator | ToolzTotal"
   description="Calculate your monthly mortgage payments with our free, ad-free mortgage calculator. View interactive amortization schedules and extra payment interest savings."
-  faqJsonLd={faqJsonLd}
+  canonicalUrl="https://toolztotal.com/finance/mortgage-calculator"
 >
+  <ToolSchema
+    toolName="Mortgage Calculator"
+    toolSlug="mortgage-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate your monthly mortgage payments with our free, ad-free mortgage calculator. View interactive amortization schedules and extra payment interest savings."
+    faqs={faqSchema.mainEntity.map(f => ({ question: f.name, answer: f.acceptedAnswer.text }))}
+  />
+
   <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-ink transition-colors">Home</a>
-      <span>/</span>
-      <a href="/finance" class="hover:text-ink transition-colors">Finance & Loans</a>
-      <span>/</span>
-      <span class="text-ink">Mortgage Calculator</span>
-    </nav>
+    <Breadcrumbs
+      categoryName="Finance & Loans"
+      categorySlug="finance"
+      toolName="Mortgage Calculator"
+      toolSlug="mortgage-calculator"
+    />
+  <DisclaimerBanner category="finance" />
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -753,6 +767,11 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'Internal Revenue Service (IRS)', url: 'https://www.irs.gov/' },
+    { label: 'Consumer Financial Protection Bureau (CFPB)', url: 'https://www.consumerfinance.gov/' }
+  ]} />
+
     
     <!-- FAQ Accordion section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
@@ -950,66 +969,10 @@ const faqJsonLd = JSON.stringify(faqSchema);
       </div>
     </section>
 
-    <!-- Related Tools Section -->
-    <section class="mt-20 pt-16 border-t border-hairline">
-      <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-8">Related Real Estate & Loan Tools</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <a 
-          href="/finance/loan-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Loan Payment Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Calculate payments for personal, auto, or student loans with preset options.</p>
-        </a>
-
-        <a 
-          href="/real-estate/mortgage-affordability-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Mortgage Affordability Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Determine the maximum home purchase price you can afford based on income and debts.</p>
-        </a>
-
-        <a 
-          href="/real-estate/mortgage-refinance-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Mortgage Refinance Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">See if refinancing your home mortgage will save you money on interest and payments.</p>
-        </a>
-
-        <a 
-          href="/real-estate/rent-vs-buy-calculator" 
-          class="block bg-canvas border border-hairline hover:border-hairline-strong transition-all duration-200 rounded-lg p-5 hover:shadow-lvl2 shadow-lvl1 group"
-        >
-          <h4 class="text-sm font-bold text-ink font-sans group-hover:text-primary transition-colors flex items-center justify-between">
-            Rent vs Buy Calculator
-            <svg class="w-4 h-4 text-mute group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </h4>
-          <p class="text-mute text-xs font-sans mt-2">Compare the long-term financial costs of renting versus buying a home.</p>
-        </a>
-
-      </div>
-    </section>
-
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="mortgage-calculator"
+    />
   </div>
 
   <!-- Client-Side Calculator Logic Script -->
@@ -1477,4 +1440,6 @@ const faqJsonLd = JSON.stringify(faqSchema);
     // 9. Initial Load Trigger
     runCalculations();
   </script>
+
+  <ContentFooter category="finance" />
 </Layout>

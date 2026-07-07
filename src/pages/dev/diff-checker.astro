@@ -10,6 +10,8 @@ const ogMeta = {
   url: "https://toolztotal.com/dev/diff-checker",
   image: "https://toolztotal.com/og-default.png",
 };
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout
@@ -223,6 +225,11 @@ const ogMeta = {
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'MDN Web Docs', url: 'https://developer.mozilla.org/' },
+    { label: 'IETF — Internet Engineering Task Force', url: 'https://www.ietf.org/' }
+  ]} />
 
     <!-- FAQ Section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
@@ -830,4 +837,6 @@ if (counter > 5) {
       categorySlug="dev"
       toolSlug="diff-checker"
     />
+
+  <ContentFooter category="dev" />
 </Layout>

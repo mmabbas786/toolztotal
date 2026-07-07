@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout 
@@ -283,6 +284,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'Google Search Central — SEO Starter Guide', url: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide' },
+    { label: 'Google Analytics Help', url: 'https://support.google.com/analytics/' }
+  ]} />
+
     <!-- FAQ Section -->
     
     <!-- FAQ Section -->
@@ -425,6 +431,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="marketing"
       toolSlug="serp-preview"
     />
+
+  <ContentFooter category="marketing" />
 </Layout>
 
 <script>

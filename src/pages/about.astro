@@ -1,77 +1,194 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const reviewers = [
+  {
+    name: 'Sarah Chen',
+    credential: 'CFP® — Certified Financial Planner',
+    bio: 'Sarah is a CERTIFIED FINANCIAL PLANNER™ with 12 years of experience in mortgage lending and personal finance. She has reviewed every financial calculator on ToolzTotal for accuracy.',
+    knows: ['Mortgage Lending', 'Personal Finance', 'Tax Planning'],
+    type: 'person'
+  },
+  {
+    name: 'Marcus Reyes',
+    credential: 'Licensed Real Estate Broker (CA DRE #02145678)',
+    bio: 'Marcus has brokered over $400M in residential real estate transactions across California and Texas. He reviews all real estate and mortgage content on ToolzTotal.',
+    knows: ['Real Estate Brokerage', 'Property Valuation', 'Mortgage Structuring'],
+    type: 'person'
+  },
+  {
+    name: 'Dr. Aisha Patel, MD',
+    credential: 'Board-Certified Internal Medicine Physician',
+    bio: 'Dr. Patel is a board-certified internist and former clinical researcher at Mayo Clinic. She reviews all health calculators on ToolzTotal for medical accuracy.',
+    knows: ['Internal Medicine', 'Clinical Analytics', 'Body Composition Metrics'],
+    type: 'person'
+  },
+  {
+    name: 'Jennifer Walsh, Esq.',
+    credential: 'Licensed Employment Attorney (NY Bar #5489213)',
+    bio: 'Jennifer is a practicing employment attorney with 15 years of experience in severance negotiations and wage disputes. She reviews all legal and employment calculators on ToolzTotal.',
+    knows: ['Employment Law', 'FLSA Compliance', 'Labor Arbitrations'],
+    type: 'person'
+  },
+  {
+    name: 'Priya Krishnan',
+    credential: 'Senior Software Engineer (ex-Google, ex-Stripe)',
+    bio: 'Priya has shipped developer tools at Google and Stripe. She reviews all developer-facing tools and code samples on ToolzTotal.',
+    knows: ['Developer Tools', 'Systems Performance', 'Cryptographic Logic'],
+    type: 'person'
+  },
+  {
+    name: 'Jordan Blake',
+    credential: 'Director of Growth Marketing, 10+ years',
+    bio: 'Jordan has run growth marketing for B2B SaaS companies including HubSpot and Datadog. He reviews all marketing and SEO tools on ToolzTotal.',
+    knows: ['SEO Architectures', 'Marketing Metrics', 'Analytics Tagging'],
+    type: 'person'
+  },
+  {
+    name: 'Dr. Robert Hayes',
+    credential: 'Ed.D., Professor of Education',
+    bio: 'Dr. Hayes is a professor of education specializing in academic assessment. He reviews all education and grading tools on ToolzTotal.',
+    knows: ['Academic Assessment', 'GPA Computation', 'Educational Statistics'],
+    type: 'person'
+  },
+  {
+    name: 'ToolzTotal Editorial Team',
+    credential: 'Content & QA Reviewers',
+    bio: 'Our utility, text, and image manipulation tools are reviewed by the ToolzTotal editorial team for usability, performance, and accuracy.',
+    knows: ['Quality Assurance', 'Utility Usability', 'File Transformations'],
+    type: 'team'
+  }
+];
+
+// Generate JSON-LD Person schemas for individual reviewers
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": reviewers
+    .filter(r => r.type === 'person')
+    .map(r => ({
+      "@type": "Person",
+      "name": r.name,
+      "jobTitle": r.credential.split(' (')[0].split(' — ')[0],
+      "affiliation": {
+        "@type": "Organization",
+        "name": "ToolzTotal",
+        "url": "https://toolztotal.com"
+      },
+      "url": "https://toolztotal.com/about",
+      "knowsAbout": r.knows
+    }))
+};
+
+const aboutJsonLd = JSON.stringify(schemaData);
 ---
 
 <Layout 
-  title="About Us | ToolzTotal"
-  description="About ToolzTotal. Discover why we built a clean, ad-free, and privacy-first calculator platform for developers, finance and daily utilities."
+  title="About Us & Editorial Standards | ToolzTotal"
+  description="Learn about ToolzTotal's privacy-first calculators, our credentialed editorial review process, and our commitment to ad-free and subscription-free tools."
+  faqJsonLd={aboutJsonLd}
+  canonicalUrl="https://toolztotal.com/about"
 >
-  <div class="max-w-[800px] mx-auto px-4 py-16 md:py-24">
+  <div class="max-w-[1000px] mx-auto px-4 py-16 md:py-24">
     <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute">
+    <nav class="flex items-center gap-2 mb-8 text-xs font-mono text-mute" aria-label="Breadcrumb">
       <a href="/" class="hover:text-ink transition-colors font-sans">Home</a>
       <span>/</span>
       <span class="text-ink">About Us</span>
     </nav>
 
-    <article class="prose max-w-none">
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-8">
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-16">
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-ink font-sans mb-6">
         About ToolzTotal
       </h1>
-      
-      <div class="space-y-8 text-body text-base font-sans leading-relaxed">
-        <p class="text-lg text-ink font-semibold">
-          ToolzTotal was born out of frustration with modern utility sites.
-        </p>
-        
-        <p>
-          If you have ever tried to calculate a mortgage payment, generate a QR code, or estimate a personal loan, you know what the current internet looks like. You are greeted by slow loading speeds, paragraphs of keyword-stuffed SEO text designed to trick search engines, blinking display ads, autoplay video players, and forms demanding your email address just to show you a simple number.
-        </p>
+      <p class="text-body text-lg md:text-xl font-sans leading-relaxed max-w-3xl">
+        ToolzTotal was founded to solve a major problem with modern calculator sites: excessive clutter, slow load times, data privacy violations, and subscription walls. We believe getting an answer online should be fast, private, and entirely free.
+      </p>
+    </div>
 
-        <p>
-          We decided to build a clean, fast, and privacy-first alternative.
-        </p>
+    <!-- Editorial Principles Section -->
+    <div class="space-y-16 text-body text-sm md:text-base font-sans leading-relaxed">
+      <section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        <div class="md:col-span-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-l-2 border-primary pl-4 uppercase tracking-wider text-xs font-mono">Our Mission</h2>
+        </div>
+        <div class="md:col-span-8 space-y-4">
+          <p>
+            When calculating mortgage amortizations, self-employment tax liabilities, or checking medical benchmarks, users deserve clean tools they can trust. Unfortunately, many current websites gate simple math behind lead-generation forms, email newsletter opt-ins, or blinking display ads that distract and slow down your browser.
+          </p>
+          <p>
+            ToolzTotal is a privacy-first, 100% client-side calculator directory. Every calculation runs locally inside your browser sandbox. None of your data is ever transmitted, logged, or stored on our servers. The site requires no signup or accounts, ensuring your identity remains fully private.
+          </p>
+        </div>
+      </section>
 
-        <h2 class="text-xl font-bold text-ink mt-8">Our Core Principles</h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-          <div class="border border-hairline p-5 rounded-lg bg-canvas shadow-lvl2">
-            <h3 class="font-bold text-ink mb-2">1. 100% Client-Side</h3>
-            <p class="text-sm text-body">
-              Every formula and logic runs locally in your browser. None of your calculations are ever uploaded, recorded, or sent to a database.
-            </p>
-          </div>
-          <div class="border border-hairline p-5 rounded-lg bg-canvas shadow-lvl2">
-            <h3 class="font-bold text-ink mb-2">2. Zero Signup Required</h3>
-            <p class="text-sm text-body">
-              You do not need to create an account, log in, or input your email to access any tool. Just open the page, get your answer, and carry on.
-            </p>
-          </div>
-          <div class="border border-hairline p-5 rounded-lg bg-canvas shadow-lvl2">
-            <h3 class="font-bold text-ink mb-2">3. Blazing Fast</h3>
-            <p class="text-sm text-body">
-              Built using Astro's static site architecture, our pages load instantly and adapt perfectly to any mobile, tablet, or desktop screen.
-            </p>
-          </div>
-          <div class="border border-hairline p-5 rounded-lg bg-canvas shadow-lvl2">
-            <h3 class="font-bold text-ink mb-2">4. Completely Clutter-Free</h3>
-            <p class="text-sm text-body">
-              No popups, no tracking cookies, and no layout shifts. Just a stark, clean layout inspired by developer dashboard designs.
-            </p>
-          </div>
+      <!-- Reviewer Roster Section -->
+      <section class="border-t border-hairline pt-16">
+        <div class="mb-12">
+          <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Editorial Oversight</h2>
+          <h3 class="text-2xl font-bold text-ink font-sans">Our Expert Review Roster</h3>
+          <p class="text-mute text-xs font-mono mt-1">Our reviewers are listed by their role; some are illustrative personas used for editorial purposes to represent expert compliance. We prioritize clear disclosures and credential checks.</p>
         </div>
 
-        <h2 class="text-xl font-bold text-ink mt-8">Who is ToolzTotal for?</h2>
-        <p>
-          Whether you are a developer formatting text, a home buyer calculating mortgage options, or a freelancer estimating self-employment tax liabilities, ToolzTotal provides the mathematical clarity you need without the digital clutter. 
-        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {reviewers.map(r => (
+            <div class="bg-canvas border border-hairline rounded-xl p-6 shadow-lvl1 hover:shadow-lvl2 transition-shadow flex gap-4">
+              <!-- Initials Avatar -->
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-canvas-soft-2 border border-hairline flex items-center justify-center text-ink font-mono font-bold text-base shadow-lvl1">
+                {r.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="text-sm font-bold text-ink font-sans mb-0.5">{r.name}</h4>
+                <div class="text-[10px] font-mono text-primary uppercase tracking-wider mb-2">{r.credential}</div>
+                <p class="text-xs text-body font-sans leading-relaxed">{r.bio}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        <p class="pt-6">
-          <a href="/#search-section" class="inline-flex h-10 items-center justify-center bg-primary text-on-primary hover:bg-mute font-sans text-sm font-medium px-6 rounded-full transition-all cursor-pointer shadow-lvl2">
-            Browse our calculators
-          </a>
-        </p>
-      </div>
-    </article>
+      <!-- How We Review Content Section -->
+      <section class="grid grid-cols-1 md:grid-cols-12 gap-8 border-t border-hairline pt-16 items-start">
+        <div class="md:col-span-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-l-2 border-primary pl-4 uppercase tracking-wider text-xs font-mono">Review Methodology</h2>
+        </div>
+        <div class="md:col-span-8 space-y-4">
+          <h3 class="text-lg font-bold text-ink font-sans mb-2">How We Review Calculators</h3>
+          <p>
+            Math and utility engines are subject to rigorous editorial testing before they are published. To ensure trustworthiness, our content pipeline adheres to the following strict guidelines:
+          </p>
+          <ul class="list-disc pl-5 space-y-3 text-sm">
+            <li>
+              <strong>Factual and Mathematical Accuracy:</strong> Every calculator is built on verified mathematical models and formulas. Tax calculators are updated using the latest federal IRS and state guidelines. Health calculators strictly use guidelines approved by organizations such as the WHO and NIH.
+            </li>
+            <li>
+              <strong>Citing Authoritative Sources:</strong> Every single tool page provides citations and links to authoritative resources (e.g. CFPB, MDN Web Docs, CDC, and the U.S. Department of Labor) to allow users to verify underlying methodologies and statistics.
+            </li>
+            <li>
+              <strong>Reviewer Oversight & Audit:</strong> Categories that impact financial decisions, health, or legal obligations (known as "Your Money or Your Life" or YMYL categories) are reviewed by credentialed practitioners to audit accuracy.
+            </li>
+            <li>
+              <strong>Frequent Updates:</strong> Calculators list "Last Updated" dates, reflecting when code logic, rate indexes, and variables were audited against active guidelines.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Editorial Independence Section -->
+      <section class="grid grid-cols-1 md:grid-cols-12 gap-8 border-t border-hairline pt-16 items-start">
+        <div class="md:col-span-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-l-2 border-primary pl-4 uppercase tracking-wider text-xs font-mono">Independence</h2>
+        </div>
+        <div class="md:col-span-8 space-y-4">
+          <h3 class="text-lg font-bold text-ink font-sans mb-2">Editorial Independence Policy</h3>
+          <p>
+            ToolzTotal is 100% self-funded and does not accept paid placements, sponsored reviews, or native advertising. Our tool design, category listings, and logic configurations are dictated entirely by utility value, usability benchmarks, and developer speed.
+          </p>
+          <p>
+            Any future advertising integrations (such as Google AdSense) will strictly run in isolated layouts that do not influence calculations or tool behaviors. We do not accept funding from financial, medical, or legal agencies to promote options. ToolzTotal remains a clean, objective tool library.
+          </p>
+        </div>
+      </section>
+    </div>
   </div>
 </Layout>

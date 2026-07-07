@@ -4,7 +4,9 @@ import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { stateTaxRates } from '../../data/taxRates';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -42,6 +44,7 @@ import { stateTaxRates } from '../../data/taxRates';
       toolName="Sales Tax Calculator"
       toolSlug="sales-tax-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header Section -->
@@ -326,6 +329,11 @@ import { stateTaxRates } from '../../data/taxRates';
   
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Investopedia — Personal Finance', url: 'https://www.investopedia.com/personal-finance-4427760' },
+    { label: 'Federal Reserve — Consumer Resources', url: 'https://www.federalreserve.gov/consumerinfo/' }
+  ]} />
     
 
     <!-- FAQ Section -->
@@ -469,6 +477,8 @@ import { stateTaxRates } from '../../data/taxRates';
       categorySlug="finance"
       toolSlug="sales-tax-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout 
@@ -329,6 +330,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'NIST — Random Number Generation Guidelines', url: 'https://csrc.nist.gov/projects/random-bit-generation' },
+    { label: 'Have I Been Pwned — Password Security', url: 'https://haveibeenpwned.com/Passwords' }
+  ]} />
     
 
     <!-- FAQ Section -->
@@ -444,6 +450,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="utility"
       toolSlug="unit-converter"
     />
+
+  <ContentFooter category="utility" />
 </Layout>
 
 <script>

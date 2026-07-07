@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -38,6 +40,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="Net Worth Calculator"
       toolSlug="net-worth-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header Section -->
@@ -348,6 +351,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Consumer Financial Protection Bureau (CFPB)', url: 'https://www.consumerfinance.gov/' },
+    { label: 'Federal Reserve — Consumer Resources', url: 'https://www.federalreserve.gov/consumerinfo/' }
+  ]} />
     
 
     <!-- FAQ Section -->
@@ -491,6 +499,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="finance"
       toolSlug="net-worth-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

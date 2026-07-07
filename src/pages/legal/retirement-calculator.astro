@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -38,6 +40,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="Retirement Savings Calculator - Compound Growth Projections"
       toolSlug="retirement-calculator"
     />
+  <DisclaimerBanner category="legal" />
 
 
     <!-- Header Section -->
@@ -243,6 +246,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'Cornell Law — Legal Information Institute', url: 'https://www.law.cornell.edu/' },
+    { label: 'U.S. Department of Labor — Wage & Hour', url: 'https://www.dol.gov/agencies/whd' }
+  ]} />
+
     <!-- FAQ Section -->
     
     <!-- FAQ Section -->
@@ -385,6 +393,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="legal"
       toolSlug="retirement-calculator"
     />
+
+  <ContentFooter category="legal" />
 </Layout>
 
 <script>

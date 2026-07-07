@@ -11,7 +11,9 @@ const ogMeta = {
 };
 
 const canonicalUrl = "https://toolztotal.com/real-estate/rent-vs-buy-calculator";
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -45,6 +47,7 @@ const canonicalUrl = "https://toolztotal.com/real-estate/rent-vs-buy-calculator"
       toolName="Rent vs Buy Calculator"
       toolSlug="rent-vs-buy-calculator"
     />
+  <DisclaimerBanner category="real-estate" />
 
 
     <!-- Header Section -->
@@ -531,6 +534,11 @@ const canonicalUrl = "https://toolztotal.com/real-estate/rent-vs-buy-calculator"
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Fannie Mae — Homebuyer Resources', url: 'https://www.knowyouroptions.com/' },
+    { label: 'Consumer Financial Protection Bureau — Home Buying', url: 'https://www.consumerfinance.gov/owning-a-home/' }
+  ]} />
 
     
     <!-- FAQ Accordion Section -->
@@ -1391,4 +1399,6 @@ const canonicalUrl = "https://toolztotal.com/real-estate/rent-vs-buy-calculator"
       categorySlug="real-estate"
       toolSlug="rent-vs-buy-calculator"
     />
+
+  <ContentFooter category="real-estate" />
 </Layout>

@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout 
@@ -174,6 +175,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'U.S. Department of Education', url: 'https://www.ed.gov/' },
+    { label: 'Purdue Online Writing Lab (OWL) — APA/MLA/Chicago', url: 'https://owl.purdue.edu/' }
+  ]} />
+
     <!-- FAQ Section -->
     
     <!-- FAQ Section -->
@@ -316,6 +322,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="education"
       toolSlug="grade-calculator"
     />
+
+  <ContentFooter category="education" />
 </Layout>
 
 <script>

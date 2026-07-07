@@ -11,7 +11,9 @@ const ogMeta = {
 };
 
 const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-refinance-calculator";
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -45,6 +47,7 @@ const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-refinance-calc
       toolName="Mortgage Refinance Calculator"
       toolSlug="mortgage-refinance-calculator"
     />
+  <DisclaimerBanner category="real-estate" />
 
 
     <!-- Header Section -->
@@ -332,6 +335,11 @@ const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-refinance-calc
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Consumer Financial Protection Bureau — Home Buying', url: 'https://www.consumerfinance.gov/owning-a-home/' },
+    { label: 'Fannie Mae — Homebuyer Resources', url: 'https://www.knowyouroptions.com/' }
+  ]} />
 
     
     <!-- FAQ Accordion Section -->
@@ -833,4 +841,6 @@ const canonicalUrl = "https://toolztotal.com/real-estate/mortgage-refinance-calc
       categorySlug="real-estate"
       toolSlug="mortgage-refinance-calculator"
     />
+
+  <ContentFooter category="real-estate" />
 </Layout>

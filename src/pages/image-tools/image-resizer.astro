@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout 
@@ -301,6 +302,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
   
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Mozilla — Image File Type Support', url: 'https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types' },
+    { label: 'W3C — Graphics and Image Standards', url: 'https://www.w3.org/Graphics/' }
+  ]} />
     
 
     <!-- FAQ Section -->
@@ -416,6 +422,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="image-tools"
       toolSlug="image-resizer"
     />
+
+  <ContentFooter category="image-tools" />
 </Layout>
 
 <script>

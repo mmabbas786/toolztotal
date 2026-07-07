@@ -11,7 +11,9 @@ const ogMeta = {
 };
 
 const canonicalUrl = "https://toolztotal.com/real-estate/rental-property-calculator";
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -45,6 +47,7 @@ const canonicalUrl = "https://toolztotal.com/real-estate/rental-property-calcula
       toolName="Rental Property Calculator"
       toolSlug="rental-property-calculator"
     />
+  <DisclaimerBanner category="real-estate" />
 
 
     <!-- Header Section -->
@@ -539,6 +542,11 @@ const canonicalUrl = "https://toolztotal.com/real-estate/rental-property-calcula
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'Fannie Mae — Homebuyer Resources', url: 'https://www.knowyouroptions.com/' },
+    { label: 'Consumer Financial Protection Bureau — Home Buying', url: 'https://www.consumerfinance.gov/owning-a-home/' }
+  ]} />
+
     
     <!-- FAQ Accordion Section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
@@ -1021,4 +1029,6 @@ const canonicalUrl = "https://toolztotal.com/real-estate/rental-property-calcula
       categorySlug="real-estate"
       toolSlug="rental-property-calculator"
     />
+
+  <ContentFooter category="real-estate" />
 </Layout>

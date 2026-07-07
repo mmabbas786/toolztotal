@@ -47,6 +47,9 @@ const faqs = [
     answer: "While compound interest increases the nominal value of your savings, inflation reduces purchasing power. The 'real rate of return' is calculated by subtracting the inflation rate from your nominal rate of return." 
   }
 ];
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout
@@ -69,6 +72,7 @@ const faqs = [
       toolName="Compound Interest Calculator"
       toolSlug="compound-interest-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
 
     <!-- Header -->
@@ -418,6 +422,11 @@ const faqs = [
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'U.S. Bureau of Labor Statistics', url: 'https://www.bls.gov/' },
+    { label: 'Federal Reserve — Consumer Resources', url: 'https://www.federalreserve.gov/consumerinfo/' }
+  ]} />
+
     
     <!-- FAQ Accordion Section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
@@ -587,6 +596,8 @@ const faqs = [
       categorySlug="finance"
       toolSlug="compound-interest-calculator"
     />
+
+  <ContentFooter category="finance" />
 </Layout>
 
 <script>

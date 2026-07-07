@@ -17,6 +17,8 @@ const faqs = [
   { question: "Calculating Half-Birthday Milestones and Anniversaries", answer: "Many individuals track secondary milestones such as half-birthdays (exactly six months after your birth date) or the number of days lived (such as celebrating your 10,000th or 20,000th day on earth). Our age calculator makes it easy to compute these exact milestones. This is particularly popular for organizing unique milestone parties, tracking infant age intervals in months for pediatric checkups, and coordinating project deadlines based on the elapsed time from a specific start date." },
   { question: "Related Utility Tools", answer: "GPA Calculator Calculate your grade point average based on class weights and credits." }
 ];
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
 ---
 
 <Layout
@@ -421,6 +423,11 @@ const faqs = [
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'NIST — Random Number Generation Guidelines', url: 'https://csrc.nist.gov/projects/random-bit-generation' },
+    { label: 'Have I Been Pwned — Password Security', url: 'https://haveibeenpwned.com/Passwords' }
+  ]} />
 
     <!-- FAQ Accordion Accordions -->
     <!-- FAQ Accordion Accordions -->
@@ -877,4 +884,6 @@ const faqs = [
   </script>
 
   <RelatedTools categorySlug="utility" toolSlug="age-calculator" />
+
+  <ContentFooter category="utility" />
 </Layout>

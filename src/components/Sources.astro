@@ -1,0 +1,18 @@
+---
+interface Props {
+  sources: Array<{ label: string; url: string; }>;
+  title?: string;
+}
+const { sources, title = 'Sources & References' } = Astro.props;
+---
+
+<section class="mt-10 pt-6 border-t border-hairline">
+  <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-4">{title}</h3>
+  <ol class="space-y-2 list-decimal list-inside">
+    {sources.map((s) => (
+      <li class="text-xs text-body font-sans leading-relaxed">
+        <a href={s.url} target="_blank" rel="noopener noreferrer" class="text-primary hover:underline break-words">{s.label}</a>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -38,6 +40,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       toolName="Ideal Weight Calculator"
       toolSlug="ideal-weight-calculator"
     />
+  <DisclaimerBanner category="health" />
 
 
     <!-- Header Section -->
@@ -247,6 +250,11 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       </div>
     </article>
 
+  <Sources sources={[
+    { label: 'National Institutes of Health (NIH)', url: 'https://www.nih.gov/' },
+    { label: 'World Health Organization (WHO)', url: 'https://www.who.int/' }
+  ]} />
+
     <!-- FAQ Section -->
     
     <!-- FAQ Section -->
@@ -389,6 +397,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
       categorySlug="health"
       toolSlug="ideal-weight-calculator"
     />
+
+  <ContentFooter category="health" />
 </Layout>
 
 <script>

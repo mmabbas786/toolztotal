@@ -47,6 +47,9 @@ const faqs = [
     answer: "Capital gains taxes, income taxes, and transaction fees reduce your final investment return. Net ROI calculates returns after subtracting all taxes, transaction costs, and management fees."
   }
 ];
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 ---
 
 <Layout 
@@ -68,6 +71,7 @@ const faqs = [
       toolName="Return on Investment (ROI) Calculator"
       toolSlug="roi-calculator"
     />
+  <DisclaimerBanner category="finance" />
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
@@ -816,6 +820,11 @@ const faqs = [
         </p>
       </div>
     </article>
+
+  <Sources sources={[
+    { label: 'Consumer Financial Protection Bureau (CFPB)', url: 'https://www.consumerfinance.gov/' },
+    { label: 'Federal Reserve — Consumer Resources', url: 'https://www.federalreserve.gov/consumerinfo/' }
+  ]} />
 
     <!-- FAQ accordion -->
     
@@ -1889,4 +1898,6 @@ const faqs = [
     recalculate();
 
   </script>
+
+  <ContentFooter category="finance" />
 </Layout>
