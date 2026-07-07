@@ -1,0 +1,812 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+
+const dtiFaqs = [
+  {
+    question: "What's a good DTI ratio for a mortgage?",
+    answer: "For conventional loans, lenders prefer a back-end DTI of 36% or less. FHA loans allow up to 50% with compensating factors like strong credit or significant reserves."
+  },
+  {
+    question: "Does FHA really allow 50% DTI?",
+    answer: "Yes, FHA permits back-end DTIs up to 50% in some cases, but most lenders apply stricter limits (typically 43%) unless the borrower has strong compensating factors."
+  },
+  {
+    question: "How do lenders treat deferred student loans?",
+    answer: "For FHA loans, lenders may exclude deferred student loans from DTI if there's documented evidence the loans will remain deferred for at least 12 months. Conventional loans typically count 1% of the balance as the monthly payment."
+  },
+  {
+    question: "Can I include my partner's income?",
+    answer: "Yes, if your partner is a co-borrower on the loan. Their income, debts, and credit history are all considered together. Non-borrowing partner income is generally not counted."
+  },
+  {
+    question: "Does DTI affect my interest rate?",
+    answer: "Indirectly, yes. A higher DTI typically signals higher risk to lenders, which may result in a higher interest rate or require mortgage insurance. Better DTI ratios usually unlock the best rates."
+  },
+];
+
+const faqJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": dtiFaqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+});
+---
+
+<Layout 
+  title="DTI Calculator - Calculate Debt-to-Income Ratio | ToolzTotal"
+  description="Calculate your Debt-to-Income (DTI) ratio for mortgage qualification. See front-end and back-end DTI and lender classification instantly."
+  canonicalUrl="https://toolztotal.com/finance/dti-calculator"
+  faqJsonLd={faqJsonLd}
+>
+  <ToolSchema
+    toolName="DTI Calculator"
+    toolSlug="dti-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate your Debt-to-Income (DTI) ratio for mortgage qualification. See front-end and back-end DTI and lender classification."
+    faqs={dtiFaqs}
+  />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categorySlug="finance"
+      categoryName="Finance & Loans"
+      toolName="DTI Calculator"
+      toolSlug="dti-calculator"
+    />
+
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Debt-to-Income (DTI) Ratio Calculator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate your monthly Debt-to-Income ratio for home mortgages and loans. See your front-end (housing) and back-end (total debt) ratios alongside lender qualification rules.
+      </p>
+    </div>
+
+    <!-- Main Workspace Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Input Form (5 cols) -->
+      <form id="dti-form" class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6" onsubmit="return false;">
+        
+        <!-- SECTION: Monthly Income -->
+        <div>
+          <h2 class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4">Monthly Income</h2>
+          
+          <div class="space-y-4">
+            <!-- Gross Monthly Income -->
+            <div>
+              <label for="gross-income" class="block text-xs font-mono uppercase text-mute mb-1.5">Gross Monthly Income ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="gross-income" 
+                  value="8,000" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 8,000"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- Co-applicant income -->
+            <div>
+              <label for="co-income" class="block text-xs font-mono uppercase text-mute mb-1.5">Co-Applicant Income ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="co-income" 
+                  value="0" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 4,000"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+
+            <!-- Other monthly income -->
+            <div>
+              <label for="other-income" class="block text-xs font-mono uppercase text-mute mb-1.5">Other Monthly Income ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="other-income" 
+                  value="0" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 1,500"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Monthly Debts -->
+        <div class="border-t border-hairline pt-5">
+          <h2 class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4">Monthly Debts</h2>
+          
+          <div class="space-y-4">
+            <!-- Housing payment -->
+            <div>
+              <label for="housing-payment" class="block text-xs font-mono uppercase text-mute mb-1.5">Housing Payment (Rent/PITI) ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="housing-payment" 
+                  value="1,800" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 1,800"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">Include principal, interest, taxes, home insurance, HOA, and PMI.</p>
+            </div>
+
+            <!-- Auto loan -->
+            <div>
+              <label for="auto-loan" class="block text-xs font-mono uppercase text-mute mb-1.5">Auto Loans ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="auto-loan" 
+                  value="450" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 350"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+
+            <!-- Student loans -->
+            <div>
+              <label for="student-loan" class="block text-xs font-mono uppercase text-mute mb-1.5">Student Loans ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="student-loan" 
+                  value="250" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 200"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+
+            <!-- Credit cards -->
+            <div>
+              <label for="credit-cards" class="block text-xs font-mono uppercase text-mute mb-1.5">Credit Cards Minimums ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="credit-cards" 
+                  value="200" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 100"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+
+            <!-- Other debts -->
+            <div>
+              <label for="other-debts" class="block text-xs font-mono uppercase text-mute mb-1.5">Other Recurring Debts ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
+                <input 
+                  type="text" 
+                  id="other-debts" 
+                  value="0" 
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 150"
+                  inputmode="decimal"
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">Personal loans, child support, or alimony.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col gap-2 pt-4">
+          <button 
+            type="submit" 
+            id="calculate-btn"
+            class="w-full h-10 bg-primary hover:bg-primary-strong text-on-primary font-sans font-bold text-sm rounded-lg transition-colors cursor-pointer shadow-lvl2 text-center"
+          >
+            Calculate DTI
+          </button>
+          <button 
+            type="button" 
+            id="reset-btn"
+            class="w-full py-2 text-mute hover:text-ink font-sans text-xs transition-colors cursor-pointer text-center"
+          >
+            Reset Form
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Results Dashboard (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Output Cards Grid -->
+        <div id="results-panel" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          
+          <!-- Card 1: Front-End -->
+          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-1">Front-End DTI</h3>
+              <p class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums" id="front-end-val">0.0%</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">Housing / Income</p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">Lenders prefer ≤ 28%</p>
+            </div>
+          </div>
+
+          <!-- Card 2: Back-End -->
+          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-1">Back-End DTI</h3>
+              <p class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums" id="back-end-val">0.0%</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">Total Debts / Income</p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">Lenders prefer ≤ 36%</p>
+            </div>
+          </div>
+
+          <!-- Card 3: Classification -->
+          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-1">Lender Profile</h3>
+              <p id="classification-val" class="text-base font-bold font-sans tracking-tight mt-1 leading-snug">Waiting...</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <div id="classification-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider">
+                <span id="badge-dot" class="w-1.5 h-1.5 rounded-full"></span>
+                <span id="badge-text">Pending</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Breakdown Details Table -->
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h3 class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2">Calculation Details</h3>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead>
+                <tr class="border-b border-hairline font-mono text-mute uppercase text-[10px] tracking-wider">
+                  <th class="py-2.5 px-3">Category</th>
+                  <th class="py-2.5 px-3 text-right">Monthly Amount</th>
+                  <th class="py-2.5 px-3 text-right">% of Income</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-hairline text-body tabular-nums">
+                <tr>
+                  <td class="py-3 px-3 font-semibold text-ink">Total Qualifying Income</td>
+                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-income">$0.00</td>
+                  <td class="py-3 px-3 text-right font-semibold text-ink">100.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Gross monthly income</td>
+                  <td class="py-3 px-3 text-right" id="row-gross">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-gross-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Co-applicant income</td>
+                  <td class="py-3 px-3 text-right" id="row-co">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-co-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Other monthly income</td>
+                  <td class="py-3 px-3 text-right" id="row-other">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-other-pct">0.0%</td>
+                </tr>
+                
+                <tr class="bg-canvas-soft-2/20">
+                  <td class="py-3 px-3 font-semibold text-ink">Total Monthly Debts</td>
+                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-total-debts">$0.00</td>
+                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-total-debts-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Housing expenses (PITI)</td>
+                  <td class="py-3 px-3 text-right" id="row-house">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-house-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Auto loans</td>
+                  <td class="py-3 px-3 text-right" id="row-auto">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-auto-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Student loans</td>
+                  <td class="py-3 px-3 text-right" id="row-student">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-student-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Credit card minimums</td>
+                  <td class="py-3 px-3 text-right" id="row-cc">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-cc-pct">0.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body">Other recurring debts</td>
+                  <td class="py-3 px-3 text-right" id="row-misc">$0.00</td>
+                  <td class="py-3 px-3 text-right" id="row-misc-pct">0.0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Local error message panel -->
+        <div id="error-panel" class="hidden bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 rounded-xl p-4 text-rose-700 dark:text-rose-400 text-xs leading-relaxed font-sans">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Disclaimers always visible below calculation -->
+        <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-2 text-[11px] font-sans text-mute leading-relaxed">
+          <p>
+            * **Estimate Only**: This is a simulated guide. Lenders utilize comprehensive underwriting standards including credit bureau scores, loan-to-value (LTV) ratios, job history stability, and cash reserve limits.
+          </p>
+          <p>
+            * **Program Guidelines**: Federal program agencies (FHA, VA, USDA) and conventional lenders apply distinct maximum DTI rules. Always consult with a licensed broker for program-specific guidelines.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Explanations panel (Below the fold) -->
+    <section class="mt-16 bg-canvas border border-hairline rounded-2xl p-6 md:p-8 shadow-lvl1">
+      <h2 class="text-lg font-bold text-ink font-sans mb-4 border-b border-hairline pb-2">Understanding Your DTI Ratio Ratios</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs md:text-sm font-sans leading-relaxed text-body">
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">Front-End DTI (Housing Ratio)</h3>
+            <p>
+              Measures the portion of your gross income dedicated purely to housing costs (PITI + HOA + PMI). Lenders prefer this to be 28% or less. This shows if you are taking on too expensive a property relative to basic cash intake.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">Back-End DTI (Total Debt Ratio)</h3>
+            <p>
+              Sum of all monthly financial obligations (housing costs + auto loans + student loan minimums + credit card minimums + other legal obligations) relative to gross income. This is the crucial ratio lenders prioritize, preferring it to remain under 36%.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">What Counts as "Debt"</h3>
+            <p>
+              Only count recurring, contractually binding monthly debt payments. This includes minimum payments shown on credit card statements, auto loan payments, student loan obligations, and child support.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">What Does NOT Count</h3>
+            <p>
+              Do not include daily operational expenses such as utilities (power, gas, water), food and grocery expenses, car or health insurance premiums, internet subscriptions, cell phone bills, or tax allocations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed SEO Article Section -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">What is DTI and Why Does It Matter?</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          When you submit a loan application for a residential mortgage, lenders evaluate your credit profile using several metrics. Principal among them is your <strong>Debt-to-Income (DTI) ratio</strong>. DTI is a core measurement representing your capacity to repay monthly principal. Underwriters list DTI as one of the four essential components—the "Four Cs"—of mortgage qualifying criteria: Credit score (credit history), Capacity (your DTI ratio), Collateral (property value assessment), and Capital (savings reserves). While your credit rating highlights your historical willingness to pay bills, your DTI percentage indicates whether you possess the structural budget room to afford a new housing payment without experiencing financial distress.
+        </p>
+        <p>
+          According to consumer advice guidelines from the Consumer Financial Protection Bureau (CFPB), a lower DTI indicates a healthy balance between your income and monthly obligations. If too much of your cash intake is consumed by recurring liabilities, you will have less budget buffer for emergencies, increasing default risks.
+        </p>
+      </div>
+
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">Front-End vs Back-End DTI: What's the Difference?</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Underwriters distinguish between two distinct DTI ratios: the **front-end ratio** and the **back-end ratio**. The front-end ratio, often referred to as the housing ratio, focuses exclusively on your projected housing payment. This includes your mortgage principal, interest, real estate taxes, homeowners insurance, private mortgage insurance (PMI), and homeowners association (HOA) dues. The back-end ratio, in contrast, covers all housing expenses plus your remaining monthly debts, including student loans, auto payments, and minimum credit card statements.
+        </p>
+        
+        <div class="overflow-x-auto my-6 border border-hairline rounded-lg bg-canvas shadow-lvl1">
+          <table class="w-full text-left border-collapse text-xs md:text-sm font-sans">
+            <thead>
+              <tr class="bg-canvas-soft-2 font-mono text-mute uppercase text-[11px] tracking-wider border-b border-hairline">
+                <th class="py-3 px-4">DTI Ratio Type</th>
+                <th class="py-3 px-4">Formula</th>
+                <th class="py-3 px-4">Target Guidelines</th>
+                <th class="py-3 px-4">FHA Maximums</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline text-body">
+              <tr>
+                <td class="py-3.5 px-4 font-bold text-ink">Front-End DTI</td>
+                <td class="py-3.5 px-4 font-mono text-[11px]">Housing Expenses / Gross Income</td>
+                <td class="py-3.5 px-4">≤ 28%</td>
+                <td class="py-3.5 px-4">~31%</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-4 font-bold text-ink">Back-End DTI</td>
+                <td class="py-3.5 px-4 font-mono text-[11px]">Total Monthly Debts / Gross Income</td>
+                <td class="py-3.5 px-4">≤ 36%</td>
+                <td class="py-3.5 px-4">50% (with compensating factors)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">How Lenders Calculate DTI (Real Example)</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Let us walk through a practical mortgage application scenario. Suppose a home buyer earns a gross salary of <strong>$80,000 per year</strong>, which translates to a gross monthly qualifying income of <strong>$6,667</strong> ($80,000 ÷ 12 months). They are requesting a conforming home loan with a projected monthly housing cost (PITI) of <strong>$1,800</strong>.
+        </p>
+        <p>
+          To compute the front-end housing ratio:
+        </p>
+        <div class="bg-canvas-soft-2/30 border border-hairline rounded-xl p-4 font-mono text-xs md:text-sm text-ink space-y-1">
+          <p>Front-End DTI = (Housing Expenses ÷ Gross Monthly Income) × 100</p>
+          <p>Front-End DTI = ($1,800 ÷ $6,666.67) × 100 = 27.0%</p>
+        </div>
+        <p>
+          Next, let's assume the applicant has additional recurring debt obligations:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Auto Loan Payment:</strong> $450</li>
+          <li><strong>Student Loan Minimum:</strong> $250</li>
+          <li><strong>Credit Card Minimums:</strong> $200</li>
+          <li><strong>Total Non-Housing Obligations:</strong> $900 / month</li>
+        </ul>
+        <p>
+          Now, to resolve the back-end total debt ratio, we add the housing expense to the other obligations:
+        </p>
+        <div class="bg-canvas-soft-2/30 border border-hairline rounded-xl p-4 font-mono text-xs md:text-sm text-ink space-y-1">
+          <p>Total Monthly Debt Obligations = $1,800 + $900 = $2,700</p>
+          <p>Back-End DTI = (Total Obligations ÷ Gross Monthly Income) × 100</p>
+          <p>Back-End DTI = ($2,700 ÷ $6,666.67) × 100 = 40.5%</p>
+        </div>
+        <p>
+          In this example, the borrower's ratio profile is <strong>27/40.5</strong>. Because their back-end DTI of 40.5% exceeds the standard 36% benchmark for conventional mortgages, they are considered a "Borderline" applicant. A lender might still approve the loan but may require an excellent credit score, a higher down payment, or larger cash reserves.
+        </p>
+      </div>
+
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">How to Improve Your DTI Before Applying</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          If your calculated DTI ratio exceeds typical underwriting thresholds, taking proactive measures to optimize your ratios before seeking pre-approval is highly recommended:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Target High-Payment, Low-Balance Debts:</strong> Pay off small accounts first (like a retail credit card with a $300 balance and $45 payment). Eliminating the payment entirely reduces your monthly debt load and improves DTI far more than paying down a larger loan balance with a similar payment.</li>
+          <li><strong>Avoid New Inquiries and Purchases:</strong> Do not open new credit lines, finance vehicles, or make large retail purchases on installment plans within 6 months of your home loan application. Doing so will add to your debt load and negatively affect your DTI.</li>
+          <li><strong>Document Auxiliary Income Sources:</strong> Ensure you document all qualifying income, such as bonuses, freelance side revenue, child support, or rental income, as this expands the denominator of your DTI ratio.</li>
+          <li><strong>Introduce a Co-Applicant:</strong> Having a co-signer or co-borrower adds their gross monthly income to the application, which can significantly lower the overall DTI ratio.</li>
+        </ul>
+      </div>
+
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">DTI Limits by Loan Type (2026)</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          Underwriting guidelines vary by loan type, enabling different DTI maximum thresholds:
+        </p>
+        
+        <div class="overflow-x-auto my-6 border border-hairline rounded-lg bg-canvas shadow-lvl1">
+          <table class="w-full text-left border-collapse text-xs md:text-sm font-sans">
+            <thead>
+              <tr class="bg-canvas-soft-2 font-mono text-mute uppercase text-[11px] tracking-wider border-b border-hairline">
+                <th class="py-3 px-4">Loan Program</th>
+                <th class="py-3 px-4 text-center">Max Front-End</th>
+                <th class="py-3 px-4 text-center">Max Back-End</th>
+                <th class="py-3 px-4 text-center">Typical Min Credit</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline text-body text-center">
+              <tr>
+                <td class="py-3.5 px-4 font-bold text-ink text-left">Conventional Loans</td>
+                <td class="py-3.5 px-4">28%</td>
+                <td class="py-3.5 px-4">36% (up to 45% with compensating factors)</td>
+                <td class="py-3.5 px-4">620</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-4 font-bold text-ink text-left">FHA Loans</td>
+                <td class="py-3.5 px-4">31%</td>
+                <td class="py-3.5 px-4">43% (up to 56.9% with strong compensating factors)</td>
+                <td class="py-3.5 px-4">580</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-4 font-bold text-ink text-left">VA Loans</td>
+                <td class="py-3.5 px-4">N/A</td>
+                <td class="py-3.5 px-4">41% (more flexible with residual income check)</td>
+                <td class="py-3.5 px-4">580</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-4 font-bold text-ink text-left">USDA Loans</td>
+                <td class="py-3.5 px-4">29%</td>
+                <td class="py-3.5 px-4">41%</td>
+                <td class="py-3.5 px-4">640</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- References -->
+    <Sources sources={[
+      { label: 'Consumer Financial Protection Bureau (CFPB) — DTI Ratio Guide', url: 'https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-why-does-it-matter-for-mortgages-en-179/' },
+      { label: 'Federal Reserve Board — Consumer Guide to Credit', url: 'https://www.federalreserve.gov/consumerinfo/' },
+      { label: 'Investopedia — Debt-to-Income (DTI) Ratio Definition', url: 'https://www.investopedia.com/terms/d/dti.asp' }
+    ]} />
+
+    <!-- FAQ Accordion section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {dtiFaqs.map((faq, index) => (
+          <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+            <button 
+              type="button"
+              class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+              aria-expanded="false"
+              id={`faq-btn-${index}`}
+            >
+              <span>{faq.question}</span>
+              <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+              <p class="text-body text-sm font-sans leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Related Tools mapping -->
+    <RelatedTools
+      categorySlug="finance"
+      toolSlug="dti-calculator"
+    />
+
+  </div>
+
+  <ContentFooter category="finance" />
+</Layout>
+
+<script>
+  // DOM Elements
+  const grossIncomeInput = document.getElementById('gross-income') as HTMLInputElement;
+  const coIncomeInput = document.getElementById('co-income') as HTMLInputElement;
+  const otherIncomeInput = document.getElementById('other-income') as HTMLInputElement;
+  const housingPaymentInput = document.getElementById('housing-payment') as HTMLInputElement;
+  const autoLoanInput = document.getElementById('auto-loan') as HTMLInputElement;
+  const studentLoanInput = document.getElementById('student-loan') as HTMLInputElement;
+  const creditCardsInput = document.getElementById('credit-cards') as HTMLInputElement;
+  const otherDebtsInput = document.getElementById('other-debts') as HTMLInputElement;
+
+  const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
+  const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
+
+  const frontEndVal = document.getElementById('front-end-val') as HTMLParagraphElement;
+  const backEndVal = document.getElementById('back-end-val') as HTMLParagraphElement;
+  const classificationVal = document.getElementById('classification-val') as HTMLParagraphElement;
+  
+  const badgeDot = document.getElementById('badge-dot') as HTMLSpanElement;
+  const badgeText = document.getElementById('badge-text') as HTMLSpanElement;
+  const classificationBadge = document.getElementById('classification-badge') as HTMLDivElement;
+
+  const errorPanel = document.getElementById('error-panel') as HTMLDivElement;
+
+  // Table Row values
+  const rowIncome = document.getElementById('row-income') as HTMLTableCellElement;
+  const rowGross = document.getElementById('row-gross') as HTMLTableCellElement;
+  const rowGrossPct = document.getElementById('row-gross-pct') as HTMLTableCellElement;
+  const rowCo = document.getElementById('row-co') as HTMLTableCellElement;
+  const rowCoPct = document.getElementById('row-co-pct') as HTMLTableCellElement;
+  const rowOther = document.getElementById('row-other') as HTMLTableCellElement;
+  const rowOtherPct = document.getElementById('row-other-pct') as HTMLTableCellElement;
+
+  const rowTotalDebts = document.getElementById('row-total-debts') as HTMLTableCellElement;
+  const rowTotalDebtsPct = document.getElementById('row-total-debts-pct') as HTMLTableCellElement;
+  const rowHouse = document.getElementById('row-house') as HTMLTableCellElement;
+  const rowHousePct = document.getElementById('row-house-pct') as HTMLTableCellElement;
+  const rowAuto = document.getElementById('row-auto') as HTMLTableCellElement;
+  const rowAutoPct = document.getElementById('row-auto-pct') as HTMLTableCellElement;
+  const rowStudent = document.getElementById('row-student') as HTMLTableCellElement;
+  const rowStudentPct = document.getElementById('row-student-pct') as HTMLTableCellElement;
+  const rowCc = document.getElementById('row-cc') as HTMLTableCellElement;
+  const rowCcPct = document.getElementById('row-cc-pct') as HTMLTableCellElement;
+  const rowMisc = document.getElementById('row-misc') as HTMLTableCellElement;
+  const rowMiscPct = document.getElementById('row-misc-pct') as HTMLTableCellElement;
+
+  // Clean value parser: handles commas, empty spaces, and negative checks
+  function parseVal(el: HTMLInputElement): number {
+    const rawVal = el.value.replace(/,/g, '').trim();
+    if (rawVal === '') return 0;
+    const parsed = parseFloat(rawVal);
+    return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+  }
+
+  // Format money
+  function formatMoney(num: number): string {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+  }
+
+  // Round utility
+  function round(num: number, decimals: number): number {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  }
+
+  // Calculation function
+  function runCalculations() {
+    errorPanel.classList.add('hidden');
+    errorPanel.textContent = '';
+
+    const gross = parseVal(grossIncomeInput);
+    const co = parseVal(coIncomeInput);
+    const other = parseVal(otherIncomeInput);
+
+    const totalIncome = gross + co + other;
+
+    if (totalIncome === 0) {
+      errorPanel.classList.remove('hidden');
+      errorPanel.textContent = 'Please enter your gross monthly income to compute the ratios.';
+      return;
+    }
+
+    const house = parseVal(housingPaymentInput);
+    const auto = parseVal(autoLoanInput);
+    const student = parseVal(studentLoanInput);
+    const cc = parseVal(creditCardsInput);
+    const misc = parseVal(otherDebtsInput);
+
+    const totalDebts = house + auto + student + cc + misc;
+
+    const frontDti = (house / totalIncome) * 100;
+    const backDti = (totalDebts / totalIncome) * 100;
+
+    // Classification
+    let statusText = 'Strong Candidate';
+    let statusClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400';
+    let dotClass = 'bg-emerald-500';
+
+    if (backDti <= 36) {
+      statusText = 'Strong Candidate';
+      statusClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400';
+      dotClass = 'bg-emerald-500';
+    } else if (backDti <= 43) {
+      statusText = 'Borderline';
+      statusClass = 'bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400';
+      dotClass = 'bg-amber-500';
+    } else {
+      statusText = 'High Risk';
+      statusClass = 'bg-rose-100 text-rose-800 dark:bg-rose-950/30 dark:text-rose-400';
+      dotClass = 'bg-rose-500';
+    }
+
+    // UI Updates
+    frontEndVal.textContent = round(frontDti, 1).toFixed(1) + '%';
+    backEndVal.textContent = round(backDti, 1).toFixed(1) + '%';
+    classificationVal.textContent = statusText === 'Strong Candidate' ? '✅ Strong Candidate' : (statusText === 'Borderline' ? '⚠️ Borderline Profile' : '⛔ High Debt Burden');
+
+    // Badge styling updates
+    classificationBadge.className = `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${statusClass}`;
+    badgeDot.className = `w-1.5 h-1.5 rounded-full ${dotClass}`;
+    badgeText.textContent = statusText;
+
+    // Populate Details Table
+    rowIncome.textContent = formatMoney(totalIncome);
+    rowGross.textContent = formatMoney(gross);
+    rowGrossPct.textContent = round((gross / totalIncome) * 100, 1).toFixed(1) + '%';
+    rowCo.textContent = formatMoney(co);
+    rowCoPct.textContent = round((co / totalIncome) * 100, 1).toFixed(1) + '%';
+    rowOther.textContent = formatMoney(other);
+    rowOtherPct.textContent = round((other / totalIncome) * 100, 1).toFixed(1) + '%';
+
+    rowTotalDebts.textContent = formatMoney(totalDebts);
+    rowTotalDebtsPct.textContent = round(backDti, 1).toFixed(1) + '%';
+    rowHouse.textContent = formatMoney(house);
+    rowHousePct.textContent = round(frontDti, 1).toFixed(1) + '%';
+    rowAuto.textContent = formatMoney(auto);
+    rowAutoPct.textContent = round((auto / totalIncome) * 100, 1).toFixed(1) + '%';
+    rowStudent.textContent = formatMoney(student);
+    rowStudentPct.textContent = round((student / totalIncome) * 100, 1).toFixed(1) + '%';
+    rowCc.textContent = formatMoney(cc);
+    rowCcPct.textContent = round((cc / totalIncome) * 100, 1).toFixed(1) + '%';
+    rowMisc.textContent = formatMoney(misc);
+    rowMiscPct.textContent = round((misc / totalIncome) * 100, 1).toFixed(1) + '%';
+  }
+
+  // Format Inputs on Blur
+  function formatInputOnBlur(e: FocusEvent) {
+    const target = e.target as HTMLInputElement;
+    const rawVal = target.value.replace(/,/g, '').trim();
+    if (rawVal === '') return;
+    const parsed = parseFloat(rawVal);
+    if (!isNaN(parsed) && parsed >= 0) {
+      target.value = new Intl.NumberFormat('en-US').format(parsed);
+    }
+  }
+
+  // Register Input Event Listeners for real-time recalculations
+  const inputElements = [
+    grossIncomeInput, coIncomeInput, otherIncomeInput, 
+    housingPaymentInput, autoLoanInput, studentLoanInput, 
+    creditCardsInput, otherDebtsInput
+  ];
+
+  inputElements.forEach(input => {
+    input.addEventListener('input', runCalculations);
+    input.addEventListener('blur', formatInputOnBlur);
+  });
+
+  // Calculate Button
+  calculateBtn.addEventListener('click', runCalculations);
+
+  // Reset Button
+  resetBtn.addEventListener('click', () => {
+    grossIncomeInput.value = '8,000';
+    coIncomeInput.value = '0';
+    otherIncomeInput.value = '0';
+    housingPaymentInput.value = '1,800';
+    autoLoanInput.value = '450';
+    studentLoanInput.value = '250';
+    creditCardsInput.value = '200';
+    otherDebtsInput.value = '0';
+    runCalculations();
+  });
+
+  // FAQs Accordion bindings
+  document.querySelectorAll('.faq-toggle').forEach(button => {
+    button.addEventListener('click', () => {
+      const content = button.nextElementSibling as HTMLDivElement;
+      const chevron = button.querySelector('svg') as unknown as SVGElement;
+      const isHidden = content.classList.toggle('hidden');
+      chevron.classList.toggle('rotate-180', !isHidden);
+      button.setAttribute('aria-expanded', (!isHidden).toString());
+    });
+  });
+
+  // Initial Calculation on Load
+  runCalculations();
+</script>

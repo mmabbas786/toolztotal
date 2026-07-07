@@ -34,7 +34,8 @@ export const toolCatalog: Category[] = [
       { name: "Net Worth Calculator", slug: "net-worth-calculator", description: "Track your assets and liabilities dynamically to determine your net worth. Anonymous and local.", status: "live", keywords: ["net worth calculator", "assets and liabilities", "net worth"] },
       { name: "Inflation Calculator", slug: "inflation-calculator", description: "Calculate the purchasing power of money over time using historical CPI data.", status: "live", keywords: ["inflation calculator", "cpi inflation", "purchasing power"] },
       { name: "Percentage Calculator", slug: "percentage-calculator", description: "Calculate percentages, percentage change, and rates with custom visual graphs.", status: "live", keywords: ["percentage calculator", "percentage change", "percent of"] },
-      { name: "SaaS CAC:LTV Calculator", slug: "cac-ltv-calculator", description: "Calculate customer acquisition cost (CAC), lifetime value (LTV), LTV:CAC ratios, and payback periods.", status: "live", keywords: ["cac ltv calculator", "ltv cac ratio", "payback period"] }
+      { name: "SaaS CAC:LTV Calculator", slug: "cac-ltv-calculator", description: "Calculate customer acquisition cost (CAC), lifetime value (LTV), LTV:CAC ratios, and payback periods.", status: "live", keywords: ["cac ltv calculator", "ltv cac ratio", "payback period"] },
+      { name: "DTI Calculator", slug: "dti-calculator", description: "Calculate your Debt-to-Income (DTI) ratio for mortgage qualification. See front-end and back-end DTI and lender classification.", status: "live", keywords: ["dti calculator", "debt to income", "mortgage qualification"] }
     ]
   },
   {

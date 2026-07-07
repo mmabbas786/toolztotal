@@ -41,13 +41,19 @@ const intentMap: Record<string, string[]> = {
         "property-tax-calculator",
         "amortization-calculator",
         "cac-ltv-calculator",
-        "debt-to-income-calculator",
+        "dti-calculator",
     ],
     "mortgage-affordability-calculator": [
         "mortgage-calculator",
         "property-tax-calculator",
         "amortization-calculator",
         "dti-calculator",
+    ],
+    "dti-calculator": [
+        "mortgage-calculator",
+        "mortgage-affordability-calculator",
+        "loan-calculator",
+        "mortgage-refinance-calculator",
     ],
     "amortization-calculator": [
         "mortgage-calculator",
