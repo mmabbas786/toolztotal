@@ -13,7 +13,7 @@ const faqSchema = {
       "name": "What is self-employment tax?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Self-employment tax (SE tax) is the Social Security and Medicare tax paid by people who work for themselves — freelancers, independent contractors, sole proprietors, and partners. It is equivalent to the combined employer and employee FICA contributions. The combined SE tax rate is 15.3% (12.4% Social Security + 2.9% Medicare), applied to 92.35% of your net self-employment earnings."
+        "text": "Self-employment tax is the Social Security and Medicare tax paid by self-employed individuals. Employees split this cost with their employer — self-employed people pay both sides, totaling 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net SE earnings."
       }
     },
     {
@@ -21,7 +21,7 @@ const faqSchema = {
       "name": "Who has to pay self-employment tax?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "You generally must pay self-employment tax if your net self-employment earnings are $400 or more for the year. This includes sole proprietors, freelancers, 1099 contractors, gig workers, and partners in a partnership. Even if self-employment is a side business alongside a regular W-2 job, the SE income is still subject to SE tax."
+        "text": "Anyone with net self-employment earnings of $400 or more must file Schedule SE. This covers freelancers, 1099 contractors, sole proprietors, gig workers, and partners. Even if SE income is a side hustle alongside a W-2 job, the SE income is still taxed separately."
       }
     },
     {
@@ -29,7 +29,7 @@ const faqSchema = {
       "name": "How is self-employment tax different from income tax?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Self-employment tax covers Social Security and Medicare (FICA taxes). Income tax is a separate federal (and often state) tax on your taxable income after deductions. You owe both. One important note: you can deduct half of your SE tax from your gross income when calculating your federal income tax, which partially offsets the burden."
+        "text": "SE tax covers Social Security and Medicare. Income tax is a separate federal tax on your taxable income after deductions. You owe both. You can deduct half of your SE tax from gross income when calculating federal income tax, which reduces your income tax burden slightly."
       }
     },
     {
@@ -37,7 +37,7 @@ const faqSchema = {
       "name": "What happens if I don't pay quarterly estimated taxes?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If you expect to owe at least $1,000 in federal taxes for the year and your withholding doesn't cover enough of your liability, the IRS generally requires quarterly estimated tax payments. Failing to pay enough by each quarterly deadline can result in an underpayment penalty, calculated based on the amount underpaid and the IRS underpayment rate. The IRS provides Form 2210 to calculate this penalty."
+        "text": "If you owe $1,000+ and underpay by each quarterly deadline, the IRS can charge an underpayment penalty — calculated using the current federal short-term interest rate plus 3 percentage points. Paying quarterly keeps you current and avoids this penalty."
       }
     },
     {
@@ -45,7 +45,47 @@ const faqSchema = {
       "name": "Is this calculator a substitute for a tax professional?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. This self-employment tax calculator is a general estimation tool for informational purposes only. It does not constitute tax advice and cannot account for your full financial situation, state taxes, deductions, credits, or specific IRS rules that may apply. Always consult a licensed tax professional or CPA before making filing decisions, and verify current rates at irs.gov."
+        "text": "No. This tool provides general estimates for informational use only — it is not tax advice. Tax law is complex, changes annually, and depends on your complete financial picture, state taxes, credits, and deductions. Always consult a licensed CPA or tax attorney and verify figures at irs.gov before filing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is considered self-employed for tax purposes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The IRS considers you self-employed if you carry on a trade or business as a sole proprietor, an independent contractor, a member of a partnership, or otherwise work for yourself (including gig workers)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the self-employment tax rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The self-employment tax rate is 15.3% of net earnings. This consists of 12.4% for Social Security and 2.9% for Medicare."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I deduct a portion of my self-employment tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can deduct half of your self-employment tax (the employer-equivalent portion) as an adjustment to income on Form 1040, which lowers your Adjusted Gross Income (AGI)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What business expenses can I deduct to lower my tax liability?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can deduct ordinary and necessary business expenses, such as home office expenses, vehicle mileage, equipment, advertising, business insurance, and professional services."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I still pay self-employment tax if I have a W-2 day job?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Self-employment tax applies to all net freelance earnings of $400 or more, regardless of whether you also pay FICA taxes through a W-2 employer."
       }
     }
   ]
@@ -465,64 +505,172 @@ const ogMeta = {
         <p class="text-xs text-mute border-t border-hairline pt-4 mt-6">
           <strong>Disclaimer:</strong> This calculator is for general informational purposes only and does not constitute tax advice. All figures are estimates. Tax law is complex and changes annually. Consult a licensed CPA or tax attorney for guidance specific to your situation. Verify all rates, limits, and thresholds at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="underline">irs.gov</a> before filing.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Purpose and Rules of Quarterly Estimated Tax Payments</h3>
+        <p>
+          Unlike W-2 employees whose taxes are withheld from their weekly paychecks, self-employed individuals must pay taxes throughout the year. The IRS requires self-employed professionals to make quarterly estimated tax payments if they expect to owe $1,000 or more when filing their annual return. These payments are due in April, June, September, and January. Failing to make these payments, or underpaying relative to your actual income, results in an IRS underpayment penalty. Calculating your net earnings and setting aside a set percentage of your profit ensures you can meet quarterly tax deadlines smoothly.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Self-Employment Deductions: Reducing Your Taxable Income</h3>
+        <p>
+          The most effective way to lower your self-employment tax burden is to maximize your ordinary and necessary business expenses. Common deductions include home office deductions (calculated using either the simplified method or actual utility expenses), vehicle mileage costs (using the standard IRS mileage rate), equipment depreciation, professional service fees, marketing costs, and health insurance premiums. Tracking these deductions carefully throughout the year lowers your net business profit, directly reducing both your income tax and self-employment tax liability.
+        </p>
       </div>
     </article>
 
-    <!-- FAQ Section -->
-    <section class="mt-16 max-w-4xl" aria-label="Frequently Asked Questions">
-      <h2 class="text-xl font-bold text-ink font-sans mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-3" id="faq-accordion">
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is self-employment tax?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    
+    <!-- FAQ Accordion Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <!-- Q1 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is self-employment tax?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Self-employment tax is the Social Security and Medicare tax paid by self-employed individuals. Employees split this cost with their employer — self-employed people pay both sides, totaling 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net SE earnings.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Self-employment tax is the Social Security and Medicare tax paid by self-employed individuals. Employees split this cost with their employer — self-employed people pay both sides, totaling 15.3% (12.4% Social Security + 2.9% Medicare) on 92.35% of net SE earnings.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Who has to pay self-employment tax?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q2 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Who has to pay self-employment tax?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Anyone with net self-employment earnings of $400 or more must file Schedule SE. This covers freelancers, 1099 contractors, sole proprietors, gig workers, and partners. Even if SE income is a side hustle alongside a W-2 job, the SE income is still taxed separately.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Anyone with net self-employment earnings of $400 or more must file Schedule SE. This covers freelancers, 1099 contractors, sole proprietors, gig workers, and partners. Even if SE income is a side hustle alongside a W-2 job, the SE income is still taxed separately.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How is self-employment tax different from income tax?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q3 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How is self-employment tax different from income tax?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            SE tax covers Social Security and Medicare. Income tax is a separate federal tax on your taxable income after deductions. You owe both. You can deduct half of your SE tax from gross income when calculating federal income tax, which reduces your income tax burden slightly.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              SE tax covers Social Security and Medicare. Income tax is a separate federal tax on your taxable income after deductions. You owe both. You can deduct half of your SE tax from gross income when calculating federal income tax, which reduces your income tax burden slightly.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What happens if I don't pay quarterly estimated taxes?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q4 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What happens if I don't pay quarterly estimated taxes?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            If you owe $1,000+ and underpay by each quarterly deadline, the IRS can charge an underpayment penalty — calculated using the current federal short-term interest rate plus 3 percentage points. Paying quarterly keeps you current and avoids this penalty.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              If you owe $1,000+ and underpay by each quarterly deadline, the IRS can charge an underpayment penalty — calculated using the current federal short-term interest rate plus 3 percentage points. Paying quarterly keeps you current and avoids this penalty.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Is this calculator a substitute for a tax professional?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q5 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Is this calculator a substitute for a tax professional?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            No. This tool provides general estimates for informational use only — it is not tax advice. Tax law is complex, changes annually, and depends on your complete financial picture, state taxes, credits, and deductions. Always consult a licensed CPA or tax attorney and verify figures at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="text-primary underline">irs.gov</a> before filing.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No. This tool provides general estimates for informational use only — it is not tax advice. Tax law is complex, changes annually, and depends on your complete financial picture, state taxes, credits, and deductions. Always consult a licensed CPA or tax attorney and verify figures at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="text-primary underline">irs.gov</a> before filing.
+            </p>
           </div>
         </details>
-
+          
+        <!-- Q6 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Who is considered self-employed for tax purposes?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The IRS considers you self-employed if you carry on a trade or business as a sole proprietor, an independent contractor, a member of a partnership, or otherwise work for yourself (including gig workers).
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q7 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is the self-employment tax rate?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The self-employment tax rate is 15.3% of net earnings. This consists of 12.4% for Social Security and 2.9% for Medicare.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q8 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Can I deduct a portion of my self-employment tax?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes. You can deduct half of your self-employment tax (the employer-equivalent portion) as an adjustment to income on Form 1040, which lowers your Adjusted Gross Income (AGI).
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q9 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What business expenses can I deduct to lower my tax liability?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              You can deduct ordinary and necessary business expenses, such as home office expenses, vehicle mileage, equipment, advertising, business insurance, and professional services.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q10 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Do I still pay self-employment tax if I have a W-2 day job?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes. Self-employment tax applies to all net freelance earnings of $400 or more, regardless of whether you also pay FICA taxes through a W-2 employer.
+            </p>
+          </div>
+        </details>
       </div>
     </section>
 

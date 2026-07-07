@@ -279,6 +279,19 @@ const faqSchema = JSON.stringify({
         <p>
           All UUIDs generated on ToolzTotal are computed locally inside your browser using JavaScript's cryptographically secure <code>crypto.getRandomValues()</code> API. This API utilizes the underlying operating system's secure entropy source (such as Unix <code>/dev/urandom</code>), guaranteeing that the random number generation is safe from patterns or predictability. Because everything runs client-side, your generated keys never travel over the network, making them safe for API tokens, secret session keys, and sensitive production keys.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Five UUID Versions: Version 1 vs. Version 4</h3>
+        <p>
+          The RFC 9562 standard defines several UUID versions, each utilizing different generation algorithms. UUID Version 1 is time-based, combining the system timestamp, clock sequence, and the host MAC address. This guarantees uniqueness but exposes the creation time and machine identity. UUID Version 4, in contrast, is completely random, using cryptographically secure pseudo-random number generators to populate 122 bits of random data. Version 4 represents the industry standard for database primary keys and session tracking due to its high randomness and security.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">UUID Version 7: The Modern Standard for Databases</h3>
+        <p>
+          UUID Version 7 represents a newer RFC standard designed to solve index fragmentation issues in relational databases. It stores a 48-bit Unix timestamp at the start of the identifier, followed by 74 bits of random data. This creates time-ordered, lexicographically sortable strings. As a result, database systems can append new keys in sequential index order, preventing B-tree page splits and improving database write performance compared to random Version 4 UUIDs.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding GUIDs: Microsoft's Implementation</h3>
+        <p>
+          GUID (Globally Unique Identifier) is Microsoft's implementation of the UUID standard. Conceptually and structurally, they are identical 128-bit identifiers. Traditionally, GUIDs are written in uppercase and are often wrapped in curly braces (e.g., <code>&#123;D3B07384-D113-4BCE-A512-E51B83151D87&#125;</code>). Our generator allows you to switch between standard lowercase UUIDs, uppercase GUIDs, and formats without hyphens to support both Unix-based and Windows-based system requirements.
+        </p>
       </div>
     </article>
 

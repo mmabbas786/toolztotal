@@ -246,6 +246,19 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p>
           While basic validation checks that your syntax is correct, schema validation ensures that your JSON conforms to a specific structure. By providing a JSON Schema (a metadata definition of required fields, expected data types, string patterns, and number ranges), you can instantly verify that API payloads contain all necessary parameters. Our tool includes built-in schema checking, helping you catch missing properties or incorrect type definitions on the fly.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">JSON Syntax Rules and Validation Standards</h3>
+        <p>
+          JSON (JavaScript Object Notation) is a strict data interchange format. Common syntax rules include: keys must be enclosed in double quotes, strings must use double quotes (single quotes are invalid), trailing commas are prohibited (e.g. after the last element in an object or array), and only standard primitives (numbers, strings, booleans, null, objects, arrays) are supported. If a JSON file contains even a minor error, parser scripts will throw a syntax error and reject the entire payload. Formatting and validating your JSON ensures it complies with RFC 8259 before transmission.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding the Differences Between JSON and JSONC</h3>
+        <p>
+          Standard JSON does not support comments or trailing commas. However, many developers use a variant called JSONC (JSON with Comments), which allows single-line (<code>//</code>) and multi-line (<code>/* */</code>) comments. JSONC is frequently used for configuration files, such as VS Code's <code>settings.json</code> or TypeScript's <code>tsconfig.json</code>. When writing client-side API payloads, you must ensure comments are stripped out before parsing, as standard browser parsers (such as <code>JSON.parse()</code>) will throw syntax errors on comment lines.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Minification vs. Beautification of JSON Payloads</h3>
+        <p>
+          Formatting JSON serves two distinct purposes. Beautification adds indentation, newlines, and spacing, making complex nested objects readable for human developers during debugging. Minification, on the other hand, strips out all optional whitespace, tabs, and newlines. This reduces the overall payload size by up to 20%, saving valuable bandwidth when transmitting data over HTTP networks. A premium formatter tool supports switching between these modes instantly.
+        </p>
       </div>
     </article>
 

@@ -10,7 +10,7 @@ const faqSchema = {
       "name": "What is a break-even point?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The break-even point (BEP) is the level of sales at which total revenue equals total costs, resulting in neither profit nor loss. It is a critical financial metric that tells a business owner exactly how many units (or how much revenue) they need to generate to cover all fixed and variable expenses. Beyond the break-even point, every additional unit sold contributes directly to profit."
+        "text": "The break-even point (BEP) is the sales level where total revenue exactly equals total costs — no profit, no loss. It's the minimum output you need to keep your business viable. Every unit sold beyond that point contributes directly to profit."
       }
     },
     {
@@ -18,7 +18,7 @@ const faqSchema = {
       "name": "How do you calculate the break-even point?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The break-even point in units is calculated by dividing total fixed costs by the contribution margin per unit (price per unit minus variable cost per unit). The formula is: Break-Even Units = Fixed Costs / (Price - Variable Cost Per Unit). For break-even revenue, multiply the break-even units by the price per unit. This simple calculation helps businesses understand the minimum sales volume required to avoid losses."
+        "text": "Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost Per Unit). For example, if fixed costs are $50,000, the price is $80, and the variable cost is $30, your contribution margin is $50, and you need 1,000 units to break even. Break-even revenue is simply units × price."
       }
     },
     {
@@ -26,7 +26,7 @@ const faqSchema = {
       "name": "What is contribution margin?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Contribution margin is the difference between the selling price per unit and the variable cost per unit. It represents the portion of each sale that contributes toward covering fixed costs and generating profit. The contribution margin ratio expresses this as a percentage of the selling price. A higher contribution margin means more of each revenue dollar is available to cover fixed costs, making it easier to reach the break-even point."
+        "text": "Contribution margin is the difference between the selling price and the variable cost per unit. It represents how much each sale contributes toward covering fixed costs and generating profit. The contribution margin ratio (contribution margin ÷ price) tells you what percentage of each dollar of revenue goes toward fixed costs and profit."
       }
     },
     {
@@ -34,7 +34,7 @@ const faqSchema = {
       "name": "What is break-even revenue?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Break-even revenue is the total dollar amount of sales a business must generate to cover all of its costs — both fixed and variable — without earning a profit or incurring a loss. It is calculated by multiplying the break-even unit volume by the unit selling price. Alternatively, you can compute it by dividing total fixed costs by the contribution margin ratio. Break-even revenue provides a dollar-target benchmark for sales planning."
+        "text": "Break-even revenue is the total dollar amount you need to earn from sales to cover all costs. It's calculated by multiplying break-even units by the selling price, or by dividing fixed costs by the contribution margin ratio. It gives you a clear revenue target for your sales and marketing efforts."
       }
     },
     {
@@ -42,7 +42,47 @@ const faqSchema = {
       "name": "Is this break-even calculator financial advice?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. This break-even analysis calculator is a general estimation and educational tool for informational purposes only. It provides simplified projections based on the inputs you supply and does not account for variable cost fluctuations, economies of scale, tax effects, or other real-world business complexities. Always consult a qualified accountant, financial advisor, or business consultant before making strategic pricing or production decisions."
+        "text": "No. This is an educational tool that provides simplified mathematical estimates. Real-world cost structures are more complex — variable costs may decrease at scale, fixed costs can step up, and external factors like competition and demand affect pricing. Always consult a qualified accountant or business advisor for strategic financial decisions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does a change in sales mix affect the break-even point?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For businesses selling multiple products, the break-even point is based on the weighted-average contribution margin ratio. A shift in sales mix toward high-margin products lowers the overall break-even point, while a shift toward low-margin items increases it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the margin of safety and why is it important?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The margin of safety is the difference between actual or projected sales and break-even sales. It measures how much sales can drop before the business begins to lose money, serving as a buffer against market risks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the break-even point calculated before or after taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The break-even point is calculated before taxes, as profit is $0 at break-even, meaning income tax liability is also $0."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do inflation and rising material costs impact break-even analysis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Inflation increases variable costs (like raw materials) and fixed costs (like rent). Unless the selling price is raised, these cost increases lower the contribution margin per unit, raising the break-even volume."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a business have a negative break-even point?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A negative calculation typically indicates a negative contribution margin (variable costs exceed the selling price), meaning the business loses more money with every unit sold and can never break even."
       }
     }
   ]
@@ -418,61 +458,160 @@ const ogMeta = {
       </div>
     </article>
 
-    <!-- FAQ Section -->
-    <section class="mt-16 max-w-4xl" aria-label="Frequently Asked Questions">
-      <h2 class="text-xl font-bold text-ink font-sans mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-3" id="faq-accordion">
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is a break-even point?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    
+    <!-- FAQ Accordion Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <!-- Q1 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is a break-even point?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            The break-even point (BEP) is the sales level where total revenue exactly equals total costs — no profit, no loss. It's the minimum output you need to keep your business viable. Every unit sold beyond that point contributes directly to profit.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The break-even point (BEP) is the sales level where total revenue exactly equals total costs — no profit, no loss. It's the minimum output you need to keep your business viable. Every unit sold beyond that point contributes directly to profit.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How do you calculate the break-even point?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q2 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How do you calculate the break-even point?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost Per Unit). For example, if fixed costs are $50,000, the price is $80, and the variable cost is $30, your contribution margin is $50, and you need 1,000 units to break even. Break-even revenue is simply units × price.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost Per Unit). For example, if fixed costs are $50,000, the price is $80, and the variable cost is $30, your contribution margin is $50, and you need 1,000 units to break even. Break-even revenue is simply units × price.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is contribution margin?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q3 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is contribution margin?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Contribution margin is the difference between the selling price and the variable cost per unit. It represents how much each sale contributes toward covering fixed costs and generating profit. The contribution margin ratio (contribution margin ÷ price) tells you what percentage of each dollar of revenue goes toward fixed costs and profit.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Contribution margin is the difference between the selling price and the variable cost per unit. It represents how much each sale contributes toward covering fixed costs and generating profit. The contribution margin ratio (contribution margin ÷ price) tells you what percentage of each dollar of revenue goes toward fixed costs and profit.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is break-even revenue?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q4 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is break-even revenue?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Break-even revenue is the total dollar amount you need to earn from sales to cover all costs. It's calculated by multiplying break-even units by the selling price, or by dividing fixed costs by the contribution margin ratio. It gives you a clear revenue target for your sales and marketing efforts.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Break-even revenue is the total dollar amount you need to earn from sales to cover all costs. It's calculated by multiplying break-even units by the selling price, or by dividing fixed costs by the contribution margin ratio. It gives you a clear revenue target for your sales and marketing efforts.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Is this break-even calculator financial advice?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q5 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Is this break-even calculator financial advice?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            No. This is an educational tool that provides simplified mathematical estimates. Real-world cost structures are more complex — variable costs may decrease at scale, fixed costs can step up, and external factors like competition and demand affect pricing. Always consult a qualified accountant or business advisor for strategic financial decisions.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No. This is an educational tool that provides simplified mathematical estimates. Real-world cost structures are more complex — variable costs may decrease at scale, fixed costs can step up, and external factors like competition and demand affect pricing. Always consult a qualified accountant or business advisor for strategic financial decisions.
+            </p>
           </div>
         </details>
-
+          
+        <!-- Q6 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How does a change in sales mix affect the break-even point?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              For businesses selling multiple products, the break-even point is based on the weighted-average contribution margin ratio. A shift in sales mix toward high-margin products lowers the overall break-even point, while a shift toward low-margin items increases it.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q7 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is the margin of safety and why is it important?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The margin of safety is the difference between actual or projected sales and break-even sales. It measures how much sales can drop before the business begins to lose money, serving as a buffer against market risks.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q8 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Is the break-even point calculated before or after taxes?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The break-even point is calculated before taxes, as profit is $0 at break-even, meaning income tax liability is also $0.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q9 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How do inflation and rising material costs impact break-even analysis?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Inflation increases variable costs (like raw materials) and fixed costs (like rent). Unless the selling price is raised, these cost increases lower the contribution margin per unit, raising the break-even volume.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q10 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Can a business have a negative break-even point?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No. A negative calculation typically indicates a negative contribution margin (variable costs exceed the selling price), meaning the business loses more money with every unit sold and can never break even.
+            </p>
+          </div>
+        </details>
       </div>
     </section>
 

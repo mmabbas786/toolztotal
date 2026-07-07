@@ -283,6 +283,23 @@ My IP is 192.168.1.1 and my zip is 90210.</textarea>
           <li><strong>s (dotAll):</strong> Modifies the wildcard period (<code>.</code>) to match newline characters as well.</li>
           <li><strong>u (Unicode):</strong> Handles characters outside the basic multilingual plane correctly.</li>
         </ul>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Regex Lookarounds: Positive and Negative Lookaheads</h3>
+        <p>
+          Lookarounds are advanced regular expression assertions that match a pattern only if it is followed or preceded by another pattern, without including the secondary match in the captured result. Positive lookahead (<code>(?=pattern)</code>) matches if the pattern succeeds. Negative lookahead (<code>(?!pattern)</code>) matches if the pattern does not follow. Lookbehind assertions (<code>(?&lt;=pattern)</code> and <code>(?&lt;!pattern)</code>) look backward through the text. Using lookarounds allows you to write powerful patterns for checking complex criteria, such as verifying passwords contain at least one uppercase letter, one digit, and one symbol.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Regex Performance: Avoiding Catastrophic Backtracking</h3>
+        <p>
+          When writing complex regular expressions, developers must avoid catastrophic backtracking, a performance bottleneck that occurs when a regex engine evaluates an exponential number of matching paths. This happens when nesting qualifiers (such as <code>(a+)+</code>) on ambiguous strings, causing the browser or server CPU to spike to 100% and freeze. Testing your regex engines with sample inputs, avoiding duplicate quantifiers, and using possessive quantifiers or atomic groups prevents Denial of Service (ReDoS) vulnerabilities.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Common Regular Expression Flags Explained</h3>
+        <p>
+          Regex engines utilize flags to modify how patterns are matched across strings. The most common flags include: <code>g</code> (global match, which returns all matches in a string rather than stopping at the first), <code>i</code> (case-insensitive matching), <code>m</code> (multi-line matching, where <code>^</code> and <code>$</code> anchor to the beginning and end of each line), and <code>u</code> (unicode matching for emojis and international characters). Combining these flags allows you to adapt regular expressions to search text files or extract URLs dynamically.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Regex Escaping: Matching Special Meta-Characters</h3>
+        <p>
+          Because characters like <code>.</code>, <code>*</code>, <code>+</code>, <code>?</code>, <code>(</code>, and <code>[</code> represent instructions in the regex grammar, searching for them literally in text requires escaping them with a backslash (e.g., <code>\.</code> to match a literal period). Forgetting to escape these special meta-characters is the most common cause of regex syntax errors and unexpected match groups. Using a visual regex tester helps identify exactly which characters are parsed as matching rules and which are matched literally in your text.
+        </p>
       </div>
     </article>
 

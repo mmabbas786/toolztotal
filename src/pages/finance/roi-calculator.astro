@@ -11,7 +11,7 @@ const faqSchema = {
       "name": "What is a good ROI?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A 'good' ROI depends entirely on the risk profile and asset class. Historically, the S&P 500 averages a return of about 8% to 10% per year before adjusting for inflation. High-yield savings accounts might return 4-5%, while real estate syndicates or individual stocks aim for 12% to 15%+. Higher returns always entail higher risk and lower liquidity."
+        "text": "Standard equity portfolios average an 8% to 10% annual return before inflation adjustments. What constitutes a \"good\" return depends on risk levels and liquidity requirements. Higher risk projects demand higher premium targets (e.g., venture investments or individual startups seeking 25%+), whereas lower risk savings rates typically yield 3% to 5%."
       }
     },
     {
@@ -19,7 +19,7 @@ const faqSchema = {
       "name": "What's the difference between ROI and annualized ROI (CAGR)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Simple ROI measures the raw gain relative to cost over the entire holding period, regardless of duration. Annualized ROI (CAGR) measures the rate of return per year, compounded. For example, a 50% ROI over 1 year is exceptional, but a 50% ROI over 10 years is only about 4.14% annualized."
+        "text": "Simple ROI yields the raw ratio of gains relative to cumulative invested capital over the total time period. Annualized ROI (CAGR) normalizes that gain to a yearly rate, compounding it geometrically. This enables direct comparison of a 5-year investment with a 1-year investment."
       }
     },
     {
@@ -27,7 +27,7 @@ const faqSchema = {
       "name": "How do I calculate ROI with additional contributions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "When you add funds during the holding period, calculating CAGR requires finding the Internal Rate of Return (IRR) or Money-Weighted Rate of Return. This time-weights each cash addition to measure how hard your capital worked based on the specific month it was deployed. Our calculator solves this iteratively via a numerical bisection algorithm."
+        "text": "If you add funds over time, calculating annualized returns requires finding the Internal Rate of Return (IRR). Because a contribution added in Month 30 has less compounding time than the initial balance, IRR discounts each flow according to the exact month it was invested. Our calculator resolves this using a numerical bisection root-finder."
       }
     },
     {
@@ -35,7 +35,7 @@ const faqSchema = {
       "name": "Can I use this for real estate or stock investments?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. You can use it for stocks (initial buy, monthly contributions, and current market value), real estate (purchase down payment, monthly cash flows or renovation costs, and sales valuation), or business ventures to calculate total returns and annualized rates."
+        "text": "Yes, it is highly applicable for both. For stocks, enter the initial buy, monthly recurring additions, and current portfolio value. For real estate, input your down payment, monthly cash flows or mortgage amortization, and expected sale price to determine real returns."
       }
     },
     {
@@ -43,7 +43,47 @@ const faqSchema = {
       "name": "Is this ROI calculator financial advice?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No, this calculator is a pure mathematical modeling tool. It does not account for taxes, inflation, brokerage fees, or individual risk metrics. Consult a certified financial planner or tax advisor before making binding investment commitments."
+        "text": "No. Standard compounding calculations do not include asset liquidation fees, taxes, or inflation. Use the calculator for initial planning and scenario testing, and seek guidance from a qualified financial planner or tax advisor for professional advisory quotes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good return on investment (ROI)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A good ROI varies by asset class. Historically, the S&P 500 yields an average annual ROI of 8% to 10% (nominal). Real estate typically averages 6% to 8%, while riskier assets expect higher returns to offset the volatility."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does ROI compare to Return on Equity (ROE)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ROI measures the overall efficiency of an investment using total assets. ROE measures profitability relative to shareholder equity, showing how effectively a company utilizes owner capital."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ROI account for time value of money?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Simple ROI calculates the total return over the entire investment holding period, regardless of whether it took 1 year or 10 years. To account for time, use annualized ROI or CAGR (Compound Annual Growth Rate)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can ROI be negative?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. If the final value of your investment is less than your initial investment cost, the ROI will be negative, representing a capital loss."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do taxes impact my net ROI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Capital gains taxes, income taxes, and transaction fees reduce your final investment return. Net ROI calculates returns after subtracting all taxes, transaction costs, and management fees."
       }
     }
   ]
@@ -799,14 +839,28 @@ const faqJsonLd = JSON.stringify(faqSchema);
         <p class="text-mute text-xs italic mt-8 border-l-2 border-hairline pl-4">
           <strong>Important Note:</strong> This calculator provides general mathematical estimations for research and planning. It is not investment, tax, legal, or advisory counsel. Calculations do not account for inflation, trading commissions, or capital gains taxation. Past yields do not promise future performance. Consult with a qualified certified financial planner (CFP) or tax advisor before executing binding transactions.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Distinguishing Between Nominal ROI and Inflation-Adjusted ROI</h3>
+        <p>
+          When analyzing investment returns over long holding periods, it is essential to adjust for the eroding effects of inflation. Nominal ROI represents the basic percentage gain on your capital without accounting for price increases in the economy. Inflation-adjusted ROI (or real rate of return) factors in inflation, showing the actual growth in your purchasing power. For example, if an investment yields a 10% nominal return during a year with 4% inflation, the real ROI is approximately 5.8%. Evaluating investment options using real returns prevents overestimating the future value of your portfolio.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Significance of Compound Annual Growth Rate (CAGR)</h3>
+        <p>
+          Simple ROI measures the cumulative return over an entire holding period, but it fails to capture the velocity of growth over time. An investment that doubles in value (100% ROI) over two years is vastly superior to one that takes ten years to achieve the same result. To compare these investments fairly, financial professionals calculate the Compound Annual Growth Rate (CAGR). CAGR represents the smoothed annual rate at which an asset would have grown if it grew at a steady rate over the term, accounting for the compounding of returns.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Accounting for Transaction Fees and Capital Gains Taxes</h3>
+        <p>
+          To find your true net return on investment, you must subtract all transaction fees, brokerage commissions, account management fees, and capital gains taxes. Taxes on investments depend on your holding period; assets held for over a year qualify for lower long-term capital gains tax rates (0%, 15%, or 20%), while short-term gains are taxed at ordinary income rates. Deducting these expenses ensures you calculate your net take-home ROI, preventing surprises when it comes time to file your tax returns.
+        </p>
       </div>
     </article>
 
     <!-- FAQ accordion -->
+    
+    <!-- FAQ Accordion section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
       <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
       <div class="space-y-4">
-        
         <!-- Q1 -->
         <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
           <button 
@@ -825,7 +879,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             </p>
           </div>
         </div>
-
+          
         <!-- Q2 -->
         <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
           <button 
@@ -844,7 +898,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             </p>
           </div>
         </div>
-
+          
         <!-- Q3 -->
         <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
           <button 
@@ -863,7 +917,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             </p>
           </div>
         </div>
-
+          
         <!-- Q4 -->
         <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
           <button 
@@ -882,7 +936,7 @@ const faqJsonLd = JSON.stringify(faqSchema);
             </p>
           </div>
         </div>
-
+          
         <!-- Q5 -->
         <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
           <button 
@@ -901,7 +955,101 @@ const faqJsonLd = JSON.stringify(faqSchema);
             </p>
           </div>
         </div>
-
+          
+        <!-- Q6 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>What is a good return on investment (ROI)?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              A good ROI varies by asset class. Historically, the S&P 500 yields an average annual ROI of 8% to 10% (nominal). Real estate typically averages 6% to 8%, while riskier assets expect higher returns to offset the volatility.
+            </p>
+          </div>
+        </div>
+          
+        <!-- Q7 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How does ROI compare to Return on Equity (ROE)?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              ROI measures the overall efficiency of an investment using total assets. ROE measures profitability relative to shareholder equity, showing how effectively a company utilizes owner capital.
+            </p>
+          </div>
+        </div>
+          
+        <!-- Q8 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Does ROI account for time value of money?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No. Simple ROI calculates the total return over the entire investment holding period, regardless of whether it took 1 year or 10 years. To account for time, use annualized ROI or CAGR (Compound Annual Growth Rate).
+            </p>
+          </div>
+        </div>
+          
+        <!-- Q9 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>Can ROI be negative?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Yes. If the final value of your investment is less than your initial investment cost, the ROI will be negative, representing a capital loss.
+            </p>
+          </div>
+        </div>
+          
+        <!-- Q10 -->
+        <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <button 
+            type="button"
+            class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+            aria-expanded="false"
+          >
+            <span>How do taxes impact my net ROI?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Capital gains taxes, income taxes, and transaction fees reduce your final investment return. Net ROI calculates returns after subtracting all taxes, transaction costs, and management fees.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 

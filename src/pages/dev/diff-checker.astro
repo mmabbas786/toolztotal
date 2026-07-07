@@ -273,6 +273,23 @@ const ogMeta = {
         <p>
           Privacy is our primary commitment. All file handling and LCS diff computations occur locally on your machine inside your browser using client-side JavaScript. No text, proprietary code snippets, or configuration files are uploaded or sent over the internet, keeping your IP and data safe from external servers.
         </p>
+      
+<h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Myers Diff Algorithm: How Text Differences Are Computed</h3>
+        <p>
+          Modern diff checking tools rely on standardized algorithms to find text edits. The most famous is the Myers Difference Algorithm, developed by Eugene Myers in 1986. This algorithm models diff checking as finding the shortest edit script in a directed graph representing the additions and deletions required to transform Text A into Text B. By prioritizing the longest common subsequence (LCS) of lines, the algorithm ensures that the diff results are clean and intuitive, matching how a human programmer would edit a draft.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Using Diff Checkers for Document Version Control</h3>
+        <p>
+          Beyond software engineering and git versioning, diff checkers are essential for writers, editors, and legal professionals who need to track document edits. Copying and pasting two drafts of a contract, article, or policy paper into a diff checker reveals exactly which words were added, modified, or deleted. This avoids the manual labor of scanning pages side-by-side, prevents formatting oversights, and ensures that unauthorized revisions in drafts are caught quickly before publication.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Line-by-Line vs. Character-by-Character Diff Checkers</h3>
+        <p>
+          Diff tools typically display differences in two levels of granularity: line-by-line or character-by-character. Line diffs are ideal for identifying which chunks of code or paragraphs have been swapped, added, or deleted. Character diffs go a step deeper, highlighting the exact letters, spelling corrections, or commas changed within a single line. Combining both views—where the line is marked and the specific changed characters are highlighted inside—provides the ultimate editing clarity.
+        </p>
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Resolving Code Merge Conflicts in Git Projects</h3>
+        <p>
+          In collaborative software development, merge conflicts arise when two developers edit the same section of a file concurrently. Git marks these conflicts with markers (e.g., <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>). Visual diff checkers help developers inspect both incoming changes and current changes side-by-side, allowing them to select the correct resolution, clean up duplicate variables, and merge the code branch securely without losing critical changes from either developer.
+        </p>
       </div>
     </article>
 

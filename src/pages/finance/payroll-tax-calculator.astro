@@ -10,7 +10,7 @@ const faqSchema = {
       "name": "What is FICA?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "FICA stands for the Federal Insurance Contributions Act. It is the U.S. payroll tax that funds Social Security and Medicare programs. Employees and employers each contribute 6.2% for Social Security (up to the annual wage base) and 1.45% for Medicare (no income cap). For self-employed individuals, the combined rate is 15.3%. FICA taxes are separate from federal income tax withholding."
+        "text": "FICA (Federal Insurance Contributions Act) is the U.S. payroll tax that funds Social Security and Medicare. Employees pay 6.2% for Social Security (up to the $168,600 wage base) and 1.45% for Medicare (no cap). Employers match these amounts, making the total contribution 15.3% on the first $168,600 of wages. FICA is separate from federal income tax and is required by law for all W-2 employees."
       }
     },
     {
@@ -18,31 +18,71 @@ const faqSchema = {
       "name": "How is federal income tax withheld from my paycheck?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Employers use the information you provide on Form W-4 to calculate how much federal income tax to withhold from each paycheck. The W-4 collects your filing status, number of dependents, and any additional withholding you request. Your employer then applies the IRS withholding tables — which use a marginal tax bracket system — to determine the correct amount to deduct from each pay period based on your estimated annual taxable income."
+        "text": "Employers use your Form W-4 selections — filing status, dependents, and additional withholding — to determine your withholding amount. They apply the IRS progressive tax brackets to your estimated annual income and divide by your number of pay periods. The goal is to withhold approximately the right amount so that your total withholding equals your actual tax liability, avoiding a large refund or balance due at tax time."
       }
     },
     {
       "@type": "Question",
-      "name": "What is the difference between gross pay and net pay?",
+      "name": "What is the difference between gross and net pay?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Gross pay is your total earnings before any deductions — your base salary or hourly wages multiplied by hours worked. Net pay (also called take-home pay) is the amount you receive after all deductions are subtracted, including federal income tax, Social Security tax, Medicare tax, health insurance premiums, retirement contributions, and other pre- or post-tax deductions. The difference between these two figures is your total deduction amount."
+        "text": "Gross pay is your total earnings before any deductions — your salary or hourly wages for the pay period. Net pay (take-home pay) is the amount you actually receive after subtracting all deductions, including federal income tax, Social Security, Medicare, health insurance, retirement contributions, and other withholdings. The difference between the two can be substantial — typically 20-35% of gross pay depending on your income and benefits. For example, a $75,000 salary with 5% 401(k) contributions, health insurance, and standard withholding may yield around $55,000 in net annual pay — roughly 73% of gross. This calculator shows you exactly how each deduction impacts your bottom line."
       }
     },
     {
       "@type": "Question",
-      "name": "How does filing status affect my tax withholding?",
+      "name": "How does filing status affect my withholding?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Your filing status (Single, Married Filing Jointly, Head of Household, etc.) determines which tax brackets and standard deduction amounts apply to you. Married Filing Jointly has roughly double the standard deduction and wider tax brackets, resulting in lower withholding for the same income compared to Single filers. Head of Household offers a standard deduction between Single and MFJ amounts. Choosing the correct filing status on your W-4 ensures the right amount is withheld and avoids surprises at tax time."
+        "text": "Your filing status determines your standard deduction amount and which tax brackets apply to your income. Married Filing Jointly offers the largest standard deduction ($29,200 for 2024) and widest tax brackets, resulting in the lowest withholding for a given income. Head of Household falls between Single and MFJ. Using the correct status on your W-4 is essential for accurate withholding — using the wrong status can lead to significant over- or under-withholding. For example, a single filer earning $75,000 falls into the 22% marginal bracket, while a married filer with the same income stays in the 12% bracket — a meaningful difference in tax burden."
       }
     },
     {
       "@type": "Question",
-      "name": "Is this payroll calculator a substitute for a CPA or tax professional?",
+      "name": "Is this payroll calculator a substitute for a CPA?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. This payroll tax calculator provides general estimates for informational and educational purposes only. It does not constitute tax, legal, or accounting advice. Actual tax liability depends on your full financial situation, including credits, deductions, state and local taxes, investment income, and other factors this calculator cannot account for. Always consult a licensed CPA or tax professional for advice specific to your circumstances. Verify all current tax rates and limits at IRS.gov."
+        "text": "No. This tool provides general estimates for educational and informational purposes only — it is not tax, legal, or accounting advice. Actual payroll and tax calculations depend on your complete financial picture, including state and local taxes, credits, deductions, investment income, and other factors this calculator cannot account for. Always consult a licensed CPA or tax attorney for personalized advice. Verify all current tax figures at irs.gov."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between FICA taxes and Federal Income Tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FICA taxes are flat-rate payroll taxes that fund Social Security (6.2%) and Medicare (1.45%), split between employers and employees. Federal Income Tax is a progressive tax based on your tax bracket and W-4 filings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the FICA tax cap for Social Security contributions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Social Security taxes are subject to a wage base limit ($168,600 for the tax year 2024). Any earnings above this limit are not subject to the 6.2% Social Security tax, though Medicare tax has no wage limit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is responsible for paying Federal Unemployment (FUTA) taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FUTA (and state-level SUTA) taxes are paid solely by the employer to fund unemployment compensation programs. These taxes are not deducted from the employee's gross paycheck."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are pre-tax deductions and how do they affect payroll calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pre-tax deductions are allocations (like 401(k) contributions, HSA savings, or health insurance premiums) subtracted from your gross wages before taxes are calculated, lowering your overall tax liability."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the W-4 form influence tax withholding?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Form W-4 tells your employer how much federal income tax to withhold from your pay based on factors like filing status, dependents, and multiple jobs. Filing a new W-4 adjustments helps prevent tax refund surprises."
       }
     }
   ]
@@ -587,61 +627,160 @@ const ogMeta = {
       </div>
     </article>
 
-    <!-- FAQ Section -->
-    <section class="mt-16 max-w-4xl" aria-label="Frequently Asked Questions">
-      <h2 class="text-xl font-bold text-ink font-sans mb-6">Frequently Asked Questions</h2>
-      <div class="space-y-3" id="faq-accordion">
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is FICA?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    
+    <!-- FAQ Accordion Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <!-- Q1 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is FICA?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            FICA (Federal Insurance Contributions Act) is the U.S. payroll tax that funds Social Security and Medicare. Employees pay 6.2% for Social Security (up to the $168,600 wage base) and 1.45% for Medicare (no cap). Employers match these amounts, making the total contribution 15.3% on the first $168,600 of wages. FICA is separate from federal income tax and is required by law for all W-2 employees.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              FICA (Federal Insurance Contributions Act) is the U.S. payroll tax that funds Social Security and Medicare. Employees pay 6.2% for Social Security (up to the $168,600 wage base) and 1.45% for Medicare (no cap). Employers match these amounts, making the total contribution 15.3% on the first $168,600 of wages. FICA is separate from federal income tax and is required by law for all W-2 employees.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How is federal income tax withheld from my paycheck?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q2 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How is federal income tax withheld from my paycheck?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Employers use your Form W-4 selections — filing status, dependents, and additional withholding — to determine your withholding amount. They apply the IRS progressive tax brackets to your estimated annual income and divide by your number of pay periods. The goal is to withhold approximately the right amount so that your total withholding equals your actual tax liability, avoiding a large refund or balance due at tax time.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Employers use your Form W-4 selections — filing status, dependents, and additional withholding — to determine your withholding amount. They apply the IRS progressive tax brackets to your estimated annual income and divide by your number of pay periods. The goal is to withhold approximately the right amount so that your total withholding equals your actual tax liability, avoiding a large refund or balance due at tax time.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            What is the difference between gross and net pay?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q3 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is the difference between gross and net pay?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Gross pay is your total earnings before any deductions — your salary or hourly wages for the pay period. Net pay (take-home pay) is the amount you actually receive after subtracting all deductions, including federal income tax, Social Security, Medicare, health insurance, retirement contributions, and other withholdings. The difference between the two can be substantial — typically 20-35% of gross pay depending on your income and benefits. For example, a $75,000 salary with 5% 401(k) contributions, health insurance, and standard withholding may yield around $55,000 in net annual pay — roughly 73% of gross. This calculator shows you exactly how each deduction impacts your bottom line.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Gross pay is your total earnings before any deductions — your salary or hourly wages for the pay period. Net pay (take-home pay) is the amount you actually receive after subtracting all deductions, including federal income tax, Social Security, Medicare, health insurance, retirement contributions, and other withholdings. The difference between the two can be substantial — typically 20-35% of gross pay depending on your income and benefits. For example, a $75,000 salary with 5% 401(k) contributions, health insurance, and standard withholding may yield around $55,000 in net annual pay — roughly 73% of gross. This calculator shows you exactly how each deduction impacts your bottom line.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            How does filing status affect my withholding?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q4 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How does filing status affect my withholding?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            Your filing status determines your standard deduction amount and which tax brackets apply to your income. Married Filing Jointly offers the largest standard deduction ($29,200 for 2024) and widest tax brackets, resulting in the lowest withholding for a given income. Head of Household falls between Single and MFJ. Using the correct status on your W-4 is essential for accurate withholding — using the wrong status can lead to significant over- or under-withholding. For example, a single filer earning $75,000 falls into the 22% marginal bracket, while a married filer with the same income stays in the 12% bracket — a meaningful difference in tax burden.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Your filing status determines your standard deduction amount and which tax brackets apply to your income. Married Filing Jointly offers the largest standard deduction ($29,200 for 2024) and widest tax brackets, resulting in the lowest withholding for a given income. Head of Household falls between Single and MFJ. Using the correct status on your W-4 is essential for accurate withholding — using the wrong status can lead to significant over- or under-withholding. For example, a single filer earning $75,000 falls into the 22% marginal bracket, while a married filer with the same income stays in the 12% bracket — a meaningful difference in tax burden.
+            </p>
           </div>
         </details>
-
-        <details class="bg-canvas border border-hairline rounded-xl overflow-hidden group">
-          <summary class="px-6 py-4 cursor-pointer flex items-center justify-between font-sans font-semibold text-sm text-ink list-none hover:bg-canvas-soft transition-colors">
-            Is this payroll calculator a substitute for a CPA?
-            <svg class="w-4 h-4 text-mute shrink-0 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          
+        <!-- Q5 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Is this payroll calculator a substitute for a CPA?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </summary>
-          <div class="px-6 pb-5 text-sm text-body font-sans leading-relaxed border-t border-hairline pt-4">
-            No. This tool provides general estimates for educational and informational purposes only — it is not tax, legal, or accounting advice. Actual payroll and tax calculations depend on your complete financial picture, including state and local taxes, credits, deductions, investment income, and other factors this calculator cannot account for. Always consult a licensed CPA or tax attorney for personalized advice. Verify all current tax figures at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="text-primary underline">irs.gov</a>.
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              No. This tool provides general estimates for educational and informational purposes only — it is not tax, legal, or accounting advice. Actual payroll and tax calculations depend on your complete financial picture, including state and local taxes, credits, deductions, investment income, and other factors this calculator cannot account for. Always consult a licensed CPA or tax attorney for personalized advice. Verify all current tax figures at <a href="https://www.irs.gov" target="_blank" rel="noopener noreferrer" class="text-primary underline">irs.gov</a>.
+            </p>
           </div>
         </details>
-
+          
+        <!-- Q6 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is the difference between FICA taxes and Federal Income Tax?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              FICA taxes are flat-rate payroll taxes that fund Social Security (6.2%) and Medicare (1.45%), split between employers and employees. Federal Income Tax is a progressive tax based on your tax bracket and W-4 filings.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q7 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What is the FICA tax cap for Social Security contributions?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Social Security taxes are subject to a wage base limit ($168,600 for the tax year 2024). Any earnings above this limit are not subject to the 6.2% Social Security tax, though Medicare tax has no wage limit.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q8 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>Who is responsible for paying Federal Unemployment (FUTA) taxes?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              FUTA (and state-level SUTA) taxes are paid solely by the employer to fund unemployment compensation programs. These taxes are not deducted from the employee's gross paycheck.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q9 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>What are pre-tax deductions and how do they affect payroll calculations?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              Pre-tax deductions are allocations (like 401(k) contributions, HSA savings, or health insurance premiums) subtracted from your gross wages before taxes are calculated, lowering your overall tax liability.
+            </p>
+          </div>
+        </details>
+          
+        <!-- Q10 -->
+        <details class="group border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+          <summary class="w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span>How does the W-4 form influence tax withholding?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">
+              The Form W-4 tells your employer how much federal income tax to withhold from your pay based on factors like filing status, dependents, and multiple jobs. Filing a new W-4 adjustments helps prevent tax refund surprises.
+            </p>
+          </div>
+        </details>
       </div>
     </section>
 
