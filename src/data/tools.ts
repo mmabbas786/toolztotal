@@ -35,7 +35,8 @@ export const toolCatalog: Category[] = [
       { name: "Inflation Calculator", slug: "inflation-calculator", description: "Calculate the purchasing power of money over time using historical CPI data.", status: "live", keywords: ["inflation calculator", "cpi inflation", "purchasing power"] },
       { name: "Percentage Calculator", slug: "percentage-calculator", description: "Calculate percentages, percentage change, and rates with custom visual graphs.", status: "live", keywords: ["percentage calculator", "percentage change", "percent of"] },
       { name: "SaaS CAC:LTV Calculator", slug: "cac-ltv-calculator", description: "Calculate customer acquisition cost (CAC), lifetime value (LTV), LTV:CAC ratios, and payback periods.", status: "live", keywords: ["cac ltv calculator", "ltv cac ratio", "payback period"] },
-      { name: "DTI Calculator", slug: "dti-calculator", description: "Calculate your Debt-to-Income (DTI) ratio for mortgage qualification. See front-end and back-end DTI and lender classification.", status: "live", keywords: ["dti calculator", "debt to income", "mortgage qualification"] }
+      { name: "DTI Calculator", slug: "dti-calculator", description: "Calculate your Debt-to-Income (DTI) ratio for mortgage qualification. See front-end and back-end DTI and lender classification.", status: "live", keywords: ["dti calculator", "debt to income", "mortgage qualification"] },
+      { name: "Salary Calculator", slug: "salary-calculator", description: "Calculate your take-home pay after federal, state, and FICA taxes. See monthly, bi-weekly, and weekly amounts for any salary and state.", status: "live", keywords: ["salary calculator", "take home pay", "tax calculator"] }
     ]
   },
   {
