@@ -1,0 +1,432 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is URL encoding and when do I need it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "URL encoding (percent-encoding) converts special characters into a format that can be safely transmitted in URLs. Characters like spaces, ampersands, question marks, and non-ASCII characters must be encoded to prevent URL parsing errors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What characters need to be URL encoded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reserved characters: :/?#[]@!$&'()*+,;= and non-ASCII characters. Spaces become %20 or + (in query strings). The encodeURIComponent() function handles all of these automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between encodeURI and encodeURIComponent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "encodeURI encodes an entire URI, preserving reserved characters like /, ?, and :. encodeURIComponent encodes a single URI component (like a query parameter value), encoding almost everything including / and ?. Use encodeURIComponent for query parameter values."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can URL encoding handle Unicode and emojis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. JavaScript's encodeURIComponent converts Unicode characters (including emojis) to their UTF-8 byte representation and then percent-encodes each byte. An emoji like 😀 becomes multiple %XX sequences representing its UTF-8 bytes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my URL look different after encoding?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Encoding transforms characters for safe transmission. For example, spaces become %20, & becomes %26, and # becomes %23. This is expected behavior — the decoded URL will look normal again."
+      }
+    }
+  ]
+});
+---
+
+<Layout
+  title="URL Encoder / Decoder - Free Online URL Encode & Decode | ToolzTotal"
+  description="Encode and decode URLs with live preview, character and byte counts, and quick query-string actions. Fully client-side and private."
+  canonicalUrl="https://toolztotal.com/dev/url-encoder-decoder"
+  faqJsonLd={faqSchema}
+>
+  <ToolSchema
+    toolName="URL Encoder / Decoder"
+    toolSlug="url-encoder-decoder"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Encode and decode URLs with live preview, character and byte counts, and quick query-string actions. Fully client-side and private."
+  />
+
+  <div class="max-w-[1000px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        URL Encoder / Decoder
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Percent-encode or decode URLs instantly. Perfect for building safe query strings, debugging APIs, and handling
+        Unicode in links — all in your browser.
+      </p>
+    </div>
+
+    <!-- Workspace -->
+    <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6">
+
+      <!-- Mode Tabs -->
+      <div>
+        <label class="block text-xs font-mono uppercase text-mute mb-3">Mode</label>
+        <div class="flex rounded-lg bg-canvas-soft-2 p-1 border border-hairline shadow-lvl1 w-fit gap-1">
+          <button type="button" id="mode-encode" class="url-mode-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">
+            Encode
+          </button>
+          <button type="button" id="mode-decode" class="url-mode-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all">
+            Decode
+          </button>
+        </div>
+        <input type="hidden" id="active-mode" value="encode" />
+      </div>
+
+      <!-- Input -->
+      <div>
+        <label for="url-input" id="url-input-label" class="block text-xs font-mono uppercase text-mute mb-2">Text / URL to Encode</label>
+        <textarea
+          id="url-input"
+          class="w-full h-40 resize-y bg-canvas-soft border border-hairline rounded-lg p-4 text-sm font-mono text-ink focus:outline-none focus:ring-1 focus:ring-primary shadow-lvl1 placeholder:text-mute/40"
+          placeholder="Type or paste a URL or text to encode..."
+          spellcheck="false"
+          autocomplete="off"
+          autocapitalize="off"
+        ></textarea>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" id="quick-encode" class="h-8 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors cursor-pointer">
+          Encode Query String
+        </button>
+        <button type="button" id="quick-decode" class="h-8 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors cursor-pointer">
+          Decode Query String
+        </button>
+        <button type="button" id="url-clear" class="h-8 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors cursor-pointer">
+          Clear
+        </button>
+      </div>
+
+      <!-- Output -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <label for="url-output" id="url-output-label" class="text-xs font-mono uppercase text-mute">Encoded Output</label>
+          <button type="button" id="url-copy" class="h-8 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+            Copy
+          </button>
+        </div>
+        <textarea
+          id="url-output"
+          readonly
+          class="w-full h-40 resize-y bg-canvas-soft-2 border border-hairline rounded-lg p-4 text-sm font-mono text-ink focus:outline-none shadow-lvl1 placeholder:text-mute/40"
+          placeholder="Result will appear here..."
+        ></textarea>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex flex-wrap gap-6 text-xs font-mono text-mute border-t border-hairline pt-4">
+        <span id="url-chars">Characters: 0</span>
+        <span id="url-bytes">Bytes: 0</span>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">A Practical Guide to URL Encoding and Decoding</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          <strong>URL encoding</strong> (also called percent-encoding) is the mechanism the web uses to keep URLs unambiguous. Because URLs
+          reserve certain characters — such as <code>?</code>, <code>&amp;</code>, <code>#</code>, and <code>/</code> — for structural meaning, any
+          data that might contain those characters must be escaped before it can travel safely inside a link. A <strong>URL encoder decoder</strong>
+          performs this transformation so that query parameters, paths, and form values are transmitted without breaking the URL's syntax.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">What Gets Encoded and Why</h3>
+        <p>
+          Reserved characters (<code>: / ? # [ ] @ ! $ &amp; ' ( ) * + , ; =</code>) and all non-ASCII characters are percent-encoded. Each
+          disallowed byte is replaced with a <code>%</code> sign followed by its two-digit hexadecimal value. Spaces conventionally become
+          <code>%20</code> in paths and <code>+</code> inside <code>application/x-www-form-urlencoded</code> query strings.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">encodeURI vs. encodeURIComponent</h3>
+        <p>
+          These two JavaScript functions are easy to confuse. <code>encodeURI</code> is meant for whole URLs and deliberately leaves reserved
+          delimiters like <code>/</code>, <code>?</code>, and <code>:</code> intact so the URL structure survives. <code>encodeURIComponent</code> is
+          for a single component — such as one query parameter value — and encodes nearly everything, including slashes and ampersands. As a rule of
+          thumb, use <code>encodeURIComponent</code> on every dynamic value you place into a query string to prevent injection of additional parameters.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Unicode, Emojis, and UTF-8</h3>
+        <p>
+          Modern browsers encode Unicode using UTF-8 first, then percent-encode each resulting byte. This is why an emoji like 😀 expands into several
+          <code>%XX</code> sequences — its UTF-8 representation is multiple bytes long. Decoding reverses the process by reassembling the bytes and
+          interpreting them as UTF-8, restoring the original character.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">When You'll Reach for This Tool</h3>
+        <p>
+          Developers reach for a <strong>free URL encoder</strong> when building API requests, constructing deep links, debugging OAuth redirect URIs,
+          embedding data in <code>mailto:</code> links, or simply verifying why a link "looks weird" after encoding. Because the encoded form is
+          canonical and reversible, decoding it always returns the original, human-readable URL.
+        </p>
+      </div>
+    </article>
+
+  <Sources sources={[
+    { label: 'MDN — URL Encoding (Percent-Encoding)', url: 'https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding' },
+    { label: 'WHATWG URL Standard', url: 'https://url.spec.whatwg.org/' },
+    { label: 'RFC 3986 — URI Generic Syntax', url: 'https://datatracker.ietf.org/doc/html/rfc3986' }
+  ]} />
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is URL encoding and when do I need it?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">URL encoding (percent-encoding) converts special characters into a format that can be safely transmitted in URLs. Characters like spaces, ampersands, question marks, and non-ASCII characters must be encoded to prevent URL parsing errors.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What characters need to be URL encoded?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Reserved characters: :/?#[]@!$&amp;'()*+,;= and non-ASCII characters. Spaces become %20 or + (in query strings). The encodeURIComponent() function handles all of these automatically.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What's the difference between encodeURI and encodeURIComponent?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">encodeURI encodes an entire URI, preserving reserved characters like /, ?, and :. encodeURIComponent encodes a single URI component (like a query parameter value), encoding almost everything including / and ?. Use encodeURIComponent for query parameter values.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Can URL encoding handle Unicode and emojis?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. JavaScript's encodeURIComponent converts Unicode characters (including emojis) to their UTF-8 byte representation and then percent-encodes each byte. An emoji like 😀 becomes multiple %XX sequences representing its UTF-8 bytes.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Why does my URL look different after encoding?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Encoding transforms characters for safe transmission. For example, spaces become %20, &amp; becomes %26, and # becomes %23. This is expected behavior — the decoded URL will look normal again.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-6">Related Developer Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="/dev/base64-encoder-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Base64 Encode/Decode</span>
+        </a>
+        <a href="/dev/json-formatter" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JSON Formatter</span>
+        </a>
+        <a href="/dev/uuid-generator" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">UUID Generator</span>
+        </a>
+        <a href="/dev/jwt-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JWT Decoder</span>
+        </a>
+        <a href="/dev/hash-generator" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Hash Generator</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+// @ts-nocheck
+    const urlInput = document.getElementById('url-input');
+    const urlOutput = document.getElementById('url-output');
+    const activeMode = document.getElementById('active-mode');
+    const urlModeBtns = document.querySelectorAll('.url-mode-btn');
+    const inputLabel = document.getElementById('url-input-label');
+    const outputLabel = document.getElementById('url-output-label');
+    const urlChars = document.getElementById('url-chars');
+    const urlBytes = document.getElementById('url-bytes');
+    const urlCopy = document.getElementById('url-copy');
+    const urlClear = document.getElementById('url-clear');
+    const quickEncode = document.getElementById('quick-encode');
+    const quickDecode = document.getElementById('quick-decode');
+
+    function byteSize(str) {
+      return new Blob([str]).size;
+    }
+
+    function updateStats(str) {
+      urlChars.textContent = `Characters: ${str.length}`;
+      urlBytes.textContent = `Bytes: ${byteSize(str)}`;
+    }
+
+    function process() {
+      const raw = urlInput.value;
+      if (activeMode.value === 'encode') {
+        urlOutput.value = encodeURIComponent(raw);
+      } else {
+        try {
+          urlOutput.value = decodeURIComponent(raw.replace(/\+/g, ' '));
+        } catch (e) {
+          urlOutput.value = 'Error: malformed encoded string.';
+        }
+      }
+      updateStats(raw);
+    }
+
+    function setMode(mode) {
+      activeMode.value = mode;
+      urlModeBtns.forEach(b => {
+        const active = b.id === `mode-${mode}`;
+        b.classList.toggle('bg-primary', active);
+        b.classList.toggle('text-on-primary', active);
+        b.classList.toggle('shadow-lvl1', active);
+        b.classList.toggle('text-mute', !active);
+        b.classList.toggle('hover:text-ink', !active);
+      });
+      if (mode === 'encode') {
+        inputLabel.textContent = 'Text / URL to Encode';
+        outputLabel.textContent = 'Encoded Output';
+        urlInput.placeholder = 'Type or paste a URL or text to encode...';
+      } else {
+        inputLabel.textContent = 'Encoded URL to Decode';
+        outputLabel.textContent = 'Decoded Output';
+        urlInput.placeholder = 'Paste a percent-encoded URL to decode...';
+      }
+      process();
+    }
+
+    urlModeBtns.forEach(btn => {
+      btn.addEventListener('click', () => setMode(btn.id.replace('mode-', '')));
+    });
+
+    urlInput.addEventListener('input', process);
+
+    quickEncode.addEventListener('click', () => {
+      if (activeMode.value !== 'encode') setMode('encode');
+      const val = urlInput.value.trim();
+      if (!val) return;
+      const idx = val.indexOf('?');
+      if (idx === -1) {
+        urlOutput.value = encodeURIComponent(val);
+      } else {
+        urlOutput.value = val.slice(0, idx + 1) + encodeURIComponent(val.slice(idx + 1));
+      }
+      updateStats(val);
+    });
+
+    quickDecode.addEventListener('click', () => {
+      if (activeMode.value !== 'decode') setMode('decode');
+      const val = urlInput.value.trim();
+      if (!val) return;
+      const idx = val.indexOf('?');
+      if (idx === -1) {
+        try { urlOutput.value = decodeURIComponent(val.replace(/\+/g, ' ')); }
+        catch (e) { urlOutput.value = 'Error: malformed encoded string.'; }
+      } else {
+        try { urlOutput.value = val.slice(0, idx + 1) + decodeURIComponent(val.slice(idx + 1).replace(/\+/g, ' ')); }
+        catch (e) { urlOutput.value = 'Error: malformed encoded string.'; }
+      }
+      updateStats(val);
+    });
+
+    function showToast(msg) {
+      let toast = document.getElementById('url-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'url-toast';
+        toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-xs font-sans px-4 py-2.5 rounded-full shadow-lvl5 z-50 transition-opacity duration-300';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg || 'Copied to clipboard';
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2000);
+    }
+
+    urlCopy.addEventListener('click', () => {
+      if (!urlOutput.value) return;
+      navigator.clipboard.writeText(urlOutput.value).then(() => showToast()).catch(() => {
+        urlOutput.select();
+        document.execCommand('copy');
+        showToast();
+      });
+    });
+
+    urlClear.addEventListener('click', () => {
+      urlInput.value = '';
+      urlOutput.value = '';
+      updateStats('');
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('svg');
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) {
+          content.classList.add('hidden');
+          icon.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          icon.classList.add('rotate-180');
+        }
+      });
+    });
+
+    // init
+    setMode('encode');
+  </script>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="url-encoder-decoder"
+    />
+
+  <ContentFooter category="dev" />
+</Layout>

@@ -18,83 +18,101 @@ const {
 } = Astro.props;
 
 const baseUrl = "https://toolztotal.com";
+
 const toolUrl = `${baseUrl}/${categorySlug}/${toolSlug}`;
 const categoryUrl = `${baseUrl}/${categorySlug}`;
+const homeUrl = `${baseUrl}/`;
 
 const applicationCategoryMap: Record<string, string> = {
-  "finance": "Finance",
-  "real-estate": "Real Estate",
-  "utility": "Utilities",
-  "dev": "Developer Tools",
-  "text": "Text Tools",
-  "marketing": "Marketing Tools",
-  "health": "Health & Fitness",
-  "legal": "Legal Tools",
-  "education": "Education Tools",
-  "image-tools": "Image Tools",
+  finance: "FinanceApplication",
+  "real-estate": "FinanceApplication",
+  dev: "DeveloperApplication",
+  text: "UtilitiesApplication",
+  marketing: "BusinessApplication",
+  health: "HealthApplication",
+  legal: "BusinessApplication",
+  education: "EducationApplication",
+  "image-tools": "MultimediaApplication",
+  utility: "UtilitiesApplication",
 };
 
-const applicationCategory = applicationCategoryMap[categorySlug] || "Application";
+const applicationCategory =
+  applicationCategoryMap[categorySlug] ?? "SoftwareApplication";
 
 const softwareApplication = {
+  "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": toolName,
-  "applicationCategory": applicationCategory,
-  "operatingSystem": "Web",
-  "offers": {
+  name: toolName,
+  url: toolUrl,
+  applicationCategory: applicationCategory,
+  operatingSystem: "Any (Web Browser)",
+  description: description,
+  offers: {
     "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock",
+    price: "0",
+    priceCurrency: "USD",
   },
-  "description": description,
-  "url": toolUrl,
+  creator: {
+    "@type": "Organization",
+    name: "ToolzTotal",
+    url: "https://toolztotal.com",
+  },
 };
 
 const breadcrumbList = {
+  "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
+  itemListElement: [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": baseUrl,
+      position: 1,
+      name: "Home",
+      item: homeUrl,
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": categoryName,
-      "item": categoryUrl,
+      position: 2,
+      name: categoryName,
+      item: categoryUrl,
     },
     {
       "@type": "ListItem",
-      "position": 3,
-      "name": toolName,
-      "item": toolUrl,
+      position: 3,
+      name: toolName,
+      item: toolUrl,
     },
   ],
 };
 
-const graph: any[] = [softwareApplication, breadcrumbList];
-
-if (faqs.length > 0) {
-  graph.push({
-    "@type": "FAQPage",
-    "mainEntity": faqs.map((faq) => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer,
-      },
-    })),
-  });
-}
-
-const ldJson = {
+const faqPage = {
   "@context": "https://schema.org",
-  "@graph": graph,
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
 };
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(ldJson, null, 2)} />
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(softwareApplication, null, 2)}
+/>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(breadcrumbList, null, 2)}
+/>
+
+{
+  faqs.length > 0 && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(faqPage, null, 2)}
+    />
+  )
+}

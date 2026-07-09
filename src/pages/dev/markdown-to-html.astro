@@ -1,0 +1,448 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What Markdown syntax is supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool supports standard Markdown (CommonMark) including: headings (# to ######), bold (**text**), italic (*text*), strikethrough (~~text~~), links ([text](url)), images (![alt](url)), code (backticks), code blocks (triple backticks), blockquotes (>), lists (ordered and unordered), tables, horizontal rules (---), and task lists (- [ ] and - [x])."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Markdown conversion secure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This tool runs entirely in your browser. However, if you copy the HTML output and render it on a website, be aware that Markdown can contain HTML tags. Always sanitize HTML output on your server using a library like DOMPurify or sanitize-html before rendering user-generated content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I preview the rendered HTML?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The right panel shows a live split-pane preview of the rendered HTML as you type. You can toggle between preview-only and source-only modes, or use side-by-side view."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I copy the HTML output?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Click the 'Copy HTML' button in the toolbar to copy the raw HTML to your clipboard. You can also click 'Copy Markdown' to copy the source text, or download the HTML as a .html file."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this support GitHub Flavored Markdown?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. In addition to standard Markdown, this tool supports GFM extensions including: tables, task lists, strikethrough, and autolinks. This is useful for README files, GitHub issues, and documentation."
+      }
+    }
+  ]
+});
+---
+
+<Layout
+  title="Markdown to HTML Converter - Live Preview & Export | ToolzTotal"
+  description="Convert Markdown to HTML with a live split-pane preview, GFM support, stats, and one-click copy or download. Fully client-side."
+  canonicalUrl="https://toolztotal.com/dev/markdown-to-html"
+  faqJsonLd={faqSchema}
+>
+  <ToolSchema
+    toolName="Markdown to HTML"
+    toolSlug="markdown-to-html"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Convert Markdown to HTML with a live split-pane preview, GFM support, stats, and one-click copy or download. Fully client-side."
+  />
+
+  <div class="max-w-[1200px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Markdown to HTML Converter
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Write Markdown on the left, see clean HTML on the right — live. Supports CommonMark plus GitHub
+        Flavored Markdown, with copy, download, and a stats bar. Everything runs locally.
+      </p>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="flex flex-wrap items-center gap-2 mb-4">
+      <button type="button" id="md-copy-html" class="h-9 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+        Copy HTML
+      </button>
+      <button type="button" id="md-copy-md" class="h-9 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+        Copy Markdown
+      </button>
+      <button type="button" id="md-download" class="h-9 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+        Download HTML
+      </button>
+      <button type="button" id="md-clear" class="h-9 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+        Clear
+      </button>
+      <button type="button" id="md-sample" class="h-9 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+        Sample
+      </button>
+      <div class="ml-auto flex rounded-md bg-canvas-soft-2 p-0.5 border border-hairline shadow-lvl1">
+        <button type="button" id="view-split" class="view-btn px-3 py-1.5 text-[11px] font-mono rounded-md bg-primary text-on-primary shadow-lvl2 transition-all cursor-pointer">Split</button>
+        <button type="button" id="view-preview" class="view-btn px-3 py-1.5 text-[11px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer">Preview</button>
+        <button type="button" id="view-source" class="view-btn px-3 py-1.5 text-[11px] font-mono rounded-md text-mute hover:text-ink transition-all cursor-pointer">Source</button>
+      </div>
+      <input type="hidden" id="active-view" value="split" />
+    </div>
+
+    <!-- Split Pane -->
+    <div id="md-panes" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="px-4 py-2 border-b border-hairline bg-canvas-soft-2 text-[11px] font-mono uppercase tracking-widest text-mute">Markdown</div>
+        <textarea
+          id="md-input"
+          class="w-full h-[480px] resize-none bg-canvas text-ink font-mono text-[13px] leading-[1.6] p-4 border-none outline-none placeholder:text-mute/30"
+          placeholder="# Start writing Markdown..."
+          spellcheck="false"
+          autocomplete="off"
+          autocapitalize="off"
+        ></textarea>
+      </div>
+      <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl shadow-lvl3 overflow-hidden">
+        <div class="px-4 py-2 border-b border-hairline bg-canvas-soft-2 text-[11px] font-mono uppercase tracking-widest text-mute">Preview</div>
+        <div id="md-preview" class="w-full h-[480px] overflow-auto p-5 text-sm font-sans text-ink bg-canvas"></div>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="mt-4 flex flex-wrap gap-6 text-xs font-mono text-mute bg-canvas ring-1 ring-inset ring-hairline rounded-xl px-5 py-3 shadow-lvl1">
+      <span id="md-chars">Characters: 0</span>
+      <span id="md-words">Words: 0</span>
+      <span id="md-lines">Lines: 0</span>
+      <span id="md-read">Read time: 0 min</span>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Markdown to HTML: Syntax, GitHub Flavored Extensions, and Safety</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          <strong>Markdown</strong> is a lightweight markup language that lets writers format text using plain, readable syntax instead of brittle HTML
+          tags. A <strong>Markdown to HTML converter</strong> transforms that syntax into semantic HTML you can drop into a website, README, or CMS.
+          This tool follows the <strong>CommonMark</strong> specification and adds <strong>GitHub Flavored Markdown (GFM)</strong> conveniences.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Supported Syntax</h3>
+        <p>
+          Out of the box you get headings (<code>#</code> through <code>######</code>), bold (<code>**text**</code>), italic (<code>*text*</code>),
+          strikethrough (<code>~~text~~</code>), links (<code>[text](url)</code>), images (<code>![alt](url)</code>), inline and fenced code blocks,
+          blockquotes, ordered and unordered lists, and horizontal rules (<code>---</code>). Fenced code blocks retain their language hint in a
+          <code>language-xxx</code> class for syntax highlighters.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">GitHub Flavored Markdown Extensions</h3>
+        <p>
+          Beyond standard Markdown, GFM brings tables (pipe-delimited with a header separator row), task lists (<code>- [ ]</code> and <code>- [x]</code>),
+          strikethrough, and autolinks for bare URLs. These are essential for documentation, issues, and pull-request descriptions on GitHub.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Is the Conversion Secure?</h3>
+        <p>
+          Because this converter runs entirely in your browser, your content never leaves the page. However, Markdown allows raw HTML passthrough, and the
+          generated output is HTML. If you render that HTML on a server or share it with others, sanitize it first — for example with
+          <strong>DOMPurify</strong> or <strong>sanitize-html</strong> — to neutralize scripts and prevent cross-site scripting (XSS) when the source is
+          user-generated.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Workflow Tips</h3>
+        <p>
+          Use the live split-pane preview to catch formatting mistakes as you type, then copy the HTML directly or download a standalone <code>.html</code>
+          file. The stats bar tracks characters, words, lines, and an estimated reading time so you can keep documentation concise and scannable.
+        </p>
+      </div>
+    </article>
+
+  <Sources sources={[
+    { label: 'CommonMark Specification', url: 'https://commonmark.org/' },
+    { label: 'GitHub Flavored Markdown Spec', url: 'https://github.github.com/gfm/' },
+    { label: 'Markdown Guide', url: 'https://www.markdownguide.org/' }
+  ]} />
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What Markdown syntax is supported?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">This tool supports standard Markdown (CommonMark) including: headings (# to ######), bold (**text**), italic (*text*), strikethrough (~~text~~), links ([text](url)), images (![alt](url)), code (backticks), code blocks (triple backticks), blockquotes (&gt;), lists (ordered and unordered), tables, horizontal rules (---), and task lists (- [ ] and - [x]).</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Is the Markdown conversion secure?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. This tool runs entirely in your browser. However, if you copy the HTML output and render it on a website, be aware that Markdown can contain HTML tags. Always sanitize HTML output on your server using a library like DOMPurify or sanitize-html before rendering user-generated content.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Can I preview the rendered HTML?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. The right panel shows a live split-pane preview of the rendered HTML as you type. You can toggle between preview-only and source-only modes, or use side-by-side view.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>How do I copy the HTML output?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Click the 'Copy HTML' button in the toolbar to copy the raw HTML to your clipboard. You can also click 'Copy Markdown' to copy the source text, or download the HTML as a .html file.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Does this support GitHub Flavored Markdown?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. In addition to standard Markdown, this tool supports GFM extensions including: tables, task lists, strikethrough, and autolinks. This is useful for README files, GitHub issues, and documentation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-6">Related Developer Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="/dev/json-formatter" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JSON Formatter</span>
+        </a>
+        <a href="/dev/base64-encoder-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Base64 Encode/Decode</span>
+        </a>
+        <a href="/dev/html-entities" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">HTML Entities</span>
+        </a>
+        <a href="/dev/uuid-generator" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">UUID Generator</span>
+        </a>
+        <a href="/dev/diff-checker" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Diff Checker</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+// @ts-nocheck
+    const mdInput = document.getElementById('md-input');
+    const mdPreview = document.getElementById('md-preview');
+    const mdChars = document.getElementById('md-chars');
+    const mdWords = document.getElementById('md-words');
+    const mdLines = document.getElementById('md-lines');
+    const mdRead = document.getElementById('md-read');
+    const mdPanes = document.getElementById('md-panes');
+    const activeView = document.getElementById('active-view');
+    const viewBtns = document.querySelectorAll('.view-btn');
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function parseMarkdown(md) {
+      let html = md
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/^###### (.*$)/gim, '<h6>$1</h6>')
+        .replace(/^##### (.*$)/gim, '<h5>$1</h5>')
+        .replace(/^#### (.*$)/gim, '<h4>$1</h4>')
+        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/~~(.*?)~~/g, '<del>$1</del>')
+        .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+        .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
+        .replace(/^---$/gim, '<hr>')
+        .replace(/((?:\|.*?\|\n)+)/g, function(match) {
+          const rows = match.trim().split('\n');
+          let tableHtml = '<table>';
+          rows.forEach((row, i) => {
+            const cells = row.split('|').filter(c => c.trim() !== '');
+            tableHtml += i === 0 ? '<thead><tr>' : '<tr>';
+            cells.forEach(cell => {
+              const tag = i === 0 ? 'th' : 'td';
+              tableHtml += `<${tag}>${cell.trim()}</${tag}>`;
+            });
+            tableHtml += '</tr>';
+            if (i === 0) tableHtml += '</thead><tbody>';
+          });
+          tableHtml += '</tbody></table>';
+          return tableHtml;
+        })
+        .replace(/^\d+\. (.*$)/gim, '<li class="ordered">$1</li>')
+        .replace(/^\- \[x\] (.*$)/gim, '<li class="task done"><input type="checkbox" checked disabled> $1</li>')
+        .replace(/^\- \[ \] (.*$)/gim, '<li class="task"><input type="checkbox" disabled> $1</li>')
+        .replace(/^\- (.*$)/gim, '<li class="unordered">$1</li>');
+      // wrap consecutive <li> into lists
+      html = html.replace(/(<li[^>]*>[\s\S]*?<\/li>)(?:\s*(<li[^>]*>[\s\S]*?<\/li>))+/g, function(block) {
+        const isOrdered = block.includes('class="ordered"');
+        return `<${isOrdered ? 'ol' : 'ul'}>${block}</${isOrdered ? 'ol' : 'ul'}>`;
+      });
+      return html;
+    }
+
+    function updateStats(text) {
+      mdChars.textContent = `Characters: ${text.length}`;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      mdWords.textContent = `Words: ${words}`;
+      mdLines.textContent = `Lines: ${text ? text.split('\n').length : 0}`;
+      mdRead.textContent = `Read time: ${Math.max(1, Math.ceil(words / 200))} min`;
+    }
+
+    function render() {
+      const text = mdInput.value;
+      mdPreview.innerHTML = parseMarkdown(text);
+      updateStats(text);
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('md-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'md-toast';
+        toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-xs font-sans px-4 py-2.5 rounded-full shadow-lvl5 z-50 transition-opacity duration-300';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg || 'Copied to clipboard';
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2000);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => showToast()).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      });
+    }
+
+    mdInput.addEventListener('input', render);
+
+    document.getElementById('md-copy-html').addEventListener('click', () => {
+      copyToClipboard(parseMarkdown(mdInput.value));
+    });
+    document.getElementById('md-copy-md').addEventListener('click', () => {
+      copyToClipboard(mdInput.value);
+    });
+    document.getElementById('md-download').addEventListener('click', () => {
+      const blob = new Blob([parseMarkdown(mdInput.value)], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'converted.html';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+    document.getElementById('md-clear').addEventListener('click', () => {
+      mdInput.value = '';
+      render();
+    });
+    document.getElementById('md-sample').addEventListener('click', () => {
+      mdInput.value = `# Welcome to Markdown\n\nThis is **bold**, this is *italic*, and this is ~~strikethrough~~.\n\n## Lists\n\n- [x] Write Markdown\n- [ ] Render HTML\n- [ ] Ship it\n\n## Table\n\n| Name | Role |\n| --- | --- |\n| Ada | Engineer |\n| Linus | Maintainer |\n\n> Blockquotes are great for callouts.\n\n\`\`\`js\nconsole.log('hello world');\n\`\`\`\n\nVisit [ToolzTotal](https://toolztotal.com) for more tools.`;
+      render();
+    });
+
+    function setView(view) {
+      activeView.value = view;
+      viewBtns.forEach(b => {
+        const active = b.id === `view-${view}`;
+        b.classList.toggle('bg-primary', active);
+        b.classList.toggle('text-on-primary', active);
+        b.classList.toggle('shadow-lvl2', active);
+        b.classList.toggle('text-mute', !active);
+        b.classList.toggle('hover:text-ink', !active);
+      });
+      mdPanes.className = 'grid gap-4 ' + (view === 'split' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1');
+      if (view === 'preview') {
+        mdInput.parentElement.style.display = 'none';
+        mdPreview.parentElement.style.display = '';
+      } else if (view === 'source') {
+        mdInput.parentElement.style.display = '';
+        mdPreview.parentElement.style.display = 'none';
+      } else {
+        mdInput.parentElement.style.display = '';
+        mdPreview.parentElement.style.display = '';
+      }
+    }
+
+    viewBtns.forEach(btn => btn.addEventListener('click', () => setView(btn.id.replace('view-', ''))));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('svg');
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) {
+          content.classList.add('hidden');
+          icon.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          icon.classList.add('rotate-180');
+        }
+      });
+    });
+
+    setView('split');
+    render();
+  </script>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="markdown-to-html"
+    />
+
+  <ContentFooter category="dev" />
+</Layout>

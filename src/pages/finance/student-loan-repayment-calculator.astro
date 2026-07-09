@@ -1,0 +1,841 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContentFooter from "../../components/ContentFooter.astro";
+import Sources from "../../components/Sources.astro";
+import DisclaimerBanner from "../../components/DisclaimerBanner.astro";
+import ToolSchema from "../../components/ToolSchema.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+
+const studentLoanFaqs = [
+  {
+    question: "What is the standard repayment plan for federal student loans?",
+    answer:
+      "The Standard Plan requires fixed monthly payments over 10 years to pay off your loan in full. Payments are at least $50. It accrues the least interest over the life of the loan compared to income-driven plans.",
+  },
+  {
+    question: "What are income-driven repayment (IDR) plans?",
+    answer:
+      "IDR plans cap your monthly payment at a percentage of your discretionary income (typically 10–20%) and forgive remaining balances after 20–25 years of qualifying payments. Plans include IBR, PAYE, REPAYE, and ICR.",
+  },
+  {
+    question: "Should I refinance my student loans?",
+    answer:
+      "Refinancing can lower your rate if you have good credit and stable income. However, you lose federal protections (IDR, forgiveness, deferment, forbearance). Only refinance federal loans if you're confident you won't need those benefits.",
+  },
+  {
+    question: "How does student loan forgiveness work?",
+    answer:
+      "Public Service Loan Forgiveness (PSLF) forgives remaining balances after 120 qualifying payments while working full-time for a qualifying employer. Other programs include Teacher Loan Forgiveness ($17,500) and Total and Permanent Disability Discharge.",
+  },
+  {
+    question: "What happens if I default on student loans?",
+    answer:
+      "Default occurs after 270 days of non-payment. Consequences include wage garnishment (up to 15%), tax refund seizure, loss of eligibility for additional federal aid, and credit damage that lasts 7 years. Contact your servicer immediately to explore deferment or forbearance.",
+  },
+];
+---
+
+<Layout
+  title="Student Loan Repayment Calculator - Plans & Payoff | ToolzTotal"
+  description="Compare student loan repayment plans including Standard, Graduated, Extended, and income-driven (IBR, PAYE, REPAYE, ICR). See monthly payment, total interest, and payoff date."
+  canonicalUrl="https://toolztotal.com/finance/student-loan-repayment-calculator"
+>
+  <ToolSchema
+    toolName="Student Loan Repayment Calculator"
+    toolSlug="student-loan-repayment-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Compare student loan repayment plans including Standard, Graduated, Extended, and income-driven (IBR, PAYE, REPAYE, ICR). See monthly payment, total interest, and payoff date."
+    faqs={studentLoanFaqs}
+  />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categorySlug="finance"
+      categoryName="Finance & Loans"
+      toolName="Student Loan Repayment Calculator"
+      toolSlug="student-loan-repayment-calculator"
+    />
+
+    <DisclaimerBanner category="finance" />
+
+    <div class="max-w-4xl mb-12">
+      <div
+        class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider"
+          >Free Tool</span
+        >
+      </div>
+      <h1
+        class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty"
+      >
+        Student Loan Repayment Calculator
+      </h1>
+      <p
+        class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
+      >
+        Compare repayment plans, estimate your monthly payment, total interest,
+        and payoff date. Factor in income-driven options and extra payments to
+        see the cheapest path to being debt-free.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <form
+        id="student-form"
+        class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6"
+        onsubmit="return false;"
+      >
+        <div>
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Loan Details
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <label
+                for="loan-balance"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Loan Balance ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="loan-balance"
+                  value="35,000"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 35,000"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="interest-rate"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Interest Rate (%)</label
+              >
+              <div class="relative">
+                <input
+                  type="text"
+                  id="interest-rate"
+                  value="6.5"
+                  class="w-full h-10 pl-3 pr-8 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 6.5"
+                  inputmode="decimal"
+                  required
+                />
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >%</span
+                >
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="loan-term"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Loan Term (Years)</label
+              >
+              <input
+                type="number"
+                id="loan-term"
+                value="10"
+                min="1"
+                max="30"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                inputmode="numeric"
+              />
+            </div>
+
+            <div>
+              <label
+                for="repayment-plan"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Repayment Plan</label
+              >
+              <select
+                id="repayment-plan"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
+              >
+                <option value="Standard" selected>Standard (10 yr)</option>
+                <option value="Graduated">Graduated</option>
+                <option value="Extended">Extended (25 yr)</option>
+                <option value="IBR">IBR</option>
+                <option value="PAYE">PAYE</option>
+                <option value="REPAYE">REPAYE</option>
+                <option value="ICR">ICR</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                for="monthly-payment"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Monthly Payment ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="monthly-payment"
+                  value="0"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="0 = auto by plan"
+                  inputmode="decimal"
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Leave 0 to use the plan's calculated payment.
+              </p>
+            </div>
+
+            <div>
+              <label
+                for="extra-payment"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Extra Monthly Payment ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="extra-payment"
+                  value="0"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 50"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-hairline pt-5">
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Income (for IDR plans)
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <label
+                for="annual-income"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Annual Income ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="annual-income"
+                  value="60,000"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 60,000"
+                  inputmode="decimal"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="family-size"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Family Size</label
+              >
+              <input
+                type="number"
+                id="family-size"
+                value="1"
+                min="1"
+                max="12"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                inputmode="numeric"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 pt-4">
+          <button
+            type="submit"
+            id="calculate-btn"
+            class="w-full h-10 bg-primary hover:bg-primary-strong text-on-primary font-sans font-bold text-sm rounded-lg transition-colors cursor-pointer shadow-lvl2 text-center"
+          >
+            Calculate Repayment
+          </button>
+          <button
+            type="button"
+            id="reset-btn"
+            class="w-full py-2 text-mute hover:text-ink font-sans text-xs transition-colors cursor-pointer text-center"
+          >
+            Reset Form
+          </button>
+        </div>
+      </form>
+      <div class="lg:col-span-7 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Monthly Payment
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="monthly-payment-val"
+              >
+                $0.00
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Base plan payment
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Excludes extra payments
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Payoff Date
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="payoff-date-val"
+              >
+                —
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                With extra payments
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Estimated
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Total Interest Paid
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-rose-600 tracking-tight tabular-nums"
+              id="total-interest-val"
+            >
+              $0.00
+            </p>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Total Cost
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-ink tracking-tight tabular-nums"
+              id="total-cost-val"
+            >
+              $0.00
+            </p>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 sm:col-span-2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Total Number of Payments
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-ink tracking-tight tabular-nums"
+              id="payments-count-val"
+            >
+              0
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4"
+        >
+          <h3
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2"
+          >
+            Repayment Comparison
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead>
+                <tr
+                  class="border-b border-hairline font-mono text-mute uppercase text-[10px] tracking-wider"
+                >
+                  <th class="py-2.5 px-3">Plan</th>
+                  <th class="py-2.5 px-3 text-right">Monthly</th>
+                  <th class="py-2.5 px-3 text-right">Total Interest</th>
+                  <th class="py-2.5 px-3 text-right">Total Paid</th>
+                </tr>
+              </thead>
+              <tbody
+                id="plan-compare-body"
+                class="divide-y divide-hairline text-body tabular-nums"
+              >
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          id="error-panel"
+          class="hidden bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 rounded-xl p-4 text-rose-700 dark:text-rose-400 text-xs leading-relaxed font-sans"
+        >
+        </div>
+
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-2 text-[11px] font-sans text-mute leading-relaxed"
+        >
+          <p>
+            * <strong>Estimate Only</strong>: IDR payments use a simplified
+            discretionary-income formula (150% of a ~$15,000 poverty guideline).
+            Actual servicer calculations consider family size, state, and
+            filing status. Forgiveness balances are not subtracted here.
+          </p>
+        </div>
+      </div>
+    </div>
+    <article
+      class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16"
+    >
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6"
+      >
+        Federal Student Loan Repayment Plans Compared
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Federal borrowers can choose from several plans. The right one depends
+          on your balance, income, and goals.
+        </p>
+        <div
+          class="overflow-x-auto my-6 border border-hairline rounded-lg bg-canvas shadow-lvl1"
+        >
+          <table
+            class="w-full text-left border-collapse text-xs md:text-sm font-sans"
+          >
+            <thead>
+              <tr
+                class="bg-canvas-soft-2 font-mono text-mute uppercase text-[11px] tracking-wider border-b border-hairline"
+              >
+                <th class="py-3 px-4">Plan</th>
+                <th class="py-3 px-4 text-right">Term</th>
+                <th class="py-3 px-4 text-right">Payment Basis</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline text-body tabular-nums">
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">Standard</td>
+                <td class="py-3.5 px-4 text-right">10 yrs</td>
+                <td class="py-3.5 px-4 text-right">Fixed, full amortization</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">Graduated</td>
+                <td class="py-3.5 px-4 text-right">10 yrs</td>
+                <td class="py-3.5 px-4 text-right">Low, rises every 2 yrs</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">Extended</td>
+                <td class="py-3.5 px-4 text-right">25 yrs</td>
+                <td class="py-3.5 px-4 text-right">Fixed or graduated</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">IBR / PAYE / REPAYE</td>
+                <td class="py-3.5 px-4 text-right">20–25 yrs</td>
+                <td class="py-3.5 px-4 text-right">% of discretionary income</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">ICR</td>
+                <td class="py-3.5 px-4 text-right">Up to 25 yrs</td>
+                <td class="py-3.5 px-4 text-right">% of income or 12-yr fixed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Income-Driven Repayment: Is It Right for You?
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          IDR plans cap payments at 10–20% of discretionary income and forgive
+          the remaining balance after 20–25 years. They're ideal if your income
+          is low relative to your debt, but you'll typically pay more total
+          interest than the Standard plan. Any forgiven balance may be taxable
+          under current law (though PSLF forgiveness is tax-free).
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Student Loan Forgiveness Programs
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Public Service Loan Forgiveness (PSLF)</strong> — 120
+            qualifying payments while working full-time for a qualifying
+            employer.
+          </li>
+          <li>
+            <strong>Teacher Loan Forgiveness</strong> — up to $17,500 for highly
+            qualified teachers in low-income schools.
+          </li>
+          <li>
+            <strong>Total and Permanent Disability Discharge</strong> — full
+            discharge for qualifying borrowers.
+          </li>
+          <li>
+            <strong>IDR forgiveness</strong> — remaining balance forgiven after
+            20–25 years on an income-driven plan.
+          </li>
+        </ul>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Should You Refinance or Stay Federal?
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Refinancing with a private lender can lower your rate if you have
+          strong credit and steady income. The trade-off: you permanently lose
+          federal benefits — IDR plans, forgiveness, deferment, and
+          forbearance. Keep your loans federal if you might need those safety
+          nets; refinance only if you're confident you won't.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        What to Do If You Can't Make Payments
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Default begins after 270 days of missed payments and triggers wage
+          garnishment (up to 15%), tax-refund seizure, and credit damage. Before
+          that point, contact your servicer about deferment, forbearance, or
+          switching to an income-driven plan. Acting early protects your credit
+          and your options.
+        </p>
+      </div>
+    </article>
+
+    <Sources
+      sources={[
+        {
+          label: "Federal Student Aid — Repayment Plans",
+          url: "https://studentaid.gov/manage-loans/repayment/plans",
+        },
+        {
+          label: "Consumer Financial Protection Bureau — Student Loans",
+          url: "https://www.consumerfinance.gov/consumer-tools/student-loans/",
+        },
+        {
+          label: "U.S. Department of Education — Student Loan Guide",
+          url: "https://www.ed.gov/",
+        },
+        {
+          label: "National Consumer Law Center — Student Loan Guide",
+          url: "https://www.nclc.org/issues/student-loans.html",
+        },
+      ]}
+    />
+
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty"
+      >
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        {
+          studentLoanFaqs.map((faq, index) => (
+            <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+              <button
+                type="button"
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+                aria-expanded="false"
+                id={`faq-btn-${index}`}
+              >
+                <span>{faq.question}</span>
+                <svg
+                  class="w-4 h-4 text-mute transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+                <p class="text-body text-sm font-sans leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <RelatedTools categorySlug="finance" toolSlug="student-loan-repayment-calculator" />
+  </div>
+
+  <ContentFooter category="finance" />
+</Layout>
+
+<script>
+  const loanBalance = document.getElementById("loan-balance") as HTMLInputElement;
+  const interestRate = document.getElementById("interest-rate") as HTMLInputElement;
+  const loanTerm = document.getElementById("loan-term") as HTMLInputElement;
+  const repaymentPlan = document.getElementById("repayment-plan") as HTMLSelectElement;
+  const monthlyPaymentInput = document.getElementById("monthly-payment") as HTMLInputElement;
+  const extraPayment = document.getElementById("extra-payment") as HTMLInputElement;
+  const annualIncome = document.getElementById("annual-income") as HTMLInputElement;
+  const familySize = document.getElementById("family-size") as HTMLInputElement;
+
+  const calculateBtn = document.getElementById("calculate-btn");
+  const resetBtn = document.getElementById("reset-btn");
+
+  const monthlyPaymentVal = document.getElementById("monthly-payment-val");
+  const payoffDateVal = document.getElementById("payoff-date-val");
+  const totalInterestVal = document.getElementById("total-interest-val");
+  const totalCostVal = document.getElementById("total-cost-val");
+  const paymentsCountVal = document.getElementById("payments-count-val");
+  const planCompareBody = document.getElementById("plan-compare-body");
+  const errorPanel = document.getElementById("error-panel");
+
+  function parseVal(el) {
+    const rawVal = el.value.replace(/,/g, "").trim();
+    if (rawVal === "") return 0;
+    const parsed = parseFloat(rawVal);
+    return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+  }
+
+  function formatMoney(num) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(num);
+  }
+
+  function round(num, decimals) {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  }
+
+  function amortizedPayment(principal, annualRatePct, months) {
+    if (months <= 0) return 0;
+    const r = annualRatePct / 100 / 12;
+    if (r === 0) return principal / months;
+    const pow = Math.pow(1 + r, months);
+    return (principal * r * pow) / (pow - 1);
+  }
+
+  function planPayment(plan, balance, rate, termYears, income) {
+    const months = termYears * 12;
+    if (plan === "Standard" || plan === "Graduated") {
+      return amortizedPayment(balance, rate, 10 * 12);
+    }
+    if (plan === "Extended") {
+      return amortizedPayment(balance, rate, 25 * 12);
+    }
+    const povertyLine = 15000;
+    const discretionary = Math.max(0, income - 1.5 * povertyLine);
+    if (plan === "IBR" || plan === "PAYE" || plan === "REPAYE") {
+      return (discretionary * 0.1) / 12;
+    }
+    if (plan === "ICR") {
+      const idrLike = ((income - povertyLine) * 0.2) / 12;
+      const std10 = amortizedPayment(balance, rate, 10 * 12);
+      return Math.min(idrLike, std10);
+    }
+    return amortizedPayment(balance, rate, months);
+  }
+
+  function simulate(balance, rate, monthly) {
+    const r = rate / 100 / 12;
+    let bal = balance;
+    let totalInterest = 0;
+    let months = 0;
+    if (monthly <= 0) return { months: 0, totalInterest: 0 };
+    while (bal > 0 && months < 1200) {
+      months++;
+      const interest = bal * r;
+      let principalPart = monthly - interest;
+      if (principalPart >= bal) {
+        totalInterest += interest;
+        break;
+      }
+      bal -= principalPart;
+      totalInterest += interest;
+    }
+    return { months, totalInterest };
+  }
+
+  function runCalculations() {
+    errorPanel.classList.add("hidden");
+    errorPanel.textContent = "";
+
+    const balance = parseVal(loanBalance);
+    const rate = parseVal(interestRate);
+    const termYears = parseVal(loanTerm);
+    const plan = repaymentPlan.value;
+    const userMonthly = parseVal(monthlyPaymentInput);
+    const extra = parseVal(extraPayment);
+    const income = parseVal(annualIncome);
+
+    if (balance <= 0 || rate <= 0) {
+      errorPanel.classList.remove("hidden");
+      errorPanel.textContent = "Please enter a positive loan balance and rate.";
+      return;
+    }
+
+    const basePayment =
+      userMonthly > 0 ? userMonthly : planPayment(plan, balance, rate, termYears, income);
+    const totalMonthly = basePayment + extra;
+
+    const sim = simulate(balance, rate, totalMonthly);
+    const totalInterest = sim.totalInterest;
+    const totalCost = balance + totalInterest;
+
+    monthlyPaymentVal.textContent = formatMoney(round(basePayment, 2));
+    totalInterestVal.textContent = formatMoney(round(totalInterest, 2));
+    totalCostVal.textContent = formatMoney(round(totalCost, 2));
+    paymentsCountVal.textContent = sim.months.toString();
+
+    if (sim.months > 0) {
+      const d = new Date();
+      d.setMonth(d.getMonth() + sim.months);
+      payoffDateVal.textContent = d.toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
+    } else {
+      payoffDateVal.textContent = "—";
+    }
+
+    const plans = ["Standard", "Graduated", "Extended", "IBR", "PAYE", "REPAYE", "ICR"];
+    planCompareBody.innerHTML = "";
+    plans.forEach((p) => {
+      const pmt = planPayment(p, balance, rate, termYears, income);
+      const s = simulate(balance, rate, pmt);
+      const tr = document.createElement("tr");
+      const isCurrent = p === plan;
+      tr.innerHTML = `
+        <td class="py-3 px-3 font-semibold ${isCurrent ? "text-primary" : "text-ink"}">${p}${isCurrent ? " (selected)" : ""}</td>
+        <td class="py-3 px-3 text-right">${formatMoney(pmt)}</td>
+        <td class="py-3 px-3 text-right">${formatMoney(s.totalInterest)}</td>
+        <td class="py-3 px-3 text-right font-semibold">${formatMoney(balance + s.totalInterest)}</td>
+      `;
+      planCompareBody.appendChild(tr);
+    });
+  }
+
+  function formatInputOnBlur(e) {
+    const target = e.target;
+    const rawVal = target.value.replace(/,/g, "").trim();
+    if (rawVal === "") return;
+    const parsed = parseFloat(rawVal);
+    if (!isNaN(parsed) && parsed >= 0) {
+      target.value = new Intl.NumberFormat("en-US").format(parsed);
+    }
+  }
+
+  [loanBalance, annualIncome, extraPayment].forEach((input) => {
+    input.addEventListener("input", runCalculations);
+    input.addEventListener("blur", formatInputOnBlur);
+  });
+  [interestRate, monthlyPaymentInput].forEach((input) => {
+    input.addEventListener("input", runCalculations);
+    input.addEventListener("blur", formatInputOnBlur);
+  });
+  [loanTerm, repaymentPlan, familySize].forEach((el) =>
+    el.addEventListener("input", runCalculations),
+  );
+
+  calculateBtn.addEventListener("click", runCalculations);
+
+  resetBtn.addEventListener("click", () => {
+    loanBalance.value = "35,000";
+    interestRate.value = "6.5";
+    loanTerm.value = "10";
+    repaymentPlan.value = "Standard";
+    monthlyPaymentInput.value = "0";
+    extraPayment.value = "0";
+    annualIncome.value = "60,000";
+    familySize.value = "1";
+    runCalculations();
+  });
+
+  document.querySelectorAll(".faq-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const content = button.nextElementSibling;
+      const chevron = button.querySelector("svg");
+      const isHidden = content.classList.toggle("hidden");
+      chevron.classList.toggle("rotate-180", !isHidden);
+      button.setAttribute("aria-expanded", (!isHidden).toString());
+    });
+  });
+
+  runCalculations();
+</script>

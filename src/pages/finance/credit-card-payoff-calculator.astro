@@ -1,0 +1,970 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContentFooter from "../../components/ContentFooter.astro";
+import Sources from "../../components/Sources.astro";
+import DisclaimerBanner from "../../components/DisclaimerBanner.astro";
+import ToolSchema from "../../components/ToolSchema.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+
+const ccFaqs = [
+  {
+    question: "How long will it take to pay off my credit card?",
+    answer:
+      "It depends on your balance, APR, and monthly payment. Use the calculator above to see your exact payoff timeline. As a rule of thumb, paying only the minimum on a $5,000 balance at 20% APR can take 15+ years.",
+  },
+  {
+    question: "Should I pay more than the minimum?",
+    answer:
+      "Absolutely. Paying even $50–$100 extra per month can shave years off your payoff timeline and save hundreds or thousands in interest. The calculator shows exactly how much you save with higher payments.",
+  },
+  {
+    question: "What is a good credit card APR?",
+    answer:
+      "The average credit card APR in 2026 is around 22–24%. Cards with APRs below 15% are considered excellent, while store cards or cards for fair/poor credit can exceed 30%. Always check the Schumer box before applying.",
+  },
+  {
+    question: "Will paying off my card early hurt my credit score?",
+    answer:
+      "No. Paying off a credit card early or in full every month is the best thing you can do for your credit score. It shows responsible usage without carrying high utilization. Just keep the account open after paying it off to maintain your credit history length.",
+  },
+  {
+    question: "What is the avalanche vs snowball method?",
+    answer:
+      "The avalanche method targets the highest-APR card first to minimize interest costs. The snowball method targets the smallest balance first for psychological wins. Mathematically, avalanche always saves more money. Snowball works better if you need quick wins to stay motivated.",
+  },
+];
+
+---
+
+<Layout
+  title="Credit Card Payoff Calculator - Pay Off Debt Faster | ToolzTotal"
+  description="Calculate how long it will take to pay off your credit card debt. See total interest costs, amortization schedule, and how extra payments accelerate payoff."
+  canonicalUrl="https://toolztotal.com/finance/credit-card-payoff-calculator"
+>
+  <ToolSchema
+    toolName="Credit Card Payoff Calculator"
+    toolSlug="credit-card-payoff-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate how long it will take to pay off your credit card debt. See total interest costs, amortization schedule, and how extra payments accelerate payoff."
+    faqs={ccFaqs}
+  />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categorySlug="finance"
+      categoryName="Finance & Loans"
+      toolName="Credit Card Payoff Calculator"
+      toolSlug="credit-card-payoff-calculator"
+    />
+
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div
+        class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider"
+          >Free Tool</span
+        >
+      </div>
+      <h1
+        class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty"
+      >
+        Credit Card Payoff Calculator
+      </h1>
+      <p
+        class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
+      >
+        Estimate your payoff timeline, total interest charges, and see how much
+        you save by paying extra each month. All calculations run privately in
+        your browser.
+      </p>
+    </div>
+
+    <!-- Main Workspace Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <!-- Left Column: Input Form (5 cols) -->
+      <form
+        id="cc-form"
+        class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6"
+        onsubmit="return false;"
+      >
+        <!-- SECTION: Card Details -->
+        <div>
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Card Details
+          </h2>
+
+          <div class="space-y-4">
+            <!-- Current Balance -->
+            <div>
+              <label
+                for="cc-balance"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Current Balance ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="cc-balance"
+                  value="5,000"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 5,000"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- APR -->
+            <div>
+              <label
+                for="cc-apr"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Interest Rate (APR %)</label
+              >
+              <div class="relative">
+                <input
+                  type="text"
+                  id="cc-apr"
+                  value="22.9"
+                  class="w-full h-10 pl-3 pr-8 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 22.9"
+                  inputmode="decimal"
+                  required
+                />
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >%</span
+                >
+              </div>
+            </div>
+
+            <!-- Monthly Payment -->
+            <div>
+              <label
+                for="cc-payment"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Monthly Payment ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="cc-payment"
+                  value="150"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 150"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Minimum payment is usually 2–4% of the balance.
+              </p>
+            </div>
+
+            <!-- Extra Monthly Payment -->
+            <div>
+              <label
+                for="cc-extra"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Extra Monthly Payment ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="cc-extra"
+                  value="50"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 50"
+                  inputmode="decimal"
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Any amount above the minimum you can afford.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col gap-2 pt-4">
+          <button
+            type="submit"
+            id="calculate-btn"
+            class="w-full h-10 bg-primary hover:bg-primary-strong text-on-primary font-sans font-bold text-sm rounded-lg transition-colors cursor-pointer shadow-lvl2 text-center"
+          >
+            Calculate Payoff
+          </button>
+          <button
+            type="button"
+            id="reset-btn"
+            class="w-full py-2 text-mute hover:text-ink font-sans text-xs transition-colors cursor-pointer text-center"
+          >
+            Reset Form
+          </button>
+        </div>
+      </form>
+
+      <!-- Right Column: Results Dashboard (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        <!-- Output Cards Grid -->
+        <div id="results-panel" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- Card 1: Payoff Time -->
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Payoff Time
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="payoff-time-val"
+              >
+                0 months
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Without extra payments
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                With extra: <span id="payoff-time-extra">0 months</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Total Interest -->
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Total Interest Paid
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="total-interest-val"
+              >
+                $0.00
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Without extra payments
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                With extra: <span id="total-interest-extra">$0.00</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Savings -->
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Interest Saved
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-emerald-600 tracking-tight tabular-nums"
+                id="interest-saved-val"
+              >
+                $0.00
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                By paying extra each month
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Time saved: <span id="time-saved">0 months</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Breakdown Details Table -->
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4"
+        >
+          <h3
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2"
+          >
+            Payoff Comparison
+          </h3>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead>
+                <tr
+                  class="border-b border-hairline font-mono text-mute uppercase text-[10px] tracking-wider"
+                >
+                  <th class="py-2.5 px-3">Scenario</th>
+                  <th class="py-2.5 px-3 text-right">Monthly Payment</th>
+                  <th class="py-2.5 px-3 text-right">Months to Payoff</th>
+                  <th class="py-2.5 px-3 text-right">Total Interest</th>
+                  <th class="py-2.5 px-3 text-right">Total Paid</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-hairline text-body tabular-nums">
+                <tr>
+                  <td class="py-3 px-3 font-semibold text-ink"
+                    >Minimum Only</td
+                  >
+                  <td class="py-3 px-3 text-right" id="row-min-payment">$0</td>
+                  <td class="py-3 px-3 text-right" id="row-min-months">0</td>
+                  <td class="py-3 px-3 text-right" id="row-min-interest">$0</td>
+                  <td class="py-3 px-3 text-right font-semibold" id="row-min-total">$0</td>
+                </tr>
+                <tr class="bg-canvas-soft-2/20">
+                  <td class="py-3 px-3 font-semibold text-ink"
+                    >With Extra Payments</td
+                  >
+                  <td class="py-3 px-3 text-right" id="row-extra-payment">$0</td>
+                  <td class="py-3 px-3 text-right" id="row-extra-months">0</td>
+                  <td class="py-3 px-3 text-right" id="row-extra-interest">$0</td>
+                  <td class="py-3 px-3 text-right font-semibold" id="row-extra-total">$0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Amortization Schedule -->
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4"
+        >
+          <h3
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2"
+          >
+            Amortization Schedule (Monthly Breakdown)
+          </h3>
+          <div class="overflow-x-auto max-h-96 overflow-y-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <thead class="sticky top-0 bg-canvas">
+                <tr
+                  class="border-b border-hairline font-mono text-mute uppercase text-[10px] tracking-wider"
+                >
+                  <th class="py-2.5 px-3">Month</th>
+                  <th class="py-2.5 px-3 text-right">Payment</th>
+                  <th class="py-2.5 px-3 text-right">Interest</th>
+                  <th class="py-2.5 px-3 text-right">Principal</th>
+                  <th class="py-2.5 px-3 text-right">Balance</th>
+                </tr>
+              </thead>
+              <tbody id="amortization-body" class="divide-y divide-hairline text-body tabular-nums">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Local error message panel -->
+        <div
+          id="error-panel"
+          class="hidden bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 rounded-xl p-4 text-rose-700 dark:text-rose-400 text-xs leading-relaxed font-sans"
+        >
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Disclaimers always visible below calculation -->
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-2 text-[11px] font-sans text-mute leading-relaxed"
+        >
+          <p>
+            * **Estimate Only**: This calculator provides estimates based on the
+            information you enter. Actual credit card terms, fees, and interest
+            charges may vary. Contact your card issuer for exact payoff details.
+          </p>
+          <p>
+            * **APR Assumptions**: This tool assumes a fixed APR. Variable-rate
+            cards may change monthly, which affects your actual payoff timeline.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Explanations panel (Below the fold) -->
+    <section
+      class="mt-16 bg-canvas border border-hairline rounded-2xl p-6 md:p-8 shadow-lvl1"
+    >
+      <h2
+        class="text-lg font-bold text-ink font-sans mb-4 border-b border-hairline pb-2"
+      >
+        How Credit Card Interest Works
+      </h2>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs md:text-sm font-sans leading-relaxed text-body"
+      >
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              Daily Periodic Rate (DPR)
+            </h3>
+            <p>
+              Credit card interest compounds daily, not monthly. The Daily
+              Periodic Rate is your APR divided by 365 (or 360 for some cards).
+              For a 22.9% APR, the DPR is approximately 0.0627% per day. Each
+              day, your remaining balance accrues interest at this rate.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              Minimum Payments Are Designed to Maximize Interest
+            </h3>
+            <p>
+              Credit card minimum payments are typically 2–4% of your balance.
+              At these rates, you may spend 10–20 years paying off a moderate
+              balance while paying 2–3 times the original amount in interest.
+              This is why paying more than the minimum is critical.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              Grace Periods Only Apply to New Purchases
+            </h3>
+            <p>
+              If you pay your statement balance in full by the due date, you
+              avoid interest on new purchases (the grace period). However, cash
+              advances and balance transfers usually start accruing interest
+              immediately with no grace period.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              How Extra Payments Work
+            </h3>
+            <p>
+              Extra payments go directly toward your principal balance. The lower
+              your principal, the less interest accrues the next day. This
+              creates a snowball effect: each extra payment slightly reduces
+              future interest, so more of your next payment goes to principal.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detailed SEO Article Section -->
+    <article
+      class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16"
+    >
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6"
+      >
+        How to Calculate Credit Card Payoff (Formula + Examples)
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Credit card debt is one of the most expensive forms of consumer debt
+          because of high annual percentage rates (APRs) and daily compounding.
+          Understanding exactly how long it will take to pay off your balance
+          and how much interest you will pay is the first step toward becoming
+          debt-free.
+        </p>
+        <p>
+          The standard formula for calculating the number of payments required
+          to pay off a loan is:
+        </p>
+        <div
+          class="bg-canvas-soft-2/30 border border-hairline rounded-xl p-4 font-mono text-xs md:text-sm text-ink space-y-1"
+        >
+          <p>n = -log(1 - (r × PV) / PMT) / log(1 + r)</p>
+          <p class="text-mute text-[10px]">
+            Where: n = number of payments, r = monthly interest rate, PV =
+            present value (balance), PMT = monthly payment
+          </p>
+        </div>
+        <p>
+          Because credit card interest compounds daily, the actual payoff
+          calculation uses the daily periodic rate (APR ÷ 365) applied to the
+          remaining balance each day. This calculator handles that math for you
+          automatically.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Real Example: $5,000 Balance at 22.9% APR
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Suppose you have a <strong>$5,000 credit card balance</strong> with a
+          <strong>22.9% APR</strong>. Your minimum payment (at 3% of balance)
+          is $150/month. Here is what happens:
+        </p>
+        <div
+          class="bg-canvas-soft-2/30 border border-hairline rounded-xl p-4 font-mono text-xs md:text-sm text-ink space-y-1"
+        >
+          <p>Minimum payment only: $150/month</p>
+          <p>Payoff time: ~76 months (6.3 years)</p>
+          <p>Total interest paid: ~$6,400</p>
+          <p>Total paid: ~$11,400</p>
+        </div>
+        <p>
+          Now, if you increase your payment to <strong>$200/month</strong> (an
+          extra $50):
+        </p>
+        <div
+          class="bg-canvas-soft-2/30 border border-hairline rounded-xl p-4 font-mono text-xs md:text-sm text-ink space-y-1"
+        >
+          <p>Payment with extra: $200/month</p>
+          <p>Payoff time: ~34 months (2.8 years)</p>
+          <p>Total interest paid: ~$1,900</p>
+          <p>Total paid: ~$6,900</p>
+          <p><strong>Interest saved: ~$4,500</strong></p>
+        </div>
+        <p>
+          That single $50 increase cuts your payoff time by more than half and
+          saves over $4,500 in interest. This is the power of extra payments.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Avalanche vs Snowball: Which Strategy Is Best?
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          If you have multiple credit cards, you need a strategy for attacking
+          them. The two most popular methods are:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Avalanche Method:</strong> Pay minimums on all cards, then
+            throw every extra dollar at the card with the highest APR. This
+            minimizes total interest paid and is mathematically optimal.
+          </li>
+          <li>
+            <strong>Snowball Method:</strong> Pay minimums on all cards, then
+            attack the smallest balance first regardless of APR. This gives you
+            quick psychological wins that can help you stay motivated.
+          </li>
+        </ul>
+        <p>
+          For pure math, avalanche wins every time. Snowball works better if you
+          need the motivation of closing accounts. Use our calculator to compare
+          both approaches on your specific balances.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        How to Lower Your Credit Card APR
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          The fastest way to reduce interest costs is to lower your APR. Here
+          are proven strategies:
+        </p>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Call your issuer and ask:</strong> Loyalty discounts of
+            2–5% are common if you have a good payment history. It takes 5
+            minutes and can save hundreds annually.
+          </li>
+          <li>
+            <strong>Balance transfer card:</strong> Move your balance to a card
+            with a 0% intro APR (typically 12–21 months). Watch for transfer
+            fees (usually 3–5%).
+          </li>
+          <li>
+            <strong>Personal loan consolidation:</strong> A personal loan at 8–15%
+            APR can replace 20–30% credit card debt, converting high-interest
+            revolving debt into a fixed-term installment loan.
+          </li>
+          <li>
+            <strong>Debt management plan:</strong> Nonprofit credit counseling
+            agencies can negotiate lower APRs (often 8–12%) and consolidate
+            payments. Avoid for-profit debt settlement companies.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- References -->
+    <Sources
+      sources={[
+        {
+          label:
+            "Consumer Financial Protection Bureau (CFPB) — Credit Card Payoff Guide",
+          url: "https://www.consumerfinance.gov/consumer-tools/credit-cards/",
+        },
+        {
+          label: "Federal Reserve — Report on the Economic Well-Being of U.S. Households",
+          url: "https://www.federalreserve.gov/publications/2023-economic-well-being-of-us-households-in-2022.htm",
+        },
+        {
+          label: "Investopedia — Credit Card Interest",
+          url: "https://www.investopedia.com/terms/c/credit_card_interest.asp",
+        },
+      ]}
+    />
+
+    <!-- FAQ Accordion section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty"
+      >
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        {
+          ccFaqs.map((faq, index) => (
+            <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+              <button
+                type="button"
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+                aria-expanded="false"
+                id={`faq-btn-${index}`}
+              >
+                <span>{faq.question}</span>
+                <svg
+                  class="w-4 h-4 text-mute transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+                <p class="text-body text-sm font-sans leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Related Tools mapping -->
+    <RelatedTools categorySlug="finance" toolSlug="credit-card-payoff-calculator" />
+  </div>
+
+  <ContentFooter category="finance" />
+</Layout>
+
+<script>
+  // DOM Elements
+  const balanceInput = document.getElementById(
+    "cc-balance",
+  ) as HTMLInputElement;
+  const aprInput = document.getElementById("cc-apr") as HTMLInputElement;
+  const paymentInput = document.getElementById(
+    "cc-payment",
+  ) as HTMLInputElement;
+  const extraInput = document.getElementById("cc-extra") as HTMLInputElement;
+
+  const calculateBtn = document.getElementById(
+    "calculate-btn",
+  ) as HTMLButtonElement;
+  const resetBtn = document.getElementById("reset-btn") as HTMLButtonElement;
+
+  const payoffTimeVal = document.getElementById(
+    "payoff-time-val",
+  ) as HTMLParagraphElement;
+  const payoffTimeExtra = document.getElementById(
+    "payoff-time-extra",
+  ) as HTMLParagraphElement;
+  const totalInterestVal = document.getElementById(
+    "total-interest-val",
+  ) as HTMLParagraphElement;
+  const totalInterestExtra = document.getElementById(
+    "total-interest-extra",
+  ) as HTMLParagraphElement;
+  const interestSavedVal = document.getElementById(
+    "interest-saved-val",
+  ) as HTMLParagraphElement;
+  const timeSaved = document.getElementById(
+    "time-saved",
+  ) as HTMLParagraphElement;
+
+  const rowMinPayment = document.getElementById(
+    "row-min-payment",
+  ) as HTMLTableCellElement;
+  const rowMinMonths = document.getElementById(
+    "row-min-months",
+  ) as HTMLTableCellElement;
+  const rowMinInterest = document.getElementById(
+    "row-min-interest",
+  ) as HTMLTableCellElement;
+  const rowMinTotal = document.getElementById(
+    "row-min-total",
+  ) as HTMLTableCellElement;
+  const rowExtraPayment = document.getElementById(
+    "row-extra-payment",
+  ) as HTMLTableCellElement;
+  const rowExtraMonths = document.getElementById(
+    "row-extra-months",
+  ) as HTMLTableCellElement;
+  const rowExtraInterest = document.getElementById(
+    "row-extra-interest",
+  ) as HTMLTableCellElement;
+  const rowExtraTotal = document.getElementById(
+    "row-extra-total",
+  ) as HTMLTableCellElement;
+
+  const amortizationBody = document.getElementById(
+    "amortization-body",
+  ) as HTMLTableSectionElement;
+  const errorPanel = document.getElementById(
+    "error-panel",
+  ) as HTMLDivElement;
+
+  // Clean value parser
+  function parseVal(el: HTMLInputElement): number {
+    const rawVal = el.value.replace(/,/g, "").trim();
+    if (rawVal === "") return 0;
+    const parsed = parseFloat(rawVal);
+    return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+  }
+
+  // Format money
+  function formatMoney(num: number): string {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(num);
+  }
+
+  // Round utility
+  function round(num: number, decimals: number): number {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  }
+
+  // Calculate payoff schedule
+  function calculatePayoff(
+    balance: number,
+    apr: number,
+    monthlyPayment: number,
+    extraPayment: number,
+  ) {
+    const dailyRate = apr / 100 / 365;
+    const totalMonthlyPayment = monthlyPayment + extraPayment;
+    let currentBalance = balance;
+    let totalInterest = 0;
+    let months = 0;
+    const schedule: Array<{
+      month: number;
+      payment: number;
+      interest: number;
+      principal: number;
+      balance: number;
+    }> = [];
+
+    // Simulate month by month (approximate using 30 days per month)
+    while (currentBalance > 0 && months < 600) {
+      months++;
+      const monthStartBalance = currentBalance;
+      let monthInterest = 0;
+
+      // Accrue interest for ~30 days
+      for (let d = 0; d < 30; d++) {
+        monthInterest += currentBalance * dailyRate;
+        currentBalance += currentBalance * dailyRate;
+      }
+
+      // Apply payment
+      const payment = Math.min(totalMonthlyPayment, currentBalance + monthInterest);
+      const interestPortion = Math.min(monthInterest, payment);
+      const principalPortion = payment - interestPortion;
+      currentBalance = currentBalance - payment;
+
+      if (currentBalance < 0) currentBalance = 0;
+
+      totalInterest += interestPortion;
+      schedule.push({
+        month: months,
+        payment: round(payment, 2),
+        interest: round(interestPortion, 2),
+        principal: round(principalPortion, 2),
+        balance: round(currentBalance, 2),
+      });
+
+      if (payment <= 0 || currentBalance <= 0) break;
+    }
+
+    return {
+      months,
+      totalInterest: round(totalInterest, 2),
+      totalPaid: round(balance + totalInterest, 2),
+      schedule,
+    };
+  }
+
+  // Main calculation
+  function runCalculations() {
+    errorPanel.classList.add("hidden");
+    errorPanel.textContent = "";
+
+    const balance = parseVal(balanceInput);
+    const apr = parseVal(aprInput);
+    const minPayment = parseVal(paymentInput);
+    const extraPayment = parseVal(extraInput);
+
+    if (balance <= 0 || apr <= 0 || minPayment <= 0) {
+      errorPanel.classList.remove("hidden");
+      errorPanel.textContent =
+        "Please enter a positive balance, APR, and monthly payment.";
+      return;
+    }
+
+    if (minPayment <= balance * apr / 100 / 12) {
+      errorPanel.classList.remove("hidden");
+      errorPanel.textContent =
+        "Your monthly payment is too low to cover the interest. Increase your payment to avoid infinite payoff.";
+      return;
+    }
+
+    // Minimum only
+    const minOnly = calculatePayoff(balance, apr, minPayment, 0);
+    // With extra
+    const withExtra = calculatePayoff(balance, apr, minPayment, extraPayment);
+
+    // Update summary cards
+    payoffTimeVal.textContent = minOnly.months + " months";
+    payoffTimeExtra.textContent = withExtra.months + " months";
+    totalInterestVal.textContent = formatMoney(minOnly.totalInterest);
+    totalInterestExtra.textContent = formatMoney(withExtra.totalInterest);
+
+    const saved = minOnly.totalInterest - withExtra.totalInterest;
+    interestSavedVal.textContent = formatMoney(saved);
+    timeSaved.textContent =
+      minOnly.months - withExtra.months + " months (" + round((minOnly.months - withExtra.months) / 12, 1) + " yrs)";
+
+    // Update comparison table
+    rowMinPayment.textContent = formatMoney(minPayment);
+    rowMinMonths.textContent = minOnly.months.toString();
+    rowMinInterest.textContent = formatMoney(minOnly.totalInterest);
+    rowMinTotal.textContent = formatMoney(minOnly.totalPaid);
+
+    rowExtraPayment.textContent = formatMoney(minPayment + extraPayment);
+    rowExtraMonths.textContent = withExtra.months.toString();
+    rowExtraInterest.textContent = formatMoney(withExtra.totalInterest);
+    rowExtraTotal.textContent = formatMoney(withExtra.totalPaid);
+
+    // Populate amortization schedule (show first 60 months or all if fewer)
+    amortizationBody.innerHTML = "";
+    const displaySchedule = withExtra.schedule.slice(0, 60);
+    displaySchedule.forEach((row) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="py-2.5 px-3">${row.month}</td>
+        <td class="py-2.5 px-3 text-right">${formatMoney(row.payment)}</td>
+        <td class="py-2.5 px-3 text-right">${formatMoney(row.interest)}</td>
+        <td class="py-2.5 px-3 text-right">${formatMoney(row.principal)}</td>
+        <td class="py-2.5 px-3 text-right">${formatMoney(row.balance)}</td>
+      `;
+      amortizationBody.appendChild(tr);
+    });
+
+    if (withExtra.schedule.length > 60) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td colspan="5" class="py-3 px-3 text-center text-mute text-[10px] font-mono uppercase tracking-wider">
+          ... ${withExtra.schedule.length - 60} more months ...
+        </td>
+      `;
+      amortizationBody.appendChild(tr);
+    }
+  }
+
+  // Format Inputs on Blur
+  function formatInputOnBlur(e: FocusEvent) {
+    const target = e.target as HTMLInputElement;
+    const rawVal = target.value.replace(/,/g, "").trim();
+    if (rawVal === "") return;
+    const parsed = parseFloat(rawVal);
+    if (!isNaN(parsed) && parsed >= 0) {
+      target.value = new Intl.NumberFormat("en-US").format(parsed);
+    }
+  }
+
+  // Register Input Event Listeners
+  const inputElements = [
+    balanceInput,
+    aprInput,
+    paymentInput,
+    extraInput,
+  ];
+
+  inputElements.forEach((input) => {
+    input.addEventListener("input", runCalculations);
+    input.addEventListener("blur", formatInputOnBlur);
+  });
+
+  // Calculate Button
+  calculateBtn.addEventListener("click", runCalculations);
+
+  // Reset Button
+  resetBtn.addEventListener("click", () => {
+    balanceInput.value = "5,000";
+    aprInput.value = "22.9";
+    paymentInput.value = "150";
+    extraInput.value = "50";
+    runCalculations();
+  });
+
+  // FAQs Accordion bindings
+  document.querySelectorAll(".faq-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const content = button.nextElementSibling as HTMLDivElement;
+      const chevron = button.querySelector("svg") as unknown as SVGElement;
+      const isHidden = content.classList.toggle("hidden");
+      chevron.classList.toggle("rotate-180", !isHidden);
+      button.setAttribute("aria-expanded", (!isHidden).toString());
+    });
+  });
+
+  // Initial Calculation on Load
+  runCalculations();
+</script>

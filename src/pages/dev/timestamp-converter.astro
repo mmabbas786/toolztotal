@@ -1,0 +1,502 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a Unix timestamp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Unix timestamp (also called Epoch time or Unix Epoch time) is the number of seconds (or milliseconds) that have elapsed since January 1, 1970, 00:00:00 UTC, not counting leap seconds. It is the standard way computers represent time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between Unix timestamp in seconds and milliseconds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Unix timestamps can be expressed in seconds (10 digits, e.g., 1710000000) or milliseconds (13 digits, e.g., 1710000000000). JavaScript Date uses milliseconds. Many APIs use seconds. This tool handles both automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Year 2038 problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "32-bit signed integers max out at 2,147,483,647 seconds, which is January 19, 2038, 03:14:07 UTC. Systems using 32-bit signed time_t will overflow after this date. Modern 64-bit systems don't have this problem."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I convert a timestamp to a human-readable date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multiply seconds by 1000 to get milliseconds, then use Date constructor: new Date(timestamp * 1000). The Date object provides methods to format the date in any timezone, including ISO strings, locale strings, and custom formats."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can timestamps represent future dates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Unix timestamps can represent any date from 1970 to approximately year 292,277,026,596 for 64-bit systems. Future timestamps are commonly used for scheduling, token expiration (like JWTs), and countdown timers."
+      }
+    }
+  ]
+});
+---
+
+<Layout
+  title="Unix Timestamp Converter - Seconds & Milliseconds to Date | ToolzTotal"
+  description="Convert Unix timestamps to dates and dates to timestamps. Supports seconds and milliseconds, multiple formats, timezone detection, and relative time — fully client-side."
+  canonicalUrl="https://toolztotal.com/dev/timestamp-converter"
+  faqJsonLd={faqSchema}
+>
+  <ToolSchema
+    toolName="Timestamp Converter"
+    toolSlug="timestamp-converter"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Convert Unix timestamps to dates and dates to timestamps. Supports seconds and milliseconds, multiple formats, timezone detection, and relative time — fully client-side."
+  />
+
+  <div class="max-w-[1000px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Unix Timestamp Converter
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Convert between Unix timestamps (seconds or milliseconds) and human-readable dates. Auto-detects your
+        timezone, shows ISO/UTC/local formats, and computes relative time — all in your browser.
+      </p>
+    </div>
+
+    <!-- Workspace -->
+    <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6">
+
+      <!-- Mode Tabs -->
+      <div>
+        <label class="block text-xs font-mono uppercase text-mute mb-3">Mode</label>
+        <div class="flex rounded-lg bg-canvas-soft-2 p-1 border border-hairline shadow-lvl1 w-fit gap-1">
+          <button type="button" id="mode-ts" class="ts-mode-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">
+            Timestamp &rarr; Date
+          </button>
+          <button type="button" id="mode-date" class="ts-mode-btn px-4 py-2 text-xs font-sans font-semibold whitespace-nowrap rounded-md text-mute hover:text-ink cursor-pointer transition-all">
+            Date &rarr; Timestamp
+          </button>
+        </div>
+        <input type="hidden" id="active-mode" value="ts" />
+      </div>
+
+      <!-- Timestamp input -->
+      <div id="ts-input-row">
+        <label for="ts-input" class="block text-xs font-mono uppercase text-mute mb-2">Unix Timestamp</label>
+        <div class="flex gap-3 flex-wrap">
+          <input
+            type="number"
+            id="ts-input"
+            class="flex-1 min-w-[200px] bg-canvas-soft border border-hairline rounded-lg px-4 py-3 text-sm font-mono text-ink focus:outline-none focus:ring-1 focus:ring-primary shadow-lvl1 tabular-nums [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            placeholder="e.g. 1710000000"
+          />
+          <button type="button" id="ts-now" class="h-[42px] px-4 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors cursor-pointer whitespace-nowrap">
+            Use Current
+          </button>
+        </div>
+        <p id="ts-detected" class="text-[11px] font-mono text-mute mt-2"></p>
+      </div>
+
+      <!-- Date input -->
+      <div id="date-input-row" class="hidden">
+        <label for="date-input" class="block text-xs font-mono uppercase text-mute mb-2">Date &amp; Time</label>
+        <input
+          type="datetime-local"
+          id="date-input"
+          class="w-full sm:w-auto bg-canvas-soft border border-hairline rounded-lg px-4 py-3 text-sm font-mono text-ink focus:outline-none focus:ring-1 focus:ring-primary shadow-lvl1 tabular-nums"
+        />
+        <button type="button" id="date-now" class="ml-3 h-[42px] px-4 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors cursor-pointer whitespace-nowrap">
+          Use Current
+        </button>
+      </div>
+
+      <!-- Timezone -->
+      <div>
+        <label for="tz-select" class="block text-xs font-mono uppercase text-mute mb-2">Timezone</label>
+        <select id="tz-select" class="w-full sm:w-auto bg-canvas-soft border border-hairline rounded-lg px-4 py-3 text-sm font-sans text-ink focus:outline-none focus:ring-1 focus:ring-primary shadow-lvl1">
+          <option value="auto">Auto (detected)</option>
+          <option value="UTC">UTC</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Output formats -->
+    <div id="ts-output" class="hidden mt-8 bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-4">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-mono uppercase text-mute">Formatted Results</span>
+        <button type="button" id="ts-copy-all" class="h-8 px-3 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink font-sans text-xs rounded-md shadow-lvl1 transition-colors flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+          Copy All
+        </button>
+      </div>
+      <div id="ts-format-list" class="space-y-3"></div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Unix Timestamps: The Universal Language of Time</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>Unix timestamp</strong> (also called Epoch time) is the number of seconds — or, in JavaScript, milliseconds — that have elapsed
+          since midnight UTC on January 1, 1970, excluding leap seconds. Because it is a single integer independent of timezones, calendars, and
+          formatting conventions, it is the standard way computers store and compare moments in time. A <strong>Unix timestamp converter</strong> turns
+          that opaque number into a readable date and vice versa.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Seconds vs. Milliseconds</h3>
+        <p>
+          Timestamps appear in two common flavors: 10-digit <em>seconds</em> (e.g., <code>1710000000</code>) and 13-digit <em>milliseconds</em>
+          (e.g., <code>1710000000000</code>). JavaScript's <code>Date</code> object counts in milliseconds, so when converting from a seconds-based API
+          you must multiply by 1000. This tool auto-detects which form you supplied by inspecting the digit count.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">The Year 2038 Problem</h3>
+        <p>
+          Systems that store time in a signed 32-bit integer (<code>time_t</code>) top out at <code>2,147,483,647</code> seconds — 03:14:07 UTC on
+          January 19, 2038 — after which they overflow into negative numbers. This is the infamous <strong>Year 2038 problem</strong>. Modern 64-bit
+          systems, which most software runs on today, are unaffected and can represent dates hundreds of billions of years into the future.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Converting and Formatting</h3>
+        <p>
+          To convert a timestamp to a date, use <code>new Date(timestamp * 1000)</code>. From there, the <code>Date</code> object exposes
+          <code>toISOString()</code> for an unambiguous UTC string, <code>toUTCString()</code> for a human-readable GMT value, and
+          <code>toLocaleString()</code> for a timezone-aware rendering. Going the other way — date to timestamp — you read
+          <code>Date.getTime()</code> for milliseconds or <code>Math.floor(Date.getTime() / 1000)</code> for seconds.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Timestamps and the Future</h3>
+        <p>
+          Timestamps comfortably represent both the past and the future. Future values power scheduling, cache expiration, JWT <code>exp</code> claims,
+          and countdown timers. Because they are monotonic and timezone-free, they are ideal for measuring elapsed durations and ordering events across
+          distributed systems.
+        </p>
+      </div>
+    </article>
+
+  <Sources sources={[
+    { label: 'POSIX.1-2018 — Base Definitions (Time)', url: 'https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html' },
+    { label: 'MDN — Date', url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date' },
+    { label: 'IANA Time Zone Database', url: 'https://www.iana.org/time-zones' }
+  ]} />
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is a Unix timestamp?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A Unix timestamp (also called Epoch time or Unix Epoch time) is the number of seconds (or milliseconds) that have elapsed since January 1, 1970, 00:00:00 UTC, not counting leap seconds. It is the standard way computers represent time.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What's the difference between Unix timestamp in seconds and milliseconds?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Unix timestamps can be expressed in seconds (10 digits, e.g., 1710000000) or milliseconds (13 digits, e.g., 1710000000000). JavaScript Date uses milliseconds. Many APIs use seconds. This tool handles both automatically.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is the Year 2038 problem?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">32-bit signed integers max out at 2,147,483,647 seconds, which is January 19, 2038, 03:14:07 UTC. Systems using 32-bit signed time_t will overflow after this date. Modern 64-bit systems don't have this problem.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>How do I convert a timestamp to a human-readable date?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Multiply seconds by 1000 to get milliseconds, then use Date constructor: new Date(timestamp * 1000). The Date object provides methods to format the date in any timezone, including ISO strings, locale strings, and custom formats.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Can timestamps represent future dates?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Yes. Unix timestamps can represent any date from 1970 to approximately year 292,277,026,596 for 64-bit systems. Future timestamps are commonly used for scheduling, token expiration (like JWTs), and countdown timers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-6">Related Developer Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="/dev/jwt-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JWT Decoder</span>
+        </a>
+        <a href="/dev/uuid-generator" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">UUID Generator</span>
+        </a>
+        <a href="/dev/json-formatter" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JSON Formatter</span>
+        </a>
+        <a href="/dev/base64-encoder-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Base64 Encode/Decode</span>
+        </a>
+        <a href="/dev/hash-generator" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Hash Generator</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+// @ts-nocheck
+    const activeMode = document.getElementById('active-mode');
+    const tsModeBtns = document.querySelectorAll('.ts-mode-btn');
+    const tsInputRow = document.getElementById('ts-input-row');
+    const dateInputRow = document.getElementById('date-input-row');
+    const tsInput = document.getElementById('ts-input');
+    const tsNow = document.getElementById('ts-now');
+    const dateInput = document.getElementById('date-input');
+    const dateNow = document.getElementById('date-now');
+    const tzSelect = document.getElementById('tz-select');
+    const tsOutput = document.getElementById('ts-output');
+    const tsFormatList = document.getElementById('ts-format-list');
+    const tsDetected = document.getElementById('ts-detected');
+    const tsCopyAll = document.getElementById('ts-copy-all');
+
+    const detectedTz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function formatLocal(d, tz) {
+      return new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      }).format(d);
+    }
+
+    function relativeTime(targetMs) {
+      const diff = targetMs - Date.now();
+      const abs = Math.abs(diff);
+      const units = [
+        ['year', 31536000000], ['month', 2592000000], ['day', 86400000],
+        ['hour', 3600000], ['minute', 60000], ['second', 1000]
+      ];
+      for (const [name, ms] of units) {
+        const v = Math.floor(abs / ms);
+        if (v >= 1) {
+          return diff >= 0 ? `in ${v} ${name}${v > 1 ? 's' : ''}` : `${v} ${name}${v > 1 ? 's' : ''} ago`;
+        }
+      }
+      return 'just now';
+    }
+
+    function setMode(mode) {
+      activeMode.value = mode;
+      tsModeBtns.forEach(b => {
+        const active = b.id === `mode-${mode}`;
+        b.classList.toggle('bg-primary', active);
+        b.classList.toggle('text-on-primary', active);
+        b.classList.toggle('shadow-lvl1', active);
+        b.classList.toggle('text-mute', !active);
+        b.classList.toggle('hover:text-ink', !active);
+      });
+      if (mode === 'ts') {
+        tsInputRow.classList.remove('hidden');
+        dateInputRow.classList.add('hidden');
+      } else {
+        tsInputRow.classList.add('hidden');
+        dateInputRow.classList.remove('hidden');
+      }
+      run();
+    }
+
+    tsModeBtns.forEach(btn => btn.addEventListener('click', () => setMode(btn.id.replace('mode-', ''))));
+
+    function tsToDate() {
+      const raw = tsInput.value.trim();
+      if (!raw || isNaN(Number(raw))) {
+        tsOutput.classList.add('hidden');
+        tsDetected.textContent = '';
+        return;
+      }
+      let ts = Number(raw);
+      let unit = 'milliseconds';
+      if (raw.length <= 11) { ts = ts * 1000; unit = 'seconds'; }
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) { tsOutput.classList.add('hidden'); return; }
+      tsDetected.textContent = `Detected as ${unit} (${raw.length} digits)`;
+      const tz = tzSelect.value === 'auto' ? detectedTz : tzSelect.value;
+      const rows = [
+        ['ISO 8601', d.toISOString()],
+        ['UTC', d.toUTCString()],
+        [`Local (${tz})`, formatLocal(d, tz)],
+        ['Relative', relativeTime(d.getTime())],
+        ['Unix (seconds)', Math.floor(d.getTime() / 1000)],
+        ['Unix (milliseconds)', d.getTime()]
+      ];
+      renderRows(rows);
+    }
+
+    function dateToTs() {
+      const raw = dateInput.value;
+      if (!raw) { tsOutput.classList.add('hidden'); return; }
+      const d = new Date(raw);
+      if (isNaN(d.getTime())) { tsOutput.classList.add('hidden'); return; }
+      const tz = tzSelect.value === 'auto' ? detectedTz : tzSelect.value;
+      const rows = [
+        ['Unix (seconds)', Math.floor(d.getTime() / 1000)],
+        ['Unix (milliseconds)', d.getTime()],
+        ['ISO 8601', d.toISOString()],
+        ['UTC', d.toUTCString()],
+        [`Local (${tz})`, formatLocal(d, tz)],
+        ['Relative', relativeTime(d.getTime())]
+      ];
+      renderRows(rows);
+    }
+
+    function renderRows(rows) {
+      tsFormatList.innerHTML = '';
+      let allText = '';
+      rows.forEach(([label, value]) => {
+        allText += `${label}: ${value}\n`;
+        const card = document.createElement('div');
+        card.className = 'bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1 flex items-center justify-between gap-4';
+        const left = document.createElement('div');
+        left.className = 'min-w-0';
+        const lab = document.createElement('span');
+        lab.className = 'text-[10px] font-mono uppercase text-mute';
+        lab.textContent = label;
+        const val = document.createElement('code');
+        val.className = 'block text-sm font-mono text-ink break-all select-all mt-1';
+        val.textContent = String(value);
+        left.appendChild(lab);
+        left.appendChild(val);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'h-8 w-8 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink rounded-md shadow-lvl1 transition-colors flex items-center justify-center flex-shrink-0 cursor-pointer';
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>';
+        btn.addEventListener('click', () => copyToClipboard(String(value)));
+        card.appendChild(left);
+        card.appendChild(btn);
+        tsFormatList.appendChild(card);
+      });
+      tsOutput.classList.remove('hidden');
+      tsCopyAll.onclick = () => copyToClipboard(allText.trim());
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('ts-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'ts-toast';
+        toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-xs font-sans px-4 py-2.5 rounded-full shadow-lvl5 z-50 transition-opacity duration-300';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg || 'Copied to clipboard';
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2000);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => showToast()).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      });
+    }
+
+    function toLocalInputValue(d) {
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function run() {
+      if (activeMode.value === 'ts') tsToDate();
+      else dateToTs();
+    }
+
+    tsInput.addEventListener('input', tsToDate);
+    dateInput.addEventListener('input', dateToTs);
+    tzSelect.addEventListener('change', run);
+    tsNow.addEventListener('click', () => {
+      const now = Math.floor(Date.now() / 1000);
+      tsInput.value = String(now);
+      tsToDate();
+    });
+    dateNow.addEventListener('click', () => {
+      dateInput.value = toLocalInputValue(new Date());
+      dateToTs();
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('svg');
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) {
+          content.classList.add('hidden');
+          icon.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          icon.classList.add('rotate-180');
+        }
+      });
+    });
+
+    // init
+    tsInput.value = String(Math.floor(Date.now() / 1000));
+    dateInput.value = toLocalInputValue(new Date());
+    setMode('ts');
+  </script>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="timestamp-converter"
+    />
+
+  <ContentFooter category="dev" />
+</Layout>

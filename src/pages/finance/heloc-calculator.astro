@@ -1,0 +1,928 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContentFooter from "../../components/ContentFooter.astro";
+import Sources from "../../components/Sources.astro";
+import DisclaimerBanner from "../../components/DisclaimerBanner.astro";
+import ToolSchema from "../../components/ToolSchema.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
+
+const helocFaqs = [
+  {
+    question: "What is a HELOC and how does it work?",
+    answer:
+      "A HELOC is a revolving line of credit secured by your home equity. You can borrow, repay, and borrow again during the draw period (typically 10 years), then enter a repayment period (typically 20 years) where you can't borrow more and must repay the balance.",
+  },
+  {
+    question: "How much can I borrow with a HELOC?",
+    answer:
+      "Most lenders allow you to borrow up to 85% of your home's appraised value minus your outstanding mortgage balance. Example: a $500k home with a $300k mortgage leaves $200k equity, so max HELOC ≈ $425k − $300k = $125k.",
+  },
+  {
+    question: "What is a good HELOC interest rate?",
+    answer:
+      "HELOCs are typically prime + 0.5% to prime + 2%. With prime around 8% in 2026, HELOC rates range from roughly 8.5% to 10%. Fixed-rate HELOCs may be slightly higher.",
+  },
+  {
+    question: "Are HELOC interest payments tax deductible?",
+    answer:
+      "Interest is deductible only if you use the HELOC to buy, build, or substantially improve the home that secures the loan (per the Tax Cuts and Jobs Act). Using it for debt consolidation or education does not qualify.",
+  },
+  {
+    question: "What are the risks of a HELOC?",
+    answer:
+      "Your home is collateral — default could mean foreclosure. During the draw period payments may be interest-only, so you aren't reducing principal. Rates are variable, so payments can rise when interest rates increase.",
+  },
+];
+---
+
+<Layout
+  title="HELOC Calculator - Home Equity Line of Credit Payments | ToolzTotal"
+  description="Calculate your HELOC borrowing power, interest-only draw payments, and repayment amortization. See total interest and the real cost of a home equity line of credit."
+  canonicalUrl="https://toolztotal.com/finance/heloc-calculator"
+>
+  <ToolSchema
+    toolName="HELOC Calculator"
+    toolSlug="heloc-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description="Calculate your HELOC borrowing power, interest-only draw payments, and repayment amortization. See total interest and the real cost of a home equity line of credit."
+    faqs={helocFaqs}
+  />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs
+      categorySlug="finance"
+      categoryName="Finance & Loans"
+      toolName="HELOC Calculator"
+      toolSlug="heloc-calculator"
+    />
+
+    <DisclaimerBanner category="finance" />
+
+    <div class="max-w-4xl mb-12">
+      <div
+        class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider"
+          >Free Tool</span
+        >
+      </div>
+      <h1
+        class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty"
+      >
+        HELOC Calculator
+      </h1>
+      <p
+        class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
+      >
+        Estimate your home equity line of credit payments across the draw and
+        repayment periods. See your borrowing limit, interest-only draw payment,
+        amortized repayment, and total interest cost.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <form
+        id="heloc-form"
+        class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6"
+        onsubmit="return false;"
+      >
+        <div>
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Home & Equity
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <label
+                for="home-value"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Home Value ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="home-value"
+                  value="500,000"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 500,000"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="mortgage-balance"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Current Mortgage Balance ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="mortgage-balance"
+                  value="300,000"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 300,000"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="available-credit"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Available Credit Limit ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="available-credit"
+                  value="125,000"
+                  disabled
+                  class="w-full h-10 pl-7 pr-3 bg-canvas-soft-2 border border-hairline rounded-md text-sm font-sans text-ink tabular-nums opacity-70"
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Auto-calculated: 85% LTV − mortgage.
+              </p>
+            </div>
+
+            <div>
+              <label
+                for="borrow-amount"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >How Much You Borrow ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="borrow-amount"
+                  value="50,000"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 50,000"
+                  inputmode="decimal"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-hairline pt-5">
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Terms & Rates
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <label
+                for="heloc-rate"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >HELOC Interest Rate (%)</label
+              >
+              <div class="relative">
+                <input
+                  type="text"
+                  id="heloc-rate"
+                  value="9.0"
+                  class="w-full h-10 pl-3 pr-8 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="e.g., 9.0"
+                  inputmode="decimal"
+                  required
+                />
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >%</span
+                >
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="draw-period"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Draw Period (Years)</label
+              >
+              <input
+                type="number"
+                id="draw-period"
+                value="10"
+                min="1"
+                max="30"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                inputmode="numeric"
+              />
+            </div>
+
+            <div>
+              <label
+                for="repay-period"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Repayment Period (Years)</label
+              >
+              <input
+                type="number"
+                id="repay-period"
+                value="20"
+                min="1"
+                max="30"
+                class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                inputmode="numeric"
+              />
+            </div>
+
+            <div>
+              <label
+                for="draw-payment"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Monthly Payment During Draw ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="draw-payment"
+                  value="0"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="0 = interest-only"
+                  inputmode="decimal"
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Leave 0 for interest-only payments.
+              </p>
+            </div>
+
+            <div>
+              <label
+                for="repay-payment"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Monthly Payment During Repayment ($)</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="repay-payment"
+                  value="0"
+                  class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
+                  placeholder="0 = auto-amortized"
+                  inputmode="decimal"
+                />
+              </div>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Leave 0 to auto-calculate amortized payment.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 pt-4">
+          <button
+            type="submit"
+            id="calculate-btn"
+            class="w-full h-10 bg-primary hover:bg-primary-strong text-on-primary font-sans font-bold text-sm rounded-lg transition-colors cursor-pointer shadow-lvl2 text-center"
+          >
+            Calculate HELOC
+          </button>
+          <button
+            type="button"
+            id="reset-btn"
+            class="w-full py-2 text-mute hover:text-ink font-sans text-xs transition-colors cursor-pointer text-center"
+          >
+            Reset Form
+          </button>
+        </div>
+      </form>
+      <div class="lg:col-span-7 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Available Credit
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="available-credit-val"
+              >
+                $0.00
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Credit limit − borrowed
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Remaining to draw
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Total Equity
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="total-equity-val"
+              >
+                $0.00
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-hairline">
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Home value − mortgage
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Your ownership stake
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Max HELOC Amount
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-ink tracking-tight tabular-nums"
+              id="max-heloc-val"
+            >
+              $0.00
+            </p>
+            <p class="text-[10px] font-mono text-mute mt-1">
+              85% LTV − mortgage
+            </p>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Interest-Only Payment (Draw)
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-ink tracking-tight tabular-nums"
+              id="draw-payment-val"
+            >
+              $0.00
+            </p>
+            <p class="text-[10px] font-mono text-mute mt-1">
+              Per month during draw
+            </p>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Monthly Payment (Repayment)
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-ink tracking-tight tabular-nums"
+              id="repay-payment-val"
+            >
+              $0.00
+            </p>
+            <p class="text-[10px] font-mono text-mute mt-1">
+              Amortized over repayment period
+            </p>
+          </div>
+
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">
+              Total Interest Paid
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-rose-600 tracking-tight tabular-nums"
+              id="total-interest-val"
+            >
+              $0.00
+            </p>
+            <p class="text-[10px] font-mono text-mute mt-1">
+              Draw + repayment interest
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4"
+        >
+          <h3
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2"
+          >
+            HELOC Cost Summary
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs font-sans">
+              <tbody class="divide-y divide-hairline text-body tabular-nums">
+                <tr>
+                  <td class="py-3 px-3 font-semibold text-ink"
+                    >Amount Borrowed</td
+                  >
+                  <td class="py-3 px-3 text-right font-semibold" id="row-borrow"
+                    >$0.00</td
+                  >
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body"
+                    >Interest during draw period</td
+                  >
+                  <td class="py-3 px-3 text-right text-rose-500" id="row-draw-int"
+                    >$0.00</td
+                  >
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 pl-6 text-body"
+                    >Interest during repayment</td
+                  >
+                  <td class="py-3 px-3 text-right text-rose-500" id="row-repay-int"
+                    >$0.00</td
+                  >
+                </tr>
+                <tr class="bg-emerald-500/10">
+                  <td
+                    class="py-3 px-3 font-semibold text-emerald-800 dark:text-emerald-400"
+                    >Total Cost of HELOC</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-emerald-800 dark:text-emerald-400"
+                    id="row-total-cost">$0.00</td
+                  >
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div
+          id="error-panel"
+          class="hidden bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 rounded-xl p-4 text-rose-700 dark:text-rose-400 text-xs leading-relaxed font-sans"
+        >
+        </div>
+
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-2 text-[11px] font-sans text-mute leading-relaxed"
+        >
+          <p>
+            * <strong>Estimate Only</strong>: HELOC rates are usually variable,
+            so your actual payment can change. This calculator assumes a fixed
+            rate across both periods for simplicity. Confirm terms with your
+            lender.
+          </p>
+        </div>
+      </div>
+    </div>
+    <article
+      class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16"
+    >
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6"
+      >
+        How HELOC Interest Rates Work
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Most HELOCs have variable rates tied to the prime rate: your rate
+          equals prime plus a margin set by the lender (often prime + 0.5% to
+          prime + 2%). When the Federal Reserve moves rates, your payment moves
+          with it. With prime near 8% in 2026, typical HELOC rates land between
+          roughly 8.5% and 10%.
+        </p>
+        <p>
+          Interest accrues only on the amount you actually draw, not the full
+          credit limit. During the draw period you usually pay interest only,
+          which keeps payments low but doesn't reduce the balance.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        HELOC vs Home Equity Loan: Key Differences
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          A <strong>HELOC</strong> is a revolving line of credit — borrow as
+          needed, repay, borrow again. A <strong>home equity loan</strong> is a
+          lump sum with fixed payments from day one. Choose a HELOC when your
+          expenses are spread out (renovations in phases); choose a home equity
+          loan when you need all the cash at once and want a fixed rate.
+        </p>
+        <div
+          class="overflow-x-auto my-6 border border-hairline rounded-lg bg-canvas shadow-lvl1"
+        >
+          <table
+            class="w-full text-left border-collapse text-xs md:text-sm font-sans"
+          >
+            <thead>
+              <tr
+                class="bg-canvas-soft-2 font-mono text-mute uppercase text-[11px] tracking-wider border-b border-hairline"
+              >
+                <th class="py-3 px-4">Feature</th>
+                <th class="py-3 px-4 text-right">HELOC</th>
+                <th class="py-3 px-4 text-right">Home Equity Loan</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline text-body tabular-nums">
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">Payout</td>
+                <td class="py-3.5 px-4 text-right">Revolving credit line</td>
+                <td class="py-3.5 px-4 text-right">Lump sum</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">Rate</td>
+                <td class="py-3.5 px-4 text-right">Usually variable</td>
+                <td class="py-3.5 px-4 text-right">Usually fixed</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-ink">Draw period</td>
+                <td class="py-3.5 px-4 text-right">Yes (~10 yrs)</td>
+                <td class="py-3.5 px-4 text-right">None</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        The Draw Period vs Repayment Period Explained
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          The <strong>draw period</strong> (typically 10 years) is when you can
+          access funds. Payments are often interest-only, so your balance may
+          not shrink. The <strong>repayment period</strong> (typically 20 years)
+          follows, during which you can no longer draw and must amortize the
+          outstanding balance — usually causing a sharp payment increase.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Tax Implications of HELOC Interest
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <p>
+          Under the Tax Cuts and Jobs Act, HELOC interest is deductible only if
+          the funds are used to buy, build, or substantially improve the home
+          that secures the loan. Using the line of credit for debt consolidation,
+          education, or a vacation does not qualify, even though the loan is
+          home-secured. Keep good records of how the money was spent.
+        </p>
+      </div>
+
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        HELOC Risks and How to Mitigate Them
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Your home is collateral.</strong> Missing payments can lead
+            to foreclosure.
+          </li>
+          <li>
+            <strong>Rates are variable.</strong> Budget for payment increases if
+            rates rise; consider a fixed-rate option if available.
+          </li>
+          <li>
+            <strong>Interest-only draw payments</strong> delay principal
+            reduction — pay extra during the draw period to soften the repayment
+            shock.
+          </li>
+          <li>
+            <strong>Don't over-borrow.</strong> Keep your draw modest relative to
+            your income and equity.
+          </li>
+        </ul>
+      </div>
+    </article>
+
+    <Sources
+      sources={[
+        {
+          label: "CFPB — Home Equity Loans and HELOCs",
+          url: "https://www.consumerfinance.gov/consumer-tools/home-equity/",
+        },
+        {
+          label: "IRS Publication 936 — Home Mortgage Interest Deduction",
+          url: "https://www.irs.gov/publications/p936",
+        },
+        {
+          label: "Federal Reserve — Consumer Credit & HELOC Rates",
+          url: "https://www.federalreserve.gov/data/consumer-credit.htm",
+        },
+      ]}
+    />
+
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty"
+      >
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        {
+          helocFaqs.map((faq, index) => (
+            <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+              <button
+                type="button"
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+                aria-expanded="false"
+                id={`faq-btn-${index}`}
+              >
+                <span>{faq.question}</span>
+                <svg
+                  class="w-4 h-4 text-mute transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+                <p class="text-body text-sm font-sans leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <RelatedTools categorySlug="finance" toolSlug="heloc-calculator" />
+  </div>
+
+  <ContentFooter category="finance" />
+</Layout>
+
+<script>
+  const homeValue = document.getElementById("home-value") as HTMLInputElement;
+  const mortgageBalance = document.getElementById("mortgage-balance") as HTMLInputElement;
+  const availableCredit = document.getElementById("available-credit") as HTMLInputElement;
+  const borrowAmount = document.getElementById("borrow-amount") as HTMLInputElement;
+  const helocRate = document.getElementById("heloc-rate") as HTMLInputElement;
+  const drawPeriod = document.getElementById("draw-period") as HTMLInputElement;
+  const repayPeriod = document.getElementById("repay-period") as HTMLInputElement;
+  const drawPayment = document.getElementById("draw-payment") as HTMLInputElement;
+  const repayPayment = document.getElementById("repay-payment") as HTMLInputElement;
+
+  const calculateBtn = document.getElementById("calculate-btn");
+  const resetBtn = document.getElementById("reset-btn");
+
+  const availableCreditVal = document.getElementById("available-credit-val");
+  const totalEquityVal = document.getElementById("total-equity-val");
+  const maxHelocVal = document.getElementById("max-heloc-val");
+  const drawPaymentVal = document.getElementById("draw-payment-val");
+  const repayPaymentVal = document.getElementById("repay-payment-val");
+  const totalInterestVal = document.getElementById("total-interest-val");
+  const rowBorrow = document.getElementById("row-borrow");
+  const rowDrawInt = document.getElementById("row-draw-int");
+  const rowRepayInt = document.getElementById("row-repay-int");
+  const rowTotalCost = document.getElementById("row-total-cost");
+  const errorPanel = document.getElementById("error-panel");
+
+  function parseVal(el) {
+    const rawVal = el.value.replace(/,/g, "").trim();
+    if (rawVal === "") return 0;
+    const parsed = parseFloat(rawVal);
+    return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+  }
+
+  function formatMoney(num) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(num);
+  }
+
+  function round(num, decimals) {
+    return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  }
+
+  function amortizedPayment(principal, annualRatePct, months) {
+    const r = annualRatePct / 100 / 12;
+    if (r === 0) return principal / months;
+    const pow = Math.pow(1 + r, months);
+    return (principal * r * pow) / (pow - 1);
+  }
+
+  function runCalculations() {
+    errorPanel.classList.add("hidden");
+    errorPanel.textContent = "";
+
+    const home = parseVal(homeValue);
+    const mortgage = parseVal(mortgageBalance);
+    const borrow = parseVal(borrowAmount);
+    const rate = parseVal(helocRate);
+    const drawYrs = parseVal(drawPeriod);
+    const repayYrs = parseVal(repayPeriod);
+    const drawPayInput = parseVal(drawPayment);
+    const repayPayInput = parseVal(repayPayment);
+
+    const equity = home - mortgage;
+    const maxHeloc = home * 0.85 - mortgage;
+    if (maxHeloc <= 0) {
+      errorPanel.classList.remove("hidden");
+      errorPanel.textContent =
+        "Your mortgage balance exceeds 85% of your home value. No HELOC available.";
+      return;
+    }
+    const available = maxHeloc - borrow;
+    if (borrow > maxHeloc) {
+      errorPanel.classList.remove("hidden");
+      errorPanel.textContent =
+        "Amount borrowed exceeds your maximum HELOC limit of " +
+        formatMoney(maxHeloc) +
+        ".";
+      return;
+    }
+
+    availableCredit.value = new Intl.NumberFormat("en-US").format(
+      round(available, 2),
+    );
+
+    const monthlyRate = rate / 100 / 12;
+    const drawMonths = Math.round(drawYrs * 12);
+    const repayMonths = Math.round(repayYrs * 12);
+
+    const interestOnly = (borrow * rate) / 100 / 12;
+
+    // Draw period simulation
+    let balance = borrow;
+    let drawInterest = 0;
+    let drawPay = drawPayInput > 0 ? drawPayInput : interestOnly;
+    if (drawPayInput > 0) {
+      for (let m = 0; m < drawMonths; m++) {
+        const interest = balance * monthlyRate;
+        let principalPart = drawPay - interest;
+        if (principalPart >= balance) {
+          principalPart = balance;
+          balance = 0;
+          drawInterest += interest;
+          break;
+        }
+        balance -= principalPart;
+        drawInterest += interest;
+      }
+    } else {
+      drawInterest = interestOnly * drawMonths;
+    }
+
+    // Repayment period
+    let repayInterest = 0;
+    if (balance > 0 && repayMonths > 0) {
+      let repayPay = repayPayInput > 0
+        ? repayPayInput
+        : amortizedPayment(balance, rate, repayMonths);
+      for (let m = 0; m < repayMonths; m++) {
+        const interest = balance * monthlyRate;
+        let principalPart = repayPay - interest;
+        if (principalPart >= balance) {
+          principalPart = balance;
+          balance = 0;
+          repayInterest += interest;
+          break;
+        }
+        balance -= principalPart;
+        repayInterest += interest;
+      }
+      const finalRepayPay = repayPayInput > 0
+        ? repayPayInput
+        : amortizedPayment(borrow, rate, repayMonths);
+      // For display use the standard amortized amount when not user-specified
+      if (repayPayInput <= 0) {
+        repayPaymentVal.textContent = formatMoney(finalRepayPay);
+      } else {
+        repayPaymentVal.textContent = formatMoney(repayPayInput);
+      }
+    } else if (repayMonths > 0) {
+      repayPaymentVal.textContent = formatMoney(
+        amortizedPayment(borrow, rate, repayMonths),
+      );
+    } else {
+      repayPaymentVal.textContent = formatMoney(0);
+    }
+
+    const totalInterest = drawInterest + repayInterest;
+    const totalCost = borrow + totalInterest;
+
+    availableCreditVal.textContent = formatMoney(available);
+    totalEquityVal.textContent = formatMoney(equity);
+    maxHelocVal.textContent = formatMoney(maxHeloc);
+    drawPaymentVal.textContent = formatMoney(interestOnly);
+    totalInterestVal.textContent = formatMoney(totalInterest);
+    rowBorrow.textContent = formatMoney(borrow);
+    rowDrawInt.textContent = formatMoney(drawInterest);
+    rowRepayInt.textContent = formatMoney(repayInterest);
+    rowTotalCost.textContent = formatMoney(totalCost);
+  }
+
+  function formatInputOnBlur(e) {
+    const target = e.target;
+    const rawVal = target.value.replace(/,/g, "").trim();
+    if (rawVal === "") return;
+    const parsed = parseFloat(rawVal);
+    if (!isNaN(parsed) && parsed >= 0) {
+      target.value = new Intl.NumberFormat("en-US").format(parsed);
+    }
+  }
+
+  [homeValue, mortgageBalance, borrowAmount].forEach((input) => {
+    input.addEventListener("input", runCalculations);
+    input.addEventListener("blur", formatInputOnBlur);
+  });
+  [helocRate, drawPayment, repayPayment].forEach((input) => {
+    input.addEventListener("input", runCalculations);
+    input.addEventListener("blur", formatInputOnBlur);
+  });
+  [drawPeriod, repayPeriod].forEach((el) =>
+    el.addEventListener("input", runCalculations),
+  );
+
+  calculateBtn.addEventListener("click", runCalculations);
+
+  resetBtn.addEventListener("click", () => {
+    homeValue.value = "500,000";
+    mortgageBalance.value = "300,000";
+    borrowAmount.value = "50,000";
+    helocRate.value = "9.0";
+    drawPeriod.value = "10";
+    repayPeriod.value = "20";
+    drawPayment.value = "0";
+    repayPayment.value = "0";
+    runCalculations();
+  });
+
+  document.querySelectorAll(".faq-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const content = button.nextElementSibling;
+      const chevron = button.querySelector("svg");
+      const isHidden = content.classList.toggle("hidden");
+      chevron.classList.toggle("rotate-180", !isHidden);
+      button.setAttribute("aria-expanded", (!isHidden).toString());
+    });
+  });
+
+  runCalculations();
+</script>

@@ -1,0 +1,574 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a cryptographic hash function?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A hash function takes input data of any size and produces a fixed-size string of characters (the hash). Good hash functions are one-way (cannot reverse the hash to get the original input), deterministic (same input = same output), and avalanche (small input change = completely different hash)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which hash algorithm should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For security: use SHA-256 or SHA-3. SHA-1 and MD5 are considered cryptographically broken due to collision vulnerabilities. MD5 should never be used for security purposes. SHA-256 is the current industry standard for digital signatures, certificates, and blockchain."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a hash collision?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A collision occurs when two different inputs produce the same hash output. Good hash functions make collisions computationally infeasible. MD5 and SHA-1 have known collision attacks, meaning two different files can be crafted to have the same hash. SHA-256 has no known practical collision attacks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this tool to hash passwords?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Password hashing requires specialized algorithms like bcrypt, Argon2, or PBKDF2 that are intentionally slow to resist brute-force attacks. This tool generates fast cryptographic hashes suitable for checksums and file verification, not password storage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between hashing and encryption?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hashing is one-way: you cannot recover the original data from the hash. Encryption is two-way: you can decrypt encrypted data back to its original form using a key. Use hashing for integrity verification and passwords; use encryption when you need to retrieve the original data."
+      }
+    }
+  ]
+});
+---
+
+<Layout
+  title="Hash Generator - MD5, SHA-1, SHA-256, SHA-384, SHA-512 | ToolzTotal"
+  description="Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files. Fast, browser-native SubtleCrypto plus a pure-JS MD5 — fully client-side."
+  canonicalUrl="https://toolztotal.com/dev/hash-generator"
+  faqJsonLd={faqSchema}
+>
+  <ToolSchema
+    toolName="Hash Generator"
+    toolSlug="hash-generator"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description="Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files. Fast, browser-native SubtleCrypto plus a pure-JS MD5 — fully client-side."
+  />
+
+  <div class="max-w-[1000px] mx-auto px-4 md:px-6 py-12 md:py-20">
+
+    <!-- Header Section -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 ring-1 ring-inset ring-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+        Hash Generator
+      </h1>
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Compute MD5, SHA-1, SHA-256, SHA-384, and SHA-512 digests from text or files.
+        Cryptographic hashes run natively via Web Crypto; MD5 uses a pure-JS implementation. All processing is local.
+      </p>
+    </div>
+
+    <!-- Workspace -->
+    <div class="bg-canvas ring-1 ring-inset ring-hairline rounded-xl p-6 md:p-8 shadow-lvl3 space-y-6">
+
+      <!-- Algorithm selector -->
+      <div>
+        <label class="block text-xs font-mono uppercase text-mute mb-3">Algorithms</label>
+        <div id="algo-pills" class="flex flex-wrap gap-2">
+          <button type="button" data-algo="MD5" class="algo-pill px-4 py-2 text-xs font-sans font-semibold rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">MD5</button>
+          <button type="button" data-algo="SHA-1" class="algo-pill px-4 py-2 text-xs font-sans font-semibold rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">SHA-1</button>
+          <button type="button" data-algo="SHA-256" class="algo-pill px-4 py-2 text-xs font-sans font-semibold rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">SHA-256</button>
+          <button type="button" data-algo="SHA-384" class="algo-pill px-4 py-2 text-xs font-sans font-semibold rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">SHA-384</button>
+          <button type="button" data-algo="SHA-512" class="algo-pill px-4 py-2 text-xs font-sans font-semibold rounded-md bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all">SHA-512</button>
+        </div>
+      </div>
+
+      <!-- Input text -->
+      <div>
+        <label for="hash-input" class="block text-xs font-mono uppercase text-mute mb-2">Input Text</label>
+        <textarea
+          id="hash-input"
+          class="w-full h-32 resize-y bg-canvas-soft border border-hairline rounded-lg p-4 text-sm font-mono text-ink focus:outline-none focus:ring-1 focus:ring-primary shadow-lvl1 placeholder:text-mute/40"
+          placeholder="Type or paste text to hash..."
+          spellcheck="false"
+          autocomplete="off"
+          autocapitalize="off"
+        ></textarea>
+        <div class="flex items-center justify-between mt-2">
+          <span id="hash-size" class="text-[11px] font-mono text-mute">0 bytes</span>
+          <button type="button" id="hash-clear-text" class="text-[11px] font-mono text-mute hover:text-ink cursor-pointer transition-colors">Clear</button>
+        </div>
+      </div>
+
+      <!-- File drop -->
+      <div id="hash-drop" class="border-2 border-dashed border-hairline rounded-lg p-6 text-center text-sm font-sans text-body cursor-pointer hover:border-primary/50 hover:bg-canvas-soft-2/40 transition-colors">
+        <svg class="w-8 h-8 mx-auto mb-2 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
+        <p>Drop a file here or <span class="text-primary underline underline-offset-2">browse</span> to hash it</p>
+        <p id="hash-file-name" class="text-[11px] font-mono text-mute mt-1"></p>
+      </div>
+
+      <!-- Results -->
+      <div id="hash-results" class="space-y-3"></div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">Cryptographic Hashes Explained: Choosing the Right Algorithm</h2>
+      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+        <p>
+          A <strong>cryptographic hash function</strong> maps input of any size to a fixed-length string of characters — the digest or
+          <strong>hash</strong>. The best hashes are deterministic (the same input always yields the same output), one-way (you cannot reverse the
+          hash to recover the input), and exhibit the avalanche effect (a single changed bit completely changes the result). A
+          <strong>hash generator</strong> lets you compute these digests for checksums, integrity verification, and learning.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Which Algorithm Should You Use?</h3>
+        <p>
+          For any security-sensitive purpose, choose <strong>SHA-256</strong> (or the stronger SHA-384 / SHA-512, part of the SHA-2 family). It is the
+          industry standard for digital signatures, TLS certificates, and blockchain. <strong>SHA-1</strong> and <strong>MD5</strong> are now considered
+          cryptographically broken: practical collision attacks exist, meaning an attacker can craft two different inputs with the same hash. Keep MD5
+          only for legacy compatibility or non-security checksums.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Understanding Hash Collisions</h3>
+        <p>
+          A collision is when two distinct inputs produce an identical hash. A robust algorithm makes finding collisions computationally infeasible.
+          Both MD5 and SHA-1 have demonstrated collision attacks, which is why they must not protect anything that depends on uniqueness — such as
+          code-signing or certificate fingerprints. SHA-256 remains collision-resistant in practice.
+        </p>
+
+        <h3 class="text-lg font-bold text-ink font-sans mt-8 mb-3">Hashing vs. Encryption vs. Password Hashing</h3>
+        <p>
+          Hashing is one-way; encryption is two-way with a key. They are not interchangeable. Critically, <em>never</em> use a general-purpose hash
+          like SHA-256 to store passwords — it is too fast and parallelizable, inviting brute-force attacks. Password storage needs deliberately slow,
+          salted algorithms such as <strong>bcrypt</strong>, <strong>Argon2</strong>, or <strong>PBKDF2</strong>. Use this tool's fast hashes for
+          file verification, deduplication, and data fingerprinting instead.
+        </p>
+      </div>
+    </article>
+
+  <Sources sources={[
+    { label: 'RFC 1321 — MD5 Message-Digest Algorithm', url: 'https://datatracker.ietf.org/doc/html/rfc1321' },
+    { label: 'FIPS 180-4 — Secure Hash Standard', url: 'https://csrc.nist.gov/pubs/fips/180-4/upd1/final' },
+    { label: 'MDN — Web Crypto API', url: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API' },
+    { label: 'OWASP — Cryptographic Storage Cheat Sheet', url: 'https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html' }
+  ]} />
+
+    <!-- FAQ Section -->
+    <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is a cryptographic hash function?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A hash function takes input data of any size and produces a fixed-size string of characters (the hash). Good hash functions are one-way (cannot reverse the hash to get the original input), deterministic (same input = same output), and avalanche (small input change = completely different hash).</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Which hash algorithm should I use?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">For security: use SHA-256 or SHA-3. SHA-1 and MD5 are considered cryptographically broken due to collision vulnerabilities. MD5 should never be used for security purposes. SHA-256 is the current industry standard for digital signatures, certificates, and blockchain.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is a hash collision?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">A collision occurs when two different inputs produce the same hash output. Good hash functions make collisions computationally infeasible. MD5 and SHA-1 have known collision attacks, meaning two different files can be crafted to have the same hash. SHA-256 has no known practical collision attacks.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>Can I use this tool to hash passwords?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">No. Password hashing requires specialized algorithms like bcrypt, Argon2, or PBKDF2 that are intentionally slow to resist brute-force attacks. This tool generates fast cryptographic hashes suitable for checksums and file verification, not password storage.</p>
+          </div>
+        </div>
+
+        <div class="ring-1 ring-inset ring-hairline rounded-xl overflow-hidden shadow-lvl2 bg-canvas">
+          <button type="button" class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer" aria-expanded="false">
+            <span>What is the difference between hashing and encryption?</span>
+            <svg class="w-4 h-4 text-mute transition-transform duration-200 flex-shrink-0 ml-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+            <p class="text-body text-sm font-sans leading-relaxed">Hashing is one-way: you cannot recover the original data from the hash. Encryption is two-way: you can decrypt encrypted data back to its original form using a key. Use hashing for integrity verification and passwords; use encryption when you need to retrieve the original data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Developer Tools -->
+    <section class="mt-20 pt-16 border-t border-hairline">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-mute mb-6">Related Developer Tools</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <a href="/dev/base64-encoder-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">Base64 Encode/Decode</span>
+        </a>
+        <a href="/dev/json-formatter" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JSON Formatter</span>
+        </a>
+        <a href="/dev/uuid-generator" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">UUID Generator</span>
+        </a>
+        <a href="/dev/jwt-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">JWT Decoder</span>
+        </a>
+        <a href="/dev/url-encoder-decoder" class="ring-1 ring-inset ring-hairline rounded-xl px-4 py-3 bg-canvas hover:border-hairline-strong transition-colors text-center shadow-lvl1">
+          <span class="text-xs font-sans font-medium text-ink">URL Encode/Decode</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+// @ts-nocheck
+    const hashInput = document.getElementById('hash-input');
+    const hashSize = document.getElementById('hash-size');
+    const hashClearText = document.getElementById('hash-clear-text');
+    const hashDrop = document.getElementById('hash-drop');
+    const hashFileName = document.getElementById('hash-file-name');
+    const hashResults = document.getElementById('hash-results');
+    const algoPills = document.querySelectorAll('.algo-pill');
+
+    const selectedAlgos = new Set(['MD5', 'SHA-1', 'SHA-256', 'SHA-384', 'SHA-512']);
+
+    algoPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const algo = pill.getAttribute('data-algo');
+        if (selectedAlgos.has(algo)) {
+          selectedAlgos.delete(algo);
+          pill.classList.remove('bg-primary', 'text-on-primary', 'shadow-lvl1');
+          pill.classList.add('text-mute', 'hover:text-ink');
+        } else {
+          selectedAlgos.add(algo);
+          pill.classList.add('bg-primary', 'text-on-primary', 'shadow-lvl1');
+          pill.classList.remove('text-mute', 'hover:text-ink');
+        }
+        recompute();
+      });
+    });
+
+    function toHex(buf) {
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function shaHash(algorithm, data) {
+      const buf = await crypto.subtle.digest(algorithm, data);
+      return toHex(buf);
+    }
+
+    function utf8Bytes(str) {
+      return new TextEncoder().encode(str);
+    }
+
+    // Compact pure-JS MD5 implementation
+    function md5(string) {
+      function rotateLeft(lValue, iShiftBits) { return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits)); }
+      function addUnsigned(lX, lY) {
+        const lX8 = lX & 0x80000000, lY8 = lY & 0x80000000;
+        const lX4 = lX & 0x40000000, lY4 = lY & 0x40000000;
+        const lResult = (lX & 0x3FFFFFFF) + (lY & 0x3FFFFFFF);
+        if (lX4 & lY4) return lResult ^ 0x80000000 ^ lX8 ^ lY8;
+        if (lX4 | lY4) {
+          if (lResult & 0x40000000) return lResult ^ 0xC0000000 ^ lX8 ^ lY8;
+          return lResult ^ 0x40000000 ^ lX8 ^ lY8;
+        }
+        return lResult ^ lX8 ^ lY8;
+      }
+      function f(x, y, z) { return (x & y) | ((~x) & z); }
+      function g(x, y, z) { return (x & z) | (y & (~z)); }
+      function h(x, y, z) { return x ^ y ^ z; }
+      function i(x, y, z) { return y ^ (x | (~z)); }
+      function ff(a, b, c, d, x, s, ac) { a = addUnsigned(a, addUnsigned(addUnsigned(f(b, c, d), x), ac)); return addUnsigned(rotateLeft(a, s), b); }
+      function gg(a, b, c, d, x, s, ac) { a = addUnsigned(a, addUnsigned(addUnsigned(g(b, c, d), x), ac)); return addUnsigned(rotateLeft(a, s), b); }
+      function hh(a, b, c, d, x, s, ac) { a = addUnsigned(a, addUnsigned(addUnsigned(h(b, c, d), x), ac)); return addUnsigned(rotateLeft(a, s), b); }
+      function ii(a, b, c, d, x, s, ac) { a = addUnsigned(a, addUnsigned(addUnsigned(i(b, c, d), x), ac)); return addUnsigned(rotateLeft(a, s), b); }
+      function convertToWordArray(str) {
+        let lWordCount;
+        const lMessageLength = str.length;
+        const lNumberOfWordsTemp1 = lMessageLength + 8;
+        const lNumberOfWordsTemp2 = (lNumberOfWordsTemp1 - (lNumberOfWordsTemp1 % 64)) / 64;
+        const lNumberOfWords = (lNumberOfWordsTemp2 + 1) * 16;
+        const lWordArray = new Array(lNumberOfWords - 1);
+        let lBytePosition = 0, lByteCount = 0;
+        while (lByteCount < lMessageLength) {
+          lWordCount = (lByteCount - (lByteCount % 4)) / 4;
+          lBytePosition = (lByteCount % 4) * 8;
+          lWordArray[lWordCount] = (lWordArray[lWordCount] || 0) | (str.charCodeAt(lByteCount) << lBytePosition);
+          lByteCount++;
+        }
+        lWordCount = (lByteCount - (lByteCount % 4)) / 4;
+        lBytePosition = (lByteCount % 4) * 8;
+        lWordArray[lWordCount] = (lWordArray[lWordCount] || 0) | (0x80 << lBytePosition);
+        lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
+        lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
+        return lWordArray;
+      }
+      function wordToHex(lValue) {
+        let wordToHexValue = '', wordToHexValueTemp = '', lByte;
+        for (let lCount = 0; lCount <= 3; lCount++) {
+          lByte = (lValue >>> (lCount * 8)) & 255;
+          wordToHexValueTemp = '0' + lByte.toString(16);
+          wordToHexValue = wordToHexValue + wordToHexValueTemp.substr(wordToHexValueTemp.length - 2, 2);
+        }
+        return wordToHexValue;
+      }
+      const x = convertToWordArray(string);
+      let a = 0x67452301, b = 0xEFCDAB89, c = 0x98BADCFE, d = 0x10325476;
+      const S11 = 7, S12 = 12, S13 = 17, S14 = 22, S21 = 5, S22 = 9, S23 = 14, S24 = 20,
+            S31 = 4, S32 = 11, S33 = 16, S34 = 23, S41 = 6, S42 = 10, S43 = 15, S44 = 21;
+      for (let k = 0; k < x.length; k += 16) {
+        let AA = a, BB = b, CC = c, DD = d;
+        a = ff(a, b, c, d, x[k+0],  S11, 0xD76AA478);
+        d = ff(d, a, b, c, x[k+1],  S12, 0xE8C7B756);
+        c = ff(c, d, a, b, x[k+2],  S13, 0x242070DB);
+        b = ff(b, c, d, a, x[k+3],  S14, 0xC1BDCEEE);
+        a = ff(a, b, c, d, x[k+4],  S11, 0xF57C0FAF);
+        d = ff(d, a, b, c, x[k+5],  S12, 0x4787C62A);
+        c = ff(c, d, a, b, x[k+6],  S13, 0xA8304613);
+        b = ff(b, c, d, a, x[k+7],  S14, 0xFD469501);
+        a = ff(a, b, c, d, x[k+8],  S11, 0x698098D8);
+        d = ff(d, a, b, c, x[k+9],  S12, 0x8B44F7AF);
+        c = ff(c, d, a, b, x[k+10], S13, 0xFFFF5BB1);
+        b = ff(b, c, d, a, x[k+11], S14, 0x895CD7BE);
+        a = ff(a, b, c, d, x[k+12], S11, 0x6B901122);
+        d = ff(d, a, b, c, x[k+13], S12, 0xFD987193);
+        c = ff(c, d, a, b, x[k+14], S13, 0xA679438E);
+        b = ff(b, c, d, a, x[k+15], S14, 0x49B40821);
+        a = gg(a, b, c, d, x[k+1],  S21, 0xF61E2562);
+        d = gg(d, a, b, c, x[k+6],  S22, 0xC040B340);
+        c = gg(c, d, a, b, x[k+11], S23, 0x265E5A51);
+        b = gg(b, c, d, a, x[k+0],  S24, 0xE9B6C7AA);
+        a = gg(a, b, c, d, x[k+5],  S21, 0xD62F105D);
+        d = gg(d, a, b, c, x[k+10], S22, 0x02441453);
+        c = gg(c, d, a, b, x[k+15], S23, 0xD8A1E681);
+        b = gg(b, c, d, a, x[k+4],  S24, 0xE7D3FBC8);
+        a = gg(a, b, c, d, x[k+9],  S21, 0x21E1CDE6);
+        d = gg(d, a, b, c, x[k+14], S22, 0xC33707D6);
+        c = gg(c, d, a, b, x[k+3],  S23, 0xF4D50D87);
+        b = gg(b, c, d, a, x[k+8],  S24, 0x455A14ED);
+        a = gg(a, b, c, d, x[k+13], S21, 0xA9E3E905);
+        d = gg(d, a, b, c, x[k+2],  S22, 0xFCEFA3F8);
+        c = gg(c, d, a, b, x[k+7],  S23, 0x676F02D9);
+        b = gg(b, c, d, a, x[k+12], S24, 0x8D2A4C8A);
+        a = hh(a, b, c, d, x[k+5],  S31, 0xFFFA3942);
+        d = hh(d, a, b, c, x[k+8],  S32, 0x8771F681);
+        c = hh(c, d, a, b, x[k+11], S33, 0x6D9D6122);
+        b = hh(b, c, d, a, x[k+14], S34, 0xFDE5380C);
+        a = hh(a, b, c, d, x[k+1],  S31, 0xA4BEEA44);
+        d = hh(d, a, b, c, x[k+4],  S32, 0x4BDECFA9);
+        c = hh(c, d, a, b, x[k+7],  S33, 0xF6BB4B60);
+        b = hh(b, c, d, a, x[k+10], S34, 0xBEBFBC70);
+        a = hh(a, b, c, d, x[k+13], S31, 0x289B7EC6);
+        d = hh(d, a, b, c, x[k+0],  S32, 0xEAA127FA);
+        c = hh(c, d, a, b, x[k+3],  S33, 0xD4EF3085);
+        b = hh(b, c, d, a, x[k+6],  S34, 0x04881D05);
+        a = hh(a, b, c, d, x[k+9],  S31, 0xD9D4D039);
+        d = hh(d, a, b, c, x[k+12], S32, 0xE6DB99E5);
+        c = hh(c, d, a, b, x[k+15], S33, 0x1FA27CF8);
+        b = hh(b, c, d, a, x[k+2],  S34, 0xC4AC5665);
+        a = ii(a, b, c, d, x[k+0],  S41, 0xF4292244);
+        d = ii(d, a, b, c, x[k+7],  S42, 0x432AFF97);
+        c = ii(c, d, a, b, x[k+14], S43, 0xAB9423A7);
+        b = ii(b, c, d, a, x[k+5],  S44, 0xFC93A039);
+        a = ii(a, b, c, d, x[k+12], S41, 0x655B59C3);
+        d = ii(d, a, b, c, x[k+3],  S42, 0x8F0CCC92);
+        c = ii(c, d, a, b, x[k+10], S43, 0xFFEFF47D);
+        b = ii(b, c, d, a, x[k+1],  S44, 0x85845DD1);
+        a = ii(a, b, c, d, x[k+8],  S41, 0x6FA87E4F);
+        d = ii(d, a, b, c, x[k+15], S42, 0xFE2CE6E0);
+        c = ii(c, d, a, b, x[k+6],  S43, 0xA3014314);
+        b = ii(b, c, d, a, x[k+13], S44, 0x4E0811A1);
+        a = ii(a, b, c, d, x[k+4],  S41, 0xF7537E82);
+        d = ii(d, a, b, c, x[k+11], S42, 0xBD3AF235);
+        c = ii(c, d, a, b, x[k+2],  S43, 0x2AD7D2BB);
+        b = ii(b, c, d, a, x[k+9],  S44, 0xEB86D391);
+        a = addUnsigned(a, AA);
+        b = addUnsigned(b, BB);
+        c = addUnsigned(c, CC);
+        d = addUnsigned(d, DD);
+      }
+      return wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
+    }
+
+    async function compute(dataBytes, isFile) {
+      hashResults.innerHTML = '';
+      const textVal = isFile ? null : hashInput.value;
+      for (const algo of selectedAlgos) {
+        let result = '';
+        try {
+          if (algo === 'MD5') {
+            if (isFile && currentFileBytes) {
+              let bin = '';
+              for (let i = 0; i < currentFileBytes.length; i++) bin += String.fromCharCode(currentFileBytes[i]);
+              result = md5(bin);
+            } else {
+              result = md5(textVal || '');
+            }
+          } else {
+            result = await shaHash(algo, dataBytes);
+          }
+        } catch (e) {
+          result = 'Error computing ' + algo;
+        }
+        const card = document.createElement('div');
+        card.className = 'bg-canvas-soft border border-hairline rounded-lg p-4 shadow-lvl1 flex items-center justify-between gap-4';
+        const left = document.createElement('div');
+        left.className = 'min-w-0';
+        const label = document.createElement('span');
+        label.className = 'text-[10px] font-mono uppercase text-mute';
+        label.textContent = algo;
+        const code = document.createElement('code');
+        code.className = 'block text-sm font-mono text-ink break-all select-all mt-1';
+        code.textContent = result;
+        left.appendChild(label);
+        left.appendChild(code);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'hash-copy-btn h-8 w-8 border border-hairline bg-canvas hover:bg-canvas-soft text-body hover:text-ink rounded-md shadow-lvl1 transition-colors flex items-center justify-center flex-shrink-0 cursor-pointer';
+        btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>';
+        btn.setAttribute('data-hash', result);
+        btn.addEventListener('click', () => copyToClipboard(result));
+        card.appendChild(left);
+        card.appendChild(btn);
+        hashResults.appendChild(card);
+      }
+    }
+
+    let currentFileBytes = null;
+
+    function recompute() {
+      if (currentFileBytes) {
+        compute(currentFileBytes, true);
+      } else {
+        const text = hashInput.value;
+        compute(utf8Bytes(text), false);
+      }
+    }
+
+    function updateSize() {
+      const bytes = utf8Bytes(hashInput.value);
+      hashSize.textContent = `${bytes.length} bytes`;
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('hash-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'hash-toast';
+        toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-xs font-sans px-4 py-2.5 rounded-full shadow-lvl5 z-50 transition-opacity duration-300';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg || 'Copied to clipboard';
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 2000);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => showToast()).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      });
+    }
+
+    hashInput.addEventListener('input', () => {
+      currentFileBytes = null;
+      hashFileName.textContent = '';
+      updateSize();
+      recompute();
+    });
+
+    hashClearText.addEventListener('click', () => {
+      hashInput.value = '';
+      currentFileBytes = null;
+      hashFileName.textContent = '';
+      updateSize();
+      recompute();
+    });
+
+    hashDrop.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.onchange = () => {
+        if (input.files && input.files[0]) handleFile(input.files[0]);
+      };
+      input.click();
+    });
+
+    function handleFile(file) {
+      hashFileName.textContent = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const buf = e.target.result;
+        currentFileBytes = new Uint8Array(buf);
+        compute(currentFileBytes, true);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const content = toggle.nextElementSibling;
+        const icon = toggle.querySelector('svg');
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) {
+          content.classList.add('hidden');
+          icon.classList.remove('rotate-180');
+        } else {
+          content.classList.remove('hidden');
+          icon.classList.add('rotate-180');
+        }
+      });
+    });
+
+    updateSize();
+    recompute();
+  </script>
+
+    <RelatedTools
+      categorySlug="dev"
+      toolSlug="hash-generator"
+    />
+
+  <ContentFooter category="dev" />
+</Layout>

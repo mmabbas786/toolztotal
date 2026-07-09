@@ -79,6 +79,31 @@ const intentMap: Record<string, string[]> = {
         "json-formatter",
         "diff-checker",
     ],
+    "jwt-decoder": [
+        "base64-encoder-decoder",
+        "timestamp-converter",
+        "hash-generator",
+    ],
+    "hash-generator": [
+        "base64-encoder-decoder",
+        "jwt-decoder",
+        "uuid-generator",
+    ],
+    "timestamp-converter": [
+        "jwt-decoder",
+        "uuid-generator",
+        "json-formatter",
+    ],
+    "url-encoder-decoder": [
+        "base64-encoder-decoder",
+        "json-formatter",
+        "jwt-decoder",
+    ],
+    "markdown-to-html": [
+        "json-formatter",
+        "base64-encoder-decoder",
+        "diff-checker",
+    ],
     "keyword-density-checker": [
         "meta-tag-generator",
         "serp-preview",
@@ -89,7 +114,47 @@ const intentMap: Record<string, string[]> = {
         "mortgage-calculator",
         "property-tax-calculator",
     ],
-};
+    "credit-card-payoff-calculator": [
+        "loan-calculator",
+        "percentage-calculator",
+        "salary-calculator",
+        "dti-calculator",
+    ],
+    "paycheck-calculator": [
+        "salary-calculator",
+        "dti-calculator",
+        "loan-calculator",
+    ],
+    "auto-loan-calculator": [
+        "loan-calculator",
+        "mortgage-calculator",
+        "dti-calculator",
+        "credit-card-payoff-calculator",
+    ],
+    "heloc-calculator": [
+        "mortgage-calculator",
+        "mortgage-affordability-calculator",
+        "loan-calculator",
+        "amortization-calculator",
+    ],
+    "student-loan-repayment-calculator": [
+        "loan-calculator",
+        "salary-calculator",
+        "dti-calculator",
+        "retirement-calculator",
+    ],
+    "loan-calculator": [
+        "mortgage-calculator",
+        "amortization-calculator",
+        "percentage-calculator",
+        "credit-card-payoff-calculator",
+    ],
+    "percentage-calculator": [
+        "loan-calculator",
+        "mortgage-calculator",
+        "credit-card-payoff-calculator",
+    ],
+  };
 
 const preferredCrossSlugs = intentMap[toolSlug] ?? [];
 

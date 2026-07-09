@@ -1,54 +1,58 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ContentFooter from '../../components/ContentFooter.astro';
-import Sources from '../../components/Sources.astro';
-import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
-import ToolSchema from '../../components/ToolSchema.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import RelatedTools from '../../components/RelatedTools.astro';
+import Layout from "../../layouts/Layout.astro";
+import ContentFooter from "../../components/ContentFooter.astro";
+import Sources from "../../components/Sources.astro";
+import DisclaimerBanner from "../../components/DisclaimerBanner.astro";
+import ToolSchema from "../../components/ToolSchema.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import RelatedTools from "../../components/RelatedTools.astro";
 
 const salaryFaqs = [
   {
     question: "What's the difference between gross and net salary?",
-    answer: "Gross salary is your total compensation before any deductions. Net (take-home) salary is what lands in your bank account after federal income tax, state income tax, Social Security, Medicare, and pre-tax deductions like 401(k) contributions are subtracted."
+    answer:
+      "Gross salary is your total compensation before any deductions. Net (take-home) salary is what lands in your bank account after federal income tax, state income tax, Social Security, Medicare, and pre-tax deductions like 401(k) contributions are subtracted.",
   },
   {
     question: "Is bonus income taxed differently?",
-    answer: "Yes. Bonuses are typically withheld at a flat 22% federal supplemental rate (or 37% for amounts over $1 million). However, your actual tax liability depends on your marginal bracket for the year. You may get a refund or owe more at filing time depending on your total income."
+    answer:
+      "Yes. Bonuses are typically withheld at a flat 22% federal supplemental rate (or 37% for amounts over $1 million). However, your actual tax liability depends on your marginal bracket for the year. You may get a refund or owe more at filing time depending on your total income.",
   },
   {
     question: "How does my state of residence affect my taxes?",
-    answer: "Eight states have no income tax: Alaska, Florida, Nevada, South Dakota, Tennessee, Texas, Washington, and Wyoming. New Hampshire taxes only dividends and interest, not wages. The remaining 42 states have either a flat rate or graduated brackets that significantly affect take-home pay."
+    answer:
+      "Eight states have no income tax: Alaska, Florida, Nevada, South Dakota, Tennessee, Texas, Washington, and Wyoming. New Hampshire taxes only dividends and interest, not wages. The remaining 42 states have either a flat rate or graduated brackets that significantly affect take-home pay.",
   },
   {
     question: "What's the FICA wage base for 2026?",
-    answer: "The Social Security wage base for 2026 is estimated at $168,600. You pay 6.2% Social Security on wages up to that limit, and 1.45% Medicare on all wages. Wages over $200,000 (single) or $250,000 (married filing jointly) are subject to an additional 0.9% Medicare tax."
+    answer:
+      "The Social Security wage base for 2026 is estimated at $168,600. You pay 6.2% Social Security on wages up to that limit, and 1.45% Medicare on all wages. Wages over $200,000 (single) or $250,000 (married filing jointly) are subject to an additional 0.9% Medicare tax.",
   },
   {
     question: "Should I contribute to a 401(k) to lower my taxes?",
-    answer: "Contributing to a traditional 401(k) reduces your current taxable income, which lowers your tax bill now. The 2026 contribution limit is $23,500 ($31,000 if 50+, $34,750 if 60-63 under SECURE 2.0). The trade-off is that withdrawals in retirement are taxed as ordinary income. Roth 401(k) contributions don't reduce current taxes but grow tax-free."
+    answer:
+      "Contributing to a traditional 401(k) reduces your current taxable income, which lowers your tax bill now. The 2026 contribution limit is $23,500 ($31,000 if 50+, $34,750 if 60-63 under SECURE 2.0). The trade-off is that withdrawals in retirement are taxed as ordinary income. Roth 401(k) contributions don't reduce current taxes but grow tax-free.",
   },
 ];
 
 const faqJsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": salaryFaqs.map(faq => ({
+  mainEntity: salaryFaqs.map((faq) => ({
     "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
+    name: faq.question,
+    acceptedAnswer: {
       "@type": "Answer",
-      "text": faq.answer
-    }
-  }))
+      text: faq.answer,
+    },
+  })),
 });
 ---
 
-<Layout 
+<Layout
   title="Salary Calculator - Take-Home Pay Tax Estimator | ToolzTotal"
   description="Calculate your take-home pay after federal, state, and FICA taxes. See monthly, bi-weekly, and weekly amounts for any salary and state."
   canonicalUrl="https://toolztotal.com/finance/salary-calculator"
-  faqJsonLd={faqJsonLd}
 >
   <ToolSchema
     toolName="Salary Calculator"
@@ -71,38 +75,60 @@ const faqJsonLd = JSON.stringify({
 
     <!-- Header Section -->
     <div class="max-w-4xl mb-12">
-      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+      <div
+        class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1"
+      >
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Tool</span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider"
+          >Free Tool</span
+        >
       </div>
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
+      <h1
+        class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty"
+      >
         Take-Home Salary Calculator
       </h1>
-      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
-        Estimate your actual net take-home salary after subtracting federal, state, and FICA taxes, alongside retirement contributions.
+      <p
+        class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
+      >
+        Estimate your actual net take-home salary after subtracting federal,
+        state, and FICA taxes, alongside retirement contributions.
       </p>
     </div>
 
     <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-      
       <!-- Left Column: Input Form (5 cols) -->
-      <form id="salary-form" class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6" onsubmit="return false;">
-        
+      <form
+        id="salary-form"
+        class="lg:col-span-5 bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6"
+        onsubmit="return false;"
+      >
         <!-- SECTION: Income Details -->
         <div>
-          <h2 class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4">Salary Details</h2>
-          
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Salary Details
+          </h2>
+
           <div class="space-y-4">
             <!-- Gross Salary -->
             <div>
-              <label for="gross-salary" class="block text-xs font-mono uppercase text-mute mb-1.5">Gross Income ($)</label>
+              <label
+                for="gross-salary"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Gross Income ($)</label
+              >
               <div class="relative">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
-                <input 
-                  type="text" 
-                  id="gross-salary" 
-                  value="75,000" 
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="gross-salary"
+                  value="75,000"
                   class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
                   placeholder="e.g., 75,000"
                   inputmode="decimal"
@@ -113,9 +139,13 @@ const faqJsonLd = JSON.stringify({
 
             <!-- Pay Frequency -->
             <div>
-              <label for="pay-frequency" class="block text-xs font-mono uppercase text-mute mb-1.5">Pay Frequency</label>
-              <select 
-                id="pay-frequency" 
+              <label
+                for="pay-frequency"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Pay Frequency</label
+              >
+              <select
+                id="pay-frequency"
                 class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
               >
                 <option value="annual">Annual Salary</option>
@@ -129,12 +159,16 @@ const faqJsonLd = JSON.stringify({
             <!-- If Hourly: Hours/Week -->
             <div id="hourly-inputs" class="hidden animate-fadeIn space-y-4">
               <div>
-                <label for="hours-per-week" class="block text-xs font-mono uppercase text-mute mb-1.5">Hours Per Week</label>
-                <input 
-                  type="number" 
-                  id="hours-per-week" 
-                  value="40" 
-                  min="1" 
+                <label
+                  for="hours-per-week"
+                  class="block text-xs font-mono uppercase text-mute mb-1.5"
+                  >Hours Per Week</label
+                >
+                <input
+                  type="number"
+                  id="hours-per-week"
+                  value="40"
+                  min="1"
                   max="168"
                   class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
                   placeholder="e.g., 40"
@@ -147,32 +181,38 @@ const faqJsonLd = JSON.stringify({
 
         <!-- SECTION: Tax & Filing Settings -->
         <div class="border-t border-hairline pt-5">
-          <h2 class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4">Tax & Filing Settings</h2>
-          
+          <h2
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2 mb-4"
+          >
+            Tax & Filing Settings
+          </h2>
+
           <div class="space-y-4">
             <!-- Filing Status -->
             <div>
-              <label class="block text-xs font-mono uppercase text-mute mb-2">Filing Status</label>
+              <label class="block text-xs font-mono uppercase text-mute mb-2"
+                >Filing Status</label
+              >
               <div class="grid grid-cols-3 gap-2">
-                <button 
-                  type="button" 
-                  id="status-single" 
+                <button
+                  type="button"
+                  id="status-single"
                   data-status="single"
                   class="status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all"
                 >
                   Single
                 </button>
-                <button 
-                  type="button" 
-                  id="status-married" 
+                <button
+                  type="button"
+                  id="status-married"
                   data-status="married_jointly"
                   class="status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg text-mute hover:text-ink cursor-pointer transition-all"
                 >
                   MFJ
                 </button>
-                <button 
-                  type="button" 
-                  id="status-hoh" 
+                <button
+                  type="button"
+                  id="status-hoh"
                   data-status="head_of_household"
                   class="status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg text-mute hover:text-ink cursor-pointer transition-all"
                 >
@@ -184,9 +224,13 @@ const faqJsonLd = JSON.stringify({
 
             <!-- State Selector Grouped by Region -->
             <div>
-              <label for="state-code" class="block text-xs font-mono uppercase text-mute mb-1.5">State of Residence</label>
-              <select 
-                id="state-code" 
+              <label
+                for="state-code"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >State of Residence</label
+              >
+              <select
+                id="state-code"
                 class="w-full h-10 px-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 cursor-pointer"
               >
                 <optgroup label="West">
@@ -255,54 +299,72 @@ const faqJsonLd = JSON.stringify({
 
             <!-- 401k contribution -->
             <div>
-              <label for="contrib-401k" class="block text-xs font-mono uppercase text-mute mb-1.5">Traditional 401(k) Contribution (%)</label>
+              <label
+                for="contrib-401k"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Traditional 401(k) Contribution (%)</label
+              >
               <div class="relative">
-                <input 
-                  type="number" 
-                  id="contrib-401k" 
-                  value="0" 
-                  min="0" 
-                  max="100" 
+                <input
+                  type="number"
+                  id="contrib-401k"
+                  value="0"
+                  min="0"
+                  max="100"
                   step="1"
                   class="w-full h-10 pl-3 pr-8 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
                   placeholder="e.g., 5"
                   inputmode="numeric"
                 />
-                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">%</span>
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >%</span
+                >
               </div>
-              <p class="text-[10px] text-mute font-sans mt-1">Saves taxes on contributions up to $23,500/year.</p>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Saves taxes on contributions up to $23,500/year.
+              </p>
             </div>
 
             <!-- Traditional IRA -->
             <div>
-              <label for="contrib-ira" class="block text-xs font-mono uppercase text-mute mb-1.5">Traditional IRA Annual Contribution ($)</label>
+              <label
+                for="contrib-ira"
+                class="block text-xs font-mono uppercase text-mute mb-1.5"
+                >Traditional IRA Annual Contribution ($)</label
+              >
               <div class="relative">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans">$</span>
-                <input 
-                  type="text" 
-                  id="contrib-ira" 
-                  value="0" 
+                <span
+                  class="absolute left-3 top-1/2 -translate-y-1/2 text-mute text-sm font-sans"
+                  >$</span
+                >
+                <input
+                  type="text"
+                  id="contrib-ira"
+                  value="0"
                   class="w-full h-10 pl-7 pr-3 bg-canvas border border-hairline rounded-md text-sm font-sans focus:outline-none focus:border-hairline-strong text-ink transition-colors shadow-lvl1 tabular-nums"
                   placeholder="e.g., 7,500"
                   inputmode="decimal"
                 />
               </div>
-              <p class="text-[10px] text-mute font-sans mt-1">Deductible contributions capped at $7,500/year for 2026.</p>
+              <p class="text-[10px] text-mute font-sans mt-1">
+                Deductible contributions capped at $7,500/year for 2026.
+              </p>
             </div>
           </div>
         </div>
 
         <!-- Buttons -->
         <div class="flex flex-col gap-2 pt-4">
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             id="calculate-btn"
             class="w-full h-10 bg-primary hover:bg-primary-strong text-on-primary font-sans font-bold text-sm rounded-lg transition-colors cursor-pointer shadow-lvl2 text-center"
           >
             Calculate Take-Home
           </button>
-          <button 
-            type="button" 
+          <button
+            type="button"
             id="reset-btn"
             class="w-full py-2 text-mute hover:text-ink font-sans text-xs transition-colors cursor-pointer text-center"
           >
@@ -313,42 +375,86 @@ const faqJsonLd = JSON.stringify({
 
       <!-- Right Column: Results Dashboard (7 cols) -->
       <div class="lg:col-span-7 space-y-6">
-        
         <!-- Output Cards Grid - Row 1 -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <!-- Card 1: Annual Take Home -->
-          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
             <div>
-              <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-1">Annual Take-Home</h3>
-              <p class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums" id="annual-takehome-val">$0.00</p>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Annual Take-Home
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="annual-takehome-val"
+              >
+                $0.00
+              </p>
             </div>
             <div class="mt-4 pt-3 border-t border-hairline">
-              <p class="text-[11px] font-sans text-body leading-normal">Net annual income</p>
-              <p class="text-[10px] font-mono text-mute mt-0.5">After all federal, state, FICA</p>
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Net annual income
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                After all federal, state, FICA
+              </p>
             </div>
           </div>
 
           <!-- Card 2: Monthly Take Home -->
-          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
             <div>
-              <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-1">Monthly Take-Home</h3>
-              <p class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums" id="monthly-takehome-val">$0.00</p>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Monthly Take-Home
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="monthly-takehome-val"
+              >
+                $0.00
+              </p>
             </div>
             <div class="mt-4 pt-3 border-t border-hairline">
-              <p class="text-[11px] font-sans text-body leading-normal">Net monthly income</p>
-              <p class="text-[10px] font-mono text-mute mt-0.5">Estimated cash per month</p>
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Net monthly income
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Estimated cash per month
+              </p>
             </div>
           </div>
 
           <!-- Card 3: Effective Tax Rate -->
-          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2 flex flex-col justify-between"
+          >
             <div>
-              <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-1">Effective Tax Rate</h3>
-              <p class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums" id="effective-rate-val">0.0%</p>
+              <h3
+                class="text-xs font-mono uppercase tracking-wider text-mute mb-1"
+              >
+                Effective Tax Rate
+              </h3>
+              <p
+                class="text-3xl font-bold font-sans text-ink tracking-tight tabular-nums"
+                id="effective-rate-val"
+              >
+                0.0%
+              </p>
             </div>
             <div class="mt-4 pt-3 border-t border-hairline">
-              <p class="text-[11px] font-sans text-body leading-normal">Total tax burden</p>
-              <p class="text-[10px] font-mono text-mute mt-0.5">Fed + State + FICA rate</p>
+              <p class="text-[11px] font-sans text-body leading-normal">
+                Total tax burden
+              </p>
+              <p class="text-[10px] font-mono text-mute mt-0.5">
+                Fed + State + FICA rate
+              </p>
             </div>
           </div>
         </div>
@@ -356,46 +462,86 @@ const faqJsonLd = JSON.stringify({
         <!-- Output Cards Grid - Row 2 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <!-- Card 4: Total Taxes Paid -->
-          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2">
-            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Total Taxes Paid</h3>
-            <p class="text-2xl font-bold font-sans text-ink tracking-tight mb-2 tabular-nums" id="total-taxes-val">$0.00</p>
-            <div class="text-[11px] font-mono text-mute space-y-1" id="tax-breakdown-subtext">
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3
+              class="text-xs font-mono uppercase tracking-wider text-mute mb-2"
+            >
+              Total Taxes Paid
+            </h3>
+            <p
+              class="text-2xl font-bold font-sans text-ink tracking-tight mb-2 tabular-nums"
+              id="total-taxes-val"
+            >
+              $0.00
+            </p>
+            <div
+              class="text-[11px] font-mono text-mute space-y-1"
+              id="tax-breakdown-subtext"
+            >
               <!-- Inserted via JS -->
             </div>
           </div>
 
           <!-- Card 5: Pay Period Amounts -->
-          <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2">
-            <h3 class="text-xs font-mono uppercase tracking-wider text-mute mb-2">Pay Period Net Amounts</h3>
+          <div
+            class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl2"
+          >
+            <h3
+              class="text-xs font-mono uppercase tracking-wider text-mute mb-2"
+            >
+              Pay Period Net Amounts
+            </h3>
             <div class="divide-y divide-hairline text-xs font-sans">
               <div class="flex justify-between py-1.5">
                 <span class="text-mute font-mono uppercase">Annual</span>
-                <span class="font-bold text-ink tabular-nums" id="net-annual-list">$0.00</span>
+                <span
+                  class="font-bold text-ink tabular-nums"
+                  id="net-annual-list">$0.00</span
+                >
               </div>
               <div class="flex justify-between py-1.5">
                 <span class="text-mute font-mono uppercase">Monthly</span>
-                <span class="font-bold text-ink tabular-nums" id="net-monthly-list">$0.00</span>
+                <span
+                  class="font-bold text-ink tabular-nums"
+                  id="net-monthly-list">$0.00</span
+                >
               </div>
               <div class="flex justify-between py-1.5">
                 <span class="text-mute font-mono uppercase">Bi-weekly</span>
-                <span class="font-bold text-ink tabular-nums" id="net-biweekly-list">$0.00</span>
+                <span
+                  class="font-bold text-ink tabular-nums"
+                  id="net-biweekly-list">$0.00</span
+                >
               </div>
               <div class="flex justify-between py-1.5">
                 <span class="text-mute font-mono uppercase">Weekly</span>
-                <span class="font-bold text-ink tabular-nums" id="net-weekly-list">$0.00</span>
+                <span
+                  class="font-bold text-ink tabular-nums"
+                  id="net-weekly-list">$0.00</span
+                >
               </div>
             </div>
           </div>
         </div>
 
         <!-- Breakdown Details Table -->
-        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
-          <h3 class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2">Full Tax Breakdown</h3>
-          
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4"
+        >
+          <h3
+            class="text-sm font-mono uppercase tracking-wider text-mute border-b border-hairline pb-2"
+          >
+            Full Tax Breakdown
+          </h3>
+
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs font-sans">
               <thead>
-                <tr class="border-b border-hairline font-mono text-mute uppercase text-[10px] tracking-wider">
+                <tr
+                  class="border-b border-hairline font-mono text-mute uppercase text-[10px] tracking-wider"
+                >
                   <th class="py-2.5 px-3">Tax Component</th>
                   <th class="py-2.5 px-3 text-right">Annual</th>
                   <th class="py-2.5 px-3 text-right">Monthly</th>
@@ -404,55 +550,126 @@ const faqJsonLd = JSON.stringify({
               <tbody class="divide-y divide-hairline text-body tabular-nums">
                 <tr>
                   <td class="py-3 px-3 font-semibold text-ink">Gross salary</td>
-                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-gross">$0.00</td>
-                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-gross-monthly">$0.00</td>
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-ink"
+                    id="row-gross">$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-ink"
+                    id="row-gross-monthly">$0.00</td
+                  >
                 </tr>
                 <tr>
-                  <td class="py-3 px-3 pl-6 text-body">Traditional 401(k) deduction</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-401k">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-401k-monthly">-$0.00</td>
+                  <td class="py-3 px-3 pl-6 text-body"
+                    >Traditional 401(k) deduction</td
+                  >
+                  <td class="py-3 px-3 text-right text-rose-500" id="row-401k"
+                    >-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-401k-monthly">-$0.00</td
+                  >
                 </tr>
                 <tr>
-                  <td class="py-3 px-3 pl-6 text-body">Traditional IRA deduction</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-ira">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-ira-monthly">-$0.00</td>
+                  <td class="py-3 px-3 pl-6 text-body"
+                    >Traditional IRA deduction</td
+                  >
+                  <td class="py-3 px-3 text-right text-rose-500" id="row-ira"
+                    >-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-ira-monthly">-$0.00</td
+                  >
                 </tr>
-                
+
                 <tr class="bg-canvas-soft-2/20">
-                  <td class="py-3 px-3 font-semibold text-ink">Taxable Income (Fed AGI)</td>
-                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-taxable">$0.00</td>
-                  <td class="py-3 px-3 text-right font-semibold text-ink" id="row-taxable-monthly">$0.00</td>
+                  <td class="py-3 px-3 font-semibold text-ink"
+                    >Taxable Income (Fed AGI)</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-ink"
+                    id="row-taxable">$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-ink"
+                    id="row-taxable-monthly">$0.00</td
+                  >
                 </tr>
                 <tr>
                   <td class="py-3 px-3 pl-6 text-body">Federal income tax</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-fedtax">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-fedtax-monthly">-$0.00</td>
+                  <td class="py-3 px-3 text-right text-rose-500" id="row-fedtax"
+                    >-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-fedtax-monthly">-$0.00</td
+                  >
                 </tr>
                 <tr>
-                  <td class="py-3 px-3 pl-6 text-body" id="row-statetax-label">State income tax</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-statetax">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-statetax-monthly">-$0.00</td>
+                  <td class="py-3 px-3 pl-6 text-body" id="row-statetax-label"
+                    >State income tax</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-statetax">-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-statetax-monthly">-$0.00</td
+                  >
                 </tr>
                 <tr>
-                  <td class="py-3 px-3 pl-6 text-body">Social Security tax (6.2%)</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-socsec">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-socsec-monthly">-$0.00</td>
+                  <td class="py-3 px-3 pl-6 text-body"
+                    >Social Security tax (6.2%)</td
+                  >
+                  <td class="py-3 px-3 text-right text-rose-500" id="row-socsec"
+                    >-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-socsec-monthly">-$0.00</td
+                  >
                 </tr>
                 <tr>
                   <td class="py-3 px-3 pl-6 text-body">Medicare tax (1.45%)</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-medicare">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-medicare-monthly">-$0.00</td>
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-medicare">-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-medicare-monthly">-$0.00</td
+                  >
                 </tr>
                 <tr>
-                  <td class="py-3 px-3 pl-6 text-body">Additional Medicare tax (0.9%)</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-add-medicare">-$0.00</td>
-                  <td class="py-3 px-3 text-right text-rose-500" id="row-add-medicare-monthly">-$0.00</td>
+                  <td class="py-3 px-3 pl-6 text-body"
+                    >Additional Medicare tax (0.9%)</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-add-medicare">-$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right text-rose-500"
+                    id="row-add-medicare-monthly">-$0.00</td
+                  >
                 </tr>
-                
+
                 <tr class="bg-emerald-500/10">
-                  <td class="py-3 px-3 font-semibold text-emerald-800 dark:text-emerald-400">Take-Home Pay (Net)</td>
-                  <td class="py-3 px-3 text-right font-semibold text-emerald-800 dark:text-emerald-400" id="row-net">$0.00</td>
-                  <td class="py-3 px-3 text-right font-semibold text-emerald-800 dark:text-emerald-400" id="row-net-monthly">$0.00</td>
+                  <td
+                    class="py-3 px-3 font-semibold text-emerald-800 dark:text-emerald-400"
+                    >Take-Home Pay (Net)</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-emerald-800 dark:text-emerald-400"
+                    id="row-net">$0.00</td
+                  >
+                  <td
+                    class="py-3 px-3 text-right font-semibold text-emerald-800 dark:text-emerald-400"
+                    id="row-net-monthly">$0.00</td
+                  >
                 </tr>
               </tbody>
             </table>
@@ -460,40 +677,66 @@ const faqJsonLd = JSON.stringify({
         </div>
 
         <!-- Local error message panel -->
-        <div id="error-panel" class="hidden bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 rounded-xl p-4 text-rose-700 dark:text-rose-400 text-xs leading-relaxed font-sans">
+        <div
+          id="error-panel"
+          class="hidden bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 rounded-xl p-4 text-rose-700 dark:text-rose-400 text-xs leading-relaxed font-sans"
+        >
           <!-- Populated by JS -->
         </div>
 
         <!-- Disclaimers -->
-        <div class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-2 text-[11px] font-sans text-mute leading-relaxed">
+        <div
+          class="bg-canvas border border-hairline rounded-xl p-5 shadow-lvl1 space-y-2 text-[11px] font-sans text-mute leading-relaxed"
+        >
           <p>
-            * **Estimate Only**: These tax calculations are based on standard 2026 bracket estimates and first-order state tax approximations. Actual returns depend on local municipal brackets, exemptions, pre-tax health deductions, and itemized configurations.
+            * **Estimate Only**: These tax calculations are based on standard
+            2026 bracket estimates and first-order state tax approximations.
+            Actual returns depend on local municipal brackets, exemptions,
+            pre-tax health deductions, and itemized configurations.
           </p>
           <p>
-            * **IRS Compliance**: This tool does not constitute official tax advice. Consult a licensed CPA or tax attorney for professional accounting disclosures.
+            * **IRS Compliance**: This tool does not constitute official tax
+            advice. Consult a licensed CPA or tax attorney for professional
+            accounting disclosures.
           </p>
         </div>
-
       </div>
-
     </div>
 
     <!-- Explanations panel (Below the fold) -->
-    <section class="mt-16 bg-canvas border border-hairline rounded-2xl p-6 md:p-8 shadow-lvl1">
-      <h2 class="text-lg font-bold text-ink font-sans mb-4 border-b border-hairline pb-2">Salary Terms Explained</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs md:text-sm font-sans leading-relaxed text-body">
+    <section
+      class="mt-16 bg-canvas border border-hairline rounded-2xl p-6 md:p-8 shadow-lvl1"
+    >
+      <h2
+        class="text-lg font-bold text-ink font-sans mb-4 border-b border-hairline pb-2"
+      >
+        Salary Terms Explained
+      </h2>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs md:text-sm font-sans leading-relaxed text-body"
+      >
         <div class="space-y-4">
           <div>
-            <h3 class="font-bold text-ink mb-1 text-sm">FICA Taxes (Federal Insurance Contributions Act)</h3>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              FICA Taxes (Federal Insurance Contributions Act)
+            </h3>
             <p>
-              Consists of Social Security (6.2% on wages up to $168,600 in 2026) and Medicare (1.45% on all income). High earners pay an additional 0.9% on income exceeding $200,000 for single filers or $250,000 for married couples.
+              Consists of Social Security (6.2% on wages up to $168,600 in 2026)
+              and Medicare (1.45% on all income). High earners pay an additional
+              0.9% on income exceeding $200,000 for single filers or $250,000
+              for married couples.
             </p>
           </div>
           <div>
-            <h3 class="font-bold text-ink mb-1 text-sm">Traditional 401(k) / IRA Contributions</h3>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              Traditional 401(k) / IRA Contributions
+            </h3>
             <p>
-              Pre-tax deductions that reduce your federal and state taxable income. In 2026, standard employees can contribute up to $23,500 to a traditional 401(k) plan. Traditional IRAs have a $7,500 contribution limit.
+              Pre-tax deductions that reduce your federal and state taxable
+              income. In 2026, standard employees can contribute up to $23,500
+              to a traditional 401(k) plan. Traditional IRAs have a $7,500
+              contribution limit.
             </p>
           </div>
         </div>
@@ -502,13 +745,20 @@ const faqJsonLd = JSON.stringify({
           <div>
             <h3 class="font-bold text-ink mb-1 text-sm">Filing Status</h3>
             <p>
-              Determines your standard deduction amount and tax brackets boundaries. Standard filing status options include Single, Married Filing Jointly (MFJ), and Head of Household (HoH).
+              Determines your standard deduction amount and tax brackets
+              boundaries. Standard filing status options include Single, Married
+              Filing Jointly (MFJ), and Head of Household (HoH).
             </p>
           </div>
           <div>
-            <h3 class="font-bold text-ink mb-1 text-sm">Progressive Taxation</h3>
+            <h3 class="font-bold text-ink mb-1 text-sm">
+              Progressive Taxation
+            </h3>
             <p>
-              You do not pay one flat rate on your entire income. Instead, income is sliced into tiers, and each chunk is taxed at progressive rates. The blended percentage of all taxes paid over gross salary is your effective tax rate.
+              You do not pay one flat rate on your entire income. Instead,
+              income is sliced into tiers, and each chunk is taxed at
+              progressive rates. The blended percentage of all taxes paid over
+              gross salary is your effective tax rate.
             </p>
           </div>
         </div>
@@ -516,58 +766,143 @@ const faqJsonLd = JSON.stringify({
     </section>
 
     <!-- Detailed SEO Article Section -->
-    <article class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16">
-      
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6">How is Your Take-Home Pay Calculated?</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+    <article
+      class="mt-20 prose dark:prose-invert max-w-4xl border-t border-hairline pt-16"
+    >
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-6"
+      >
+        How is Your Take-Home Pay Calculated?
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          Understanding take-home pay requires dissecting gross compensation down to net income. When you review your paycheck, the number that hits your bank account is the result of a precise sequence of subtractions:
+          Understanding take-home pay requires dissecting gross compensation
+          down to net income. When you review your paycheck, the number that
+          hits your bank account is the result of a precise sequence of
+          subtractions:
         </p>
         <ol class="list-decimal pl-5 space-y-2">
-          <li><strong>Gross Salary:</strong> Your base hourly or annual compensation before any deductions or tax withholdings.</li>
-          <li><strong>Subtract Pre-Tax Deductions:</strong> Voluntary employee contributions to traditional 401(k) accounts, traditional IRAs, health savings accounts (HSA), or pre-tax health insurance premiums. These contributions are deducted directly from your gross income, reducing your overall taxable basis.</li>
-          <li><strong>Subtract Federal Income Tax:</strong> Underwriters compute federal tax liability by applying progressive tax brackets to your remaining taxable income (Adjusted Gross Income minus the standard deduction).</li>
-          <li><strong>Subtract State Income Tax:</strong> If your state assesses a wage tax, progressive brackets or flat rates are applied to your income.</li>
-          <li><strong>Subtract FICA Tax:</strong> Unlike income tax, Social Security (6.2% up to the wage limit) and Medicare (1.45%) are calculated on gross income, regardless of pre-tax deductions.</li>
-          <li><strong>Net Take-Home Pay:</strong> The residual balance is your actual net salary distributed to you by check or direct deposit.</li>
+          <li>
+            <strong>Gross Salary:</strong> Your base hourly or annual compensation
+            before any deductions or tax withholdings.
+          </li>
+          <li>
+            <strong>Subtract Pre-Tax Deductions:</strong> Voluntary employee contributions
+            to traditional 401(k) accounts, traditional IRAs, health savings accounts
+            (HSA), or pre-tax health insurance premiums. These contributions are deducted
+            directly from your gross income, reducing your overall taxable basis.
+          </li>
+          <li>
+            <strong>Subtract Federal Income Tax:</strong> Underwriters compute federal
+            tax liability by applying progressive tax brackets to your remaining taxable
+            income (Adjusted Gross Income minus the standard deduction).
+          </li>
+          <li>
+            <strong>Subtract State Income Tax:</strong> If your state assesses a wage
+            tax, progressive brackets or flat rates are applied to your income.
+          </li>
+          <li>
+            <strong>Subtract FICA Tax:</strong> Unlike income tax, Social Security
+            (6.2% up to the wage limit) and Medicare (1.45%) are calculated on gross
+            income, regardless of pre-tax deductions.
+          </li>
+          <li>
+            <strong>Net Take-Home Pay:</strong> The residual balance is your actual
+            net salary distributed to you by check or direct deposit.
+          </li>
         </ol>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">Federal Income Tax Brackets Explained (2026)</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        Federal Income Tax Brackets Explained (2026)
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          The United States uses a progressive income tax system, meaning higher portions of income are taxed at progressively higher rates. A common misconception is that entering a higher tax bracket increases your rate across all income. In reality, only the income within each specific bracket range is taxed at that bracket's rate.
+          The United States uses a progressive income tax system, meaning higher
+          portions of income are taxed at progressively higher rates. A common
+          misconception is that entering a higher tax bracket increases your
+          rate across all income. In reality, only the income within each
+          specific bracket range is taxed at that bracket's rate.
         </p>
         <p>
-          For example, under 2026 single filer bracket estimates (projected with a ~2.7% inflation adjustment), if you earn a gross salary of <strong>$75,000</strong>:
+          For example, under 2026 single filer bracket estimates (projected with
+          a ~2.7% inflation adjustment), if you earn a gross salary of <strong
+            >$75,000</strong
+          >:
         </p>
         <ul class="list-disc pl-5 space-y-2">
-          <li>First, subtract the single standard deduction of <strong>$15,400</strong>, leaving a taxable income of <strong>$59,600</strong>.</li>
-          <li>The first <strong>$12,100</strong> of taxable income is taxed at <strong>10%</strong> = $1,210.00.</li>
-          <li>The next chunk from <strong>$12,100 to $49,250</strong> ($37,150) is taxed at <strong>12%</strong> = $4,458.00.</li>
-          <li>The remaining taxable income from <strong>$49,250 to $59,600</strong> ($10,350) is taxed at <strong>22%</strong> = $2,277.00.</li>
-          <li><strong>Total Federal Income Tax:</strong> $1,210.00 + $4,458.00 + $2,277.00 = <strong>$7,945.00</strong>.</li>
+          <li>
+            First, subtract the single standard deduction of <strong
+              >$15,400</strong
+            >, leaving a taxable income of <strong>$59,600</strong>.
+          </li>
+          <li>
+            The first <strong>$12,100</strong> of taxable income is taxed at <strong
+              >10%</strong
+            > = $1,210.00.
+          </li>
+          <li>
+            The next chunk from <strong>$12,100 to $49,250</strong> ($37,150) is taxed
+            at <strong>12%</strong> = $4,458.00.
+          </li>
+          <li>
+            The remaining taxable income from <strong>$49,250 to $59,600</strong
+            > ($10,350) is taxed at <strong>22%</strong> = $2,277.00.
+          </li>
+          <li>
+            <strong>Total Federal Income Tax:</strong> $1,210.00 + $4,458.00 + $2,277.00
+            = <strong>$7,945.00</strong>.
+          </li>
         </ul>
         <p>
-          This single borrower pays an effective federal tax rate of approximately 10.6% ($7,945.00 ÷ $75,000.00), even though their top marginal bracket is 22%.
+          This single borrower pays an effective federal tax rate of
+          approximately 10.6% ($7,945.00 ÷ $75,000.00), even though their top
+          marginal bracket is 22%.
         </p>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">State Income Tax: Why Your Location Matters</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        State Income Tax: Why Your Location Matters
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          Your physical state of residence plays a significant role in determining your final take-home pay. Currently, eight states assess no income tax on wages: Alaska, Florida, Nevada, South Dakota, Tennessee, Texas, Washington, and Wyoming. New Hampshire taxes only dividend and interest income, which will phase out entirely by 2027.
+          Your physical state of residence plays a significant role in
+          determining your final take-home pay. Currently, eight states assess
+          no income tax on wages: Alaska, Florida, Nevada, South Dakota,
+          Tennessee, Texas, Washington, and Wyoming. New Hampshire taxes only
+          dividend and interest income, which will phase out entirely by 2027.
         </p>
         <p>
-          The remaining states use either a flat rate (like Pennsylvania's 3.07% or Illinois' 4.95%) or graduated brackets (such as California's multi-tiered system peaking at 12.3%, or New York's top bracket of 10.9% for high earners).
+          The remaining states use either a flat rate (like Pennsylvania's 3.07%
+          or Illinois' 4.95%) or graduated brackets (such as California's
+          multi-tiered system peaking at 12.3%, or New York's top bracket of
+          10.9% for high earners).
         </p>
         <p>
-          To illustrate, the table below compares estimated take-home pay for a single filer earning a gross salary of <strong>$100,000</strong> with no pre-tax contributions across representative states:
+          To illustrate, the table below compares estimated take-home pay for a
+          single filer earning a gross salary of <strong>$100,000</strong> with no
+          pre-tax contributions across representative states:
         </p>
-        <div class="overflow-x-auto my-6 border border-hairline rounded-lg bg-canvas shadow-lvl1">
-          <table class="w-full text-left border-collapse text-xs md:text-sm font-sans">
+        <div
+          class="overflow-x-auto my-6 border border-hairline rounded-lg bg-canvas shadow-lvl1"
+        >
+          <table
+            class="w-full text-left border-collapse text-xs md:text-sm font-sans"
+          >
             <thead>
-              <tr class="bg-canvas-soft-2 font-mono text-mute uppercase text-[11px] tracking-wider border-b border-hairline">
+              <tr
+                class="bg-canvas-soft-2 font-mono text-mute uppercase text-[11px] tracking-wider border-b border-hairline"
+              >
                 <th class="py-3 px-4">State</th>
                 <th class="py-3 px-4 text-right">Gross Income</th>
                 <th class="py-3 px-4 text-right">Federal Tax</th>
@@ -583,193 +918,363 @@ const faqJsonLd = JSON.stringify({
                 <td class="py-3.5 px-4 text-right">$13,445</td>
                 <td class="py-3.5 px-4 text-right">$0</td>
                 <td class="py-3.5 px-4 text-right">$7,650</td>
-                <td class="py-3.5 px-4 text-right font-semibold text-emerald-600">$78,905</td>
+                <td
+                  class="py-3.5 px-4 text-right font-semibold text-emerald-600"
+                  >$78,905</td
+                >
               </tr>
               <tr>
-                <td class="py-3 px-4 font-bold text-ink">Colorado (Flat 4.4%)</td>
+                <td class="py-3 px-4 font-bold text-ink"
+                  >Colorado (Flat 4.4%)</td
+                >
                 <td class="py-3.5 px-4 text-right">$100,000</td>
                 <td class="py-3.5 px-4 text-right">$13,445</td>
                 <td class="py-3.5 px-4 text-right">$4,400</td>
                 <td class="py-3.5 px-4 text-right">$7,650</td>
-                <td class="py-3.5 px-4 text-right font-semibold text-emerald-600">$74,505</td>
+                <td
+                  class="py-3.5 px-4 text-right font-semibold text-emerald-600"
+                  >$74,505</td
+                >
               </tr>
               <tr>
-                <td class="py-3 px-4 font-bold text-ink">California (Graduated)</td>
+                <td class="py-3 px-4 font-bold text-ink"
+                  >California (Graduated)</td
+                >
                 <td class="py-3.5 px-4 text-right">$100,000</td>
                 <td class="py-3.5 px-4 text-right">$13,445</td>
                 <td class="py-3.5 px-4 text-right">$5,873</td>
                 <td class="py-3.5 px-4 text-right">$7,650</td>
-                <td class="py-3.5 px-4 text-right font-semibold text-emerald-600">$73,032</td>
+                <td
+                  class="py-3.5 px-4 text-right font-semibold text-emerald-600"
+                  >$73,032</td
+                >
               </tr>
               <tr>
-                <td class="py-3 px-4 font-bold text-ink">New York (Graduated)</td>
+                <td class="py-3 px-4 font-bold text-ink"
+                  >New York (Graduated)</td
+                >
                 <td class="py-3.5 px-4 text-right">$100,000</td>
                 <td class="py-3.5 px-4 text-right">$13,445</td>
                 <td class="py-3.5 px-4 text-right">$5,075</td>
                 <td class="py-3.5 px-4 text-right">$7,650</td>
-                <td class="py-3.5 px-4 text-right font-semibold text-emerald-600">$73,830</td>
+                <td
+                  class="py-3.5 px-4 text-right font-semibold text-emerald-600"
+                  >$73,830</td
+                >
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">FICA: Social Security and Medicare</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        FICA: Social Security and Medicare
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          FICA taxes fund the federal Social Security and Medicare programs. Social Security is withheld at a flat rate of <strong>6.2%</strong> on all wages up to a wage base cap, which is estimated at <strong>$168,600</strong> for 2026. Any earnings above this cap are exempt from Social Security withholding. Medicare is withheld at a flat rate of <strong>1.45%</strong> on all wages with no upper limit.
+          FICA taxes fund the federal Social Security and Medicare programs.
+          Social Security is withheld at a flat rate of <strong>6.2%</strong> on all
+          wages up to a wage base cap, which is estimated at <strong
+            >$168,600</strong
+          > for 2026. Any earnings above this cap are exempt from Social Security
+          withholding. Medicare is withheld at a flat rate of <strong
+            >1.45%</strong
+          > on all wages with no upper limit.
         </p>
         <p>
-          High earners are also subject to an Additional Medicare Tax of <strong>0.9%</strong>. This surcharge applies to wages exceeding <strong>$200,000</strong> for single filers, <strong>$250,000</strong> for married filing jointly, or <strong>$200,000</strong> for head of household status. W-2 employers are required to automatically withhold this tax once an employee's wages exceed the threshold, regardless of their filing status.
+          High earners are also subject to an Additional Medicare Tax of <strong
+            >0.9%</strong
+          >. This surcharge applies to wages exceeding <strong>$200,000</strong> for
+          single filers, <strong>$250,000</strong> for married filing jointly, or
+          <strong>$200,000</strong> for head of household status. W-2 employers are
+          required to automatically withhold this tax once an employee's wages exceed
+          the threshold, regardless of their filing status.
         </p>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">How to Reduce Your Tax Burden Legally</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        How to Reduce Your Tax Burden Legally
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          Reducing taxable income is the most effective way to optimize take-home pay:
+          Reducing taxable income is the most effective way to optimize
+          take-home pay:
         </p>
         <ul class="list-disc pl-5 space-y-2">
-          <li><strong>Maximize 401(k) Contributions:</strong> Traditional 401(k) plans allow pre-tax contributions up to $23,500 for standard employees in 2026. This lowers your current-year federal and state taxable income.</li>
-          <li><strong>Fund a Traditional IRA:</strong> Individual Retirement Accounts (IRA) offer tax-deductible contributions up to $7,500 for qualifying single or married filers in 2026.</li>
-          <li><strong>Utilize Health Savings Accounts (HSA):</strong> HSAs offer a triple tax advantage. Contributions are pre-tax, growth is tax-free, and withdrawals for qualified medical expenses are tax-free. Standard limits for 2026 are $4,400 for individual plans and $8,750 for family coverage.</li>
-          <li><strong>Itemize Deductions:</strong> If your qualified deductions (e.g. mortgage interest, local property taxes, charitable donations) exceed the standard deduction threshold, itemizing can further reduce your tax liability.</li>
+          <li>
+            <strong>Maximize 401(k) Contributions:</strong> Traditional 401(k) plans
+            allow pre-tax contributions up to $23,500 for standard employees in 2026.
+            This lowers your current-year federal and state taxable income.
+          </li>
+          <li>
+            <strong>Fund a Traditional IRA:</strong> Individual Retirement Accounts
+            (IRA) offer tax-deductible contributions up to $7,500 for qualifying single
+            or married filers in 2026.
+          </li>
+          <li>
+            <strong>Utilize Health Savings Accounts (HSA):</strong> HSAs offer a triple
+            tax advantage. Contributions are pre-tax, growth is tax-free, and withdrawals
+            for qualified medical expenses are tax-free. Standard limits for 2026
+            are $4,400 for individual plans and $8,750 for family coverage.
+          </li>
+          <li>
+            <strong>Itemize Deductions:</strong> If your qualified deductions (e.g.
+            mortgage interest, local property taxes, charitable donations) exceed
+            the standard deduction threshold, itemizing can further reduce your tax
+            liability.
+          </li>
         </ul>
       </div>
 
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6">How Salary Translates to Mortgage Qualification</h2>
-      <div class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6">
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mt-12 mb-6"
+      >
+        How Salary Translates to Mortgage Qualification
+      </h2>
+      <div
+        class="text-body text-sm md:text-base font-sans leading-relaxed space-y-6"
+      >
         <p>
-          When you apply for a mortgage, underwriters evaluate your capacity using your <strong>gross income</strong> (your pre-tax monthly income), not your take-home pay. This gross income forms the baseline for calculating your Debt-to-Income (DTI) ratio.
+          When you apply for a mortgage, underwriters evaluate your capacity
+          using your <strong>gross income</strong> (your pre-tax monthly income),
+          not your take-home pay. This gross income forms the baseline for calculating
+          your Debt-to-Income (DTI) ratio.
         </p>
         <p>
-          However, when managing your personal budget, relying purely on gross calculations can lead to overallocation of funds. Your actual cash flow is determined by your net take-home salary. Estimating your monthly take-home pay first allows you to plan your housing payments comfortably within your true income baseline.
+          However, when managing your personal budget, relying purely on gross
+          calculations can lead to overallocation of funds. Your actual cash
+          flow is determined by your net take-home salary. Estimating your
+          monthly take-home pay first allows you to plan your housing payments
+          comfortably within your true income baseline.
         </p>
       </div>
-
     </article>
 
     <!-- References -->
-    <Sources sources={[
-      { label: 'IRS — Tax Inflation Adjustments for Tax Year 2025/2026', url: 'https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments-for-tax-year-2025' },
-      { label: 'Social Security Administration — FICA Wage Bases', url: 'https://www.ssa.gov/oact/cola/cws.html' },
-      { label: 'Investopedia — Marginal Tax Rates vs Effective Tax Rates', url: 'https://www.investopedia.com/ask/answers/05/marginaltaxrateeffective.asp' }
-    ]} />
+    <Sources
+      sources={[
+        {
+          label: "IRS — Tax Inflation Adjustments for Tax Year 2025/2026",
+          url: "https://www.irs.gov/newsroom/irs-provides-tax-inflation-adjustments-for-tax-year-2025",
+        },
+        {
+          label: "Social Security Administration — FICA Wage Bases",
+          url: "https://www.ssa.gov/oact/cola/cws.html",
+        },
+        {
+          label: "Investopedia — Marginal Tax Rates vs Effective Tax Rates",
+          url: "https://www.investopedia.com/ask/answers/05/marginaltaxrateeffective.asp",
+        },
+      ]}
+    />
 
     <!-- FAQ Accordion section -->
     <section class="mt-20 pt-16 border-t border-hairline max-w-4xl">
-      <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty">Frequently Asked Questions</h2>
+      <h2
+        class="text-2xl md:text-3xl font-bold tracking-tight text-ink font-sans mb-8 text-pretty"
+      >
+        Frequently Asked Questions
+      </h2>
       <div class="space-y-4">
-        {salaryFaqs.map((faq, index) => (
-          <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
-            <button 
-              type="button"
-              class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
-              aria-expanded="false"
-              id={`faq-btn-${index}`}
-            >
-              <span>{faq.question}</span>
-              <svg class="w-4 h-4 text-mute transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
-              <p class="text-body text-sm font-sans leading-relaxed">
-                {faq.answer}
-              </p>
+        {
+          salaryFaqs.map((faq, index) => (
+            <div class="border border-hairline rounded-lg bg-canvas overflow-hidden shadow-lvl1">
+              <button
+                type="button"
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left font-sans text-sm font-bold text-ink hover:bg-canvas-soft-2 transition-colors cursor-pointer"
+                aria-expanded="false"
+                id={`faq-btn-${index}`}
+              >
+                <span>{faq.question}</span>
+                <svg
+                  class="w-4 h-4 text-mute transition-transform duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div class="faq-content hidden border-t border-hairline px-6 py-4 bg-canvas-soft">
+                <p class="text-body text-sm font-sans leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </section>
 
     <!-- Related Tools mapping -->
-    <RelatedTools
-      categorySlug="finance"
-      toolSlug="salary-calculator"
-    />
-
+    <RelatedTools categorySlug="finance" toolSlug="salary-calculator" />
   </div>
 
   <ContentFooter category="finance" />
 </Layout>
 
 <script>
-  import { 
-    FEDERAL_BRACKETS_2026, 
-    STANDARD_DEDUCTION_2026, 
-    FICA_2026, 
+  import {
+    FEDERAL_BRACKETS_2026,
+    STANDARD_DEDUCTION_2026,
+    FICA_2026,
     STATE_TAX_2026,
     type FilingStatus,
-    type TaxBracket
-  } from '../../data/taxBrackets';
+    type TaxBracket,
+  } from "../../data/taxBrackets";
 
   // DOM Elements
-  const grossSalaryInput = document.getElementById('gross-salary') as HTMLInputElement;
-  const payFrequencySelect = document.getElementById('pay-frequency') as HTMLSelectElement;
-  const hoursPerWeekInput = document.getElementById('hours-per-week') as HTMLInputElement;
-  const hourlyInputs = document.getElementById('hourly-inputs') as HTMLDivElement;
+  const grossSalaryInput = document.getElementById(
+    "gross-salary",
+  ) as HTMLInputElement;
+  const payFrequencySelect = document.getElementById(
+    "pay-frequency",
+  ) as HTMLSelectElement;
+  const hoursPerWeekInput = document.getElementById(
+    "hours-per-week",
+  ) as HTMLInputElement;
+  const hourlyInputs = document.getElementById(
+    "hourly-inputs",
+  ) as HTMLDivElement;
 
-  const filingStatusInput = document.getElementById('filing-status') as HTMLInputElement;
-  const stateCodeSelect = document.getElementById('state-code') as HTMLSelectElement;
-  const contrib401kInput = document.getElementById('contrib-401k') as HTMLInputElement;
-  const contribIraInput = document.getElementById('contrib-ira') as HTMLInputElement;
+  const filingStatusInput = document.getElementById(
+    "filing-status",
+  ) as HTMLInputElement;
+  const stateCodeSelect = document.getElementById(
+    "state-code",
+  ) as HTMLSelectElement;
+  const contrib401kInput = document.getElementById(
+    "contrib-401k",
+  ) as HTMLInputElement;
+  const contribIraInput = document.getElementById(
+    "contrib-ira",
+  ) as HTMLInputElement;
 
-  const calculateBtn = document.getElementById('calculate-btn') as HTMLButtonElement;
-  const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
+  const calculateBtn = document.getElementById(
+    "calculate-btn",
+  ) as HTMLButtonElement;
+  const resetBtn = document.getElementById("reset-btn") as HTMLButtonElement;
 
   // Output Elements
-  const annualTakehomeVal = document.getElementById('annual-takehome-val') as HTMLParagraphElement;
-  const monthlyTakehomeVal = document.getElementById('monthly-takehome-val') as HTMLParagraphElement;
-  const effectiveRateVal = document.getElementById('effective-rate-val') as HTMLParagraphElement;
-  const totalTaxesVal = document.getElementById('total-taxes-val') as HTMLParagraphElement;
-  const taxBreakdownSubtext = document.getElementById('tax-breakdown-subtext') as HTMLDivElement;
+  const annualTakehomeVal = document.getElementById(
+    "annual-takehome-val",
+  ) as HTMLParagraphElement;
+  const monthlyTakehomeVal = document.getElementById(
+    "monthly-takehome-val",
+  ) as HTMLParagraphElement;
+  const effectiveRateVal = document.getElementById(
+    "effective-rate-val",
+  ) as HTMLParagraphElement;
+  const totalTaxesVal = document.getElementById(
+    "total-taxes-val",
+  ) as HTMLParagraphElement;
+  const taxBreakdownSubtext = document.getElementById(
+    "tax-breakdown-subtext",
+  ) as HTMLDivElement;
 
-  const netAnnualList = document.getElementById('net-annual-list') as HTMLSpanElement;
-  const netMonthlyList = document.getElementById('net-monthly-list') as HTMLSpanElement;
-  const netBiweeklyList = document.getElementById('net-biweekly-list') as HTMLSpanElement;
-  const netWeeklyList = document.getElementById('net-weekly-list') as HTMLSpanElement;
+  const netAnnualList = document.getElementById(
+    "net-annual-list",
+  ) as HTMLSpanElement;
+  const netMonthlyList = document.getElementById(
+    "net-monthly-list",
+  ) as HTMLSpanElement;
+  const netBiweeklyList = document.getElementById(
+    "net-biweekly-list",
+  ) as HTMLSpanElement;
+  const netWeeklyList = document.getElementById(
+    "net-weekly-list",
+  ) as HTMLSpanElement;
 
   // Table rows
-  const rowGross = document.getElementById('row-gross') as HTMLTableCellElement;
-  const rowGrossMonthly = document.getElementById('row-gross-monthly') as HTMLTableCellElement;
-  const row401k = document.getElementById('row-401k') as HTMLTableCellElement;
-  const row401kMonthly = document.getElementById('row-401k-monthly') as HTMLTableCellElement;
-  const rowIra = document.getElementById('row-ira') as HTMLTableCellElement;
-  const rowIraMonthly = document.getElementById('row-ira-monthly') as HTMLTableCellElement;
+  const rowGross = document.getElementById("row-gross") as HTMLTableCellElement;
+  const rowGrossMonthly = document.getElementById(
+    "row-gross-monthly",
+  ) as HTMLTableCellElement;
+  const row401k = document.getElementById("row-401k") as HTMLTableCellElement;
+  const row401kMonthly = document.getElementById(
+    "row-401k-monthly",
+  ) as HTMLTableCellElement;
+  const rowIra = document.getElementById("row-ira") as HTMLTableCellElement;
+  const rowIraMonthly = document.getElementById(
+    "row-ira-monthly",
+  ) as HTMLTableCellElement;
 
-  const rowTaxable = document.getElementById('row-taxable') as HTMLTableCellElement;
-  const rowTaxableMonthly = document.getElementById('row-taxable-monthly') as HTMLTableCellElement;
-  const rowFedtax = document.getElementById('row-fedtax') as HTMLTableCellElement;
-  const rowFedtaxMonthly = document.getElementById('row-fedtax-monthly') as HTMLTableCellElement;
+  const rowTaxable = document.getElementById(
+    "row-taxable",
+  ) as HTMLTableCellElement;
+  const rowTaxableMonthly = document.getElementById(
+    "row-taxable-monthly",
+  ) as HTMLTableCellElement;
+  const rowFedtax = document.getElementById(
+    "row-fedtax",
+  ) as HTMLTableCellElement;
+  const rowFedtaxMonthly = document.getElementById(
+    "row-fedtax-monthly",
+  ) as HTMLTableCellElement;
 
-  const rowStatetaxLabel = document.getElementById('row-statetax-label') as HTMLTableCellElement;
-  const rowStatetax = document.getElementById('row-statetax') as HTMLTableCellElement;
-  const rowStatetaxMonthly = document.getElementById('row-statetax-monthly') as HTMLTableCellElement;
+  const rowStatetaxLabel = document.getElementById(
+    "row-statetax-label",
+  ) as HTMLTableCellElement;
+  const rowStatetax = document.getElementById(
+    "row-statetax",
+  ) as HTMLTableCellElement;
+  const rowStatetaxMonthly = document.getElementById(
+    "row-statetax-monthly",
+  ) as HTMLTableCellElement;
 
-  const rowSocsec = document.getElementById('row-socsec') as HTMLTableCellElement;
-  const rowSocsecMonthly = document.getElementById('row-socsec-monthly') as HTMLTableCellElement;
-  const rowMedicare = document.getElementById('row-medicare') as HTMLTableCellElement;
-  const rowMedicareMonthly = document.getElementById('row-medicare-monthly') as HTMLTableCellElement;
-  const rowAddMedicare = document.getElementById('row-add-medicare') as HTMLTableCellElement;
-  const rowAddMedicareMonthly = document.getElementById('row-add-medicare-monthly') as HTMLTableCellElement;
+  const rowSocsec = document.getElementById(
+    "row-socsec",
+  ) as HTMLTableCellElement;
+  const rowSocsecMonthly = document.getElementById(
+    "row-socsec-monthly",
+  ) as HTMLTableCellElement;
+  const rowMedicare = document.getElementById(
+    "row-medicare",
+  ) as HTMLTableCellElement;
+  const rowMedicareMonthly = document.getElementById(
+    "row-medicare-monthly",
+  ) as HTMLTableCellElement;
+  const rowAddMedicare = document.getElementById(
+    "row-add-medicare",
+  ) as HTMLTableCellElement;
+  const rowAddMedicareMonthly = document.getElementById(
+    "row-add-medicare-monthly",
+  ) as HTMLTableCellElement;
 
-  const rowNet = document.getElementById('row-net') as HTMLTableCellElement;
-  const rowNetMonthly = document.getElementById('row-net-monthly') as HTMLTableCellElement;
+  const rowNet = document.getElementById("row-net") as HTMLTableCellElement;
+  const rowNetMonthly = document.getElementById(
+    "row-net-monthly",
+  ) as HTMLTableCellElement;
 
-  const errorPanel = document.getElementById('error-panel') as HTMLDivElement;
+  const errorPanel = document.getElementById("error-panel") as HTMLDivElement;
 
   // Clean value parser
   function parseVal(el: HTMLInputElement): number {
-    const rawVal = el.value.replace(/,/g, '').trim();
-    if (rawVal === '') return 0;
+    const rawVal = el.value.replace(/,/g, "").trim();
+    if (rawVal === "") return 0;
     const parsed = parseFloat(rawVal);
     return isNaN(parsed) || parsed < 0 ? 0 : parsed;
   }
 
   // Format currency
   function formatMoney(num: number): string {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(num);
   }
 
   // Round utility
@@ -778,11 +1283,15 @@ const faqJsonLd = JSON.stringify({
   }
 
   // Bracket calculation
-  function calculateBracketTax(taxable: number, brackets: TaxBracket[]): number {
+  function calculateBracketTax(
+    taxable: number,
+    brackets: TaxBracket[],
+  ): number {
     let tax = 0;
     for (const bracket of brackets) {
       if (taxable <= bracket.min) break;
-      const upper = bracket.max === null ? taxable : Math.min(taxable, bracket.max);
+      const upper =
+        bracket.max === null ? taxable : Math.min(taxable, bracket.max);
       tax += (upper - bracket.min) * bracket.rate;
       if (taxable <= upper) break;
     }
@@ -791,26 +1300,26 @@ const faqJsonLd = JSON.stringify({
 
   // Dynamic calculations
   function runCalculations() {
-    errorPanel.classList.add('hidden');
-    errorPanel.textContent = '';
+    errorPanel.classList.add("hidden");
+    errorPanel.textContent = "";
 
     const rawSalary = parseVal(grossSalaryInput);
     if (rawSalary === 0) {
-      errorPanel.classList.remove('hidden');
-      errorPanel.textContent = 'Please enter a valid salary amount.';
+      errorPanel.classList.remove("hidden");
+      errorPanel.textContent = "Please enter a valid salary amount.";
       return;
     }
 
     const payFreq = payFrequencySelect.value;
     let grossAnnualSalary = rawSalary;
 
-    if (payFreq === 'monthly') {
+    if (payFreq === "monthly") {
       grossAnnualSalary = rawSalary * 12;
-    } else if (payFreq === 'biweekly') {
+    } else if (payFreq === "biweekly") {
       grossAnnualSalary = rawSalary * 26;
-    } else if (payFreq === 'weekly') {
+    } else if (payFreq === "weekly") {
       grossAnnualSalary = rawSalary * 52;
-    } else if (payFreq === 'hourly') {
+    } else if (payFreq === "hourly") {
       const hoursPerWeek = parseFloat(hoursPerWeekInput.value) || 40;
       grossAnnualSalary = rawSalary * hoursPerWeek * 52;
     }
@@ -823,15 +1332,21 @@ const faqJsonLd = JSON.stringify({
     // Step 1: Pre-tax deductions
     const retirement401k = Math.min(
       grossAnnualSalary * (contrib401kPercent / 100),
-      23500 // 2026 Limit
+      23500, // 2026 Limit
     );
     const iraCapped = Math.min(contribIra, 7500); // 2026 traditional IRA cap
     const preTaxDeductions = retirement401k + iraCapped;
 
     // Step 2: Federal Tax taxable basis
     const federalAGI = grossAnnualSalary - preTaxDeductions;
-    const federalTaxable = Math.max(0, federalAGI - STANDARD_DEDUCTION_2026[filingStatus]);
-    const federalTax = calculateBracketTax(federalTaxable, FEDERAL_BRACKETS_2026[filingStatus]);
+    const federalTaxable = Math.max(
+      0,
+      federalAGI - STANDARD_DEDUCTION_2026[filingStatus],
+    );
+    const federalTax = calculateBracketTax(
+      federalTaxable,
+      FEDERAL_BRACKETS_2026[filingStatus],
+    );
 
     // Step 3: State Tax
     const stateInfo = STATE_TAX_2026[stateCode];
@@ -847,13 +1362,15 @@ const faqJsonLd = JSON.stringify({
     // Step 4: FICA
     const socialSecurity = Math.min(
       grossAnnualSalary * FICA_2026.socialSecurityRate,
-      FICA_2026.socialSecurityWageBase * FICA_2026.socialSecurityRate
+      FICA_2026.socialSecurityWageBase * FICA_2026.socialSecurityRate,
     );
     const medicare = grossAnnualSalary * FICA_2026.medicareRate;
-    const additionalMedicareThreshold = FICA_2026.additionalMedicareThreshold[filingStatus];
+    const additionalMedicareThreshold =
+      FICA_2026.additionalMedicareThreshold[filingStatus];
     const additionalMedicare = Math.max(
       0,
-      (grossAnnualSalary - additionalMedicareThreshold) * FICA_2026.additionalMedicareRate
+      (grossAnnualSalary - additionalMedicareThreshold) *
+        FICA_2026.additionalMedicareRate,
     );
     const fica = socialSecurity + medicare + additionalMedicare;
 
@@ -865,7 +1382,7 @@ const faqJsonLd = JSON.stringify({
     // Output Cards Updates
     annualTakehomeVal.textContent = formatMoney(takeHome);
     monthlyTakehomeVal.textContent = formatMoney(takeHome / 12);
-    effectiveRateVal.textContent = round(effectiveRate, 1).toFixed(1) + '%';
+    effectiveRateVal.textContent = round(effectiveRate, 1).toFixed(1) + "%";
     totalTaxesVal.textContent = formatMoney(totalTaxes);
 
     taxBreakdownSubtext.innerHTML = `
@@ -916,77 +1433,90 @@ const faqJsonLd = JSON.stringify({
   // Format Inputs on Blur
   function formatInputOnBlur(e: FocusEvent) {
     const target = e.target as HTMLInputElement;
-    const rawVal = target.value.replace(/,/g, '').trim();
-    if (rawVal === '') return;
+    const rawVal = target.value.replace(/,/g, "").trim();
+    if (rawVal === "") return;
     const parsed = parseFloat(rawVal);
     if (!isNaN(parsed) && parsed >= 0) {
-      target.value = new Intl.NumberFormat('en-US').format(parsed);
+      target.value = new Intl.NumberFormat("en-US").format(parsed);
     }
   }
 
   // payfrequency UI toggle
-  payFrequencySelect.addEventListener('change', () => {
-    if (payFrequencySelect.value === 'hourly') {
-      hourlyInputs.classList.remove('hidden');
+  payFrequencySelect.addEventListener("change", () => {
+    if (payFrequencySelect.value === "hourly") {
+      hourlyInputs.classList.remove("hidden");
     } else {
-      hourlyInputs.classList.add('hidden');
+      hourlyInputs.classList.add("hidden");
     }
     runCalculations();
   });
 
   // Status Tab toggler
-  document.querySelectorAll('.status-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  document.querySelectorAll(".status-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
       const target = e.currentTarget as HTMLButtonElement;
-      document.querySelectorAll('.status-btn').forEach(b => {
-        b.className = 'status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg text-mute hover:text-ink cursor-pointer transition-all';
+      document.querySelectorAll(".status-btn").forEach((b) => {
+        b.className =
+          "status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg text-mute hover:text-ink cursor-pointer transition-all";
       });
-      target.className = 'status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all';
-      filingStatusInput.value = target.getAttribute('data-status') || 'single';
+      target.className =
+        "status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all";
+      filingStatusInput.value = target.getAttribute("data-status") || "single";
       runCalculations();
     });
   });
 
   // Listeners
-  const allInputFields = [grossSalaryInput, hoursPerWeekInput, contrib401kInput, contribIraInput];
-  allInputFields.forEach(el => {
-    el.addEventListener('input', runCalculations);
+  const allInputFields = [
+    grossSalaryInput,
+    hoursPerWeekInput,
+    contrib401kInput,
+    contribIraInput,
+  ];
+  allInputFields.forEach((el) => {
+    el.addEventListener("input", runCalculations);
   });
-  grossSalaryInput.addEventListener('blur', formatInputOnBlur);
-  contribIraInput.addEventListener('blur', formatInputOnBlur);
+  grossSalaryInput.addEventListener("blur", formatInputOnBlur);
+  contribIraInput.addEventListener("blur", formatInputOnBlur);
 
-  stateCodeSelect.addEventListener('change', runCalculations);
-  calculateBtn.addEventListener('click', runCalculations);
+  stateCodeSelect.addEventListener("change", runCalculations);
+  calculateBtn.addEventListener("click", runCalculations);
 
   // Reset Form
-  resetBtn.addEventListener('click', () => {
-    grossSalaryInput.value = '75,000';
-    payFrequencySelect.value = 'annual';
-    hourlyInputs.classList.add('hidden');
-    hoursPerWeekInput.value = '40';
-    
-    // Reset status tabs
-    document.querySelectorAll('.status-btn').forEach(b => {
-      b.className = 'status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg text-mute hover:text-ink cursor-pointer transition-all';
-    });
-    document.getElementById('status-single')?.setAttribute('class', 'status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all');
-    filingStatusInput.value = 'single';
+  resetBtn.addEventListener("click", () => {
+    grossSalaryInput.value = "75,000";
+    payFrequencySelect.value = "annual";
+    hourlyInputs.classList.add("hidden");
+    hoursPerWeekInput.value = "40";
 
-    stateCodeSelect.value = 'CA';
-    contrib401kInput.value = '0';
-    contribIraInput.value = '0';
+    // Reset status tabs
+    document.querySelectorAll(".status-btn").forEach((b) => {
+      b.className =
+        "status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg text-mute hover:text-ink cursor-pointer transition-all";
+    });
+    document
+      .getElementById("status-single")
+      ?.setAttribute(
+        "class",
+        "status-btn py-2 text-xs font-sans font-bold border border-hairline rounded-lg bg-primary text-on-primary shadow-lvl1 cursor-pointer transition-all",
+      );
+    filingStatusInput.value = "single";
+
+    stateCodeSelect.value = "CA";
+    contrib401kInput.value = "0";
+    contribIraInput.value = "0";
 
     runCalculations();
   });
 
   // Accordion faq toggles
-  document.querySelectorAll('.faq-toggle').forEach(button => {
-    button.addEventListener('click', () => {
+  document.querySelectorAll(".faq-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
       const content = button.nextElementSibling as HTMLDivElement;
-      const chevron = button.querySelector('svg') as unknown as SVGElement;
-      const isHidden = content.classList.toggle('hidden');
-      chevron.classList.toggle('rotate-180', !isHidden);
-      button.setAttribute('aria-expanded', (!isHidden).toString());
+      const chevron = button.querySelector("svg") as unknown as SVGElement;
+      const isHidden = content.classList.toggle("hidden");
+      chevron.classList.toggle("rotate-180", !isHidden);
+      button.setAttribute("aria-expanded", (!isHidden).toString());
     });
   });
 
