@@ -20,8 +20,6 @@ faq:
     answer: "Income tax is what you pay to federal/state governments on your total taxable income, at graduated rates (10%–37% federally for 2026). SE tax is specifically the Social Security + Medicare portion you'd normally have split with an employer, paid entirely by self-employed individuals."
 ---
 
-# How to Calculate Self-Employment Tax (2026 Schedule SE Walkthrough)
-
 ## What self-employment tax actually is (it's not income tax)
 
 Self-employment tax isn't about what the IRS calls your "income" or "profit" — it's specifically the Social Security and Medicare taxes you would normally split with an employer. As a self-employed professional, you're responsible for both the employee and employer portions of FICA taxes, totaling 15.3% of your net earnings.
@@ -290,88 +288,8 @@ Use our [self-employment tax calculator](https://toolztotal.com/finance/self-emp
 
 ---
 
-## FAQ
-
-<faq-component>
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is the self-employment tax rate for 2026?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The SE tax rate is 15.3% — 12.4% for Social Security (on net earnings up to the 2026 wage base of ~$184,500) plus 2.9% for Medicare (no cap). High earners pay an additional 0.9% Medicare tax on earnings above $200,000 (single) or $250,000 (MFJ)."
-        }
-      },
-      {
-        "@type": "Question", 
-        "name": "How is self-employment tax calculated from net profit?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "You multiply net self-employment earnings by 92.35% (this accounts for the employer-equivalent portion of FICA), then apply 15.3% to that adjusted amount. So $100,000 of net profit becomes $92,350 of SE income, then × 15.3% = $14,130 in SE tax."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I deduct half of self-employment tax?",
-        "acceptedAnswer": {
-          "@type": "Answer", 
-          "text": "Yes. You can deduct 50% of your SE tax as an adjustment to income on Schedule 1 of Form 1040. For someone with $100,000 net SE income, that's roughly a $7,065 deduction — directly reducing your taxable income for federal income tax purposes."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I pay SE tax if I made less than $400?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "If your net earnings from self-employment are below $400, you generally don't owe SE tax (though the income is still taxable for income tax purposes). Note this $400 is the threshold for the SE tax — not for filing requirements; you may still need to file."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What's the difference between income tax and self-employment tax?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Income tax is what you pay to federal/state governments on your total taxable income, at graduated rates (10%–37% federally for 2026). SE tax is specifically the Social Security + Medicare portion you'd normally have split with an employer, paid entirely by self-employed individuals."
-        }
-      }
-    ]
-  }
-</faq-component>
-
-## Calculate Your Self-Employment Tax
-
-Ready to put this knowledge to work? Use our interactive [self-employment tax calculator](https://toolztotal.com/finance/self-employment-tax-calculator) to estimate your 2026 SE tax liability with real numbers for your filing status and net profit.
-
-Input your estimated net self-employment earnings, and we'll automatically:
-
-- Calculate your adjusted SE income (including the 92.35% factor)
-- Split between Social Security and Medicare portions
-- Apply the wage base cap for high earners
-- Add Additional Medicare Tax if applicable
-- Show your 50% SE tax deduction
-- Estimate your quarterly payment requirements
-
-This calculator will give you a precise estimate so you can budget for your quarterly payments and understand your true tax burden.
-
----
-
 ## Sources
 
-- [IRS Schedule SE (Form 1040): https://www.irs.gov/forms-pubs/about-schedule-se-form-1040](https://www.irs.gov/forms-pubs/about-schedule-se-form-1040)
-- [IRS Self-Employment Tax: https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes](https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes)
-- [IRS Publication 334: https://www.irs.gov/publications/p334](https://www.irs.gov/publications/p334)
-
-*Disclaimer: This information is for educational purposes and should not be considered tax advice. For specific guidance on your tax situation, consult a licensed tax professional or CPA.*
-
----
-
-## Author
-
-Sarah Chen, CFP®
-
-Sarah is a Certified Financial Planner specializing in tax optimization for self-employed professionals. With over 8 years of experience helping freelancers, consultants, and small business owners minimize their tax burden while maintaining full compliance with IRS regulations, Sarah has saved her clients millions in taxes through strategic tax planning and income optimization strategies.
-
-She holds her CFP® certification and is an enrolled agent with the IRS, allowing her to represent clients in all tax matters. Sarah frequently speaks at industry conferences about tax-efficient business structures and quarterly payment strategies for the self-employed community.
+- [IRS Schedule SE (Form 1040)](https://www.irs.gov/forms-pubs/about-schedule-se-form-1040)
+- [IRS Self-Employment Tax (Social Security and Medicare Taxes)](https://www.irs.gov/businesses/small-businesses-self-employed/self-employment-tax-social-security-and-medicare-taxes)
+- [IRS Publication 334 (Tax Guide for Small Business)](https://www.irs.gov/publications/p334)

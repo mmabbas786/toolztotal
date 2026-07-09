@@ -14,8 +14,6 @@ faq:
     answer: "Most lenders prefer a back-end DTI at or below 36%, with front-end housing costs no more than 28%. Some programs (FHA, VA) allow back-end DTI up to 43% or even 50% with strong compensating factors."
 ---
 
-# What Is DTI and How Do Lenders Calculate It? (2026 Standards)
-
 ## What DTI actually means (and what it doesn't)
 
 Your Debt-to-Income (DTI) ratio is the single most important metric lenders use to determine if you can afford a mortgage. Unlike your credit score, which measures payment history, DTI measures your monthly debt burden relative to your income.
@@ -483,100 +481,8 @@ Your future home purchase is within reach — it just takes strategic planning a
 
 ---
 
-### FAQ
+## Sources
 
-<details>
-<summary>What is a good DTI ratio for a mortgage in 2026?</summary>
-Most conventional lenders want a back-end DTI of 43% or lower, with 36% being ideal. FHA loans allow up to 50% in some cases, but you'll get better rates below 43%. VA loans are more flexible and don't have a hard DTI cap.
-</details>
-
-<details>
-<summary>What's the difference between front-end and back-end DTI?</summary>
-Front-end DTI only includes your housing payment (PITI) divided by gross monthly income. Back-end DTI includes housing PLUS all other monthly debt payments — car loans, credit cards, student loans, child support. Lenders weigh back-end DTI more heavily.
-</details>
-
-<details>
-<summary>Do student loans count toward DTI?</summary>
-Yes. For most loan types, lenders use your actual student loan payment (or a calculated payment if you're on an income-driven plan). Deferred loans still count using 1% of the balance as a hypothetical payment for most conventional loans.
-</details>
-
-<details>
-<summary>How can I lower my DTI before applying?</summary>
-Pay down credit card balances (they're weighted heavily), avoid new loans in the 6 months before applying, consider refinancing student loans to lower the payment, and document any income that hasn't been counted (bonuses, side income, alimony).
-</details>
-
-<details>
-<summary>Does DTI affect mortgage rate?</summary>
-Yes. A DTI under 36% gets the best pricing. Between 36–43% you'll still qualify but at a slightly higher rate. Above 50% you may not qualify at all, or you'll need compensating factors like a large down payment or significant reserves.
-</details>
-
----
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a good DTI ratio for a mortgage in 2026?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Most conventional lenders want a back-end DTI of 43% or lower, with 36% being ideal. FHA loans allow up to 50% in some cases, but you'll get better rates below 43%. VA loans are more flexible and don't have a hard DTI cap."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What's the difference between front-end and back-end DTI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Front-end DTI only includes your housing payment (PITI) divided by gross monthly income. Back-end DTI includes housing PLUS all other monthly debt payments — car loans, credit cards, student loans, child support. Lenders weigh back-end DTI more heavily."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do student loans count toward DTI?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. For most loan types, lenders use your actual student loan payment (or a calculated payment if you're on an income-driven plan). Deferred loans still count using 1% of the balance as a hypothetical payment for most conventional loans."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How can I lower my DTI before applying?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Pay down credit card balances (they're weighted heavily), avoid new loans in the 6 months before applying, consider refinancing student loans to lower the payment, and document any income that hasn't been counted (bonuses, side income, alimony)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does DTI affect mortgage rate?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. A DTI under 36% gets the best pricing. Between 36–43% you'll still qualify but at a slightly higher rate. Above 50% you may not qualify at all, or you'll need compensating factors like a large down payment or significant reserves."
-      }
-    }
-  ]
-}
-</script>
-
-<div class="cta-box">
-  <h2>Ready to Calculate Your DTI?</h2>
-  <p>Use our free [DTI calculator](https://toolztotal.com/finance/dti-calculator) to instantly see your front-end and back-end ratios, get lender qualification insights, and discover how different scenarios affect your mortgage eligibility.</p>
-  <a href="https://toolztotal.com/finance/dti-calculator" class="cta-button">Calculate Your DTI Now</a>
-</div>
-
-<div class="author-info">
-  <h3>Sarah Chen, CFP®</h3>
-  <p>Sarah Chen is a Certified Financial Planner with 12 years of experience in mortgage lending and consumer finance. She has helped over 2,000 families navigate home financing decisions and optimize their DTI ratios for successful mortgage approval. This article was last reviewed in July 2026 to ensure all 2026 lending guidelines and rate information remain current.</p>
-</div>
-
-<div class="sources">
-  <h2>Sources</h2>
-  <ul>
-    <li><a href="https://www.consumerfinance.gov/consumer-tools/mortgages/" target="_blank">Consumer Financial Protection Bureau (CFPB) - Mortgage Guidelines and Borrower Protections</a></li>
-    <li><a href="https://selling-guide.fanniemae.com/" target="_blank">Fannie Mae Selling Guide - Credit, Income, and DTI Requirements</a></li>
-    <li><a href="https://www.investopedia.com/terms/d/dti.asp" target="_blank">Investopedia - Debt-to-Income (DTI) Ratio Definition and Calculation</a></li>
-  </ul>
-</div>
+- [Consumer Financial Protection Bureau (CFPB) - Mortgage Guidelines and Borrower Protections](https://www.consumerfinance.gov/consumer-tools/mortgages/)
+- [Fannie Mae Selling Guide - Credit, Income, and DTI Requirements](https://selling-guide.fanniemae.com/)
+- [Investopedia - Debt-to-Income (DTI) Ratio Definition and Calculation](https://www.investopedia.com/terms/d/dti.asp)

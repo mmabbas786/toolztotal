@@ -20,8 +20,6 @@ faq:
     answer: "Each 1% change in rate changes the monthly payment by roughly 5–8% on a 30-year fixed mortgage. A $300,000 loan at 6.43% has a monthly payment around $1,845; at 7.43% it jumps to about $2,175."
 ---
 
-# How Is Mortgage Interest Calculated? (2026 Formula + Real Examples)
-
 Mortgage interest is calculated monthly using a simple amortization formula. We break down the math, show real 2026 numbers, and explain why your payment stays the same but the interest/principal split changes.
 
 ## The basic monthly mortgage formula
@@ -146,110 +144,8 @@ For a broader view of home affordability, check out our [mortgage affordability 
 
 ---
 
-<section class="faq-container">
-  <h2>Frequently Asked Questions</h2>
-  
-  <div class="faq-item">
-    <h3 class="faq-question">How is mortgage interest calculated each month?</h3>
-    <div class="faq-answer">
-      <p>Mortgage interest is calculated monthly by multiplying your remaining loan balance by the daily interest rate, then multiplying by the number of days in that month. For a $300,000 loan at 6.8% APR, the first month's interest is roughly $1,700 — even though your total payment is around $1,957.</p>
-    </div>
-  </div>
-  
-  <div class="faq-item">
-    <h3 class="faq-question">Why does my mortgage payment stay the same but the interest portion goes down?</h3>
-    <div class="faq-answer">
-      <p>Fixed-rate mortgages are amortized: your total monthly payment is mathematically fixed for the life of the loan, but every payment is split between interest and principal. Early on, most of your payment goes to interest. As your balance shrinks, the interest portion decreases and more goes to principal.</p>
-    </div>
-  </div>
-  
-  <div class="faq-item">
-    <h3 class="faq-question">What is amortization in simple terms?</h3>
-    <div class="faq-answer">
-      <p>Amortization is the process of spreading a loan into equal payments over time. Each payment includes interest on the remaining balance plus a slice of principal. An amortization table shows exactly how much of each payment goes to interest vs. principal over the loan's lifetime.</p>
-    </div>
-  </div>
-  
-  <div class="faq-item">
-    <h3 class="faq-question">Does paying extra principal reduce future interest?</h3>
-    <div class="faq-answer">
-      <p>Yes. Any extra payment goes 100% to principal (since the scheduled interest is already covered). Reducing the principal balance means future interest calculations are based on a smaller number, so you save on total interest and can pay off the loan years earlier.</p>
-    </div>
-  </div>
-  
-  <div class="faq-item">
-    <h3 class="faq-question">How does the interest rate affect my monthly payment?</h3>
-    <div class="faq-answer">
-      <p>Each 1% change in rate changes the monthly payment by roughly 5–8% on a 30-year fixed mortgage. A $300,000 loan at 6.8% has a monthly payment around $1,957; at 7.8% it jumps to about $2,275.</p>
-    </div>
-  </div>
-</section>
+## Sources
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How is mortgage interest calculated each month?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Mortgage interest is calculated monthly by multiplying your remaining loan balance by the daily interest rate, then multiplying by the number of days in that month. For a $300,000 loan at 6.8% APR, the first month's interest is roughly $1,700 — even though your total payment is around $1,957."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why does my mortgage payment stay the same but the interest portion goes down?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Fixed-rate mortgages are amortized: your total monthly payment is mathematically fixed for the life of the loan, but every payment is split between interest and principal. Early on, most of your payment goes to interest. As your balance shrinks, the interest portion decreases and more goes to principal."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is amortization in simple terms?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Amortization is the process of spreading a loan into equal payments over time. Each payment includes interest on the remaining balance plus a slice of principal. An amortization table shows exactly how much of each payment goes to interest vs. principal over the loan's lifetime."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does paying extra principal reduce future interest?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Any extra payment goes 100% to principal (since the scheduled interest is already covered). Reducing the principal balance means future interest calculations are based on a smaller number, so you save on total interest and can pay off the loan years earlier."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the interest rate affect my monthly payment?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Each 1% change in rate changes the monthly payment by roughly 5–8% on a 30-year fixed mortgage. A $300,000 loan at 6.8% has a monthly payment around $1,957; at 7.8% it jumps to about $2,275."
-      }
-    }
-  ]
-}
-</script>
-
-<div class="cta-box">
-  <h2>Ready to See This Math in Action?</h2>
-  <p>Use our free mortgage payment calculator to visualize your own amortization schedule. See exactly how much interest you'll pay and how extra payments can save you money.</p>
-  <a href="https://toolztotal.com/finance/mortgage-calculator" class="cta-button">Try Our Mortgage Calculator</a>
-</div>
-
-<div class="author-info">
-  <h3>Sarah Chen, CFP®</h3>
-  <p>Sarah Chen is a Certified Financial Planner with 12 years of experience in mortgage lending and consumer finance. She has helped over 2,000 families navigate home financing decisions. This article was last reviewed in July 2026.</p>
-</div>
-
-<div class="sources">
-  <h2>Sources</h2>
-  <ul>
-    <li><a href="https://www.consumerfinance.gov/owning-a-home/loan-estimate/" target="_blank">Consumer Financial Protection Bureau (CFPB) - Loan Estimate Guide</a></li>
-    <li><a href="https://www.freddiemac.com/pmms" target="_blank">Freddie Mac Primary Mortgage Market Survey (PMMS) - July 2026</a></li>
-    <li><a href="https://www.investopedia.com/terms/m/mortgage.asp" target="_blank">Investopedia - Mortgage Definition and Types</a></li>
-  </ul>
-</div>
+- [Consumer Financial Protection Bureau (CFPB) - Loan Estimate Guide](https://www.consumerfinance.gov/owning-a-home/loan-estimate/)
+- [Freddie Mac Primary Mortgage Market Survey (PMMS) - July 2026](https://www.freddiemac.com/pmms)
+- [Investopedia - Mortgage Definition and Types](https://www.investopedia.com/terms/m/mortgage.asp)
