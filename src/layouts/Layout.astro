@@ -41,6 +41,10 @@ if (pathParts.length === 2) {
     ogImageUrl = `https://toolztotal.com/og/${category}/${slug}.png`;
   }
 }
+
+// Resolve dynamic canonical URL to prevent indexing issues (defaults to current page path, stripped of trailing slash)
+const normalizedPath = Astro.url.pathname.replace(/\/$/, ''); // strip trailing slash
+const resolvedCanonicalUrl = canonicalUrl || `https://toolztotal.com${normalizedPath || '/'}`;
 ---
 
 <!doctype html>
@@ -58,11 +62,11 @@ if (pathParts.length === 2) {
     
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl || "https://toolztotal.com/"} />
+    <link rel="canonical" href={resolvedCanonicalUrl} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl || "https://toolztotal.com/"} />
+    <meta property="og:url" content={resolvedCanonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
@@ -72,7 +76,7 @@ if (pathParts.length === 2) {
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalUrl || "https://toolztotal.com/"} />
+    <meta name="twitter:url" content={resolvedCanonicalUrl} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
