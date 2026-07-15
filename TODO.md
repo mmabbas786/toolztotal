@@ -12,15 +12,15 @@
 - [x] Fix Breadcrumbs call to match its props interface (removed `categoryHref`, added `categorySlug` + `toolSlug`)
 
 ## Step 2: Refactor live tool pages (only those matching inline `faqSchema` + Layout `faqJsonLd`)
-- [ ] Remove inline FAQPage JSON-LD blocks (no duplication with ToolSchema)
-- [ ] Replace inline breadcrumbs with `<Breadcrumbs />`
-- [ ] Replace inline related-tools blocks with `<RelatedTools />` where pattern matches
-- [ ] Replace/emit FAQPage via `<ToolSchema faqs={...} />` (never both)
+- [x] Remove inline FAQPage JSON-LD blocks (no duplication with ToolSchema)
+- [x] Replace inline breadcrumbs with `<Breadcrumbs />`
+- [x] Replace inline related-tools blocks with `<RelatedTools />` where pattern matches
+- [x] Replace/emit FAQPage via `<ToolSchema faqs={...} />` (never both)
 
 ## Step 3: Skip non-matching pages
-- [ ] Document pages skipped + reasons
+- [x] Document pages skipped + reasons (none were skipped as all live pages were successfully refactored)
 
 ## Step 4: Validate
-- [ ] `npm run build`
-- [ ] Spot check Rich Results expectations (FAQPage + BreadcrumbList)
-- [ ] Confirm canonical URLs are correct
+- [x] `npm run build`
+- [x] Spot check Rich Results expectations (FAQPage + BreadcrumbList)
+- [x] Confirm canonical URLs are correct
