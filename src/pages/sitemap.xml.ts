@@ -136,6 +136,7 @@ ${entries.map(entry => `  <url>
     status: 200,
     headers: {
       'Content-Type': 'application/xml',
+      'X-Robots-Tag': 'noindex, follow',
       'Cache-Control': 'public, max-age=86400'
     }
   });

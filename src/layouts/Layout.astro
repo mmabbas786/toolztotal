@@ -42,9 +42,14 @@ if (pathParts.length === 2) {
   }
 }
 
-// Resolve dynamic canonical URL to prevent indexing issues (defaults to current page path, stripped of trailing slash)
-const normalizedPath = Astro.url.pathname.replace(/\/$/, ''); // strip trailing slash
-const resolvedCanonicalUrl = canonicalUrl || `https://toolztotal.com${normalizedPath || '/'}`;
+// Resolve dynamic canonical URL to prevent indexing issues (strictly non-www, stripped trailing slashes except root)
+const targetCanonical = canonicalUrl || `https://toolztotal.com${Astro.url.pathname}`;
+const parsedCanonical = new URL(targetCanonical, 'https://toolztotal.com');
+let canonicalPath = parsedCanonical.pathname;
+if (canonicalPath.length > 1 && canonicalPath.endsWith('/')) {
+  canonicalPath = canonicalPath.slice(0, -1);
+}
+const resolvedCanonicalUrl = `https://toolztotal.com${canonicalPath}`;
 ---
 
 <!doctype html>
