@@ -34,6 +34,8 @@ const studentLoanFaqs = [
       "Default occurs after 270 days of non-payment. Consequences include wage garnishment (up to 15%), tax refund seizure, loss of eligibility for additional federal aid, and credit damage that lasts 7 years. Contact your servicer immediately to explore deferment or forbearance.",
   },
 ];
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout
@@ -74,6 +76,7 @@ const studentLoanFaqs = [
       >
         Student Loan Repayment Calculator
       </h1>
+      <TrustHeader toolSlug="student-loan-repayment-calculator" />
       <p
         class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
       >

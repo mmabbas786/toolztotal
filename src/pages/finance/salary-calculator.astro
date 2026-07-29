@@ -47,6 +47,8 @@ const faqJsonLd = JSON.stringify({
     },
   })),
 });
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout
@@ -88,6 +90,7 @@ const faqJsonLd = JSON.stringify({
       >
         Take-Home Salary Calculator
       </h1>
+      <TrustHeader toolSlug="salary-calculator" />
       <p
         class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
       >

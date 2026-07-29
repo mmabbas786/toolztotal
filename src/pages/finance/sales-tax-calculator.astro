@@ -7,6 +7,8 @@ import { stateTaxRates } from '../../data/taxRates';
 import ContentFooter from '../../components/ContentFooter.astro';
 import Sources from '../../components/Sources.astro';
 import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout 
@@ -56,6 +58,7 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
         Free Sales Tax Calculator
       </h1>
+      <TrustHeader toolSlug="sales-tax-calculator" />
       <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
         Estimate standard sales tax, perform reverse calculations to extract pre-tax prices, and run multi-item receipts with average combined state tax rate lookups.
       </p>

@@ -34,6 +34,8 @@ const autoLoanFaqs = [
       "Yes. Check for prepayment penalties first. Most auto loans allow early payoff without penalty, which saves the remaining interest. Call your lender for a current payoff quote.",
   },
 ];
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout
@@ -74,6 +76,7 @@ const autoLoanFaqs = [
       >
         Auto Loan Calculator
       </h1>
+      <TrustHeader toolSlug="auto-loan-calculator" />
       <p
         class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
       >

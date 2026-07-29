@@ -1,0 +1,123 @@
+---
+import { getRegulatedMetadata, getFreshnessStatus, type TrustSource, type RegulatedToolMetadata } from '../data/regulatedMetadata';
+
+interface Props {
+  toolSlug?: string;
+  asOfLabel?: string;
+  effectiveDate?: string;
+  lastUpdated?: string;
+  expiryDate?: string;
+  sources?: TrustSource[];
+  outdatedWarningMessage?: string;
+  statusOverride?: 'current' | 'review-recommended' | 'outdated';
+  class?: string;
+}
+
+const props = Astro.props;
+
+// Fetch catalog metadata if slug is provided
+const catalogMeta = props.toolSlug ? getRegulatedMetadata(props.toolSlug) : null;
+
+const metadata: RegulatedToolMetadata = {
+  toolSlug: props.toolSlug || catalogMeta?.toolSlug || 'custom-regulated-tool',
+  asOfLabel: props.asOfLabel || catalogMeta?.asOfLabel || '2026 Rates',
+  effectiveDate: props.effectiveDate || catalogMeta?.effectiveDate || '2026-01-01',
+  lastUpdated: props.lastUpdated || catalogMeta?.lastUpdated || '2026-01-15',
+  expiryDate: props.expiryDate || catalogMeta?.expiryDate,
+  sources: props.sources || catalogMeta?.sources || [],
+  outdatedWarningMessage: props.outdatedWarningMessage || catalogMeta?.outdatedWarningMessage,
+  statusOverride: props.statusOverride || catalogMeta?.statusOverride,
+};
+
+const freshness = getFreshnessStatus(metadata);
+
+// Format date nicely for human display
+const formatDate = (isoString: string) => {
+  try {
+    const [year, month, day] = isoString.split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch {
+    return isoString;
+  }
+};
+
+const formattedLastUpdated = formatDate(metadata.lastUpdated);
+---
+
+<div class={`trust-header-container space-y-3 mb-6 ${props.class || ''}`}>
+  <!-- Badges and Metadata Bar -->
+  <div class="flex flex-wrap items-center gap-2.5 text-xs">
+    <!-- As Of Badge -->
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-canvas-soft-2 text-ink border border-hairline font-mono font-medium shadow-lvl1">
+      <svg class="w-3.5 h-3.5 text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      {metadata.asOfLabel}
+    </span>
+
+    <!-- Status Badge -->
+    <span class={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md font-sans text-xs font-semibold border ${freshness.badgeClass} shadow-lvl1`}>
+      <span class={`w-2 h-2 rounded-full ${freshness.dotClass} animate-pulse`} aria-hidden="true"></span>
+      {freshness.label}
+    </span>
+
+    <!-- Semantic Time Element -->
+    <div class="inline-flex items-center gap-1.5 text-mute font-mono px-2 py-0.5">
+      <span class="text-hairline-strong font-sans">•</span>
+      <span class="sr-only">Data updated on:</span>
+      <svg class="w-3.5 h-3.5 text-mute shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Last Updated:</span>
+      <time datetime={metadata.lastUpdated} class="text-body font-mono">
+        {formattedLastUpdated}
+      </time>
+    </div>
+
+    <!-- Official Sources (if present) -->
+    {metadata.sources.length > 0 && (
+      <div class="inline-flex items-center gap-1.5 text-mute font-sans pl-1 flex-wrap">
+        <span class="text-hairline-strong font-sans">•</span>
+        <span class="font-mono text-mute">Source:</span>
+        {metadata.sources.map((src, idx) => (
+          <>
+            <a
+              href={src.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 text-primary hover:text-ink hover:underline transition-colors font-medium text-xs focus:outline-none focus:ring-1 focus:ring-primary rounded-sm"
+              aria-label={`Official source: ${src.label} (opens in new tab)`}
+            >
+              <span>{src.label}</span>
+              <svg class="w-3 h-3 text-mute shrink-0 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+            {idx < metadata.sources.length - 1 && <span class="text-mute font-mono">,</span>}
+          </>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <!-- Outdated or Review Warning Banner -->
+  {freshness.warningMessage && (
+    <div
+      role="alert"
+      class={`px-4 py-3 rounded-xl border text-xs font-sans leading-relaxed flex items-start gap-3 shadow-lvl1 transition-all ${
+        freshness.status === 'outdated'
+          ? 'bg-rose-500/10 border-rose-500/30 text-rose-900 dark:text-rose-200'
+          : 'bg-amber-500/10 border-amber-500/30 text-amber-900 dark:text-amber-200'
+      }`}
+    >
+      <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+      </svg>
+      <div class="space-y-1">
+        <strong class="font-semibold block">{freshness.status === 'outdated' ? 'Outdated Rate Alert' : 'Review Recommended'}</strong>
+        <p>{freshness.warningMessage}</p>
+      </div>
+    </div>
+  )}
+</div>

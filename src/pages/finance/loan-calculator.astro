@@ -50,6 +50,8 @@ const faqs = [
 import ContentFooter from '../../components/ContentFooter.astro';
 import Sources from '../../components/Sources.astro';
 import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout 
@@ -82,6 +84,7 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
         Loan Payment Calculator
       </h1>
+      <TrustHeader toolSlug="loan-calculator" />
       <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
         Estimate monthly loan repayments, interest totals, and payoff timelines. Select from preset loan profiles or configure a custom term with optional monthly extra payments.
       </p>

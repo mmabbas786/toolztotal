@@ -50,6 +50,8 @@ const faqs = [
 import ContentFooter from '../../components/ContentFooter.astro';
 import Sources from '../../components/Sources.astro';
 import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout 
@@ -82,6 +84,7 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
         Return on Investment (ROI) Calculator
       </h1>
+      <TrustHeader toolSlug="roi-calculator" />
       <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
         Estimate raw ROI percentages, annualized returns (CAGR), and cash accumulation timelines. Analyze a single portfolio or compare two different scenarios side-by-side.
       </p>

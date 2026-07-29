@@ -39,6 +39,8 @@ const paycheckFaqs = [
       "State income tax depends on where you live. States like Texas and Florida have no income tax, while others use flat or graduated rates. This calculator applies a simplified state rate to your annual gross to estimate per-period withholding.",
   },
 ];
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout
@@ -79,6 +81,7 @@ const paycheckFaqs = [
       >
         Paycheck Calculator
       </h1>
+      <TrustHeader toolSlug="paycheck-calculator" />
       <p
         class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
       >

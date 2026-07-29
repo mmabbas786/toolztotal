@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
 
 // NOTE: All SE tax rate constants are isolated in seTaxConfig.ts
 // Update that file annually — do NOT change rates here.
@@ -70,6 +71,7 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
         Self-Employment Tax Calculator
       </h1>
+      <TrustHeader toolSlug="self-employment-tax-calculator" />
       <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
         Estimate your SE tax (Social Security + Medicare), rough income tax, and quarterly estimated payments. Built for freelancers, 1099 contractors, and sole proprietors.
       </p>

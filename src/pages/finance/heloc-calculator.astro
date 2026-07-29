@@ -34,6 +34,8 @@ const helocFaqs = [
       "Your home is collateral — default could mean foreclosure. During the draw period payments may be interest-only, so you aren't reducing principal. Rates are variable, so payments can rise when interest rates increase.",
   },
 ];
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout
@@ -74,6 +76,7 @@ const helocFaqs = [
       >
         HELOC Calculator
       </h1>
+      <TrustHeader toolSlug="heloc-calculator" />
       <p
         class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl"
       >

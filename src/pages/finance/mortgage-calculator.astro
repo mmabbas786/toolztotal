@@ -96,6 +96,8 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout 
@@ -130,6 +132,7 @@ import RelatedTools from '../../components/RelatedTools.astro';
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
         Mortgage Payment Calculator
       </h1>
+      <TrustHeader toolSlug="mortgage-calculator" />
       <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
         Calculate your total monthly mortgage payment including principal, interest, property taxes, insurance, PMI, and HOA fees. Estimate payoff timelines and see the impact of adding extra monthly payments instantly.
       </p>

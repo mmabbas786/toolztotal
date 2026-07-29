@@ -50,6 +50,8 @@ const faqs = [
 import ContentFooter from '../../components/ContentFooter.astro';
 import Sources from '../../components/Sources.astro';
 import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+import TrustHeader from '../../components/TrustHeader.astro';
 ---
 
 <Layout
@@ -84,6 +86,7 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4 text-pretty">
         Compound Interest Calculator
       </h1>
+      <TrustHeader toolSlug="compound-interest-calculator" />
       <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
         See how your money grows over time with compound interest. Adjust the initial investment, monthly contributions, rate, and compounding frequency to model any savings or investment scenario.
       </p>
