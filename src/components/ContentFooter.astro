@@ -1,6 +1,6 @@
 ---
 interface Props {
-  category: 'finance' | 'real-estate' | 'utility' | 'dev' | 'text' | 'marketing' | 'health' | 'legal' | 'education' | 'image-tools';
+  category: 'finance' | 'real-estate' | 'utility' | 'dev' | 'text' | 'marketing' | 'health' | 'legal' | 'education' | 'image-tools' | 'ai' | 'startup';
   lastUpdated?: string; // "July 7, 2026"
 }
 const { category, lastUpdated } = Astro.props;
@@ -17,6 +17,8 @@ const reviewerByCategory: Record<Props['category'], { name: string; credential: 
   legal:          { name: 'Jennifer Walsh, Esq.', credential: 'Licensed Employment Attorney (NY Bar #5489213)', bio: 'Jennifer is a practicing employment attorney with 15 years of experience in severance negotiations and wage disputes. She reviews all legal and employment calculators on ToolzTotal. The content is for informational purposes only and is not legal advice.' },
   education:      { name: 'Dr. Robert Hayes',     credential: 'Ed.D., Professor of Education',                bio: 'Dr. Hayes is a professor of education specializing in academic assessment. He reviews all education and grading tools on ToolzTotal.' },
   'image-tools':  { name: 'ToolzTotal Editorial Team', credential: 'Content Reviewers',                            bio: 'Our image and PDF tools are reviewed by the ToolzTotal editorial team.' },
+  ai:             { name: 'Alex Rivera',          credential: 'AI Systems Architect & Prompt Engineer',        bio: 'Alex is an AI systems architect with 8 years of experience building LLM infrastructure and prompt engineering workflows. He reviews all AI tools on ToolzTotal.' },
+  startup:        { name: 'Elena Rostova',        credential: 'SaaS CFO & Financial Strategist',               bio: 'Elena is a SaaS CFO who has advised 50+ Series A & Series B startups on unit economics, MRR compounding, and cash runway planning. She reviews all startup tools on ToolzTotal.' }
 };
 
 const r = reviewerByCategory[category];

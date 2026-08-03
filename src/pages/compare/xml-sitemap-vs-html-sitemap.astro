@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "XML Sitemap vs HTML Sitemap - Complete Technical SEO Guide | ToolzTotal",
+  description: "Comprehensive XML Sitemap vs HTML Sitemap comparison guide. Learn key differences between machine-readable XML feeds and human-readable HTML sitemaps.",
+  url: "https://toolztotal.com/compare/xml-sitemap-vs-html-sitemap",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the primary difference between an XML Sitemap and an HTML Sitemap?", answer: "An XML Sitemap is a machine-readable structured feed designed specifically for search engine crawlers (Googlebot, Bingbot). An HTML Sitemap is a human-readable webpage formatted with clickable links to help website visitors navigate your site." },
+  { question: "Does a website need both an XML Sitemap and an HTML Sitemap?", answer: "Yes. Best SEO practices recommend having both: an XML Sitemap submitted to Google Search Console for crawl discovery, and an HTML Sitemap linked in your footer for internal link equity distribution." },
+  { question: "Where can I generate a valid XML sitemap?", answer: "Use ToolzTotal's 100% private <a href='/marketing/xml-sitemap-generator' class='underline text-primary'>XML Sitemap Generator</a>." },
+  { question: "Where should an XML sitemap be submitted?", answer: "Submit your XML sitemap URL directly to Google Search Console and Bing Webmaster Tools, and declare its path in your website's `robots.txt` file." },
+  { question: "Do XML sitemaps guarantee that Google will index my pages?", answer: "No. XML sitemaps serve as crawl hints informing search engines that pages exist. Indexing depends on content quality, originality, and internal link authority." },
+  { question: "What is the maximum URL limit for a single XML sitemap file?", answer: "An individual XML sitemap file can contain a maximum of 50,000 URLs and must not exceed 50MB uncompressed." },
+  { question: "How often should XML sitemaps be updated?", answer: "XML sitemaps should update dynamically whenever new pages or articles are published, updated, or removed." },
+  { question: "Is this comparison updated for 2026?", answer: "Yes. All crawler directives and sitemap protocols follow current W3C and Google Search Console specifications." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="XML Sitemap vs HTML Sitemap Comparison"
+    toolSlug="xml-sitemap-vs-html-sitemap"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Marketing & SEO" categorySlug="marketing" toolName="XML Sitemap vs HTML Sitemap" toolSlug="xml-sitemap-vs-html-sitemap" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Technical SEO Comparison</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        XML Sitemap vs HTML Sitemap: Technical SEO Guide
+      </h1>
+      <TrustHeader toolSlug="xml-sitemap-generator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Understand the differences between machine-readable XML sitemaps and human-readable HTML sitemaps for maximum search engine crawl budget optimization.
+      </p>
+    </div>
+
+    <div class="p-6 bg-canvas border border-hairline rounded-xl mb-12 shadow-lvl1 max-w-4xl">
+      <h3 class="text-xs font-mono uppercase text-mute mb-3">Generate Valid XML Sitemaps Instantly:</h3>
+      <a href="/marketing/xml-sitemap-generator" class="text-sm font-sans font-semibold text-primary hover:underline">→ Use Free XML Sitemap Generator</a>
+    </div>
+
+    <!-- Comparison Article -->
+    <article class="max-w-4xl space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">1. Side-by-Side Technical Comparison</h2>
+        <div class="border border-hairline rounded-xl overflow-hidden font-mono text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                <th class="p-3">Feature</th>
+                <th class="p-3">XML Sitemap</th>
+                <th class="p-3">HTML Sitemap</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline">
+              <tr>
+                <td class="p-3 font-bold text-ink">Target Audience</td>
+                <td class="p-3 text-emerald-500 font-bold">Search Engines (Googlebot/Bingbot)</td>
+                <td class="p-3">Human Visitors & Users</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Format Specification</td>
+                <td class="p-3">Structured XML Feed (<code>&lt;urlset&gt;</code>)</td>
+                <td class="p-3">Standard HTML Webpage (<code>&lt;a&gt;</code> links)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Metadata Attributes</td>
+                <td class="p-3">`lastmod`, `changefreq`, `priority`</td>
+                <td class="p-3">Anchor text & category headings</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Primary Submission Location</td>
+                <td class="p-3">Google Search Console & `robots.txt`</td>
+                <td class="p-3">Footer Navigation & Site Header</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed" set:html={faq.answer}></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Sitemaps.org Protocol Specifications", url: "https://www.sitemaps.org/protocol.html" }
+      ]} />
+
+      <RelatedTools currentSlug="xml-sitemap-generator" categorySlug="marketing" />
+      <ContentFooter category="marketing" />
+    </article>
+  </div>
+</Layout>

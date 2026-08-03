@@ -1,0 +1,38 @@
+---
+interface Props {
+  id?: string;
+}
+const { id = "amortization-svg-chart" } = Astro.props;
+---
+
+<div class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 space-y-3 font-mono">
+  <div class="flex items-center justify-between text-xs">
+    <span class="font-bold text-ink font-sans">Payment Breakdown & Amortization Curve</span>
+    <div class="flex items-center gap-4 text-[10px]">
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Principal</span>
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Interest</span>
+    </div>
+  </div>
+
+  <div class="relative w-full h-48">
+    <svg id={id} class="w-full h-full overflow-visible" viewBox="0 0 500 180" preserveAspectRatio="none">
+      <!-- Grid lines -->
+      <line x1="0" y1="30" x2="500" y2="30" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="4 4" />
+      <line x1="0" y1="80" x2="500" y2="80" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="4 4" />
+      <line x1="0" y1="130" x2="500" y2="130" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="4 4" />
+
+      <!-- Paths -->
+      <path id={`${id}-interest-area`} fill="rgba(99, 102, 241, 0.15)" d="M0,150 Q250,90 500,30 L500,160 L0,160 Z" />
+      <path id={`${id}-principal-area`} fill="rgba(16, 185, 129, 0.2)" d="M0,160 Q250,110 500,30 L500,160 Z" />
+      
+      <path id={`${id}-interest-line`} fill="none" stroke="#6366f1" stroke-width="2.5" d="M0,150 Q250,90 500,30" />
+      <path id={`${id}-principal-line`} fill="none" stroke="#10b981" stroke-width="2.5" d="M0,160 Q250,110 500,30" />
+    </svg>
+  </div>
+  
+  <div class="flex justify-between text-[10px] text-mute border-t border-hairline pt-2">
+    <span>Year 1</span>
+    <span>Mid Term</span>
+    <span>Final Year</span>
+  </div>
+</div>

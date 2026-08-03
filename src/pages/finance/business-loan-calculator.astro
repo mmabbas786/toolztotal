@@ -1,0 +1,285 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Business Loan Calculator - SBA & Commercial Loan Payment Solver | ToolzTotal",
+  description: "Free Business Loan Calculator. Estimate monthly payments, SBA guarantee fees, interest costs, and full amortization schedules for commercial loans.",
+  url: "https://toolztotal.com/finance/business-loan-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is an SBA 7(a) loan?", answer: "The SBA 7(a) program is the Small Business Administration's primary loan guarantee program for small business working capital, equipment, real estate, and debt refinancing up to $5,000,000." },
+  { question: "What are SBA loan guaranty fees?", answer: "The SBA charges an upfront guaranty fee based on the loan maturity and guaranteed portion of the loan (ranging from 0.25% to 3.75%), which is typically financed into the loan total." },
+  { question: "What business loan interest rates can I expect?", answer: "SBA 7(a) interest rates are capped relative to the Prime Rate (e.g. Prime + 2.25% to 4.75%). Commercial bank loans generally range from 6% to 12% for prime borrowers." },
+  { question: "What documents are required to apply for a business loan?", answer: "Lenders require 2-3 years of business and personal tax returns, financial statements (P&L, Balance Sheet), business bank statements, a debt schedule, and a detailed business plan." },
+  { question: "How is a commercial loan monthly payment calculated?", answer: "Commercial loans use standard installment payment formulas: Pmt = [P × r × (1+r)^n] / [(1+r)^n - 1], where P is principal (including financed fees), r is monthly interest, and n is total months." },
+  { question: "Can business loan interest be deducted on business taxes?", answer: "Yes. Interest paid on business loans used for legitimate business operations is a tax-deductible business expense." },
+  { question: "What is the difference between SBA 7(a) and SBA 504 loans?", answer: "SBA 7(a) loans provide flexible working capital and equipment financing. SBA 504 loans provide fixed-rate, long-term financing specifically for major fixed assets like real estate and machinery." },
+  { question: "What is a Debt Service Coverage Ratio (DSCR)?", answer: "Lenders measure DSCR to evaluate your business's ability to cover loan payments. DSCR = Net Operating Income / Total Debt Service. Lenders typically require a minimum DSCR of 1.25x." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Business Loan Calculator"
+    toolSlug="business-loan-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="Business Loan Calculator" toolSlug="business-loan-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Commercial Finance Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Business Loan Calculator
+      </h1>
+      <TrustHeader toolSlug="business-loan-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate monthly debt service, SBA guaranty fees, total interest charges, and amortization schedules for commercial loans and small business financing.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Loan Parameters</h2>
+
+          <div>
+            <label for="biz-loan-type" class="block text-xs font-mono text-mute uppercase mb-2">Loan Program</label>
+            <select id="biz-loan-type" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink">
+              <option value="sba-7a" selected>SBA 7(a) Working Capital (Standard 3.0% Fee)</option>
+              <option value="sba-504">SBA 504 Real Estate / Equipment (2.5% Fee)</option>
+              <option value="commercial">Conventional Commercial Loan (1.5% Fee)</option>
+              <option value="custom">Custom Commercial Loan</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="biz-amount" class="block text-xs font-mono text-mute uppercase mb-1">Requested Loan Principal ($)</label>
+            <input type="number" id="biz-amount" value="250000" min="5000" step="10000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="biz-rate" class="block text-xs font-mono text-mute uppercase mb-1">Interest Rate (%)</label>
+              <input type="number" id="biz-rate" value="8.5" min="1" max="25" step="0.25" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="biz-term" class="block text-xs font-mono text-mute uppercase mb-1">Term (Years)</label>
+              <input type="number" id="biz-term" value="10" min="1" max="30" step="1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="biz-fee-pct" class="block text-xs font-mono text-mute uppercase mb-1">Origination / SBA Fee (%)</label>
+              <input type="number" id="biz-fee-pct" value="3.0" min="0" max="10" step="0.25" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="biz-fee-treat" class="block text-xs font-mono text-mute uppercase mb-1">Fee Treatment</label>
+              <select id="biz-fee-treat" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs text-ink">
+                <option value="financed" selected>Roll Into Loan Total</option>
+                <option value="upfront">Deduct from Disbursement</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Business Loan Summary</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Monthly Payment</span>
+              <span id="res-biz-pmt" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">$3,195.12</span>
+              <span id="res-biz-pmt-sub" class="block text-xs font-sans text-mute mt-1">120 total payments</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Total Loan Interest</span>
+              <span id="res-biz-interest" class="text-2xl md:text-3xl font-bold font-mono text-ink">$130,914.40</span>
+              <span id="res-biz-interest-sub" class="block text-xs font-sans text-mute mt-1">Over 10 year term</span>
+            </div>
+          </div>
+
+          <!-- Summary Table Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-body font-sans">Base Loan Amount:</span>
+              <span id="res-biz-principal" class="font-mono font-bold text-ink">$250,000.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">SBA / Origination Fee:</span>
+              <span id="res-biz-fee" class="font-mono text-ink">$7,500.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Total Financed Amount:</span>
+              <span id="res-biz-financed" class="font-mono font-bold text-ink">$257,500.00</span>
+            </div>
+            <div class="flex justify-between items-center text-base border-t border-hairline-strong pt-3 font-semibold">
+              <span class="text-ink font-sans">Total Out-of-Pocket Cost:</span>
+              <span id="res-biz-total" class="font-mono text-emerald-500">$383,414.40</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Summary
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding Commercial Business Financing</h2>
+        <p>
+          Securing business capital through commercial bank loans or government-backed SBA programs is essential for scaling operations, purchasing commercial real estate, or acquiring equipment. Calculating accurate monthly debt service allows business owners to manage cash flow and maintain healthy Debt Service Coverage Ratios (DSCR).
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "U.S. Small Business Administration (SBA) 7(a) Loans", url: "https://www.sba.gov/funding-programs/loans/7a" },
+        { title: "SBA 504 Loan Program", url: "https://www.sba.gov/funding-programs/loans/504" }
+      ]} />
+
+      <RelatedTools currentSlug="business-loan-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initBizLoanCalc() {
+      const typeSelect = document.getElementById('biz-loan-type') as HTMLSelectElement;
+      const amountInput = document.getElementById('biz-amount') as HTMLInputElement;
+      const rateInput = document.getElementById('biz-rate') as HTMLInputElement;
+      const termInput = document.getElementById('biz-term') as HTMLInputElement;
+      const feePctInput = document.getElementById('biz-fee-pct') as HTMLInputElement;
+      const feeTreatSelect = document.getElementById('biz-fee-treat') as HTMLSelectElement;
+
+      const resPmt = document.getElementById('res-biz-pmt');
+      const resPmtSub = document.getElementById('res-biz-pmt-sub');
+      const resInterest = document.getElementById('res-biz-interest');
+      const resInterestSub = document.getElementById('res-biz-interest-sub');
+      const resPrincipal = document.getElementById('res-biz-principal');
+      const resFee = document.getElementById('res-biz-fee');
+      const resFinanced = document.getElementById('res-biz-financed');
+      const resTotal = document.getElementById('res-biz-total');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+
+      typeSelect?.addEventListener('change', () => {
+        const type = typeSelect.value;
+        if (type === 'sba-7a') feePctInput.value = '3.0';
+        else if (type === 'sba-504') feePctInput.value = '2.5';
+        else if (type === 'commercial') feePctInput.value = '1.5';
+        calculate();
+      });
+
+      function calculate() {
+        const principal = parseFloat(amountInput.value) || 0;
+        const rate = parseFloat(rateInput.value) || 0;
+        const termYears = parseFloat(termInput.value) || 1;
+        const feePct = parseFloat(feePctInput.value) || 0;
+        const isFinanced = feeTreatSelect.value === 'financed';
+
+        const feeVal = principal * (feePct / 100);
+        const totalFinanced = isFinanced ? principal + feeVal : principal;
+
+        const months = termYears * 12;
+        const r = (rate / 100) / 12;
+
+        const pmt = r > 0 ? (totalFinanced * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1) : totalFinanced / months;
+        const totalPaid = pmt * months;
+        const totalInterest = totalPaid - totalFinanced;
+        const outOfPocketTotal = totalPaid + (isFinanced ? 0 : feeVal);
+
+        if (resPmt) resPmt.textContent = `$${pmt.toFixed(2)}`;
+        if (resPmtSub) resPmtSub.textContent = `${months} monthly payments`;
+        if (resInterest) resInterest.textContent = `$${totalInterest.toFixed(2)}`;
+        if (resInterestSub) resInterestSub.textContent = `Over ${termYears} year term`;
+        if (resPrincipal) resPrincipal.textContent = `$${principal.toFixed(2)}`;
+        if (resFee) resFee.textContent = `$${feeVal.toFixed(2)}`;
+        if (resFinanced) resFinanced.textContent = `$${totalFinanced.toFixed(2)}`;
+        if (resTotal) resTotal.textContent = `$${outOfPocketTotal.toFixed(2)}`;
+      }
+
+      [amountInput, rateInput, termInput, feePctInput, feeTreatSelect].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        typeSelect.value = 'sba-7a';
+        amountInput.value = '250000';
+        rateInput.value = '8.5';
+        termInput.value = '10';
+        feePctInput.value = '3.0';
+        feeTreatSelect.value = 'financed';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const pmt = resPmt?.textContent;
+        const total = resTotal?.textContent;
+        const text = `Business Loan Summary:\n` +
+          `Monthly Payment: ${pmt}\n` +
+          `Total Loan Cost: ${total}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Summary'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initBizLoanCalc);
+  </script>
+</Layout>

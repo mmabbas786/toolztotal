@@ -1,0 +1,278 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Mortgage Points Calculator - Discount Points & Break-Even Solver | ToolzTotal",
+  description: "Free Mortgage Points Calculator. Calculate upfront cost of buying mortgage discount points, monthly savings, break-even timeline, and total interest savings.",
+  url: "https://toolztotal.com/real-estate/mortgage-points-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What are mortgage discount points?", answer: "Mortgage discount points (or mortgage points) are upfront fee payments made directly to a lender at closing in exchange for a reduced mortgage interest rate over the life of the loan." },
+  { question: "How much does 1 mortgage point cost?", answer: "One mortgage point costs 1% of the total loan amount. For example, buying 1 point on a $300,000 mortgage costs $3,000 upfront at closing." },
+  { question: "How much does 1 point lower your interest rate?", answer: "As a general industry benchmark, 1 discount point lowers your mortgage interest rate by approximately 0.25% (25 basis points), though exact reductions vary by lender and market conditions." },
+  { question: "How is the break-even period calculated for mortgage points?", answer: "The break-even point in months = (Upfront Cost of Points / Monthly Payment Savings). For example, if points cost $3,000 upfront and save $50 per month, the break-even period is 60 months (5 years)." },
+  { question: "When is buying mortgage points worth it?", answer: "Buying mortgage points is worth it if you plan to stay in the home and keep the same mortgage past your calculated break-even period without refinancing." },
+  { question: "When should you NOT buy mortgage discount points?", answer: "You should not buy points if you plan to sell the home, move, or refinance the mortgage before reaching your break-even period, or if you need to conserve cash for closing costs." },
+  { question: "Are mortgage discount points tax-deductible?", answer: "Yes. In most cases, discount points paid on a primary home purchase are fully tax-deductible as prepaid mortgage interest in the tax year paid." },
+  { question: "What is the difference between discount points and origination points?", answer: "Discount points are optional payments used to lower your interest rate. Origination points are mandatory fees charged by the lender to cover loan processing and administrative costs." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Mortgage Points Calculator"
+    toolSlug="mortgage-points-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Real Estate & Mortgage" categorySlug="real-estate" toolName="Mortgage Points Calculator" toolSlug="mortgage-points-calculator" />
+    <DisclaimerBanner category="real-estate" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Mortgage Savings Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Mortgage Points Calculator
+      </h1>
+      <TrustHeader toolSlug="mortgage-points-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Determine if buying mortgage discount points will save you money. Calculate upfront point costs, monthly savings, break-even timelines, and lifetime interest savings.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Mortgage & Points Input</h2>
+
+          <div>
+            <label for="pts-loan-amount" class="block text-xs font-mono text-mute uppercase mb-1">Mortgage Loan Amount ($)</label>
+            <input type="number" id="pts-loan-amount" value="350000" min="20000" step="10000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="pts-base-rate" class="block text-xs font-mono text-mute uppercase mb-1">Base Interest Rate (%)</label>
+              <input type="number" id="pts-base-rate" value="6.75" min="1" max="15" step="0.125" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="pts-term" class="block text-xs font-mono text-mute uppercase mb-1">Loan Term (Years)</label>
+              <select id="pts-term" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink">
+                <option value="30" selected>30-Year Fixed</option>
+                <option value="20">20-Year Fixed</option>
+                <option value="15">15-Year Fixed</option>
+                <option value="10">10-Year Fixed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="pts-num" class="block text-xs font-mono text-mute uppercase mb-1">Discount Points to Buy</label>
+              <input type="number" id="pts-num" value="1.0" min="0.25" max="5.0" step="0.25" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="pts-red" class="block text-xs font-mono text-mute uppercase mb-1">Rate Reduction per Point (%)</label>
+              <input type="number" id="pts-red" value="0.25" min="0.10" max="0.50" step="0.05" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Break-Even & Savings Analysis</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Break-Even Timeline</span>
+              <span id="res-be-months" class="text-2xl md:text-3xl font-bold font-mono text-indigo-500">62 Months</span>
+              <span id="res-be-years" class="block text-xs font-sans text-mute mt-1">5.2 Years in home</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Monthly Payment Savings</span>
+              <span id="res-sav-mo" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">$56.32/mo</span>
+              <span id="res-sav-mo-sub" class="block text-xs font-sans text-mute mt-1">Savings per month</span>
+            </div>
+          </div>
+
+          <!-- Highlight Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-body font-sans">Upfront Points Cost at Closing:</span>
+              <span id="res-upfront-cost" class="font-mono font-bold text-ink">$3,500.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Reduced Interest Rate:</span>
+              <span id="res-new-rate" class="font-mono text-emerald-500">6.50%</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">New Monthly Payment (P&I):</span>
+              <span id="res-new-pmt" class="font-mono text-ink">$2,212.24</span>
+            </div>
+            <div class="flex justify-between items-center text-base border-t border-hairline-strong pt-3 font-semibold">
+              <span class="text-ink font-sans">Net Lifetime Interest Savings:</span>
+              <span id="res-net-life-sav" class="font-mono text-emerald-500">$16,775.20</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Summary
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Should You Buy Mortgage Discount Points?</h2>
+        <p>
+          When obtaining a mortgage loan, lenders often offer the option to "buy down" your interest rate by paying discount points upfront at closing. One point equals 1% of your total mortgage loan amount and typically reduces your interest rate by 0.25%.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "CFPB - What are discount points and how do they work?", url: "https://www.consumerfinance.gov/ask-cfpb/what-are-discount-points-and-how-do-they-work-en-136/" }
+      ]} />
+
+      <RelatedTools currentSlug="mortgage-points-calculator" categorySlug="real-estate" />
+      <ContentFooter category="real-estate" />
+    </article>
+  </div>
+
+  <script>
+    function initPointsCalc() {
+      const loanInput = document.getElementById('pts-loan-amount') as HTMLInputElement;
+      const baseRateInput = document.getElementById('pts-base-rate') as HTMLInputElement;
+      const termSelect = document.getElementById('pts-term') as HTMLSelectElement;
+      const ptsNumInput = document.getElementById('pts-num') as HTMLInputElement;
+      const ptsRedInput = document.getElementById('pts-red') as HTMLInputElement;
+
+      const resBeMonths = document.getElementById('res-be-months');
+      const resBeYears = document.getElementById('res-be-years');
+      const resSavMo = document.getElementById('res-sav-mo');
+      const resUpfrontCost = document.getElementById('res-upfront-cost');
+      const resNewRate = document.getElementById('res-new-rate');
+      const resNewPmt = document.getElementById('res-new-pmt');
+      const resNetLifeSav = document.getElementById('res-net-life-sav');
+
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+
+      function calculatePmt(principal: number, annualRate: number, years: number): number {
+        const months = years * 12;
+        const r = (annualRate / 100) / 12;
+        return r > 0 ? (principal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1) : principal / months;
+      }
+
+      function calculate() {
+        const loan = parseFloat(loanInput.value) || 0;
+        const baseRate = parseFloat(baseRateInput.value) || 0;
+        const years = parseFloat(termSelect.value) || 30;
+        const numPts = parseFloat(ptsNumInput.value) || 0;
+        const redPerPt = parseFloat(ptsRedInput.value) || 0;
+
+        const upfrontCost = loan * (numPts / 100);
+        const rateReduction = numPts * redPerPt;
+        const newRate = Math.max(baseRate - rateReduction, 0);
+
+        const basePmt = calculatePmt(loan, baseRate, years);
+        const newPmt = calculatePmt(loan, newRate, years);
+        const monthlySavings = basePmt - newPmt;
+
+        const breakEvenMonths = monthlySavings > 0 ? Math.ceil(upfrontCost / monthlySavings) : 0;
+        const breakEvenYears = (breakEvenMonths / 12).toFixed(1);
+
+        const totalBasePaid = basePmt * years * 12;
+        const totalNewPaid = newPmt * years * 12;
+        const grossLifeSavings = totalBasePaid - totalNewPaid;
+        const netLifeSavings = grossLifeSavings - upfrontCost;
+
+        if (resBeMonths) resBeMonths.textContent = `${breakEvenMonths} Months`;
+        if (resBeYears) resBeYears.textContent = `${breakEvenYears} Years in home`;
+        if (resSavMo) resSavMo.textContent = `$${monthlySavings.toFixed(2)}/mo`;
+        if (resUpfrontCost) resUpfrontCost.textContent = `$${upfrontCost.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        if (resNewRate) resNewRate.textContent = `${newRate.toFixed(3)}%`;
+        if (resNewPmt) resNewPmt.textContent = `$${newPmt.toFixed(2)}`;
+        if (resNetLifeSav) resNetLifeSav.textContent = `$${netLifeSavings.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      }
+
+      [loanInput, baseRateInput, termSelect, ptsNumInput, ptsRedInput].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        loanInput.value = '350000';
+        baseRateInput.value = '6.75';
+        termSelect.value = '30';
+        ptsNumInput.value = '1.0';
+        ptsRedInput.value = '0.25';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const be = resBeMonths?.textContent;
+        const sav = resSavMo?.textContent;
+        const net = resNetLifeSav?.textContent;
+        const text = `Mortgage Points Summary:\n` +
+          `Break-Even Timeline: ${be}\n` +
+          `Monthly Savings: ${sav}\n` +
+          `Net Lifetime Savings: ${net}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Summary'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPointsCalc);
+  </script>
+</Layout>

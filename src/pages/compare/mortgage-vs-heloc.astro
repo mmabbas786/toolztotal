@@ -1,0 +1,132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Mortgage vs HELOC - Primary Loan vs Equity Credit Comparison | ToolzTotal",
+  description: "Complete Mortgage vs HELOC comparison guide. Compare primary fixed mortgages against revolving home equity lines of credit with repayment calculators.",
+  url: "https://toolztotal.com/compare/mortgage-vs-heloc",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the main difference between a Mortgage and a HELOC?", answer: "A primary mortgage is a lump-sum loan used to purchase a home paid back over 15 to 30 years at fixed interest rates. A HELOC is a revolving line of credit backed by existing home equity with variable interest rates and a flexible draw period." },
+  { question: "Are HELOC interest rates fixed or variable?", answer: "Most HELOCs carry variable interest rates tied to the Prime Rate, meaning your monthly interest payment fluctuates when the Federal Reserve raises or lowers rates." },
+  { question: "Can I use a HELOC for home renovations or debt consolidation?", answer: "Yes. HELOC funds can be drawn flexibly as needed for home improvements, medical bills, debt consolidation, or tuition payments." },
+  { question: "Where can I calculate my monthly mortgage or HELOC payments?", answer: "Use ToolzTotal's free <a href='/finance/mortgage-calculator' class='underline text-primary'>Mortgage Payment Calculator</a> and <a href='/finance/heloc-calculator' class='underline text-primary'>HELOC Calculator</a>." },
+  { question: "Is HELOC interest tax-deductible?", answer: "Under IRS rules, HELOC interest is tax-deductible only if the borrowed funds are used to buy, build, or substantially improve the home securing the loan." },
+  { question: "What happens during a HELOC's repayment period?", answer: "After the initial draw period ends (typically 10 years), the draw window closes and you must pay back principal and interest over 15 to 20 years." },
+  { question: "Can I refinance a HELOC into a primary mortgage?", answer: "Yes. Homeowners can consolidate a first mortgage and a HELOC into a single primary mortgage via cash-out or rate-and-term refinancing." },
+  { question: "Is this comparison updated for 2026?", answer: "Yes. All interest rate structures and lending guidelines reflect current 2026 real estate standards." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Mortgage vs HELOC Comparison"
+    toolSlug="mortgage-vs-heloc"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="Mortgage vs HELOC" toolSlug="mortgage-vs-heloc" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Home Financing Analysis</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Mortgage vs HELOC: Key Differences & Comparison
+      </h1>
+      <TrustHeader toolSlug="mortgage-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Compare primary mortgages against revolving Home Equity Lines of Credit (HELOCs). Analyze interest rate structures, repayment terms, and borrowing limits.
+      </p>
+    </div>
+
+    <div class="p-6 bg-canvas border border-hairline rounded-xl mb-12 shadow-lvl1 max-w-4xl">
+      <h3 class="text-xs font-mono uppercase text-mute mb-3">Calculate Home Loan Payments:</h3>
+      <div class="flex flex-wrap gap-4 text-sm font-sans font-semibold">
+        <a href="/finance/mortgage-calculator" class="text-primary hover:underline">→ Use Mortgage Calculator</a>
+        <a href="/finance/heloc-calculator" class="text-primary hover:underline">→ Use HELOC Calculator</a>
+      </div>
+    </div>
+
+    <!-- Comparison Article -->
+    <article class="max-w-4xl space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">1. Side-by-Side Loan Comparison</h2>
+        <div class="border border-hairline rounded-xl overflow-hidden font-mono text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                <th class="p-3">Feature</th>
+                <th class="p-3">Primary Mortgage</th>
+                <th class="p-3">HELOC</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline">
+              <tr>
+                <td class="p-3 font-bold text-ink">Disbursement</td>
+                <td class="p-3">Lump Sum at Closing</td>
+                <td class="p-3">Revolving Credit Line</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Interest Rate Type</td>
+                <td class="p-3 text-emerald-500 font-bold">Fixed (15 or 30 yrs)</td>
+                <td class="p-3">Variable (Prime Rate)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Repayment Structure</td>
+                <td class="p-3">Principal + Interest Monthly</td>
+                <td class="p-3">Interest-Only Draw -> Principal + Interest</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Primary Purpose</td>
+                <td class="p-3">Home Purchase / Refinance</td>
+                <td class="p-3">Renovations / Debt / Equity Access</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed" set:html={faq.answer}></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Consumer Financial Protection Bureau (CFPB) - HELOC Guide", url: "https://www.consumerfinance.gov/consumer-tools/home-equity-lines-credit/" }
+      ]} />
+
+      <RelatedTools currentSlug="mortgage-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+</Layout>

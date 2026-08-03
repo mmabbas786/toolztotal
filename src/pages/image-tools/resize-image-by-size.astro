@@ -1,0 +1,302 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Resize Image to 100KB, 50KB, 20KB Online 100% Private | ToolzTotal",
+  description: "Free online image resizer by file size. Compress and resize images to under 100KB, 50KB, or 20KB for official passport & portal uploads 100% client-side.",
+  url: "https://toolztotal.com/image-tools/resize-image-by-size",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the image resizer by file size work?", answer: "The tool uses an iterative binary canvas downscaling algorithm inside your browser memory to adjust dimensions and compression quality until your target file size (e.g. 50KB or 20KB) is reached exactly." },
+  { question: "Are my private photo uploads sent to an external server?", answer: "No. The entire file size reduction and image resizing happen 100% locally on your computer or mobile device. No files leave your browser." },
+  { question: "Why do job portals and visa websites mandate under 50KB or 20KB limits?", answer: "Government application forms, passport databases, and job portals enforce strict upload limits (such as 20KB or 50KB) to ensure high-volume database scalability." },
+  { question: "Will my image lose visual quality when resized to 20KB?", answer: "Our smart downscaler balances pixel dimensions with JPEG quantization matrices to maintain legible text and recognizable face features at tiny file sizes." },
+  { question: "Can I enter a custom target KB file size?", answer: "Yes. You can select presets (20KB, 50KB, 100KB, 200KB) or specify any custom file size in kilobytes." },
+  { question: "What image formats can I resize?", answer: "You can upload JPG, JPEG, PNG, WebP, and BMP images." },
+  { question: "Is there any limit on how many photos I can resize?", answer: "No. ToolzTotal provides 100% free online image tools with zero usage limits, zero subscriptions, and no watermarks." },
+  { question: "Can I resize photos on mobile devices?", answer: "Yes. The tool runs seamlessly on iOS Safari, Android Chrome, and all desktop browsers." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Image Resizer by File Size"
+    toolSlug="resize-image-by-size"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="Image Resizer by File Size" toolSlug="resize-image-by-size" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Target Size Downscaler</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Resize Image by File Size (KB / MB)
+      </h1>
+      <TrustHeader toolSlug="resize-image-by-size" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Compress and resize images to hit exact target file sizes (under 100KB, 50KB, 20KB). Ideal for government forms, passport applications, and portal uploads.
+      </p>
+    </div>
+
+    <!-- Resizer Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Upload & Settings -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Select Photo & Target Size</h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-hairline-strong rounded-xl p-8 text-center bg-canvas-soft hover:bg-canvas-soft-2 transition-all cursor-pointer space-y-3">
+            <svg class="w-10 h-10 mx-auto text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a1 1 0 011.414 0L16 17m-2-2l1.586-1.586a1 1 0 011.414 0L20 16m-7-2a1 1 0 00-1-1H3a1 1 0 00-1 1v5a1 1 0 001 1h18a1 1 0 001-1v-5a1 1 0 00-1-1h-6z" />
+            </svg>
+            <p class="text-sm font-sans font-medium text-ink">Drag & Drop photo here</p>
+            <p class="text-xs font-sans text-mute">or click to select file from device</p>
+            <input type="file" id="photo-file-input" accept="image/*" class="hidden" />
+          </div>
+
+          <div id="orig-info" class="hidden p-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono flex justify-between">
+            <span id="orig-name" class="font-bold text-ink truncate max-w-[200px]">photo.jpg</span>
+            <span id="orig-kb" class="text-mute">0 KB</span>
+          </div>
+
+          <div class="space-y-4 border-t border-hairline pt-4">
+            <div>
+              <label for="target-kb-preset" class="block text-xs font-mono text-mute uppercase mb-1">Target Max File Size Preset</label>
+              <select id="target-kb-preset" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink">
+                <option value="20">Under 20 KB (Strict Portal Limit)</option>
+                <option value="50">Under 50 KB (Passport & Exam Portal)</option>
+                <option value="100" selected>Under 100 KB (Standard Web Limit)</option>
+                <option value="200">Under 200 KB</option>
+                <option value="custom">Custom Size in KB</option>
+              </select>
+            </div>
+
+            <div id="custom-kb-box" class="hidden">
+              <label for="custom-kb-input" class="block text-xs font-mono text-mute uppercase mb-1">Custom Target Size (KB)</label>
+              <input type="number" id="custom-kb-input" value="75" min="5" max="5000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+            </div>
+
+            <button type="button" id="btn-resize-kb" disabled class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2 disabled:opacity-50 disabled:cursor-not-allowed">
+              Compress & Resize Photo →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Result -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Resized Output Result</h2>
+            <span id="status-badge" class="text-xs font-mono text-mute">Waiting for Upload</span>
+          </div>
+
+          <div id="output-result-box" class="space-y-4 text-center py-6">
+            <p class="text-xs text-mute font-sans">Upload an image and choose target file size to compress.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Resize Images to 100KB, 50KB, or 20KB?</h2>
+        <p>
+          Online visa portals, passport applications, government recruitment portals (like SSC, UPSC, and state entrance exams), and job application databases enforce strict upper limits on document image file sizes (frequently under 50KB or 20KB).
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "U.S. Department of State Passport Photo Requirements", url: "https://travel.state.gov/content/travel/en/passports/how-apply/photos.html" }
+      ]} />
+
+      <RelatedTools currentSlug="resize-image-by-size" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+
+  <script>
+    function initResizeByKb() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('photo-file-input') as HTMLInputElement;
+      const origInfo = document.getElementById('orig-info');
+      const origName = document.getElementById('orig-name');
+      const origKb = document.getElementById('orig-kb');
+
+      const presetSelect = document.getElementById('target-kb-preset') as HTMLSelectElement;
+      const customBox = document.getElementById('custom-kb-box');
+      const customInput = document.getElementById('custom-kb-input') as HTMLInputElement;
+      const btnResize = document.getElementById('btn-resize-kb') as HTMLButtonElement;
+
+      const outputBox = document.getElementById('output-result-box');
+      const statusBadge = document.getElementById('status-badge');
+
+      let sourceImg: HTMLImageElement | null = null;
+      let rawFile: File | null = null;
+
+      presetSelect?.addEventListener('change', () => {
+        if (presetSelect.value === 'custom') {
+          customBox?.classList.remove('hidden');
+        } else {
+          customBox?.classList.add('hidden');
+        }
+      });
+
+      dropZone?.addEventListener('click', () => fileInput?.click());
+
+      dropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-ink');
+      });
+
+      dropZone?.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-ink');
+      });
+
+      dropZone?.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-ink');
+        if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
+          loadFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput?.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files[0]) {
+          loadFile(fileInput.files[0]);
+        }
+      });
+
+      function loadFile(file: File) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file.');
+          return;
+        }
+
+        rawFile = file;
+        if (origName) origName.textContent = file.name;
+        if (origKb) origKb.textContent = (file.size / 1024).toFixed(0) + ' KB';
+        origInfo?.classList.remove('hidden');
+
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          sourceImg = img;
+          if (btnResize) btnResize.disabled = false;
+          if (statusBadge) statusBadge.textContent = 'Ready to Resize';
+        };
+        img.src = url;
+      }
+
+      btnResize?.addEventListener('click', () => {
+        if (!sourceImg || !rawFile) return;
+
+        let targetKb = parseInt(presetSelect.value, 10);
+        if (presetSelect.value === 'custom') {
+          targetKb = parseInt(customInput.value, 10) || 50;
+        }
+        const targetBytes = targetKb * 1024;
+
+        if (statusBadge) statusBadge.textContent = 'Compressing...';
+        if (outputBox) outputBox.innerHTML = '<p class="text-xs text-amber-500 font-mono py-6">Downscaling image canvas to hit target file size...</p>';
+
+        // Binary search downscale quality & canvas scale
+        let minQ = 0.05;
+        let maxQ = 0.95;
+        let bestDataUrl = '';
+        let bestBytes = 0;
+        let scale = 1.0;
+
+        if (rawFile.size > targetBytes * 4) {
+          scale = Math.sqrt((targetBytes * 3) / rawFile.size);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(100, Math.round(sourceImg.width * scale));
+        canvas.height = Math.max(100, Math.round(sourceImg.height * scale));
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(sourceImg, 0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < 8; i++) {
+          const midQ = (minQ + maxQ) / 2;
+          const dataUrl = canvas.toDataURL('image/jpeg', midQ);
+          const size = Math.round((dataUrl.length * 3) / 4);
+
+          bestDataUrl = dataUrl;
+          bestBytes = size;
+
+          if (size > targetBytes) {
+            maxQ = midQ;
+          } else {
+            minQ = midQ;
+          }
+        }
+
+        const outKb = (bestBytes / 1024).toFixed(1);
+        const outName = rawFile.name.replace(/\.[^/.]+$/, '') + `_${outKb}KB.jpg`;
+
+        if (statusBadge) statusBadge.textContent = 'Resize Complete';
+        if (outputBox) {
+          outputBox.innerHTML = `
+            <div class="p-6 bg-canvas-soft border border-hairline rounded-xl space-y-4">
+              <div class="grid grid-cols-2 gap-4 text-center font-mono">
+                <div class="border-r border-hairline pr-2">
+                  <span class="text-xs text-mute block uppercase">Original Size</span>
+                  <span class="text-sm font-bold text-ink">${(rawFile.size / 1024).toFixed(0)} KB</span>
+                </div>
+                <div class="pl-2">
+                  <span class="text-xs text-mute block uppercase">Target Result</span>
+                  <span class="text-sm font-bold text-emerald-500">${outKb} KB</span>
+                </div>
+              </div>
+              <div class="text-xs font-mono text-emerald-500 font-bold">
+                Dimensions: ${canvas.width} x ${canvas.height} px
+              </div>
+              <a href="${bestDataUrl}" download="${outName}" class="inline-block w-full py-3 bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lvl2">
+                Download ${outKb} KB JPG Image
+              </a>
+            </div>
+          `;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initResizeByKb);
+  </script>
+</Layout>

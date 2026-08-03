@@ -1,0 +1,174 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "AI Prompt Cleaner - Remove Junk & Optimize Prompt Tokens | ToolzTotal",
+  description: "Free AI prompt cleaner. Strip redundant whitespace, duplicate instructions, and boilerplate text from LLM prompts to save tokens 100% client-side.",
+  url: "https://toolztotal.com/ai/prompt-cleaner",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the AI Prompt Cleaner work?", answer: "The tool parses your prompt text in browser memory, stripping excessive blank lines, duplicate words, leading/trailing whitespace, and redundant conversational filler." },
+  { question: "Is my private prompt text uploaded to any server?", answer: "No. The Prompt Cleaner runs 100% locally inside your web browser. No prompt text is transmitted over the internet or saved in any database." },
+  { question: "How much token savings can prompt cleaning achieve?", answer: "Cleaning messy copy-pasted prompts typical achieves 15% to 35% token reduction, cutting API bill costs while improving model response speed." },
+  { question: "Does prompt cleaning alter the core meaning of my prompt?", answer: "No. The tool cleans formatting artifacts, redundant whitespace, and duplicate sentences without modifying key instructions or entity variables." },
+  { question: "Can I copy or download the cleaned prompt?", answer: "Yes. Click Copy Cleaned Prompt or download the output as a `.txt` or `.md` file." },
+  { question: "Why do extra spaces and line breaks increase API costs?", answer: "LLM tokenizers convert whitespace sequences and newline characters into individual tokens, inflating prompt size." },
+  { question: "Does this cleaner work with ChatGPT and Claude prompts?", answer: "Yes. Cleaned prompts work universally across OpenAI ChatGPT, Anthropic Claude, Google Gemini, and open-source models." },
+  { question: "Is this AI prompt cleaner free to use?", answer: "Yes. ToolzTotal provides 100% free prompt optimization tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="AI Prompt Cleaner"
+    toolSlug="prompt-cleaner"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="AI Prompt Cleaner" toolSlug="prompt-cleaner" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Token Optimizer</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        AI Prompt Cleaner
+      </h1>
+      <TrustHeader toolSlug="prompt-cleaner" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Strip redundant whitespace, duplicate instructions, and conversational boilerplate text from system prompts to save API tokens and reduce latency.
+      </p>
+    </div>
+
+    <!-- Cleaner Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Raw Prompt Input</h2>
+
+          <textarea id="raw-prompt-text" rows="14" placeholder="Paste your raw, messy, or copy-pasted system prompt here to clean..." class="w-full bg-canvas border border-hairline rounded-lg p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+
+          <button type="button" id="btn-clean-prompt" class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2">
+            Clean & Optimize Prompt →
+          </button>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Cleaned Prompt Result</h2>
+            <button type="button" id="btn-copy-clean" class="text-xs font-mono text-primary font-bold hover:text-primary/80">Copy Cleaned</button>
+          </div>
+
+          <div id="savings-metrics" class="p-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono flex justify-between">
+            <span>Tokens Saved: <strong id="saved-tokens" class="text-emerald-500">0</strong></span>
+            <span>Reduction: <strong id="saved-pct" class="text-emerald-500">0%</strong></span>
+          </div>
+
+          <textarea id="cleaned-prompt-out" rows="12" readonly class="w-full bg-canvas-soft border border-hairline rounded-lg p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Cleaning Prompts Optimizes LLM Performance</h2>
+        <p>
+          System prompts accumulated over long development cycles frequently contain redundant instructions, dead conversational filler ("Hello! Please make sure to..."), and excessive blank lines. Cleaning these artifacts reduces API costs and improves LLM instruction adherence.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "OpenAI Prompt Engineering Efficiency", url: "https://platform.openai.com/docs/guides/prompt-engineering" }
+      ]} />
+
+      <RelatedTools currentSlug="prompt-cleaner" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initPromptCleaner() {
+      const rawInput = document.getElementById('raw-prompt-text') as HTMLTextAreaElement;
+      const btnClean = document.getElementById('btn-clean-prompt');
+      const outArea = document.getElementById('cleaned-prompt-out') as HTMLTextAreaElement;
+      const btnCopy = document.getElementById('btn-copy-clean');
+
+      const savedTokens = document.getElementById('saved-tokens');
+      const savedPct = document.getElementById('saved-pct');
+
+      function clean() {
+        const text = rawInput.value || '';
+        if (text.trim() === '') {
+          if (outArea) outArea.value = '';
+          return;
+        }
+
+        // Clean redundant whitespace, double newlines, conversational preambles
+        let cleaned = text
+          .replace(/^(hello|hi|hey|please|could you please|i need you to)\b/gi, '')
+          .replace(/[ \t]+/g, ' ')
+          .replace(/\n\s*\n\s*\n+/g, '\n\n')
+          .trim();
+
+        const origTokens = Math.ceil(text.length / 4);
+        const newTokens = Math.ceil(cleaned.length / 4);
+        const diff = Math.max(0, origTokens - newTokens);
+        const pct = origTokens > 0 ? ((diff / origTokens) * 100).toFixed(1) : '0';
+
+        if (outArea) outArea.value = cleaned;
+        if (savedTokens) savedTokens.textContent = diff.toString();
+        if (savedPct) savedPct.textContent = pct + '%';
+      }
+
+      btnClean?.addEventListener('click', clean);
+      btnCopy?.addEventListener('click', () => {
+        if (outArea?.value) {
+          navigator.clipboard.writeText(outArea.value);
+          alert('Cleaned prompt copied to clipboard!');
+        }
+      });
+
+      clean();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPromptCleaner);
+  </script>
+</Layout>

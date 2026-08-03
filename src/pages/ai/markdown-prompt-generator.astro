@@ -1,0 +1,189 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Markdown Prompt Generator - Structured AI Prompt Builder | ToolzTotal",
+  description: "Free Markdown prompt generator. Create structured Markdown system prompts with Role, Context, Instructions, and Few-shot examples 100% client-side.",
+  url: "https://toolztotal.com/ai/markdown-prompt-generator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "Why should I use Markdown for AI system prompts?", answer: "Large language models parse Markdown headers (#, ##), bulleted lists, and bold callouts with higher structural accuracy than unstructured plain text." },
+  { question: "How does the Markdown Prompt Generator work?", answer: "The generator compiles your inputs into standardized Markdown sections (# Persona & Role, ## Objective, ## Instructions, ## Constraints, ## Few-Shot Examples) 100% in your browser." },
+  { question: "Is my prompt data uploaded to a remote server?", answer: "No. The generator runs 100% locally in your web browser. No prompt data is uploaded to any server or saved in any database." },
+  { question: "What are Few-Shot Examples in prompt engineering?", answer: "Few-shot examples provide explicit input/output demonstration pairs within your system prompt to guide the LLM's response style and format." },
+  { question: "Can I download the generated Markdown prompt?", answer: "Yes. Click Download .MD to save the generated prompt as a clean Markdown file." },
+  { question: "Does Markdown prompt structure work with ChatGPT and Claude?", answer: "Yes. Structured Markdown system prompts work across OpenAI ChatGPT (GPT-4o), Anthropic Claude, Google Gemini, and open-weight models like Llama 3." },
+  { question: "Can I customize the generated sections?", answer: "Yes. You can edit, copy, or append custom Markdown sections in the live output editor." },
+  { question: "Is this Markdown prompt generator free?", answer: "Yes. ToolzTotal provides 100% free AI prompt engineering tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Markdown Prompt Generator"
+    toolSlug="markdown-prompt-generator"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="Markdown Prompt Generator" toolSlug="markdown-prompt-generator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Markdown Prompt Builder</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Markdown Prompt Generator
+      </h1>
+      <TrustHeader toolSlug="markdown-prompt-generator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Build structured Markdown system prompts with Role, Objective, Task Instructions, Constraints, and Few-Shot Examples for ChatGPT and Claude.
+      </p>
+    </div>
+
+    <!-- Generator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Controls -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Prompt Sections</h2>
+
+          <div>
+            <label for="m-role" class="block text-xs font-mono text-mute uppercase mb-1"># Persona & Role</label>
+            <input type="text" id="m-role" value="Senior Technical Recruiter & Resume Strategist" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+          </div>
+
+          <div>
+            <label for="m-objective" class="block text-xs font-mono text-mute uppercase mb-1">## Core Objective</label>
+            <input type="text" id="m-objective" value="Optimize candidate resume bullet points for ATS scanners and senior hiring managers." class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+          </div>
+
+          <div>
+            <label for="m-steps" class="block text-xs font-mono text-mute uppercase mb-1">## Task Instructions</label>
+            <textarea id="m-steps" rows="4" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">1. Highlight key achievements with quantified metrics (%, $).
+2. Start every bullet point with strong action verbs.
+3. Keep bullet points under 25 words each.</textarea>
+          </div>
+
+          <div>
+            <label for="m-examples" class="block text-xs font-mono text-mute uppercase mb-1">## Few-Shot Example (Input -> Output)</label>
+            <textarea id="m-examples" rows="3" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">Input: Managed software team and improved deployment speeds.
+Output: Spearheaded 8-person engineering team, reducing CI/CD build times by 45% using Docker.</textarea>
+          </div>
+
+          <button type="button" id="btn-build-md" class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2">
+            Build Markdown Prompt →
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Generated Markdown</h2>
+            <button type="button" id="btn-copy-md" class="text-xs font-mono text-primary font-bold hover:text-primary/80">Copy Markdown</button>
+          </div>
+
+          <textarea id="md-output-text" rows="16" readonly class="w-full bg-canvas-soft border border-hairline rounded-lg p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Prompt Engineering with Markdown Architecture</h2>
+        <p>
+          Structuring AI system prompts using Markdown headers (#, ##) and bulleted constraints provides clear hierarchical signals to Transformer self-attention layers. This structured format reduces LLM instruction confusion and guarantees predictable output formatting.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "OpenAI Prompt Engineering Guide", url: "https://platform.openai.com/docs/guides/prompt-engineering" }
+      ]} />
+
+      <RelatedTools currentSlug="markdown-prompt-generator" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initMdPromptGen() {
+      const mRole = document.getElementById('m-role') as HTMLInputElement;
+      const mObj = document.getElementById('m-objective') as HTMLInputElement;
+      const mSteps = document.getElementById('m-steps') as HTMLTextAreaElement;
+      const mEx = document.getElementById('m-examples') as HTMLTextAreaElement;
+
+      const btnBuild = document.getElementById('btn-build-md');
+      const output = document.getElementById('md-output-text') as HTMLTextAreaElement;
+      const btnCopy = document.getElementById('btn-copy-md');
+
+      function build() {
+        const md = `# Persona & Role
+${mRole.value || ''}
+
+## Objective
+${mObj.value || ''}
+
+## Task Instructions
+${mSteps.value || ''}
+
+## Few-Shot Examples
+\`\`\`text
+${mEx.value || ''}
+\`\`\`
+
+## Output Constraints
+- Maintain strict professional tone.
+- Do not include conversational preambles.`;
+
+        if (output) output.value = md;
+      }
+
+      btnBuild?.addEventListener('click', build);
+      btnCopy?.addEventListener('click', () => {
+        if (output?.value) {
+          navigator.clipboard.writeText(output.value);
+          alert('Markdown prompt copied to clipboard!');
+        }
+      });
+
+      build();
+    }
+
+    document.addEventListener('DOMContentLoaded', initMdPromptGen);
+  </script>
+</Layout>

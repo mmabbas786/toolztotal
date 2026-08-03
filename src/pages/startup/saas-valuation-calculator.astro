@@ -1,0 +1,195 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "SaaS Valuation Calculator - Estimate Enterprise Valuation | ToolzTotal",
+  description: "Free SaaS valuation calculator. Estimate SaaS company valuation using ARR revenue multiples adjusted for growth, margins, and retention 100% client-side.",
+  url: "https://toolztotal.com/startup/saas-valuation-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the SaaS Valuation Calculator work?", answer: "The calculator estimates Enterprise Value (EV) by taking your Annual Recurring Revenue (ARR) and applying an adjusted valuation multiple based on growth rate, Gross Margin %, and Net Revenue Retention (NRR)." },
+  { question: "What is an ARR Valuation Multiple?", answer: "An ARR multiple is a valuation metric expressing enterprise value as a multiple of Annual Recurring Revenue (e.g. $10M ARR x 10x Multiple = $100M Valuation)." },
+  { question: "What factors increase a SaaS startup's valuation multiple?", answer: "Key valuation drivers include high YoY growth (>100%), Net Revenue Retention (>120%), high Gross Margins (>80%), low churn, and large total addressable market (TAM)." },
+  { question: "Is my SaaS financial data kept private?", answer: "No financial data is ever uploaded or stored. The calculator runs 100% locally in your web browser." },
+  { question: "What is the Rule of 40 in SaaS valuation?", answer: "The Rule of 40 states that a healthy SaaS company's annual revenue growth rate percentage plus its EBITDA margin percentage should equal or exceed 40%." },
+  { question: "How do public SaaS multiples compare to private VC multiples?", answer: "Public B2B SaaS multiples fluctuate based on interest rates and market sentiment (ranging from 6x to 15x ARR), while top-tier private VCs pay premium multiples (12x to 25x ARR) for hyper-growth startups." },
+  { question: "Can early-stage pre-revenue startups use this calculator?", answer: "Early-stage pre-revenue or seed startups are valued primarily on team quality, prototype traction, and TAM rather than revenue multiples." },
+  { question: "Is this SaaS valuation calculator free?", answer: "Yes. ToolzTotal provides 100% free startup tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="SaaS Valuation Calculator"
+    toolSlug="saas-valuation-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="SaaS Valuation Calculator" toolSlug="saas-valuation-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Valuation Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        SaaS Valuation Calculator
+      </h1>
+      <TrustHeader toolSlug="saas-valuation-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate SaaS enterprise valuation using ARR revenue multiples adjusted for YoY growth rate, gross margins, and Net Revenue Retention.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Financial Inputs</h2>
+
+          <div>
+            <label for="arr-input-val" class="block text-xs font-mono text-mute uppercase mb-1">Annual Recurring Revenue (ARR) ($)</label>
+            <input type="number" id="arr-input-val" value="5000000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="yoy-growth" class="block text-xs font-mono text-mute uppercase mb-1">YoY Growth Rate %</label>
+              <input type="number" id="yoy-growth" value="80" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="gross-margin-pct" class="block text-xs font-mono text-mute uppercase mb-1">Gross Margin %</label>
+              <input type="number" id="gross-margin-pct" value="82" min="1" max="100" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div>
+            <label for="nrr-pct" class="block text-xs font-mono text-mute uppercase mb-1">Net Revenue Retention (NRR) %</label>
+            <input type="number" id="nrr-pct" value="115" min="50" max="200" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Valuation Estimate</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Enterprise Value</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Estimated Valuation</span>
+              <span id="res-valuation" class="text-3xl font-bold text-emerald-500">$0</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Adjusted ARR Multiple</span>
+                <span id="res-multiple-val" class="font-bold text-ink">0.0x</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Rule of 40 Score</span>
+                <span id="res-rule40-score" class="font-bold text-ink">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">How SaaS Companies Are Valued</h2>
+        <p>
+          Unlike traditional manufacturing businesses valued on EBITDA, subscription software companies are valued primarily as a multiple of Annual Recurring Revenue (ARR). Revenue multiples adjust dynamically based on growth rates, gross margins, and customer retention metrics.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Bessemer Venture Partners Cloud Index", url: "https://www.bvp.com/bvp-nasdaq-emerging-cloud-index" }
+      ]} />
+
+      <RelatedTools currentSlug="saas-valuation-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initSaasValuationCalc() {
+      const arrInput = document.getElementById('arr-input-val') as HTMLInputElement;
+      const yoyInput = document.getElementById('yoy-growth') as HTMLInputElement;
+      const marginInput = document.getElementById('gross-margin-pct') as HTMLInputElement;
+      const nrrInput = document.getElementById('nrr-pct') as HTMLInputElement;
+
+      const valEl = document.getElementById('res-valuation');
+      const multEl = document.getElementById('res-multiple-val');
+      const r40El = document.getElementById('res-rule40-score');
+
+      function calculate() {
+        const arr = parseFloat(arrInput.value) || 0;
+        const yoy = parseFloat(yoyInput.value) || 0;
+        const margin = parseFloat(marginInput.value) || 75;
+        const nrr = parseFloat(nrrInput.value) || 100;
+
+        // Base multiple 6x
+        let baseMult = 6.0;
+        if (yoy > 100) baseMult += 5.0;
+        else if (yoy > 50) baseMult += 3.0;
+        else if (yoy > 20) baseMult += 1.0;
+
+        if (nrr > 120) baseMult += 2.0;
+        if (margin > 80) baseMult += 1.0;
+
+        const valuation = arr * baseMult;
+        const rule40 = yoy + (margin - 50); // Simple proxy
+
+        if (valEl) valEl.textContent = '$' + (valuation / 1000000).toFixed(2) + ' Million';
+        if (multEl) multEl.textContent = baseMult.toFixed(1) + 'x ARR';
+        if (r40El) r40El.textContent = rule40.toFixed(0);
+      }
+
+      [arrInput, yoyInput, marginInput, nrrInput].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initSaasValuationCalc);
+  </script>
+</Layout>

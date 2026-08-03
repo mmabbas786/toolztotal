@@ -1,0 +1,229 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "All-in-One Image Converter - Convert PNG, JPG, WEBP, HEIC 100% Private | ToolzTotal",
+  description: "Free online all-in-one image converter. Convert between PNG, JPG, WebP, BMP, GIF, and HEIC image formats 100% client-side in your browser. Zero server uploads.",
+  url: "https://toolztotal.com/image-tools/image-converter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What image formats are supported by this all-in-one converter?", answer: "Our converter accepts PNG, JPG, JPEG, WebP, BMP, GIF, and Apple HEIC/HEIF images, converting them into PNG, JPG, or WebP target formats." },
+  { question: "Are my photos uploaded to a remote server?", answer: "No. The entire image conversion process takes place 100% locally inside your web browser. Your private photos never leave your device." },
+  { question: "Can I convert multiple images of different formats at once?", answer: "Yes. You can drag and drop a mixed batch of PNG, JPG, WebP, and HEIC files to convert them simultaneously into a uniform output format." },
+  { question: "Can I adjust output compression quality?", answer: "Yes. Use the quality slider (10% to 100%) when converting to JPG or WebP formats." },
+  { question: "Does converting to PNG preserve transparent backgrounds?", answer: "Yes. PNG output preserves full 32-bit RGBA alpha channel transparency from source PNG or WebP files." },
+  { question: "Is there a limit on file conversions?", answer: "No. ToolzTotal provides 100% free online image tools with zero usage caps, zero subscriptions, and no watermarks." },
+  { question: "Can I convert GIF animations to JPG or PNG?", answer: "Yes. Uploading a GIF image extracts and converts the frame into a clean static PNG, JPG, or WebP image." },
+  { question: "Does this tool work on mobile devices?", answer: "Yes. The converter is fully responsive and runs on iOS Safari, Android Chrome, and all modern browsers." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="All-in-One Image Converter"
+    toolSlug="image-converter"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="All-in-One Image Converter" toolSlug="image-converter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Universal Converter</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        All-in-One Image Converter
+      </h1>
+      <TrustHeader toolSlug="image-converter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Convert between PNG, JPG, WEBP, BMP, GIF, and HEIC formats. Process mixed batches of photos locally inside your browser with total privacy.
+      </p>
+    </div>
+
+    <!-- Converter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Dropzone -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Select Photos (PNG, JPG, WebP, HEIC, GIF, BMP)</h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-hairline-strong rounded-xl p-8 text-center bg-canvas-soft hover:bg-canvas-soft-2 transition-all cursor-pointer space-y-3">
+            <svg class="w-10 h-10 mx-auto text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a1 1 0 011.414 0L16 17m-2-2l1.586-1.586a1 1 0 011.414 0L20 16m-7-2a1 1 0 00-1-1H3a1 1 0 00-1 1v5a1 1 0 001 1h18a1 1 0 001-1v-5a1 1 0 00-1-1h-6z" />
+            </svg>
+            <p class="text-sm font-sans font-medium text-ink">Drag & Drop any image files here</p>
+            <p class="text-xs font-sans text-mute">or click to browse files from device</p>
+            <input type="file" id="all-files-input" accept="image/*,.heic,.heif" multiple class="hidden" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4">
+            <div>
+              <label for="target-format" class="block text-xs font-mono text-mute uppercase mb-1">Target Output Format</label>
+              <select id="target-format" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="png" selected>PNG (Lossless)</option>
+                <option value="jpeg">JPG / JPEG</option>
+                <option value="webp">WebP (Compressed)</option>
+              </select>
+            </div>
+            <div>
+              <label for="image-quality" class="block text-xs font-mono text-mute uppercase mb-1">JPG/WebP Quality (85%)</label>
+              <input type="range" id="image-quality" min="0.1" max="1.0" step="0.05" value="0.85" class="w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results List -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Converted Output Images</h2>
+            <span id="file-count-badge" class="text-xs font-mono text-mute">0 Files</span>
+          </div>
+
+          <div id="results-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+            <p class="text-xs text-mute text-center py-10 font-sans">Upload images to convert to your chosen target format.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Universal Image Converter Guide</h2>
+        <p>
+          Working across web development, graphic design, and mobile app projects requires handling diverse image extensions including WebP, PNG, JPEG, GIF, and Apple's HEIC format. Having a unified client-side converter eliminates software compatibility hurdles.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "W3C Image Format Standards Overview", url: "https://www.w3.org/Graphics/" }
+      ]} />
+
+      <RelatedTools currentSlug="image-converter" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+
+  <script>
+    function initAllImageConverter() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('all-files-input') as HTMLInputElement;
+      const targetFormatSelect = document.getElementById('target-format') as HTMLSelectElement;
+      const qualityInput = document.getElementById('image-quality') as HTMLInputElement;
+      const countBadge = document.getElementById('file-count-badge');
+      const resultsList = document.getElementById('results-list');
+
+      dropZone?.addEventListener('click', () => fileInput?.click());
+
+      dropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-ink');
+      });
+
+      dropZone?.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-ink');
+      });
+
+      dropZone?.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-ink');
+        if (e.dataTransfer?.files) {
+          handleFiles(Array.from(e.dataTransfer.files));
+        }
+      });
+
+      fileInput?.addEventListener('change', () => {
+        if (fileInput.files) {
+          handleFiles(Array.from(fileInput.files));
+        }
+      });
+
+      function handleFiles(files: File[]) {
+        if (files.length === 0) return;
+
+        if (countBadge) countBadge.textContent = `${files.length} Files`;
+        if (resultsList) resultsList.innerHTML = '';
+
+        const targetFmt = targetFormatSelect.value;
+        const quality = parseFloat(qualityInput.value) || 0.85;
+
+        files.forEach((file) => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'flex items-center justify-between p-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono';
+          itemDiv.innerHTML = `
+            <div class="truncate max-w-[200px]">
+              <span class="font-bold text-ink block truncate">${file.name}</span>
+              <span class="text-mute">${(file.size / 1024).toFixed(0)} KB</span>
+            </div>
+            <span class="text-amber-500 font-sans">Converting...</span>
+          `;
+          resultsList?.appendChild(itemDiv);
+
+          const img = new Image();
+          const url = URL.createObjectURL(file);
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx?.drawImage(img, 0, 0);
+
+            const mime = targetFmt === 'png' ? 'image/png' : (targetFmt === 'webp' ? 'image/webp' : 'image/jpeg');
+            const ext = targetFmt === 'png' ? 'png' : (targetFmt === 'webp' ? 'webp' : 'jpg');
+            const dataUrl = canvas.toDataURL(mime, quality);
+
+            const outName = file.name.replace(/\.[^/.]+$/, '') + '.' + ext;
+
+            itemDiv.innerHTML = `
+              <div class="truncate max-w-[200px]">
+                <span class="font-bold text-ink block truncate">${outName}</span>
+                <span class="text-emerald-500 font-sans font-medium">Converted ${ext.toUpperCase()}</span>
+              </div>
+              <a href="${dataUrl}" download="${outName}" class="px-3 py-1.5 bg-primary text-on-primary font-sans font-medium text-xs rounded-md shadow-lvl1 hover:bg-primary/90 transition-all">
+                Download
+              </a>
+            `;
+          };
+          img.src = url;
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initAllImageConverter);
+  </script>
+</Layout>

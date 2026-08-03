@@ -1,0 +1,215 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "OpenAI API Cost Calculator - GPT-4o & o1 Pricing Estimator | ToolzTotal",
+  description: "Free OpenAI API cost calculator. Estimate monthly API expenses across GPT-4o, GPT-4o-mini, o1, o3-mini, and embeddings 100% client-side.",
+  url: "https://toolztotal.com/ai/openai-cost-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the OpenAI API Cost Calculator work?", answer: "The calculator applies official OpenAI API rates per 1,000,000 input and output tokens for models like GPT-4o, GPT-4o-mini, o1, and embeddings to estimate call and monthly costs." },
+  { question: "What is OpenAI Batch API pricing?", answer: "OpenAI Batch API offers a 50% discount on input and output tokens for asynchronous workloads completed within 24 hours." },
+  { question: "How much cheaper is GPT-4o-mini compared to GPT-4o?", answer: "GPT-4o-mini costs $0.15 per million input tokens and $0.60 per million output tokens—over 95% cheaper than standard GPT-4o ($2.50 / $10.00)." },
+  { question: "What are reasoning tokens in OpenAI o1 and o3 models?", answer: "Reasoning models like OpenAI o1 generate internal thinking tokens before responding. These internal reasoning tokens are billed as output tokens at standard rates." },
+  { question: "Is my text or API key required to use this calculator?", answer: "No. You do not need an API key or login. The calculator runs 100% locally in your web browser." },
+  { question: "What are fine-tuning API costs?", answer: "Fine-tuned models incur training cost per million tokens (e.g. $25/M tokens for GPT-4o fine-tuning) plus slightly higher per-call inference rates." },
+  { question: "How does vision image processing token pricing work?", answer: "OpenAI Vision converts images into 512x512 tile tokens (approx 170 to 765 tokens per image depending on detail mode)." },
+  { question: "Is this OpenAI cost calculator free to use?", answer: "Yes. ToolzTotal provides 100% free AI pricing and developer tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="OpenAI API Cost Calculator"
+    toolSlug="openai-cost-calculator"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="OpenAI API Cost Calculator" toolSlug="openai-cost-calculator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private API Pricing Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        OpenAI API Cost Calculator
+      </h1>
+      <TrustHeader toolSlug="openai-cost-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate monthly OpenAI API expenses for GPT-4o, GPT-4o-mini, o1, o3-mini, and embedding models. Model batch discounts and token ratios instantly.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Controls -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Usage Parameters</h2>
+
+          <div>
+            <label for="openai-model" class="block text-xs font-mono text-mute uppercase mb-1">Select OpenAI Model</label>
+            <select id="openai-model" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink">
+              <option value="gpt-4o" selected>GPT-4o ($2.50 / $10.00 per 1M tokens)</option>
+              <option value="gpt-4o-mini">GPT-4o-mini ($0.15 / $0.60 per 1M tokens)</option>
+              <option value="o1">o1 Reasoning ($15.00 / $60.00 per 1M tokens)</option>
+              <option value="o3-mini">o3-mini ($1.10 / $4.40 per 1M tokens)</option>
+              <option value="embedding-small">text-embedding-3-small ($0.02 per 1M tokens)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="input-tokens-k" class="block text-xs font-mono text-mute uppercase mb-1">Avg Input Tokens / Call</label>
+              <input type="number" id="input-tokens-k" value="1500" min="1" max="128000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="output-tokens-k" class="block text-xs font-mono text-mute uppercase mb-1">Avg Output Tokens / Call</label>
+              <input type="number" id="output-tokens-k" value="400" min="1" max="16000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="monthly-calls" class="block text-xs font-mono text-mute uppercase mb-1">Monthly API Calls</label>
+              <input type="number" id="monthly-calls" value="50000" min="1" max="100000000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div class="flex items-end pb-2">
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-mono text-ink select-none">
+                <input type="checkbox" id="batch-api-check" class="rounded border-hairline" />
+                <span>Batch API (50% Off)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Estimated Cost</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">OpenAI Rates</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Estimated Monthly Expense</span>
+              <span id="monthly-cost-total" class="text-3xl font-bold text-emerald-500">$0.00</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Cost Per Call</span>
+                <span id="call-cost-val" class="font-bold text-ink">$0.00</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Total Monthly Tokens</span>
+                <span id="monthly-tokens-val" class="font-bold text-ink">0 M</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">OpenAI API Pricing Structure Guide</h2>
+        <p>
+          OpenAI charges for API usage on a pay-as-you-go model per 1,000,000 tokens processed. Input tokens (the text and context sent in your prompt) and output tokens (the response generated by the model) carry different rate multipliers.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "OpenAI Official Pricing Schedule", url: "https://openai.com/api/pricing/" }
+      ]} />
+
+      <RelatedTools currentSlug="openai-cost-calculator" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initOpenAiCalc() {
+      const modelSelect = document.getElementById('openai-model') as HTMLSelectElement;
+      const inInput = document.getElementById('input-tokens-k') as HTMLInputElement;
+      const outInput = document.getElementById('output-tokens-k') as HTMLInputElement;
+      const callsInput = document.getElementById('monthly-calls') as HTMLInputElement;
+      const batchCheck = document.getElementById('batch-api-check') as HTMLInputElement;
+
+      const totalEl = document.getElementById('monthly-cost-total');
+      const perCallEl = document.getElementById('call-cost-val');
+      const tokensEl = document.getElementById('monthly-tokens-val');
+
+      const rates: Record<string, { inRate: number; outRate: number }> = {
+        'gpt-4o': { inRate: 2.50, outRate: 10.00 },
+        'gpt-4o-mini': { inRate: 0.15, outRate: 0.60 },
+        'o1': { inRate: 15.00, outRate: 60.00 },
+        'o3-mini': { inRate: 1.10, outRate: 4.40 },
+        'embedding-small': { inRate: 0.02, outRate: 0.00 }
+      };
+
+      function update() {
+        const key = modelSelect.value;
+        const rate = rates[key] || rates['gpt-4o'];
+
+        const inTokens = parseInt(inInput.value, 10) || 0;
+        const outTokens = parseInt(outInput.value, 10) || 0;
+        const calls = parseInt(callsInput.value, 10) || 0;
+        const discount = batchCheck.checked ? 0.5 : 1.0;
+
+        const callCost = (((inTokens / 1000000) * rate.inRate) + ((outTokens / 1000000) * rate.outRate)) * discount;
+        const monthlyCost = callCost * calls;
+        const totalM = (((inTokens + outTokens) * calls) / 1000000).toFixed(1);
+
+        if (totalEl) totalEl.textContent = '$' + monthlyCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (perCallEl) perCallEl.textContent = '$' + callCost.toFixed(5);
+        if (tokensEl) tokensEl.textContent = totalM + ' M';
+      }
+
+      modelSelect?.addEventListener('change', update);
+      inInput?.addEventListener('input', update);
+      outInput?.addEventListener('input', update);
+      callsInput?.addEventListener('input', update);
+      batchCheck?.addEventListener('change', update);
+
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', initOpenAiCalc);
+  </script>
+</Layout>

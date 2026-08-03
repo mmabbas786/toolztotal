@@ -1,0 +1,190 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "SaaS Pricing Calculator - Tiered Seat & Usage Pricing Model | ToolzTotal",
+  description: "Free SaaS pricing calculator. Model tiered pricing packages, seat licensing, annual discount incentives, and gross profit per customer 100% client-side.",
+  url: "https://toolztotal.com/startup/pricing-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the SaaS Pricing Calculator work?", answer: "The calculator models subscription tier pricing based on seat licenses, annual payment discounts, and COGS hosting costs to optimize gross margin per tier." },
+  { question: "What is the standard annual discount percentage in SaaS?", answer: "SaaS companies typically offer a 15% to 20% discount (equivalent to 2 months free) for upfront annual subscriptions compared to month-to-month plans." },
+  { question: "What is seat-based vs usage-based pricing?", answer: "Seat-based pricing charges per active user account (e.g. $15/user/month), whereas usage-based pricing bills according to quantitative consumption metrics (e.g. API requests or storage gigabytes)." },
+  { question: "Is my pricing data kept private?", answer: "Yes. The SaaS Pricing Calculator operates 100% locally in your web browser. No data leaves your machine." },
+  { question: "How many pricing tiers should a SaaS startup offer?", answer: "Best practice is offering 3 distinct pricing tiers (e.g. Starter, Pro, Enterprise), highlighting a recommended 'Popular' tier." },
+  { question: "What is Value-Based Pricing?", answer: "Value-based pricing aligns your pricing tiers directly with the customer's perceived return on investment or cost savings rather than underlying server costs." },
+  { question: "Is this pricing calculator free to use?", answer: "Yes. ToolzTotal provides 100% free startup tools with no signups, no subscriptions, and zero limits." },
+  { question: "Can I model usage tiers for API products?", answer: "Yes. You can enter unit pricing per thousand calls or seat accounts." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Pricing Calculator"
+    toolSlug="pricing-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="Pricing Calculator" toolSlug="pricing-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private SaaS Tier Model Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        SaaS Pricing Calculator
+      </h1>
+      <TrustHeader toolSlug="pricing-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Model SaaS subscription tiers, user seat licensing, annual payment discounts, and gross margin per customer package.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Tier Parameters</h2>
+
+          <div>
+            <label for="price-per-seat" class="block text-xs font-mono text-mute uppercase mb-1">Monthly Price Per Seat / User ($)</label>
+            <input type="number" id="price-per-seat" value="29" min="1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="seat-count" class="block text-xs font-mono text-mute uppercase mb-1">Number of Seats</label>
+              <input type="number" id="seat-count" value="10" min="1" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="annual-discount" class="block text-xs font-mono text-mute uppercase mb-1">Annual Discount %</label>
+              <input type="number" id="annual-discount" value="20" min="0" max="50" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div>
+            <label for="cogs-per-user" class="block text-xs font-mono text-mute uppercase mb-1">Est. Server / COGS Cost Per User ($)</label>
+            <input type="number" id="cogs-per-user" value="3.50" min="0" step="0.5" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Pricing Breakdown</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Monthly & Annual</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div class="grid grid-cols-2 gap-4 border-b border-hairline pb-4">
+              <div>
+                <span class="text-xs text-mute block uppercase">Monthly Billed</span>
+                <span id="res-monthly-price" class="text-xl font-bold text-ink">$0 / mo</span>
+              </div>
+              <div>
+                <span class="text-xs text-mute block uppercase">Annual Billed</span>
+                <span id="res-annual-price" class="text-xl font-bold text-emerald-500">$0 / yr</span>
+              </div>
+            </div>
+
+            <div class="text-xs space-y-1">
+              <span class="text-mute block uppercase">Gross Profit Margin Per Customer</span>
+              <span id="res-gross-margin" class="font-bold text-ink text-sm">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Designing Optimized SaaS Pricing Tiers</h2>
+        <p>
+          Pricing is the single strongest lever for increasing SaaS lifetime value (LTV). Structuring clear per-user or feature-gated tiers ensures alignment between customer utility and subscription revenues.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Price Intelligently SaaS Pricing Strategy Guide", url: "https://www.profitwell.com/recur/all" }
+      ]} />
+
+      <RelatedTools currentSlug="pricing-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initPricingCalc() {
+      const priceInput = document.getElementById('price-per-seat') as HTMLInputElement;
+      const seatInput = document.getElementById('seat-count') as HTMLInputElement;
+      const discInput = document.getElementById('annual-discount') as HTMLInputElement;
+      const cogsInput = document.getElementById('cogs-per-user') as HTMLInputElement;
+
+      const monthlyEl = document.getElementById('res-monthly-price');
+      const annualEl = document.getElementById('res-annual-price');
+      const marginEl = document.getElementById('res-gross-margin');
+
+      function calculate() {
+        const p = parseFloat(priceInput.value) || 0;
+        const s = parseInt(seatInput.value, 10) || 1;
+        const d = parseFloat(discInput.value) || 0;
+        const cogs = parseFloat(cogsInput.value) || 0;
+
+        const monthlyBill = p * s;
+        const discountedMonthly = monthlyBill * (1 - (d / 100));
+        const annualBill = discountedMonthly * 12;
+
+        const totalCogs = cogs * s;
+        const grossMarginPct = monthlyBill > 0 ? (((monthlyBill - totalCogs) / monthlyBill) * 100).toFixed(1) : '0';
+
+        if (monthlyEl) monthlyEl.textContent = '$' + monthlyBill.toLocaleString('en-US') + ' / mo';
+        if (annualEl) annualEl.textContent = '$' + annualBill.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' / yr';
+        if (marginEl) marginEl.textContent = grossMarginPct + '%';
+      }
+
+      [priceInput, seatInput, discInput, cogsInput].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPricingCalc);
+  </script>
+</Layout>

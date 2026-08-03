@@ -1,0 +1,198 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Prompt Formatter - Structure & Clean System Prompts 100% Private | ToolzTotal",
+  description: "Free AI prompt formatter. Format system prompts with XML tags, markdown headers, and variable placeholders 100% client-side in your browser.",
+  url: "https://toolztotal.com/ai/prompt-formatter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "Why should I format AI system prompts using XML tags?", answer: "Modern LLMs like Anthropic Claude and OpenAI GPT-4o are explicitly trained to parse XML tags (<context>, <instructions>, <examples>) to demarcate system prompts, preventing prompt injection and improving instruction compliance." },
+  { question: "How does the Prompt Formatter work?", answer: "The tool structures raw text input into clean XML block wrappers, indents nested sections, and formats variable placeholders (e.g. {{user_input}})." },
+  { question: "Is my prompt text uploaded to a remote server?", answer: "No. The Prompt Formatter runs 100% locally inside your web browser. No text is sent to any external server or saved in any database." },
+  { question: "What XML tags are included in the formatted prompt?", answer: "Standard XML tags include <system_role>, <context>, <instructions>, <constraints>, <examples>, and <output_format>." },
+  { question: "Can I copy or download the formatted prompt?", answer: "Yes. Use the Copy Formatted Prompt button or download the output as a clean `.txt` or `.md` file." },
+  { question: "What are variable placeholders in prompt engineering?", answer: "Placeholders like {{document}} or {{user_query}} represent dynamic runtime parameters injected by your software application into the LLM system prompt." },
+  { question: "Does prompt formatting reduce hallucinations?", answer: "Yes. Clear boundaries separating system rules from user input significantly reduce LLM instruction confusion and hallucinations." },
+  { question: "Is this prompt formatter free to use?", answer: "Yes. ToolzTotal provides 100% free prompt engineering tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Prompt Formatter"
+    toolSlug="prompt-formatter"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="Prompt Formatter" toolSlug="prompt-formatter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private System Prompt Builder</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Prompt Formatter
+      </h1>
+      <TrustHeader toolSlug="prompt-formatter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Structure raw text into production-ready LLM system prompts using XML tags, markdown headers, and variable placeholders.
+      </p>
+    </div>
+
+    <!-- Formatter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs & Controls -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Prompt Sections</h2>
+
+          <div>
+            <label for="p-role" class="block text-xs font-mono text-mute uppercase mb-1">System Role / Identity</label>
+            <input type="text" id="p-role" value="You are an expert software architect and technical writer." class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+          </div>
+
+          <div>
+            <label for="p-context" class="block text-xs font-mono text-mute uppercase mb-1">Context & Background</label>
+            <textarea id="p-context" rows="3" placeholder="Provide background context or reference info..." class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">The user is building a web application using Astro, Tailwind CSS, and TypeScript.</textarea>
+          </div>
+
+          <div>
+            <label for="p-instructions" class="block text-xs font-mono text-mute uppercase mb-1">Core Instructions</label>
+            <textarea id="p-instructions" rows="4" placeholder="List step-by-step instructions..." class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">1. Analyze the user request.
+2. Provide clean, modular code snippets.
+3. Include brief inline comments explaining non-obvious logic.</textarea>
+          </div>
+
+          <div>
+            <label for="p-constraints" class="block text-xs font-mono text-mute uppercase mb-1">Constraints & Negative Prompts</label>
+            <textarea id="p-constraints" rows="3" placeholder="List strict rules or what NOT to do..." class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">- Do NOT use obsolete dependencies.
+- Do NOT output conversational filler.</textarea>
+          </div>
+
+          <button type="button" id="btn-format-prompt" class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2">
+            Generate Formatted XML Prompt →
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Preview -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Formatted Output</h2>
+            <button type="button" id="btn-copy-formatted" class="text-xs font-mono text-primary font-bold hover:text-primary/80">Copy Prompt</button>
+          </div>
+
+          <textarea id="formatted-output" rows="16" readonly class="w-full bg-canvas-soft border border-hairline rounded-lg p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why System Prompt Formatting Matters</h2>
+        <p>
+          Prompt engineering has evolved from informal conversational queries into structured software specifications. Enclosing instructions within XML tags (<code>&lt;role&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;constraints&gt;</code>) enforces clear boundaries for LLM attention heads.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Anthropic Prompt Engineering Best Practices", url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" }
+      ]} />
+
+      <RelatedTools currentSlug="prompt-formatter" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initPromptFormatter() {
+      const pRole = document.getElementById('p-role') as HTMLInputElement;
+      const pContext = document.getElementById('p-context') as HTMLTextAreaElement;
+      const pInstructions = document.getElementById('p-instructions') as HTMLTextAreaElement;
+      const pConstraints = document.getElementById('p-constraints') as HTMLTextAreaElement;
+
+      const btnFormat = document.getElementById('btn-format-prompt');
+      const output = document.getElementById('formatted-output') as HTMLTextAreaElement;
+      const btnCopy = document.getElementById('btn-copy-formatted');
+
+      function format() {
+        const role = pRole.value || '';
+        const context = pContext.value || '';
+        const instructions = pInstructions.value || '';
+        const constraints = pConstraints.value || '';
+
+        const xml = `<system_prompt>
+  <role>
+    ${role}
+  </role>
+
+  <context>
+    ${context.split('\n').join('\n    ')}
+  </context>
+
+  <instructions>
+    ${instructions.split('\n').join('\n    ')}
+  </instructions>
+
+  <constraints>
+    ${constraints.split('\n').join('\n    ')}
+  </constraints>
+
+  <output_format>
+    Provide response in markdown format with clear headings and code blocks.
+  </output_format>
+</system_prompt>`;
+
+        if (output) output.value = xml;
+      }
+
+      btnFormat?.addEventListener('click', format);
+      btnCopy?.addEventListener('click', () => {
+        if (output?.value) {
+          navigator.clipboard.writeText(output.value);
+          alert('Formatted prompt copied to clipboard!');
+        }
+      });
+
+      format();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPromptFormatter);
+  </script>
+</Layout>

@@ -1,0 +1,216 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "XML Sitemap Generator - Free Multi-URL Sitemap Creator | ToolzTotal",
+  description: "Free XML Sitemap Generator. Convert URL lists into valid W3C sitemap XML protocol format with priority, changefreq, and lastmod tags.",
+  url: "https://toolztotal.com/marketing/xml-sitemap-generator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is an XML Sitemap?", answer: "An XML sitemap is a structured XML file that lists a website's important URLs, helping search engine bots (like Googlebot) efficiently discover, crawl, and index all pages." },
+  { question: "Where should the XML sitemap file be uploaded?", answer: "Upload the generated `sitemap.xml` file to your web server's public root directory (e.g. `https://example.com/sitemap.xml`) and submit the URL in Google Search Console." },
+  { question: "What is the maximum size limit for an XML sitemap?", answer: "According to the official sitemaps.org protocol, an uncompressed XML sitemap file cannot exceed 50 MB in size and cannot contain more than 50,000 URLs." },
+  { question: "What does the <changefreq> tag do?", answer: "The `<changefreq>` tag gives search engines a hint regarding how frequently a page's content is updated (e.g., daily, weekly, monthly)." },
+  { question: "What does the <priority> tag represent?", answer: "The `<priority>` tag indicates the relative importance of a page on your domain on a scale from 0.0 to 1.0 (with 1.0 reserved for main landing pages)." },
+  { question: "Does having an XML sitemap guarantee higher Google rankings?", answer: "Sitemaps do not directly boost rankings, but they significantly improve crawling efficiency and indexation speed for new or updated pages." },
+  { question: "What is the <lastmod> tag?", answer: "The `<lastmod>` tag specifies the date when the page content was last modified in ISO 8601 format (YYYY-MM-DD)." },
+  { question: "How often should I submit my sitemap to Google Search Console?", answer: "You only need to submit your sitemap URL once. Google periodically re-crawls the sitemap automatically." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="XML Sitemap Generator"
+    toolSlug="xml-sitemap-generator"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Marketing & SEO" categorySlug="marketing" toolName="XML Sitemap Generator" toolSlug="xml-sitemap-generator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">SEO Indexing Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        XML Sitemap Generator
+      </h1>
+      <TrustHeader toolSlug="xml-sitemap-generator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Generate compliant XML sitemaps for Google Search Console. Paste your site URLs, set priority and change frequency tags, and download your sitemap.xml file.
+      </p>
+    </div>
+
+    <!-- Generator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">URL Input List</h2>
+
+          <div>
+            <label for="url-list" class="block text-xs font-mono text-mute uppercase mb-1">Paste Page URLs (One URL per line)</label>
+            <textarea id="url-list" rows="6" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink focus:ring-1 focus:ring-ink" placeholder="https://example.com/&#10;https://example.com/about&#10;https://example.com/contact">https://example.com/&#10;https://example.com/about&#10;https://example.com/services&#10;https://example.com/contact</textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="change-freq" class="block text-xs font-mono text-mute uppercase mb-1">Change Frequency</label>
+              <select id="change-freq" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink font-mono">
+                <option value="daily">daily</option>
+                <option value="weekly" selected>weekly</option>
+                <option value="monthly">monthly</option>
+                <option value="yearly">yearly</option>
+              </select>
+            </div>
+            <div>
+              <label for="priority-val" class="block text-xs font-mono text-mute uppercase mb-1">Default Priority</label>
+              <select id="priority-val" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink font-mono">
+                <option value="1.0">1.0 (Highest)</option>
+                <option value="0.8" selected>0.8 (Standard)</option>
+                <option value="0.5">0.5 (Low)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Generated sitemap.xml</h2>
+            <span id="url-count-badge" class="text-xs font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">4 URLs</span>
+          </div>
+
+          <textarea id="output-xml" readonly rows="12" class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy XML
+            </button>
+            <button type="button" id="btn-download" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Download sitemap.xml
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding XML Sitemaps for Search Engines</h2>
+        <p>
+          An <strong>XML Sitemap</strong> is a structured blueprint of your website designed specifically for search engine web crawlers like Googlebot and Bingbot. It outlines all public canonical URLs along with essential metadata.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Sitemaps.org Protocol Specifications", url: "https://www.sitemaps.org/protocol.html" }
+      ]} />
+
+      <RelatedTools currentSlug="xml-sitemap-generator" categorySlug="marketing" />
+      <ContentFooter category="marketing" />
+    </article>
+  </div>
+
+  <script>
+    function initSitemapGen() {
+      const urlListInput = document.getElementById('url-list') as HTMLTextAreaElement;
+      const freqSelect = document.getElementById('change-freq') as HTMLSelectElement;
+      const prioritySelect = document.getElementById('priority-val') as HTMLSelectElement;
+
+      const outputXml = document.getElementById('output-xml') as HTMLTextAreaElement;
+      const badge = document.getElementById('url-count-badge');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnDownload = document.getElementById('btn-download');
+
+      function generate() {
+        const lines = urlListInput.value.split('\n').map(l => l.trim()).filter(l => l.length > 0 && l.startsWith('http'));
+        const freq = freqSelect.value;
+        const priority = prioritySelect.value;
+        const today = new Date().toISOString().split('T')[0];
+
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+        lines.forEach(u => {
+          xml += `  <url>\n`;
+          xml += `    <loc>${u}</loc>\n`;
+          xml += `    <lastmod>${today}</lastmod>\n`;
+          xml += `    <changefreq>${freq}</changefreq>\n`;
+          xml += `    <priority>${priority}</priority>\n`;
+          xml += `  </url>\n`;
+        });
+
+        xml += `</urlset>`;
+
+        if (outputXml) outputXml.value = xml;
+        if (badge) badge.textContent = `${lines.length} URLs`;
+      }
+
+      [urlListInput, freqSelect, prioritySelect].forEach(el => {
+        el?.addEventListener('input', generate);
+        el?.addEventListener('change', generate);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (outputXml) {
+          navigator.clipboard.writeText(outputXml.value);
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy XML'; }, 2000);
+        }
+      });
+
+      btnDownload?.addEventListener('click', () => {
+        if (outputXml) {
+          const blob = new Blob([outputXml.value], { type: 'application/xml;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'sitemap.xml';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      });
+
+      generate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initSitemapGen);
+  </script>
+</Layout>

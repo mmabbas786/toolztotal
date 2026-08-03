@@ -1,0 +1,210 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Prompt Token Counter - Real-Time LLM Token & Character Counter | ToolzTotal",
+  description: "Free real-time prompt token counter. Count tokens, words, characters, and context window limits for ChatGPT, Claude, and Gemini 100% client-side.",
+  url: "https://toolztotal.com/ai/prompt-token-counter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the Prompt Token Counter work?", answer: "The counter calculates token counts in real-time using sub-word byte pair encoding heuristics (approx 1 token per 4 characters or 0.75 words) 100% locally in your browser." },
+  { question: "Is my confidential prompt data saved or logged on any server?", answer: "No. The counter processes text 100% locally in your web browser memory. Your prompt text is never uploaded to any remote server." },
+  { question: "What is the token limit for ChatGPT (GPT-4o)?", answer: "GPT-4o supports a 128,000 token context window, with a maximum single response output limit of 4,096 to 16,384 tokens depending on API configuration." },
+  { question: "What is the token limit for Anthropic Claude 3.5 Sonnet?", answer: "Claude 3.5 Sonnet supports a 200,000 token context window, allowing you to pass entire code repositories or documentation manuals in a single prompt." },
+  { question: "Why do code snippets consume more tokens than plain English text?", answer: "Programming languages contain punctuation, indentation, camelCase identifiers, and special symbols that break into multiple sub-word tokens." },
+  { question: "Can I copy the calculated token metrics?", answer: "Yes. Click the Copy Prompt or Copy Token Summary buttons to instantly copy data to your clipboard." },
+  { question: "How many tokens are in a 1,000-word article?", answer: "A 1,000-word English article is approximately equal to 1,300 to 1,400 tokens." },
+  { question: "Is this prompt token counter free?", answer: "Yes. ToolzTotal provides 100% free AI and developer tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Prompt Token Counter"
+    toolSlug="prompt-token-counter"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="Prompt Token Counter" toolSlug="prompt-token-counter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Real-Time Counter</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Prompt Token Counter
+      </h1>
+      <TrustHeader toolSlug="prompt-token-counter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Count real-time tokens, words, characters, and context window percentages for ChatGPT, Claude, and Gemini prompts completely in your browser.
+      </p>
+    </div>
+
+    <!-- Counter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Text Area -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Prompt Text Input</h2>
+            <button type="button" id="btn-copy-prompt" class="text-xs font-mono text-primary hover:text-primary/80 font-bold">Copy Text</button>
+          </div>
+
+          <textarea id="prompt-input" rows="12" placeholder="Type or paste your AI prompt here to analyze tokens, words, characters, and cost..." class="w-full bg-canvas border border-hairline rounded-lg p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+        </div>
+      </div>
+
+      <!-- Live Counters -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Live Token Metrics</h2>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 font-mono text-center">
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Est. Tokens</span>
+              <span id="cnt-tokens" class="text-2xl font-bold text-emerald-500">0</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Words</span>
+              <span id="cnt-words" class="text-2xl font-bold text-ink">0</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Characters</span>
+              <span id="cnt-chars" class="text-2xl font-bold text-ink">0</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Reading Time</span>
+              <span id="cnt-reading" class="text-2xl font-bold text-ink">0s</span>
+            </div>
+          </div>
+
+          <!-- Model Context Limits -->
+          <div class="space-y-3 pt-2 border-t border-hairline font-mono text-xs">
+            <div>
+              <div class="flex justify-between text-mute mb-1">
+                <span>GPT-4o (128k Limit)</span>
+                <span id="gpt-pct">0%</span>
+              </div>
+              <div class="w-full bg-canvas-soft rounded-full h-2 overflow-hidden border border-hairline">
+                <div id="gpt-bar" class="bg-emerald-500 h-full transition-all duration-200" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-mute mb-1">
+                <span>Claude 3.5 (200k Limit)</span>
+                <span id="claude-pct">0%</span>
+              </div>
+              <div class="w-full bg-canvas-soft rounded-full h-2 overflow-hidden border border-hairline">
+                <div id="claude-bar" class="bg-primary h-full transition-all duration-200" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Prompt Token Counting Matters</h2>
+        <p>
+          Token optimization is essential for AI engineers, prompt architects, and API builders. Keeping prompts lean improves model execution speed, reduces API latency, and slashes monthly LLM API expenditures.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "OpenAI Tokenizer Documentation", url: "https://platform.openai.com/tokenizer" }
+      ]} />
+
+      <RelatedTools currentSlug="prompt-token-counter" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initPromptTokenCounter() {
+      const textarea = document.getElementById('prompt-input') as HTMLTextAreaElement;
+      const btnCopy = document.getElementById('btn-copy-prompt');
+
+      const cntTokens = document.getElementById('cnt-tokens');
+      const cntWords = document.getElementById('cnt-words');
+      const cntChars = document.getElementById('cnt-chars');
+      const cntReading = document.getElementById('cnt-reading');
+
+      const gptPct = document.getElementById('gpt-pct');
+      const gptBar = document.getElementById('gpt-bar');
+      const claudePct = document.getElementById('claude-pct');
+      const claudeBar = document.getElementById('claude-bar');
+
+      btnCopy?.addEventListener('click', () => {
+        if (textarea?.value) {
+          navigator.clipboard.writeText(textarea.value);
+          alert('Prompt text copied to clipboard!');
+        }
+      });
+
+      function calculate() {
+        const text = textarea.value || '';
+        const chars = text.length;
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const tokens = Math.ceil(chars / 4);
+        const readingSec = Math.ceil(words / 3.3);
+
+        if (cntTokens) cntTokens.textContent = tokens.toLocaleString();
+        if (cntWords) cntWords.textContent = words.toLocaleString();
+        if (cntChars) cntChars.textContent = chars.toLocaleString();
+        if (cntReading) cntReading.textContent = readingSec > 60 ? `${Math.ceil(readingSec/60)}m` : `${readingSec}s`;
+
+        const gptP = Math.min(100, (tokens / 128000) * 100);
+        const claudeP = Math.min(100, (tokens / 200000) * 100);
+
+        if (gptPct) gptPct.textContent = gptP.toFixed(1) + '%';
+        if (gptBar) gptBar.style.width = gptP + '%';
+
+        if (claudePct) claudePct.textContent = claudeP.toFixed(1) + '%';
+        if (claudeBar) claudeBar.style.width = claudeP + '%';
+      }
+
+      textarea?.addEventListener('input', calculate);
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPromptTokenCounter);
+  </script>
+</Layout>

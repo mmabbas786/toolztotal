@@ -1,0 +1,262 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "cURL to Fetch Converter - Convert cURL to JavaScript fetch() | ToolzTotal",
+  description: "Free cURL to Fetch Converter. Convert raw cURL commands into clean, modern JavaScript fetch() API code (async/await and Promises) 100% client-side.",
+  url: "https://toolztotal.com/dev/curl-to-fetch-converter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the cURL to Fetch converter?", answer: "The cURL to Fetch Converter parses command-line cURL network requests (HTTP methods, headers, authentication, payload body) and translates them into modern, production-ready JavaScript `fetch()` API code." },
+  { question: "Does this tool send my cURL tokens or API keys to any server?", answer: "No. The parsing and conversion take place 100% client-side inside your browser JavaScript engine. Sensitive API keys and authorization headers are never transmitted." },
+  { question: "What cURL flags are supported?", answer: "The converter parses standard cURL flags including `-X` / `--request` (HTTP methods), `-H` / `--header` (HTTP headers), `-d` / `--data` / `--data-raw` (request body), and `-u` / `--user` (Basic authentication)." },
+  { question: "Can I generate async/await JavaScript code?", answer: "Yes. You can switch between Async/Await syntax and classic Promise `.then()` chaining." },
+  { question: "Why is the browser fetch API preferred over cURL in web apps?", answer: "cURL is a command-line tool. Web applications running in browser or Node.js runtimes require native JavaScript HTTP clients like `fetch()` or Axios to interact asynchronously with REST APIs." },
+  { question: "How does the converter handle JSON data payloads?", answer: "If the cURL `-d` string is valid JSON, the converter automatically formats it cleanly into `JSON.stringify(...)` inside the fetch options object." },
+  { question: "What happens if a cURL command contains multi-line backslashes?", answer: "Our parser handles multi-line shell backslash continuation (`\\`) seamlessly." },
+  { question: "Can I copy the generated JS fetch code directly into my code editor?", answer: "Yes. Click the 'Copy Fetch Code' button to copy the formatted JavaScript snippet directly to your clipboard." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="cURL to Fetch Converter"
+    toolSlug="curl-to-fetch-converter"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Developer Tools" categorySlug="dev" toolName="cURL to Fetch Converter" toolSlug="curl-to-fetch-converter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">API Developer Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        cURL to Fetch Converter
+      </h1>
+      <TrustHeader toolSlug="curl-to-fetch-converter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Convert command-line cURL statements into modern JavaScript `fetch()` API code with async/await or Promise syntax — 100% private and client-side.
+      </p>
+    </div>
+
+    <!-- Converter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">cURL Command Input</h2>
+            <button type="button" id="btn-sample-curl" class="text-xs font-mono text-link hover:underline">Sample cURL</button>
+          </div>
+
+          <div>
+            <textarea id="curl-input" rows="10" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink leading-relaxed focus:ring-1 focus:ring-ink" placeholder="Paste curl command here..."></textarea>
+          </div>
+
+          <div class="pt-2 border-t border-hairline">
+            <label for="code-style" class="block text-xs font-mono text-mute uppercase mb-1">Code Style</label>
+            <select id="code-style" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+              <option value="async" selected>Async / Await (Modern)</option>
+              <option value="promise">Promise (.then) Chaining</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">JavaScript fetch() Code</h2>
+            <span class="text-xs font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">ES6+ Compliant</span>
+          </div>
+
+          <textarea id="fetch-output" readonly rows="12" class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Fetch Code
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Translating cURL to Native JavaScript Fetch</h2>
+        <p>
+          API documentation frequently provides code snippets using the command-line <strong>cURL</strong> utility. When integrating API endpoints into frontend applications or Node.js services, developers need to convert cURL flags (`-H`, `-X`, `-d`) into JavaScript `fetch()` syntax.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "MDN Web Docs - Fetch API", url: "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" }
+      ]} />
+
+      <RelatedTools currentSlug="curl-to-fetch-converter" categorySlug="dev" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initCurlFetch() {
+      const curlInput = document.getElementById('curl-input') as HTMLTextAreaElement;
+      const fetchOutput = document.getElementById('fetch-output') as HTMLTextAreaElement;
+      const styleSelect = document.getElementById('code-style') as HTMLSelectElement;
+
+      const btnSample = document.getElementById('btn-sample-curl');
+      const btnCopy = document.getElementById('btn-copy');
+
+      const sampleCurl = `curl -X POST https://api.example.com/v1/users \\
+  -H "Content-Type: application/json" \\
+  -H "Authorization: Bearer secret_token_123" \\
+  -d '{"name": "Alice", "role": "admin"}'`;
+
+      function convert() {
+        const raw = curlInput.value.trim().replace(/\\\n/g, ' ');
+        if (!raw) {
+          if (fetchOutput) fetchOutput.value = '';
+          return;
+        }
+
+        // Parse URL
+        const urlMatch = raw.match(/curl\s+(?:-[A-Za-z]\s+[\S]+\s+)*(?:'|")?(https?:\/\/[\S]+?)(?:'|")?(?:\s|$)/);
+        const url = urlMatch ? urlMatch[1].replace(/['"]/g, '') : 'https://api.example.com/endpoint';
+
+        // Parse Method
+        const methodMatch = raw.match(/(?:-X|--request)\s+([A-Z]+)/i);
+        let method = methodMatch ? methodMatch[1].toUpperCase() : 'GET';
+        if (raw.includes('-d ') || raw.includes('--data') && !methodMatch) {
+          method = 'POST';
+        }
+
+        // Parse Headers
+        const headers: Record<string, string> = {};
+        const headerMatches = raw.matchAll(/(?:-H|--header)\s+["']?([^"'\n]+)["']?/g);
+        for (const match of headerMatches) {
+          const parts = match[1].split(':');
+          if (parts.length >= 2) {
+            headers[parts[0].trim()] = parts.slice(1).join(':').trim();
+          }
+        }
+
+        // Parse Data / Body
+        const dataMatch = raw.match(/(?:-d|--data|--data-raw)\s+["']?(\{[\s\S]*\}|[^"'\n]+)["']?/);
+        let bodyStr = dataMatch ? dataMatch[1].trim() : null;
+
+        const isAsync = styleSelect.value === 'async';
+
+        let js = '';
+
+        if (isAsync) {
+          js += `async function makeRequest() {\n`;
+          js += `  const response = await fetch("${url}", {\n`;
+          js += `    method: "${method}",\n`;
+
+          if (Object.keys(headers).length > 0) {
+            js += `    headers: {\n`;
+            Object.entries(headers).forEach(([k, v]) => {
+              js += `      "${k}": "${v}",\n`;
+            });
+            js += `    },\n`;
+          }
+
+          if (bodyStr && method !== 'GET') {
+            try {
+              const parsedJson = JSON.parse(bodyStr);
+              js += `    body: JSON.stringify(${JSON.stringify(parsedJson, null, 6).replace(/\n/g, '\n    ')})\n`;
+            } catch {
+              js += `    body: "${bodyStr.replace(/"/g, '\\"')}"\n`;
+            }
+          }
+
+          js += `  });\n\n`;
+          js += `  const data = await response.json();\n`;
+          js += `  console.log(data);\n`;
+          js += `}\n\nmakeRequest();`;
+        } else {
+          js += `fetch("${url}", {\n`;
+          js += `  method: "${method}",\n`;
+
+          if (Object.keys(headers).length > 0) {
+            js += `  headers: {\n`;
+            Object.entries(headers).forEach(([k, v]) => {
+              js += `    "${k}": "${v}",\n`;
+            });
+            js += `  },\n`;
+          }
+
+          if (bodyStr && method !== 'GET') {
+            js += `  body: JSON.stringify(${bodyStr})\n`;
+          }
+
+          js += `})\n`;
+          js += `.then(response => response.json())\n`;
+          js += `.then(data => console.log(data))\n`;
+          js += `.catch(error => console.error('Error:', error));`;
+        }
+
+        if (fetchOutput) fetchOutput.value = js;
+      }
+
+      btnSample?.addEventListener('click', () => {
+        curlInput.value = sampleCurl;
+        convert();
+      });
+
+      [curlInput, styleSelect].forEach(el => {
+        el?.addEventListener('input', convert);
+        el?.addEventListener('change', convert);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (fetchOutput) {
+          navigator.clipboard.writeText(fetchOutput.value);
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Fetch Code'; }, 2000);
+        }
+      });
+
+      curlInput.value = sampleCurl;
+      convert();
+    }
+
+    document.addEventListener('DOMContentLoaded', initCurlFetch);
+  </script>
+</Layout>

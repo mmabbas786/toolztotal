@@ -1,0 +1,225 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "AI Token Calculator - GPT-5, GPT-4o, Claude & Gemini Token Solver | ToolzTotal",
+  description: "Free AI token calculator. Estimate token counts, context window percentage, and API costs across GPT-5, GPT-4o, Claude 3.5, and Gemini 2.0 models.",
+  url: "https://toolztotal.com/ai/token-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is an AI token?", answer: "A token is the basic unit of text processing used by Large Language Models (LLMs). In English, 1 token is approximately equal to 4 characters or 0.75 words. For example, 100 tokens equal roughly 75 words." },
+  { question: "How many tokens are in a page of text?", answer: "A typical single-spaced page of text containing 500 words is equal to approximately 660 to 700 tokens." },
+  { question: "What is context window capacity?", answer: "The context window is the maximum number of tokens an AI model can read and process in a single conversation prompt (e.g. 128k tokens for GPT-4o, 200k for Claude 3.5 Sonnet, and 2M tokens for Gemini 1.5/2.0)." },
+  { question: "Why do AI models bill separately for Input vs Output tokens?", answer: "Input tokens (prompt reading) require parallel GPU matrix multiplication, whereas Output tokens (completion generation) require sequential auto-regressive generation step by step, making output tokens 3x–4x more expensive to compute." },
+  { question: "How does GPT-4o tokenization compare to Claude 3.5?", answer: "GPT-4o uses the o200k_base tokenizer which compresses code, non-English languages, and JSON structured data up to 20% more efficiently than older cl100k_base tokenizers." },
+  { question: "Is my text data stored or sent to any server?", answer: "No. The AI Token Calculator runs 100% locally in your web browser. No prompt text is uploaded to any server or logged in any database." },
+  { question: "What is prompt caching and how does it affect token cost?", answer: "Prompt caching allows developers to cache repeated system prompts or static documentation blocks, cutting input token costs by 50%–90% on Anthropic Claude and OpenAI APIs." },
+  { question: "Is this token calculator free to use?", answer: "Yes. ToolzTotal provides 100% free online developer and AI tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="AI Token Calculator"
+    toolSlug="token-calculator"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="AI Token Calculator" toolSlug="token-calculator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private AI Token Estimator</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        AI Token Calculator
+      </h1>
+      <TrustHeader toolSlug="token-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate token counts, context window consumption, and API costs across GPT-5, GPT-4o, Claude 3.5, and Gemini 2.0 models instantly in your browser.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Area -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Input Prompt / Text</h2>
+
+          <div>
+            <label for="prompt-text" class="block text-xs font-mono text-mute uppercase mb-1">Paste Prompt or Document Text</label>
+            <textarea id="prompt-text" rows="8" placeholder="Paste your system prompt, code snippet, or document here to count tokens..." class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink leading-relaxed"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 pt-2 border-t border-hairline">
+            <div>
+              <label for="est-output-tokens" class="block text-xs font-mono text-mute uppercase mb-1">Expected Output Tokens</label>
+              <input type="number" id="est-output-tokens" value="500" min="1" max="16000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="api-calls-count" class="block text-xs font-mono text-mute uppercase mb-1">Monthly API Calls</label>
+              <input type="number" id="api-calls-count" value="10000" min="1" max="10000000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Token & Cost Breakdown -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Token & Cost Breakdown</h2>
+            <span id="token-count-badge" class="text-xs font-mono text-emerald-500 font-bold">0 Tokens</span>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="grid grid-cols-3 gap-3 font-mono text-center">
+            <div class="p-3 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] text-mute block uppercase">Input Tokens</span>
+              <span id="stat-input-tokens" class="text-sm font-bold text-ink">0</span>
+            </div>
+            <div class="p-3 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] text-mute block uppercase">Words Count</span>
+              <span id="stat-words" class="text-sm font-bold text-ink">0</span>
+            </div>
+            <div class="p-3 bg-canvas-soft border border-hairline rounded-lg">
+              <span class="text-[10px] text-mute block uppercase">Characters</span>
+              <span id="stat-chars" class="text-sm font-bold text-ink">0</span>
+            </div>
+          </div>
+
+          <!-- Model Price Comparison Table -->
+          <div class="border border-hairline rounded-lg overflow-hidden text-xs font-mono">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                  <th class="p-2.5">Model</th>
+                  <th class="p-2.5">Per Call</th>
+                  <th class="p-2.5">Monthly Total</th>
+                </tr>
+              </thead>
+              <tbody id="pricing-rows" class="divide-y divide-hairline">
+                <!-- Dynamic rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding LLM Tokenization and API Pricing</h2>
+        <p>
+          Large Language Models do not process raw text strings directly. Instead, text is split into sub-word byte pair encodings (BPE) called tokens. A token can represent a single character, a sub-word root, or a whole word depending on the LLM's vocabulary size.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "OpenAI API Pricing Documentation", url: "https://openai.com/api/pricing/" },
+        { title: "Anthropic Claude API Pricing", url: "https://www.anthropic.com/pricing" }
+      ]} />
+
+      <RelatedTools currentSlug="token-calculator" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initTokenCalc() {
+      const promptInput = document.getElementById('prompt-text') as HTMLTextAreaElement;
+      const outputInput = document.getElementById('est-output-tokens') as HTMLInputElement;
+      const callsInput = document.getElementById('api-calls-count') as HTMLInputElement;
+
+      const badge = document.getElementById('token-count-badge');
+      const statInput = document.getElementById('stat-input-tokens');
+      const statWords = document.getElementById('stat-words');
+      const statChars = document.getElementById('stat-chars');
+      const rows = document.getElementById('pricing-rows');
+
+      const models = [
+        { name: 'GPT-4o', inRate: 2.50, outRate: 10.00 },
+        { name: 'GPT-4o-mini', inRate: 0.15, outRate: 0.60 },
+        { name: 'Claude 3.5 Sonnet', inRate: 3.00, outRate: 15.00 },
+        { name: 'Claude 3 Haiku', inRate: 0.25, outRate: 1.25 },
+        { name: 'Gemini 1.5 Flash', inRate: 0.075, outRate: 0.30 },
+        { name: 'Gemini 1.5 Pro', inRate: 1.25, outRate: 5.00 }
+      ];
+
+      function calculate() {
+        const text = promptInput.value || '';
+        const chars = text.length;
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+
+        // Approx 1 token per 4 chars
+        const inTokens = Math.ceil(chars / 4);
+        const outTokens = parseInt(outputInput.value, 10) || 500;
+        const calls = parseInt(callsInput.value, 10) || 10000;
+
+        if (badge) badge.textContent = `${inTokens} Tokens`;
+        if (statInput) statInput.textContent = inTokens.toLocaleString();
+        if (statWords) statWords.textContent = words.toLocaleString();
+        if (statChars) statChars.textContent = chars.toLocaleString();
+
+        if (rows) {
+          rows.innerHTML = '';
+          models.forEach(m => {
+            const callCost = ((inTokens / 1000000) * m.inRate) + ((outTokens / 1000000) * m.outRate);
+            const monthlyCost = callCost * calls;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="p-2.5 font-bold text-ink">${m.name}</td>
+              <td class="p-2.5 text-mute">$${callCost.toFixed(5)}</td>
+              <td class="p-2.5 font-bold text-emerald-500">$${monthlyCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            `;
+            rows.appendChild(tr);
+          });
+        }
+      }
+
+      promptInput?.addEventListener('input', calculate);
+      outputInput?.addEventListener('input', calculate);
+      callsInput?.addEventListener('input', calculate);
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initTokenCalc);
+  </script>
+</Layout>

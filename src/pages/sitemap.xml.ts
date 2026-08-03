@@ -60,29 +60,38 @@ export const GET: APIRoute = async () => {
     priority: 0.8
   });
 
-  // 4. Category Hubs
-  const categories = [
-    { slug: 'finance', file: 'src/pages/[category]/index.astro' },
-    { slug: 'real-estate', file: 'src/pages/[category]/index.astro' },
-    { slug: 'utility', file: 'src/pages/[category]/index.astro' },
-    { slug: 'dev', file: 'src/pages/[category]/index.astro' },
-    { slug: 'text', file: 'src/pages/[category]/index.astro' },
-    { slug: 'marketing', file: 'src/pages/[category]/index.astro' },
-    { slug: 'health', file: 'src/pages/[category]/index.astro' },
-    { slug: 'education', file: 'src/pages/[category]/index.astro' },
-    { slug: 'image-tools', file: 'src/pages/[category]/index.astro' },
-    { slug: 'legal', file: 'src/pages/legal/index.astro' }
-  ];
-  for (const cat of categories) {
+  // 4. Category Hubs (Dynamically generated for all catalog categories)
+  for (const cat of toolCatalog) {
+    const filePath = cat.slug === 'legal' ? 'src/pages/legal/index.astro' : 'src/pages/[category]/index.astro';
     entries.push({
       url: `https://toolztotal.com/${cat.slug}`,
-      lastmod: getLastmod(cat.file),
+      lastmod: getLastmod(filePath),
       changefreq: 'weekly',
       priority: 0.8
     });
   }
 
-  // 5. Tool Pages
+  // 5. Comparison Pages
+  const compareDir = path.resolve('src/pages/compare');
+  if (fs.existsSync(compareDir)) {
+    const compareFiles = fs.readdirSync(compareDir).filter(f => f.endsWith('.astro'));
+    for (const file of compareFiles) {
+      const slug = file.replace('.astro', '');
+      const filePath = `src/pages/compare/${file}`;
+      entries.push({
+        url: `https://toolztotal.com/compare/${slug}`,
+        lastmod: getLastmod(filePath),
+        changefreq: 'weekly',
+        priority: 0.8,
+        image: {
+          loc: `https://toolztotal.com/og/compare/${slug}.png`,
+          title: slug.replace(/-/g, ' ')
+        }
+      });
+    }
+  }
+
+  // 6. Tool Pages
   for (const category of toolCatalog) {
     for (const tool of category.tools) {
       const filePath = `src/pages/${category.slug}/${tool.slug}.astro`;

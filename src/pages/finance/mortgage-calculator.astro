@@ -96,6 +96,7 @@ import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 import ToolSchema from '../../components/ToolSchema.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import RelatedTools from '../../components/RelatedTools.astro';
+import AmortizationChart from '../../components/charts/AmortizationChart.astro';
 
 import TrustHeader from '../../components/TrustHeader.astro';
 ---
@@ -526,6 +527,11 @@ import TrustHeader from '../../components/TrustHeader.astro';
               </div>
             </div>
             
+          </div>
+
+          <!-- Interactive Amortization Curve Chart -->
+          <div class="mt-6">
+            <AmortizationChart id="mortgage-amortization-chart" />
           </div>
 
           <!-- Disclaimer inline -->

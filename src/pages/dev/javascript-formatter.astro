@@ -1,0 +1,302 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "JavaScript Formatter & Minifier - Beautify & Compress JS | ToolzTotal",
+  description: "Free JavaScript Formatter & Minifier. Beautify, indent, compress, and strip comments from JS code with live line and byte compression analytics.",
+  url: "https://toolztotal.com/dev/javascript-formatter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the difference between JavaScript Beautifying and Minifying?", answer: "Beautifying adds consistent indentation, spaces, and line breaks to unreadable JS code to make it human-readable. Minifying removes unnecessary spaces, line breaks, and comments to reduce file transfer payload size for fast page loading." },
+  { question: "Does minifying JavaScript alter code execution logic?", answer: "No. Properly minified JavaScript removes non-executable formatting tokens (whitespace and comments) while keeping all functional statements, variables, and logic identical." },
+  { question: "Can I remove console.log statements automatically?", answer: "Yes. Our tool includes an option to strip `console.log()` statements to clean up production client-side code." },
+  { question: "Is my JavaScript code uploaded to any external server?", answer: "No. The formatting engine executes 100% client-side inside your browser JavaScript engine. Your source code is never transmitted anywhere." },
+  { question: "Why is JavaScript minification important for Core Web Vitals?", answer: "Minifying JS files reduces payload size, which speeds up network download times, reduces main-thread parsing costs, and improves Largest Contentful Paint (LCP) and Interaction to Next Paint (INP) scores." },
+  { question: "How does the tool handle single-line comments during minification?", answer: "When minifying code containing single-line comments (`//`), the tool safely strips them before combining statements onto single lines to prevent syntax breakages." },
+  { question: "Can I format ES6+ modern JavaScript code?", answer: "Yes. The formatter handles modern ECMAScript features including arrow functions, async/await, template literals, destructured assignments, and ES modules." },
+  { question: "How do I download the processed JavaScript file?", answer: "Click the 'Download .js' button to download the resulting code as a `.js` file." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="JavaScript Formatter & Minifier"
+    toolSlug="javascript-formatter"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Developer Tools" categorySlug="dev" toolName="JavaScript Formatter & Minifier" toolSlug="javascript-formatter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Frontend Dev Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        JavaScript Formatter & Minifier
+      </h1>
+      <TrustHeader toolSlug="javascript-formatter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Beautify, indent, or compress JavaScript code. Strip comments and console logs, analyze byte savings, and download clean `.js` files client-side.
+      </p>
+    </div>
+
+    <!-- Formatter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">JavaScript Input</h2>
+            <button type="button" id="btn-sample-js" class="text-xs font-mono text-link hover:underline">Sample Script</button>
+          </div>
+
+          <div>
+            <textarea id="js-input" rows="10" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink leading-relaxed focus:ring-1 focus:ring-ink" placeholder="Paste JavaScript code here..."></textarea>
+          </div>
+
+          <div class="space-y-2 pt-2 border-t border-hairline text-xs font-sans text-body">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="opt-strip-comments" checked class="w-4 h-4 rounded border-hairline text-ink" />
+              <span>Strip Comments (// and /* */)</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="opt-strip-console" class="w-4 h-4 rounded border-hairline text-ink" />
+              <span>Remove console.log() statements</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Processed Code</h2>
+            <div class="flex bg-canvas-soft rounded-lg p-1 border border-hairline">
+              <button type="button" id="mode-beautify" class="px-2.5 py-1 text-xs font-medium rounded-md bg-primary text-on-primary">Beautify</button>
+              <button type="button" id="mode-minify" class="px-2.5 py-1 text-xs font-medium rounded-md text-body hover:text-ink">Minify</button>
+            </div>
+          </div>
+
+          <!-- Stats Badge -->
+          <div class="flex justify-between items-center bg-canvas-soft border border-hairline p-3 rounded-lg text-xs font-mono">
+            <span id="stat-orig" class="text-mute">Original: 0 B (0 lines)</span>
+            <span id="stat-out" class="text-ink font-bold">Output: 0 B</span>
+            <span id="stat-savings" class="text-emerald-500 font-bold">0% Saved</span>
+          </div>
+
+          <textarea id="js-output" readonly rows="10" class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy JS Code
+            </button>
+            <button type="button" id="btn-download" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Download .js
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding JavaScript Minification and Formatting</h2>
+        <p>
+          JavaScript powers interactive client-side functionality across modern web applications. Optimizing JS assets via formatting for development and minification for production is essential for clean code maintainability and Web Vitals performance.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "MDN Web Docs - JavaScript Guide", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" }
+      ]} />
+
+      <RelatedTools currentSlug="javascript-formatter" categorySlug="dev" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initJsFormat() {
+      const inputArea = document.getElementById('js-input') as HTMLTextAreaElement;
+      const outputArea = document.getElementById('js-output') as HTMLTextAreaElement;
+      const stripCommentsCb = document.getElementById('opt-strip-comments') as HTMLInputElement;
+      const stripConsoleCb = document.getElementById('opt-strip-console') as HTMLInputElement;
+
+      const modeBeautify = document.getElementById('mode-beautify');
+      const modeMinify = document.getElementById('mode-minify');
+
+      const statOrig = document.getElementById('stat-orig');
+      const statOut = document.getElementById('stat-out');
+      const statSavings = document.getElementById('stat-savings');
+
+      const btnSample = document.getElementById('btn-sample-js');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnDownload = document.getElementById('btn-download');
+
+      let currentMode: 'beautify' | 'minify' = 'beautify';
+
+      const sampleJs = `// Calculate total order price with tax and discount
+function calculateTotal(subtotal, taxRate = 0.08, discountCode = null) {
+  // Log debug information
+  console.log("Calculating total for subtotal:", subtotal);
+  
+  let discount = 0;
+  if (discountCode === "SAVE10") {
+    discount = subtotal * 0.10;
+  }
+  
+  const taxableAmount = subtotal - discount;
+  const tax = taxableAmount * taxRate;
+  const finalTotal = taxableAmount + tax;
+  
+  return {
+    subtotal: subtotal,
+    discount: discount,
+    tax: tax,
+    total: finalTotal
+  };
+}`;
+
+      function processJs() {
+        let code = inputArea.value;
+        const origBytes = new Blob([code]).size;
+        const origLines = code ? code.split('\n').length : 0;
+
+        if (!code.trim()) {
+          if (outputArea) outputArea.value = '';
+          if (statOrig) statOrig.textContent = 'Original: 0 B (0 lines)';
+          if (statOut) statOut.textContent = 'Output: 0 B';
+          if (statSavings) statSavings.textContent = '0% Saved';
+          return;
+        }
+
+        // Strip comments if requested
+        if (stripCommentsCb.checked) {
+          code = code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*/g, '');
+        }
+
+        // Strip console.log if requested
+        if (stripConsoleCb.checked) {
+          code = code.replace(/console\.log\([^)]*\);?/g, '');
+        }
+
+        let result = '';
+
+        if (currentMode === 'minify') {
+          result = code.replace(/\s+/g, ' ').replace(/\s*([{}();,:=+*\/-])\s*/g, '$1').trim();
+        } else {
+          // Simple beautifier indentation
+          const lines = code.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+          let indent = 0;
+          const formatted: string[] = [];
+
+          lines.forEach(line => {
+            if (line.startsWith('}') || line.startsWith(']')) {
+              indent = Math.max(indent - 1, 0);
+            }
+            formatted.push('  '.repeat(indent) + line);
+            if (line.endsWith('{') || line.endsWith('[')) {
+              indent++;
+            }
+          });
+          result = formatted.join('\n');
+        }
+
+        const outBytes = new Blob([result]).size;
+        const outLines = result ? result.split('\n').length : 0;
+        const saved = origBytes > 0 ? (((origBytes - outBytes) / origBytes) * 100).toFixed(1) : '0';
+
+        if (outputArea) outputArea.value = result;
+        if (statOrig) statOrig.textContent = `Original: ${origBytes} B (${origLines} lines)`;
+        if (statOut) statOut.textContent = `Output: ${outBytes} B (${outLines} lines)`;
+        if (statSavings) statSavings.textContent = `${saved}% Saved`;
+      }
+
+      modeBeautify?.addEventListener('click', () => {
+        currentMode = 'beautify';
+        modeBeautify.className = 'px-2.5 py-1 text-xs font-medium rounded-md bg-primary text-on-primary';
+        modeMinify?.setAttribute('class', 'px-2.5 py-1 text-xs font-medium rounded-md text-body hover:text-ink');
+        processJs();
+      });
+
+      modeMinify?.addEventListener('click', () => {
+        currentMode = 'minify';
+        modeMinify.className = 'px-2.5 py-1 text-xs font-medium rounded-md bg-primary text-on-primary';
+        modeBeautify?.setAttribute('class', 'px-2.5 py-1 text-xs font-medium rounded-md text-body hover:text-ink');
+        processJs();
+      });
+
+      btnSample?.addEventListener('click', () => {
+        inputArea.value = sampleJs;
+        processJs();
+      });
+
+      [inputArea, stripCommentsCb, stripConsoleCb].forEach(el => {
+        el?.addEventListener('input', processJs);
+        el?.addEventListener('change', processJs);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (outputArea) {
+          navigator.clipboard.writeText(outputArea.value);
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy JS Code'; }, 2000);
+        }
+      });
+
+      btnDownload?.addEventListener('click', () => {
+        if (outputArea && outputArea.value) {
+          const blob = new Blob([outputArea.value], { type: 'text/javascript;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'script.js';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      });
+
+      inputArea.value = sampleJs;
+      processJs();
+    }
+
+    document.addEventListener('DOMContentLoaded', initJsFormat);
+  </script>
+</Layout>

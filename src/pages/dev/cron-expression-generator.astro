@@ -1,0 +1,276 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Cron Expression Generator - Visual Cron Schedule Builder | ToolzTotal",
+  description: "Free Cron Expression Generator. Build standard 5-part cron schedule expressions visually with live plain-English descriptions and presets.",
+  url: "https://toolztotal.com/dev/cron-expression-generator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is a cron expression?", answer: "A cron expression is a string of 5 (or 6) fields separated by spaces that defines a recurring execution schedule for automated background jobs in Linux, Unix, and cloud server environments." },
+  { question: "What do the 5 fields in a standard cron expression represent?", answer: "The 5 fields represent in order: 1) Minute (0-59), 2) Hour (0-23), 3) Day of Month (1-31), 4) Month (1-12), and 5) Day of Week (0-6, where 0 is Sunday)." },
+  { question: "What does the asterisk (*) symbol mean in cron syntax?", answer: "The asterisk `*` acts as a wildcard meaning 'every' or 'all valid values' for that field (e.g. `*` in the Minute field means 'every minute')." },
+  { question: "What does the step operator (/N) mean?", answer: "The step operator `/N` specifies value increments (e.g. `*/15` in the Minute field means 'every 15 minutes')." },
+  { question: "How do I schedule a job every weekday at 9 AM?", answer: "The cron expression for every weekday (Monday through Friday) at 9:00 AM is `0 9 * * 1-5`." },
+  { question: "How do I schedule a job every Sunday at midnight?", answer: "The cron expression for every Sunday at midnight is `0 0 * * 0` (or `0 0 * * 7`)." },
+  { question: "Can I use month names like JAN or FEB in cron expressions?", answer: "Yes. Most modern cron implementations (like Crontab and Vercel/AWS Cron) support 3-letter month names (JAN-DEC) and day names (SUN-SAT)." },
+  { question: "Where are cron jobs configured on Linux servers?", answer: "On Linux/Unix systems, cron jobs are configured by editing the user crontab file using the `crontab -e` terminal command." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Cron Expression Generator"
+    toolSlug="cron-expression-generator"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Developer Tools" categorySlug="dev" toolName="Cron Expression Generator" toolSlug="cron-expression-generator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">DevOps Utility</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Cron Expression Generator
+      </h1>
+      <TrustHeader toolSlug="cron-expression-generator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Build standard 5-part cron expressions visually with live plain-English schedule translations, quick presets, and instant copy buttons.
+      </p>
+    </div>
+
+    <!-- Generator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Visual Schedule Builder</h2>
+          </div>
+
+          <!-- Presets -->
+          <div>
+            <span class="block text-xs font-mono text-mute uppercase mb-2">Common Schedule Presets</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" class="preset-cron px-2.5 py-1 text-xs font-mono bg-canvas-soft border border-hairline rounded text-body hover:text-ink" data-cron="* * * * *">Every Minute</button>
+              <button type="button" class="preset-cron px-2.5 py-1 text-xs font-mono bg-canvas-soft border border-hairline rounded text-body hover:text-ink" data-cron="*/5 * * * *">Every 5 Mins</button>
+              <button type="button" class="preset-cron px-2.5 py-1 text-xs font-mono bg-canvas-soft border border-hairline rounded text-body hover:text-ink" data-cron="0 * * * *">Every Hour</button>
+              <button type="button" class="preset-cron px-2.5 py-1 text-xs font-mono bg-canvas-soft border border-hairline rounded text-body hover:text-ink" data-cron="0 0 * * *">Daily @ Midnight</button>
+              <button type="button" class="preset-cron px-2.5 py-1 text-xs font-mono bg-canvas-soft border border-hairline rounded text-body hover:text-ink" data-cron="0 9 * * 1-5">Weekdays @ 9am</button>
+            </div>
+          </div>
+
+          <!-- 5 Dropdowns -->
+          <div class="space-y-4 pt-2 border-t border-hairline">
+            <div>
+              <label for="cron-min" class="block text-xs font-mono text-mute uppercase mb-1">Minute (0 - 59)</label>
+              <select id="cron-min" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="*" selected>Every Minute (*)</option>
+                <option value="*/5">Every 5 Minutes (*/5)</option>
+                <option value="*/15">Every 15 Minutes (*/15)</option>
+                <option value="*/30">Every 30 Minutes (*/30)</option>
+                <option value="0">At Minute :00</option>
+                <option value="30">At Minute :30</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="cron-hour" class="block text-xs font-mono text-mute uppercase mb-1">Hour (0 - 23)</label>
+              <select id="cron-hour" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="*" selected>Every Hour (*)</option>
+                <option value="0">Midnight (00:00)</option>
+                <option value="9">9:00 AM (09:00)</option>
+                <option value="12">Noon (12:00)</option>
+                <option value="17">5:00 PM (17:00)</option>
+                <option value="*/2">Every 2 Hours (*/2)</option>
+                <option value="*/6">Every 6 Hours (*/6)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="cron-dom" class="block text-xs font-mono text-mute uppercase mb-1">Day of Month</label>
+                <select id="cron-dom" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                  <option value="*" selected>Every Day (*)</option>
+                  <option value="1">1st of Month</option>
+                  <option value="15">15th of Month</option>
+                </select>
+              </div>
+              <div>
+                <label for="cron-month" class="block text-xs font-mono text-mute uppercase mb-1">Month</label>
+                <select id="cron-month" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                  <option value="*" selected>Every Month (*)</option>
+                  <option value="1">January</option>
+                  <option value="6">June</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="cron-dow" class="block text-xs font-mono text-mute uppercase mb-1">Day of Week</label>
+              <select id="cron-dow" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="*" selected>Every Day (*)</option>
+                <option value="1-5">Weekdays (Mon-Fri)</option>
+                <option value="0,6">Weekends (Sat-Sun)</option>
+                <option value="1">Monday</option>
+                <option value="5">Friday</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Cron Output & Explanation</h2>
+
+          <div class="bg-canvas-soft border border-hairline p-5 rounded-xl text-center space-y-2">
+            <span class="block text-xs font-mono text-mute uppercase">Generated Cron Expression</span>
+            <span id="res-cron-str" class="text-3xl md:text-4xl font-bold font-mono text-emerald-500">* * * * *</span>
+          </div>
+
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-2">
+            <span class="block text-xs font-mono text-mute uppercase">Human-Readable Translation</span>
+            <p id="res-cron-desc" class="text-sm font-sans font-bold text-ink leading-relaxed">Runs every minute, every hour, every day.</p>
+          </div>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Cron Syntax
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding Cron Job Scheduling</h2>
+        <p>
+          <strong>Cron</strong> is the standard job scheduler utility in Unix-like operating systems. System administrators and web developers use cron syntax to schedule automated tasks like database backups, automated emails, and microservice health checks.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "POSIX Crontab Specification Standard", url: "https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html" }
+      ]} />
+
+      <RelatedTools currentSlug="cron-expression-generator" categorySlug="dev" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initCronGen() {
+      const minSel = document.getElementById('cron-min') as HTMLSelectElement;
+      const hourSel = document.getElementById('cron-hour') as HTMLSelectElement;
+      const domSel = document.getElementById('cron-dom') as HTMLSelectElement;
+      const monthSel = document.getElementById('cron-month') as HTMLSelectElement;
+      const dowSel = document.getElementById('cron-dow') as HTMLSelectElement;
+
+      const resStr = document.getElementById('res-cron-str');
+      const resDesc = document.getElementById('res-cron-desc');
+      const btnCopy = document.getElementById('btn-copy');
+
+      const presetBtns = document.querySelectorAll('.preset-cron');
+
+      function update() {
+        const min = minSel.value;
+        const hour = hourSel.value;
+        const dom = domSel.value;
+        const month = monthSel.value;
+        const dow = dowSel.value;
+
+        const expr = `${min} ${hour} ${dom} ${month} ${dow}`;
+        if (resStr) resStr.textContent = expr;
+
+        let desc = 'Runs ';
+        if (min === '*') desc += 'every minute ';
+        else if (min === '0') desc += 'at minute :00 ';
+        else desc += `at minute ${min} `;
+
+        if (hour === '*') desc += 'every hour ';
+        else desc += `at hour ${hour} `;
+
+        if (dom === '*') desc += 'every day of month ';
+        else desc += `on day ${dom} of month `;
+
+        if (dow === '1-5') desc += 'on weekdays ';
+        else if (dow === '0,6') desc += 'on weekends ';
+        else if (dow !== '*') desc += `on day ${dow} of week `;
+
+        if (resDesc) resDesc.textContent = desc.trim() + '.';
+      }
+
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const cron = (e.currentTarget as HTMLElement).getAttribute('data-cron');
+          if (cron) {
+            const parts = cron.split(' ');
+            if (parts.length === 5) {
+              minSel.value = parts[0];
+              hourSel.value = parts[1];
+              domSel.value = parts[2];
+              monthSel.value = parts[3];
+              dowSel.value = parts[4];
+              update();
+            }
+          }
+        });
+      });
+
+      [minSel, hourSel, domSel, monthSel, dowSel].forEach(el => {
+        el?.addEventListener('change', update);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (resStr) {
+          navigator.clipboard.writeText(resStr.textContent || '');
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Cron Syntax'; }, 2000);
+        }
+      });
+
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', initCronGen);
+  </script>
+</Layout>

@@ -1,0 +1,205 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Gemini API Cost Calculator - Google Gemini 1.5 & 2.0 Pricing | ToolzTotal",
+  description: "Free Google Gemini API cost calculator. Calculate monthly expenses for Gemini 1.5 Pro, Gemini 1.5 Flash, and Gemini 2.0 Flash 100% client-side.",
+  url: "https://toolztotal.com/ai/gemini-cost-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the Gemini API Cost Calculator work?", answer: "The calculator applies official Google AI Studio and Vertex AI rates per 1,000,000 tokens for Gemini 1.5 Pro, Gemini 1.5 Flash, and Gemini 2.0 Flash models." },
+  { question: "What is Gemini 1.5 Flash pricing?", answer: "Gemini 1.5 Flash is Google's high-speed, low-cost model priced at $0.075 per 1M input tokens and $0.30 per 1M output tokens (prompts under 128k tokens)." },
+  { question: "How does Gemini tier pricing work for prompts over 128k tokens?", answer: "For prompts exceeding 128,000 context tokens, Google applies a 2x rate multiplier ($2.50 / $10.00 per 1M tokens for Gemini 1.5 Pro)." },
+  { question: "Is Google AI Studio free tier available?", answer: "Yes. Google offers free tier access with rate limits (15 RPM) for developers building and prototyping applications." },
+  { question: "Is my data sent to Google or any server?", answer: "No. The calculator operates 100% locally in your web browser. No prompt text or data is uploaded to any remote server." },
+  { question: "What is Gemini 2.0 Flash capability?", answer: "Gemini 2.0 Flash provides next-gen multimodal reasoning, realtime audio streaming, and agentic function calling at fast Flash-tier pricing." },
+  { question: "How are audio and video tokens priced in Gemini?", answer: "Audio input is billed at $0.002 per minute or equivalent token rates, while video frames are converted into visual tokens." },
+  { question: "Is this Gemini cost calculator free to use?", answer: "Yes. ToolzTotal provides 100% free AI tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Gemini API Cost Calculator"
+    toolSlug="gemini-cost-calculator"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="Gemini API Cost Calculator" toolSlug="gemini-cost-calculator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Google AI Pricing Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Gemini API Cost Calculator
+      </h1>
+      <TrustHeader toolSlug="gemini-cost-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate monthly Google Gemini API expenses across Gemini 1.5 Pro, Flash, and Gemini 2.0 Flash models. Account for context length tiers instantly.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Controls -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Usage Parameters</h2>
+
+          <div>
+            <label for="gemini-model" class="block text-xs font-mono text-mute uppercase mb-1">Select Gemini Model</label>
+            <select id="gemini-model" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink">
+              <option value="flash-1.5" selected>Gemini 1.5 Flash ($0.075 / $0.30 per 1M tokens)</option>
+              <option value="pro-1.5">Gemini 1.5 Pro ($1.25 / $5.00 per 1M tokens)</option>
+              <option value="flash-2.0">Gemini 2.0 Flash ($0.10 / $0.40 per 1M tokens)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="input-tokens" class="block text-xs font-mono text-mute uppercase mb-1">Avg Input Tokens / Call</label>
+              <input type="number" id="input-tokens" value="4000" min="1" max="2000000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="output-tokens" class="block text-xs font-mono text-mute uppercase mb-1">Avg Output Tokens / Call</label>
+              <input type="number" id="output-tokens" value="800" min="1" max="8192" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div>
+            <label for="monthly-calls" class="block text-xs font-mono text-mute uppercase mb-1">Monthly API Calls</label>
+            <input type="number" id="monthly-calls" value="100000" min="1" max="100000000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Estimated Cost</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Google AI Studio</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Estimated Monthly Expense</span>
+              <span id="monthly-cost-total" class="text-3xl font-bold text-emerald-500">$0.00</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Cost Per Call</span>
+                <span id="call-cost-val" class="font-bold text-ink">$0.00</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Total Monthly Tokens</span>
+                <span id="monthly-tokens-val" class="font-bold text-ink">0 M</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Google Gemini API Pricing Structure Guide</h2>
+        <p>
+          Google Gemini API offers industry-leading context window lengths (up to 2,000,000 tokens) at competitive price points. Understanding context length tier thresholds ensures predictable cloud expenditure for AI startups and enterprises.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Google AI Studio Official Pricing Schedule", url: "https://ai.google.dev/pricing" }
+      ]} />
+
+      <RelatedTools currentSlug="gemini-cost-calculator" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initGeminiCalc() {
+      const modelSelect = document.getElementById('gemini-model') as HTMLSelectElement;
+      const inInput = document.getElementById('input-tokens') as HTMLInputElement;
+      const outInput = document.getElementById('output-tokens') as HTMLInputElement;
+      const callsInput = document.getElementById('monthly-calls') as HTMLInputElement;
+
+      const totalEl = document.getElementById('monthly-cost-total');
+      const perCallEl = document.getElementById('call-cost-val');
+      const tokensEl = document.getElementById('monthly-tokens-val');
+
+      const rates: Record<string, { inRate: number; outRate: number }> = {
+        'flash-1.5': { inRate: 0.075, outRate: 0.30 },
+        'pro-1.5': { inRate: 1.25, outRate: 5.00 },
+        'flash-2.0': { inRate: 0.10, outRate: 0.40 }
+      };
+
+      function update() {
+        const key = modelSelect.value;
+        const rate = rates[key] || rates['flash-1.5'];
+
+        let inTokens = parseInt(inInput.value, 10) || 0;
+        const outTokens = parseInt(outputInput?.value || '0', 10) || 0;
+        const calls = parseInt(callsInput.value, 10) || 0;
+
+        let multiplier = 1.0;
+        if (key === 'pro-1.5' && inTokens > 128000) {
+          multiplier = 2.0;
+        }
+
+        const callCost = (((inTokens / 1000000) * rate.inRate * multiplier) + ((outTokens / 1000000) * rate.outRate * multiplier));
+        const monthlyCost = callCost * calls;
+        const totalM = (((inTokens + outTokens) * calls) / 1000000).toFixed(1);
+
+        if (totalEl) totalEl.textContent = '$' + monthlyCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (perCallEl) perCallEl.textContent = '$' + callCost.toFixed(5);
+        if (tokensEl) tokensEl.textContent = totalM + ' M';
+      }
+
+      modelSelect?.addEventListener('change', update);
+      inInput?.addEventListener('input', update);
+      outInput?.addEventListener('input', update);
+      callsInput?.addEventListener('input', update);
+
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', initGeminiCalc);
+  </script>
+</Layout>

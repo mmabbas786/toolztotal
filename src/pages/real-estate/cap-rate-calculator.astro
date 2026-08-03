@@ -1,0 +1,276 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Cap Rate Calculator - Net Operating Income & Property Valuation | ToolzTotal",
+  description: "Free Cap Rate Calculator. Calculate capitalization rates, Net Operating Income (NOI), target property valuations, and ROI for commercial and residential real estate.",
+  url: "https://toolztotal.com/real-estate/cap-rate-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is Capitalization Rate (Cap Rate)?", answer: "Capitalization rate is a fundamental real estate metric that measures an investment property's net return profile without considering debt financing. Cap Rate = (Net Operating Income / Property Value) × 100." },
+  { question: "What is a good Cap Rate for commercial and residential real estate?", answer: "A 'good' cap rate typically ranges between 5% and 10% depending on property asset class, geographic market, tenant creditworthiness, and local interest rate environments. Higher cap rates indicate higher risk and potential return." },
+  { question: "What expenses are included in Net Operating Income (NOI)?", answer: "NOI includes all ordinary operational expenses: property taxes, landlord insurance, property management fees, routine repairs, maintenance, utilities, and vacancy reserves. Mortgages, capital improvements, and income taxes are EXCLUDED." },
+  { question: "How does Cap Rate differ from Cash-on-Cash Return?", answer: "Cap Rate evaluates property profitability assuming an all-cash purchase. Cash-on-Cash return measures levered annual return based on actual down payment cash invested after mortgage debt service is paid." },
+  { question: "How do I estimate property valuation using target Cap Rate?", answer: "Property Valuation = Net Operating Income / Target Cap Rate. For example, if a property generates $60,000 in NOI and prevailing market cap rates are 6%, the estimated valuation is $1,000,000." },
+  { question: "Does Cap Rate factor in property appreciation?", answer: "No. Cap rate reflects current unlevered annual cash yield only. Long-term property value appreciation or tax depreciation benefits are evaluated using Internal Rate of Return (IRR) or Net Present Value (NPV)." },
+  { question: "Why do prime urban properties have lower cap rates?", answer: "High-demand metropolitan areas (Class A properties) command lower cap rates because they carry lower tenant default risk and higher long-term appreciation potential." },
+  { question: "Can a cap rate change after purchase?", answer: "Yes. Cap rates fluctuate as property Net Operating Income increases (via rent growth or operational cost savings) or as overall market real estate values change." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Cap Rate Calculator"
+    toolSlug="cap-rate-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Real Estate & Mortgage" categorySlug="real-estate" toolName="Cap Rate Calculator" toolSlug="cap-rate-calculator" />
+    <DisclaimerBanner category="real-estate" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Real Estate Valuation Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Cap Rate Calculator
+      </h1>
+      <TrustHeader toolSlug="cap-rate-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate Capitalization Rates (Cap Rate), evaluate Net Operating Income (NOI), and estimate commercial or residential investment property values instantly.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Property Financials</h2>
+
+          <div>
+            <label for="prop-price" class="block text-xs font-mono text-mute uppercase mb-1">Property Purchase Price ($)</label>
+            <input type="number" id="prop-price" value="500000" min="10000" step="25000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="gross-rent" class="block text-xs font-mono text-mute uppercase mb-1">Gross Annual Rent ($)</label>
+              <input type="number" id="gross-rent" value="60000" min="0" step="1000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="other-income" class="block text-xs font-mono text-mute uppercase mb-1">Other Income ($/yr)</label>
+              <input type="number" id="other-income" value="2400" min="0" step="100" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="border-t border-hairline pt-4 space-y-4">
+            <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Annual Operating Expenses</h3>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="exp-taxes" class="block text-xs font-mono text-mute uppercase mb-1">Property Taxes ($)</label>
+                <input type="number" id="exp-taxes" value="6500" min="0" step="500" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+              </div>
+              <div>
+                <label for="exp-ins" class="block text-xs font-mono text-mute uppercase mb-1">Insurance ($)</label>
+                <input type="number" id="exp-ins" value="2200" min="0" step="100" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="exp-mgmt" class="block text-xs font-mono text-mute uppercase mb-1">Property Mgmt ($)</label>
+                <input type="number" id="exp-mgmt" value="4800" min="0" step="200" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+              </div>
+              <div>
+                <label for="exp-maint" class="block text-xs font-mono text-mute uppercase mb-1">Repairs & Vacancy ($)</label>
+                <input type="number" id="exp-maint" value="4500" min="0" step="200" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Cap Rate Breakdown</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Capitalization Rate</span>
+              <span id="res-cap-rate" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">8.88%</span>
+              <span id="res-cap-sub" class="block text-xs font-sans text-mute mt-1">Unlevered annual yield</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Net Operating Income</span>
+              <span id="res-noi" class="text-2xl md:text-3xl font-bold font-mono text-ink">$44,400</span>
+              <span id="res-noi-sub" class="block text-xs font-sans text-mute mt-1">Annual NOI</span>
+            </div>
+          </div>
+
+          <!-- Highlight Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-body font-sans">Gross Operating Income:</span>
+              <span id="res-gross-inc" class="font-mono font-bold text-ink">$62,400.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Total Operating Expenses:</span>
+              <span id="res-tot-exp" class="font-mono text-rose-500">-$18,000.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Expense Ratio:</span>
+              <span id="res-exp-ratio" class="font-mono text-ink">28.85%</span>
+            </div>
+            <div class="flex justify-between items-center text-base border-t border-hairline-strong pt-3 font-semibold">
+              <span class="text-ink font-sans">Estimated Value @ 6% Cap Rate:</span>
+              <span id="res-val-6" class="font-mono text-emerald-500">$740,000.00</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Summary
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">What is Capitalization Rate in Real Estate?</h2>
+        <p>
+          The Capitalization Rate (Cap Rate) is one of the most critical financial metrics used by real estate investors, commercial brokers, and appraisers to evaluate property returns and compare potential investments across different markets.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "National Association of Realtors (NAR) Real Estate Metrics", url: "https://www.nar.realtor/research-and-statistics" }
+      ]} />
+
+      <RelatedTools currentSlug="cap-rate-calculator" categorySlug="real-estate" />
+      <ContentFooter category="real-estate" />
+    </article>
+  </div>
+
+  <script>
+    function initCapRateCalc() {
+      const priceInput = document.getElementById('prop-price') as HTMLInputElement;
+      const rentInput = document.getElementById('gross-rent') as HTMLInputElement;
+      const otherIncInput = document.getElementById('other-income') as HTMLInputElement;
+      const taxInput = document.getElementById('exp-taxes') as HTMLInputElement;
+      const insInput = document.getElementById('exp-ins') as HTMLInputElement;
+      const mgmtInput = document.getElementById('exp-mgmt') as HTMLInputElement;
+      const maintInput = document.getElementById('exp-maint') as HTMLInputElement;
+
+      const resCapRate = document.getElementById('res-cap-rate');
+      const resNoi = document.getElementById('res-noi');
+      const resGrossInc = document.getElementById('res-gross-inc');
+      const resTotExp = document.getElementById('res-tot-exp');
+      const resExpRatio = document.getElementById('res-exp-ratio');
+      const resVal6 = document.getElementById('res-val-6');
+
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+
+      function calculate() {
+        const price = parseFloat(priceInput.value) || 0;
+        const rent = parseFloat(rentInput.value) || 0;
+        const otherInc = parseFloat(otherIncInput.value) || 0;
+        const taxes = parseFloat(taxInput.value) || 0;
+        const ins = parseFloat(insInput.value) || 0;
+        const mgmt = parseFloat(mgmtInput.value) || 0;
+        const maint = parseFloat(maintInput.value) || 0;
+
+        const grossIncome = rent + otherInc;
+        const totalExpenses = taxes + ins + mgmt + maint;
+        const noi = grossIncome - totalExpenses;
+
+        const capRate = price > 0 ? (noi / price) * 100 : 0;
+        const expRatio = grossIncome > 0 ? (totalExpenses / grossIncome) * 100 : 0;
+        const valAt6Pct = noi / 0.06;
+
+        if (resCapRate) resCapRate.textContent = `${capRate.toFixed(2)}%`;
+        if (resNoi) resNoi.textContent = `$${noi.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
+        if (resGrossInc) resGrossInc.textContent = `$${grossIncome.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        if (resTotExp) resTotExp.textContent = `-$${totalExpenses.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        if (resExpRatio) resExpRatio.textContent = `${expRatio.toFixed(2)}%`;
+        if (resVal6) resVal6.textContent = `$${valAt6Pct.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+
+      [priceInput, rentInput, otherIncInput, taxInput, insInput, mgmtInput, maintInput].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        priceInput.value = '500000';
+        rentInput.value = '60000';
+        otherIncInput.value = '2400';
+        taxInput.value = '6500';
+        insInput.value = '2200';
+        mgmtInput.value = '4800';
+        maintInput.value = '4500';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const cap = resCapRate?.textContent;
+        const noi = resNoi?.textContent;
+        const text = `Cap Rate Calculation Summary:\n` +
+          `Cap Rate: ${cap}\n` +
+          `Net Operating Income (NOI): ${noi}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Summary'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initCapRateCalc);
+  </script>
+</Layout>

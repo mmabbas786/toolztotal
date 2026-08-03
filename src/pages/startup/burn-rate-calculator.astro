@@ -1,0 +1,194 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Burn Rate Calculator - Gross & Net Cash Burn Rate Solver | ToolzTotal",
+  description: "Free startup burn rate calculator. Calculate Gross Burn Rate and Net Burn Rate metrics based on monthly revenue and operating expenses 100% client-side.",
+  url: "https://toolztotal.com/startup/burn-rate-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is Burn Rate in startups?", answer: "Burn Rate measures the rate at which a venture-backed startup consumes its cash reserves before generating positive cash flow." },
+  { question: "What is the difference between Gross Burn and Net Burn?", answer: "Gross Burn is the total monthly operating expenditure (salaries, servers, rent), while Net Burn subtracts monthly cash revenues from Gross Burn (Net Burn = Total Expenses - Monthly Revenue)." },
+  { question: "Why do investors focus on Net Burn Rate?", answer: "Net Burn reveals how much capital a company drains from its bank account each month, directly determining how many months of runway remain before needing additional funding." },
+  { question: "How can startups reduce their Net Burn Rate?", answer: "Startups can reduce Net Burn by increasing customer cash receipts, cutting non-essential SaaS tools, optimizing cloud server costs, or pausing paid marketing acquisition channels." },
+  { question: "Is my startup financial data uploaded or saved anywhere?", answer: "No. The Burn Rate Calculator runs 100% locally in your web browser. No numbers or financial metrics are ever uploaded to any server." },
+  { question: "What is a good Net Burn Rate for seed-stage startups?", answer: "Seed-stage startups generally aim to keep Net Burn under $30,000–$80,000 per month to maintain 18+ months of cash runway." },
+  { question: "How does hiring impact Gross Burn Rate?", answer: "Salaries and employee benefits typically account for 60%–70% of a startup's Gross Burn Rate." },
+  { question: "Is this burn rate calculator free?", answer: "Yes. ToolzTotal provides 100% free financial and startup tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Burn Rate Calculator"
+    toolSlug="burn-rate-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="Burn Rate Calculator" toolSlug="burn-rate-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Cash Burn Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Burn Rate Calculator
+      </h1>
+      <TrustHeader toolSlug="burn-rate-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate Gross Burn Rate and Net Burn Rate metrics based on monthly revenues and operating expenditures.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Monthly Revenues & Expenses</h2>
+
+          <div>
+            <label for="monthly-rev" class="block text-xs font-mono text-mute uppercase mb-1">Monthly Cash Receipts / Revenue ($)</label>
+            <input type="number" id="monthly-rev" value="20000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="payroll-exp" class="block text-xs font-mono text-mute uppercase mb-1">Payroll & Salaries ($)</label>
+              <input type="number" id="payroll-exp" value="45000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="cloud-exp" class="block text-xs font-mono text-mute uppercase mb-1">Cloud Infrastructure & Software ($)</label>
+              <input type="number" id="cloud-exp" value="8000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="mktg-exp" class="block text-xs font-mono text-mute uppercase mb-1">Sales & Marketing ($)</label>
+              <input type="number" id="mktg-exp" value="12000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="other-exp" class="block text-xs font-mono text-mute uppercase mb-1">Office & Administrative ($)</label>
+              <input type="number" id="other-exp" value="5000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Cash Burn Results</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Monthly Burn</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Net Monthly Cash Burn</span>
+              <span id="res-net-burn" class="text-3xl font-bold text-rose-500">$0</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Gross Monthly Burn</span>
+                <span id="res-gross-burn" class="font-bold text-ink">$0</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Monthly Net Revenue</span>
+                <span id="res-rev-display" class="font-bold text-ink">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding Gross vs Net Burn Rate</h2>
+        <p>
+          Managing monthly cash burn is the top operational priority for tech founders. Measuring Gross Burn versus Net Burn reveals your true operational leverage and runway extension needs.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Y Combinator Startup Financial Guide", url: "https://www.ycombinator.com/library" }
+      ]} />
+
+      <RelatedTools currentSlug="burn-rate-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initBurnCalc() {
+      const revInput = document.getElementById('monthly-rev') as HTMLInputElement;
+      const payrollInput = document.getElementById('payroll-exp') as HTMLInputElement;
+      const cloudInput = document.getElementById('cloud-exp') as HTMLInputElement;
+      const mktgInput = document.getElementById('mktg-exp') as HTMLInputElement;
+      const otherInput = document.getElementById('other-exp') as HTMLInputElement;
+
+      const netBurnEl = document.getElementById('res-net-burn');
+      const grossBurnEl = document.getElementById('res-gross-burn');
+      const revEl = document.getElementById('res-rev-display');
+
+      function calculate() {
+        const rev = parseFloat(revInput.value) || 0;
+        const payroll = parseFloat(payrollInput.value) || 0;
+        const cloud = parseFloat(cloudInput.value) || 0;
+        const mktg = parseFloat(mktgInput.value) || 0;
+        const other = parseFloat(otherInput.value) || 0;
+
+        const gross = payroll + cloud + mktg + other;
+        const net = gross - rev;
+
+        if (grossBurnEl) grossBurnEl.textContent = '$' + gross.toLocaleString('en-US');
+        if (netBurnEl) netBurnEl.textContent = '$' + net.toLocaleString('en-US');
+        if (revEl) revEl.textContent = '$' + rev.toLocaleString('en-US');
+      }
+
+      [revInput, payrollInput, cloudInput, mktgInput, otherInput].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initBurnCalc);
+  </script>
+</Layout>

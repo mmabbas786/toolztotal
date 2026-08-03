@@ -1,0 +1,129 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "APR vs Interest Rate - True Loan Cost Comparison | ToolzTotal",
+  description: "Complete APR vs Interest Rate comparison guide. Understand the key differences between nominal interest rate and effective APR with calculators.",
+  url: "https://toolztotal.com/compare/apr-vs-interest-rate",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the main difference between Interest Rate and APR?", answer: "The nominal interest rate is the baseline annual cost of borrowing money. APR (Annual Percentage Rate) includes the interest rate PLUS mandatory lender upfront fees, origination charges, and discount points expressed as an annual percentage rate." },
+  { question: "Why is APR always higher than the interest rate for mortgages?", answer: "APR is higher because it factors in upfront closing costs (lender origination fees, processing fees, discount points, and mortgage insurance) spread across the loan term." },
+  { question: "Which metric should I compare when shopping for a loan: APR or Interest Rate?", answer: "Always compare APR when evaluating competing loan offers from different lenders because APR reveals the true total borrowing cost including hidden upfront fees." },
+  { question: "Where can I calculate effective APR for my loan?", answer: "Use ToolzTotal's free <a href='/finance/apr-calculator' class='underline text-primary'>APR Calculator</a>." },
+  { question: "Does APR affect my actual monthly loan payment?", answer: "No. Your monthly principal and interest payment is calculated strictly using the nominal interest rate. APR is an annual accounting disclosure metric mandated by the Truth in Lending Act (TILA)." },
+  { question: "Can a loan have an APR identical to its interest rate?", answer: "Yes. If a loan has zero origination fees, zero closing costs, and zero points, the APR equals the nominal interest rate." },
+  { question: "What fees are excluded from mortgage APR calculations?", answer: "Fees paid to independent third parties—such as title search fees, home appraisal fees, credit report fees, and recording taxes—are excluded from TILA APR calculations." },
+  { question: "Is this comparison updated for 2026?", answer: "Yes. All Truth in Lending Act (TILA) guidelines reflect current federal disclosure rules." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="APR vs Interest Rate Comparison"
+    toolSlug="apr-vs-interest-rate"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="APR vs Interest Rate" toolSlug="apr-vs-interest-rate" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Loan Disclosure Analysis</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        APR vs Interest Rate: What's the Difference?
+      </h1>
+      <TrustHeader toolSlug="apr-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Learn how nominal interest rates differ from Annual Percentage Rate (APR). Understand how lender fees affect your true borrowing cost.
+      </p>
+    </div>
+
+    <div class="p-6 bg-canvas border border-hairline rounded-xl mb-12 shadow-lvl1 max-w-4xl">
+      <h3 class="text-xs font-mono uppercase text-mute mb-3">Calculate Effective APR Instantly:</h3>
+      <a href="/finance/apr-calculator" class="text-sm font-sans font-semibold text-primary hover:underline">→ Use Free APR Calculator</a>
+    </div>
+
+    <!-- Comparison Article -->
+    <article class="max-w-4xl space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">1. Side-by-Side Comparison</h2>
+        <div class="border border-hairline rounded-xl overflow-hidden font-mono text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                <th class="p-3">Feature</th>
+                <th class="p-3">Nominal Interest Rate</th>
+                <th class="p-3">Annual Percentage Rate (APR)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline">
+              <tr>
+                <td class="p-3 font-bold text-ink">Definition</td>
+                <td class="p-3">Baseline annual interest percentage charged on principal</td>
+                <td class="p-3 font-bold text-emerald-500">Total annualized borrowing cost (Interest + Fees + Points)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Determines Monthly Payment</td>
+                <td class="p-3 font-bold text-emerald-500">Yes (Calculates P&I)</td>
+                <td class="p-3">No (Disclosure Metric)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Includes Lender Upfront Fees</td>
+                <td class="p-3">No</td>
+                <td class="p-3">Yes</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Best Used For</td>
+                <td class="p-3">Calculating monthly budget payments</td>
+                <td class="p-3 font-bold text-emerald-500">Comparing competing loan quotes from multiple lenders</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed" set:html={faq.answer}></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Consumer Financial Protection Bureau - Truth in Lending Act (TILA)", url: "https://www.consumerfinance.gov/" }
+      ]} />
+
+      <RelatedTools currentSlug="apr-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+</Layout>

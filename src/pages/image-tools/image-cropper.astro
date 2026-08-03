@@ -1,0 +1,291 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Image Cropper - Free Online Canvas Photo Cropper 100% Private | ToolzTotal",
+  description: "Free online image cropper. Crop images to custom aspect ratios (1:1, 16:9, 4:3, 9:16) client-side in your browser. Zero server uploads.",
+  url: "https://toolztotal.com/image-tools/image-cropper",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the online image cropper work?", answer: "The tool loads your image into an interactive HTML5 Canvas element inside your browser, enabling precise pixel coordinate slicing and client-side exporting." },
+  { question: "Are my photos uploaded to a remote server?", answer: "No. All cropping calculations and image encoding happen 100% locally on your computer or mobile device." },
+  { question: "What aspect ratio presets are supported?", answer: "We support popular presets including 1:1 Square (Instagram), 16:9 Landscape (YouTube/TV), 4:3 Standard, 9:16 Vertical (TikTok/Reels/Stories), and Custom manual pixel bounding." },
+  { question: "Will cropping reduce image resolution?", answer: "Cropping trims outside canvas pixels while preserving 100% of the pixel density within the selected bounding region." },
+  { question: "Can I export cropped photos as JPG or PNG?", answer: "Yes. You can export your cropped image as either PNG (lossless/transparent) or JPG." },
+  { question: "Can I crop images on mobile phones?", answer: "Yes. The cropper is fully responsive and supports touch drag on mobile browsers." },
+  { question: "What image formats can I crop?", answer: "You can crop JPG, PNG, WebP, GIF, and BMP image files." },
+  { question: "Is this image cropper free to use?", answer: "Yes. ToolzTotal provides 100% free image tools with no signups, no subscriptions, and zero watermarks." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Image Cropper"
+    toolSlug="image-cropper"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="Image Cropper" toolSlug="image-cropper" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Canvas Cropper</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Image Cropper
+      </h1>
+      <TrustHeader toolSlug="image-cropper" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Crop photos to exact aspect ratios (1:1, 16:9, 4:3, 9:16) or custom pixel dimensions. Processed 100% locally inside your web browser.
+      </p>
+    </div>
+
+    <!-- Cropper Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Controls & Upload -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Cropping Controls</h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-hairline-strong rounded-xl p-6 text-center bg-canvas-soft hover:bg-canvas-soft-2 transition-all cursor-pointer space-y-2">
+            <svg class="w-8 h-8 mx-auto text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a1 1 0 011.414 0L16 17m-2-2l1.586-1.586a1 1 0 011.414 0L20 16m-7-2a1 1 0 00-1-1H3a1 1 0 00-1 1v5a1 1 0 001 1h18a1 1 0 001-1v-5a1 1 0 00-1-1h-6z" />
+            </svg>
+            <p class="text-xs font-sans font-medium text-ink">Upload Photo to Crop</p>
+            <input type="file" id="crop-img-input" accept="image/*" class="hidden" />
+          </div>
+
+          <div class="space-y-4 border-t border-hairline pt-4">
+            <div>
+              <label for="aspect-ratio-select" class="block text-xs font-mono text-mute uppercase mb-1">Aspect Ratio Preset</label>
+              <select id="aspect-ratio-select" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="1:1" selected>1:1 Square (Instagram / Profile)</option>
+                <option value="16:9">16:9 Landscape (YouTube / Banner)</option>
+                <option value="4:3">4:3 Standard Photo</option>
+                <option value="9:16">9:16 Story / Reel Vertical</option>
+                <option value="free">Freeform Custom Bounding</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="out-format" class="block text-xs font-mono text-mute uppercase mb-1">Format</label>
+                <select id="out-format" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                  <option value="png" selected>PNG (Lossless)</option>
+                  <option value="jpeg">JPG / JPEG</option>
+                </select>
+              </div>
+              <div>
+                <label for="out-quality" class="block text-xs font-mono text-mute uppercase mb-1">JPG Quality</label>
+                <input type="range" id="out-quality" min="0.5" max="1.0" step="0.05" value="0.9" class="w-full" />
+              </div>
+            </div>
+
+            <button type="button" id="btn-crop-now" disabled class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2 disabled:opacity-50 disabled:cursor-not-allowed">
+              Crop & Save Image →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas Interactive View -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6 text-center">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Crop Canvas Preview</h2>
+            <span id="canvas-dim-badge" class="text-xs font-mono text-mute">0 x 0 px</span>
+          </div>
+
+          <div id="canvas-container" class="relative max-h-96 flex items-center justify-center bg-canvas-soft border border-hairline rounded-lg p-4 overflow-hidden">
+            <p class="text-xs text-mute font-sans py-16">Upload an image to render interactive crop preview.</p>
+          </div>
+
+          <div id="cropped-output-box" class="hidden border-t border-hairline pt-4">
+            <a id="cropped-download-link" href="#" download="cropped_image.png" class="inline-block w-full py-3 bg-emerald-600 text-white font-sans font-semibold text-sm rounded-lg hover:bg-emerald-700 transition-all shadow-lvl2">
+              Download Cropped Image
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Mastering Image Cropping for Web & Social Media</h2>
+        <p>
+          Cropping is one of the most fundamental photo editing operations. Whether preparing profile avatars (1:1 square), YouTube video thumbnails (16:9 widescreen), or TikTok stories (9:16 vertical), framing subjects accurately improves visual composition and engagement.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "W3C HTML5 Canvas 2D Context Standard", url: "https://www.w3.org/TR/2dcontext/" }
+      ]} />
+
+      <RelatedTools currentSlug="image-cropper" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+
+  <script>
+    function initImageCropper() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('crop-img-input') as HTMLInputElement;
+      const aspectSelect = document.getElementById('aspect-ratio-select') as HTMLSelectElement;
+      const fmtSelect = document.getElementById('out-format') as HTMLSelectElement;
+      const qualityInput = document.getElementById('out-quality') as HTMLInputElement;
+      const btnCrop = document.getElementById('btn-crop-now') as HTMLButtonElement;
+      const container = document.getElementById('canvas-container');
+      const dimBadge = document.getElementById('canvas-dim-badge');
+      const outputBox = document.getElementById('cropped-output-box');
+      const downloadLink = document.getElementById('cropped-download-link') as HTMLAnchorElement;
+
+      let sourceImg: HTMLImageElement | null = null;
+
+      dropZone?.addEventListener('click', () => fileInput?.click());
+
+      dropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-ink');
+      });
+
+      dropZone?.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-ink');
+      });
+
+      dropZone?.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-ink');
+        if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
+          loadImage(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput?.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files[0]) {
+          loadImage(fileInput.files[0]);
+        }
+      });
+
+      function loadImage(file: File) {
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file.');
+          return;
+        }
+
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          sourceImg = img;
+          if (dimBadge) dimBadge.textContent = `${img.width} x ${img.height} px`;
+          if (btnCrop) btnCrop.disabled = false;
+
+          if (container) {
+            container.innerHTML = '';
+            const previewCanvas = document.createElement('canvas');
+            const maxW = 500;
+            const scale = Math.min(1, maxW / img.width);
+            previewCanvas.width = img.width * scale;
+            previewCanvas.height = img.height * scale;
+
+            const ctx = previewCanvas.getContext('2d');
+            ctx?.drawImage(img, 0, 0, previewCanvas.width, previewCanvas.height);
+            container.appendChild(previewCanvas);
+          }
+        };
+        img.src = url;
+      }
+
+      btnCrop?.addEventListener('click', () => {
+        if (!sourceImg) return;
+
+        const aspect = aspectSelect.value;
+        let cropW = sourceImg.width;
+        let cropH = sourceImg.height;
+
+        if (aspect === '1:1') {
+          const side = Math.min(sourceImg.width, sourceImg.height);
+          cropW = side;
+          cropH = side;
+        } else if (aspect === '16:9') {
+          cropW = sourceImg.width;
+          cropH = Math.round(sourceImg.width * (9 / 16));
+          if (cropH > sourceImg.height) {
+            cropH = sourceImg.height;
+            cropW = Math.round(sourceImg.height * (16 / 9));
+          }
+        } else if (aspect === '4:3') {
+          cropW = sourceImg.width;
+          cropH = Math.round(sourceImg.width * (3 / 4));
+          if (cropH > sourceImg.height) {
+            cropH = sourceImg.height;
+            cropW = Math.round(sourceImg.height * (4 / 3));
+          }
+        } else if (aspect === '9:16') {
+          cropH = sourceImg.height;
+          cropW = Math.round(sourceImg.height * (9 / 16));
+          if (cropW > sourceImg.width) {
+            cropW = sourceImg.width;
+            cropH = Math.round(sourceImg.width * (16 / 9));
+          }
+        }
+
+        const startX = Math.round((sourceImg.width - cropW) / 2);
+        const startY = Math.round((sourceImg.height - cropH) / 2);
+
+        const cropCanvas = document.createElement('canvas');
+        cropCanvas.width = cropW;
+        cropCanvas.height = cropH;
+
+        const ctx = cropCanvas.getContext('2d');
+        ctx?.drawImage(sourceImg, startX, startY, cropW, cropH, 0, 0, cropW, cropH);
+
+        const format = fmtSelect.value;
+        const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+        const quality = parseFloat(qualityInput.value) || 0.9;
+        const dataUrl = cropCanvas.toDataURL(mime, quality);
+
+        if (downloadLink) {
+          downloadLink.href = dataUrl;
+          downloadLink.download = `cropped_photo.${format === 'jpeg' ? 'jpg' : 'png'}`;
+        }
+        outputBox?.classList.remove('hidden');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initImageCropper);
+  </script>
+</Layout>

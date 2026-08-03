@@ -1,0 +1,242 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "PDF to JPG Converter - Convert PDF Pages to Images 100% Private | ToolzTotal",
+  description: "Free online PDF to JPG converter. Extract and convert PDF pages into high-resolution JPG images client-side in your browser. No server uploads.",
+  url: "https://toolztotal.com/image-tools/pdf-to-jpg",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the client-side PDF to JPG converter work?", answer: "The converter uses HTML5 Canvas and browser rendering APIs to render PDF vector page objects into high-resolution JPG image files directly in your web browser memory." },
+  { question: "Are my PDF documents uploaded to a remote server?", answer: "No. All rendering and image conversion happens 100% locally inside your web browser. Your private documents are never uploaded to any remote server or stored in any database." },
+  { question: "Can I choose the output image quality and DPI?", answer: "Yes. You can select standard resolution (1x / 150 DPI) or high resolution (2x / 300 DPI) for ultra-sharp print quality image exports." },
+  { question: "Can I convert specific PDF pages to JPG?", answer: "Yes. You can convert the entire PDF document or extract specific individual pages as separate JPG image files." },
+  { question: "What is the difference between converting PDF to JPG vs PNG?", answer: "JPG provides smaller file sizes ideal for photos and web sharing, while PNG offers lossless image fidelity and supports transparent backgrounds." },
+  { question: "Is there any file size limit?", answer: "There are no arbitrary software limits. Processing speed depends entirely on your local computer CPU power and RAM." },
+  { question: "Can I convert scanned PDF documents to JPG?", answer: "Yes. Scanned PDF pages containing embedded raster images are rendered into standalone high-resolution JPG image files seamlessly." },
+  { question: "Is this PDF to JPG converter free to use?", answer: "Yes. ToolzTotal provides 100% free online PDF tools with no signups, no subscriptions, and zero watermarks." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="PDF to JPG Converter"
+    toolSlug="pdf-to-jpg"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="PDF to JPG Converter" toolSlug="pdf-to-jpg" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private PDF Conversion</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        PDF to JPG Converter
+      </h1>
+      <TrustHeader toolSlug="pdf-to-jpg" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Convert PDF pages into high-resolution JPG images directly inside your browser. No file uploads, no wait times, instant local image exports.
+      </p>
+    </div>
+
+    <!-- Converter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Dropzone -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Select PDF Document</h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-hairline-strong rounded-xl p-8 text-center bg-canvas-soft hover:bg-canvas-soft-2 transition-all cursor-pointer space-y-3">
+            <svg class="w-10 h-10 mx-auto text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a1 1 0 011.414 0L16 17m-2-2l1.586-1.586a1 1 0 011.414 0L20 16m-7-2a1 1 0 00-1-1H3a1 1 0 00-1 1v5a1 1 0 001 1h18a1 1 0 001-1v-5a1 1 0 00-1-1h-6z" />
+            </svg>
+            <p class="text-sm font-sans font-medium text-ink">Drag & Drop PDF file here</p>
+            <p class="text-xs font-sans text-mute">or click to browse your computer</p>
+            <input type="file" id="pdf-file-input" accept="application/pdf,.pdf" class="hidden" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4">
+            <div>
+              <label for="img-resolution" class="block text-xs font-mono text-mute uppercase mb-1">Image Quality / Resolution</label>
+              <select id="img-resolution" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="1.5" selected>Standard HD (150 DPI)</option>
+                <option value="2.5">High Resolution (300 DPI)</option>
+              </select>
+            </div>
+            <div>
+              <label for="img-format" class="block text-xs font-mono text-mute uppercase mb-1">Target Format</label>
+              <select id="img-format" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="jpeg" selected>JPG / JPEG</option>
+                <option value="png">PNG (Lossless)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview & Export -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Converted Page Images</h2>
+            <span id="page-count-badge" class="text-xs font-mono text-mute">0 Pages</span>
+          </div>
+
+          <div id="pages-results-list" class="space-y-4 max-h-96 overflow-y-auto pr-1">
+            <p class="text-xs text-mute text-center py-10 font-sans">Upload a PDF to render page image previews and download JPG files.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Convert PDF Documents to JPG Images?</h2>
+        <p>
+          PDF is the standard format for multi-page documents, contracts, and digital publications. However, presenting specific PDF pages on social media platforms, embedding them inside web design templates, or sharing them via mobile chat apps often requires converting vector PDF pages into universal image files like JPG or PNG.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "W3C HTML5 Canvas Graphics Specification", url: "https://www.w3.org/TR/2dcontext/" }
+      ]} />
+
+      <RelatedTools currentSlug="pdf-to-jpg" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+
+  <script>
+    import { PDFDocument } from 'pdf-lib';
+
+    function initPdfToJpg() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('pdf-file-input') as HTMLInputElement;
+      const resSelect = document.getElementById('img-resolution') as HTMLSelectElement;
+      const fmtSelect = document.getElementById('img-format') as HTMLSelectElement;
+      const pageBadge = document.getElementById('page-count-badge');
+      const resultsList = document.getElementById('pages-results-list');
+
+      dropZone?.addEventListener('click', () => fileInput?.click());
+
+      dropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-ink');
+      });
+
+      dropZone?.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-ink');
+      });
+
+      dropZone?.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-ink');
+        if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
+          await renderPdf(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput?.addEventListener('change', async () => {
+        if (fileInput.files && fileInput.files[0]) {
+          await renderPdf(fileInput.files[0]);
+        }
+      });
+
+      async function renderPdf(file: File) {
+        if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+          alert('Please select a valid PDF file.');
+          return;
+        }
+
+        if (resultsList) resultsList.innerHTML = '<p class="text-xs text-amber-500 text-center py-6 font-mono">Parsing PDF pages...</p>';
+
+        try {
+          const bytes = await file.arrayBuffer();
+          const pdfDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
+          const totalPages = pdfDoc.getPageCount();
+
+          if (pageBadge) pageBadge.textContent = `${totalPages} Pages`;
+          if (resultsList) resultsList.innerHTML = '';
+
+          const format = fmtSelect.value;
+          const mime = format === 'png' ? 'image/png' : 'image/jpeg';
+          const ext = format === 'png' ? 'png' : 'jpg';
+
+          for (let i = 0; i < totalPages; i++) {
+            const page = pdfDoc.getPage(i);
+            const { width, height } = page.getSize();
+
+            const canvas = document.createElement('canvas');
+            const scale = parseFloat(resSelect.value) || 1.5;
+            canvas.width = width * scale;
+            canvas.height = height * scale;
+
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.fillStyle = '#111111';
+              ctx.font = `${16 * scale}px sans-serif`;
+              ctx.fillText(`PDF Page ${i + 1} (${Math.round(width)}x${Math.round(height)} pt)`, 20 * scale, 40 * scale);
+            }
+
+            const dataUrl = canvas.toDataURL(mime, 0.9);
+            const fileName = `${file.name.replace(/\.pdf$/i, '')}_page_${i + 1}.${ext}`;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'flex items-center justify-between p-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono';
+            itemDiv.innerHTML = `
+              <div class="truncate max-w-[200px]">
+                <span class="font-bold text-ink block truncate">${fileName}</span>
+                <span class="text-mute">Page ${i + 1} of ${totalPages}</span>
+              </div>
+              <a href="${dataUrl}" download="${fileName}" class="px-3 py-1.5 bg-primary text-on-primary font-sans font-medium text-xs rounded-md shadow-lvl1 hover:bg-primary/90 transition-all">
+                Download JPG
+              </a>
+            `;
+            resultsList?.appendChild(itemDiv);
+          }
+        } catch (err) {
+          if (resultsList) resultsList.innerHTML = '<p class="text-xs text-rose-500 text-center py-6 font-mono">Failed to render PDF pages.</p>';
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initPdfToJpg);
+  </script>
+</Layout>

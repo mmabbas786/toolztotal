@@ -34,6 +34,8 @@ const applicationCategoryMap: Record<string, string> = {
   education: "EducationApplication",
   "image-tools": "MultimediaApplication",
   utility: "UtilitiesApplication",
+  ai: "UtilitiesApplication",
+  startup: "BusinessApplication",
 };
 
 const applicationCategory =
@@ -84,15 +86,18 @@ const breadcrumbList = {
   ],
 };
 
+// Strip HTML tags for clean Google Search Console FAQ schema compliant text
+const stripHtml = (html: string) => html.replace(/<[^>]*>?/gm, '').trim();
+
 const faqPage = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: faqs.map((faq) => ({
     "@type": "Question",
-    name: faq.question,
+    name: stripHtml(faq.question),
     acceptedAnswer: {
       "@type": "Answer",
-      text: faq.answer,
+      text: stripHtml(faq.answer),
     },
   })),
 };

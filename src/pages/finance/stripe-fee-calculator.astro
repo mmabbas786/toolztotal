@@ -1,0 +1,451 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Stripe Fee Calculator - Domestic & International Rate Solver | ToolzTotal",
+  description: "Free Stripe fee calculator. Calculate Stripe merchant fees, international transaction costs, instant payout fees, and reverse fee invoices instantly.",
+  url: "https://toolztotal.com/finance/stripe-fee-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the standard Stripe transaction fee?", answer: "Stripe standard pricing for US domestic cards is 2.9% + $0.30 per successful card charge. International cards incur an additional 1.5% fee, plus another 1.5% if currency conversion is required." },
+  { question: "How does the reverse Stripe fee calculator work?", answer: "The reverse calculation determines the total invoice amount you must charge a client so that after Stripe deducts its percentage and fixed fee, you receive your desired net payout. The formula is: Gross Amount = (Desired Net + Fixed Fee) / (1 - Fee Rate)." },
+  { question: "Does Stripe refund processing fees when issuing a refund?", answer: "No. When you issue a refund to a customer, Stripe does not return the original processing fee ($0.30 + percentage fee). You bear the cost of the processing fee." },
+  { question: "What are Stripe Instant Payout fees?", answer: "Stripe charges an additional 1.5% fee (minimum $0.50) on the payout amount for instant payouts transferred directly to an eligible debit card within minutes." },
+  { question: "Are Stripe fees tax-deductible for business owners?", answer: "Yes. Payment processing fees paid to Stripe are ordinary and necessary business expenses and can be deducted on your federal tax return (Schedule C or corporate return)." },
+  { question: "What are Stripe Terminal / in-person transaction fees?", answer: "US Stripe Terminal charges for in-person card present transactions are generally 2.7% + $0.05 per successful transaction." },
+  { question: "Is there a monthly subscription fee for Stripe?", answer: "No. Stripe operates on a pay-as-you-go pricing model with no monthly account maintenance fees, setup fees, or hidden recurring costs." },
+  { question: "Can I pass Stripe fees onto my customers legally?", answer: "Surcharging laws vary by state and country. In many jurisdictions, you can add a surcharge or offer a cash discount, provided you follow credit card network rules and disclose fees upfront." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Stripe Fee Calculator"
+    toolSlug="stripe-fee-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="Stripe Fee Calculator" toolSlug="stripe-fee-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Financial Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Stripe Fee Calculator
+      </h1>
+      <TrustHeader toolSlug="stripe-fee-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate exact Stripe merchant transaction fees for domestic, international, and instant payouts — or use reverse fee mode to know exactly how much to charge customers to land your target net payout.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Calculator Parameters</h2>
+            <div class="flex bg-canvas-soft rounded-lg p-1 border border-hairline">
+              <button type="button" id="mode-standard" class="px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors">Standard</button>
+              <button type="button" id="mode-reverse" class="px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors">Reverse Fee</button>
+            </div>
+          </div>
+
+          <!-- Currency & Amount -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="sm:col-span-1">
+              <label for="currency" class="block text-xs font-mono text-mute uppercase mb-2">Currency</label>
+              <select id="currency" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink font-mono focus:ring-1 focus:ring-ink focus:border-ink">
+                <option value="$" selected>USD ($)</option>
+                <option value="€">EUR (€)</option>
+                <option value="£">GBP (£)</option>
+                <option value="CA$">CAD ($)</option>
+                <option value="A$">AUD ($)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="amount" id="amount-label" class="block text-xs font-mono text-mute uppercase mb-2">Transaction Amount ($)</label>
+              <div class="relative">
+                <span id="currency-symbol" class="absolute left-3.5 top-3 text-sm font-mono text-mute">$</span>
+                <input type="number" id="amount" value="100.00" min="0.01" step="0.01" class="w-full bg-canvas border border-hairline rounded-lg py-3 pl-8 pr-3 text-sm font-mono text-ink focus:ring-1 focus:ring-ink focus:border-ink" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Preset Buttons -->
+          <div>
+            <span class="block text-xs font-mono text-mute uppercase mb-2">Quick Presets</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="25">$25</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="50">$50</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="100">$100</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="250">$250</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="500">$500</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="1000">$1,000</button>
+            </div>
+          </div>
+
+          <!-- Transaction Type -->
+          <div>
+            <label for="tx-type" class="block text-xs font-mono text-mute uppercase mb-2">Transaction Type</label>
+            <select id="tx-type" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink focus:ring-1 focus:ring-ink focus:border-ink">
+              <option value="domestic" selected>Standard US Card (2.9% + $0.30)</option>
+              <option value="intl">International Card (3.9% + $0.30)</option>
+              <option value="intl-fx">International + FX Conversion (4.4% + $0.30)</option>
+              <option value="in-person">In-Person Stripe Terminal (2.7% + $0.05)</option>
+              <option value="custom">Custom Rate Percentage & Fixed Fee</option>
+            </select>
+          </div>
+
+          <!-- Custom rate fields (hidden by default) -->
+          <div id="custom-rate-box" class="hidden grid grid-cols-2 gap-4 bg-canvas-soft p-4 rounded-lg border border-hairline">
+            <div>
+              <label for="custom-pct" class="block text-xs font-mono text-mute uppercase mb-1">Fee %</label>
+              <input type="number" id="custom-pct" value="2.9" step="0.1" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="custom-fixed" class="block text-xs font-mono text-mute uppercase mb-1">Fixed Fee ($)</label>
+              <input type="number" id="custom-fixed" value="0.30" step="0.01" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <!-- Options -->
+          <div class="pt-2 border-t border-hairline">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" id="instant-payout" class="w-4 h-4 rounded border-hairline text-ink focus:ring-ink" />
+              <span class="text-sm font-sans text-body">Include Stripe Instant Payout Fee (+1.5%)</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Fee Calculation Summary</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span id="res-lbl-1" class="block text-xs font-mono text-mute uppercase mb-1">Total Fee Deducted</span>
+              <span id="res-fee" class="text-2xl md:text-3xl font-bold font-mono text-rose-500">$3.20</span>
+              <span id="res-fee-pct" class="block text-xs font-sans text-mute mt-1">3.20% effective rate</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span id="res-lbl-2" class="block text-xs font-mono text-mute uppercase mb-1">Your Net Payout</span>
+              <span id="res-payout" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">$96.80</span>
+              <span id="res-payout-sub" class="block text-xs font-sans text-mute mt-1">Amount received in bank</span>
+            </div>
+          </div>
+
+          <!-- Highlight Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span id="res-gross-lbl" class="text-body font-sans">Gross Customer Charge:</span>
+              <span id="res-gross" class="font-mono font-bold text-ink">$100.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Base Processing Fee:</span>
+              <span id="res-base-fee" class="font-mono text-ink">$3.20</span>
+            </div>
+            <div id="row-instant" class="hidden flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Instant Payout Fee (1.5%):</span>
+              <span id="res-instant-fee" class="font-mono text-ink">$1.50</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Total Stripe Fee:</span>
+              <span id="res-total-fee" class="font-mono font-bold text-rose-500">$3.20</span>
+            </div>
+            <div class="flex justify-between items-center text-base border-t border-hairline-strong pt-3 font-semibold">
+              <span class="text-ink font-sans">Net Payout to Bank:</span>
+              <span id="res-final-net" class="font-mono text-emerald-500">$96.80</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Summary
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Introduction to Stripe Merchant Processing Fees</h2>
+        <p>
+          As an e-commerce store owner, SaaS founder, freelancer, or digital agency operator, accepting credit card payments through Stripe is one of the fastest ways to monetize online. However, payment processing costs can quickly reduce your net profit margins if you do not factor Stripe fees into your item pricing and client proposals.
+        </p>
+        <p>
+          Our <strong>Stripe Fee Calculator</strong> removes the math guesswork. Whether you want to calculate how much Stripe will deduct from a $100 invoice or figure out the exact gross amount to bill a client so you land precisely $500 in your business bank account, this tool provides instant, zero-latency breakdowns.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">What is the Stripe Fee Calculator?</h2>
+        <p>
+          The Stripe Fee Calculator is a client-side financial utility designed to compute standard card processing fees, international transaction surcharges, currency conversion margins, and instant payout costs charged by Stripe. It features both a <strong>Standard Mode</strong> (calculating net payout from gross sales) and a <strong>Reverse Fee Mode</strong> (calculating target customer charges to cover processing fees).
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">How Does the Stripe Fee Calculator Work?</h2>
+        <p>
+          Stripe charges a fee structured as a percentage of the total transaction amount plus a fixed dollar fee per charge. Our calculator uses the official published rate schedules and instant algebraic inversions:
+        </p>
+        <div class="bg-canvas border border-hairline p-5 rounded-xl font-mono text-sm space-y-2">
+          <p class="text-ink font-bold">Standard Fee Formula:</p>
+          <p class="text-mute">Stripe Fee = (Gross Amount × Fee Percentage) + Fixed Fee</p>
+          <p class="text-mute">Net Payout = Gross Amount - Stripe Fee</p>
+          <p class="text-ink font-bold pt-2">Reverse Fee Formula:</p>
+          <p class="text-mute">Gross Invoice = (Desired Net + Fixed Fee) / (1 - Fee Percentage)</p>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Stripe Standard Fee Schedule (US & Global Overview)</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-hairline rounded-lg text-sm">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline font-mono text-ink">
+                <th class="p-3">Transaction Type</th>
+                <th class="p-3">Percentage Fee</th>
+                <th class="p-3">Fixed Fee</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline font-sans">
+              <tr><td class="p-3 font-semibold">US Domestic Cards</td><td class="p-3 font-mono">2.9%</td><td class="p-3 font-mono">$0.30</td></tr>
+              <tr><td class="p-3 font-semibold">International Cards</td><td class="p-3 font-mono">+1.5% (Total 4.4%)</td><td class="p-3 font-mono">$0.30</td></tr>
+              <tr><td class="p-3 font-semibold">Currency Conversion (FX)</td><td class="p-3 font-mono">+1.5%</td><td class="p-3 font-mono">N/A</td></tr>
+              <tr><td class="p-3 font-semibold">Stripe Terminal (In-person)</td><td class="p-3 font-mono">2.7%</td><td class="p-3 font-mono">$0.05</td></tr>
+              <tr><td class="p-3 font-semibold">Instant Payouts</td><td class="p-3 font-mono">+1.5% (min $0.50)</td><td class="p-3 font-mono">N/A</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Practical Examples of Stripe Fee Calculations</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-canvas-soft border border-hairline p-5 rounded-xl space-y-2">
+            <h3 class="font-bold text-ink">Example 1: Standard $100 Sale</h3>
+            <p class="text-sm">Domestic US Card: 2.9% of $100 ($2.90) + $0.30 fixed fee = <strong>$3.20 total fee</strong>. Your net payout received in bank is <strong>$96.80</strong>.</p>
+          </div>
+          <div class="bg-canvas-soft border border-hairline p-5 rounded-xl space-y-2">
+            <h3 class="font-bold text-ink">Example 2: Reverse $1,000 Invoice</h3>
+            <p class="text-sm">To receive exactly $1,000 net: ($1000 + $0.30) / (1 - 0.029) = <strong>$1,030.18 gross charge</strong>. Stripe fee is $30.18, leaving you with $1,000.00.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Stripe Official Pricing Guide", url: "https://stripe.com/pricing" },
+        { title: "IRS Payment Card & Third Party Network Transactions", url: "https://www.irs.gov/businesses/understanding-your-form-1099-k" }
+      ]} />
+
+      <RelatedTools currentSlug="stripe-fee-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initStripeCalc() {
+      const modeStdBtn = document.getElementById('mode-standard');
+      const modeRevBtn = document.getElementById('mode-reverse');
+      const amountInput = document.getElementById('amount') as HTMLInputElement;
+      const amountLabel = document.getElementById('amount-label');
+      const currencySelect = document.getElementById('currency') as HTMLSelectElement;
+      const currencySymbol = document.getElementById('currency-symbol');
+      const txTypeSelect = document.getElementById('tx-type') as HTMLSelectElement;
+      const instantPayoutCb = document.getElementById('instant-payout') as HTMLInputElement;
+      const customRateBox = document.getElementById('custom-rate-box');
+      const customPctInput = document.getElementById('custom-pct') as HTMLInputElement;
+      const customFixedInput = document.getElementById('custom-fixed') as HTMLInputElement;
+
+      const resFee = document.getElementById('res-fee');
+      const resFeePct = document.getElementById('res-fee-pct');
+      const resPayout = document.getElementById('res-payout');
+      const resPayoutSub = document.getElementById('res-payout-sub');
+      const resGrossLbl = document.getElementById('res-gross-lbl');
+      const resGross = document.getElementById('res-gross');
+      const resBaseFee = document.getElementById('res-base-fee');
+      const rowInstant = document.getElementById('row-instant');
+      const resInstantFee = document.getElementById('res-instant-fee');
+      const resTotalFee = document.getElementById('res-total-fee');
+      const resFinalNet = document.getElementById('res-final-net');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+      const presetBtns = document.querySelectorAll('.preset-btn');
+
+      let currentMode: 'standard' | 'reverse' = 'standard';
+
+      function getFeeRates() {
+        const type = txTypeSelect.value;
+        if (type === 'custom') {
+          return { pct: (parseFloat(customPctInput.value) || 0) / 100, fixed: parseFloat(customFixedInput.value) || 0 };
+        }
+        if (type === 'intl') return { pct: 0.039, fixed: 0.30 };
+        if (type === 'intl-fx') return { pct: 0.044, fixed: 0.30 };
+        if (type === 'in-person') return { pct: 0.027, fixed: 0.05 };
+        return { pct: 0.029, fixed: 0.30 }; // domestic default
+      }
+
+      function calculate() {
+        const symbol = currencySelect.value;
+        if (currencySymbol) currencySymbol.textContent = symbol;
+        const inputVal = parseFloat(amountInput.value) || 0;
+        const rates = getFeeRates();
+        const includeInstant = instantPayoutCb.checked;
+        const instantPct = includeInstant ? 0.015 : 0;
+
+        if (txTypeSelect.value === 'custom') {
+          customRateBox?.classList.remove('hidden');
+        } else {
+          customRateBox?.classList.add('hidden');
+        }
+
+        let gross = 0;
+        let fee = 0;
+        let instantFee = 0;
+        let net = 0;
+
+        if (currentMode === 'standard') {
+          gross = inputVal;
+          const baseFee = (gross * rates.pct) + rates.fixed;
+          instantFee = includeInstant ? Math.max(gross * instantPct, 0.50) : 0;
+          fee = baseFee + instantFee;
+          net = Math.max(gross - fee, 0);
+        } else {
+          // Reverse calculation
+          net = inputVal;
+          // net = gross - (gross * (pct + instantPct) + fixed)
+          // gross * (1 - pct - instantPct) = net + fixed
+          const totalPct = rates.pct + instantPct;
+          gross = totalPct < 1 ? (net + rates.fixed) / (1 - totalPct) : 0;
+          const baseFee = (gross * rates.pct) + rates.fixed;
+          instantFee = includeInstant ? Math.max(gross * instantPct, 0.50) : 0;
+          fee = baseFee + instantFee;
+        }
+
+        const effPct = gross > 0 ? ((fee / gross) * 100).toFixed(2) : '0.00';
+
+        if (resFee) resFee.textContent = `${symbol}${fee.toFixed(2)}`;
+        if (resFeePct) resFeePct.textContent = `${effPct}% effective rate`;
+        if (resPayout) resPayout.textContent = `${symbol}${net.toFixed(2)}`;
+        if (resGross) resGross.textContent = `${symbol}${gross.toFixed(2)}`;
+        if (resBaseFee) resBaseFee.textContent = `${symbol}${(fee - instantFee).toFixed(2)}`;
+        if (resTotalFee) resTotalFee.textContent = `${symbol}${fee.toFixed(2)}`;
+        if (resFinalNet) resFinalNet.textContent = `${symbol}${net.toFixed(2)}`;
+
+        if (includeInstant) {
+          rowInstant?.classList.remove('hidden');
+          if (resInstantFee) resInstantFee.textContent = `${symbol}${instantFee.toFixed(2)}`;
+        } else {
+          rowInstant?.classList.add('hidden');
+        }
+      }
+
+      modeStdBtn?.addEventListener('click', () => {
+        currentMode = 'standard';
+        modeStdBtn.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        modeRevBtn.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        if (amountLabel) amountLabel.textContent = 'Transaction Amount ($)';
+        if (resPayoutSub) resPayoutSub.textContent = 'Amount received in bank';
+        calculate();
+      });
+
+      modeRevBtn?.addEventListener('click', () => {
+        currentMode = 'reverse';
+        modeRevBtn.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        modeStdBtn.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        if (amountLabel) amountLabel.textContent = 'Desired Net Payout ($)';
+        if (resPayoutSub) resPayoutSub.textContent = 'Amount to invoice client';
+        calculate();
+      });
+
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const val = (e.currentTarget as HTMLElement).getAttribute('data-val');
+          if (val) {
+            amountInput.value = val;
+            calculate();
+          }
+        });
+      });
+
+      [amountInput, currencySelect, txTypeSelect, instantPayoutCb, customPctInput, customFixedInput].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        amountInput.value = '100.00';
+        currencySelect.value = '$';
+        txTypeSelect.value = 'domestic';
+        instantPayoutCb.checked = false;
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const symbol = currencySelect.value;
+        const gross = resGross?.textContent;
+        const fee = resTotalFee?.textContent;
+        const net = resFinalNet?.textContent;
+        const text = `Stripe Fee Breakdown (${currentMode.toUpperCase()} MODE):\n` +
+          `Gross Charge: ${gross}\n` +
+          `Stripe Processing Fee: ${fee}\n` +
+          `Net Payout: ${net}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Summary'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initStripeCalc);
+  </script>
+</Layout>

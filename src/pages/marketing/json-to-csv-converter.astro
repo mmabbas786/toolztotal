@@ -1,0 +1,291 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "JSON to CSV Converter - Free Client-Side Table Exporter | ToolzTotal",
+  description: "Free JSON to CSV converter. Convert JSON arrays and nested objects into clean CSV spreadsheets with table previews and instant downloads.",
+  url: "https://toolztotal.com/marketing/json-to-csv-converter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the JSON to CSV converter work?", answer: "The converter parses your input JSON array of objects, extracts unique keys to create column headers, and maps each object's values into corresponding CSV rows." },
+  { question: "Is my JSON data uploaded to an external server?", answer: "No. The conversion executes 100% client-side inside your web browser. Your data never leaves your computer." },
+  { question: "How does the tool handle nested JSON objects or arrays?", answer: "When 'Flatten Nested Objects' is enabled, child properties are flattened using dot notation (e.g. `user.address.city`). Arrays are joined into comma-separated strings." },
+  { question: "Can I open the generated CSV file directly in Microsoft Excel?", answer: "Yes. The downloaded `.csv` file can be opened directly in Microsoft Excel, Google Sheets, Apple Numbers, or LibreOffice Calc." },
+  { question: "What happens if objects in my JSON array have inconsistent keys?", answer: "Our converter scans all objects across the array to compile a master list of unique column headers. Objects missing specific keys will simply leave empty cells in those columns." },
+  { question: "Can I convert single JSON objects instead of arrays?", answer: "Yes. If you input a single JSON object, the converter automatically wraps it into a single-row array for tabular conversion." },
+  { question: "What delimiter choices are available?", answer: "You can select standard Comma (`,`), Semicolon (`;`), or Tab (`\\t`) delimiters." },
+  { question: "Is there a file size limit for JSON input?", answer: "Because processing happens locally in your browser memory, it can handle multi-megabyte JSON files with thousands of rows in seconds." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="JSON to CSV Converter"
+    toolSlug="json-to-csv-converter"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Marketing & SEO" categorySlug="marketing" toolName="JSON to CSV Converter" toolSlug="json-to-csv-converter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Data Conversion Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        JSON to CSV Converter
+      </h1>
+      <TrustHeader toolSlug="json-to-csv-converter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Convert JSON arrays and API responses into clean CSV spreadsheets. Includes interactive table previews, custom delimiters, nested object flattening, and instant downloads.
+      </p>
+    </div>
+
+    <!-- Converter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">JSON Input</h2>
+            <button type="button" id="btn-sample" class="text-xs font-mono text-link hover:underline">Load Sample JSON</button>
+          </div>
+
+          <div>
+            <textarea id="json-input" rows="8" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink leading-relaxed focus:ring-1 focus:ring-ink" placeholder="Paste JSON array here..."></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 pt-2 border-t border-hairline">
+            <div>
+              <label for="csv-delimiter" class="block text-xs font-mono text-mute uppercase mb-1">Delimiter</label>
+              <select id="csv-delimiter" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="," selected>Comma (,)</option>
+                <option value=";">Semicolon (;)</option>
+                <option value="tab">Tab (\t)</option>
+              </select>
+            </div>
+            <div class="flex items-center pt-5">
+              <label class="flex items-center gap-2 cursor-pointer text-xs font-sans text-body">
+                <input type="checkbox" id="opt-flatten" checked class="w-4 h-4 rounded border-hairline text-ink" />
+                <span>Flatten Nested Objects</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview & Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">CSV Result Preview</h2>
+            <span id="badge-stats" class="text-xs font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">0 Rows</span>
+          </div>
+
+          <div class="overflow-x-auto max-h-64 border border-hairline rounded-lg">
+            <table id="preview-table" class="w-full text-left text-xs font-mono">
+              <thead class="bg-canvas-soft border-b border-hairline text-ink">
+                <tr id="table-head"></tr>
+              </thead>
+              <tbody id="table-body" class="divide-y divide-hairline"></tbody>
+            </table>
+          </div>
+
+          <textarea id="output-csv" readonly rows="5" class="w-full bg-canvas-soft border border-hairline rounded-xl p-3 text-xs font-mono text-ink"></textarea>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy CSV
+            </button>
+            <button type="button" id="btn-download" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Download .csv
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Convert JSON to CSV?</h2>
+        <p>
+          JSON (JavaScript Object Notation) is the standard data interchange format for modern REST APIs, databases, and web services. However, when presenting data to business stakeholders or analyzing metrics in Excel or Google Sheets, CSV (Comma-Separated Values) remains indispensable.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "RFC 4180 - Common Format and MIME Type for CSV Files", url: "https://datatracker.ietf.org/doc/html/rfc4180" }
+      ]} />
+
+      <RelatedTools currentSlug="json-to-csv-converter" categorySlug="marketing" />
+      <ContentFooter category="marketing" />
+    </article>
+  </div>
+
+  <script>
+    function initJsonCsv() {
+      const jsonInput = document.getElementById('json-input') as HTMLTextAreaElement;
+      const delimiterSelect = document.getElementById('csv-delimiter') as HTMLSelectElement;
+      const flattenCb = document.getElementById('opt-flatten') as HTMLInputElement;
+
+      const outputCsv = document.getElementById('output-csv') as HTMLTextAreaElement;
+      const badgeStats = document.getElementById('badge-stats');
+      const tableHead = document.getElementById('table-head');
+      const tableBody = document.getElementById('table-body');
+
+      const btnSample = document.getElementById('btn-sample');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnDownload = document.getElementById('btn-download');
+
+      const sampleJson = `[
+  { "id": 1, "name": "John Doe", "role": "Developer", "contact": { "email": "john@example.com" } },
+  { "id": 2, "name": "Jane Smith", "role": "Designer", "contact": { "email": "jane@example.com" } },
+  { "id": 3, "name": "Bob Johnson", "role": "Manager", "contact": { "email": "bob@example.com" } }
+]`;
+
+      function flattenObject(obj: any, prefix = ''): any {
+        return Object.keys(obj).reduce((acc: any, k: string) => {
+          const pre = prefix.length ? prefix + '.' : '';
+          if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+            Object.assign(acc, flattenObject(obj[k], pre + k));
+          } else {
+            acc[pre + k] = Array.isArray(obj[k]) ? obj[k].join(';') : obj[k];
+          }
+          return acc;
+        }, {});
+      }
+
+      function convert() {
+        const raw = jsonInput.value.trim();
+        if (!raw) {
+          if (outputCsv) outputCsv.value = '';
+          if (badgeStats) badgeStats.textContent = '0 Rows';
+          if (tableHead) tableHead.innerHTML = '';
+          if (tableBody) tableBody.innerHTML = '';
+          return;
+        }
+
+        try {
+          let parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) {
+            parsed = [parsed];
+          }
+
+          const shouldFlatten = flattenCb.checked;
+          const items = shouldFlatten ? parsed.map((item: any) => flattenObject(item)) : parsed;
+
+          // Collect headers
+          const headersSet = new Set<string>();
+          items.forEach((item: any) => {
+            if (typeof item === 'object' && item !== null) {
+              Object.keys(item).forEach(k => headersSet.add(k));
+            }
+          });
+          const headers = Array.from(headersSet);
+
+          const delimChoice = delimiterSelect.value;
+          const delim = delimChoice === 'tab' ? '\t' : delimChoice;
+
+          const rows: string[] = [];
+          rows.push(headers.map(h => `"${h.replace(/"/g, '""')}"`).join(delim));
+
+          items.forEach((item: any) => {
+            const rowValues = headers.map(h => {
+              const val = item[h] !== undefined && item[h] !== null ? String(item[h]) : '';
+              return `"${val.replace(/"/g, '""')}"`;
+            });
+            rows.push(rowValues.join(delim));
+          });
+
+          const csvContent = rows.join('\n');
+          if (outputCsv) outputCsv.value = csvContent;
+          if (badgeStats) badgeStats.textContent = `${items.length} Rows (${headers.length} Cols)`;
+
+          // Build preview table
+          if (tableHead) {
+            tableHead.innerHTML = headers.map(h => `<th class="p-2 border-r border-hairline">${h}</th>`).join('');
+          }
+          if (tableBody) {
+            tableBody.innerHTML = items.slice(0, 10).map((item: any) => {
+              const tds = headers.map(h => `<td class="p-2 border-r border-hairline text-mute">${item[h] ?? ''}</td>`).join('');
+              return `<tr>${tds}</tr>`;
+            }).join('');
+          }
+        } catch (e) {
+          if (outputCsv) outputCsv.value = 'Invalid JSON syntax.';
+          if (badgeStats) badgeStats.textContent = 'Error';
+        }
+      }
+
+      btnSample?.addEventListener('click', () => {
+        jsonInput.value = sampleJson;
+        convert();
+      });
+
+      [jsonInput, delimiterSelect, flattenCb].forEach(el => {
+        el?.addEventListener('input', convert);
+        el?.addEventListener('change', convert);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (outputCsv) {
+          navigator.clipboard.writeText(outputCsv.value);
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy CSV'; }, 2000);
+        }
+      });
+
+      btnDownload?.addEventListener('click', () => {
+        if (outputCsv && outputCsv.value) {
+          const blob = new Blob([outputCsv.value], { type: 'text/csv;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'data.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      });
+
+      jsonInput.value = sampleJson;
+      convert();
+    }
+
+    document.addEventListener('DOMContentLoaded', initJsonCsv);
+  </script>
+</Layout>

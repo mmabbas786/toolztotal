@@ -16,17 +16,8 @@ const {
   canonicalUrl
 } = Astro.props;
 
-// Standard categories list for nav & footer
-const categories = [
-  { name: "Finance & Loans", slug: "finance" },
-  { name: "Real Estate & Mortgage", slug: "real-estate" },
-  { name: "Everyday / Life Utility", slug: "utility" },
-  { name: "Developer Tools", slug: "dev" },
-  { name: "Text & Content", slug: "text" },
-  { name: "Marketing & SEO", slug: "marketing" },
-  { name: "Health & Fitness", slug: "health" },
-  { name: "Legal & Employment", slug: "legal" }
-];
+// Dynamic categories list from catalog for nav & footer
+const categories = toolCatalog.map(c => ({ name: c.name, slug: c.slug }));
 
 // Resolve dynamic OG Image based on pathname
 const pathname = Astro.url.pathname.replace(/^\/|\/$/g, ''); // strip leading/trailing slashes
@@ -36,7 +27,7 @@ let ogImageUrl = 'https://toolztotal.com/og-image.png';
 
 if (pathParts.length === 2) {
   const [category, slug] = pathParts;
-  const isValidCategory = toolCatalog.some(c => c.slug === category) || category === 'blog';
+  const isValidCategory = toolCatalog.some(c => c.slug === category) || category === 'blog' || category === 'compare';
   if (isValidCategory) {
     ogImageUrl = `https://toolztotal.com/og/${category}/${slug}.png`;
   }

@@ -1,0 +1,203 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "MRR Calculator - Monthly Recurring Revenue & Net New MRR Solver | ToolzTotal",
+  description: "Free SaaS MRR calculator. Calculate Monthly Recurring Revenue, Expansion MRR, Churn MRR, and Net New MRR metrics 100% client-side in your browser.",
+  url: "https://toolztotal.com/startup/mrr-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is Monthly Recurring Revenue (MRR)?", answer: "MRR is the predictable total revenue a subscription-based SaaS business expects to receive every single month." },
+  { question: "What is Net New MRR?", answer: "Net New MRR measures month-over-month recurring revenue growth. The formula is: Net New MRR = New MRR + Expansion MRR + Reactivation MRR - Contraction MRR - Churned MRR." },
+  { question: "What is Expansion MRR?", answer: "Expansion MRR is additional recurring revenue generated from existing customers upgrading their subscription plans or purchasing add-ons." },
+  { question: "Why is Churn MRR critical for SaaS startups?", answer: "Churn MRR represents lost recurring revenue from canceled subscriptions. High churn erodes customer acquisition ROI and limits long-term compounding growth." },
+  { question: "How do annual subscriptions factor into MRR calculations?", answer: "For annual upfront subscriptions, divide the total annual contract value (ACV) by 12 to calculate the monthly MRR contribution." },
+  { question: "Is my financial data uploaded or stored on any server?", answer: "No. The MRR Calculator operates 100% locally inside your web browser. No numbers or financial metrics leave your computer." },
+  { question: "What is a healthy Net MRR Growth Rate for seed-stage startups?", answer: "Early-stage SaaS startups typically target 10% to 20% month-over-month Net MRR growth." },
+  { question: "Is this MRR calculator free?", answer: "Yes. ToolzTotal provides 100% free financial and startup tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="MRR Calculator"
+    toolSlug="mrr-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="MRR Calculator" toolSlug="mrr-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private SaaS Revenue Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        MRR Calculator (Monthly Recurring Revenue)
+      </h1>
+      <TrustHeader toolSlug="mrr-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate Monthly Recurring Revenue (MRR), New MRR, Expansion, Churn, and Net New MRR growth metrics for your subscription business.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">MRR Components</h2>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="starting-mrr" class="block text-xs font-mono text-mute uppercase mb-1">Starting MRR ($)</label>
+              <input type="number" id="starting-mrr" value="50000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="new-mrr" class="block text-xs font-mono text-mute uppercase mb-1">New MRR ($)</label>
+              <input type="number" id="new-mrr" value="8000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="expansion-mrr" class="block text-xs font-mono text-mute uppercase mb-1">Expansion MRR ($)</label>
+              <input type="number" id="expansion-mrr" value="3000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="reactivation-mrr" class="block text-xs font-mono text-mute uppercase mb-1">Reactivation MRR ($)</label>
+              <input type="number" id="reactivation-mrr" value="500" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="contraction-mrr" class="block text-xs font-mono text-mute uppercase mb-1">Contraction MRR ($)</label>
+              <input type="number" id="contraction-mrr" value="1000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="churned-mrr" class="block text-xs font-mono text-mute uppercase mb-1">Churned MRR ($)</label>
+              <input type="number" id="churned-mrr" value="2500" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Monthly Revenue Metrics</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Net New MRR</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Ending MRR</span>
+              <span id="res-ending-mrr" class="text-3xl font-bold text-emerald-500">$0</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Net New MRR</span>
+                <span id="res-net-new-mrr" class="font-bold text-ink">$0</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Growth Rate %</span>
+                <span id="res-growth-rate" class="font-bold text-ink">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding Monthly Recurring Revenue (MRR)</h2>
+        <p>
+          Monthly Recurring Revenue (MRR) is the single most vital health metric for software-as-a-service (SaaS) and subscription businesses. Measuring your MRR breakdown allows founders and investors to track expansion, churn rates, and unit economics compounding.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "SaaS Metrics 2.0 - David Skok", url: "https://www.forentrepreneurs.com/saas-metrics-2/" }
+      ]} />
+
+      <RelatedTools currentSlug="mrr-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initMrrCalc() {
+      const startEl = document.getElementById('starting-mrr') as HTMLInputElement;
+      const newEl = document.getElementById('new-mrr') as HTMLInputElement;
+      const expEl = document.getElementById('expansion-mrr') as HTMLInputElement;
+      const reactEl = document.getElementById('reactivation-mrr') as HTMLInputElement;
+      const conEl = document.getElementById('contraction-mrr') as HTMLInputElement;
+      const churnEl = document.getElementById('churned-mrr') as HTMLInputElement;
+
+      const endingEl = document.getElementById('res-ending-mrr');
+      const netNewEl = document.getElementById('res-net-new-mrr');
+      const growthEl = document.getElementById('res-growth-rate');
+
+      function calculate() {
+        const start = parseFloat(startEl.value) || 0;
+        const nMRR = parseFloat(newEl.value) || 0;
+        const eMRR = parseFloat(expEl.value) || 0;
+        const rMRR = parseFloat(reactEl.value) || 0;
+        const cMRR = parseFloat(conEl.value) || 0;
+        const churnMRR = parseFloat(churnEl.value) || 0;
+
+        const netNew = (nMRR + eMRR + rMRR) - (cMRR + churnMRR);
+        const ending = start + netNew;
+        const growthRate = start > 0 ? ((netNew / start) * 100).toFixed(1) : '0';
+
+        if (endingEl) endingEl.textContent = '$' + ending.toLocaleString('en-US');
+        if (netNewEl) netNewEl.textContent = (netNew >= 0 ? '+' : '') + '$' + netNew.toLocaleString('en-US');
+        if (growthEl) growthEl.textContent = growthRate + '%';
+      }
+
+      [startEl, newEl, expEl, reactEl, conEl, churnEl].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initMrrCalc);
+  </script>
+</Layout>

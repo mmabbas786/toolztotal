@@ -1,0 +1,402 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "APR Calculator - Calculate Effective Loan & Credit Card APR | ToolzTotal",
+  description: "Free APR calculator. Calculate effective Annual Percentage Rate (APR) for mortgage, personal, auto loans, and credit cards with origination fees.",
+  url: "https://toolztotal.com/finance/apr-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is APR and how is it different from interest rate?", answer: "The interest rate is the cost you pay to borrow the principal loan balance. APR (Annual Percentage Rate) includes the interest rate PLUS mandatory financing fees like origination fees, closing costs, and points, providing a true comparison of loan costs." },
+  { question: "Why is APR higher than the interest rate?", answer: "APR is higher than the interest rate whenever upfront loan fees exist. These fees are rolled into the effective annual borrowing cost over the loan term, increasing the true annual percentage cost." },
+  { question: "How is APR calculated for a loan?", answer: "APR is calculated by finding the discount rate that equates the net loan proceeds (Loan Amount minus Upfront Fees) to the present value of all future monthly payments over the loan term." },
+  { question: "What is Credit Card APR?", answer: "Credit card APR represents the annualized interest rate charged on unpaid balances. Most credit cards calculate interest daily using the Daily Periodic Rate = (APR / 365)." },
+  { question: "Does APR include mortgage closing costs like appraisal and title fees?", answer: "Real Estate Settlement Procedures Act (RESPA) requires APR to include prepaid interest, points, loan origination fees, and processing fees. Third-party closing fees like title insurance, appraisals, and home inspections are generally excluded." },
+  { question: "Is a lower interest rate always better than a lower APR?", answer: "No. APR reflects the true annual cost. A loan with a lower interest rate but very high origination fees might end up with a higher APR and cost more overall than a loan with a slightly higher interest rate and zero fees." },
+  { question: "What is a good APR for a personal loan or credit card?", answer: "Personal loan APRs typically range from 6% to 36% depending on your credit score. Credit card APRs generally range from 15% to 29% for prime borrowers." },
+  { question: "Can APR change over the life of a loan?", answer: "Fixed-rate loans maintain a constant APR. Variable-rate loans (like HELOCs or adjustable-rate mortgages) have APRs that fluctuate based on underlying benchmark indices like the SOFR or Prime Rate." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="APR Calculator"
+    toolSlug="apr-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="APR Calculator" toolSlug="apr-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Financial Comparison Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        APR Calculator
+      </h1>
+      <TrustHeader toolSlug="apr-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate the real Annual Percentage Rate (APR) for mortgage, auto, personal loans, and credit cards incorporating origination fees and closing charges.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Loan & Fee Parameters</h2>
+            <div class="flex bg-canvas-soft rounded-lg p-1 border border-hairline">
+              <button type="button" id="tab-loan" class="px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors">Installment Loan</button>
+              <button type="button" id="tab-card" class="px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors">Credit Card</button>
+            </div>
+          </div>
+
+          <!-- Installment Loan Box -->
+          <div id="box-loan" class="space-y-4">
+            <div>
+              <label for="loan-amount" class="block text-xs font-mono text-mute uppercase mb-1">Loan Amount ($)</label>
+              <input type="number" id="loan-amount" value="25000" min="500" step="500" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="interest-rate" class="block text-xs font-mono text-mute uppercase mb-1">Stated Interest Rate (%)</label>
+                <input type="number" id="interest-rate" value="6.5" min="0" step="0.1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+              </div>
+              <div>
+                <label for="loan-term" class="block text-xs font-mono text-mute uppercase mb-1">Loan Term (Years)</label>
+                <input type="number" id="loan-term" value="5" min="1" max="40" step="1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="upfront-fees" class="block text-xs font-mono text-mute uppercase mb-1">Upfront Fees ($)</label>
+                <input type="number" id="upfront-fees" value="750" min="0" step="50" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+              </div>
+              <div>
+                <label for="fee-financed" class="block text-xs font-mono text-mute uppercase mb-1">Fee Treatment</label>
+                <select id="fee-financed" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs text-ink">
+                  <option value="cash" selected>Paid Out-of-Pocket</option>
+                  <option value="financed">Financed in Loan</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Credit Card Box (hidden by default) -->
+          <div id="box-card" class="hidden space-y-4">
+            <div>
+              <label for="card-balance" class="block text-xs font-mono text-mute uppercase mb-1">Credit Card Balance ($)</label>
+              <input type="number" id="card-balance" value="5000" min="100" step="100" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="card-apr" class="block text-xs font-mono text-mute uppercase mb-1">Stated Card APR (%)</label>
+                <input type="number" id="card-apr" value="21.99" min="0" step="0.1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+              </div>
+              <div>
+                <label for="card-pmt" class="block text-xs font-mono text-mute uppercase mb-1">Monthly Payment ($)</label>
+                <input type="number" id="card-pmt" value="200" min="10" step="10" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Effective APR Analysis</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Effective APR</span>
+              <span id="res-apr" class="text-2xl md:text-3xl font-bold font-mono text-indigo-500">7.76%</span>
+              <span id="res-apr-diff" class="block text-xs font-sans text-emerald-500 mt-1">+1.26% vs stated rate</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Monthly Payment</span>
+              <span id="res-pmt" class="text-2xl md:text-3xl font-bold font-mono text-ink">$489.15</span>
+              <span id="res-pmt-sub" class="block text-xs font-sans text-mute mt-1">For 60 monthly periods</span>
+            </div>
+          </div>
+
+          <!-- Highlight Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-body font-sans">Stated Interest Rate:</span>
+              <span id="res-stated" class="font-mono font-bold text-ink">6.50%</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Total Interest Charges:</span>
+              <span id="res-interest" class="font-mono text-ink">$4,349.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Upfront Fees Paid:</span>
+              <span id="res-fees" class="font-mono text-ink">$750.00</span>
+            </div>
+            <div class="flex justify-between items-center text-base border-t border-hairline-strong pt-3 font-semibold">
+              <span class="text-ink font-sans">Total Out-of-Pocket Cost:</span>
+              <span id="res-total-cost" class="font-mono text-ink">$30,099.00</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Results
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Calculating Real APR Matters</h2>
+        <p>
+          Lenders frequently promote attractive interest rates on mortgages, auto loans, and personal financing. However, the interest rate only tells half the financial story. Upfront loan origination fees, underwriting costs, discount points, and processing charges significantly increase your actual cost of credit.
+        </p>
+        <p>
+          Under the federal <strong>Truth in Lending Act (TILA)</strong>, lenders are legally required to disclose the Annual Percentage Rate (APR). Our <strong>APR Calculator</strong> enables borrowers to quickly compute true effective APRs and evaluate loan offers side-by-side without hidden surprises.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">The Mathematical Formula Behind APR</h2>
+        <p>
+          Calculating APR involves solving for the internal rate of return ($r$) that satisfies the present value loan equation:
+        </p>
+        <div class="bg-canvas border border-hairline p-5 rounded-xl font-mono text-sm space-y-2">
+          <p class="text-ink font-bold">Loan Present Value Equation:</p>
+          <p class="text-mute">Net Proceeds = Principal - Upfront Fees</p>
+          <p class="text-mute">Net Proceeds = Σ [ Monthly Payment / (1 + r/12)^t ] for t=1 to n</p>
+          <p class="text-mute">APR = r × 100%</p>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Consumer Financial Protection Bureau (CFPB) - What is an APR?", url: "https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-mortgage-interest-rate-and-an-apr-en-135/" },
+        { title: "Federal Reserve Board - Truth in Lending (Regulation Z)", url: "https://www.federalreserve.gov/boarddocs/supmanual/supervision_regz.pdf" }
+      ]} />
+
+      <RelatedTools currentSlug="apr-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initAprCalc() {
+      const tabLoan = document.getElementById('tab-loan');
+      const tabCard = document.getElementById('tab-card');
+      const boxLoan = document.getElementById('box-loan');
+      const boxCard = document.getElementById('box-card');
+
+      const loanAmountInput = document.getElementById('loan-amount') as HTMLInputElement;
+      const rateInput = document.getElementById('interest-rate') as HTMLInputElement;
+      const termInput = document.getElementById('loan-term') as HTMLInputElement;
+      const feesInput = document.getElementById('upfront-fees') as HTMLInputElement;
+      const feeFinancedSelect = document.getElementById('fee-financed') as HTMLSelectElement;
+
+      const cardBalInput = document.getElementById('card-balance') as HTMLInputElement;
+      const cardAprInput = document.getElementById('card-apr') as HTMLInputElement;
+      const cardPmtInput = document.getElementById('card-pmt') as HTMLInputElement;
+
+      const resApr = document.getElementById('res-apr');
+      const resAprDiff = document.getElementById('res-apr-diff');
+      const resPmt = document.getElementById('res-pmt');
+      const resPmtSub = document.getElementById('res-pmt-sub');
+      const resStated = document.getElementById('res-stated');
+      const resInterest = document.getElementById('res-interest');
+      const resFees = document.getElementById('res-fees');
+      const resTotalCost = document.getElementById('res-total-cost');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+
+      let currentTab: 'loan' | 'card' = 'loan';
+
+      function solveApr(netProceeds: number, pmt: number, months: number): number {
+        let low = 0.00001;
+        let high = 1.0;
+        let guess = 0.05;
+
+        for (let i = 0; i < 40; i++) {
+          guess = (low + high) / 2;
+          const r = guess / 12;
+          const pv = (pmt * (1 - Math.pow(1 + r, -months))) / r;
+          if (pv > netProceeds) {
+            low = guess;
+          } else {
+            high = guess;
+          }
+        }
+        return guess * 100;
+      }
+
+      function calculate() {
+        if (currentTab === 'loan') {
+          const principal = parseFloat(loanAmountInput.value) || 0;
+          const statedRate = parseFloat(rateInput.value) || 0;
+          const years = parseFloat(termInput.value) || 1;
+          const fees = parseFloat(feesInput.value) || 0;
+          const isFinanced = feeFinancedSelect.value === 'financed';
+
+          const months = years * 12;
+          const actualPrincipal = isFinanced ? principal + fees : principal;
+          const r = (statedRate / 100) / 12;
+
+          const pmt = r > 0 ? (actualPrincipal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1) : actualPrincipal / months;
+          const totalPaid = pmt * months;
+          const totalInterest = totalPaid - actualPrincipal;
+
+          const netProceeds = principal - (isFinanced ? 0 : fees);
+          const effectiveApr = solveApr(netProceeds, pmt, months);
+          const diff = effectiveApr - statedRate;
+
+          if (resApr) resApr.textContent = `${effectiveApr.toFixed(2)}%`;
+          if (resAprDiff) {
+            resAprDiff.textContent = diff >= 0 ? `+${diff.toFixed(2)}% vs stated rate` : `${diff.toFixed(2)}% vs stated rate`;
+            resAprDiff.className = diff > 0 ? 'block text-xs font-sans text-rose-500 mt-1' : 'block text-xs font-sans text-emerald-500 mt-1';
+          }
+          if (resPmt) resPmt.textContent = `$${pmt.toFixed(2)}`;
+          if (resPmtSub) resPmtSub.textContent = `For ${months} monthly payments`;
+          if (resStated) resStated.textContent = `${statedRate.toFixed(2)}%`;
+          if (resInterest) resInterest.textContent = `$${totalInterest.toFixed(2)}`;
+          if (resFees) resFees.textContent = `$${fees.toFixed(2)}`;
+          if (resTotalCost) resTotalCost.textContent = `$${(totalPaid + (isFinanced ? 0 : fees)).toFixed(2)}`;
+        } else {
+          // Credit Card Mode
+          const balance = parseFloat(cardBalInput.value) || 0;
+          const apr = parseFloat(cardAprInput.value) || 0;
+          const pmt = parseFloat(cardPmtInput.value) || 0;
+
+          const dailyRate = apr / 365 / 100;
+          const monthlyRate = apr / 12 / 100;
+
+          let remBal = balance;
+          let totalInt = 0;
+          let monthsCount = 0;
+
+          while (remBal > 0 && monthsCount < 600) {
+            const intAccrued = remBal * monthlyRate;
+            if (pmt <= intAccrued) {
+              // Minimum payment too low to amortize
+              break;
+            }
+            totalInt += intAccrued;
+            remBal = remBal + intAccrued - pmt;
+            monthsCount++;
+          }
+
+          if (resApr) resApr.textContent = `${apr.toFixed(2)}%`;
+          if (resAprDiff) {
+            resAprDiff.textContent = `Daily Periodic Rate: ${(dailyRate * 100).toFixed(4)}%`;
+            resAprDiff.className = 'block text-xs font-sans text-mute mt-1';
+          }
+          if (resPmt) resPmt.textContent = `$${pmt.toFixed(2)}`;
+          if (resPmtSub) resPmtSub.textContent = `Payoff in ${monthsCount} months`;
+          if (resStated) resStated.textContent = `${apr.toFixed(2)}%`;
+          if (resInterest) resInterest.textContent = `$${totalInt.toFixed(2)}`;
+          if (resFees) resFees.textContent = `$0.00`;
+          if (resTotalCost) resTotalCost.textContent = `$${(balance + totalInt).toFixed(2)}`;
+        }
+      }
+
+      tabLoan?.addEventListener('click', () => {
+        currentTab = 'loan';
+        tabLoan.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        tabCard.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        boxLoan?.classList.remove('hidden');
+        boxCard?.classList.add('hidden');
+        calculate();
+      });
+
+      tabCard?.addEventListener('click', () => {
+        currentTab = 'card';
+        tabCard.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        tabLoan.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        boxCard?.classList.remove('hidden');
+        boxLoan?.classList.add('hidden');
+        calculate();
+      });
+
+      [loanAmountInput, rateInput, termInput, feesInput, feeFinancedSelect, cardBalInput, cardAprInput, cardPmtInput].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        loanAmountInput.value = '25000';
+        rateInput.value = '6.5';
+        termInput.value = '5';
+        feesInput.value = '750';
+        feeFinancedSelect.value = 'cash';
+        cardBalInput.value = '5000';
+        cardAprInput.value = '21.99';
+        cardPmtInput.value = '200';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const aprText = resApr?.textContent;
+        const pmtText = resPmt?.textContent;
+        const totalText = resTotalCost?.textContent;
+        const text = `APR Calculation Summary:\n` +
+          `Effective APR: ${aprText}\n` +
+          `Monthly Payment: ${pmtText}\n` +
+          `Total Cost: ${totalText}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Results'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initAprCalc);
+  </script>
+</Layout>

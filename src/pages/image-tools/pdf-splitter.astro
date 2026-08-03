@@ -1,0 +1,325 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "PDF Splitter - Split PDF Pages Client-Side | ToolzTotal",
+  description: "Free PDF Splitter. Extract page ranges or split PDF documents into separate individual PDF files 100% client-side with zero server uploads.",
+  url: "https://toolztotal.com/image-tools/pdf-splitter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the PDF Splitter tool work?", answer: "The tool loads your PDF file into browser WebAssembly memory using `pdf-lib`, extracts specified page ranges, and compiles new standalone PDF documents without transmitting files over the internet." },
+  { question: "Are my confidential PDF documents uploaded to a remote server?", answer: "No. The entire PDF splitting process takes place 100% locally inside your web browser. Your sensitive files never touch any external server or cloud database." },
+  { question: "Can I extract custom page ranges (e.g. 1-3, 5, 8-10)?", answer: "Yes. You can specify comma-separated single pages and hypenated page ranges (such as `1-3, 5, 7-10`) to extract exact subsets." },
+  { question: "Can I split a multi-page PDF into single-page PDF files?", answer: "Yes. Select 'Split Every Page' to extract each page of your document into an individual single-page PDF file." },
+  { question: "Does splitting a PDF reduce its original quality?", answer: "No. The tool extracts and re-encodes PDF page streams directly, preserving 100% of original vector fonts, high-res images, layout structures, and text quality." },
+  { question: "Is there a file size limit for splitting PDFs?", answer: "Because processing uses your local computer RAM and CPU, you can split large multi-hundred page PDF documents easily." },
+  { question: "Does the PDF splitter work on password-protected PDFs?", answer: "If the PDF has a master open password, you must enter the password to unlock the document before pages can be extracted." },
+  { question: "Is this PDF splitter free to use?", answer: "Yes. ToolzTotal provides 100% free online PDF tools with no signups, no subscriptions, and no watermarks." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="PDF Splitter"
+    toolSlug="pdf-splitter"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="PDF Splitter" toolSlug="pdf-splitter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private PDF Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        PDF Splitter
+      </h1>
+      <TrustHeader toolSlug="pdf-splitter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Split PDF files into individual pages or extract custom page ranges client-side. Zero server uploads, instant local browser downloads.
+      </p>
+    </div>
+
+    <!-- Splitter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs & Dropzone -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Select PDF Document</h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-hairline-strong rounded-xl p-8 text-center bg-canvas-soft hover:bg-canvas-soft-2 transition-all cursor-pointer space-y-3">
+            <svg class="w-10 h-10 mx-auto text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p class="text-sm font-sans font-medium text-ink">Drag & Drop PDF file here</p>
+            <p class="text-xs font-sans text-mute">or click to browse your computer</p>
+            <input type="file" id="pdf-file-input" accept="application/pdf,.pdf" class="hidden" />
+          </div>
+
+          <!-- Split Options -->
+          <div id="split-options-box" class="hidden space-y-4 pt-2 border-t border-hairline">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-mute uppercase">Document Loaded</span>
+              <span id="pdf-page-count" class="text-xs font-mono text-emerald-500 font-bold">0 Pages</span>
+            </div>
+
+            <div>
+              <label for="split-mode" class="block text-xs font-mono text-mute uppercase mb-1">Split Method</label>
+              <select id="split-mode" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink">
+                <option value="range" selected>Extract Specific Page Ranges (e.g. 1-3, 5)</option>
+                <option value="single">Split Every Page into Individual PDFs</option>
+              </select>
+            </div>
+
+            <div id="range-input-box">
+              <label for="page-range-input" class="block text-xs font-mono text-mute uppercase mb-1">Page Ranges to Extract</label>
+              <input type="text" id="page-range-input" value="1-2" placeholder="e.g. 1-3, 5, 7-10" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+            </div>
+
+            <button type="button" id="btn-split-pdf" class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2">
+              Split & Generate PDF →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output List -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Split PDF Downloads</h2>
+            <span id="output-files-count" class="text-xs font-mono text-mute">0 Files Ready</span>
+          </div>
+
+          <div id="split-results-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+            <p class="text-xs text-mute text-center py-8 font-sans">No split files generated yet. Upload a PDF to begin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Use a Client-Side PDF Splitter?</h2>
+        <p>
+          PDF documents often consolidate contracts, financial statements, or multi-chapter reports into massive single files. When sharing specific pages with clients or colleagues, uploading sensitive financial or legal PDFs to online server converters creates unnecessary data privacy risks.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Adobe PDF Reference Specifications", url: "https://www.adobe.com/devnet/pdf/pdf_reference.html" }
+      ]} />
+
+      <RelatedTools currentSlug="pdf-splitter" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+
+  <script>
+    import { PDFDocument } from 'pdf-lib';
+
+    function initPdfSplitter() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('pdf-file-input') as HTMLInputElement;
+      const optionsBox = document.getElementById('split-options-box');
+      const pageCountBadge = document.getElementById('pdf-page-count');
+      const modeSelect = document.getElementById('split-mode') as HTMLSelectElement;
+      const rangeBox = document.getElementById('range-input-box');
+      const rangeInput = document.getElementById('page-range-input') as HTMLInputElement;
+
+      const btnSplit = document.getElementById('btn-split-pdf');
+      const resultsList = document.getElementById('split-results-list');
+      const outCountBadge = document.getElementById('output-files-count');
+
+      let currentPdfBytes: ArrayBuffer | null = null;
+      let totalPages = 0;
+      let loadedFileName = 'document.pdf';
+
+      dropZone?.addEventListener('click', () => fileInput?.click());
+
+      dropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-ink');
+      });
+
+      dropZone?.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-ink');
+      });
+
+      dropZone?.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-ink');
+        if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
+          await loadPdf(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput?.addEventListener('change', async () => {
+        if (fileInput.files && fileInput.files[0]) {
+          await loadPdf(fileInput.files[0]);
+        }
+      });
+
+      modeSelect?.addEventListener('change', () => {
+        if (modeSelect.value === 'single') {
+          rangeBox?.classList.add('hidden');
+        } else {
+          rangeBox?.classList.remove('hidden');
+        }
+      });
+
+      async function loadPdf(file: File) {
+        if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+          alert('Please select a valid PDF file.');
+          return;
+        }
+
+        loadedFileName = file.name;
+        currentPdfBytes = await file.arrayBuffer();
+
+        try {
+          const pdfDoc = await PDFDocument.load(currentPdfBytes);
+          totalPages = pdfDoc.getPageCount();
+
+          if (pageCountBadge) pageCountBadge.textContent = `${totalPages} Pages Total`;
+          optionsBox?.classList.remove('hidden');
+        } catch (err) {
+          alert('Failed to load PDF. The file may be password protected or corrupted.');
+        }
+      }
+
+      function parsePageRange(rangeStr: string, maxPages: number): number[] {
+        const pagesSet = new Set<number>();
+        const parts = rangeStr.split(',');
+
+        parts.forEach(part => {
+          const trimmed = part.trim();
+          if (trimmed.includes('-')) {
+            const [startStr, endStr] = trimmed.split('-');
+            const start = parseInt(startStr, 10);
+            const end = parseInt(endStr, 10);
+            if (!isNaN(start) && !isNaN(end)) {
+              for (let i = Math.max(1, start); i <= Math.min(maxPages, end); i++) {
+                pagesSet.add(i - 1); // 0-indexed
+              }
+            }
+          } else {
+            const pageNum = parseInt(trimmed, 10);
+            if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= maxPages) {
+              pagesSet.add(pageNum - 1);
+            }
+          }
+        });
+
+        return Array.from(pagesSet).sort((a, b) => a - b);
+      }
+
+      btnSplit?.addEventListener('click', async () => {
+        if (!currentPdfBytes || totalPages === 0) return;
+
+        if (resultsList) resultsList.innerHTML = '<p class="text-xs text-amber-500 text-center py-4 font-mono">Extracting PDF pages...</p>';
+
+        const srcDoc = await PDFDocument.load(currentPdfBytes);
+        const mode = modeSelect.value;
+
+        if (mode === 'single') {
+          if (resultsList) resultsList.innerHTML = '';
+          if (outCountBadge) outCountBadge.textContent = `${totalPages} Files Ready`;
+
+          for (let i = 0; i < totalPages; i++) {
+            const newDoc = await PDFDocument.create();
+            const [copiedPage] = await newDoc.copyPages(srcDoc, [i]);
+            newDoc.addPage(copiedPage);
+
+            const pdfBytes = await newDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const fileName = `${loadedFileName.replace(/\.pdf$/i, '')}_page_${i + 1}.pdf`;
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'flex items-center justify-between p-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono';
+            itemDiv.innerHTML = `
+              <div class="truncate max-w-[200px]">
+                <span class="font-bold text-ink block truncate">${fileName}</span>
+                <span class="text-mute">Page ${i + 1} of ${totalPages}</span>
+              </div>
+              <a href="${url}" download="${fileName}" class="px-3 py-1.5 bg-primary text-on-primary font-sans font-medium text-xs rounded-md shadow-lvl1 hover:bg-primary/90 transition-all">
+                Download
+              </a>
+            `;
+            resultsList?.appendChild(itemDiv);
+          }
+        } else {
+          // Range Mode
+          const pageIndices = parsePageRange(rangeInput.value, totalPages);
+
+          if (pageIndices.length === 0) {
+            alert('Invalid page range entered.');
+            if (resultsList) resultsList.innerHTML = '<p class="text-xs text-rose-500 text-center py-4 font-mono">Invalid page range.</p>';
+            return;
+          }
+
+          const newDoc = await PDFDocument.create();
+          const copiedPages = await newDoc.copyPages(srcDoc, pageIndices);
+          copiedPages.forEach(p => newDoc.addPage(p));
+
+          const pdfBytes = await newDoc.save();
+          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          const fileName = `${loadedFileName.replace(/\.pdf$/i, '')}_split.pdf`;
+
+          if (outCountBadge) outCountBadge.textContent = '1 File Ready';
+          if (resultsList) {
+            resultsList.innerHTML = `
+              <div class="flex items-center justify-between p-3 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono">
+                <div class="truncate max-w-[200px]">
+                  <span class="font-bold text-ink block truncate">${fileName}</span>
+                  <span class="text-emerald-500">${pageIndices.length} Pages Extracted</span>
+                </div>
+                <a href="${url}" download="${fileName}" class="px-3 py-1.5 bg-primary text-on-primary font-sans font-medium text-xs rounded-md shadow-lvl1 hover:bg-primary/90 transition-all">
+                  Download Split PDF
+                </a>
+              </div>
+            `;
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPdfSplitter);
+  </script>
+</Layout>

@@ -1,0 +1,298 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Robots.txt Generator - Custom Rules & AI Bot Blocker | ToolzTotal",
+  description: "Free Robots.txt Generator. Build valid robots.txt files, block AI Web Crawlers (GPTBot, ClaudeBot), specify sitemap URLs, and download client-side.",
+  url: "https://toolztotal.com/marketing/robots-txt-generator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is a robots.txt file?", answer: "A robots.txt file is a plain text file placed in the root directory of a website that instructs search engine web crawlers (like Googlebot) which pages or files they can or cannot request from your server." },
+  { question: "Where should the robots.txt file be uploaded?", answer: "The robots.txt file must be uploaded to the root directory of your website domain (e.g., https://example.com/robots.txt). It will not function if placed in subfolders." },
+  { question: "How do I block AI crawlers (GPTBot, ClaudeBot) in robots.txt?", answer: "To block AI scrapers from training on your content, add User-agent blocks for GPTBot, ClaudeBot, PerplexityBot, and CCBot with 'Disallow: /'." },
+  { question: "Does robots.txt guarantee that a page will not appear in Google search results?", answer: "No. Robots.txt prevents crawling, not indexing. If an external website links to a disallowed URL, Google may still index the URL snippet without crawling its content. Use noindex meta tags or password protection to guarantee removal." },
+  { question: "What is the Crawl-Delay directive?", answer: "Crawl-delay specifies the number of seconds a web crawler should wait between successive server requests. Note that while Bingbot and Yahoo honor crawl-delay, Googlebot ignores it (use Google Search Console rate limits instead)." },
+  { question: "Why should I include a Sitemap URL in robots.txt?", answer: "Adding 'Sitemap: https://example.com/sitemap.xml' at the bottom of your robots.txt file helps search engines discover your sitemap index automatically without manual Search Console submissions." },
+  { question: "Is the User-Agent wildcard (*) case-sensitive?", answer: "Robots.txt directives are generally case-insensitive for User-agent names, but path URL rules (Disallow: /admin/) ARE case-sensitive." },
+  { question: "What happens if a website has no robots.txt file?", answer: "If no robots.txt file exists (returning a 404 HTTP status), search engine web crawlers assume full permission and will crawl all publicly accessible URLs on your domain." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Robots.txt Generator"
+    toolSlug="robots-txt-generator"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Marketing & SEO" categorySlug="marketing" toolName="Robots.txt Generator" toolSlug="robots-txt-generator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">SEO Utility</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Robots.txt Generator
+      </h1>
+      <TrustHeader toolSlug="robots-txt-generator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Generate clean, valid robots.txt files for your site. Control search engine web crawlers, block AI training scrapers (GPTBot, ClaudeBot), and set sitemap declarations.
+      </p>
+    </div>
+
+    <!-- Generator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Configuration Presets</h2>
+            <div class="flex bg-canvas-soft rounded-lg p-1 border border-hairline">
+              <button type="button" id="preset-std" class="px-2.5 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1">Standard SEO</button>
+              <button type="button" id="preset-ai" class="px-2.5 py-1 text-xs font-medium rounded-md text-body hover:text-ink">Block AI Bots</button>
+              <button type="button" id="preset-blockall" class="px-2.5 py-1 text-xs font-medium rounded-md text-body hover:text-ink">Disallow All</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="sitemap-url" class="block text-xs font-mono text-mute uppercase mb-1">Sitemap XML URL</label>
+            <input type="url" id="sitemap-url" value="https://example.com/sitemap.xml" placeholder="https://yourdomain.com/sitemap.xml" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+
+          <div class="space-y-4 pt-2 border-t border-hairline">
+            <h3 class="text-xs font-mono uppercase text-mute tracking-wider">Disallow Folders / Paths</h3>
+            <div>
+              <label for="disallow-paths" class="block text-xs text-body mb-1">Disallowed Paths (one path per line)</label>
+              <textarea id="disallow-paths" rows="4" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink focus:ring-1 focus:ring-ink">/admin/&#10;/wp-admin/&#10;/private/&#10;/*.pdf</textarea>
+            </div>
+          </div>
+
+          <div class="space-y-4 pt-2 border-t border-hairline">
+            <h3 class="text-xs font-mono uppercase text-mute tracking-wider">AI Scraper Blocking</h3>
+            <div class="space-y-2 text-sm text-body">
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="block-gpt" checked class="w-4 h-4 rounded border-hairline text-ink" />
+                <span>Block OpenAI GPTBot & ChatGPT-User</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="block-claude" checked class="w-4 h-4 rounded border-hairline text-ink" />
+                <span>Block Anthropic ClaudeBot & Claude-Web</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="block-perplexity" checked class="w-4 h-4 rounded border-hairline text-ink" />
+                <span>Block PerplexityBot Scraper</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" id="block-commoncrawl" checked class="w-4 h-4 rounded border-hairline text-ink" />
+                <span>Block Common Crawl (CCBot)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Generated robots.txt</h2>
+            <span class="text-xs font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">Valid Syntax</span>
+          </div>
+
+          <div class="relative">
+            <textarea id="output-txt" readonly rows="14" class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Content
+            </button>
+            <button type="button" id="btn-download" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Download robots.txt
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Why Robots.txt is Critical for Technical SEO</h2>
+        <p>
+          The <strong>robots.txt</strong> file is the front door of your website for search engine web crawlers. It informs Googlebot, Bingbot, and AI data scrapers which directories and URLs they are allowed to index.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Google Search Central - Robots.txt Specifications", url: "https://developers.google.com/search/docs/crawling-indexing/robots/intro" }
+      ]} />
+
+      <RelatedTools currentSlug="robots-txt-generator" categorySlug="marketing" />
+      <ContentFooter category="marketing" />
+    </article>
+  </div>
+
+  <script>
+    function initRobotsGen() {
+      const sitemapInput = document.getElementById('sitemap-url') as HTMLInputElement;
+      const disallowTextarea = document.getElementById('disallow-paths') as HTMLTextAreaElement;
+      const blockGptCb = document.getElementById('block-gpt') as HTMLInputElement;
+      const blockClaudeCb = document.getElementById('block-claude') as HTMLInputElement;
+      const blockPerplexityCb = document.getElementById('block-perplexity') as HTMLInputElement;
+      const blockCcCb = document.getElementById('block-commoncrawl') as HTMLInputElement;
+
+      const outputTextarea = document.getElementById('output-txt') as HTMLTextAreaElement;
+      const btnCopy = document.getElementById('btn-copy');
+      const btnDownload = document.getElementById('btn-download');
+
+      const presetStd = document.getElementById('preset-std');
+      const presetAi = document.getElementById('preset-ai');
+      const presetBlockAll = document.getElementById('preset-blockall');
+
+      function generate() {
+        let lines: string[] = ['# robots.txt generated by ToolzTotal.com', ''];
+        
+        const disallowLines = disallowTextarea.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+        lines.push('User-agent: *');
+        if (disallowLines.length === 0) {
+          lines.push('Allow: /');
+        } else {
+          disallowLines.forEach(p => {
+            lines.push(`Disallow: ${p}`);
+          });
+        }
+        lines.push('');
+
+        // AI Bots
+        if (blockGptCb.checked) {
+          lines.push('# Block OpenAI Crawlers');
+          lines.push('User-agent: GPTBot');
+          lines.push('Disallow: /');
+          lines.push('User-agent: ChatGPT-User');
+          lines.push('Disallow: /');
+          lines.push('');
+        }
+
+        if (blockClaudeCb.checked) {
+          lines.push('# Block Anthropic Claude Crawlers');
+          lines.push('User-agent: ClaudeBot');
+          lines.push('Disallow: /');
+          lines.push('User-agent: claude-web');
+          lines.push('Disallow: /');
+          lines.push('');
+        }
+
+        if (blockPerplexityCb.checked) {
+          lines.push('# Block Perplexity AI Crawler');
+          lines.push('User-agent: PerplexityBot');
+          lines.push('Disallow: /');
+          lines.push('');
+        }
+
+        if (blockCcCb.checked) {
+          lines.push('# Block Common Crawl');
+          lines.push('User-agent: CCBot');
+          lines.push('Disallow: /');
+          lines.push('');
+        }
+
+        const sitemap = sitemapInput.value.trim();
+        if (sitemap) {
+          lines.push(`Sitemap: ${sitemap}`);
+        }
+
+        if (outputTextarea) outputTextarea.value = lines.join('\n');
+      }
+
+      presetStd?.addEventListener('click', () => {
+        disallowTextarea.value = '/admin/\n/wp-admin/\n/private/';
+        blockGptCb.checked = false;
+        blockClaudeCb.checked = false;
+        blockPerplexityCb.checked = false;
+        blockCcCb.checked = false;
+        generate();
+      });
+
+      presetAi?.addEventListener('click', () => {
+        disallowTextarea.value = '/admin/';
+        blockGptCb.checked = true;
+        blockClaudeCb.checked = true;
+        blockPerplexityCb.checked = true;
+        blockCcCb.checked = true;
+        generate();
+      });
+
+      presetBlockAll?.addEventListener('click', () => {
+        disallowTextarea.value = '/';
+        generate();
+      });
+
+      [sitemapInput, disallowTextarea, blockGptCb, blockClaudeCb, blockPerplexityCb, blockCcCb].forEach(el => {
+        el?.addEventListener('input', generate);
+        el?.addEventListener('change', generate);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (outputTextarea) {
+          navigator.clipboard.writeText(outputTextarea.value);
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Content'; }, 2000);
+        }
+      });
+
+      btnDownload?.addEventListener('click', () => {
+        if (outputTextarea) {
+          const blob = new Blob([outputTextarea.value], { type: 'text/plain;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'robots.txt';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      });
+
+      generate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initRobotsGen);
+  </script>
+</Layout>

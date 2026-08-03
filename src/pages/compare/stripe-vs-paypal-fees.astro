@@ -1,0 +1,163 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Stripe vs PayPal Fees (2026 Breakdown) - Transaction Fee Comparison | ToolzTotal",
+  description: "Complete 2026 Stripe vs PayPal fee comparison guide. Compare domestic, international, instant payout, micropayment, and dispute fees with calculators.",
+  url: "https://toolztotal.com/compare/stripe-vs-paypal-fees",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "Which is cheaper for US domestic card payments: Stripe or PayPal?", answer: "Both Stripe and PayPal charge a baseline 2.9% + $0.30 for standard US credit card transactions. However, PayPal's online checkout rate increases to 3.49% + $0.49 for PayPal Digital Payments, making Stripe cheaper for standard web checkout." },
+  { question: "How do international transaction fees compare between Stripe and PayPal?", answer: "Stripe charges an extra 1.5% for international cards (total 4.4% + $0.30) plus 1.5% for currency conversion. PayPal charges 1.50% for international cards plus a 3.0% to 4.0% currency conversion spread, making Stripe significantly cheaper for international orders." },
+  { question: "Are chargeback and dispute fees cheaper on Stripe or PayPal?", answer: "Stripe charges $15.00 per disputed chargeback (refundable if you win the dispute). PayPal charges $15.00 for standard chargeback disputes or $20.00 for high-volume dispute merchants." },
+  { question: "Which payment gateway offers better instant payout speeds?", answer: "Stripe Instant Payouts charge 1.5% (minimum $0.50) directly to an eligible debit card within minutes. PayPal Instant Transfer charges 1.5% (maximum $15.00 fee) to eligible bank cards." },
+  { question: "Can I use both Stripe and PayPal together on my ecommerce site?", answer: "Yes. Offering both Stripe (for seamless credit card input) and PayPal (for express 1-click checkout) increases checkout conversion rates by up to 15%." },
+  { question: "Do Stripe or PayPal charge monthly subscription fees?", answer: "Neither platform charges monthly account maintenance or setup fees for standard pay-as-you-go processing." },
+  { question: "Which gateway is better for B2B SaaS and recurring billing?", answer: "Stripe Billing provides superior developer APIs, subscription metrics, dunning management, and customer portal webhooks compared to PayPal Recurring Payments." },
+  { question: "Where can I calculate exact fee payouts for both gateways?", answer: "Use ToolzTotal's free <a href='/finance/stripe-fee-calculator' class='underline text-primary'>Stripe Fee Calculator</a> and <a href='/finance/paypal-fee-calculator' class='underline text-primary'>PayPal Fee Calculator</a>." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Stripe vs PayPal Fees Comparison"
+    toolSlug="stripe-vs-paypal-fees"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="Stripe vs PayPal Fees" toolSlug="stripe-vs-paypal-fees" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Payment Gateway Fee Analysis</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Stripe vs PayPal Fees (2026 Head-to-Head Comparison)
+      </h1>
+      <TrustHeader toolSlug="stripe-fee-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        A comprehensive side-by-side analysis of Stripe and PayPal transaction fees, international surcharges, instant payouts, and merchant processing costs.
+      </p>
+    </div>
+
+    <!-- Quick Navigation Links -->
+    <div class="p-6 bg-canvas border border-hairline rounded-xl mb-12 shadow-lvl1 max-w-4xl">
+      <h3 class="text-xs font-mono uppercase text-mute mb-3">Calculate Exact Fees With Our Free Tools:</h3>
+      <div class="flex flex-wrap gap-4 text-sm font-sans font-semibold">
+        <a href="/finance/stripe-fee-calculator" class="text-primary hover:underline">→ Use Stripe Fee Calculator</a>
+        <a href="/finance/paypal-fee-calculator" class="text-primary hover:underline">→ Use PayPal Fee Calculator</a>
+      </div>
+    </div>
+
+    <!-- Comparison Article -->
+    <article class="max-w-4xl space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">1. Detailed Fee Comparison Table</h2>
+        <div class="border border-hairline rounded-xl overflow-hidden font-mono text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                <th class="p-3">Fee Type</th>
+                <th class="p-3">Stripe</th>
+                <th class="p-3">PayPal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline">
+              <tr>
+                <td class="p-3 font-bold text-ink">US Domestic Card Processing</td>
+                <td class="p-3">2.9% + $0.30</td>
+                <td class="p-3">2.99% + $0.49 (Checkout) / 3.49% (PayPal Button)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">International Card Surcharge</td>
+                <td class="p-3">+1.5%</td>
+                <td class="p-3">+1.50%</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Currency Conversion Markup</td>
+                <td class="p-3">+1.5%</td>
+                <td class="p-3">+3.0% to 4.0% spread</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Instant Payout Fee</td>
+                <td class="p-3">1.5% (Min $0.50)</td>
+                <td class="p-3">1.5% (Max $15.00)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Dispute / Chargeback Fee</td>
+                <td class="p-3">$15.00 (Refunded if won)</td>
+                <td class="p-3">$15.00 to $20.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">2. Pros and Cons Overview</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 border border-hairline rounded-xl bg-canvas">
+            <h3 class="font-bold text-ink text-lg mb-2">Stripe Advantages</h3>
+            <ul class="list-disc pl-5 text-sm space-y-1 text-body">
+              <li>Lower overall transaction costs for web checkouts</li>
+              <li>Tighter developer APIs & customizable UI components</li>
+              <li>Superior subscription management & billing tools</li>
+              <li>Lower currency conversion spreads</li>
+            </ul>
+          </div>
+          <div class="p-5 border border-hairline rounded-xl bg-canvas">
+            <h3 class="font-bold text-ink text-lg mb-2">PayPal Advantages</h3>
+            <ul class="list-disc pl-5 text-sm space-y-1 text-body">
+              <li>High consumer brand recognition and trust</li>
+              <li>1-click checkout express buyer conversions</li>
+              <li>Supports Pay in 4 buy-now-pay-later (BNPL)</li>
+              <li>No developer coding required to embed buttons</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed" set:html={faq.answer}></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Stripe Pricing Schedule", url: "https://stripe.com/pricing" },
+        { title: "PayPal Merchant Pricing Fees", url: "https://www.paypal.com/us/webapps/mpp/merchant-fees" }
+      ]} />
+
+      <RelatedTools currentSlug="stripe-fee-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+</Layout>

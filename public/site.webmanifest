@@ -1,6 +1,8 @@
 {
   "name": "ToolzTotal",
   "short_name": "ToolzTotal",
+  "description": "Free online calculators and tools — 100% client-side and privacy-first.",
+  "start_url": "/",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

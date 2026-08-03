@@ -1,0 +1,376 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "PayPal Fee Calculator - Goods & Services, Int'l & Reverse Rates | ToolzTotal",
+  description: "Free PayPal fee calculator. Calculate US & international Goods & Services merchant fees, Friends & Family fees, and reverse PayPal fees instantly.",
+  url: "https://toolztotal.com/finance/paypal-fee-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the standard US PayPal Goods & Services fee?", answer: "For US domestic transactions, standard PayPal Goods & Services pricing is 2.99% + $0.49 per transaction." },
+  { question: "How does the reverse PayPal fee calculation work?", answer: "The reverse calculation solves how much money you need to invoice or request so that after PayPal deducts its percentage and fixed fee, you receive your target net payout. Formula: Gross = (Desired Net + Fixed Fee) / (1 - Percentage Fee)." },
+  { question: "Are Friends & Family transfers subject to PayPal fees?", answer: "Friends & Family transfers within the US are free if funded by a linked bank account or PayPal balance. If funded by a credit or debit card, a fee of 2.9% + standard fixed fee applies." },
+  { question: "What are PayPal international transaction fees?", answer: "International commercial transactions incur a cross-border fee addition of 1.50%, making the effective rate 4.49% + fixed fee (based on receiving currency)." },
+  { question: "Does PayPal refund processing fees when a refund is issued?", answer: "No. When you refund a commercial transaction to a buyer, PayPal retains the original transaction processing fee." },
+  { question: "What are PayPal QR code transaction fees?", answer: "In-person PayPal QR code transactions over $10 incur a lower fee of 1.90% + $0.10. Transactions under $10 incur 2.40% + $0.05." },
+  { question: "Are PayPal seller fees tax-deductible?", answer: "Yes. Merchant processing fees charged by PayPal are deductible business expenses for tax reporting purposes." },
+  { question: "Why is the fixed fee different for foreign currencies?", answer: "PayPal adjusts the fixed fee portion according to local currency units (e.g., $0.49 USD, €0.39 EUR, £0.30 GBP, $0.59 CAD)." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="PayPal Fee Calculator"
+    toolSlug="paypal-fee-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="PayPal Fee Calculator" toolSlug="paypal-fee-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Free Merchant Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        PayPal Fee Calculator
+      </h1>
+      <TrustHeader toolSlug="paypal-fee-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate exact PayPal merchant fees for Goods & Services, international payments, and QR code checkouts — or calculate reverse invoice amounts to get your exact target payout.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Calculator Mode</h2>
+            <div class="flex bg-canvas-soft rounded-lg p-1 border border-hairline">
+              <button type="button" id="mode-std" class="px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors">Standard</button>
+              <button type="button" id="mode-rev" class="px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors">Reverse Fee</button>
+            </div>
+          </div>
+
+          <!-- Currency & Amount -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="sm:col-span-1">
+              <label for="currency" class="block text-xs font-mono text-mute uppercase mb-2">Currency</label>
+              <select id="currency" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink font-mono focus:ring-1 focus:ring-ink focus:border-ink">
+                <option value="$" data-fixed="0.49" selected>USD ($)</option>
+                <option value="€" data-fixed="0.39">EUR (€)</option>
+                <option value="£" data-fixed="0.30">GBP (£)</option>
+                <option value="CA$" data-fixed="0.59">CAD ($)</option>
+                <option value="A$" data-fixed="0.59">AUD ($)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="amount" id="amount-lbl" class="block text-xs font-mono text-mute uppercase mb-2">Transaction Amount ($)</label>
+              <div class="relative">
+                <span id="curr-sym" class="absolute left-3.5 top-3 text-sm font-mono text-mute">$</span>
+                <input type="number" id="amount" value="100.00" min="0.01" step="0.01" class="w-full bg-canvas border border-hairline rounded-lg py-3 pl-8 pr-3 text-sm font-mono text-ink focus:ring-1 focus:ring-ink focus:border-ink" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Presets -->
+          <div>
+            <span class="block text-xs font-mono text-mute uppercase mb-2">Presets</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="25">$25</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="50">$50</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="100">$100</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="250">$250</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="500">$500</button>
+              <button type="button" class="preset-btn px-3 py-1.5 text-xs font-mono bg-canvas-soft border border-hairline rounded-md text-body hover:text-ink hover:border-hairline-strong transition-all" data-val="1000">$1,000</button>
+            </div>
+          </div>
+
+          <!-- Payment Category -->
+          <div>
+            <label for="pmt-type" class="block text-xs font-mono text-mute uppercase mb-2">Payment Category</label>
+            <select id="pmt-type" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm text-ink focus:ring-1 focus:ring-ink focus:border-ink">
+              <option value="gs-us" selected>Goods & Services - US Domestic (2.99% + fixed)</option>
+              <option value="gs-intl">Goods & Services - International (4.49% + fixed)</option>
+              <option value="fnf-card">Friends & Family - Card Funded (2.90% + fixed)</option>
+              <option value="fnf-bank">Friends & Family - Bank / Balance (0.00% fee)</option>
+              <option value="qr-large">QR Code In-Person > $10 (1.90% + $0.10)</option>
+              <option value="qr-small">QR Code In-Person < $10 (2.40% + $0.05)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Calculation Summary</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">PayPal Fee</span>
+              <span id="res-fee" class="text-2xl md:text-3xl font-bold font-mono text-rose-500">$3.48</span>
+              <span id="res-fee-pct" class="block text-xs font-sans text-mute mt-1">3.48% effective rate</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span id="res-payout-lbl" class="block text-xs font-mono text-mute uppercase mb-1">Net Payout</span>
+              <span id="res-payout" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">$96.52</span>
+              <span id="res-payout-sub" class="block text-xs font-sans text-mute mt-1">Received in account</span>
+            </div>
+          </div>
+
+          <!-- Highlight Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-body font-sans">Gross Amount Charged:</span>
+              <span id="res-gross" class="font-mono font-bold text-ink">$100.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Percentage Fee Portion:</span>
+              <span id="res-pct-fee" class="font-mono text-ink">$2.99</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Fixed Fee Portion:</span>
+              <span id="res-fixed-fee" class="font-mono text-ink">$0.49</span>
+            </div>
+            <div class="flex justify-between items-center text-base border-t border-hairline-strong pt-3 font-semibold">
+              <span class="text-ink font-sans">Net Payout Received:</span>
+              <span id="res-net" class="font-mono text-emerald-500">$96.52</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Summary
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding PayPal Merchant & Personal Processing Fees</h2>
+        <p>
+          PayPal is one of the most recognized digital payment providers in the world, processing billions in peer-to-peer and commercial transactions every month. However, for merchants, freelancers, and online sellers, PayPal's multi-tiered fee matrix can make calculating exact profit margins challenging.
+        </p>
+        <p>
+          Our <strong>PayPal Fee Calculator</strong> helps you calculate exact commercial transaction fees for domestic Goods & Services, cross-border international sales, card-funded Friends & Family transfers, and QR code payments.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">How Does the PayPal Fee Calculator Work?</h2>
+        <p>
+          PayPal calculates fees by combining a percentage rate with a fixed fee determined by the target currency. The tool supports two modes:
+        </p>
+        <ul>
+          <li><strong>Standard Mode:</strong> Calculates PayPal's fee and net payout when you know the total amount sent by the buyer.</li>
+          <li><strong>Reverse Mode:</strong> Calculates the exact amount to invoice a customer so that after PayPal deducts its fee, you receive your target net income.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">PayPal Fee Schedule Summary Table</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-hairline rounded-lg text-sm">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline font-mono text-ink">
+                <th class="p-3">Payment Category</th>
+                <th class="p-3">Percentage Fee</th>
+                <th class="p-3">Fixed Fee (USD)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline font-sans">
+              <tr><td class="p-3 font-semibold">Goods & Services (US Domestic)</td><td class="p-3 font-mono">2.99%</td><td class="p-3 font-mono">$0.49</td></tr>
+              <tr><td class="p-3 font-semibold">Goods & Services (International)</td><td class="p-3 font-mono">4.49%</td><td class="p-3 font-mono">$0.49</td></tr>
+              <tr><td class="p-3 font-semibold">Friends & Family (Bank/Balance)</td><td class="p-3 font-mono">0.00%</td><td class="p-3 font-mono">$0.00</td></tr>
+              <tr><td class="p-3 font-semibold">Friends & Family (Card Funded)</td><td class="p-3 font-mono">2.90%</td><td class="p-3 font-mono">$0.30</td></tr>
+              <tr><td class="p-3 font-semibold">QR Code Payments (> $10)</td><td class="p-3 font-mono">1.90%</td><td class="p-3 font-mono">$0.10</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "PayPal Merchant Fees Schedule", url: "https://www.paypal.com/us/webapps/mpp/merchant-fees" },
+        { title: "PayPal Consumer Fees", url: "https://www.paypal.com/us/webapps/mpp/paypal-fees" }
+      ]} />
+
+      <RelatedTools currentSlug="paypal-fee-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initPayPalCalc() {
+      const modeStdBtn = document.getElementById('mode-std');
+      const modeRevBtn = document.getElementById('mode-rev');
+      const amountInput = document.getElementById('amount') as HTMLInputElement;
+      const amountLbl = document.getElementById('amount-lbl');
+      const currencySelect = document.getElementById('currency') as HTMLSelectElement;
+      const currSym = document.getElementById('curr-sym');
+      const pmtTypeSelect = document.getElementById('pmt-type') as HTMLSelectElement;
+
+      const resFee = document.getElementById('res-fee');
+      const resFeePct = document.getElementById('res-fee-pct');
+      const resPayout = document.getElementById('res-payout');
+      const resPayoutSub = document.getElementById('res-payout-sub');
+      const resGross = document.getElementById('res-gross');
+      const resPctFee = document.getElementById('res-pct-fee');
+      const resFixedFee = document.getElementById('res-fixed-fee');
+      const resNet = document.getElementById('res-net');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+      const presetBtns = document.querySelectorAll('.preset-btn');
+
+      let currentMode: 'standard' | 'reverse' = 'standard';
+
+      function getRates() {
+        const type = pmtTypeSelect.value;
+        const opt = currencySelect.options[currencySelect.selectedIndex];
+        const fixedUsd = parseFloat(opt.getAttribute('data-fixed') || '0.49');
+
+        if (type === 'gs-intl') return { pct: 0.0449, fixed: fixedUsd };
+        if (type === 'fnf-card') return { pct: 0.0290, fixed: 0.30 };
+        if (type === 'fnf-bank') return { pct: 0.0, fixed: 0.0 };
+        if (type === 'qr-large') return { pct: 0.0190, fixed: 0.10 };
+        if (type === 'qr-small') return { pct: 0.0240, fixed: 0.05 };
+        return { pct: 0.0299, fixed: fixedUsd }; // gs-us
+      }
+
+      function calculate() {
+        const symbol = currencySelect.value;
+        if (currSym) currSym.textContent = symbol;
+        const inputVal = parseFloat(amountInput.value) || 0;
+        const { pct, fixed } = getRates();
+
+        let gross = 0;
+        let fee = 0;
+        let pctFeePortion = 0;
+        let net = 0;
+
+        if (currentMode === 'standard') {
+          gross = inputVal;
+          pctFeePortion = gross * pct;
+          fee = pctFeePortion + fixed;
+          net = Math.max(gross - fee, 0);
+        } else {
+          net = inputVal;
+          gross = pct < 1 ? (net + fixed) / (1 - pct) : 0;
+          pctFeePortion = gross * pct;
+          fee = pctFeePortion + fixed;
+        }
+
+        const effPct = gross > 0 ? ((fee / gross) * 100).toFixed(2) : '0.00';
+
+        if (resFee) resFee.textContent = `${symbol}${fee.toFixed(2)}`;
+        if (resFeePct) resFeePct.textContent = `${effPct}% effective rate`;
+        if (resPayout) resPayout.textContent = `${symbol}${net.toFixed(2)}`;
+        if (resGross) resGross.textContent = `${symbol}${gross.toFixed(2)}`;
+        if (resPctFee) resPctFee.textContent = `${symbol}${pctFeePortion.toFixed(2)}`;
+        if (resFixedFee) resFixedFee.textContent = `${symbol}${fixed.toFixed(2)}`;
+        if (resNet) resNet.textContent = `${symbol}${net.toFixed(2)}`;
+      }
+
+      modeStdBtn?.addEventListener('click', () => {
+        currentMode = 'standard';
+        modeStdBtn.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        modeRevBtn.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        if (amountLbl) amountLbl.textContent = 'Transaction Amount ($)';
+        if (resPayoutSub) resPayoutSub.textContent = 'Received in account';
+        calculate();
+      });
+
+      modeRevBtn?.addEventListener('click', () => {
+        currentMode = 'reverse';
+        modeRevBtn.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        modeStdBtn.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        if (amountLbl) amountLbl.textContent = 'Desired Net Payout ($)';
+        if (resPayoutSub) resPayoutSub.textContent = 'Amount to request';
+        calculate();
+      });
+
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const val = (e.currentTarget as HTMLElement).getAttribute('data-val');
+          if (val) {
+            amountInput.value = val;
+            calculate();
+          }
+        });
+      });
+
+      [amountInput, currencySelect, pmtTypeSelect].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        amountInput.value = '100.00';
+        currencySelect.value = '$';
+        pmtTypeSelect.value = 'gs-us';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const gross = resGross?.textContent;
+        const fee = resFee?.textContent;
+        const net = resNet?.textContent;
+        const text = `PayPal Fee Summary (${currentMode.toUpperCase()}):\n` +
+          `Gross Amount: ${gross}\n` +
+          `PayPal Fee: ${fee}\n` +
+          `Net Payout: ${net}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Summary'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initPayPalCalc);
+  </script>
+</Layout>

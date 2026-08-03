@@ -1,0 +1,173 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "AI Character Counter - Real-Time Character & Token Checker | ToolzTotal",
+  description: "Free AI character counter. Track character counts, word counts, and context limits for ChatGPT, Claude, and Gemini 100% client-side in your browser.",
+  url: "https://toolztotal.com/ai/ai-character-counter",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the AI Character Counter work?", answer: "The counter measures character string lengths, word counts, paragraph breaks, and byte sizes in real-time as you type 100% locally in your browser." },
+  { question: "What is the maximum character limit for ChatGPT prompts?", answer: "ChatGPT web interface supports prompts up to ~25,000 characters per message, while the OpenAI API supports 128,000 tokens (approx 500,000 characters)." },
+  { question: "Are my private prompts uploaded to a server?", answer: "No. The AI Character Counter operates 100% locally in your web browser. No text is sent to any remote server or logged in any database." },
+  { question: "What is the difference between characters and tokens?", answer: "Characters represent individual letters, numbers, spaces, and symbols. A token is a sub-word unit used by AI models (roughly 4 characters equal 1 token)." },
+  { question: "Can I count characters in non-English languages?", answer: "Yes. The tool counts UTF-8 characters across all languages including Spanish, German, French, Chinese, Japanese, and Arabic." },
+  { question: "How many characters fit in a single page of text?", answer: "A single-spaced page of 500 words contains approximately 3,000 to 3,500 characters including spaces." },
+  { question: "Can I copy the calculated counts?", answer: "Yes. Click the Copy Metrics button to copy the character and token metrics to your clipboard." },
+  { question: "Is this AI character counter free?", answer: "Yes. ToolzTotal provides 100% free AI and developer tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="AI Character Counter"
+    toolSlug="ai-character-counter"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="AI Character Counter" toolSlug="ai-character-counter" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Text Metrics</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        AI Character Counter
+      </h1>
+      <TrustHeader toolSlug="ai-character-counter" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Count characters, words, paragraphs, and estimated LLM tokens in real-time. Check prompt length against ChatGPT, Claude, and Gemini context window limits.
+      </p>
+    </div>
+
+    <!-- Counter Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Prompt Text</h2>
+            <button type="button" id="btn-clear" class="text-xs font-mono text-rose-500 font-bold hover:text-rose-600">Clear Input</button>
+          </div>
+
+          <textarea id="ai-text-input" rows="12" placeholder="Paste your AI prompt, system instructions, or context window text here..." class="w-full bg-canvas border border-hairline rounded-lg p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+        </div>
+      </div>
+
+      <!-- Live Counters -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Character & Byte Metrics</h2>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 font-mono text-center">
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Total Characters</span>
+              <span id="stat-chars" class="text-2xl font-bold text-emerald-500">0</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Chars (No Spaces)</span>
+              <span id="stat-nospaces" class="text-2xl font-bold text-ink">0</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Word Count</span>
+              <span id="stat-words" class="text-2xl font-bold text-ink">0</span>
+            </div>
+            <div class="p-4 bg-canvas-soft border border-hairline rounded-xl">
+              <span class="text-xs text-mute block uppercase">Est. Tokens</span>
+              <span id="stat-tokens" class="text-2xl font-bold text-ink">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Understanding Character Limits in AI Models</h2>
+        <p>
+          While developers measure AI prompts in tokens, end users interact with character counts. Tracking character limits prevents message truncation and ensures your prompts stay well within model limits.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "W3C String Character Counting Guidelines", url: "https://www.w3.org/TR/charmod/" }
+      ]} />
+
+      <RelatedTools currentSlug="ai-character-counter" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initAiCharCounter() {
+      const input = document.getElementById('ai-text-input') as HTMLTextAreaElement;
+      const btnClear = document.getElementById('btn-clear');
+
+      const charsEl = document.getElementById('stat-chars');
+      const noSpacesEl = document.getElementById('stat-nospaces');
+      const wordsEl = document.getElementById('stat-words');
+      const tokensEl = document.getElementById('stat-tokens');
+
+      btnClear?.addEventListener('click', () => {
+        if (input) {
+          input.value = '';
+          update();
+        }
+      });
+
+      function update() {
+        const text = input.value || '';
+        const chars = text.length;
+        const noSpaces = text.replace(/\s+/g, '').length;
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const tokens = Math.ceil(chars / 4);
+
+        if (charsEl) charsEl.textContent = chars.toLocaleString();
+        if (noSpacesEl) noSpacesEl.textContent = noSpaces.toLocaleString();
+        if (wordsEl) wordsEl.textContent = words.toLocaleString();
+        if (tokensEl) tokensEl.textContent = tokens.toLocaleString();
+      }
+
+      input?.addEventListener('input', update);
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', initAiCharCounter);
+  </script>
+</Layout>

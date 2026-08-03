@@ -1,0 +1,33 @@
+---
+interface Props {
+  id?: string;
+}
+const { id = "runway-svg-chart" } = Astro.props;
+---
+
+<div class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 space-y-3 font-mono">
+  <div class="flex items-center justify-between text-xs">
+    <span class="font-bold text-ink font-sans">Cash Depletion Timeline & Zero Cash Date</span>
+    <div class="flex items-center gap-4 text-[10px]">
+      <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Cash Balance</span>
+    </div>
+  </div>
+
+  <div class="relative w-full h-48">
+    <svg id={id} class="w-full h-full overflow-visible" viewBox="0 0 500 180" preserveAspectRatio="none">
+      <line x1="0" y1="40" x2="500" y2="40" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="4 4" />
+      <line x1="0" y1="90" x2="500" y2="90" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="4 4" />
+      <line x1="0" y1="140" x2="500" y2="140" stroke="currentColor" stroke-opacity="0.08" stroke-dasharray="4 4" />
+
+      <path id={`${id}-burn-area`} fill="rgba(244, 63, 94, 0.15)" d="M0,20 Q250,90 500,160 L0,160 Z" />
+      <path id={`${id}-burn-line`} fill="none" stroke="#f43f5e" stroke-width="2.5" d="M0,20 Q250,90 500,160" />
+      <circle cx="500" cy="160" r="4" fill="#f43f5e" />
+    </svg>
+  </div>
+
+  <div class="flex justify-between text-[10px] text-mute border-t border-hairline pt-2">
+    <span>Current Cash</span>
+    <span>50% Runway</span>
+    <span class="text-rose-500 font-bold">Zero Cash Date</span>
+  </div>
+</div>

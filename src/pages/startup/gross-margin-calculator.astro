@@ -1,0 +1,195 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Gross Margin Calculator - SaaS & Business Gross Profit Solver | ToolzTotal",
+  description: "Free Gross Margin Calculator. Calculate Gross Profit Margin %, COGS deductions, and gross profit metrics 100% client-side in your browser.",
+  url: "https://toolztotal.com/startup/gross-margin-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is Gross Margin Percentage?", answer: "Gross Margin Percentage measures the percentage of total revenue remaining after deducting Cost of Goods Sold (COGS). Formula: Gross Margin % = ((Revenue - COGS) / Revenue) x 100." },
+  { question: "What items count as COGS for a SaaS software business?", answer: "SaaS COGS includes AWS/GCP cloud server hosting, third-party API fees (OpenAI, Twilio, Stripe fees), customer support operations labor, and software license hosting costs." },
+  { question: "What is a healthy Gross Margin for SaaS companies?", answer: "Top-tier SaaS software companies maintain Gross Margins between 75% and 85%." },
+  { question: "How does Gross Margin differ from Net Profit Margin?", answer: "Gross Margin subtracts direct production costs (COGS) from revenue, while Net Profit Margin subtracts all operating expenses including R&D, sales, marketing, taxes, and interest." },
+  { question: "Is my business revenue data saved or uploaded anywhere?", answer: "No. The Gross Margin Calculator operates 100% locally in your web browser. No data leaves your machine." },
+  { question: "Why do venture capital investors require high gross margins?", answer: "High gross margins mean more dollars flow directly to funding R&D innovation and aggressive sales expansion." },
+  { question: "How do AI API costs impact SaaS gross margins?", answer: "Generative AI applications relying on third-party API models (like GPT-4o or Claude) incur higher variable COGS, lowering gross margins from 80%+ down to 50%–60%." },
+  { question: "Is this gross margin calculator free?", answer: "Yes. ToolzTotal provides 100% free financial tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Gross Margin Calculator"
+    toolSlug="gross-margin-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="Gross Margin Calculator" toolSlug="gross-margin-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Gross Margin Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Gross Margin Calculator
+      </h1>
+      <TrustHeader toolSlug="gross-margin-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate Gross Profit, Gross Margin Percentage %, and Cost of Goods Sold (COGS) for your SaaS or e-commerce business.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Revenue & COGS Inputs</h2>
+
+          <div>
+            <label for="total-revenue" class="block text-xs font-mono text-mute uppercase mb-1">Total Revenue ($)</label>
+            <input type="number" id="total-revenue" value="100000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="hosting-cogs" class="block text-xs font-mono text-mute uppercase mb-1">Hosting & Server COGS ($)</label>
+              <input type="number" id="hosting-cogs" value="8000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="api-cogs" class="block text-xs font-mono text-mute uppercase mb-1">Third-Party APIs & Tech ($)</label>
+              <input type="number" id="api-cogs" value="5000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="support-cogs" class="block text-xs font-mono text-mute uppercase mb-1">Customer Support Labor ($)</label>
+              <input type="number" id="support-cogs" value="4000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="merchant-cogs" class="block text-xs font-mono text-mute uppercase mb-1">Payment Merchant Fees ($)</label>
+              <input type="number" id="merchant-cogs" value="3000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Margin Results</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Gross Margin</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Gross Margin Percentage</span>
+              <span id="res-gross-pct" class="text-3xl font-bold text-emerald-500">0%</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Gross Profit ($)</span>
+                <span id="res-gross-profit-val" class="font-bold text-ink">$0</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Total COGS ($)</span>
+                <span id="res-total-cogs-val" class="font-bold text-ink">$0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Gross Margin Fundamentals in Modern Business</h2>
+        <p>
+          Gross Margin is the primary metric evaluating product profitability before operating overheads. Understanding COGS structure is essential for SaaS scaling, pricing strategy, and investor reporting.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Financial Accounting Standards - Gross Margin", url: "https://www.fasb.org/" }
+      ]} />
+
+      <RelatedTools currentSlug="gross-margin-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initGrossMarginCalc() {
+      const revInput = document.getElementById('total-revenue') as HTMLInputElement;
+      const hostInput = document.getElementById('hosting-cogs') as HTMLInputElement;
+      const apiInput = document.getElementById('api-cogs') as HTMLInputElement;
+      const suppInput = document.getElementById('support-cogs') as HTMLInputElement;
+      const merchInput = document.getElementById('merchant-cogs') as HTMLInputElement;
+
+      const pctEl = document.getElementById('res-gross-pct');
+      const profitEl = document.getElementById('res-gross-profit-val');
+      const cogsEl = document.getElementById('res-total-cogs-val');
+
+      function calculate() {
+        const rev = parseFloat(revInput.value) || 0;
+        const host = parseFloat(hostInput.value) || 0;
+        const api = parseFloat(apiInput.value) || 0;
+        const supp = parseFloat(suppInput.value) || 0;
+        const merch = parseFloat(merchInput.value) || 0;
+
+        const totalCogs = host + api + supp + merch;
+        const grossProfit = rev - totalCogs;
+        const marginPct = rev > 0 ? ((grossProfit / rev) * 100).toFixed(1) : '0';
+
+        if (pctEl) pctEl.textContent = marginPct + '%';
+        if (profitEl) profitEl.textContent = '$' + grossProfit.toLocaleString('en-US');
+        if (cogsEl) cogsEl.textContent = '$' + totalCogs.toLocaleString('en-US');
+      }
+
+      [revInput, hostInput, apiInput, suppInput, merchInput].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initGrossMarginCalc);
+  </script>
+</Layout>

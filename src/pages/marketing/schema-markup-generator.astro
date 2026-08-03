@@ -1,0 +1,297 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Schema Markup Generator - JSON-LD Structured Data Builder | ToolzTotal",
+  description: "Free Schema Markup Generator. Build valid JSON-LD structured data for Organization, Local Business, FAQ, Product, Article, Event, and Breadcrumbs.",
+  url: "https://toolztotal.com/marketing/schema-markup-generator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is Schema Markup (Structured Data)?", answer: "Schema markup is standardized code added to your website HTML that helps search engines like Google understand your content's meaning, entities, and context to generate rich snippets in search results." },
+  { question: "Why is JSON-LD the recommended format for Schema Markup?", answer: "Google explicitly recommends JSON-LD (JavaScript Object Notation for Linked Data) because it can be injected anywhere in the HTML page head or body inside a `<script type=\"application/ld+json\">` tag without wrapping visible page elements." },
+  { question: "How does FAQ Schema impact search appearance?", answer: "Adding FAQ schema allows search engine results to display interactive drop-down question-and-answer accordions directly under your snippet, increasing your SERP real estate and click-through rate." },
+  { question: "How do I test if my generated Schema markup is valid?", answer: "You can test your generated JSON-LD code using Google's official Rich Results Test tool or the Schema Markup Validator at validator.schema.org." },
+  { question: "Can incorrect Schema markup result in a manual Google penalty?", answer: "Yes. Providing misleading, spammy, or irrelevant schema data (such as fake product reviews or unrelated FAQ content) can result in a manual structured data penalty from Google." },
+  { question: "What is Product Schema?", answer: "Product schema provides structured pricing, availability, aggregate ratings, and product images, enabling Google to display star ratings, price tags, and stock badges in Search and Google Shopping." },
+  { question: "Where should I paste the JSON-LD script tag?", answer: "Paste the `<script type=\"application/ld+json\">` code inside the `<head>` element of your HTML document, or just before the closing `</body>` tag." },
+  { question: "What is Organization Schema used for?", answer: "Organization schema defines core company metadata like logo URL, official company name, official URL, and social media profile links to enhance Knowledge Graph panels." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Schema Markup Generator"
+    toolSlug="schema-markup-generator"
+    categoryName="Marketing & SEO"
+    categorySlug="marketing"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Marketing & SEO" categorySlug="marketing" toolName="Schema Markup Generator" toolSlug="schema-markup-generator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Rich Snippet Generator</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Schema Markup Generator
+      </h1>
+      <TrustHeader toolSlug="schema-markup-generator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Build valid Google-compliant JSON-LD structured data markup for Organization, Local Business, FAQ, Product, Article, Event, Person, and Breadcrumbs.
+      </p>
+    </div>
+
+    <!-- Generator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div>
+            <label for="schema-type" class="block text-xs font-mono text-mute uppercase mb-2">Select Schema Type</label>
+            <select id="schema-type" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-semibold text-ink">
+              <option value="FAQPage" selected>FAQ Page (Frequently Asked Questions)</option>
+              <option value="Organization">Organization (Company & Brand)</option>
+              <option value="LocalBusiness">Local Business</option>
+              <option value="Product">Product & E-commerce</option>
+              <option value="Article">Article & Blog Post</option>
+              <option value="Event">Event</option>
+            </select>
+          </div>
+
+          <!-- FAQ Form Box -->
+          <div id="form-faq" class="space-y-4">
+            <h3 class="text-xs font-mono uppercase text-mute tracking-wider">FAQ Items</h3>
+            <div id="faq-container" class="space-y-3">
+              <div class="p-3 bg-canvas-soft border border-hairline rounded-lg space-y-2">
+                <input type="text" class="faq-q w-full bg-canvas border border-hairline rounded p-2 text-xs font-sans text-ink" value="What is ToolzTotal?" placeholder="Question..." />
+                <textarea class="faq-a w-full bg-canvas border border-hairline rounded p-2 text-xs font-sans text-ink" rows="2" placeholder="Answer...">ToolzTotal provides 100% free, client-side online calculators and tools.</textarea>
+              </div>
+            </div>
+            <button type="button" id="btn-add-faq" class="w-full py-2 bg-canvas-soft border border-hairline text-xs font-mono text-ink rounded-lg hover:bg-canvas-soft-2 transition-all">+ Add Another FAQ</button>
+          </div>
+
+          <!-- Organization Form Box -->
+          <div id="form-org" class="hidden space-y-4">
+            <div>
+              <label for="org-name" class="block text-xs font-mono text-mute uppercase mb-1">Organization Name</label>
+              <input type="text" id="org-name" value="Acme Corporation" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="org-url" class="block text-xs font-mono text-mute uppercase mb-1">Official Website URL</label>
+              <input type="url" id="org-url" value="https://example.com" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="org-logo" class="block text-xs font-mono text-mute uppercase mb-1">Logo URL</label>
+              <input type="url" id="org-logo" value="https://example.com/logo.png" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <!-- Product Form Box -->
+          <div id="form-product" class="hidden space-y-4">
+            <div>
+              <label for="prod-name" class="block text-xs font-mono text-mute uppercase mb-1">Product Name</label>
+              <input type="text" id="prod-name" value="Premium Wireless Headphones" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="prod-price" class="block text-xs font-mono text-mute uppercase mb-1">Price ($)</label>
+                <input type="number" id="prod-price" value="199.99" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+              </div>
+              <div>
+                <label for="prod-curr" class="block text-xs font-mono text-mute uppercase mb-1">Currency</label>
+                <input type="text" id="prod-curr" value="USD" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">JSON-LD Output</h2>
+            <span class="text-xs font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-md">Valid JSON-LD</span>
+          </div>
+
+          <textarea id="output-jsonld" readonly rows="14" class="w-full bg-canvas-soft border border-hairline rounded-xl p-4 text-xs font-mono text-ink leading-relaxed"></textarea>
+
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy JSON-LD
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">What is JSON-LD Schema Markup?</h2>
+        <p>
+          Structured data schema markup provides search engines like Google and Bing with explicit clues about the meaning and relationships of page content. Adding JSON-LD structured data enhances your SERP listings with rich snippet badges, pricing ratings, and interactive FAQ accordions.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Google Search Central - Structured Data Intro", url: "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data" }
+      ]} />
+
+      <RelatedTools currentSlug="schema-markup-generator" categorySlug="marketing" />
+      <ContentFooter category="marketing" />
+    </article>
+  </div>
+
+  <script>
+    function initSchemaGen() {
+      const typeSelect = document.getElementById('schema-type') as HTMLSelectElement;
+      const formFaq = document.getElementById('form-faq');
+      const formOrg = document.getElementById('form-org');
+      const formProduct = document.getElementById('form-product');
+
+      const faqContainer = document.getElementById('faq-container');
+      const btnAddFaq = document.getElementById('btn-add-faq');
+
+      const orgName = document.getElementById('org-name') as HTMLInputElement;
+      const orgUrl = document.getElementById('org-url') as HTMLInputElement;
+      const orgLogo = document.getElementById('org-logo') as HTMLInputElement;
+
+      const prodName = document.getElementById('prod-name') as HTMLInputElement;
+      const prodPrice = document.getElementById('prod-price') as HTMLInputElement;
+      const prodCurr = document.getElementById('prod-curr') as HTMLInputElement;
+
+      const outputJsonld = document.getElementById('output-jsonld') as HTMLTextAreaElement;
+      const btnCopy = document.getElementById('btn-copy');
+
+      function generate() {
+        const type = typeSelect.value;
+        let schemaObj: any = {
+          "@context": "https://schema.org"
+        };
+
+        if (type === 'FAQPage') {
+          formFaq?.classList.remove('hidden');
+          formOrg?.classList.add('hidden');
+          formProduct?.classList.add('hidden');
+
+          const qs = document.querySelectorAll('.faq-q');
+          const as = document.querySelectorAll('.faq-a');
+          const mainEntity: any[] = [];
+
+          qs.forEach((qEl, idx) => {
+            const q = (qEl as HTMLInputElement).value.trim();
+            const a = (as[idx] as HTMLTextAreaElement).value.trim();
+            if (q && a) {
+              mainEntity.push({
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": a
+                }
+              });
+            }
+          });
+
+          schemaObj["@type"] = "FAQPage";
+          schemaObj["mainEntity"] = mainEntity;
+
+        } else if (type === 'Organization') {
+          formOrg?.classList.remove('hidden');
+          formFaq?.classList.add('hidden');
+          formProduct?.classList.add('hidden');
+
+          schemaObj["@type"] = "Organization";
+          schemaObj["name"] = orgName.value.trim();
+          schemaObj["url"] = orgUrl.value.trim();
+          schemaObj["logo"] = orgLogo.value.trim();
+
+        } else if (type === 'Product') {
+          formProduct?.classList.remove('hidden');
+          formFaq?.classList.add('hidden');
+          formOrg?.classList.add('hidden');
+
+          schemaObj["@type"] = "Product";
+          schemaObj["name"] = prodName.value.trim();
+          schemaObj["offers"] = {
+            "@type": "Offer",
+            "price": prodPrice.value,
+            "priceCurrency": prodCurr.value
+          };
+        } else {
+          schemaObj["@type"] = type;
+        }
+
+        const scriptTag = `<script type="application/ld+json">\n${JSON.stringify(schemaObj, null, 2)}\n<\/script>`;
+        if (outputJsonld) outputJsonld.value = scriptTag;
+      }
+
+      typeSelect?.addEventListener('change', generate);
+
+      btnAddFaq?.addEventListener('click', () => {
+        if (faqContainer) {
+          const div = document.createElement('div');
+          div.className = 'p-3 bg-canvas-soft border border-hairline rounded-lg space-y-2';
+          div.innerHTML = `
+            <input type="text" class="faq-q w-full bg-canvas border border-hairline rounded p-2 text-xs font-sans text-ink" placeholder="Question..." />
+            <textarea class="faq-a w-full bg-canvas border border-hairline rounded p-2 text-xs font-sans text-ink" rows="2" placeholder="Answer..."></textarea>
+          `;
+          faqContainer.appendChild(div);
+          div.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('input', generate);
+          });
+          generate();
+        }
+      });
+
+      document.querySelectorAll('.faq-q, .faq-a, #org-name, #org-url, #org-logo, #prod-name, #prod-price, #prod-curr').forEach(el => {
+        el?.addEventListener('input', generate);
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        if (outputJsonld) {
+          navigator.clipboard.writeText(outputJsonld.value);
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy JSON-LD'; }, 2000);
+        }
+      });
+
+      generate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initSchemaGen);
+  </script>
+</Layout>

@@ -1,0 +1,309 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "FIRE Calculator - Financial Independence Retire Early Solver | ToolzTotal",
+  description: "Free FIRE calculator. Calculate your FIRE number, years to retirement, safe withdrawal rates, savings rate, and Lean/Fat FIRE milestones.",
+  url: "https://toolztotal.com/finance/fire-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is the FIRE movement?", answer: "FIRE stands for Financial Independence, Retire Early. It is a financial strategy focused on aggressive saving (typically 50%+ of income) and low-cost index fund investing to achieve financial freedom and retire decades before traditional retirement age." },
+  { question: "What is a FIRE Number?", answer: "Your FIRE number is the total investment portfolio balance needed to cover your annual living expenses indefinitely without running out of money. It is calculated as: FIRE Number = Annual Expenses / Safe Withdrawal Rate." },
+  { question: "What is the 4% Rule in FIRE planning?", answer: "The 4% rule comes from the Trinity Study, which found that withdrawing 4% of a stock/bond portfolio's initial value (adjusted annually for inflation) had a 95%+ success rate of lasting at least 30 years." },
+  { question: "What is the difference between Lean FIRE, Fat FIRE, and Barista FIRE?", answer: "Lean FIRE involves living on a frugal budget (under $40,000/yr). Fat FIRE supports an abundant lifestyle ($100,000+/yr). Barista FIRE means accumulating enough portfolio wealth to work part-time or low-stress jobs for health insurance and minor supplement income." },
+  { question: "How does savings rate impact time to retirement?", answer: "Savings rate is the single most critical factor in FIRE. A 10% savings rate takes ~9 years of work to fund 1 year of retirement. A 50% savings rate takes 1 year of work to fund 1 year of retirement, allowing retirement in ~17 years from zero." },
+  { question: "Should I use nominal or real (inflation-adjusted) investment returns?", answer: "It is best to use real (inflation-adjusted) return rates (e.g. 7% for US total stock index funds rather than nominal 10%) so your target FIRE number remains in today's purchasing power dollars." },
+  { question: "Does FIRE account for Social Security or pension benefits?", answer: "Standard baseline FIRE calculations ignore Social Security to remain conservative. Adding expected Social Security or pensions later reduces the required portfolio drawdown in your 60s and beyond." },
+  { question: "How do I access retirement accounts (401k/IRA) early without penalty?", answer: "FIRE practitioners use strategies like the Roth IRA Conversion Ladder, Rule 72(t) SEPP withdrawals, or taxable brokerage account bridges to access funds penalty-free before age 59.5." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="FIRE Calculator"
+    toolSlug="fire-calculator"
+    categoryName="Finance & Loans"
+    categorySlug="finance"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Finance & Loans" categorySlug="finance" toolName="FIRE Calculator" toolSlug="fire-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Financial Freedom Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        FIRE Calculator (Financial Independence, Retire Early)
+      </h1>
+      <TrustHeader toolSlug="fire-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Determine your exact FIRE target number, compute your precise years to retirement, and compare Lean FIRE, Standard FIRE, and Fat FIRE milestones based on your personal savings rate.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Personal & Financial Inputs</h2>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="current-age" class="block text-xs font-mono text-mute uppercase mb-1">Current Age</label>
+              <input type="number" id="current-age" value="30" min="18" max="90" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="annual-expenses" class="block text-xs font-mono text-mute uppercase mb-1">Annual Expenses ($)</label>
+              <input type="number" id="annual-expenses" value="48000" min="10000" step="1000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="current-savings" class="block text-xs font-mono text-mute uppercase mb-1">Current Portfolio ($)</label>
+              <input type="number" id="current-savings" value="100000" min="0" step="5000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="annual-savings" class="block text-xs font-mono text-mute uppercase mb-1">Annual Savings ($)</label>
+              <input type="number" id="annual-savings" value="30000" min="0" step="1000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="swr" class="block text-xs font-mono text-mute uppercase mb-1">Safe Withdrawal Rate (%)</label>
+              <input type="number" id="swr" value="4.0" min="2.5" max="6.0" step="0.1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="return-rate" class="block text-xs font-mono text-mute uppercase mb-1">Real Return Rate (%)</label>
+              <input type="number" id="return-rate" value="7.0" min="1" max="15" step="0.5" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+
+          <div>
+            <label for="annual-income" class="block text-xs font-mono text-mute uppercase mb-1">Annual Income (Optional for Savings Rate %)</label>
+            <input type="number" id="annual-income" value="90000" min="0" step="5000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">FIRE Target Breakdown</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Target FIRE Number</span>
+              <span id="res-fire-num" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">$1,200,000</span>
+              <span id="res-fire-sub" class="block text-xs font-sans text-mute mt-1">Based on 4.0% SWR</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span class="block text-xs font-mono text-mute uppercase mb-1">Years Until FIRE</span>
+              <span id="res-years" class="text-2xl md:text-3xl font-bold font-mono text-indigo-500">14.8 Years</span>
+              <span id="res-age" class="block text-xs font-sans text-mute mt-1">FIRE Age: 45</span>
+            </div>
+          </div>
+
+          <!-- Milestones Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span class="text-body font-sans">Lean FIRE (80% expenses):</span>
+              <span id="res-lean" class="font-mono font-bold text-ink">$960,000</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Standard FIRE (100% expenses):</span>
+              <span id="res-std" class="font-mono font-bold text-emerald-500">$1,200,000</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Fat FIRE (150% expenses):</span>
+              <span id="res-fat" class="font-mono font-bold text-ink">$1,800,000</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span class="text-body font-sans">Calculated Savings Rate:</span>
+              <span id="res-sav-rate" class="font-mono text-indigo-500">33.3%</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy FIRE Plan
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">What is the FIRE Movement?</h2>
+        <p>
+          The Financial Independence, Retire Early (FIRE) framework has transformed how thousands of workers view wealth building. Rather than working until traditional age 65 or 67, FIRE practitioners maximize their savings rate, minimize recurring living expenses, and invest continuously in low-cost index funds to build a self-sustaining portfolio.
+        </p>
+        <p>
+          Our <strong>FIRE Calculator</strong> helps you calculate your target net worth milestone and models the exact timeline needed to reach full financial independence.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">How the FIRE Calculation Works</h2>
+        <p>
+          The mathematical core of FIRE relies on compounding interest and the Safe Withdrawal Rate (SWR):
+        </p>
+        <div class="bg-canvas border border-hairline p-5 rounded-xl font-mono text-sm space-y-2">
+          <p class="text-ink font-bold">FIRE Target Formula:</p>
+          <p class="text-mute">FIRE Number = Annual Living Expenses / (SWR / 100)</p>
+          <p class="text-mute">Example: $48,000 / 0.04 = $1,200,000</p>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "The Trinity Study (Retirement Savings: Choosing a Withdrawal Rate That Is Sustainable)", url: "https://www.aaii.com/journal/199802/feature.pdf" },
+        { title: "CFPB Retirement Planning Resources", url: "https://www.consumerfinance.gov/consumer-tools/retirement/" }
+      ]} />
+
+      <RelatedTools currentSlug="fire-calculator" categorySlug="finance" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initFireCalc() {
+      const ageInput = document.getElementById('current-age') as HTMLInputElement;
+      const expInput = document.getElementById('annual-expenses') as HTMLInputElement;
+      const savBalInput = document.getElementById('current-savings') as HTMLInputElement;
+      const savAnnInput = document.getElementById('annual-savings') as HTMLInputElement;
+      const swrInput = document.getElementById('swr') as HTMLInputElement;
+      const returnInput = document.getElementById('return-rate') as HTMLInputElement;
+      const incInput = document.getElementById('annual-income') as HTMLInputElement;
+
+      const resFireNum = document.getElementById('res-fire-num');
+      const resFireSub = document.getElementById('res-fire-sub');
+      const resYears = document.getElementById('res-years');
+      const resAge = document.getElementById('res-age');
+      const resLean = document.getElementById('res-lean');
+      const resStd = document.getElementById('res-std');
+      const resFat = document.getElementById('res-fat');
+      const resSavRate = document.getElementById('res-sav-rate');
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+
+      function calculate() {
+        const age = parseFloat(ageInput.value) || 30;
+        const expenses = parseFloat(expInput.value) || 0;
+        let port = parseFloat(savBalInput.value) || 0;
+        const annualSav = parseFloat(savAnnInput.value) || 0;
+        const swrPct = parseFloat(swrInput.value) || 4.0;
+        const rPct = parseFloat(returnInput.value) || 7.0;
+        const income = parseFloat(incInput.value) || 0;
+
+        const swr = swrPct / 100;
+        const r = rPct / 100;
+
+        const fireNum = swr > 0 ? expenses / swr : 0;
+        const leanNum = fireNum * 0.8;
+        const fatNum = fireNum * 1.5;
+
+        // Calculate years to FIRE
+        let years = 0;
+        let currentPort = port;
+
+        if (currentPort >= fireNum) {
+          years = 0;
+        } else if (r <= 0 && annualSav <= 0) {
+          years = 99;
+        } else {
+          while (currentPort < fireNum && years < 80) {
+            currentPort = (currentPort * (1 + r)) + annualSav;
+            years += 1;
+          }
+        }
+
+        const fireAge = Math.round(age + years);
+        const savingsRate = income > 0 ? ((annualSav / income) * 100).toFixed(1) : 'N/A';
+
+        if (resFireNum) resFireNum.textContent = `$${Math.round(fireNum).toLocaleString()}`;
+        if (resFireSub) resFireSub.textContent = `Based on ${swrPct.toFixed(1)}% SWR`;
+        if (resYears) resYears.textContent = years >= 80 ? '80+ Years' : `${years.toFixed(1)} Years`;
+        if (resAge) resAge.textContent = `Retirement Age: ${fireAge}`;
+        if (resLean) resLean.textContent = `$${Math.round(leanNum).toLocaleString()}`;
+        if (resStd) resStd.textContent = `$${Math.round(fireNum).toLocaleString()}`;
+        if (resFat) resFat.textContent = `$${Math.round(fatNum).toLocaleString()}`;
+        if (resSavRate) resSavRate.textContent = `${savingsRate}%`;
+      }
+
+      [ageInput, expInput, savBalInput, savAnnInput, swrInput, returnInput, incInput].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        ageInput.value = '30';
+        expInput.value = '48000';
+        savBalInput.value = '100000';
+        savAnnInput.value = '30000';
+        swrInput.value = '4.0';
+        returnInput.value = '7.0';
+        incInput.value = '90000';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const fireText = resFireNum?.textContent;
+        const yearsText = resYears?.textContent;
+        const ageText = resAge?.textContent;
+        const text = `FIRE Planning Summary:\n` +
+          `Target FIRE Number: ${fireText}\n` +
+          `Time to FIRE: ${yearsText} (${ageText})\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy FIRE Plan'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initFireCalc);
+  </script>
+</Layout>

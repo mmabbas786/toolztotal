@@ -1,0 +1,188 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Churn Rate Calculator - Customer & Revenue Churn % Solver | ToolzTotal",
+  description: "Free SaaS churn rate calculator. Calculate Customer Churn Rate %, Net Revenue Churn %, and customer lifetime metrics 100% client-side in your browser.",
+  url: "https://toolztotal.com/startup/churn-rate-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is Customer Churn Rate?", answer: "Customer Churn Rate measures the percentage of subscribed customers who cancel or non-renew their subscription during a given period. Formula: (Customers Lost / Starting Customers) x 100." },
+  { question: "What is Revenue Churn Rate?", answer: "Revenue Churn Rate measures the percentage of recurring monthly revenue lost due to cancellations and downgrades during a given period." },
+  { question: "What is Negative Net Churn?", answer: "Negative Net Churn occurs when expansion revenue from existing customers exceeds lost revenue from canceled accounts, causing your revenue base to grow without acquiring new logos." },
+  { question: "What is a good monthly churn rate for B2B SaaS?", answer: "For enterprise B2B SaaS, monthly logo churn under 0.5%–1% (approx 5%–10% annual churn) is considered healthy." },
+  { question: "Is my SaaS customer data saved anywhere?", answer: "No. The Churn Rate Calculator operates 100% locally in your web browser. No metrics leave your computer." },
+  { question: "How does churn rate relate to customer lifetime duration?", answer: "Customer Lifetime Duration (Months) = 1 / Monthly Churn Rate %. For example, a 2% monthly churn rate yields an average customer lifetime of 50 months." },
+  { question: "How can SaaS startups reduce churn?", answer: "Startups reduce churn by improving onboarding workflows, proactively analyzing customer health scores, offering annual discount plans, and resolving feature pain points." },
+  { question: "Is this churn rate calculator free?", answer: "Yes. ToolzTotal provides 100% free SaaS and startup tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Churn Rate Calculator"
+    toolSlug="churn-rate-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="Churn Rate Calculator" toolSlug="churn-rate-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private SaaS Churn Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Churn Rate Calculator
+      </h1>
+      <TrustHeader toolSlug="churn-rate-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Calculate Customer Churn Rate %, Net Revenue Churn %, and customer lifetime metrics for your subscription business.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Customer & Revenue Inputs</h2>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="start-cust" class="block text-xs font-mono text-mute uppercase mb-1">Starting Customers</label>
+              <input type="number" id="start-cust" value="1000" min="1" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="lost-cust" class="block text-xs font-mono text-mute uppercase mb-1">Lost Customers</label>
+              <input type="number" id="lost-cust" value="25" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="start-rev" class="block text-xs font-mono text-mute uppercase mb-1">Starting MRR ($)</label>
+              <input type="number" id="start-rev" value="50000" min="1" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="lost-rev" class="block text-xs font-mono text-mute uppercase mb-1">Lost MRR ($)</label>
+              <input type="number" id="lost-rev" value="1500" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Churn Metrics</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Retention</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="border-r border-hairline pr-2">
+                <span class="text-xs text-mute block uppercase">Customer Churn Rate</span>
+                <span id="res-cust-churn" class="text-2xl font-bold text-ink">0%</span>
+              </div>
+              <div class="pl-2">
+                <span class="text-xs text-mute block uppercase">Revenue Churn Rate</span>
+                <span id="res-rev-churn" class="text-2xl font-bold text-emerald-500">0%</span>
+              </div>
+            </div>
+
+            <div class="border-t border-hairline pt-4 text-xs">
+              <span class="text-mute block uppercase">Avg Customer Lifetime</span>
+              <span id="res-cust-lifetime" class="font-bold text-ink text-sm">0 Months</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">The Anatomy of SaaS Churn Metrics</h2>
+        <p>
+          Retention is the foundation of subscription compounding. Measuring Customer Churn versus Net Revenue Churn helps subscription companies identify leaks in their customer funnel and optimize lifetime value.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "SaaS Retention Metrics Guide - David Skok", url: "https://www.forentrepreneurs.com/saas-metrics-2/" }
+      ]} />
+
+      <RelatedTools currentSlug="churn-rate-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initChurnCalc() {
+      const sCust = document.getElementById('start-cust') as HTMLInputElement;
+      const lCust = document.getElementById('lost-cust') as HTMLInputElement;
+      const sRev = document.getElementById('start-rev') as HTMLInputElement;
+      const lRev = document.getElementById('lost-rev') as HTMLInputElement;
+
+      const custChurnEl = document.getElementById('res-cust-churn');
+      const revChurnEl = document.getElementById('res-rev-churn');
+      const lifetimeEl = document.getElementById('res-cust-lifetime');
+
+      function calculate() {
+        const startC = parseFloat(sCust.value) || 1;
+        const lostC = parseFloat(lCust.value) || 0;
+        const startR = parseFloat(sRev.value) || 1;
+        const lostR = parseFloat(lRev.value) || 0;
+
+        const custChurnPct = (lostC / startC) * 100;
+        const revChurnPct = (lostR / startR) * 100;
+        const lifetime = custChurnPct > 0 ? (100 / custChurnPct).toFixed(1) : '∞';
+
+        if (custChurnEl) custChurnEl.textContent = custChurnPct.toFixed(2) + '%';
+        if (revChurnEl) revChurnEl.textContent = revChurnPct.toFixed(2) + '%';
+        if (lifetimeEl) lifetimeEl.textContent = lifetime + ' Months';
+      }
+
+      [sCust, lCust, sRev, lRev].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initChurnCalc);
+  </script>
+</Layout>

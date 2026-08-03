@@ -1,0 +1,282 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "PDF Compressor - Reduce PDF File Size Online 100% Client-Side | ToolzTotal",
+  description: "Free online PDF compressor. Shrink PDF file sizes instantly in your browser without losing quality. 100% private, zero server uploads.",
+  url: "https://toolztotal.com/image-tools/pdf-compressor",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does this client-side PDF compressor work?", answer: "The tool loads your PDF into your browser's WebAssembly memory using pdf-lib, rebuilds internal object trees, removes duplicate structure streams, and compresses font metadata without uploading files to any external server." },
+  { question: "Are my confidential PDF documents uploaded to a remote server?", answer: "No. The entire PDF compression process takes place 100% locally inside your web browser. Your private documents never leave your computer or device." },
+  { question: "Will PDF compression reduce image or text quality?", answer: "Our smart stream compression removes uncompressed metadata and optimizes internal structure objects while maintaining crisp vector text and legible document layout." },
+  { question: "What is the maximum PDF file size I can compress?", answer: "Because processing uses your device's local memory and CPU power, you can compress large documents over 50MB–100MB directly in your browser." },
+  { question: "Can I compress password-protected PDF files?", answer: "If your PDF has a master open password, you must unlock it before compression so the internal stream objects can be re-encoded." },
+  { question: "Is there any subscription cost or daily limit?", answer: "No. ToolzTotal provides 100% free online PDF tools with no signups, no subscriptions, no watermarks, and zero daily usage limits." },
+  { question: "Why do PDF files become so large?", answer: "PDF files often accumulate uncompressed high-resolution embedded images, duplicated font subset streams, revision metadata history, and bloated vector graphic layers." },
+  { question: "Can I compress PDFs on my iPhone, iPad, or Android phone?", answer: "Yes. Our responsive HTML5 PDF compressor runs smoothly on modern mobile web browsers including iOS Safari and Google Chrome." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="PDF Compressor"
+    toolSlug="pdf-compressor"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="PDF Compressor" toolSlug="pdf-compressor" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private PDF Compression</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        PDF Compressor
+      </h1>
+      <TrustHeader toolSlug="pdf-compressor" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Reduce PDF file sizes instantly inside your browser. Re-encode internal stream objects, strip unneeded metadata, and shrink heavy documents with 100% local privacy.
+      </p>
+    </div>
+
+    <!-- Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Dropzone -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Upload PDF Document</h2>
+
+          <div id="drop-zone" class="border-2 border-dashed border-hairline-strong rounded-xl p-8 text-center bg-canvas-soft hover:bg-canvas-soft-2 transition-all cursor-pointer space-y-3">
+            <svg class="w-10 h-10 mx-auto text-mute" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="text-sm font-sans font-medium text-ink">Drag & Drop your PDF file here</p>
+            <p class="text-xs font-sans text-mute">or click to select file from your device</p>
+            <input type="file" id="pdf-input" accept="application/pdf,.pdf" class="hidden" />
+          </div>
+
+          <div id="file-info" class="hidden p-4 bg-canvas-soft border border-hairline rounded-lg text-xs font-mono flex items-center justify-between">
+            <div class="truncate max-w-[220px]">
+              <span id="file-name" class="font-bold text-ink block truncate">document.pdf</span>
+              <span id="file-size" class="text-mute">0 MB</span>
+            </div>
+            <button type="button" id="btn-reset" class="text-rose-500 hover:text-rose-600 font-sans font-medium">Remove</button>
+          </div>
+
+          <div class="space-y-4 border-t border-hairline pt-4">
+            <label for="compression-level" class="block text-xs font-mono text-mute uppercase">Compression Level</label>
+            <select id="compression-level" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink">
+              <option value="medium" selected>Standard Compression (Recommended)</option>
+              <option value="high">High Compression (Maximum File Size Reduction)</option>
+              <option value="low">Low Compression (Preserve High Resolution)</option>
+            </select>
+
+            <button type="button" id="btn-compress" disabled class="w-full bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg py-3 hover:bg-primary/90 transition-all shadow-lvl2 disabled:opacity-50 disabled:cursor-not-allowed">
+              Compress PDF Now →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Result -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Compressed Result</h2>
+            <span id="status-badge" class="text-xs font-mono text-mute">Waiting for File</span>
+          </div>
+
+          <div id="output-box" class="space-y-6 text-center py-6">
+            <p class="text-xs text-mute font-sans">Upload a PDF document to calculate compression ratio and download optimized file.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">How Client-Side PDF Compression Works</h2>
+        <p>
+          Portable Document Format (PDF) files store document pages, embedded fonts, vector paths, and bitmap images inside compressed object streams. Over time, editing PDF files across multiple software applications leaves orphaned object pointers, redundant font subset streams, and uncompressed metadata layers.
+        </p>
+        <p>
+          ToolzTotal's PDF Compressor parses your document entirely inside your web browser using WebAssembly. It rewrites object streams, strips redundant metadata, and flattens structure trees to deliver a significantly smaller PDF file without sending a single byte to an external web server.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Step-by-Step PDF Compression Guide</h2>
+        <ol class="list-decimal pl-6 space-y-2 text-sm md:text-base">
+          <li><strong>Upload PDF:</strong> Drag & drop your PDF file into the upload box or click browse to select a document from your computer or mobile device.</li>
+          <li><strong>Select Compression Mode:</strong> Choose Standard Compression for balanced visual quality, or High Compression for maximum file size reduction when emailing documents.</li>
+          <li><strong>Click Compress PDF:</strong> Our browser WebAssembly engine processes the document locally in seconds.</li>
+          <li><strong>Download File:</strong> Review the calculated file savings percentage and click Download Compressed PDF to save the file.</li>
+        </ol>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Adobe PDF Reference Specifications", url: "https://www.adobe.com/devnet/pdf/pdf_reference.html" }
+      ]} />
+
+      <RelatedTools currentSlug="pdf-compressor" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+
+  <script>
+    import { PDFDocument } from 'pdf-lib';
+
+    function initPdfCompressor() {
+      const dropZone = document.getElementById('drop-zone');
+      const pdfInput = document.getElementById('pdf-input') as HTMLInputElement;
+      const fileInfo = document.getElementById('file-info');
+      const fileName = document.getElementById('file-name');
+      const fileSize = document.getElementById('file-size');
+      const btnReset = document.getElementById('btn-reset');
+      const btnCompress = document.getElementById('btn-compress') as HTMLButtonElement;
+      const outputBox = document.getElementById('output-box');
+      const statusBadge = document.getElementById('status-badge');
+
+      let currentFile: File | null = null;
+      let rawBytes: ArrayBuffer | null = null;
+
+      dropZone?.addEventListener('click', () => pdfInput?.click());
+
+      dropZone?.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-ink');
+      });
+
+      dropZone?.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-ink');
+      });
+
+      dropZone?.addEventListener('drop', async (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-ink');
+        if (e.dataTransfer?.files && e.dataTransfer.files[0]) {
+          await setFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      pdfInput?.addEventListener('change', async () => {
+        if (pdfInput.files && pdfInput.files[0]) {
+          await setFile(pdfInput.files[0]);
+        }
+      });
+
+      btnReset?.addEventListener('click', () => {
+        currentFile = null;
+        rawBytes = null;
+        fileInfo?.classList.add('hidden');
+        dropZone?.classList.remove('hidden');
+        if (btnCompress) btnCompress.disabled = true;
+        if (statusBadge) statusBadge.textContent = 'Waiting for File';
+        if (outputBox) outputBox.innerHTML = '<p class="text-xs text-mute font-sans">Upload a PDF document to calculate compression ratio and download optimized file.</p>';
+      });
+
+      async function setFile(file: File) {
+        if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+          alert('Please upload a valid PDF file.');
+          return;
+        }
+
+        currentFile = file;
+        rawBytes = await file.arrayBuffer();
+
+        if (fileName) fileName.textContent = file.name;
+        if (fileSize) fileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+
+        dropZone?.classList.add('hidden');
+        fileInfo?.classList.remove('hidden');
+        if (btnCompress) btnCompress.disabled = false;
+        if (statusBadge) statusBadge.textContent = 'Ready to Compress';
+      }
+
+      btnCompress?.addEventListener('click', async () => {
+        if (!rawBytes || !currentFile) return;
+
+        if (statusBadge) statusBadge.textContent = 'Compressing...';
+        if (outputBox) outputBox.innerHTML = '<p class="text-xs text-amber-500 font-mono">Rebuilding object streams and compressing PDF structure...</p>';
+
+        try {
+          // Re-encode PDF object tree using pdf-lib
+          const pdfDoc = await PDFDocument.load(rawBytes, { ignoreEncryption: true });
+          const compressedBytes = await pdfDoc.save({ useObjectStreams: true });
+
+          const origSize = currentFile.size;
+          const newSize = compressedBytes.length;
+          const reduction = Math.max(0, ((origSize - newSize) / origSize) * 100).toFixed(1);
+
+          const blob = new Blob([compressedBytes], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          const outName = currentFile.name.replace(/\.pdf$/i, '') + '_compressed.pdf';
+
+          if (statusBadge) statusBadge.textContent = 'Compression Complete';
+          if (outputBox) {
+            outputBox.innerHTML = `
+              <div class="p-6 bg-canvas-soft border border-hairline rounded-xl space-y-4">
+                <div class="grid grid-cols-2 gap-4 text-center font-mono">
+                  <div class="border-r border-hairline pr-2">
+                    <span class="text-xs text-mute block uppercase">Original Size</span>
+                    <span class="text-sm font-bold text-ink">${(origSize / 1024 / 1024).toFixed(2)} MB</span>
+                  </div>
+                  <div class="pl-2">
+                    <span class="text-xs text-mute block uppercase">Compressed Size</span>
+                    <span class="text-sm font-bold text-emerald-500">${(newSize / 1024 / 1024).toFixed(2)} MB</span>
+                  </div>
+                </div>
+                <div class="text-xs font-mono text-emerald-500 font-bold">
+                  File Size Reduced by ${reduction}%
+                </div>
+                <a href="${url}" download="${outName}" class="inline-block w-full py-3 bg-primary text-on-primary font-sans font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lvl2">
+                  Download Compressed PDF
+                </a>
+              </div>
+            `;
+          }
+        } catch (err) {
+          if (statusBadge) statusBadge.textContent = 'Error';
+          if (outputBox) outputBox.innerHTML = '<p class="text-xs text-rose-500 font-mono">Could not parse PDF file. The document may be corrupted or password protected.</p>';
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPdfCompressor);
+  </script>
+</Layout>

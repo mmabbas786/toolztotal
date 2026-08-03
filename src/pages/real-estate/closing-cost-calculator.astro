@@ -1,0 +1,324 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Closing Cost Calculator - Buyer & Seller State Estimate Solver | ToolzTotal",
+  description: "Free Closing Cost Calculator. Estimate buyer and seller real estate closing costs, lender origination fees, title insurance, escrow, and state transfer taxes.",
+  url: "https://toolztotal.com/real-estate/closing-cost-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How much are closing costs on average for home buyers?", answer: "Buyer closing costs typically range between 2% and 5% of the total home purchase price (e.g. $8,000 to $20,000 on a $400,000 home purchase)." },
+  { question: "How much are closing costs for home sellers?", answer: "Seller closing costs average 6% to 10% of the sale price. The vast majority of seller closing cost is real estate agent commissions (typically 5% to 6%), plus state transfer taxes and title charges." },
+  { question: "What fees are included in buyer closing costs?", answer: "Buyer closing costs include lender origination fees, home appraisals, credit report fees, title search and lender's title insurance, escrow fees, government recording fees, and initial reserves for property taxes and homeowners insurance." },
+  { question: "Can closing costs be rolled into the mortgage loan?", answer: "For home purchases, lenders usually require closing costs to be paid in cash out-of-pocket, though seller concessions can cover up to 3%-6% of costs. In mortgage refinances, closing costs can often be rolled into the new loan balance." },
+  { question: "What are seller concessions?", answer: "Seller concessions (or seller contributions) occur when the seller agrees to pay a portion of the buyer's closing costs out of their sale proceeds, subject to lender limits." },
+  { question: "What is a Loan Estimate (LE) document?", answer: "A Loan Estimate is a standardized three-page disclosure document that mortgage lenders must provide within three business days of receiving your loan application. It details expected closing costs and loan terms." },
+  { question: "What is the difference between Lender's Title Insurance and Owner's Title Insurance?", answer: "Lender's title insurance protects the mortgage lender against title defects and is required for buyers. Owner's title insurance protects the buyer's equity ownership rights and is optional (though strongly recommended)." },
+  { question: "Are closing costs tax-deductible?", answer: "Most closing costs are added to your home's cost basis rather than deducted immediately. Points paid to lower your mortgage interest rate and prepaid property taxes are generally tax-deductible in the year paid." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Closing Cost Calculator"
+    toolSlug="closing-cost-calculator"
+    categoryName="Real Estate & Mortgage"
+    categorySlug="real-estate"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Real Estate & Mortgage" categorySlug="real-estate" toolName="Closing Cost Calculator" toolSlug="closing-cost-calculator" />
+    <DisclaimerBanner category="real-estate" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Home Transaction Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Closing Cost Calculator
+      </h1>
+      <TrustHeader toolSlug="closing-cost-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate itemized buyer and seller real estate closing costs, lender origination fees, title policies, transfer taxes, and escrow reserves across US states.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Transaction Details</h2>
+            <div class="flex bg-canvas-soft rounded-lg p-1 border border-hairline">
+              <button type="button" id="tab-buyer" class="px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors">Buyer Costs</button>
+              <button type="button" id="tab-seller" class="px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors">Seller Costs</button>
+            </div>
+          </div>
+
+          <div>
+            <label for="home-price" class="block text-xs font-mono text-mute uppercase mb-1">Home Purchase Price ($)</label>
+            <input type="number" id="home-price" value="400000" min="20000" step="10000" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+
+          <div id="buyer-loan-box" class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="down-payment-pct" class="block text-xs font-mono text-mute uppercase mb-1">Down Payment (%)</label>
+              <input type="number" id="down-payment-pct" value="20" min="0" max="90" step="1" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+            <div>
+              <label for="calc-loan-amt" class="block text-xs font-mono text-mute uppercase mb-1">Loan Amount ($)</label>
+              <input type="number" id="calc-loan-amt" value="320000" readonly class="w-full bg-canvas-soft border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+            </div>
+          </div>
+
+          <div id="seller-comm-box" class="hidden">
+            <label for="agent-comm-pct" class="block text-xs font-mono text-mute uppercase mb-1">Realtor Commission (%)</label>
+            <input type="number" id="agent-comm-pct" value="5.5" min="0" max="10" step="0.5" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-sm font-mono text-ink" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Estimated Closing Costs</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span id="res-lbl-title" class="block text-xs font-mono text-mute uppercase mb-1">Total Buyer Closing Costs</span>
+              <span id="res-total-cost" class="text-2xl md:text-3xl font-bold font-mono text-emerald-500">$9,850</span>
+              <span id="res-cost-pct" class="block text-xs font-sans text-mute mt-1">2.46% of purchase price</span>
+            </div>
+            <div class="bg-canvas-soft border border-hairline p-5 rounded-xl">
+              <span id="res-lbl-out" class="block text-xs font-mono text-mute uppercase mb-1">Total Cash Due at Closing</span>
+              <span id="res-total-due" class="text-2xl md:text-3xl font-bold font-mono text-ink">$89,850</span>
+              <span id="res-due-sub" class="block text-xs font-sans text-mute mt-1">Down Payment + Closing Costs</span>
+            </div>
+          </div>
+
+          <!-- Highlight Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-3">
+            <div class="flex justify-between items-center text-sm">
+              <span id="item-1-lbl" class="text-body font-sans">Lender Origination & Processing (1%):</span>
+              <span id="item-1-val" class="font-mono font-bold text-ink">$3,200.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span id="item-2-lbl" class="text-body font-sans">Appraisal & Credit Report:</span>
+              <span id="item-2-val" class="font-mono text-ink">$650.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span id="item-3-lbl" class="text-body font-sans">Title Search & Lender Policy:</span>
+              <span id="item-3-val" class="font-mono text-ink">$1,800.00</span>
+            </div>
+            <div class="flex justify-between items-center text-sm border-t border-hairline pt-2">
+              <span id="item-4-lbl" class="text-body font-sans">Prepaid Taxes & Insurance Reserves:</span>
+              <span id="item-4-val" class="font-mono text-ink">$4,200.00</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Summary
+            </button>
+            <button type="button" id="btn-reset" class="bg-canvas-soft border border-hairline text-ink hover:bg-canvas-soft-2 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all">
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Content Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">What Are Real Estate Closing Costs?</h2>
+        <p>
+          Closing costs represent the complete suite of administrative, legal, lender, title, and escrow fees required to finalize a real estate transaction. Whether you are buying your first home or selling an investment property, understanding closing costs prevents cash-at-close surprises.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Consumer Financial Protection Bureau - Closing Disclosure Guide", url: "https://www.consumerfinance.gov/owning-a-home/closing-disclosure/" }
+      ]} />
+
+      <RelatedTools currentSlug="closing-cost-calculator" categorySlug="real-estate" />
+      <ContentFooter category="real-estate" />
+    </article>
+  </div>
+
+  <script>
+    function initClosingCalc() {
+      const tabBuyer = document.getElementById('tab-buyer');
+      const tabSeller = document.getElementById('tab-seller');
+      const buyerLoanBox = document.getElementById('buyer-loan-box');
+      const sellerCommBox = document.getElementById('seller-comm-box');
+
+      const priceInput = document.getElementById('home-price') as HTMLInputElement;
+      const downPctInput = document.getElementById('down-payment-pct') as HTMLInputElement;
+      const loanAmtInput = document.getElementById('calc-loan-amt') as HTMLInputElement;
+      const commPctInput = document.getElementById('agent-comm-pct') as HTMLInputElement;
+
+      const resLblTitle = document.getElementById('res-lbl-title');
+      const resTotalCost = document.getElementById('res-total-cost');
+      const resCostPct = document.getElementById('res-cost-pct');
+      const resLblOut = document.getElementById('res-lbl-out');
+      const resTotalDue = document.getElementById('res-total-due');
+      const resDueSub = document.getElementById('res-due-sub');
+
+      const item1Lbl = document.getElementById('item-1-lbl');
+      const item1Val = document.getElementById('item-1-val');
+      const item2Lbl = document.getElementById('item-2-lbl');
+      const item2Val = document.getElementById('item-2-val');
+      const item3Lbl = document.getElementById('item-3-lbl');
+      const item3Val = document.getElementById('item-3-val');
+      const item4Lbl = document.getElementById('item-4-lbl');
+      const item4Val = document.getElementById('item-4-val');
+
+      const btnCopy = document.getElementById('btn-copy');
+      const btnReset = document.getElementById('btn-reset');
+
+      let currentRole: 'buyer' | 'seller' = 'buyer';
+
+      function calculate() {
+        const price = parseFloat(priceInput.value) || 0;
+        const downPct = parseFloat(downPctInput.value) || 0;
+        const downVal = price * (downPct / 100);
+        const loanAmt = Math.max(price - downVal, 0);
+
+        if (loanAmtInput) loanAmtInput.value = Math.round(loanAmt).toString();
+
+        if (currentRole === 'buyer') {
+          const origination = loanAmt * 0.01;
+          const appraisal = 650;
+          const title = 1800;
+          const prepaids = price * 0.0105;
+          const totalClosing = origination + appraisal + title + prepaids;
+          const totalCashDue = downVal + totalClosing;
+          const pct = price > 0 ? (totalClosing / price) * 100 : 0;
+
+          if (resLblTitle) resLblTitle.textContent = 'Total Buyer Closing Costs';
+          if (resTotalCost) resTotalCost.textContent = `$${Math.round(totalClosing).toLocaleString()}`;
+          if (resCostPct) resCostPct.textContent = `${pct.toFixed(2)}% of purchase price`;
+          if (resLblOut) resLblOut.textContent = 'Total Cash Due at Closing';
+          if (resTotalDue) resTotalDue.textContent = `$${Math.round(totalCashDue).toLocaleString()}`;
+          if (resDueSub) resDueSub.textContent = 'Down Payment + Closing Costs';
+
+          if (item1Lbl) item1Lbl.textContent = 'Lender Origination & Processing (1%):';
+          if (item1Val) item1Val.textContent = `$${origination.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+          if (item2Lbl) item2Lbl.textContent = 'Appraisal & Credit Inspection:';
+          if (item2Val) item2Val.textContent = `$${appraisal.toFixed(2)}`;
+          if (item3Lbl) item3Lbl.textContent = 'Title Search & Insurance:';
+          if (item3Val) item3Val.textContent = `$${title.toFixed(2)}`;
+          if (item4Lbl) item4Lbl.textContent = 'Prepaid Taxes & Insurance Reserves:';
+          if (item4Val) item4Val.textContent = `$${prepaids.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        } else {
+          // Seller
+          const commPct = parseFloat(commPctInput.value) || 5.5;
+          const commVal = price * (commPct / 100);
+          const transferTax = price * 0.01;
+          const titlePolicy = 1200;
+          const escrowFee = 600;
+          const totalClosing = commVal + transferTax + titlePolicy + escrowFee;
+          const netProceeds = price - totalClosing;
+          const pct = price > 0 ? (totalClosing / price) * 100 : 0;
+
+          if (resLblTitle) resLblTitle.textContent = 'Total Seller Closing Costs';
+          if (resTotalCost) resTotalCost.textContent = `$${Math.round(totalClosing).toLocaleString()}`;
+          if (resCostPct) resCostPct.textContent = `${pct.toFixed(2)}% of sale price`;
+          if (resLblOut) resLblOut.textContent = 'Net Cash Proceeds to Seller';
+          if (resTotalDue) resTotalDue.textContent = `$${Math.round(netProceeds).toLocaleString()}`;
+          if (resDueSub) resDueSub.textContent = 'Sale Price minus Closing Costs';
+
+          if (item1Lbl) item1Lbl.textContent = `Realtor Commission (${commPct.toFixed(1)}%):`;
+          if (item1Val) item1Val.textContent = `$${commVal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+          if (item2Lbl) item2Lbl.textContent = 'State & County Transfer Taxes (~1%):';
+          if (item2Val) item2Val.textContent = `$${transferTax.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+          if (item3Lbl) item3Lbl.textContent = "Owner's Title Insurance Policy:";
+          if (item3Val) item3Val.textContent = `$${titlePolicy.toFixed(2)}`;
+          if (item4Lbl) item4Lbl.textContent = 'Settlement & Escrow Closing Fees:';
+          if (item4Val) item4Val.textContent = `$${escrowFee.toFixed(2)}`;
+        }
+      }
+
+      tabBuyer?.addEventListener('click', () => {
+        currentRole = 'buyer';
+        tabBuyer.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        tabSeller.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        buyerLoanBox?.classList.remove('hidden');
+        sellerCommBox?.classList.add('hidden');
+        calculate();
+      });
+
+      tabSeller?.addEventListener('click', () => {
+        currentRole = 'seller';
+        tabSeller.className = 'px-3 py-1 text-xs font-medium rounded-md bg-primary text-on-primary shadow-lvl1 transition-colors';
+        tabBuyer.className = 'px-3 py-1 text-xs font-medium rounded-md text-body hover:text-ink transition-colors';
+        sellerCommBox?.classList.remove('hidden');
+        buyerLoanBox?.classList.add('hidden');
+        calculate();
+      });
+
+      [priceInput, downPctInput, commPctInput].forEach(el => {
+        el?.addEventListener('input', calculate);
+        el?.addEventListener('change', calculate);
+      });
+
+      btnReset?.addEventListener('click', () => {
+        priceInput.value = '400000';
+        downPctInput.value = '20';
+        commPctInput.value = '5.5';
+        calculate();
+      });
+
+      btnCopy?.addEventListener('click', () => {
+        const cost = resTotalCost?.textContent;
+        const due = resTotalDue?.textContent;
+        const text = `Closing Cost Summary (${currentRole.toUpperCase()}):\n` +
+          `Total Closing Costs: ${cost}\n` +
+          `Final Amount: ${due}\n` +
+          `Calculated on ToolzTotal.com`;
+        navigator.clipboard.writeText(text);
+        if (btnCopy) btnCopy.textContent = 'Copied!';
+        setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Summary'; }, 2000);
+      });
+
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initClosingCalc);
+  </script>
+</Layout>

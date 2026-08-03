@@ -1,0 +1,197 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
+
+const ogMeta = {
+  title: "Subscription Revenue Calculator - 5-Year SaaS Forecast | ToolzTotal",
+  description: "Free Subscription Revenue Calculator. Forecast 5-year compounding subscription growth, ARR trajectories, and customer accumulation 100% client-side.",
+  url: "https://toolztotal.com/startup/subscription-revenue-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the Subscription Revenue Calculator work?", answer: "The calculator models month-by-month compounding subscriber addition, churn, expansion, and ARPU over a 60-month horizon 100% in your browser." },
+  { question: "What is ARPU (Average Revenue Per User)?", answer: "ARPU is the average monthly recurring revenue generated per active subscription account." },
+  { question: "Why does subscription revenue compound non-linearly?", answer: "Because recurring revenue persists month-to-month, adding new customers on top of retained existing customers creates compounding exponential growth curves." },
+  { question: "Is my forecasting data stored on any server?", answer: "No. The calculator operates 100% locally in your web browser. No company numbers leave your device." },
+  { question: "How does expansion revenue extend long-term subscription growth?", answer: "Expansion revenue from upsells and seat additions offsets customer churn, enabling negative net churn where revenue grows automatically over time." },
+  { question: "What is the 5-year ARR milestone for successful SaaS companies?", answer: "Successful venture-backed SaaS companies target $10M+ ARR by Year 4 or Year 5." },
+  { question: "Can I model both monthly and annual subscription plans?", answer: "Yes. Annual plans can be averaged into monthly recurring contributions." },
+  { question: "Is this subscription revenue calculator free?", answer: "Yes. ToolzTotal provides 100% free financial tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Subscription Revenue Calculator"
+    toolSlug="subscription-revenue-calculator"
+    categoryName="Startup & SaaS"
+    categorySlug="startup"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Startup & SaaS" categorySlug="startup" toolName="Subscription Revenue Calculator" toolSlug="subscription-revenue-calculator" />
+    <DisclaimerBanner category="finance" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private 5-Year Forecast Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Subscription Revenue Calculator
+      </h1>
+      <TrustHeader toolSlug="subscription-revenue-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Forecast 5-year compounding subscription revenue growth, subscriber accumulation, and ARR trajectories with custom churn and expansion rates.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-4">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Growth Parameters</h2>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="sub-start-mrr" class="block text-xs font-mono text-mute uppercase mb-1">Starting MRR ($)</label>
+              <input type="number" id="sub-start-mrr" value="10000" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="sub-new-cust" class="block text-xs font-mono text-mute uppercase mb-1">New Customers / Month</label>
+              <input type="number" id="sub-new-cust" value="40" min="0" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="sub-arpu" class="block text-xs font-mono text-mute uppercase mb-1">ARPU ($ / Month)</label>
+              <input type="number" id="sub-arpu" value="99" min="1" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="sub-churn-pct" class="block text-xs font-mono text-mute uppercase mb-1">Monthly Churn Rate %</label>
+              <input type="number" id="sub-churn-pct" value="2.5" min="0" max="50" step="0.1" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">5-Year Revenue Forecast</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Year 5 ARR</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Year 5 Ending ARR</span>
+              <span id="res-year5-arr" class="text-3xl font-bold text-emerald-500">$0</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Year 3 Ending ARR</span>
+                <span id="res-year3-arr" class="font-bold text-ink">$0</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Year 5 Active Subscribers</span>
+                <span id="res-year5-subs" class="font-bold text-ink">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Forecasting Compounding Subscription Growth</h2>
+        <p>
+          Unlike one-time transactional sales, subscription revenue compounds over multi-year horizons. Modeling subscriber acquisition alongside churn retention rate allows founders to project cash flow runway and investor valuation milestones.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "SaaS Growth & Forecasting Guide - David Skok", url: "https://www.forentrepreneurs.com/saas-metrics-2/" }
+      ]} />
+
+      <RelatedTools currentSlug="subscription-revenue-calculator" categorySlug="startup" />
+      <ContentFooter category="finance" />
+    </article>
+  </div>
+
+  <script>
+    function initSubRevCalc() {
+      const startMrrEl = document.getElementById('sub-start-mrr') as HTMLInputElement;
+      const newCustEl = document.getElementById('sub-new-cust') as HTMLInputElement;
+      const arpuEl = document.getElementById('sub-arpu') as HTMLInputElement;
+      const churnEl = document.getElementById('sub-churn-pct') as HTMLInputElement;
+
+      const y5ArrEl = document.getElementById('res-year5-arr');
+      const y3ArrEl = document.getElementById('res-year3-arr');
+      const y5SubsEl = document.getElementById('res-year5-subs');
+
+      function calculate() {
+        const startMrr = parseFloat(startMrrEl.value) || 0;
+        const newCust = parseInt(newCustEl.value, 10) || 0;
+        const arpu = parseFloat(arpuEl.value) || 1;
+        const churnRate = (parseFloat(churnEl.value) || 0) / 100;
+
+        let currentSubs = Math.round(startMrr / arpu);
+        let year3Arr = 0;
+        let year5Arr = 0;
+
+        for (let month = 1; month <= 60; month++) {
+          const lostSubs = currentSubs * churnRate;
+          currentSubs = currentSubs - lostSubs + newCust;
+          const currentMrr = currentSubs * arpu;
+
+          if (month === 36) year3Arr = currentMrr * 12;
+          if (month === 60) year5Arr = currentMrr * 12;
+        }
+
+        if (y5ArrEl) y5ArrEl.textContent = '$' + Math.round(year5Arr).toLocaleString('en-US');
+        if (y3ArrEl) y3ArrEl.textContent = '$' + Math.round(year3Arr).toLocaleString('en-US');
+        if (y5SubsEl) y5SubsEl.textContent = Math.round(currentSubs).toLocaleString('en-US');
+      }
+
+      [startMrrEl, newCustEl, arpuEl, churnEl].forEach(el => el?.addEventListener('input', calculate));
+      calculate();
+    }
+
+    document.addEventListener('DOMContentLoaded', initSubRevCalc);
+  </script>
+</Layout>

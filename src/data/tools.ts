@@ -41,7 +41,12 @@ export const toolCatalog: Category[] = [
       { name: "HELOC Calculator", slug: "heloc-calculator", description: "Calculate home equity line of credit payments, borrowing limit, and total interest across draw and repayment periods.", status: "live", keywords: ["heloc calculator", "home equity line of credit", "heloc payment"] },
       { name: "Salary Calculator", slug: "salary-calculator", description: "Calculate your take-home pay after federal, state, and FICA taxes. See monthly, bi-weekly, and weekly amounts for any salary and state.", status: "live", keywords: ["salary calculator", "take home pay", "tax calculator"] },
       { name: "Student Loan Repayment Calculator", slug: "student-loan-repayment-calculator", description: "Compare student loan repayment plans including Standard, Graduated, Extended, and income-driven (IBR, PAYE, REPAYE, ICR).", status: "live", keywords: ["student loan calculator", "student loan repayment", "idr calculator"] },
-      { name: "Credit Card Payoff Calculator", slug: "credit-card-payoff-calculator", description: "Estimate your payoff timeline, total interest charges, and see how much you save by paying extra each month.", status: "live", keywords: ["credit card payoff calculator", "payoff timeline", "credit card interest"] }
+      { name: "Credit Card Payoff Calculator", slug: "credit-card-payoff-calculator", description: "Estimate your payoff timeline, total interest charges, and see how much you save by paying extra each month.", status: "live", keywords: ["credit card payoff calculator", "payoff timeline", "credit card interest"] },
+      { name: "Stripe Fee Calculator", slug: "stripe-fee-calculator", description: "Calculate domestic, international, and instant payout Stripe processing fees, plus reverse fee calculations.", status: "live", keywords: ["stripe fee calculator", "stripe fees", "reverse stripe calculator"] },
+      { name: "PayPal Fee Calculator", slug: "paypal-fee-calculator", description: "Calculate PayPal merchant, Goods & Services, Friends & Family, and international transaction fees with reverse calculations.", status: "live", keywords: ["paypal fee calculator", "paypal fees", "reverse paypal fee calculator"] },
+      { name: "APR Calculator", slug: "apr-calculator", description: "Calculate effective Annual Percentage Rate (APR) for loans with origination fees and credit card interest rate conversions.", status: "live", keywords: ["apr calculator", "loan apr", "credit card apr"] },
+      { name: "FIRE Calculator", slug: "fire-calculator", description: "Calculate your Financial Independence Retire Early (FIRE) number, savings rate, portfolio growth, and target age.", status: "live", keywords: ["fire calculator", "financial independence", "retire early calculator"] },
+      { name: "Business Loan Calculator", slug: "business-loan-calculator", description: "Calculate monthly payments, origination fees, interest costs, and full amortization schedules for SBA and commercial business loans.", status: "live", keywords: ["business loan calculator", "sba loan calculator", "commercial loan payment"] }
     ]
   },
   {
@@ -53,7 +58,10 @@ export const toolCatalog: Category[] = [
       { name: "Rental Property Cash Flow Calculator", slug: "rental-property-calculator", description: "Evaluate rental yield, cash-on-cash return, and net operating income.", status: "live", keywords: ["rental property", "real estate yield"] },
       { name: "Mortgage Affordability Calculator", slug: "mortgage-affordability-calculator", description: "Determine the maximum home price you can afford based on income and debts.", status: "live", keywords: ["mortgage affordability", "how much home can I afford"] },
       { name: "Mortgage Refinance Calculator", slug: "mortgage-refinance-calculator", description: "See if refinancing your home mortgage will save you money on interest and payments.", status: "live", keywords: ["mortgage refinance", "refinance calculator"] },
-      { name: "Rent vs Buy Calculator", slug: "rent-vs-buy-calculator", description: "Compare the long-term financial costs of renting versus buying a home.", status: "live", keywords: ["rent vs buy", "mortgage calculator"] }
+      { name: "Rent vs Buy Calculator", slug: "rent-vs-buy-calculator", description: "Compare the long-term financial costs of renting versus buying a home.", status: "live", keywords: ["rent vs buy", "mortgage calculator"] },
+      { name: "Cap Rate Calculator", slug: "cap-rate-calculator", description: "Calculate capitalization rates, Net Operating Income (NOI), target property valuations, and ROI for commercial and residential real estate.", status: "live", keywords: ["cap rate calculator", "capitalization rate", "property noi calculator"] },
+      { name: "Closing Cost Calculator", slug: "closing-cost-calculator", description: "Estimate buyer and seller closing costs, title fees, escrow, transfer taxes, and prepayments by state.", status: "live", keywords: ["closing cost calculator", "buyer closing costs", "seller closing costs"] },
+      { name: "Mortgage Points Calculator", slug: "mortgage-points-calculator", description: "Calculate discount points costs, interest rate reductions, monthly savings, and break-even timelines.", status: "live", keywords: ["mortgage points calculator", "discount points", "mortgage break even"] }
     ]
   },
   {
@@ -89,7 +97,12 @@ export const toolCatalog: Category[] = [
       { name: "JWT Decoder & Validator", slug: "jwt-decoder", description: "Decode and validate JSON Web Tokens, inspecting the header, payload claims, and signature safely in your browser.", status: "live", keywords: ["jwt decoder", "jwt validator", "decode jwt"] },
       { name: "Markdown to HTML Converter", slug: "markdown-to-html", description: "Convert Markdown to HTML with a live preview, GitHub Flavored Markdown support, and copy/download options.", status: "live", keywords: ["markdown to html", "markdown converter", "md to html"] },
       { name: "Timestamp Converter", slug: "timestamp-converter", description: "Convert Unix timestamps to dates and dates to timestamps with seconds/milliseconds, timezones, and relative time.", status: "live", keywords: ["timestamp converter", "unix timestamp", "epoch converter"] },
-      { name: "URL Encoder / Decoder", slug: "url-encoder-decoder", description: "Percent-encode and decode URLs with live preview, byte counts, and query-string quick actions.", status: "live", keywords: ["url encoder", "url decoder", "percent encoding"] }
+      { name: "URL Encoder / Decoder", slug: "url-encoder-decoder", description: "Percent-encode and decode URLs with live preview, byte counts, and query-string quick actions.", status: "live", keywords: ["url encoder", "url decoder", "percent encoding"] },
+      { name: "SQL Formatter & Beautifier", slug: "sql-formatter", description: "Format, beautify, and minify SQL queries across PostgreSQL, MySQL, SQLite, T-SQL, and Oracle dialects.", status: "live", keywords: ["sql formatter", "sql beautifier", "format sql online"] },
+      { name: "JavaScript Formatter & Minifier", slug: "javascript-formatter", description: "Beautify, indent, and compress JavaScript code with line count and file size reduction analytics.", status: "live", keywords: ["javascript formatter", "js minifier", "beautify javascript"] },
+      { name: "cURL to Fetch Converter", slug: "curl-to-fetch-converter", description: "Convert cURL commands directly into modern JavaScript fetch API code (async/await and Promises).", status: "live", keywords: ["curl to fetch converter", "curl to js fetch", "convert curl to javascript"] },
+      { name: "Cron Expression Generator", slug: "cron-expression-generator", description: "Build custom 5-part cron expressions visually with live plain-English schedule translations and presets.", status: "live", keywords: ["cron expression generator", "cron generator", "cron schedule builder"] },
+      { name: "Cron Expression Parser", slug: "cron-parser", description: "Parse 5-part cron syntax into plain English with a schedule breakdown and next 10 execution dates.", status: "live", keywords: ["cron parser", "parse cron expression", "cron schedule explainer"] }
     ]
   },
   {
@@ -115,7 +128,12 @@ export const toolCatalog: Category[] = [
       { name: "Meta Tag Generator", slug: "meta-tag-generator", description: "Generate meta tags, Open Graph tags, and Twitter Cards with real-time Google and social preview mockups.", status: "live", keywords: ["meta tag generator", "og tags", "twitter card generator"] },
       { name: "SERP Snippet Preview Tool", slug: "serp-preview", description: "Preview how your page appears in Google search results on desktop and mobile. Checks pixel width clipping limits.", status: "live", keywords: ["serp preview", "google search preview", "serp snippet checker"] },
       { name: "Email Subject Line Tester", slug: "email-subject-tester", description: "Test your email subject lines for character limits, spam trigger words, and get alternative A/B testing suggestions.", status: "live", keywords: ["email subject tester", "subject line checker", "email spam scanner"] },
-      { name: "Headline Analyzer", slug: "headline-analyzer", description: "Analyze your headlines for Emotional Marketing Value (EMV) score, power words, sentiment, and length optimizations.", status: "live", keywords: ["headline analyzer", "headline analyzer tool", "emv score checker"] }
+      { name: "Headline Analyzer", slug: "headline-analyzer", description: "Analyze your headlines for Emotional Marketing Value (EMV) score, power words, sentiment, and length optimizations.", status: "live", keywords: ["headline analyzer", "headline analyzer tool", "emv score checker"] },
+      { name: "Robots.txt Generator", slug: "robots-txt-generator", description: "Generate custom robots.txt files with AI crawler blocks, crawl delays, disallow rules, and sitemap directives.", status: "live", keywords: ["robots.txt generator", "create robots txt", "robots txt builder"] },
+      { name: "XML Sitemap Generator", slug: "xml-sitemap-generator", description: "Generate valid XML sitemaps for multi-URL lists with priority, change frequency, and lastmod controls.", status: "live", keywords: ["xml sitemap generator", "sitemap generator", "generate sitemap xml"] },
+      { name: "Schema Markup Generator", slug: "schema-markup-generator", description: "Generate structured JSON-LD schema markup for Organization, Local Business, FAQ, Product, Article, Event, and more.", status: "live", keywords: ["schema markup generator", "json-ld generator", "faq schema generator"] },
+      { name: "Open Graph Meta Generator", slug: "open-graph-generator", description: "Generate Open Graph and Twitter Card meta tags with live visual previews for Facebook, X, LinkedIn, and Discord.", status: "live", keywords: ["open graph generator", "og meta generator", "twitter card generator"] },
+      { name: "JSON to CSV Converter", slug: "json-to-csv-converter", description: "Convert JSON arrays or objects into CSV format with custom delimiter choices, table previews, and client-side downloads.", status: "live", keywords: ["json to csv converter", "json to csv", "convert json to csv"] }
     ]
   },
   {
@@ -164,7 +182,55 @@ export const toolCatalog: Category[] = [
     tools: [
       { name: "Image Resizer", slug: "image-resizer", description: "Resize images to custom dimensions or social media presets completely in your browser.", status: "live", keywords: ["image resizer", "resize image online", "crop image"] },
       { name: "Image Compressor", slug: "image-compressor", description: "Compress JPEG, PNG, and WebP images client-side to reduce file size without quality loss.", status: "live", keywords: ["image compressor", "compress image", "shrink image size"] },
-      { name: "PDF Merger", slug: "pdf-merger", description: "Combine multiple PDF documents into a single file securely inside your browser.", status: "live", keywords: ["pdf merger", "merge pdf", "combine pdf files"] }
+      { name: "PDF Merger", slug: "pdf-merger", description: "Combine multiple PDF documents into a single file securely inside your browser.", status: "live", keywords: ["pdf merger", "merge pdf", "combine pdf files"] },
+      { name: "HEIC to JPG Converter", slug: "heic-to-jpg", description: "Convert Apple HEIC/HEIF images to JPG or PNG formats 100% client-side with zero server uploads.", status: "live", keywords: ["heic to jpg", "heic converter", "convert heic to jpg"] },
+      { name: "PDF Splitter", slug: "pdf-splitter", description: "Split PDF pages or extract custom page ranges client-side using WebAssembly and pdf-lib.", status: "live", keywords: ["pdf splitter", "split pdf", "extract pdf pages"] },
+      { name: "PDF Compressor", slug: "pdf-compressor", description: "Compress PDF documents client-side by optimizing page streams and graphics without server uploads.", status: "live", keywords: ["pdf compressor", "compress pdf", "shrink pdf size"] },
+      { name: "PDF to JPG Converter", slug: "pdf-to-jpg", description: "Render PDF pages into high-resolution JPG images client-side in your web browser.", status: "live", keywords: ["pdf to jpg", "convert pdf to jpg", "pdf to image"] },
+      { name: "JPG to PDF Converter", slug: "jpg-to-pdf", description: "Convert JPG, PNG, and WebP images into a clean multi-page PDF document 100% locally.", status: "live", keywords: ["jpg to pdf", "image to pdf", "convert jpg to pdf"] },
+      { name: "WebP to PNG Converter", slug: "webp-to-png", description: "Convert WebP images to lossless PNG format with transparent background preservation.", status: "live", keywords: ["webp to png", "convert webp to png", "webp converter"] },
+      { name: "PNG to WebP Converter", slug: "png-to-webp", description: "Convert PNG images to lightweight WebP format with quality compression sliders.", status: "live", keywords: ["png to webp", "convert png to webp", "compress png to webp"] },
+      { name: "JPG to PNG Converter", slug: "jpg-to-png", description: "Convert JPG images to PNG format with custom canvas scaling and loss-free export.", status: "live", keywords: ["jpg to png", "convert jpg to png", "jpg converter"] },
+      { name: "Image Cropper", slug: "image-cropper", description: "Crop images with interactive aspect ratios (1:1, 16:9, 4:3, 9:16) and pixel dimensions.", status: "live", keywords: ["image cropper", "crop image online", "photo cropper"] },
+      { name: "Image Resizer by File Size", slug: "resize-image-by-size", description: "Resize and compress images to hit target file sizes (under 100KB, 50KB, 20KB) for government & portal uploads.", status: "live", keywords: ["resize image to 100kb", "resize image to 50kb", "resize image to 20kb"] },
+      { name: "All-in-One Image Converter", slug: "image-converter", description: "Convert between PNG, JPG, WEBP, BMP, GIF, and HEIC image formats completely in your browser.", status: "live", keywords: ["image converter", "convert image format", "online image converter"] },
+      { name: "Advanced PDF Merger", slug: "advanced-pdf-merger", description: "Merge, reorder, and combine multiple PDF files with visual page arrangement and page deletion options.", status: "live", keywords: ["merge pdf", "pdf joiner", "combine pdf files"] }
+    ]
+  },
+  {
+    name: "AI Tools",
+    slug: "ai",
+    description: "Token calculators, API pricing models, prompt formatters, and AI utility tools for LLM developers and creators.",
+    icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+    tools: [
+      { name: "AI Token Calculator", slug: "token-calculator", description: "Estimate token counts, context window consumption, and cost across GPT-5, GPT-4o, Claude 3.5, and Gemini 2.0.", status: "live", keywords: ["ai token calculator", "token count estimator", "llm token calculator"] },
+      { name: "OpenAI API Cost Calculator", slug: "openai-cost-calculator", description: "Calculate monthly API bills across GPT-4o, GPT-4o-mini, o1, o3-mini, and text-embedding models.", status: "live", keywords: ["openai cost calculator", "gpt-4 cost calculator", "openai api pricing"] },
+      { name: "Claude API Cost Calculator", slug: "claude-cost-calculator", description: "Calculate Anthropic Claude 3.5 Sonnet, Claude 3 Opus, and Haiku API costs with prompt caching discounts.", status: "live", keywords: ["claude api pricing calculator", "claude 3.5 sonnet cost", "anthropic api pricing"] },
+      { name: "Gemini API Cost Calculator", slug: "gemini-cost-calculator", description: "Calculate Google Gemini 1.5 Pro, Flash, and Gemini 2.0 API costs based on token throughput.", status: "live", keywords: ["gemini api pricing calculator", "gemini 1.5 pro cost", "google ai api pricing"] },
+      { name: "Prompt Token Counter", slug: "prompt-token-counter", description: "Count real-time tokens, words, and characters for your AI prompts with instant cost estimations.", status: "live", keywords: ["prompt token counter", "count tokens", "gpt prompt length"] },
+      { name: "Prompt Formatter", slug: "prompt-formatter", description: "Structure and format LLM system prompts with XML tags, markdown headers, and variable placeholders.", status: "live", keywords: ["prompt formatter", "format ai prompt", "system prompt builder"] },
+      { name: "Markdown Prompt Generator", slug: "markdown-prompt-generator", description: "Generate structured Markdown prompts with Role, Context, Constraints, and Few-shot examples.", status: "live", keywords: ["markdown prompt", "markdown prompt generator", "structured ai prompt"] },
+      { name: "AI Character Counter", slug: "ai-character-counter", description: "Track character limits, word bounds, and context window percentages for AI chat inputs.", status: "live", keywords: ["ai character counter", "prompt character limit", "token size checker"] },
+      { name: "JSON Prompt Formatter", slug: "json-prompt-formatter", description: "Format and validate structured JSON schemas for LLM function calling and JSON mode responses.", status: "live", keywords: ["json prompt formatter", "llm json schema", "openai function call format"] },
+      { name: "AI Prompt Cleaner", slug: "prompt-cleaner", description: "Strip boilerplate text, duplicate instructions, redundant white spaces, and optimize token efficiency.", status: "live", keywords: ["prompt cleaner", "clean ai prompt", "optimize prompt tokens"] }
+    ]
+  },
+  {
+    name: "Startup & SaaS",
+    slug: "startup",
+    description: "MRR/ARR calculators, burn rate estimators, SaaS valuation tools, and subscription metrics.",
+    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    tools: [
+      { name: "MRR Calculator", slug: "mrr-calculator", description: "Calculate Monthly Recurring Revenue (New MRR, Expansion MRR, Churn MRR, Net New MRR).", status: "live", keywords: ["mrr calculator", "monthly recurring revenue", "net mrr"] },
+      { name: "ARR Calculator", slug: "arr-calculator", description: "Calculate Annual Recurring Revenue and Annual Contract Value (ACV) for SaaS growth tracking.", status: "live", keywords: ["arr calculator", "annual recurring revenue", "saas arr"] },
+      { name: "Burn Rate Calculator", slug: "burn-rate-calculator", description: "Calculate Gross Burn vs Net Burn rates based on monthly revenues and operating expenditures.", status: "live", keywords: ["burn rate calculator", "startup burn rate", "net burn rate"] },
+      { name: "Startup Runway Calculator", slug: "runway-calculator", description: "Estimate cash runway in months based on cash balance, net burn rate, and revenue growth.", status: "live", keywords: ["runway calculator startup", "startup runway", "cash runway months"] },
+      { name: "Churn Rate Calculator", slug: "churn-rate-calculator", description: "Calculate Customer Churn Rate % and Revenue Churn Rate % to measure SaaS retention.", status: "live", keywords: ["churn rate calculator", "customer churn", "revenue churn rate"] },
+      { name: "SaaS Valuation Calculator", slug: "saas-valuation-calculator", description: "Estimate SaaS company valuation using ARR revenue multiples adjusted for growth rate and margins.", status: "live", keywords: ["saas valuation calculator", "saas valuation multiple", "arr valuation"] },
+      { name: "SaaS Pricing Calculator", slug: "pricing-calculator", description: "Model SaaS pricing tiers, seat pricing, usage thresholds, and target gross margin per customer.", status: "live", keywords: ["pricing calculator", "saas pricing model", "subscription pricing"] },
+      { name: "Gross Margin Calculator", slug: "gross-margin-calculator", description: "Calculate Gross Profit, Gross Margin %, and COGS for SaaS and digital subscription businesses.", status: "live", keywords: ["gross margin calculator", "gross profit margin", "saas cogs"] },
+      { name: "Subscription Revenue Calculator", slug: "subscription-revenue-calculator", description: "Forecast multi-year compounding subscription revenue growth with churn and expansion variables.", status: "live", keywords: ["subscription revenue calculator", "recurring revenue forecast", "subscription growth"] },
+      { name: "CAC Payback Calculator", slug: "cac-payback-calculator", description: "Calculate Customer Acquisition Cost (CAC) payback period in months and gross margin payback.", status: "live", keywords: ["cac payback calculator", "cac payback period", "months to recover cac"] }
     ]
   }
 ];

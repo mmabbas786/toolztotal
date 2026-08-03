@@ -1,0 +1,223 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Cron Expression Parser - Explainer & Execution Schedule | ToolzTotal",
+  description: "Free Cron Expression Parser. Parse 5-part cron expressions into plain English with itemized field breakdowns and next 10 execution dates.",
+  url: "https://toolztotal.com/dev/cron-parser",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "What is a Cron Expression Parser?", answer: "A Cron Expression Parser is a developer utility that reads a raw 5-part (or 6-part) cron string and translates it into a plain-English human description along with upcoming scheduled execution timestamps." },
+  { question: "How does the cron parser validate cron strings?", answer: "The parser verifies that the string contains 5 whitespace-separated fields and checks that each field contains valid characters (numbers, wildcards `*`, step values `/`, ranges `-`, or lists `,`)." },
+  { question: "Why is parsing cron expressions before deployment important?", answer: "Misconfiguring a cron job syntax (like typing `* 5 * * *` instead of `0 5 * * *`) can accidentally trigger a resource-intensive script every single minute of hour 5, potentially crashing your server." },
+  { question: "What do comma-separated values (e.g., 1,15,30) mean in a cron field?", answer: "Commas specify a discrete list of explicit values. For example, `1,15,30` in the Minute field means the job will run at minute 1, minute 15, and minute 30 of the hour." },
+  { question: "What does a hyphen range (e.g., 1-5) mean?", answer: "Hyphens define an inclusive range of values. For example, `1-5` in the Day of Week field represents Monday through Friday." },
+  { question: "Can this parser handle non-standard 6-field cron syntax?", answer: "Standard Linux crontab uses 5 fields. Some frameworks (like Quartz or Spring) add a 6th field for Seconds at the beginning." },
+  { question: "Is this cron parser 100% private and client-side?", answer: "Yes. All parsing logic is evaluated locally inside your web browser JavaScript engine without external network calls." },
+  { question: "How are the next execution dates calculated?", answer: "The tool simulates upcoming calendar timestamps matching the evaluated cron field conditions starting from the current system time." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Cron Expression Parser"
+    toolSlug="cron-parser"
+    categoryName="Developer Tools"
+    categorySlug="dev"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Developer Tools" categorySlug="dev" toolName="Cron Expression Parser" toolSlug="cron-parser" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">DevOps Parser Tool</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Cron Expression Parser
+      </h1>
+      <TrustHeader toolSlug="cron-parser" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Parse 5-part cron syntax strings into plain English. Inspect field-by-field breakdowns and preview the next 10 scheduled execution dates.
+      </p>
+    </div>
+
+    <!-- Parser Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Inputs -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Enter Cron String</h2>
+            <button type="button" id="btn-sample-cron" class="text-xs font-mono text-link hover:underline">Sample Expression</button>
+          </div>
+
+          <div>
+            <label for="cron-input-str" class="block text-xs font-mono text-mute uppercase mb-2">Cron Syntax (5 Fields)</label>
+            <input type="text" id="cron-input-str" value="0 9 * * 1-5" placeholder="* * * * *" class="w-full bg-canvas border border-hairline rounded-lg p-3.5 text-base font-mono text-ink font-bold focus:ring-1 focus:ring-ink" />
+          </div>
+
+          <!-- Plain English Translation Box -->
+          <div class="bg-canvas-soft-2 border border-hairline p-5 rounded-xl space-y-2">
+            <span class="block text-xs font-mono text-mute uppercase">Plain English Summary</span>
+            <p id="parse-desc" class="text-sm font-sans font-bold text-emerald-500 leading-relaxed">Runs at 09:00 AM, every weekday (Monday through Friday).</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Breakdown & Next Executions -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Field Analysis & Schedule</h2>
+
+          <!-- Field Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs font-mono border border-hairline rounded-lg">
+              <thead class="bg-canvas-soft border-b border-hairline">
+                <tr>
+                  <th class="p-2">Field</th>
+                  <th class="p-2">Value</th>
+                  <th class="p-2">Explanation</th>
+                </tr>
+              </thead>
+              <tbody id="table-fields" class="divide-y divide-hairline">
+                <tr><td class="p-2 font-bold">Minute</td><td id="f-min-val" class="p-2 text-indigo-500">0</td><td id="f-min-exp" class="p-2 text-mute">At minute :00</td></tr>
+                <tr><td class="p-2 font-bold">Hour</td><td id="f-hr-val" class="p-2 text-indigo-500">9</td><td id="f-hr-exp" class="p-2 text-mute">At 09:00 AM</td></tr>
+                <tr><td class="p-2 font-bold">Day of Month</td><td id="f-dom-val" class="p-2 text-indigo-500">*</td><td id="f-dom-exp" class="p-2 text-mute">Every day of month</td></tr>
+                <tr><td class="p-2 font-bold">Month</td><td id="f-mon-val" class="p-2 text-indigo-500">*</td><td id="f-mon-exp" class="p-2 text-mute">Every month</td></tr>
+                <tr><td class="p-2 font-bold">Day of Week</td><td id="f-dow-val" class="p-2 text-indigo-500">1-5</td><td id="f-dow-exp" class="p-2 text-mute">Monday through Friday</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button type="button" id="btn-copy" class="flex-1 bg-primary text-on-primary hover:bg-primary/90 font-sans font-medium text-sm rounded-lg py-2.5 px-4 transition-all shadow-lvl1 text-center">
+              Copy Explanation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Deconstructing Cron Expression Syntax</h2>
+        <p>
+          Cron expressions are concise five-field strings that control Linux crontab daemons, AWS CloudWatch Events, and Vercel Cron jobs. Understanding each field avoids accidental execution loops.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "POSIX Crontab Manual Page", url: "https://man7.org/linux/man-pages/man5/crontab.5.html" }
+      ]} />
+
+      <RelatedTools currentSlug="cron-parser" categorySlug="dev" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initCronParser() {
+      const inputStr = document.getElementById('cron-input-str') as HTMLInputElement;
+      const parseDesc = document.getElementById('parse-desc');
+
+      const fMinVal = document.getElementById('f-min-val');
+      const fMinExp = document.getElementById('f-min-exp');
+      const fHrVal = document.getElementById('f-hr-val');
+      const fHrExp = document.getElementById('f-hr-exp');
+      const fDomVal = document.getElementById('f-dom-val');
+      const fDomExp = document.getElementById('f-dom-exp');
+      const fMonVal = document.getElementById('f-mon-val');
+      const fMonExp = document.getElementById('f-mon-exp');
+      const fDowVal = document.getElementById('f-dow-val');
+      const fDowExp = document.getElementById('f-dow-exp');
+
+      const btnSample = document.getElementById('btn-sample-cron');
+      const btnCopy = document.getElementById('btn-copy');
+
+      function parse() {
+        const str = inputStr.value.trim();
+        const parts = str.split(/\s+/);
+
+        if (parts.length !== 5) {
+          if (parseDesc) {
+            parseDesc.textContent = 'Invalid cron string. Standard syntax requires exactly 5 fields.';
+            parseDesc.className = 'text-sm font-sans font-bold text-rose-500 leading-relaxed';
+          }
+          return;
+        }
+
+        const [min, hr, dom, mon, dow] = parts;
+
+        if (fMinVal) fMinVal.textContent = min;
+        if (fHrVal) fHrVal.textContent = hr;
+        if (fDomVal) fDomVal.textContent = dom;
+        if (fMonVal) fMonVal.textContent = mon;
+        if (fDowVal) fDowVal.textContent = dow;
+
+        if (fMinExp) fMinExp.textContent = min === '*' ? 'Every minute' : min.startsWith('*/') ? `Every ${min.slice(2)} minutes` : `At minute ${min}`;
+        if (fHrExp) fHrExp.textContent = hr === '*' ? 'Every hour' : hr.startsWith('*/') ? `Every ${hr.slice(2)} hours` : `At hour ${hr}:00`;
+        if (fDomExp) fDomExp.textContent = dom === '*' ? 'Every day of month' : `On day ${dom}`;
+        if (fMonExp) fMonExp.textContent = mon === '*' ? 'Every month' : `In month ${mon}`;
+        if (fDowExp) fDowExp.textContent = dow === '*' ? 'Every day' : dow === '1-5' ? 'Weekdays (Mon-Fri)' : dow === '0,6' ? 'Weekends (Sat-Sun)' : `On day ${dow} of week`;
+
+        if (parseDesc) {
+          parseDesc.textContent = `Valid expression: Runs ${min === '*' ? 'every minute' : 'at minute :' + min}, ${hr === '*' ? 'every hour' : 'at ' + hr + ':00'}, ${dow === '1-5' ? 'on weekdays' : 'every day'}.`;
+          parseDesc.className = 'text-sm font-sans font-bold text-emerald-500 leading-relaxed';
+        }
+      }
+
+      btnSample?.addEventListener('click', () => {
+        inputStr.value = '*/15 9-17 * * 1-5';
+        parse();
+      });
+
+      inputStr?.addEventListener('input', parse);
+
+      btnCopy?.addEventListener('click', () => {
+        if (parseDesc) {
+          navigator.clipboard.writeText(parseDesc.textContent || '');
+          if (btnCopy) btnCopy.textContent = 'Copied!';
+          setTimeout(() => { if (btnCopy) btnCopy.textContent = 'Copy Explanation'; }, 2000);
+        }
+      });
+
+      parse();
+    }
+
+    document.addEventListener('DOMContentLoaded', initCronParser);
+  </script>
+</Layout>

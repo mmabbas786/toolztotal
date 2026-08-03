@@ -1,0 +1,130 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "PNG vs WebP - Web Image Format & Performance Comparison | ToolzTotal",
+  description: "Comprehensive PNG vs WebP format comparison. Compare compression ratios, page load performance, transparency support, and browser compatibility.",
+  url: "https://toolztotal.com/compare/png-vs-webp",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "Is WebP better than PNG for website performance?", answer: "Yes. WebP images are 60% to 85% smaller in file size than PNG images while supporting full alpha channel transparency, significantly improving Core Web Vitals (LCP) page speed scores." },
+  { question: "Does WebP support transparent backgrounds like PNG?", answer: "Yes. WebP supports full 32-bit RGBA alpha transparency, making it a direct drop-in replacement for transparent PNG graphics." },
+  { question: "Are WebP images supported by all modern web browsers?", answer: "Yes. WebP is supported across 98%+ of all global web browsers including Google Chrome, Apple Safari, Mozilla Firefox, and Microsoft Edge." },
+  { question: "Where can I convert my PNG images to WebP?", answer: "Use ToolzTotal's 100% private <a href='/image-tools/png-to-webp' class='underline text-primary'>PNG to WebP Converter</a> and <a href='/image-tools/webp-to-png' class='underline text-primary'>WebP to PNG Converter</a>." },
+  { question: "Why would I still choose PNG over WebP?", answer: "PNG remains superior for print production workflows, master graphic design source files, and legacy image editing software lacking WebP plugins." },
+  { question: "Does converting PNG to WebP reduce image quality?", answer: "WebP supports both lossy and lossless compression. Choosing lossless WebP preserves 100% pixel fidelity while reducing file size by ~26%." },
+  { question: "Does Google SEO favor WebP images?", answer: "Yes. Google PageSpeed Insights specifically recommends serving images in next-gen formats like WebP or AVIF." },
+  { question: "Is this comparison updated for 2026?", answer: "Yes. All format specifications reflect current web standards and modern browser support." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="PNG vs WebP Comparison"
+    toolSlug="png-vs-webp"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="PNG vs WebP" toolSlug="png-vs-webp" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Web Performance Analysis</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        PNG vs WebP: Which Format Should You Use?
+      </h1>
+      <TrustHeader toolSlug="png-to-webp" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        An in-depth guide comparing PNG lossless graphics with Google's WebP format across file size payload, alpha transparency, and page speed optimization.
+      </p>
+    </div>
+
+    <div class="p-6 bg-canvas border border-hairline rounded-xl mb-12 shadow-lvl1 max-w-4xl">
+      <h3 class="text-xs font-mono uppercase text-mute mb-3">Convert Image Formats Instantly:</h3>
+      <div class="flex flex-wrap gap-4 text-sm font-sans font-semibold">
+        <a href="/image-tools/png-to-webp" class="text-primary hover:underline">→ Use PNG to WebP Converter</a>
+        <a href="/image-tools/webp-to-png" class="text-primary hover:underline">→ Use WebP to PNG Converter</a>
+      </div>
+    </div>
+
+    <!-- Comparison Article -->
+    <article class="max-w-4xl space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">1. Performance & Feature Matrix</h2>
+        <div class="border border-hairline rounded-xl overflow-hidden font-mono text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                <th class="p-3">Feature</th>
+                <th class="p-3">PNG</th>
+                <th class="p-3">WebP</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline">
+              <tr>
+                <td class="p-3 font-bold text-ink">Average File Size</td>
+                <td class="p-3">Heavy (Large)</td>
+                <td class="p-3 text-emerald-500 font-bold">60%–85% Smaller</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Alpha Transparency</td>
+                <td class="p-3">Yes (32-bit RGBA)</td>
+                <td class="p-3">Yes (32-bit RGBA)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Compression Types</td>
+                <td class="p-3">Lossless Only</td>
+                <td class="p-3">Lossy & Lossless</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Web Browser Support</td>
+                <td class="p-3">100% (Universal)</td>
+                <td class="p-3">98%+ (Modern Standard)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed" set:html={faq.answer}></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Google WebP Speed & Compression Benchmarks", url: "https://developers.google.com/speed/webp/docs/compression" }
+      ]} />
+
+      <RelatedTools currentSlug="png-to-webp" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+</Layout>

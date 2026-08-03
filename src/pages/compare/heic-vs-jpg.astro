@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "HEIC vs JPG - Complete Image Format Comparison | ToolzTotal",
+  description: "Comprehensive HEIC vs JPG comparison guide. Compare compression efficiency, 10-bit vs 8-bit color depth, and cross-platform compatibility.",
+  url: "https://toolztotal.com/compare/heic-vs-jpg",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "Is HEIC image quality better than JPG?", answer: "Yes. HEIC supports 16-bit color depth (compared to 8-bit JPEG) and advanced HEVC compression, delivering higher dynamic range and sharper detail at half the file size." },
+  { question: "Why doesn't Windows PC natively open iPhone HEIC photos?", answer: "Windows systems lack built-in HEIC codecs out-of-the-box without installing additional extensions from the Microsoft Store." },
+  { question: "How much smaller are HEIC files compared to JPG?", answer: "HEIC images are typically 40% to 50% smaller in file size compared to an equivalent resolution JPEG photo." },
+  { question: "Where can I convert my iPhone HEIC photos to JPG?", answer: "Use ToolzTotal's 100% private client-side <a href='/image-tools/heic-to-jpg' class='underline text-primary'>HEIC to JPG Converter</a>." },
+  { question: "Does converting HEIC to JPG lose photo metadata?", answer: "Our client-side converter preserves original image orientation and visual details during JPEG conversion." },
+  { question: "Can Android phones take HEIC photos?", answer: "Modern Android smartphones (Samsung Galaxy, Google Pixel) running Android 10+ support capturing HEIC photos." },
+  { question: "Should I shoot in HEIC or JPG on iPhone?", answer: "Shoot in HEIC to maximize iPhone storage capacity, and convert to JPG only when sharing files to Windows or non-Apple web forms." },
+  { question: "Is this HEIC vs JPG comparison updated for 2026?", answer: "Yes. All format specifications reflect current iOS, Windows 11, and web browser compatibility standards." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="HEIC vs JPG Comparison"
+    toolSlug="heic-vs-jpg"
+    categoryName="Image & PDF Tools"
+    categorySlug="image-tools"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="Image & PDF Tools" categorySlug="image-tools" toolName="HEIC vs JPG" toolSlug="heic-vs-jpg" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">Format Comparison</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        HEIC vs JPG: Which Image Format Is Better?
+      </h1>
+      <TrustHeader toolSlug="heic-to-jpg" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        An in-depth guide comparing Apple's HEIC (HEIF) format with universal JPEG image files across quality, compression, and software compatibility.
+      </p>
+    </div>
+
+    <div class="p-6 bg-canvas border border-hairline rounded-xl mb-12 shadow-lvl1 max-w-4xl">
+      <h3 class="text-xs font-mono uppercase text-mute mb-3">Convert iPhone Photos Instantly:</h3>
+      <a href="/image-tools/heic-to-jpg" class="text-sm font-sans font-semibold text-primary hover:underline">→ Use Free HEIC to JPG Converter</a>
+    </div>
+
+    <!-- Comparison Article -->
+    <article class="max-w-4xl space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">1. Side-by-Side Specifications</h2>
+        <div class="border border-hairline rounded-xl overflow-hidden font-mono text-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-canvas-soft border-b border-hairline text-mute uppercase">
+                <th class="p-3">Feature</th>
+                <th class="p-3">HEIC (HEIF)</th>
+                <th class="p-3">JPG (JPEG)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-hairline">
+              <tr>
+                <td class="p-3 font-bold text-ink">File Size Efficiency</td>
+                <td class="p-3 text-emerald-500 font-bold">50% Smaller</td>
+                <td class="p-3">Standard Size</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Color Depth</td>
+                <td class="p-3">16-bit / 10-bit HDR</td>
+                <td class="p-3">8-bit SDR</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Cross-Platform Compatibility</td>
+                <td class="p-3">Apple iOS/macOS Default</td>
+                <td class="p-3 text-emerald-500 font-bold">Universal (100%)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-ink">Transparency Support</td>
+                <td class="p-3">Yes (Alpha channel)</td>
+                <td class="p-3">No</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed" set:html={faq.answer}></p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Apple HEIF Standard Specification", url: "https://support.apple.com/en-us/HT207022" }
+      ]} />
+
+      <RelatedTools currentSlug="heic-to-jpg" categorySlug="image-tools" />
+      <ContentFooter category="image-tools" />
+    </article>
+  </div>
+</Layout>

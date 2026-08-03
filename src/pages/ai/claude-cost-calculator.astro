@@ -1,0 +1,212 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ToolSchema from '../../components/ToolSchema.astro';
+import RelatedTools from '../../components/RelatedTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TrustHeader from '../../components/TrustHeader.astro';
+import ContentFooter from '../../components/ContentFooter.astro';
+import Sources from '../../components/Sources.astro';
+
+const ogMeta = {
+  title: "Claude API Cost Calculator - Anthropic Claude 3.5 Pricing Estimator | ToolzTotal",
+  description: "Free Anthropic Claude API cost calculator. Estimate monthly expenses for Claude 3.5 Sonnet, Claude 3 Opus, and Haiku with prompt caching savings.",
+  url: "https://toolztotal.com/ai/claude-cost-calculator",
+  image: "https://toolztotal.com/og-default.png",
+};
+
+const faqs = [
+  { question: "How does the Claude API Cost Calculator work?", answer: "The calculator uses official Anthropic API pricing per 1,000,000 tokens for Claude 3.5 Sonnet ($3.00/$15.00), Claude 3 Opus ($15.00/$75.00), and Claude 3 Haiku ($0.25/$1.25)." },
+  { question: "What is Anthropic Prompt Caching and how much money does it save?", answer: "Anthropic Prompt Caching allows you to cache large prompt prefixes or documentation blocks for 5 minutes. Cache hits incur 90% lower input token costs ($0.30/M vs $3.00/M for Sonnet)." },
+  { question: "How does Claude 3.5 Sonnet pricing compare to GPT-4o?", answer: "Claude 3.5 Sonnet input tokens ($3.00/M) are competitively priced against GPT-4o ($2.50/M), while providing state-of-the-art coding and reasoning benchmark performance." },
+  { question: "What is Batch API processing for Claude?", answer: "Anthropic's Message Batches API offers a 50% discount on input and output tokens for async batch processing requests completed within 24 hours." },
+  { question: "Is my API key required to use this tool?", answer: "No. You do not need to enter an API key or log in. The calculator executes 100% locally in your web browser." },
+  { question: "What is the token context limit for Claude 3.5 Sonnet?", answer: "Claude 3.5 Sonnet supports a 200,000 token context window, capable of analyzing over 150,000 words or massive codebase files in a single prompt." },
+  { question: "Are image inputs billed differently in Claude Vision?", answer: "Image tokens in Claude 3.5 are calculated based on pixel dimensions and billed at standard input token rates." },
+  { question: "Is this Claude cost calculator free?", answer: "Yes. ToolzTotal provides 100% free AI pricing tools with no signups, no subscriptions, and zero limits." }
+];
+---
+
+<Layout title={ogMeta.title} description={ogMeta.description}>
+  <ToolSchema
+    toolName="Claude API Cost Calculator"
+    toolSlug="claude-cost-calculator"
+    categoryName="AI Tools"
+    categorySlug="ai"
+    description={ogMeta.description}
+    faqs={faqs}
+  />
+
+  <meta slot="head" property="og:title" content={ogMeta.title} />
+  <meta slot="head" property="og:description" content={ogMeta.description} />
+  <meta slot="head" property="og:url" content={ogMeta.url} />
+  <meta slot="head" property="og:image" content={ogMeta.image} />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+
+  <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-20">
+    <Breadcrumbs categoryName="AI Tools" categorySlug="ai" toolName="Claude API Cost Calculator" toolSlug="claude-cost-calculator" />
+
+    <!-- Header -->
+    <div class="max-w-4xl mb-12">
+      <div class="inline-flex items-center gap-2 border border-hairline bg-canvas px-3 py-1 rounded-full mb-6 shadow-lvl1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+        <span class="text-xs font-mono text-body uppercase tracking-wider">100% Private Anthropic Pricing Solver</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ink font-sans mb-4">
+        Claude API Cost Calculator
+      </h1>
+      <TrustHeader toolSlug="claude-cost-calculator" />
+      <p class="text-body text-base md:text-lg font-sans leading-relaxed max-w-3xl">
+        Estimate monthly Anthropic API expenses for Claude 3.5 Sonnet, Claude 3 Opus, and Claude 3 Haiku with prompt caching discounts and batch savings.
+      </p>
+    </div>
+
+    <!-- Calculator Widget -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start max-w-7xl mb-16">
+      
+      <!-- Input Controls -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <h2 class="text-lg font-bold text-ink font-sans border-b border-hairline pb-4">Usage Parameters</h2>
+
+          <div>
+            <label for="claude-model" class="block text-xs font-mono text-mute uppercase mb-1">Select Claude Model</label>
+            <select id="claude-model" class="w-full bg-canvas border border-hairline rounded-lg p-3 text-xs font-mono text-ink">
+              <option value="sonnet" selected>Claude 3.5 Sonnet ($3.00 / $15.00 per 1M tokens)</option>
+              <option value="opus">Claude 3 Opus ($15.00 / $75.00 per 1M tokens)</option>
+              <option value="haiku">Claude 3 Haiku ($0.25 / $1.25 per 1M tokens)</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="input-tokens" class="block text-xs font-mono text-mute uppercase mb-1">Avg Input Tokens / Call</label>
+              <input type="number" id="input-tokens" value="2000" min="1" max="200000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div>
+              <label for="output-tokens" class="block text-xs font-mono text-mute uppercase mb-1">Avg Output Tokens / Call</label>
+              <input type="number" id="output-tokens" value="600" min="1" max="8192" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="monthly-calls" class="block text-xs font-mono text-mute uppercase mb-1">Monthly API Calls</label>
+              <input type="number" id="monthly-calls" value="25000" min="1" max="100000000" class="w-full bg-canvas border border-hairline rounded-lg p-2.5 text-xs font-mono text-ink" />
+            </div>
+            <div class="flex items-end pb-2">
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-mono text-ink select-none">
+                <input type="checkbox" id="cache-check" class="rounded border-hairline" />
+                <span>Prompt Caching (90% Off Input)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Display -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="bg-canvas border border-hairline rounded-xl p-6 md:p-8 shadow-lvl2 space-y-6">
+          <div class="flex items-center justify-between border-b border-hairline pb-4">
+            <h2 class="text-lg font-bold text-ink font-sans">Estimated Cost</h2>
+            <span class="text-xs font-mono text-emerald-500 font-bold">Anthropic Rates</span>
+          </div>
+
+          <div class="p-6 bg-canvas-soft border border-hairline rounded-xl text-center space-y-4 font-mono">
+            <div>
+              <span class="text-xs text-mute block uppercase">Estimated Monthly Expense</span>
+              <span id="monthly-cost-total" class="text-3xl font-bold text-emerald-500">$0.00</span>
+            </div>
+            <div class="grid grid-cols-2 gap-4 border-t border-hairline pt-4 text-xs">
+              <div>
+                <span class="text-mute block uppercase">Cost Per Call</span>
+                <span id="call-cost-val" class="font-bold text-ink">$0.00</span>
+              </div>
+              <div>
+                <span class="text-mute block uppercase">Total Monthly Tokens</span>
+                <span id="monthly-tokens-val" class="font-bold text-ink">0 M</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO Article -->
+    <article class="max-w-4xl mx-auto space-y-10 text-body font-sans leading-relaxed text-base">
+      <section class="space-y-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-ink font-sans">Anthropic Claude API Pricing Guide</h2>
+        <p>
+          Anthropic rates API usage per 1,000,000 input and output tokens. Understanding Claude 3.5 Sonnet's pricing dynamics and leveraging prompt caching is crucial for optimizing SaaS application unit economics.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-ink font-sans">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <div class="border border-hairline rounded-xl p-5 bg-canvas">
+              <h3 class="font-bold text-ink text-lg mb-2">{faq.question}</h3>
+              <p class="text-body text-sm leading-relaxed">{faq.answer}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Sources sources={[
+        { title: "Anthropic Official API Pricing Schedule", url: "https://www.anthropic.com/pricing" }
+      ]} />
+
+      <RelatedTools currentSlug="claude-cost-calculator" categorySlug="ai" />
+      <ContentFooter category="dev" />
+    </article>
+  </div>
+
+  <script>
+    function initClaudeCalc() {
+      const modelSelect = document.getElementById('claude-model') as HTMLSelectElement;
+      const inInput = document.getElementById('input-tokens') as HTMLInputElement;
+      const outInput = document.getElementById('output-tokens') as HTMLInputElement;
+      const callsInput = document.getElementById('monthly-calls') as HTMLInputElement;
+      const cacheCheck = document.getElementById('cache-check') as HTMLInputElement;
+
+      const totalEl = document.getElementById('monthly-cost-total');
+      const perCallEl = document.getElementById('call-cost-val');
+      const tokensEl = document.getElementById('monthly-tokens-val');
+
+      const rates: Record<string, { inRate: number; outRate: number }> = {
+        'sonnet': { inRate: 3.00, outRate: 15.00 },
+        'opus': { inRate: 15.00, outRate: 75.00 },
+        'haiku': { inRate: 0.25, outRate: 1.25 }
+      };
+
+      function update() {
+        const key = modelSelect.value;
+        const rate = rates[key] || rates['sonnet'];
+
+        const inTokens = parseInt(inInput.value, 10) || 0;
+        const outTokens = parseInt(outInput.value, 10) || 0;
+        const calls = parseInt(callsInput.value, 10) || 0;
+
+        const actualInRate = cacheCheck.checked ? (rate.inRate * 0.1) : rate.inRate;
+
+        const callCost = ((inTokens / 1000000) * actualInRate) + ((outTokens / 1000000) * rate.outRate);
+        const monthlyCost = callCost * calls;
+        const totalM = (((inTokens + outTokens) * calls) / 1000000).toFixed(1);
+
+        if (totalEl) totalEl.textContent = '$' + monthlyCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        if (perCallEl) perCallEl.textContent = '$' + callCost.toFixed(5);
+        if (tokensEl) tokensEl.textContent = totalM + ' M';
+      }
+
+      modelSelect?.addEventListener('change', update);
+      inInput?.addEventListener('input', update);
+      outInput?.addEventListener('input', update);
+      callsInput?.addEventListener('input', update);
+      cacheCheck?.addEventListener('change', update);
+
+      update();
+    }
+
+    document.addEventListener('DOMContentLoaded', initClaudeCalc);
+  </script>
+</Layout>

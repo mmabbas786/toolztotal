@@ -52,6 +52,7 @@ import Sources from '../../components/Sources.astro';
 import DisclaimerBanner from '../../components/DisclaimerBanner.astro';
 
 import TrustHeader from '../../components/TrustHeader.astro';
+import GrowthChart from '../../components/charts/GrowthChart.astro';
 ---
 
 <Layout
@@ -223,6 +224,10 @@ import TrustHeader from '../../components/TrustHeader.astro';
           <p class="mt-4 text-[10px] text-mute font-sans leading-relaxed">
             Results assume the selected compounding frequency. Actual returns may vary based on market conditions, fees, and taxes. This is not financial advice.
           </p>
+
+          <div class="mt-6">
+            <GrowthChart id="compound-growth-svg" />
+          </div>
         </div>
 
         <!-- Growth Chart Card -->
