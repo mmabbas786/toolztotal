@@ -143,12 +143,20 @@ const resolvedCanonicalUrl = `https://toolztotal.com${canonicalPath}`;
 
         <!-- Desktop Navigation -->
         <nav class="hidden lg:flex items-center gap-1">
-          {categories.slice(0, 4).map(cat => (
-            <a href={`/${cat.slug}`} class="text-body font-sans text-sm px-3 py-1.5 rounded-full hover:bg-canvas-soft hover:text-ink transition-all">
-              {cat.name}
-            </a>
-          ))}
-          <!-- Dropdown button for remaining -->
+          <a href="/ai" class="text-body font-sans text-sm px-3 py-1.5 rounded-full hover:bg-canvas-soft hover:text-ink transition-all flex items-center gap-1.5 font-semibold text-emerald-600 dark:text-emerald-400">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            AI Tools
+          </a>
+          <a href="/finance" class="text-body font-sans text-sm px-3 py-1.5 rounded-full hover:bg-canvas-soft hover:text-ink transition-all">
+            Finance & Loans
+          </a>
+          <a href="/startup" class="text-body font-sans text-sm px-3 py-1.5 rounded-full hover:bg-canvas-soft hover:text-ink transition-all">
+            Startup & SaaS
+          </a>
+          <a href="/dev" class="text-body font-sans text-sm px-3 py-1.5 rounded-full hover:bg-canvas-soft hover:text-ink transition-all">
+            Developer Tools
+          </a>
+          <!-- Dropdown button for remaining categories -->
           <div class="relative group/menu">
             <button class="flex items-center gap-1 text-body font-sans text-sm px-3 py-1.5 rounded-full hover:bg-canvas-soft hover:text-ink transition-all cursor-pointer">
               More
@@ -157,8 +165,8 @@ const resolvedCanonicalUrl = `https://toolztotal.com${canonicalPath}`;
               </svg>
             </button>
             <div class="absolute right-0 top-full pt-2 opacity-0 translate-y-1 invisible group-hover/menu:opacity-100 group-hover/menu:translate-y-0 group-hover/menu:visible transition-all duration-200 z-50">
-              <div class="w-56 bg-canvas border border-hairline rounded-lg shadow-lvl5 p-1 transition-colors duration-200">
-                {categories.slice(4).map(cat => (
+              <div class="w-60 bg-canvas border border-hairline rounded-lg shadow-lvl5 p-1 transition-colors duration-200">
+                {categories.filter(c => !['ai', 'finance', 'startup', 'dev'].includes(c.slug)).map(cat => (
                   <a href={`/${cat.slug}`} class="block text-body font-sans text-sm px-3 py-2 rounded-md hover:bg-canvas-soft hover:text-ink transition-colors">
                     {cat.name}
                   </a>
